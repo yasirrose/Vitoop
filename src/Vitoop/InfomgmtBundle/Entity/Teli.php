@@ -2,6 +2,8 @@
 namespace Vitoop\InfomgmtBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Vitoop\InfomgmtBundle\Validator\Constraints\DateFormat as DateFormatAssert;
 
 /**
  * @ORM\Table(name="teli")
@@ -32,6 +34,8 @@ class Teli extends Resource
 
     /**
      * @ORM\Column(name="release_date", type="string", length=10)
+     * @Assert\NotBlank
+     * @DateFormatAssert
      */
     protected $release_date;
 
