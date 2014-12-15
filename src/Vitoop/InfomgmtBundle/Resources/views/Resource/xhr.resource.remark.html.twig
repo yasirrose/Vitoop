@@ -1,0 +1,39 @@
+{# VitoopInfomgmtBundle:Resource:xhr.resource.remark.html.twig #}
+{% if showform %}
+    {{ form_start(fvremark, {'attr': {'id': 'form-remark', 'novalidate': 'novalidate' }}) }}
+{% endif %}
+<fieldset class="ui-corner-all">
+    <legend>Remark</legend>
+    {% if inforemark is defined and inforemark is not empty %}
+        <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all">
+            <span class="vtp-icon ui-icon ui-icon-info"></span>{{ inforemark }}
+        </div>
+    {% endif %}
+    <div id="vtp-remark-box">
+        {% if showform %}
+            <div id="vtp-remark-sheet-edit">
+                {{ form_errors(fvremark.text) }}
+                {{ form_widget(fvremark.text) }}
+            </div>
+        {% else %}
+            <div id="vtp-remark-sheet-view">
+                {{ remark.text|raw }}
+            </div>
+        {% endif %}
+        <div id="vtp-remark-buttons">
+            {{ form_widget(fvremark.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}
+            {{ form_label(fvremark.locked, null, {'label_attr': {'class': 'vtp-fh-h24 vtp-button' }}) }}{{ form_widget(fvremark.locked) }}
+            {% if remark.user is not null %}
+                <div id="vtp-remark-owner" class="ui-state-default ui-corner-all">
+                    <div>Letzter Bearbeiter:</div>
+                    <div>{{ remark.user.username }}</div>
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+</fieldset>
+{% if showform %}
+    {{ form_end(fvremark) }}
+{% endif %}
+

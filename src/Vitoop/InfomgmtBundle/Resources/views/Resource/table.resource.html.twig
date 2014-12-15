@@ -1,0 +1,86 @@
+{% set zebra = ['even', 'odd'] %}
+<div id="vtp-res-list" class="vtp-uiaction-list-listener">
+    <table>
+        <tr id="{{ restype }}-table" class="vtp-res-dialog-onclick">
+        {% if restype == 'pdf' %}
+            {% set colspan=9 %}
+            <th style="width:7%;" class="ui-corner-tl">Erstellt</th>
+            <th style="width:40%;">Titel</th>
+            <th style="width:20%;">Autor</th>
+            <th style="width:5%;">Seiten</th>
+            <th style="width:8%;">Bewertung</th>
+            <th style="width:3%;">RR</th>
+            <th style="width:14%;">von</th>
+            <th style="width:3%;" class="ui-corner-tr">link</th>
+        </tr>
+        {% endif %}
+        {% if restype == 'teli' %}
+            {% set colspan=7 %}
+            <th style="width:7%;" class="ui-corner-tl">Erstellt</th>
+            <th style="width:40%;" class="ui-corner-tl">Bezeichnung</th>
+            <th style="width:25%;">Autor</th>
+            <th style="width:8%;">Bewertung</th>
+            <th style="width:3%;">RR</th>
+            <th style="width:14%;">von</th>
+            <th style="width:3%;" class="ui-corner-tr">link</th>
+            </tr>
+        {% endif %}
+        {% if restype == 'link' %}
+            {% set colspan=8 %}
+            <th style="width:7%;" class="ui-corner-tl">Erstellt</th>
+            <th style="width:40%;">Bezeichnung</th>
+            <th style="width:22%;">URL</th>
+            <th style="width:3%;">HP</th>
+            <th style="width:8%;">Bewertung</th>
+            <th style="width:3%;">RR</th>
+            <th style="width:14%;">von</th>
+            <th style="width:3%;" class="ui-corner-tr">link</th>
+            </tr>
+        {% endif %}
+        {% if restype == 'adr' %}
+            {% set colspan=8 %}
+            <th style="width:7%;" class="ui-corner-tl">Erstellt</th>
+            <th style="width:40%;">Institution</th>
+            <th style="width:5%;">PLZ</th>
+            <th style="width:20%;">Ort</th>
+            <th style="width:8%;">Bewertung</th>
+            <th style="width:3%;">RR</th>
+            <th style="width:14%;">von</th>
+            <th style="width:3%;" class="ui-corner-tr">link</th>
+            </tr>
+        {% endif %}
+        {% if restype == 'lex' %}
+            {% set colspan=7 %}
+            <th style="width:7%;" class="ui-corner-tl">Erstellt</th>
+            <th style="width:40%;">Lexikonbegriff</th>
+            <th style="width:25%;">Wiki-URL</th>
+            <th style="width:8%;">Bewertung</th>
+            <th style="width:3%;">RR</th>
+            <th style="width:14%;">von</th>
+            <th style="width:3%;" class="ui-corner-tr">link</th>
+            </tr>
+        {% endif %}
+        {% if restype == 'prj' %}
+            {% set colspan=6 %}
+            <th style="width:7%;" class="ui-corner-tl">Erstellt</th>
+            <th style="width:65%;">Projektname</th>
+            <th style="width:14%;">Projektmeister</th>
+            <th style="width:8%;">Bewertung</th>
+            <th style="width:3%;">RR</th>
+            <th style="width:3%;" class="ui-corner-tr">link</th>
+            </tr>
+        {% endif %}
+        {% include "VitoopInfomgmtBundle:Resource:table.resource.tdata."~restype~".html.twig" %}
+        {# PAGINATION #}
+        <tr id="vtp-resource-pagination-tr">
+            <td colspan="{{ colspan }}" class="vtp-odd ui-corner-all">
+                <div id="vtp-resource-pagination" class="vtp-pg-pane">
+                    {% pg_theme resources 'VitoopInfomgmtBundle:Pagination:vitoop.default.html.twig' %}
+                    <div id="vtp-pg-pane-left">{{ pg_rowsperpage(resources) }}</div>
+                    <div id="vtp-pg-pane-middle">{{ pg_widget(resources) }}</div>
+                    <div id="vtp-pg-pane-right">{{ pg_totalrows(resources) }}</div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

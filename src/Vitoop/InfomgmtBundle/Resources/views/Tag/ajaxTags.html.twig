@@ -1,0 +1,10 @@
+{% for everytag in tags %}            
+    <span id="spanTag_{{everytag.id}}" class="vtp-tagbox-tag {% if everytag.is_own %}vtp-owntag {% endif %}ui-corner-all" onclick="balueSpanTag({{everytag.id}})">
+        <span class="ui-button-text" style="display: none;" id="desk_{{everytag.id}}" onclick="deleteTag({{everytag.id}})">
+            -
+        </span>
+        <span class="vtp-icon-tag ui-icon ui-icon-tag"></span>
+        {{ everytag.text }}
+        <span class="vtp-tagbox-cnttag">({{ everytag.cnt_tag }})</span>
+    </span>
+{% endfor %}

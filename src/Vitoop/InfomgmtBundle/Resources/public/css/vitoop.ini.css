@@ -1,0 +1,9 @@
+/* VitooP CSS Initialization File */
+@import url(normalize.css);
+@import url(vtp-menu.css);
+@import url(vtp-uistyle.css);
+@import url(vtp-pg.css);
+@import url(vtp-search.css);
+@import url(vitoop.css);
+@import url(cupertino/jquery-ui-1.10.4.custom.css);
+

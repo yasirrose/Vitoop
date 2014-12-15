@@ -1,0 +1,33 @@
+{# VitoopInfomgmtBundle:Resource:xhr.resource.tag.html.twig #}
+{{ form_start(fvtag, {'attr': {'id': 'form-tag', 'novalidate': 'novalidate' }}) }}
+<fieldset class="ui-corner-all">
+    <legend>Tag</legend>
+    {% if infotag is not empty %}
+        <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all">
+            <span class="vtp-icon ui-icon ui-icon-info"></span>
+            {{ infotag }}
+        </div>
+    {% endif %}
+    {{ form_errors(fvtag) }}
+    <div>
+        {# form_label(fvtag.text, null, {'label_attr': {'class': 'vtp-form-w20' }}) #}
+        {{ form_widget(fvtag.text, {'attr': {'class': 'vtp-fh-w40'}}) }}
+        {{ form_widget(fvtag.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}
+         <span style="float: right;">
+         {{ form_label(fvtag.showown, null, {'label_attr': {'class': 'vtp-fh-h24' }}) }}
+             {{ form_widget(fvtag.showown, {'attr': {'id': 'vtp-tgl-tag-showown', 'class': 'vtp-uiaction-tag-showown' }}) }}
+        </span>
+
+        <div class="vtp-uiinfo-form-error">{{ form_errors(fvtag.text) }}</div>
+    </div>
+    <div id="vtp-tagbox" class="ui-corner-all">
+        {% for everytag in tags %}
+            <span id="spanTag_{{everytag.id}}" class="vtp-tagbox-tag {% if everytag.is_own %}vtp-owntag {% endif %}ui-corner-all">                
+                <span class="vtp-icon-tag ui-icon ui-icon-tag"></span>
+                {{ everytag.text }}
+                <span class="vtp-tagbox-cnttag">({{ everytag.cnt_tag }})</span>
+            </span>
+        {% endfor %}
+    </div>
+</fieldset>
+{{ form_end(fvtag) }}

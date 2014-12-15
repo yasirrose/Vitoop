@@ -1,0 +1,7 @@
+{% extends "VitoopInfomgmtBundle:Tag:layout.html.twig" %}
+{% block content %}
+    {% for tag in tags %}
+        {% set current_tag = tag[0] %}
+        <div>{{ current_tag.text~': '~tag['cnt'] }}</div>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,29 @@
+{% for adr in resources %}
+    <tr id="adr-{{ adr.id }}" class="vtp-{{ cycle(zebra, loop.index) }} ui-corner-all vtp-uiaction-list-showdetail{% include "VitoopInfomgmtBundle:Resource:table.resource.res.classhelper.listtagger.html.twig" %}">
+        <td class="ui-corner-left">{{ adr.createdat|date("d.m.y") }}</td>
+        <td title="{{ adr.name }}">
+            <div class="vtp-teasefader-wrapper">
+                {{ adr.name }}
+                <div class="vtp-teasefader"></div>
+            </div>
+        </td>
+        <td>{{ adr.zip }}</td>
+        <td title="{{ adr.city }}">
+            <div class="vtp-teasefader-wrapper">
+                {{ adr.city }}
+                <div class="vtp-teasefader"></div>
+            </div>
+        </td>
+        <td>
+            <div class="vtp-rating-image-small" title="{{ adr.avgmark|avgmarkhint }}"
+                 style="background-image: url('{{ asset('/img/rating/'~avgimg(adr.avgmark)) }}');">
+                <span>&nbsp;</span>
+            </div>
+        </td>
+        <td>{{ adr.res12count }}</td>
+        <td>{{ adr.user.username }}</td>
+        <td class="ui-corner-right">
+            <a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="{{ adr.viewlink }}" target="_blank">-></a>
+        </td>
+    </tr>
+{% endfor %}

@@ -1,0 +1,12 @@
+<div id="vtp-search-bytags-taglistbox" class="ui-corner-all"{% if taglist is not defined or (taglist is defined and taglist is empty) %} style="display: none;"{% endif %}>
+    {% if taglist is defined and taglist is not empty %}
+        {% for tag in taglist %}{# Decoration of tags is also in resource_search.js !!!#}
+            <span class="vtp-search-bytags-tag ui-corner-all">
+                <span class="vtp-icon-tag ui-icon ui-icon-tag"></span>
+                {{ tag }}
+                <span class="vtp-icon-close vtp-uiaction-search-bytags-removetag ui-icon ui-icon-close"></span>
+            </span>
+        {% endfor %}
+    {% endif %}
+    <span class="vtp-icon-clear-taglistbox ui-icon ui-icon-close ui-corner-all vtp-uiaction-search-bytags-clear-taglistbox"></span>
+</div>

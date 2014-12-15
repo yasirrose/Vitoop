@@ -1,0 +1,27 @@
+{% if showasprojectowner %}
+    {{ form_start(fvprojectdata, {'attr': {'id': 'form-project-data', 'novalidate': 'novalidate' }}) }}
+{% endif %}
+<fieldset class="ui-corner-all">
+    <legend>By {{ project.user.username }}</legend>
+    <div id="vtp-projectdata-box">
+        {% if infoprojectdata is defined and infoprojectdata is not empty %}
+            <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all">
+                <span class="vtp-icon ui-icon ui-icon-info"></span>{{ infoprojectdata }}
+            </div>
+        {% endif %}
+        {% if showasprojectowner %}
+            <div id="vtp-projectdata-sheet-edit">
+                {{ form_errors(fvprojectdata.sheet) }}
+                {{ form_widget(fvprojectdata.sheet) }}
+                <div id="vtp-projectdata-save-container">
+                    {{ form_widget(fvprojectdata.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}
+                </div>
+            </div>
+        {% else %}
+            <div id="vtp-projectdata-sheet-view">{{ project.projectdata.sheet|raw }}</div>
+        {% endif %}
+    </div>
+</fieldset>
+{% if showasprojectowner %}
+    {{ form_end(fvprojectdata) }}
+{% endif %}

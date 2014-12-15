@@ -1,0 +1,29 @@
+{# VitoopInfomgmtBundle:Resource:xhr.resource.comments.html.twig #}
+{{ form_start(fvcomment, {'attr': {'id': 'form-comment', 'novalidate': 'novalidate' }}) }}
+<fieldset class="ui-corner-all">
+    <legend>Comments</legend>
+    {% if infocomment is not empty %}
+        <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all">
+            <span class="vtp-icon ui-icon ui-icon-info"></span>{{ infocomment }}
+        </div>
+    {% endif %}
+    {% for comment in comments %}
+        <fieldset class="ui-corner-all">
+            <legend>von {{ comment.user.username }} am {{ comment.createdat|date("d.m.y") }}
+                um {{ comment.createdat|date("H:i") }}Uhr
+            </legend>
+            <div>{{ comment.text }}</div>
+        </fieldset>
+    {% endfor %}
+    <fieldset class="ui-corner-all">
+        <legend>{{ form_label(fvcomment.text) }}</legend>
+        <div class="vtp-fh-top">
+            {{ form_widget(fvcomment.text, {'attr': {'class': 'vtp-fh-w100', 'rows': '2' }}) }}
+        </div>
+        <div class="vtp-fh-bottom">
+            <div class="vtp-uiinfo-form-error">{{ form_errors(fvcomment.text) }}</div>
+            <div class="vtp-fh-right">{{ form_widget(fvcomment.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}</div>
+        </div>
+    </fieldset>
+</fieldset>
+{{ form_end(fvcomment) }}

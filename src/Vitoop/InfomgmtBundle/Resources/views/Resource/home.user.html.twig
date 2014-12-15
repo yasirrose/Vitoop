@@ -1,0 +1,20 @@
+{{ form_start(fvuserdata, {'attr': {'id': 'form-user-data', 'novalidate': 'novalidate' }}) }}
+<fieldset class="ui-corner-all">
+    <legend>{{ user.username }}</legend>
+    <div id="vtp-userdata-box">
+        {% if infouserdata is defined and infouserdata is not empty %}
+            <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all">
+                <span class="vtp-icon ui-icon ui-icon-info"></span>{{ infouserdata }}
+            </div>
+        {% endif %}
+        <div id="vtp-userdata-sheet-edit">
+            {{ form_errors(fvuserdata.sheet) }}
+            {{ form_widget(fvuserdata.sheet) }}
+            <div id="vtp-userdata-save-container">
+                {{ form_widget(fvuserdata.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}
+            </div>
+        </div>
+    </div>
+</fieldset>
+{{ form_end(fvuserdata) }}
+

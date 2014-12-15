@@ -1,0 +1,3 @@
+VitoopInfomgmtBundle:
+   resource: "@VitoopInfomgmtBundle/Resources/config/routing.yml"
+   prefix:   /

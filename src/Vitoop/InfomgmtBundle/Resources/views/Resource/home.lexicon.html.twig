@@ -1,0 +1,16 @@
+<fieldset class="ui-corner-all">
+    <legend>{{ lexicon.name }}</legend>
+    <div id="vtp-lexicondata-box">
+        <a href="{{ lexicon.wikifullurl }}">{{ lexicon.wikifullurl }}</a>
+        {% if lexicon.wikiredirects is not empty %}
+        <div>
+            <p>Folgende Begriffe wurden in VitooP verknüpft und werden in Wikipedia auf diesen Lexikonartikel weitergeleitet:</p>
+            <ul>
+                {% for wikiredirect in lexicon.wikiredirects %}
+                    <li>{{ wikiredirect.wikititle }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+</fieldset>

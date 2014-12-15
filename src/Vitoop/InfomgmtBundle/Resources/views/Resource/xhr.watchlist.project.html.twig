@@ -1,0 +1,13 @@
+<html>
+<head></head>
+<body>
+
+<h1>Beobachtungsliste</h1>
+
+{% for prj in resources %}
+    <ul>
+        <li>{{ prj.name }}</li>
+    </ul>
+{% endfor %}
+</body>
+</html>

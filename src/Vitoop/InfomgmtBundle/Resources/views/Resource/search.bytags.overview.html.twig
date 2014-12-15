@@ -1,0 +1,31 @@
+{% set zebra = ['even', 'odd'] %}
+{% set respath = {'res_type': restype} %}
+{% if taglist is defined %}
+    {% set respath = respath|merge({'taglist': taglist}) %}
+{% endif %}
+{% if maxperpage is defined %}
+    {% set respath = respath|merge({'maxperpage': maxperpage}) %}
+{% endif %}
+<div id="vtp-search-bytags-data-for-overview">
+    {% set dst = data_for_overview[0] %}
+    {% set all = data_for_overview[1] %}
+    <table>
+        <tr id="{{ restype }}-data-for-overview" class="vtp-data-for-overview-onclick">
+            <th style="width:30%;" class="ui-corner-tl">Anzahl der Tags</th>
+            <th style="width:30%;">Gefundene {{ resname }}s</th>
+            <th style="width:30%;">&#x2300; Taganzahl pro {{ resname }}</th>
+            <th style="width:10%;" class="ui-corner-tr">{{ resname }}-Liste</th>
+        </tr>
+        {% for i, cnt in dst %}
+            {% set respath = respath|merge({'tagcnt': i}) %}
+            <tr>
+                <td class="ui-corner-left vtp-{{ cycle(zebra, i) }}">{{ i }} tag:</td>
+                <td class="vtp-{{ cycle(zebra, i) }}">{{ cnt }}</td>
+                <td class="vtp-{{ cycle(zebra, i) }}">{{ cnt == 0 ? '-' : all[i]/cnt }}</td>
+                <td class="vtp-{{ cycle(zebra, i) }}">
+                    <a class="vtp-extlink ui-icon ui-icon-extlink" href="{{ path('_resource_list', respath) }}">-></a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>

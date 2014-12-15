@@ -1,0 +1,71 @@
+{# VitoopInfomgmtBundle:Resource:xhr.resource.rating.html.twig #}
+{% set cntinfobox = 1 %}
+<div id="vtp-rating-infobox-wrapper" class="vtp-uiinfo-anchor">
+    {% if inforating is not empty %}
+        <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all">
+            <span class="vtp-icon ui-icon ui-icon-info"></span>
+            {{ inforating }}
+        </div>
+    {% endif %}
+    <div id="vtp-rating-infobox-left" class="ui-icon ui-icon-triangle-1-w ui-state-disabled">&lt;</div>
+    <div id="vtp-rating-infobox-container">
+        {% if avgmark is null %}{# Neither OWN nor AVG mark present#}
+            <div id="vtp-rating-infobox-{{ cntinfobox }}" class="vtp-rating-infobox vtp-uication-rating-showratingpanel"
+                 title="Keine Bewertung vorhanden"
+                 style="background-image: url('{{ asset('/img/rating/rating_not.png') }}'); background-repeat: repeat-y; background-size: 92px auto;">
+                <span id="vtp-rating-ratingimg-avgmark">!</span>
+            </div>
+            {% set cntinfobox = cntinfobox + 1 %}
+        {% elseif ownmark is null and not(vsec.isViewer) %}{# Show 'Please Rate'-box when User is logged in and hasn't rated#}
+            <div id="vtp-rating-infobox-{{ cntinfobox }}" class="vtp-rating-infobox vtp-uication-rating-showratingpanel"
+                 title="Bitte gebe eine Bewertung ab"
+                 style="background-image: url('{{ asset('/img/rating/rating_not.png') }}'); background-repeat: repeat-y; background-size: 92px auto;">
+                <span id="vtp-rating-ratingimg-avgmark">?</span>
+            </div>
+            {% set cntinfobox = cntinfobox + 1 %}
+        {% endif %}
+        {% if not(avgmark is null) %}{# Show AVG mark when present #}
+            <div id="vtp-rating-infobox-{{ cntinfobox }}" class="vtp-rating-infobox" title="Community Bewertung"
+                 style="background-image: url('{{ asset('/img/rating/'~avgimg) }}'); background-repeat: repeat-y; background-size: 92px auto;">
+                <span id="vtp-rating-ratingimg-avgmark">{{ avgmark|number_format(2, ',', '.') }}</span>
+            </div>
+            {% set cntinfobox = cntinfobox + 1 %}
+        {% endif %}
+        {% if not(ownmark is null) and not(vsec.isViewer) %}{# Show OWN mark when User is logged in #}
+            <div id="vtp-rating-infobox-{{ cntinfobox }}" class="vtp-rating-infobox" title="Deine Bewertung"
+                 style="background-image: url('{{ asset('/img/rating/'~ownimg) }}'); background-repeat: repeat-y; background-size: 92px auto;">
+                <span id="vtp-rating-ratingimg-avgmark">{{ ownmark }}</span>
+            </div>
+        {% endif %}
+    </div>
+    <div id="vtp-rating-infobox-right" class="ui-icon ui-icon-triangle-1-e">&gt;</div>
+</div>
+{% if not(fvrating is null) %}
+    <div id="vtp-rating-panel" class="ui-helper-hidden">
+        <div id="vtp-rating-form">
+            {{ form_start(fvrating, {'attr': {'id': 'vtp-form-rating', 'novalidate': 'novalidate' }}) }}
+            <fieldset class="ui-corner-all">
+                <legend>Rating</legend>
+                <div id="vtp-rating-slider">
+                    <div id="vtp-rating-slider-container">
+                        <div id="vtp-rating-slider-slider"></div>
+                    </div>
+                    {{ form_widget(fvrating.save_slider) }}
+                    <button type="button" class="vtp-uication-rating-toggleratingpanel">toggle</button>
+                    <div class="vtp-uiinfo-form-error">{{ form_errors(fvrating.mark) }}</div>
+                </div>
+                <div id="vtp-rating-dropdown" class="ui-helper-hidden">
+                    <div id="vtp-rating-dropdown-form">
+                        {{ form_errors(fvrating) }}
+                        {{ form_label(fvrating.mark) }}
+                        {{ form_widget(fvrating.mark) }}
+                    </div>
+                    {{ form_widget(fvrating.save_dropdown) }}
+                    <button type="button" class="vtp-uication-rating-toggleratingpanel">toggle</button>
+                    <div class="vtp-uiinfo-form-error">{{ form_errors(fvrating.mark) }}</div>
+                </div>
+            </fieldset>
+            {{ form_end(fvrating) }}
+        </div>
+    </div>
+{% endif %}

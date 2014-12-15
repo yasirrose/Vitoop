@@ -1,0 +1,183 @@
+parameters:
+    vitoop.resource_manager.class:              Vitoop\InfomgmtBundle\Service\ResourceManager
+    vitoop.lexicon_query_manager.class:         Vitoop\InfomgmtBundle\Service\LexiconQueryManager
+    vitoop.resource_data_collector.class:       Vitoop\InfomgmtBundle\Service\ResourceDataCollector
+    vitoop.vitoop_security.class:               Vitoop\InfomgmtBundle\Service\VitoopSecurity
+    vitoop.user_config_manager.class:    Vitoop\InfomgmtBundle\Service\UserConfigManager
+
+services:
+    vitoop.resource_manager:
+        class:          %vitoop.resource_manager.class%
+        arguments:      [@doctrine.orm.entity_manager, @vitoop.vitoop_security]
+      
+    vitoop.lexicon_query_manager:
+        class:          %vitoop.lexicon_query_manager.class%
+        arguments:      [@buzz.browser]
+
+    vitoop.resource_data_collector:
+        class:          %vitoop.resource_data_collector.class%
+        arguments:      [@vitoop.resource_manager, @vitoop.vitoop_security, @vitoop.lexicon_query_manager, @form.factory, @twig, @router]
+
+    vitoop.vitoop_security:
+        class:          %vitoop.vitoop_security.class%
+        arguments:      [@security.context]
+
+    vitoop.user_config_manager:
+        class:          %vitoop.user_config_manager.class%
+        arguments:      [@doctrine.orm.entity_manager, @security.context]
+
+    #KernelListeners
+    kernel.listener.resource_data_collector_initializer_listener:
+        class:          Vitoop\InfomgmtBundle\EventListener\ResourceDataCollectorInitializerListener
+        arguments:      [@vitoop.resource_data_collector, @vitoop.resource_manager]
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+
+    kernel.listener.login_listener:
+        class:          Vitoop\InfomgmtBundle\EventListener\LoginListener
+        arguments:      [@vitoop.user_config_manager]
+        tags:
+            - { name: kernel.event_listener, event: security.interactive_login, method: onInteractiveLogin }
+
+   #All Resource subtypes have are registered as a Service so you can use their shortcut/alias instead of Classname
+    vitoop.form.type.res:
+        class: Vitoop\InfomgmtBundle\Form\Type\ResourceType
+        tags:
+            - { name: form.type, alias: res }
+
+    vitoop.form.type.pdf:
+        class: Vitoop\InfomgmtBundle\Form\Type\PdfType
+        tags:
+            - { name: form.type, alias: pdf }
+
+    vitoop.form.type.adr:
+        class: Vitoop\InfomgmtBundle\Form\Type\AddressType
+        tags:
+            - { name: form.type, alias: adr }
+
+    vitoop.form.type.link:
+        class: Vitoop\InfomgmtBundle\Form\Type\LinkType
+        tags:
+            - { name: form.type, alias: link }
+
+    vitoop.form.type.teli:
+        class: Vitoop\InfomgmtBundle\Form\Type\TeliType
+        tags:
+            - { name: form.type, alias: teli }
+
+    vitoop.form.type.lex:
+        class: Vitoop\InfomgmtBundle\Form\Type\LexiconType
+        tags:
+            - { name: form.type, alias: lex }
+
+    vitoop.form.type.prj:
+        class: Vitoop\InfomgmtBundle\Form\Type\ProjectType
+        tags:
+            - { name: form.type, alias: prj }
+
+    #Other FormTypes
+
+    vitoop.form.type.rating:
+        class: Vitoop\InfomgmtBundle\Form\Type\RatingType
+        tags:
+            - { name: form.type, alias: rating }
+
+    vitoop.form.type.tag:
+        class: Vitoop\InfomgmtBundle\Form\Type\TagType
+        tags:
+            - { name: form.type, alias: tag }
+
+    vitoop.form.type.remark:
+        class: Vitoop\InfomgmtBundle\Form\Type\RemarkType
+        tags:
+            - { name: form.type, alias: remark }
+
+    vitoop.form.type.comment:
+        class: Vitoop\InfomgmtBundle\Form\Type\CommentType
+        tags:
+            - { name: form.type, alias: comment }
+
+    vitoop.form.type.lexicon.name:
+        class: Vitoop\InfomgmtBundle\Form\Type\LexiconNameType
+        tags:
+            - { name: form.type, alias: lexicon_name }
+
+    vitoop.form.type.project:
+        class: Vitoop\InfomgmtBundle\Form\Type\ProjectType
+        tags:
+            - { name: form.type, alias: project }
+
+    vitoop.form.type.project.name:
+        class: Vitoop\InfomgmtBundle\Form\Type\ProjectNameType
+        tags:
+            - { name: form.type, alias: project_name }
+
+    vitoop.form.type.flag:
+        class: Vitoop\InfomgmtBundle\Form\Type\FlagType
+        tags:
+            - { name: form.type, alias: flag }
+
+    vitoop.form.type.flaginfo:
+        class: Vitoop\InfomgmtBundle\Form\Type\FlagInfoType
+        tags:
+            - { name: form.type, alias: flaginfo }
+
+    vitoop.form.type.invitation:
+        class: Vitoop\InfomgmtBundle\Form\Type\InvitationType
+        tags:
+            - { name: form.type, alias: invitation }
+
+    vitoop.form.type.project_data:
+        class: Vitoop\InfomgmtBundle\Form\Type\ProjectDataType
+        tags:
+            - { name: form.type, alias: project_data }
+
+    vitoop.form.type.user_data:
+        class: Vitoop\InfomgmtBundle\Form\Type\UserDataType
+        tags:
+            - { name: form.type, alias: user_data }
+
+    vitoop.form.type.vitoop_blog:
+        class: Vitoop\InfomgmtBundle\Form\Type\VitoopBlogType
+        tags:
+            - { name: form.type, alias: vitoop_blog }
+
+    vitoop.form.type.input_type_submit:
+        class: Vitoop\InfomgmtBundle\Form\Type\InputTypeSubmitType
+        tags:
+            - { name: form.type, alias: input_type_submit }
+
+    vitoop.form.type_extension.security_aware_extension:
+        class: Vitoop\InfomgmtBundle\Form\Extension\SecurityAwareTypeExtension
+        arguments:     [@vitoop.vitoop_security]
+        tags:
+            - { name: form.type_extension, alias: form }
+              
+    # pg_xxx() - Twig Function
+    vitoop.twig.extension.pagination_extension:
+        class:   Vitoop\InfomgmtBundle\Twig\Extension\PaginationExtension
+        arguments:     [@router]
+        calls:
+            - [setRequest, ['@?request=']]
+        tags:
+            - {name: twig.extension}
+
+    # Some useful Twig Filter, Function
+    vitoop.twig.extension.vitoop_extension:
+        class:   Vitoop\InfomgmtBundle\Twig\Extension\VitoopExtension
+        tags:
+            - {name: twig.extension}
+
+    # cURL client for Buzz
+    buzz.client.curl:
+        class:  Buzz\Client\Curl
+        public: false
+        calls:
+            - [setVerifyPeer, [false]]
+   
+    # Buzz browser
+    buzz.browser:
+        class:     Buzz\Browser
+        arguments: [@buzz.client.curl]
+
+   

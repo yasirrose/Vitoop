@@ -1,0 +1,29 @@
+{% for link in resources %}
+    <tr id="link-{{ link.id }}" class="vtp-{{ cycle(zebra, loop.index) }} ui-corner-all vtp-uiaction-list-showdetail{% include "VitoopInfomgmtBundle:Resource:table.resource.res.classhelper.listtagger.html.twig" %}">
+        <td class="ui-corner-left">{{ link.createdat|date("d.m.y") }}</td>
+        <td title="{{ link.name }}">
+            <div class="vtp-teasefader-wrapper">
+                {{ link.name }}
+                <div class="vtp-teasefader"></div>
+            </div>
+        </td>
+        <td title="{{ link.url }}">
+            <div class="vtp-teasefader-wrapper">
+                {{ link.url }}
+                <div class="vtp-teasefader"></div>
+            </div>
+        </td>
+        <td>{{ link.ishp ? "ja" : "nein" }}</td>
+        <td>
+            <div class="vtp-rating-image-small" title="{{ link.avgmark|avgmarkhint }}"
+                 style="background-image: url('{{ asset('/img/rating/'~avgimg(link.avgmark)) }}');">
+                <span>&nbsp;</span>
+            </div>
+        </td>
+        <td>{{ link.res12count }}</td>
+        <td>{{ link.user.username }}</td>
+        <td class="ui-corner-right">
+            <a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="{{ link.viewlink }}" target="_blank">-></a>
+        </td>
+    </tr>
+{% endfor %}

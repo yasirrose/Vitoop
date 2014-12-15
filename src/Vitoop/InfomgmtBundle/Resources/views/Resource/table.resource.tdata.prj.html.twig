@@ -1,0 +1,27 @@
+{% for prj in resources %}
+    <tr id="prj-{{ prj.id }}" class="vtp-{{ cycle(zebra, loop.index) }} ui-corner-all vtp-uiaction-list-showdetail{% include "VitoopInfomgmtBundle:Resource:table.resource.res.classhelper.listtagger.html.twig" %}">
+        <td class="ui-corner-left">{{ prj.createdat|date("d.m.y") }}</td>
+        <td title="{{ prj.name }}">
+            <div class="vtp-teasefader-wrapper">
+                {{ prj.name }}
+                <div class="vtp-teasefader"></div>
+            </div>
+        </td>
+        <td title="{{ prj.user.username }}">
+            <div class="vtp-teasefader-wrapper">
+                {{ prj.user.username }}
+                <div class="vtp-teasefader"></div>
+            </div>
+        </td>
+        <td>
+            <div class="vtp-rating-image-small" title="{{ prj.avgmark|avgmarkhint }}"
+                 style="background-image: url('{{ asset('/img/rating/'~avgimg(prj.avgmark)) }}');">
+                <span>&nbsp;</span>
+            </div>
+        </td>
+        <td>{{ prj.res12count }}</td>
+        <td class="ui-corner-right">
+            <a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="{{ path('_home_project', {'project_id': prj.id}) }}" target="_self">-></a>
+        </td>
+    </tr>
+{% endfor %}

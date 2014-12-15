@@ -1,0 +1,31 @@
+{% extends "VitoopInfomgmtBundle::layout.html.twig" %}
+{% block title %}Pdfs{% endblock %}
+{% set form = 'testvarinhalt' %}
+
+
+{% pg_theme pdfs 'VitoopInfomgmtBundle:Pagination:vitoop.default.html.twig' %}
+{% pg_options {
+'proximity'          : 3
+} %}
+
+
+{% block content %}
+
+    <div id="pdfs">
+        <ol>
+            {% for pdf in pdfs %}
+                <li>{{ pdf }}</li>
+            {% endfor %}
+        </ol>
+        {{ pghtml|raw }}
+        {{ pg_first(pdfs) }}
+        {{ pg_previous(pdfs) }}
+        {{ pg_coft(pdfs) }}
+        {{ pg_next(pdfs) }}
+        {{ pg_last(pdfs) }}
+        {{ pg_widget(pdfs) }}
+    </div>
+{% endblock %}
+{% block dialogs %}
+
+{% endblock dialogs %}

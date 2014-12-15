@@ -1,0 +1,28 @@
+{# vitoop.default.html.twig #}
+{% extends 'pg_default.html.twig' %}
+
+{% pg_options {
+'proximity'          : 2,
+'absoluteurl'        : false,
+'page'               : 'page',
+'maxperpage'         : 'maxperpage',
+'dots'               : '...',
+'previousmessage'    : '|<',
+'nextmessage'        : '>|',
+'firstmessage'       : '|<<',
+'lastmessage'        : '>>|',
+'pgprefix'           : 'vtp-pg-',
+'proximitybox'       : 'vtp-pg-proximitybox',
+'disabledclass'      : 'vtp-pg-disabled',
+'innerclass'         : 'vtp-pg-inner',
+'dotsleftclass'      : 'vtp-pg-dotsleft',
+'dotsrightclass'     : 'vtp-pg-dotsright',
+'firstclass'         : 'vtp-pg-start',
+'previousclass'      : 'vtp-pg-prev',
+'proximityclass'     : 'vtp-pg-proximity',
+'currentclass'       : 'vtp-pg-current',
+'nextclass'          : 'vtp-pg-next',
+'lastclass'          : 'vtp-pg-end',
+'totalrowsclass'     : 'vtp-pg-totalrows'
+} %}
+            

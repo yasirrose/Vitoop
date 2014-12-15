@@ -1,0 +1,142 @@
+/*
+ * vtp-pg.css: Styles for PaginationPane
+ */
+
+/* -------------------------------------------------------------------------- */
+.vtp-pg-pane {
+    border: 1px solid #aed0ea;
+}
+
+#vtp-pg-pane-right,
+#vtp-pg-pane-left {
+    display: inline-block !important;
+    width: 20%;
+    text-align: center;
+}
+
+#vtp-pg-pane-middle {
+    display: inline-block;
+!important;
+    width: 58%;
+    text-align: center;
+}
+
+/*@TODO*/
+.vtp-pg-gotopage {
+    display: inline-block;
+    padding: 0px 0px 0px 20px !important;
+    margin: 3px 10px 3px 10px;
+    width: 30px;
+    vertical-align: middle;
+}
+
+.vtp-pg-start,
+.vtp-pg-prev,
+.vtp-pg-next,
+.vtp-pg-end {
+    display: inline-block !important;
+    height: 16px;
+    line-height: 16px;
+    cursor: pointer;
+    vertical-align: middle;
+    text-align: center;
+    padding: 2px 2px 2px 2px;
+}
+
+.vtp-pg-prev,
+.vtp-pg-next {
+    width: 48px;
+    margin: 3px 3px 3px 3px;
+}
+
+.vtp-pg-start,
+.vtp-pg-end {
+    width: 24px;
+    margin: 3px 3px 3px 3px;
+}
+
+.vtp-pg-inner {
+    display: inline-block !important;
+    min-width: 16px;
+    height: 16px;
+}
+
+.vtp-pg-start {
+    margin: 3px 3px 3px 3px;
+}
+
+.vtp-pg-end {
+    margin: 3px 5px 3px 3px;
+}
+
+.vtp-pg-proximitybox {
+    display: inline-block !important;
+    margin: 3px 5px 3px 5px;
+    vertical-align: middle;
+}
+
+.vtp-pg-proximity, .vtp-pg-current {
+    display: inline-block !important;
+    margin: 3px 3px 3px 3px;
+    font-size: 12px;
+    text-align: center;
+    padding: 2px 2px 2px 2px;
+    vertical-align: middle;
+}
+
+.vtp-pg-dotsleft {
+    display: inline-block !important;
+    margin-left: 5px;
+    font-size: 12px;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.vtp-pg-dotsright {
+    display: inline-block !important;
+    margin-right: 5px;
+    font-size: 12px;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.vtp-pg-current, .vtp-pg-dotsleft, .vtp-pg-dotsright {
+    cursor: default;
+}
+
+.vtp-pg-totalrows {
+    display: inline-block !important;
+    height: 16px;
+    line-height: 16px;
+    font-size: 12px;
+    padding: 2px 8px;
+    cursor: default;
+    vertical-align: middle;
+    text-align: center;
+}
+
+#vtp-pg-maxperpage-form {
+    display: inline-block !important;
+    font-size: 12px;
+    padding: 2px 8px;
+    cursor: default;
+    vertical-align: middle;
+    text-align: center;
+}
+
+#vtp-pg-maxperpage-form label {
+    vertical-align: middle;
+}
+
+#vtp-pg-maxperpage-input {
+    display: inline-block !important;
+    width: 26px;
+    height: 14px;
+    font-size: 13px;
+    border: 1px solid #aed0ea;
+    padding: 1px;
+    vertical-align: middle;
+}
+

@@ -1,0 +1,8 @@
+{% if loop.first and not resources.haspreviouspage %} vtp-list-first vtp-list-start
+{% elseif loop.first %} vtp-list-first
+{% endif %}
+{% if not resources.hasnextpage and
+(loop.index == (resources.getnbresults%resources.getmaxperpage)
+or loop.index == resources.getmaxperpage) %} vtp-list-last vtp-list-end
+{% elseif loop.index == resources.getmaxperpage %} vtp-list-last
+{% endif %}

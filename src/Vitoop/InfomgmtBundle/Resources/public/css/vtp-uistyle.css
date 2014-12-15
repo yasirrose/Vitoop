@@ -1,0 +1,19 @@
+/**
+ * VitooP - UI-Styles
+ */
+
+/* correspondens with jquery-ui-css-selector: .ui-dialog .ui-dialog-titlebar-close */
+#resource-buttons .vtp-uistyle-iconbutton {
+    width: 21px;
+    padding: 1px;
+    height: 20px;
+    vertical-align: baseline;
+}
+
+#resource-buttons {
+    position: absolute;
+    right: 2em;
+    top: 50%;
+    margin: -10px 0 0 0;
+    cursor: default;
+}

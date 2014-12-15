@@ -1,0 +1,56 @@
+{# VitoopInfomgmtBundle:Resource:xhr.resource.data.pdf.html.twig #}
+{{ form_start(fvdata, {'attr': {'id': 'vtp-form-data', 'novalidate': 'novalidate' }}) }}
+<fieldset class="ui-corner-all">
+    <legend>{{ res.resourcename }}</legend>
+    {% if infodata is not empty %}
+        <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all">
+            <span class="vtp-icon ui-icon ui-icon-info"></span>{{ infodata }}
+        </div>
+    {% endif %}
+    {{ form_errors(fvdata) }}
+    <div class="vtp-fh-top">
+        {{ form_label(fvdata.name, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
+        {{ form_widget(fvdata.name, {'attr': {'class': 'vtp-fh-w90' }}) }}
+        <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.name) }}</div>
+    </div>
+    <div class="vtp-fh-middle">
+        {{ form_label(fvdata.author, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
+        {{ form_widget(fvdata.author, {'attr': {'class': 'vtp-fh-w90' }}) }}
+        <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.author) }}</div>
+    </div>
+    <div class="vtp-fh-middle">
+        {{ form_label(fvdata.publisher, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
+        {{ form_widget(fvdata.publisher, {'attr': {'class': 'vtp-fh-w90' }}) }}
+        <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.publisher) }}</div>
+    </div>
+    <div class="vtp-fh-middle">
+        {{ form_label(fvdata.url, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
+        {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w80' }}) }}
+        <div class="vtp-fh-right vtp-fh-w0" style="width: 9.5%;"><a href="{{ res.url }}" target="_blank" class="vtp-uiaction-open-url vtp-button">URL öffnen</a></div>
+        <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.url) }}</div>
+    </div>
+    <div class="vtp-fh-middle">
+        {{ form_label(fvdata.tnop, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
+        {{ form_widget(fvdata.tnop, {'attr': {'class': 'vtp-fh-w15' }}) }}
+        <div class="vtp-fh-w05"></div>
+        {{ form_label(fvdata.pdf_date, null, {'label_attr': {'class': 'vtp-fh-w15' }}) }}
+        {{ form_widget(fvdata.pdf_date, {'attr': {'class': 'vtp-fh-w20' }}) }}
+        <div class="vtp-fh-w05"></div>
+        {{ form_label(fvdata.lang, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
+        {{ form_widget(fvdata.lang, {'attr': {'class': 'vtp-fh-w0', 'style': 'width: 20%' }}) }}
+    </div>
+    <div>
+        <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.tnop) }}</div>
+        <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.pdf_date) }}</div>
+        <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.lang) }}</div>
+    </div>
+    <div class="vtp-fh-bottom">
+        <div class="vtp-fh-infosave-box vtp-fh-w70">
+            Eingetragen am: {{ res.createdat|date('d.m.Y') }} / letzte Aktualisierung am: {{ res.updatedat|date('d.m.Y') }}
+        </div>
+        <div class="vtp-fh-right vtp-fh-w30">
+            {{ form_widget(fvdata.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}
+        </div>
+    </div>
+</fieldset>
+{{ form_end(fvdata) }}

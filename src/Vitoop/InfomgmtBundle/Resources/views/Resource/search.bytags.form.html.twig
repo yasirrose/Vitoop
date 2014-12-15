@@ -1,0 +1,10 @@
+<form id="vtp-search-bytags-form" action="" method="get" novalidate="novalidate"{% if restype == '' %} style="display: none;"{% endif %}>
+    <input id="vtp-search-bytags-taglist" name="taglist[]" maxlength="64" type="text" placeholder="tag eingeben">
+    <select id="vtp-search-bytags-tagcnt" name="tagcnt" size="1">
+        <option value="">-</option>
+        {% for i in 1..9 %}
+            <option value="{{ i }}" {{ ((tagcnt is defined) and (tagcnt == i) ) ? 'selected' : '' }}>{{ i }}</option>
+        {% endfor %}
+    </select>
+    <button id="vtp-search-bytags-form-submit" class="vtp-button" type="submit" name="submit" value="suchen">-></button>
+</form>

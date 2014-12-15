@@ -1,0 +1,16 @@
+{% extends "VitoopInfomgmtBundle:Resource:layout.html.twig" %}
+{% block cmstitle %}
+    {% if project is defined %}
+        <div id="vtp-projectdata-title" class="ui-corner-all">
+            <span>Projekt: {{ project.name }}</span><span id="vtp-projectdata-project-close" class="ui-icon ui-icon-close ui-corner-all"></span>
+        </div>
+    {% endif %}
+    {% if lexicon is defined %}
+        <div id="vtp-lexicondata-title" class="ui-corner-all">
+            <span>Lexikon: {{ lexicon.name }}</span><span id="vtp-lexicondata-lexicon-close" class="ui-icon ui-icon-close ui-corner-all"></span>
+        </div>
+    {% endif %}
+{% endblock %}
+{% block content %}
+    {% include homecontenttpl %}
+{% endblock %}

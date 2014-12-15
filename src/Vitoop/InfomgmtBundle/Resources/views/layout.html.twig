@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>{% block title %}{% endblock %} &ndash; VitooP</title>
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:300" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/css/vitoop.ini.css') }}">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    {% block css %}{% endblock %}
+    <script src="{{ asset('/js/jquery/jquery-1.11.1.min.js') }}"></script>
+    <script src="{{ asset('/js/jquery/jquery-ui-1.10.4.custom.min.js') }}"></script>
+    <script src="{{ asset('/js/jquery/jquery.form.js') }}"></script>
+    <script src="{{ asset('/js/jquery/jquery.ba-bbq.js') }}"></script>
+    <script src="{{ asset('/js/tinymce/tinymce.min.js') }}"></script>
+    <script type="text/javascript">
+        vitoop = (function () {
+            var baseUrl = '{{ path('_base_url') }}',
+                    maxperpage = (document.cookie.match('(^|; )' + 'maxperpage' + '=([^;]*)') || 0)[2];
+            if (typeof maxperpage === 'undefined') {
+                maxperpage = '10';
+            }
+            return {baseUrl: baseUrl,
+                maxperpage: maxperpage
+            };
+        }());
+    </script>
+    {% block includescript %}{% endblock %}
+    {% block onloadscript %}{% endblock %}
+</head>
+<body id="vtp-application">
+<div id="vtp-wrapper">
+    <div class="vtp-paddingbox">
+        <div id="vtp-header" class="ui-corner-all">
+            <div id="vtp-header-status">
+                {% if is_granted('ROLE_ADMIN') %}
+                    <form id="vtp-header-toggle-flag" action="{{ path('_home') }}" method="get" enctype="application/x-www-form-urlencoded">
+                        <label for="vtp-tgl-flag" class="vtp-button">Flags bearbeiten</label>
+                        <input id="vtp-tgl-flag" class="vtp-uiaction-toggle-flag" name="flagged" type="checkbox" value="1">
+                        <button class="vtp-button" type="submit">Flags bearbeiten</button>
+                    </form>
+                    <a class="vtp-button vtp-uiaction-goto-invite" href="{{ path('_invite') }}">Einladung verschicken</a>
+                    <a class="vtp-button vtp-uiaction-goto-edithome" href="{{ path('_edit_vitoop_blog') }}">Landingpage editieren</a>
+                {% endif %}
+                {% if app.user %}
+                    <form id="vtp-header-login" action="{{ path('_logout') }}" method="get" enctype="application/x-www-form-urlencoded">
+                        <button id="vtp-user-loginform-logout" class="vtp-button" title="Bei VitooP abmelden" value="logout" type="submit">{{ app.user.username }}</button>
+                    </form>
+                {% else %}
+                    <form id="vtp-header-login" action="{{ path('_login_check') }}" method="post" enctype="application/x-www-form-urlencoded">
+                        <input id="username" name="_username" type="text" {% if last_username is defined %}value="{{ last_username }}" {% else %}placeholder="Benutzername"{% endif %}>
+                        <input id="password" name="_password" type="password" placeholder="Passwort">
+                        <button id="vtp-user-loginform-login" class="vtp-button" value="login" type="submit">login</button>
+                    </form><br/>
+                    <div class="forgotPass">
+                        <a href="{{ path('forgot_password') }}">Passwort vergessen</a>
+                    </div>
+                    
+                {% endif %}
+            </div>
+            <div class="vtp-logo"><a href="{{ path('_base_url') }}">vitoop<span>.org</span></a></div>
+            <div id="vtp-nav" class="vtp-menu ui-helper-clearfix ui-corner-all">
+                <ul>
+                    {% if restype is not defined %}
+                        {% set restype = '' %}
+                    {% endif %}
+                    {% set homeclass='' %}
+                    {% if project is defined %}
+                        {% set href , home = path('_home_project', {'project_id': project.id }), 'Projekt-Hauptseite' %}
+                    {% elseif lexicon is defined %}
+                        {% set href , home = path('_home_lexicon', {'lexicon_id': lexicon.id }), 'Lexikon-Hauptseite' %}
+                    {% else %}
+                        {% set href, home = path('_home'), 'Benutzer-Hauptseite' %}
+                        {% set homeclass='vtp-resmenu-homelink-home ' %}
+                    {% endif %}
+                    <li><a class="vtp-resmenu-homelink {{ homeclass }}{{ (restype == '') ? 'vtp-nav-active ui-state-active ' }}ui-state-default ui-corner-all"
+                           href="{{ href }}">{{ home }}</a></li>
+                    {% set respath = {} %}
+                    {# QUERYSTRING is set only on first page load or re-load#}
+                    {% if taglist is defined %}
+                        {% set respath = respath|merge({'taglist': taglist}) %}
+                    {% endif %}
+                    {% if tagcnt is defined %}
+                        {% set respath = respath|merge({'tagcnt': tagcnt}) %}
+                    {% endif %}
+                    {% if maxperpage is defined %}
+                        {% set respath = respath|merge({'maxperpage': maxperpage}) %}
+                    {% endif %}
+                    {% if project is defined %}
+                        {% set respath = respath|merge({'project': project.id}) %}
+                    {% endif %}
+                    {% if lexicon is defined %}
+                        {% set respath = respath|merge({'lexicon': lexicon.id}) %}
+                    {% endif %}
+                    {% if flagged is defined %}
+                        {% set respath = respath|merge({'flagged': 1}) %}
+                    {% endif %}
+                    {% for every_restype, every_resfullname in {'prj' : 'Projekt',
+                    'lex' : 'Lexikon',
+                    'pdf' : 'Pdf',
+                    'teli' : 'Textlink',
+                    'link' : 'Link',
+                    'adr' : 'Adresse'} %}
+                        {% set respath = respath|merge({'res_type': every_restype}) %}
+                        <li>
+                            <a class="vtp-resmenu-reslink {{ (every_restype == restype) ? 'vtp-nav-active ui-state-active ' }}ui-state-default ui-corner-all" href="{{ path('_resource_list', respath) }}">{{ every_resfullname }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+                {% block search_by_tags_form %}
+                    {% include 'VitoopInfomgmtBundle:Resource:search.bytags.form.html.twig' %}
+                {% endblock %}
+            </div>
+            <div id="vtp-cmstitle">{% block cmstitle %}{% endblock %}</div>
+            <div id="vtp-filterbox">
+                {% block filterbox %}
+                    {% include 'VitoopInfomgmtBundle:Resource:search.bytags.taglistbox.html.twig' %}
+                {% endblock %}
+            </div>
+        </div>
+        <div id="vtp-content">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <div id="vtp-footer" class="ui-corner-all">
+            <div id="vtp-footer-homelink">© 2014 by <a class="vtp-homelink" href={{ path('_base_url') }}>vitoop<span>.org</span></a></div>
+            <div id="vtp-imprint"><a href={{ path('_imprint') }}>Impressum</a></div>
+        </div>
+    </div>
+    {% if app.user %}
+        {% block dialogs %}
+            <div id="vtp-res-dialog">
+                <div id="vtp-res-dialog-tabs">
+                    <ul>
+                        <li><a href="#tabs-quickview">Übersicht</a></li>
+                        <li><a href="#tabs-remark">Anmerkungen</a></li>
+                        <li><a href="#tabs-comments">Kommentare</a></li>
+                        <li><a href="#tabs-assignments">Verknüfpungen</a></li>
+                    </ul>
+                    <div id="tabs-quickview">
+                        <div id="resource-quickview">
+                            <div id="resource-rating">
+                                <p>Rating</p>
+                            </div>
+                            <div id="resource-data">
+                                <p>Data</p>
+                            </div>
+                            <div id="resource-tag">
+                                <p>Tag</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tabs-remark">
+                        <div id="resource-remark">
+                            <p>Remark</p>
+                        </div>
+                    </div>
+                    <div id="tabs-comments">
+                        <div id="resource-comments">
+                            <p>Comments</p>
+                        </div>
+                    </div>
+                    <div id="tabs-assignments">
+                        <div id="resource-assignments">
+                            <div id="resource-lexicon">
+                                <p>Lexicon</p>
+                            </div>
+                            <div id="resource-project">
+                                <p>Project</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+    {%endif%}
+</div>
+</body>
+</html>

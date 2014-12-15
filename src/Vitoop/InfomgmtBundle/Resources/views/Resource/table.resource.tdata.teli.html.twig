@@ -1,0 +1,28 @@
+{% for teli in resources %}
+    <tr id="teli-{{ teli.id }}" class="vtp-{{ cycle(zebra, loop.index) }} ui-corner-all vtp-uiaction-list-showdetail{% include "VitoopInfomgmtBundle:Resource:table.resource.res.classhelper.listtagger.html.twig" %}">
+        <td class="ui-corner-left">{{ teli.createdat|date("d.m.y") }}</td>
+        <td title="{{ teli.name }}">
+            <div class="vtp-teasefader-wrapper">
+                {{ teli.name }}
+                <div class="vtp-teasefader"></div>
+            </div>
+        </td>
+        <td title="{{ teli.author }}">
+            <div class="vtp-teasefader-wrapper">
+                {{ teli.author }}
+                <div class="vtp-teasefader"></div>
+            </div>
+        </td>
+        <td>
+            <div class="vtp-rating-image-small" title="{{ teli.avgmark|avgmarkhint }}"
+                 style="background-image: url('{{ asset('/img/rating/'~avgimg(teli.avgmark)) }}');">
+                <span>&nbsp;</span>
+            </div>
+        </td>
+        <td>{{ teli.res12count }}</td>
+        <td>{{ teli.user.username }}</td>
+        <td class="ui-corner-right">
+            <a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="{{ teli.viewlink }}" target="_blank">-></a>
+        </td>
+    </tr>
+{% endfor %}

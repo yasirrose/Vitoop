@@ -1,0 +1,17 @@
+{# VitoopInfomgmtBundle:Resource:xhr.resource.flags.html.twig #}
+<div id="vtp-res-flag-info">
+    {# for flag in flags #}
+    <fieldset class="ui-corner-all">
+        <legend>{{ attribute(flagverbosenames, (flag.type)) }}</legend>
+        <div id="vtp-res-flag-info-wrapper">
+            <div class="vtp-res-flag-info-sheet">{{ flag.info }}</div>
+            <div id="vtp-res-flag-buttons" class="right">
+                {{ form_start(fvflaginfo, {'attr': {'id': 'form-flaginfo', 'novalidate': 'novalidate' }}) }}
+                {{ form_widget(fvflaginfo.delete_resource, {'attr': {'class': 'vtp-button' }}) }}
+                {{ form_widget(fvflaginfo.delete_flag, {'attr': {'class': 'vtp-button' }}) }}
+                {{ form_end(fvflaginfo) }}
+            </div>
+        </div>
+    </fieldset>
+    {# endfor #}
+</div>

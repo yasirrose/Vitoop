@@ -1,0 +1,44 @@
+{# VitoopInfomgmtBundle:Resource:xhr.resource.data.link.html.twig #}
+{{ form_start(fvdata, {'attr': {'id': 'vtp-form-data', 'novalidate': 'novalidate' }}) }}
+<fieldset class="ui-corner-all">
+    <legend>{{ res.resourcename }}</legend>
+    {% if infodata is not empty %}
+        <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all">
+            <span class="vtp-icon ui-icon ui-icon-info"></span>{{ infodata }}
+        </div>
+    {% endif %}
+    {{ form_errors(fvdata) }}
+    <div class="vtp-fh-top">
+        {{ form_label(fvdata.name, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
+        {{ form_widget(fvdata.name, {'attr': {'class': 'vtp-fh-w90' }}) }}
+        <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.name) }}</div>
+    </div>
+
+    <div class="vtp-fh-middle">
+        {{ form_label(fvdata.url, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
+        {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w75' }}) }}
+        <div class="vtp-fh-right vtp-fh-w0" style="width: 14.5%;">
+            {{ form_label(fvdata.is_hp, null, {'label_attr': {'class': 'vtp-fh-w60 vtp-button' }}) }}
+            {{ form_widget(fvdata.is_hp, {'attr': {'class': 'vtp-fh-w40' }}) }}
+            <a href="{{ res.url }}" target="_blank" class="vtp-uiaction-open-url vtp-button">URL öffnen</a>
+        </div>
+        <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.is_hp) }}</div>
+        <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.url) }}</div>
+    </div>
+    <div class="vtp-fh-middle">
+        {{ form_label(fvdata.lang, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
+        {{ form_widget(fvdata.lang, {'attr': {'class': 'vtp-fh-w20' }}) }}
+    </div>
+    <div>
+        <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.lang) }}</div>
+    </div>
+    <div class="vtp-fh-bottom">
+        <div class="vtp-fh-infosave-box vtp-fh-w70">
+            Eingetragen am: {{ res.createdat|date('d.m.Y') }} / letzte Aktualisierung am: {{ res.updatedat|date('d.m.Y') }}
+        </div>
+        <div class="vtp-fh-right vtp-fh-w30">
+            {{ form_widget(fvdata.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}
+        </div>
+    </div>
+</fieldset>
+{{ form_end(fvdata) }}

@@ -1,0 +1,141 @@
+_base_url:
+    path:    /
+    defaults:   { _controller: VitoopInfomgmtBundle:Resource:guest }
+
+_home:
+    path:    /userhome
+    defaults:   { _controller: VitoopInfomgmtBundle:Resource:home }
+
+_home_project:
+    path:    /project/{project_id}
+    requirements:
+        project_id: \d+
+    methods: [GET, POST]
+    defaults:   { _controller: VitoopInfomgmtBundle:Resource:home }
+
+_home_lexicon:
+    path:    /lexicon/{lexicon_id}
+    requirements:
+        project_id: \d+
+    methods: [GET, POST]
+    defaults:   { _controller: VitoopInfomgmtBundle:Resource:home }
+
+_edit_vitoop_blog:
+    path:    /edit-vitoop-blog
+    defaults:   { _controller: VitoopInfomgmtBundle:Resource:editVitoopBlog }
+
+_resource_list:
+    path:       /{res_type}/
+    defaults:   { _controller: VitoopInfomgmtBundle:Resource:list }
+    requirements:
+        res_type:  pdf|adr|link|teli|lex|prj
+
+_xhr_resource_data:
+    path:       /{res_type}/{res_id}/data
+    defaults:   { _controller: VitoopInfomgmtBundle:Resource:data }
+    requirements:
+        res_type:  pdf|adr|link|teli|lex|prj
+        res_id:    \d+
+
+_xhr_resource_new:
+    path:       /{res_type}/new
+    defaults:   { _controller: VitoopInfomgmtBundle:Resource:new }
+    requirements:
+        res_type:  pdf|adr|link|teli|lex|prj
+
+_xhr_resource_rating:
+    path:       /{res_type}/{res_id}/rating
+    defaults:   { _controller: VitoopInfomgmtBundle:Resource:rating }
+    requirements:
+        res_type:  pdf|adr|link|teli|lex|prj
+        res_id:    \d+
+
+_xhr_resource_tags:
+    path:       /{res_type}/{res_id}/tags
+    defaults:   { _controller: VitoopInfomgmtBundle:Resource:tag }
+    requirements:
+        res_type:  pdf|adr|link|teli|lex|prj
+        res_id:    \d+
+
+_xhr_resource_remark:
+    path:       /{res_type}/{res_id}/remark
+    defaults:   { _controller: VitoopInfomgmtBundle:Resource:remark }
+    requirements:
+        res_type:  pdf|adr|link|teli|lex|prj
+        res_id:    \d+
+
+_xhr_resource_comments:
+    path:       /{res_type}/{res_id}/comments
+    defaults:   { _controller: VitoopInfomgmtBundle:Resource:comment }
+    requirements:
+        res_type:  pdf|adr|link|teli|lex|prj
+        res_id:    \d+
+
+_xhr_resource_lexicons:
+    path:       /{res_type}/{res_id}/lexicons
+    defaults:   { _controller: VitoopInfomgmtBundle:Resource:lexicon }
+    requirements:
+        res_type:  pdf|adr|link|teli|lex|prj
+        res_id:    \d+
+
+_xhr_resource_projects:
+    path:       /{res_type}/{res_id}/projects
+    defaults:   { _controller: VitoopInfomgmtBundle:Resource:project }
+    requirements:
+        res_type:  pdf|adr|link|teli|lex|prj
+        res_id:    \d+
+
+_xhr_resource_quickview:
+    path:       /{res_type}/{res_id}/quickview
+    defaults:   { _controller: VitoopInfomgmtBundle:Resource:quickview }
+    methods:    [GET]
+    requirements:
+        res_type:  pdf|adr|link|teli|lex|prj
+        res_id:    \d+
+
+_xhr_resource_assignments:
+    path:       /{res_type}/{res_id}/assignments
+    defaults:   { _controller: VitoopInfomgmtBundle:Resource:assignment }
+    methods:    [GET]
+    requirements:
+        res_type:  pdf|adr|link|teli|lex|prj
+        res_id:    \d+
+
+_xhr_resource_flag:
+    path:       /{res_type}/{res_id}/flag/{flag_type}
+    defaults:   { _controller: VitoopInfomgmtBundle:Resource:flag }
+    requirements:
+        res_type:  pdf|adr|link|teli|lex|prj
+        res_id:    \d+
+        flag_type: delete|blame
+
+_xhr_resource_flaginfo:
+    path:       /{res_type}/{res_id}/flaginfo
+    defaults:   { _controller: VitoopInfomgmtBundle:Resource:flaginfo }
+    methods:    [POST]
+    requirements:
+        res_type:  pdf|adr|link|teli|lex|prj
+        res_id:    \d+
+
+_lexicon:
+    resource: "@VitoopInfomgmtBundle/Controller/LexiconController.php"
+    type:     annotation
+   
+_resourcexhr:
+    resource: "@VitoopInfomgmtBundle/Controller/ResourceXhrController.php"
+    type:     annotation
+
+_user:
+    resource: "@VitoopInfomgmtBundle/Controller/UserController.php"
+    type:     annotation
+
+_tag:
+    resource: "@VitoopInfomgmtBundle/Controller/TagController.php"
+    type:     annotation
+   
+_login_check:
+    path: /login_check
+   
+_logout:
+    path: /logout
+   

@@ -1,0 +1,29 @@
+{% for pdf in resources %}
+    <tr id="pdf-{{ pdf.id }}" class="vtp-{{ cycle(zebra, loop.index) }} ui-corner-all vtp-uiaction-list-showdetail{% include "VitoopInfomgmtBundle:Resource:table.resource.res.classhelper.listtagger.html.twig" %}">
+        <td class="ui-corner-left">{{ pdf.createdat|date("d.m.y") }}</td>
+        <td title="{{ pdf.name }}">
+            <div class="vtp-teasefader-wrapper">
+                {{ pdf.name }}
+                <div class="vtp-teasefader"></div>
+            </div>
+        </td>
+        <td title="{{ pdf.author }}">
+            <div class="vtp-teasefader-wrapper">
+                {{ pdf.author }}
+                <div class="vtp-teasefader"></div>
+            </div>
+        </td>
+        <td>{{ pdf.tnop }}</td>
+        <td>
+            <div class="vtp-rating-image-small" title="{{ pdf.avgmark|avgmarkhint }}"
+                 style="background-image: url('{{ asset('/img/rating/'~avgimg(pdf.avgmark)) }}');">
+                <span>&nbsp;</span>
+            </div>
+        </td>
+        <td>{{ pdf.res12count }}</td>
+        <td>{{ pdf.user.username }}</td>
+        <td class="ui-corner-right">
+            <a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="{{ pdf.viewlink }}" target="_blank">-></a>
+        </td>
+    </tr>
+{% endfor %}

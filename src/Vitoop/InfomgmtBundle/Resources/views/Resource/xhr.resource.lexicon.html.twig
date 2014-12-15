@@ -1,0 +1,28 @@
+{# VitoopInfomgmtBundle:Resource:xhr.resource.lexicon.html.twig #}
+{{ form_start(fvassignlexicon, {'attr': {'id': 'form-assign-lexicon', 'novalidate': 'novalidate' }}) }}
+<fieldset class="ui-corner-all">
+    <legend>Verknüpfungen mit Lexikonartikel</legend>
+    {% if infoassignlexicon is not empty %}
+        <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all">
+            <span class="vtp-icon ui-icon ui-icon-info"></span>
+            {{ infoassignlexicon }}
+        </div>
+    {% endif %}
+    {{ form_errors(fvassignlexicon) }}
+    <div>
+        {# form_label(fvassignlexicon.name, null, {'label_attr': {'class': 'vtp-form-w20' }}) #}
+        {{ form_widget(fvassignlexicon.name, {'attr': {'class': 'vtp-fh-w40' }}) }}
+        {{ form_widget(fvassignlexicon.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}
+        <div class="vtp-uiinfo-form-error">{{ form_errors(fvassignlexicon.name) }}</div>
+    </div>
+    <div id="vtp-lexiconbox" class="vtp-collectionbox ui-corner-all">
+        {% for everylexicon in lexicons %}
+            <span class="vtp-lexiconbox-item {% if everylexicon.is_own %}vtp-ownlex {% endif %}ui-corner-all">
+               <span class="vtp-icon-lex ui-icon ui-icon-document-b"></span>
+                {{ everylexicon.name }}
+                <span class="vtp-lexiconbox-cntres">({{ everylexicon.cnt_res }})</span>
+            </span>
+        {% endfor %}
+    </div>
+</fieldset>
+{{ form_end(fvassignlexicon) }}
