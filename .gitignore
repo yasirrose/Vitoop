@@ -1,4 +1,5 @@
 .idea
+*~
 .idea/*
 /web/bundles/
 /app/bootstrap.php.cache
@@ -9,3 +10,5 @@
 /vendor/
 /bin/
 /composer.phar
+
+
