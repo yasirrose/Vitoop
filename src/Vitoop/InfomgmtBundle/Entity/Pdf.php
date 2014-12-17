@@ -2,6 +2,9 @@
 namespace Vitoop\InfomgmtBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Vitoop\InfomgmtBundle\Validator\Constraints\DateFormat as DateFormatAssert;
+
 
 /**
  * @ORM\Table(name="pdf")
@@ -31,6 +34,8 @@ class Pdf extends Resource
 
     /**
      * @ORM\Column(name="pdf_date", type="string", length=10)
+     * @Assert\NotBlank
+     * @DateFormatAssert
      */
     protected $pdf_date;
 
