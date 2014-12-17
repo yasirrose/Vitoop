@@ -21,8 +21,6 @@ class PdfType extends AbstractType
                 ->add('pdf_date', 'text', array('label' => 'Erschienen:'));
         $builder->get('publisher')
                 ->addModelTransformer(new EmptyStringToNullTransformer());
-        $builder->get('pdf_date')
-                ->addModelTransformer(new PublishedToDateStringTransformer());
     }
 
     public function getParent()

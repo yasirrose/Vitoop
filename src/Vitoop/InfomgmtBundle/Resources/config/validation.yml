@@ -37,10 +37,6 @@ Vitoop\InfomgmtBundle\Entity\Pdf:
                 minMessage: "Negative Seitenzahlen sind sinnlos."
                 max: 100000
                 maxMessage: "Mehr als 100.000 Seiten sind unwahrscheinlich."
-        pdf_date:
-            - Regex:
-                pattern: "/^((?:18|19|20)\d\d)|(?:0?[1-9]|11|12)-((?:18|19|20)\d\d)|(?:0?[1-9]|[1-2][0-9]|30|31)\.(?:0?[1-9]|11|12)\.((?:18|19|20)\d\d)$/"
-                message: "Bitte gebe entweder ein Jahr (z.B.2011), ein Monat mit Jahr (z.B. 05-2011) oder ein Datum (z.B. 1.5.2014) an. "
 
 Vitoop\InfomgmtBundle\Entity\Flag:
     properties:
