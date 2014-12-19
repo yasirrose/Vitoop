@@ -1,20 +1,41 @@
-{{ form_start(fvuserdata, {'attr': {'id': 'form-user-data', 'novalidate': 'novalidate' }}) }}
-<fieldset class="ui-corner-all">
-    <legend>{{ user.username }}</legend>
-    <div id="vtp-userdata-box">
-        {% if infouserdata is defined and infouserdata is not empty %}
-            <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all">
-                <span class="vtp-icon ui-icon ui-icon-info"></span>{{ infouserdata }}
-            </div>
-        {% endif %}
-        <div id="vtp-userdata-sheet-edit">
-            {{ form_errors(fvuserdata.sheet) }}
-            {{ form_widget(fvuserdata.sheet) }}
-            <div id="vtp-userdata-save-container">
-                {{ form_widget(fvuserdata.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}
+<div ng-controller="ToDoController">
+    <fieldset class="ui-corner-all">
+        <legend>{{ user.username }}</legend>
+        <div>
+            <input type="text" style="display: none" ng-init="user.id={{ user.getID }}" ng-model="user.id">
+            <div>
+                <div class="vtp-fh-w50" style="float: left">
+                    <div class="vtp-fh-w100">
+                        <textarea ui-tinymce="tinymceOptions" ng-model="to_do_item.text"></textarea>
+                    </div>
+                    <div class="vtp-fh-w100" style="margin-top: 25px">
+                        <button ng-click="newItem()" ng-show="!isDeleting" class="ui-corner-all vtp-fh-w20" style="background-color: #ffffff; color: #2779aa; border: 1px solid #aed0ea; padding-bottom: 5px; padding-top: 5px">neu</button>
+                        <button ng-click="isDeleting = true" ng-disabled="isDeleting" class="ui-corner-all vtp-fh-w20" style="background-color: #ffffff; color: #2779aa; border: 1px solid #aed0ea; padding-bottom: 5px; padding-top: 5px">löschen</button>
+                        <button ng-click="delete()" ng-show="isDeleting" class="ui-corner-all vtp-fh-w20" style="background-color: #ffffff; color: #2779aa; border: 1px solid #aed0ea; padding-bottom: 5px; padding-top: 5px">ja</button>
+                        <button ng-click="isDeleting = false" ng-show="isDeleting" class="ui-corner-all vtp-fh-w20" style="background-color: #ffffff; color: #2779aa; border: 1px solid #aed0ea; padding-bottom: 5px; padding-top: 5px">abbrechen</button>
+                        <button ng-click="save()" ng-show="!isDeleting" class="ui-corner-all vtp-fh-w30"  style="background-color: #ffffff; color: #2779aa; border: 1px solid #aed0ea; float: right; padding-bottom: 5px; padding-top: 5px">speichern</button>
+                    </div>
+                </div>
+                <div class="vtp-fh-w50" style="float: right">
+                    <div class="vtp-fh-w100">
+                        <div class="vtp-fh-top">
+                            <input type="text" id="todo-title" name="todo-title" class="vtp-fh-w100" style="font-size: 20px; color: #2779aa" ng-model="to_do_item.title">
+                        </div>
+                        <div style="float: right; color: #2779aa">
+                            erstellt: <span ng-bind="to_do_item.created_at"></span> / geändert: <span ng-bind="to_do_item.updated_at"></span>
+                        </div>
+                    </div>
+                    <div class="vtp-fh-w100 vtp-menu" style="margin-top: 50px; max-height: 500px; overflow: auto;">
+                        <ul style="float: right" class="vtp-fh-w90">
+                            {% verbatim %}
+                            <li class="vtp-fh-w100" ng-repeat="item in to_do_items" style="margin-top: 5px; margin-bottom: 5px">
+                                <button ng-click="edit(item.id)" ng-class="{'ui-state-default ui-state-active ui-corner-all vtp-fh-w100': to_do_item.id==item.id, 'ui-state-default ui-corner-all vtp-fh-w100': to_do_item.id!=item.id}" style="padding-bottom: 4px; padding-top: 4px">{{ item.title }}</button>
+                            </li>
+                            {% endverbatim %}
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</fieldset>
-{{ form_end(fvuserdata) }}
-
+    </fieldset>
+</div>

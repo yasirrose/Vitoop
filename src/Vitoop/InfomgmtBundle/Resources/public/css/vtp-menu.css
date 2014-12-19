@@ -53,3 +53,12 @@ div#menu, ul, li {
     outline: 0 none;
 }
 
+.vtp-menu ul li button:hover,
+.vtp-menu ul li button:active {
+    border: 1px solid #74b2e2;
+    background: #e4f1fb url(images/ui-bg_glass_100_e4f1fb_1x400.png) 50% 50% repeat-x;
+    font-weight: bold;
+    color: #0070a3;
+    text-decoration: none;
+    outline: 0 none;
+}

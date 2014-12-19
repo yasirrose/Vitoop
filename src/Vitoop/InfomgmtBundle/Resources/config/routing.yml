@@ -132,7 +132,11 @@ _user:
 _tag:
     resource: "@VitoopInfomgmtBundle/Controller/TagController.php"
     type:     annotation
-   
+
+_todo:
+    resource: "@VitoopInfomgmtBundle/Controller/ToDoController.php"
+    type:     annotation
+
 _login_check:
     path: /login_check
    

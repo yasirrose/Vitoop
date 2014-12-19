@@ -25,7 +25,9 @@
         "kriswallsmith/buzz": "v0.10",
         "symfony/icu": "1.0.*",
         "doctrine/migrations": "dev-master",
-        "doctrine/doctrine-migrations-bundle": "dev-master"
+        "doctrine/doctrine-migrations-bundle": "dev-master",
+        "jms/di-extra-bundle": "dev-master",
+        "jms/serializer-bundle": "0.13.*@dev"
     },
     "scripts": {
         "post-install-cmd": [

@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\User\EquatableInterface;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Table(name="vitoop_user")
@@ -20,6 +21,8 @@ class User implements UserInterface, EquatableInterface
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Groups({"edit"})
+     * @Serializer\Type("integer")
      */
     protected $id;
 
@@ -55,6 +58,7 @@ class User implements UserInterface, EquatableInterface
 
     /**
      * @ORM\OneToMany(targetEntity="ToDoItem", mappedBy="user")
+     * @ORM\OrderBy({"title" = "ASC"})
      */
     protected $toDoItems;
 

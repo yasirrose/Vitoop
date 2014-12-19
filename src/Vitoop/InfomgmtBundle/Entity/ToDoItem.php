@@ -3,12 +3,13 @@
 namespace Vitoop\InfomgmtBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * ToDoItem
  *
  * @ORM\Table(name="to_do_item")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Vitoop\InfomgmtBundle\Repository\ToDoItemRepository")
  */
 class ToDoItem
 {
@@ -18,6 +19,8 @@ class ToDoItem
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Groups({"list", "edit"})
+     * @Serializer\Type("integer")
      */
     private $id;
 
@@ -25,6 +28,8 @@ class ToDoItem
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=300)
+     * @Serializer\Groups({"list", "new", "edit"})
+     * @Serializer\Type("string")
      */
     private $title;
 
@@ -32,6 +37,8 @@ class ToDoItem
      * @var string
      *
      * @ORM\Column(name="text", type="string", length=10000)
+     * @Serializer\Groups({"list", "new", "edit"})
+     * @Serializer\Type("string")
      */
     private $text;
 
@@ -39,6 +46,8 @@ class ToDoItem
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime")
+     * @Serializer\Groups({"list", "new", "edit"})
+     * @Serializer\Type("DateTime<'d.m.Y'>")
      */
     private $createdAt;
 
@@ -46,12 +55,16 @@ class ToDoItem
      * @var \DateTime
      *
      * @ORM\Column(name="updated_at", type="datetime")
+     * @Serializer\Groups({"list", "new", "edit"})
+     * @Serializer\Type("DateTime<'d.m.Y'>")
      */
     private $updatedAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="toDoItems")
      * @ORM\JoinColumn(name="id_user", referencedColumnName="id")
+     * @Serializer\Type("Vitoop\InfomgmtBundle\Entity\User")
+     * @Serializer\Groups({"edit"})
      */
     private $user;
 
