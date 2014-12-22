@@ -30,7 +30,7 @@
     {% block includescript %}{% endblock %}
     {% block onloadscript %}{% endblock %}
 </head>
-<body id="vtp-application">
+<body id="vtp-application" ng-controller="MainController">
 <div id="vtp-wrapper">
     <div class="vtp-paddingbox">
         <div id="vtp-header" class="ui-corner-all">
@@ -76,7 +76,7 @@
                         {% set homeclass='vtp-resmenu-homelink-home ' %}
                     {% endif %}
                     <li><a class="vtp-resmenu-homelink {{ homeclass }}{{ (restype == '') ? 'vtp-nav-active ui-state-active ' }}ui-state-default ui-corner-all"
-                           href="{{ href }}">{{ home }}</a></li>
+                           href="{{ href }}" ng-click="click('home')">{{ home }}</a></li>
                     {% set respath = {} %}
                     {# QUERYSTRING is set only on first page load or re-load#}
                     {% if taglist is defined %}
@@ -105,7 +105,7 @@
                     'adr' : 'Adresse'} %}
                         {% set respath = respath|merge({'res_type': every_restype}) %}
                         <li>
-                            <a class="vtp-resmenu-reslink {{ (every_restype == restype) ? 'vtp-nav-active ui-state-active ' }}ui-state-default ui-corner-all" href="{{ path('_resource_list', respath) }}">{{ every_resfullname }}</a>
+                            <a class="vtp-resmenu-reslink {{ (every_restype == restype) ? 'vtp-nav-active ui-state-active ' }}ui-state-default ui-corner-all" href="{{ path('_resource_list', respath) }}" ng-click="click({{ every_resfullname }})">{{ every_resfullname }}</a>
                         </li>
                     {% endfor %}
                 </ul>

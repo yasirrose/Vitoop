@@ -1,4 +1,5 @@
-<div ng-controller="ToDoController">
+<input type="text" style="display: none" ng-model="ready" ng-init="ready = ready + 1"/>
+<div ng-controller="ToDoController" id="todocontroller">
     <fieldset class="ui-corner-all">
         <legend>{{ user.username }}</legend>
         <div>
