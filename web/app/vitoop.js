@@ -2,34 +2,17 @@
 
 var app = angular.module('vitoop', ['ui.tinymce']);
 
-
-app.directive('dynamic', function ($compile) {
-    return {
-        restrict: 'A',
-        replace: true,
-        link: function (scope, ele, attrs) {
-            scope.$watch(attrs.dynamic, function(html) {
-                console.log('compile');
-                ele.html(html);
-                $compile(ele.contents())(scope);
-            });
-        }
-    };
-});
-
-app.controller('MainController', function ($scope, $http, $compile, $rootScope) {
+app.controller('MainController', function ($scope, $http, $compile) {
     $scope.content = '';
     $scope.ready = 0;
     $scope.click = function(text) {
         if (text == 'home') {
-            $scope.$watch('ready', function() {
-                console.log($scope.ready);
-                console.log(document);
-                $compile($('#todocontroller'));
-                console.log($('#todocontroller'));
-                console.log('compiled');
-                console.log($scope);
-            });
+            $scope.ready = 1;
+            
+            setTimeout(function () {
+              $compile(document.getElementById('todocontroller'))($scope);
+            }, 1000);
+            
         }
     };
 });
