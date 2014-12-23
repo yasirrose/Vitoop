@@ -42,7 +42,11 @@ app.controller('ToDoController', function ($scope, $http, $filter) {
     $scope.$watch("user", function(){
         $http.get('api/user/'+$scope.user.id+'/todo').success(function (data) {
             $scope.to_do_items = data;
-            angular.copy($scope.to_do_items[0], $scope.to_do_item);
+            if ($scope.to_do_items.length == 0) {
+                $scope.newItem();
+            } else {
+                angular.copy($scope.to_do_items[0], $scope.to_do_item);
+            }
         });
     });
 
