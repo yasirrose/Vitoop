@@ -137,6 +137,10 @@ _todo:
     resource: "@VitoopInfomgmtBundle/Controller/ToDoController.php"
     type:     annotation
 
+_resource_api:
+    resource: "@VitoopInfomgmtBundle/Controller/ResourceApiController.php"
+    type:     annotation
+
 _login_check:
     path: /login_check
    

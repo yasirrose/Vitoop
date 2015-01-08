@@ -7,6 +7,9 @@
             <span class="vtp-icon ui-icon ui-icon-info"></span>{{ infodata }}
         </div>
     {% endif %}
+    <ul id="unique-url-error" style="display: none">
+        <li>Diese Url existiert schon. (Id# <span id="unique-url-error-id"></span> "<span id="unique-url-error-name"></span>")</li>
+    </ul>
     {{ form_errors(fvdata) }}
     <div class="vtp-fh-top">
         {{ form_label(fvdata.name, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
@@ -16,7 +19,7 @@
 
     <div class="vtp-fh-middle">
         {{ form_label(fvdata.url, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
-        {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w75' }}) }}
+        {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w75', 'onblur': 'checkUniqueUrl("link", event);' }}) }}
         <div class="vtp-fh-right vtp-fh-w0" style="width: 14.5%;">
             {{ form_label(fvdata.is_hp, null, {'label_attr': {'class': 'vtp-fh-w60 vtp-button' }}) }}
             {{ form_widget(fvdata.is_hp, {'attr': {'class': 'vtp-fh-w40' }}) }}

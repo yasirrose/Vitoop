@@ -9,7 +9,7 @@ class LinkType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->remove('country')
-                ->add('url', null, array('label' => 'URL:'))
+                ->add('url', 'url', array('label' => 'URL:'))
                 ->add('is_hp', 'checkbox', array('label' => 'ist Homepage?'));
     }
 

@@ -7,6 +7,9 @@
             <span class="vtp-icon ui-icon ui-icon-info"></span>{{ infodata }}
         </div>
     {% endif %}
+    <ul id="unique-url-error" style="display: none">
+        <li>Diese Url existiert schon. (Id# <span id="unique-url-error-id"></span> "<span id="unique-url-error-name"></span>")</li>
+    </ul>
     {{ form_errors(fvdata) }}
     <div class="vtp-fh-top">
         {{ form_label(fvdata.name, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
@@ -25,7 +28,7 @@
     </div>
     <div class="vtp-fh-middle">
         {{ form_label(fvdata.url, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
-        {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w80' }}) }}
+        {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w80', 'onblur': 'checkUniqueUrl("pdf", event);' }}) }}
         <div class="vtp-fh-right vtp-fh-w0" style="width: 9.5%;"><a href="{{ res.url }}" target="_blank" class="vtp-uiaction-open-url vtp-button">URL öffnen</a></div>
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.url) }}</div>
     </div>
