@@ -3,6 +3,7 @@ namespace Vitoop\InfomgmtBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Table(name="tag")
@@ -19,6 +20,8 @@ class Tag
 
     /**
      * @ORM\Column(name="text", type="string", length=48, unique=true)
+     * @Serializer\Groups({"new"})
+     * @Serializer\Type("string")
      */
     protected $text;
 

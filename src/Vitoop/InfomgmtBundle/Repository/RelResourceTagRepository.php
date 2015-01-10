@@ -17,17 +17,42 @@ use Vitoop\InfomgmtBundle\Entity\User;
  */
 class RelResourceTagRepository extends EntityRepository
 {
+    public function getCountOfAddedTags($userID, $resourceID)
+    {
+        return $this->createQueryBuilder('r')
+            ->select('count(r.id)')
+            ->where('r.resource = :resourceID')
+            ->andWhere('r.user = :userID')
+            ->setParameter('resourceID', $resourceID)
+            ->setParameter('userID', $userID)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function getCountOfRemovedTags($userID, $resourceID)
+    {
+        return $this->createQueryBuilder('r')
+            ->select('count(r.id)')
+            ->where('r.resource = :resourceID')
+            ->andWhere('r.deletedByUser = :userID')
+            ->setParameter('resourceID', $resourceID)
+            ->setParameter('userID', $userID)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     public function exists(RelResourceTag $rrt)
     {
-
-        return $this->getEntityManager()
-                    ->createQuery('SELECT rrt.id FROM Vitoop\InfomgmtBundle\Entity\RelResourceTag rrt
-            WHERE rrt.resource=:arg_resource AND rrt.tag=:arg_tag AND rrt.user=:arg_user')
-                    ->setParameters(array(
-                'arg_resource' => $rrt->getResource(),
-                'arg_tag' => $rrt->getTag(),
-                'arg_user' => $rrt->getUser()
-            ))
-                    ->getResult();
+        return $this->createQueryBuilder('rrt')
+            ->select('rrt.id')
+            ->where('rrt.resource = :resource')
+            ->andWhere('rrt.tag = :tag')
+            ->andWhere('rrt.user = :user')
+            ->andWhere('rrt.deletedByUser is NULL')
+            ->setParameter('resource',$rrt->getResource())
+            ->setParameter('tag', $rrt->getTag())
+            ->setParameter('user', $rrt->getUser())
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

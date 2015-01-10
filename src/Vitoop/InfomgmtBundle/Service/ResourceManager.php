@@ -234,22 +234,22 @@ class ResourceManager
         } else {
             $tag = $tag_exists;
         }
-        
-        //count tag        
+
+        //count tag
         $qb = $this->em->createQueryBuilder();
         $qb->select('count(r.id)');
         $qb->from('VitoopInfomgmtBundle:RelResourceTag','r');
         $qb->where('r.resource = '.$res->getId().'And r.user = '.$this->vsec->getUser()->getId());
 
         $relResTagCount = $qb->getQuery()->getSingleScalarResult();
-        
+
         //$relResTagCount count tag
-        
+
         if($relResTagCount >= 5)
         {
             throw new \Exception('Sie können nur fünf Schlagwörter zuweisen');
         }
-        
+
         $relation = new RelResourceTag();
         $relation->setResource($res);
         $relation->setTag($tag);

@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\User\EquatableInterface;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Table(name="vitoop_user")
@@ -20,6 +21,8 @@ class User implements UserInterface, EquatableInterface
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Groups({"edit"})
+     * @Serializer\Type("integer")
      */
     protected $id;
 
@@ -55,6 +58,7 @@ class User implements UserInterface, EquatableInterface
 
     /**
      * @ORM\OneToMany(targetEntity="ToDoItem", mappedBy="user")
+     * @ORM\OrderBy({"title" = "ASC"})
      */
     protected $toDoItems;
 
@@ -92,6 +96,11 @@ class User implements UserInterface, EquatableInterface
      * @ORM\OneToMany(targetEntity="RelResourceTag", mappedBy="user")
      */
     protected $rel_resource_tags;
+
+    /**
+     * @ORM\OneToMany(targetEntity="RelResourceTag", mappedBy="deletedByUser")
+     */
+    protected $deleted_rel_resource_tags;
 
     /**
      * @ORM\OneToMany(targetEntity="RelResourceResource", mappedBy="user")
@@ -412,5 +421,171 @@ class User implements UserInterface, EquatableInterface
     public function getUserData()
     {
         return $this->user_data;
+    }
+
+    /**
+     * Set salt
+     *
+     * @param string $salt
+     * @return User
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean 
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * Remove resources
+     *
+     * @param \Vitoop\InfomgmtBundle\Entity\Resource $resources
+     */
+    public function removeResource(\Vitoop\InfomgmtBundle\Entity\Resource $resources)
+    {
+        $this->resources->removeElement($resources);
+    }
+
+    /**
+     * Add toDoItems
+     *
+     * @param \Vitoop\InfomgmtBundle\Entity\ToDoItem $toDoItems
+     * @return User
+     */
+    public function addToDoItem(\Vitoop\InfomgmtBundle\Entity\ToDoItem $toDoItems)
+    {
+        $this->toDoItems[] = $toDoItems;
+
+        return $this;
+    }
+
+    /**
+     * Remove toDoItems
+     *
+     * @param \Vitoop\InfomgmtBundle\Entity\ToDoItem $toDoItems
+     */
+    public function removeToDoItem(\Vitoop\InfomgmtBundle\Entity\ToDoItem $toDoItems)
+    {
+        $this->toDoItems->removeElement($toDoItems);
+    }
+
+    /**
+     * Get toDoItems
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getToDoItems()
+    {
+        return $this->toDoItems;
+    }
+
+    /**
+     * Remove ratings
+     *
+     * @param \Vitoop\InfomgmtBundle\Entity\Rating $ratings
+     */
+    public function removeRating(\Vitoop\InfomgmtBundle\Entity\Rating $ratings)
+    {
+        $this->ratings->removeElement($ratings);
+    }
+
+    /**
+     * Remove remarks
+     *
+     * @param \Vitoop\InfomgmtBundle\Entity\Remark $remarks
+     */
+    public function removeRemark(\Vitoop\InfomgmtBundle\Entity\Remark $remarks)
+    {
+        $this->remarks->removeElement($remarks);
+    }
+
+    /**
+     * Remove comments
+     *
+     * @param \Vitoop\InfomgmtBundle\Entity\Comment $comments
+     */
+    public function removeComment(\Vitoop\InfomgmtBundle\Entity\Comment $comments)
+    {
+        $this->comments->removeElement($comments);
+    }
+
+    /**
+     * Remove flags
+     *
+     * @param \Vitoop\InfomgmtBundle\Entity\Flag $flags
+     */
+    public function removeFlag(\Vitoop\InfomgmtBundle\Entity\Flag $flags)
+    {
+        $this->flags->removeElement($flags);
+    }
+
+    /**
+     * Remove invitations
+     *
+     * @param \Vitoop\InfomgmtBundle\Entity\Invitation $invitations
+     */
+    public function removeInvitation(\Vitoop\InfomgmtBundle\Entity\Invitation $invitations)
+    {
+        $this->invitations->removeElement($invitations);
+    }
+
+    /**
+     * Remove watchlist_entries
+     *
+     * @param \Vitoop\InfomgmtBundle\Entity\Watchlist $watchlistEntries
+     */
+    public function removeWatchlistEntry(\Vitoop\InfomgmtBundle\Entity\Watchlist $watchlistEntries)
+    {
+        $this->watchlist_entries->removeElement($watchlistEntries);
+    }
+
+    /**
+     * Remove rel_resource_tags
+     *
+     * @param \Vitoop\InfomgmtBundle\Entity\RelResourceTag $relResourceTags
+     */
+    public function removeRelResourceTag(\Vitoop\InfomgmtBundle\Entity\RelResourceTag $relResourceTags)
+    {
+        $this->rel_resource_tags->removeElement($relResourceTags);
+    }
+
+    /**
+     * Get rel_resource_tags
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRelResourceTags()
+    {
+        return $this->rel_resource_tags;
+    }
+
+    /**
+     * Remove rel_resource_resources
+     *
+     * @param \Vitoop\InfomgmtBundle\Entity\RelResourceResource $relResourceResources
+     */
+    public function removeRelResourceResource(\Vitoop\InfomgmtBundle\Entity\RelResourceResource $relResourceResources)
+    {
+        $this->rel_resource_resources->removeElement($relResourceResources);
+    }
+
+    /**
+     * Get rel_resource_resources
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRelResourceResources()
+    {
+        return $this->rel_resource_resources;
     }
 }

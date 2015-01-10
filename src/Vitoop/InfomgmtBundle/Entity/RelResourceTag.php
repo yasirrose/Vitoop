@@ -37,6 +37,12 @@ class RelResourceTag
     protected $user;
 
     /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="deleted_rel_resource_tags")
+     * @ORM\JoinColumn(name="deleted_by_id_user", referencedColumnName="id", nullable=true)
+     */
+    protected $deletedByUser;
+
+    /**
      * Get id
      *
      * @return integer
@@ -107,5 +113,28 @@ class RelResourceTag
     public function getTag()
     {
         return $this->tag;
+    }
+
+    /**
+     * Set deletedByUser
+     *
+     * @param \Vitoop\InfomgmtBundle\Entity\User $deletedByUser
+     * @return RelResourceTag
+     */
+    public function setDeletedByUser(\Vitoop\InfomgmtBundle\Entity\User $deletedByUser = null)
+    {
+        $this->deletedByUser = $deletedByUser;
+
+        return $this;
+    }
+
+    /**
+     * Get deletedByUser
+     *
+     * @return \Vitoop\InfomgmtBundle\Entity\User 
+     */
+    public function getDeletedByUser()
+    {
+        return $this->deletedByUser;
     }
 }

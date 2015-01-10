@@ -98,6 +98,11 @@ class User implements UserInterface, EquatableInterface
     protected $rel_resource_tags;
 
     /**
+     * @ORM\OneToMany(targetEntity="RelResourceTag", mappedBy="deletedByUser")
+     */
+    protected $deleted_rel_resource_tags;
+
+    /**
      * @ORM\OneToMany(targetEntity="RelResourceResource", mappedBy="user")
      */
     protected $rel_resource_resources;
@@ -126,6 +131,7 @@ class User implements UserInterface, EquatableInterface
         $this->invitations = new ArrayCollection();
         $this->watchlist_entries = new ArrayCollection();
         $this->rel_resources_tags = new ArrayCollection();
+        $this->deleted_rel_resource_tags = new ArrayCollection();
         $this->rel_resource_resources = new ArrayCollection();
     }
 
@@ -582,5 +588,38 @@ class User implements UserInterface, EquatableInterface
     public function getRelResourceResources()
     {
         return $this->rel_resource_resources;
+    }
+
+    /**
+     * Add deleted_rel_resource_tags
+     *
+     * @param \Vitoop\InfomgmtBundle\Entity\RelResourceTag $deletedRelResourceTags
+     * @return User
+     */
+    public function addDeletedRelResourceTag(\Vitoop\InfomgmtBundle\Entity\RelResourceTag $deletedRelResourceTags)
+    {
+        $this->deleted_rel_resource_tags[] = $deletedRelResourceTags;
+
+        return $this;
+    }
+
+    /**
+     * Remove deleted_rel_resource_tags
+     *
+     * @param \Vitoop\InfomgmtBundle\Entity\RelResourceTag $deletedRelResourceTags
+     */
+    public function removeDeletedRelResourceTag(\Vitoop\InfomgmtBundle\Entity\RelResourceTag $deletedRelResourceTags)
+    {
+        $this->deleted_rel_resource_tags->removeElement($deletedRelResourceTags);
+    }
+
+    /**
+     * Get deleted_rel_resource_tags
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getDeletedRelResourceTags()
+    {
+        return $this->deleted_rel_resource_tags;
     }
 }

@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+
 
 use Vitoop\InfomgmtBundle\Entity\Pdf;
 use Vitoop\InfomgmtBundle\Form\Type\PdfType;
@@ -27,6 +29,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Component\Security\Core\SecurityContext;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 use Symfony\Component\Form\Exception;
 use Symfony\Component\Form\Form;
@@ -35,6 +38,48 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class TagController extends Controller
 {
+    /**
+     * @Route("api/resource/{resource_id}/123tag/{tag_text}/", requirements={"resource_id": "\d+"}, name="tag_new")
+     * @Method({"GET"})
+     * @ParamConverter("resource", class="Vitoop\InfomgmtBundle\Entity\Resource", options={"id" = "resource_id"})
+     *
+     * @return array
+     */
+    public function newAction(Resource $resource, Request $request, $tag_text = "asd")
+    {
+        if (!is_null($this->getDoctrine()->getManager()->getRepository('VitoopInfomgmtBundle:RelResourceTag')->find(9249))) {
+            echo "catch it";
+            var_dump(0);
+            exit(0);
+        }
+
+        $serializer = $this->get('jms_serializer');
+        $tagger = $this->get('vitoop.tagger');
+        $user = $this->get('security.context')->getToken()->getUser();
+        if ($tagger->checkAddingAbility($user->getId(), $resource->getId())) {
+            /*$serializerContext = DeserializationContext::create()
+                ->setGroups(array('new'));
+            $tag = $serializer->deserialize(
+                $request->getContent(),
+                'Vitoop\InfomgmtBundle\Entity\Tag',
+                'json',
+                $serializerContext
+            );*/
+            $tag = new Tag();
+            $tag->setText($tag_text);
+            $response = $tagger->setTag($tag, $resource, $user);
+        } else {
+            $response = array(
+                'success' => false,
+                'error' => 'Sie können nur fünf Schlagwörter zuweisen'
+            );
+        }
+
+        $response = $serializer->serialize($response, 'json');
+
+        return new Response($response);
+    }
+
     /**
      * @Route("/tags", name="_tags"))
      */

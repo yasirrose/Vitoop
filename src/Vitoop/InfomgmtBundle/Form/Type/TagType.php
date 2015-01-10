@@ -11,7 +11,7 @@ class TagType extends AbstractType
     {
         $builder->add('text', null, array('label' => 'Tag:'))
                 ->add('showown', 'checkbox', array('label' => 'Zeige eigene Tags', 'mapped' => false))
-                ->add('save', 'input_type_submit', array('label' => 'taggen'));
+                ->add('save', 'input_type_submit', array('label' => '+'));
     }
 
     public function getName()
