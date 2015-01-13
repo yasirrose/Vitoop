@@ -15,6 +15,7 @@ use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\Entity\Tag;
 use Vitoop\InfomgmtBundle\Entity\Rating;
 use Vitoop\InfomgmtBundle\Entity\Remark;
+use Vitoop\InfomgmtBundle\Entity\RemarkPrivate;
 use Vitoop\InfomgmtBundle\Entity\Comment;
 use Vitoop\InfomgmtBundle\Entity\Lexicon;
 use Vitoop\InfomgmtBundle\Entity\Project;
@@ -417,6 +418,55 @@ class ResourceDataCollector
             'res' => $this->res,
             'remark' => $remark,
             'showform' => $show_form
+        )));
+    }
+
+    public function getRemarkPrivate()
+    {
+        $info_remark = '';
+        $fv_remark = null;
+        $tpl_vars = array();
+        $remarkPrivate = $this->rm->getEntityManager()
+            ->getRepository('VitoopInfomgmtBundle:RemarkPrivate')
+            ->findOneBy(array(
+                'user' => $this->vsec->getUser(),
+                'resource' => $this->res
+            ));
+
+        if (null === $remarkPrivate) {
+            $remarkPrivate = new RemarkPrivate();
+        }
+
+        $show_form = true;
+
+        $form_remark = $this->ff->create('remark_private', $remarkPrivate, array(
+            'action' => $this->router->generate('_xhr_resource_remark_private', array('res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId())),
+            'method' => 'POST'
+        ));
+            if ($this->handleData) {
+                $form_remark->handleRequest($this->request);
+                if ($form_remark->isValid()) {
+
+                    $remarkPrivate->setResource($this->res);
+                    $remarkPrivate->setUser($this->vsec->getUser());
+                    $this->rm->getEntityManager()
+                        ->persist($remarkPrivate);
+                    $this->rm->getEntityManager()
+                        ->flush();
+                    $info_remark = 'Bemerkung wurde erfolgreich gespeichert.';
+                }
+            }
+
+        $fv_remark = $form_remark->createView();
+
+        $tpl_vars = array_merge($tpl_vars, array(
+            'fvremarkpr' => $fv_remark,
+            'inforemark' => $info_remark
+        ));
+
+        return $this->twig->render('VitoopInfomgmtBundle:Resource:xhr.resource.remark_private.html.twig', array_merge($tpl_vars, array(
+            'res' => $this->res,
+            'remark' => $remarkPrivate
         )));
     }
 

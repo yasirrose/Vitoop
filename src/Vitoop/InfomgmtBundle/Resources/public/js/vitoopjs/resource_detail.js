@@ -4,9 +4,9 @@
 
 resourceDetail = (function () {
 
-    var tab_loaded = [ 0, 0, 0, 0 ],
+    var tab_loaded = [ 0, 0, 0, 0, 0 ],
 
-        tab_name = [ 'quickview', 'remark', 'comments', 'assignments' ],
+        tab_name = [ 'quickview', 'remark', 'remark_private', 'comments', 'assignments' ],
 
         res_type = '',
 
@@ -316,6 +316,43 @@ resourceDetail = (function () {
                     collision: 'none'
                 }).hide("fade", 3000);
             }
+
+            /*************************************************************************
+             * UIfy: remarkPrivate
+             ************************************************************************/
+            if ('resource-remark_private' == container_name) {
+                // TinyMCE
+                tinymce.init({
+                    selector: 'textarea#remark_private_text',
+                    height: 300,
+                    plugins: 'textcolor link',
+                    menubar: false,
+                    style_formats: [
+                        {title: 'p', block: 'p'},
+                        {title: 'h1', block: 'h1'},
+                        {title: 'h2', block: 'h2'},
+                        {title: 'h3', block: 'h3'},
+                        {title: 'h4', block: 'h4'},
+                        {title: 'h5', block: 'h5'},
+                        {title: 'h6', block: 'h6'}
+                    ],
+                    toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink'
+                });
+
+                // submitbutton and fadein info
+                $('#' + container_name + ' input[type=submit]').button({
+                    icons: {
+                        primary: "ui-icon-pencil"
+                    }
+                });
+                !$('#' + container_name + ' .vtp-uiinfo-info').length || $('#' + container_name + ' .vtp-uiinfo-info').position({
+                    my: 'right bottom',
+                    at: 'left top',
+                    of: '#' + container_name + ' .vtp-uiinfo-anchor',
+                    collision: 'none'
+                }).hide("fade", 3000);
+            }
+
 
             /*************************************************************************
              * UIfy: comments
@@ -629,6 +666,7 @@ resourceDetail = (function () {
             $('#resource-rating').empty();
             $('#resource-tag').empty();
             $('#resource-remark').empty();
+            $('#resource-remark_private').empty();
             $('#resource-comments').empty();
             $('#resource-lexicon').empty();
             $('#resource-project').empty();
@@ -641,7 +679,7 @@ resourceDetail = (function () {
             // focus must be maintained manually...
             $('#vtp-res-dialog-tabs .ui-tabs-active>a').trigger('focus');
             // so the array must be reseted here
-            tab_loaded = [ 0, 0, 0, 0 ];
+            tab_loaded = [ 0, 0, 0, 0, 0 ];
             // there was a li-element inserted for rating purposes
             $('#vtp-rating-infobox-li').remove();
         },
@@ -694,7 +732,7 @@ resourceDetail = (function () {
 
         doneFlagInfo = function (content) {
             hardResetTabs();
-            $('#vtp-res-dialog-tabs').tabs('option', 'disabled', [ 0, 1, 2, 3 ]);
+            $('#vtp-res-dialog-tabs').tabs('option', 'disabled', [ 0, 1, 2, 3, 4 ]);
             $('#resource-flags').append(content['resource-flags']);
         },
 

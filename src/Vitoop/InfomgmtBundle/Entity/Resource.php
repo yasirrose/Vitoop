@@ -58,6 +58,11 @@ class Resource
     protected $remarks;
 
     /**
+     * @ORM\OneToMany(targetEntity="RemarkPrivate", mappedBy="resource")
+     */
+    protected $remarksPrivate;
+
+    /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="resource")
      */
     protected $comments;
@@ -106,6 +111,7 @@ class Resource
         $this->rel_tags = new ArrayCollection();
         $this->ratings = new ArrayCollection();
         $this->remarks = new ArrayCollection();
+        $this->remarksPrivate = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->flags = new ArrayCollection();
         $this->rel_resources1 = new ArrayCollection();
@@ -334,6 +340,26 @@ class Resource
     public function getRemarks()
     {
         return $this->remarks;
+    }
+
+    /**
+     * Add remarkPrivate
+     *
+     * @param \Vitoop\InfomgmtBundle\Entity\RemarkPrivate $remarkPrivate
+     */
+    public function addRemarkPrivate(RemarkPrivate $remarkPrivate)
+    {
+        $this->remarksPrivate[] = $remarkPrivate;
+    }
+
+    /**
+     * Get remarksPrivate
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRemarksPrivate()
+    {
+        return $this->remarksPrivate;
     }
 
     /**

@@ -501,6 +501,19 @@ class ResourceController extends Controller
         return new Response(json_encode($content));
     }
 
+    public function remarkPrivateAction($res_type, $res_id)
+    {
+        /* @var $rdc \Vitoop\InfomgmtBundle\Service\ResourceDataCollector */
+        $rdc = $this->get('vitoop.resource_data_collector');
+
+        /* @var $res \Vitoop\InfomgmtBundle\Entity\Resource */
+        $res = $rdc->getResource();
+
+        $content['resource-remark_private'] = $rdc->getRemarkPrivate();
+
+        return new Response(json_encode($content));
+    }
+
     public function commentAction($res_type, $res_id)
     {
         /* @var $rdc \Vitoop\InfomgmtBundle\Service\ResourceDataCollector */

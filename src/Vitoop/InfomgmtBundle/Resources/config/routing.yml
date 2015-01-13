@@ -64,6 +64,13 @@ _xhr_resource_remark:
         res_type:  pdf|adr|link|teli|lex|prj
         res_id:    \d+
 
+_xhr_resource_remark_private:
+    path:       /{res_type}/{res_id}/remark_private
+    defaults:   { _controller: VitoopInfomgmtBundle:Resource:remarkPrivate }
+    requirements:
+        res_type:  pdf|adr|link|teli|lex|prj
+        res_id:    \d+
+
 _xhr_resource_comments:
     path:       /{res_type}/{res_id}/comments
     defaults:   { _controller: VitoopInfomgmtBundle:Resource:comment }

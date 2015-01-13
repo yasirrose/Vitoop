@@ -96,6 +96,11 @@ services:
         tags:
             - { name: form.type, alias: remark }
 
+    vitoop.form.type.remark_private:
+        class: Vitoop\InfomgmtBundle\Form\Type\RemarkPrivateType
+        tags:
+            - { name: form.type, alias: remark_private }
+
     vitoop.form.type.comment:
         class: Vitoop\InfomgmtBundle\Form\Type\CommentType
         tags:

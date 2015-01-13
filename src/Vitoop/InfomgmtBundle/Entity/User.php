@@ -73,6 +73,11 @@ class User implements UserInterface, EquatableInterface
     protected $remarks;
 
     /**
+     * @ORM\OneToMany(targetEntity="RemarkPrivate", mappedBy="user")
+     */
+    protected $remarksPrivate;
+
+    /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="user")
      */
     protected $comments;
@@ -125,7 +130,8 @@ class User implements UserInterface, EquatableInterface
         $this->resources = new ArrayCollection();
         $this->toDoItems = new ArrayCollection();
         $this->ratings = new ArrayCollection();
-        $this->resource_remarks = new ArrayCollection();
+        $this->remarks = new ArrayCollection();
+        $this->remarksPrivate = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->flags = new ArrayCollection();
         $this->invitations = new ArrayCollection();
@@ -270,6 +276,26 @@ class User implements UserInterface, EquatableInterface
     public function getRemarks()
     {
         return $this->remarks;
+    }
+
+    /**
+     * Add remarkPrivate
+     *
+     * @param \Vitoop\InfomgmtBundle\Entity\RemarkPrivate $remarkPrivate
+     */
+    public function addRemarkPrivate(RemarkPrivate $remarkPrivate)
+    {
+        $this->remarksPrivate[] = $remarkPrivate;
+    }
+
+    /**
+     * Get remarksPrivate
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRemarksPrivate()
+    {
+        return $this->remarksPrivate;
     }
 
     /**
@@ -508,6 +534,16 @@ class User implements UserInterface, EquatableInterface
     public function removeRemark(\Vitoop\InfomgmtBundle\Entity\Remark $remarks)
     {
         $this->remarks->removeElement($remarks);
+    }
+
+    /**
+     * Remove remarksPrivate
+     *
+     * @param \Vitoop\InfomgmtBundle\Entity\RemarkPrivate $remarksPrivate
+     */
+    public function removeRemarkPrivate(\Vitoop\InfomgmtBundle\Entity\RemarkPrivate $remarksPrivate)
+    {
+        $this->remarksPrivate->removeElement($remarksPrivate);
     }
 
     /**
