@@ -47,7 +47,7 @@ class TagController extends Controller
      */
     public function newAction(Resource $resource, Request $request, $tag_text = "asd")
     {
-        if (!is_null($this->getDoctrine()->getManager()->getRepository('VitoopInfomgmtBundle:RelResourceTag')->find(9249))) {
+       if (!is_null($this->getDoctrine()->getManager()->getRepository('VitoopInfomgmtBundle:RelResourceTag')->find(9256))) {
             echo "catch it";
             var_dump(0);
             exit(0);

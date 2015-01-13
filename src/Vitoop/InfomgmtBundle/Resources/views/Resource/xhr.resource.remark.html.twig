@@ -21,14 +21,14 @@
             </div>
         {% endif %}
         <div id="vtp-remark-buttons">
-            {{ form_widget(fvremark.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}
-            {{ form_label(fvremark.locked, null, {'label_attr': {'class': 'vtp-fh-h24 vtp-button' }}) }}{{ form_widget(fvremark.locked) }}
             {% if remark.user is not null %}
-                <div id="vtp-remark-owner" class="ui-state-default ui-corner-all">
-                    <div>Letzter Bearbeiter:</div>
-                    <div>{{ remark.user.username }}</div>
+                <div id="vtp-remark-owner" class="ui-button ui-widget ui-state-default ui-corner-all">
+                    <span>Letzter Bearbeiter:</span>
+                    <span>{{ remark.user.username }}</span>
                 </div>
             {% endif %}
+            {{ form_label(fvremark.locked, null, {'label_attr': {'class': 'vtp-fh-h24 vtp-button' }}) }}{{ form_widget(fvremark.locked) }}
+            {{ form_widget(fvremark.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}
         </div>
 
     </div>

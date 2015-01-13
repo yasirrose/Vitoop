@@ -625,15 +625,19 @@ span.vtp-icon {
 }
 
 #vtp-remark-buttons {
-    position: absolute;
-    top: 0.5em;
-    right: 0;
+   text-align: right;
+    margin-top: 10px;
 }
 
 #vtp-remark-owner {
-    margin-top: 6px;
-    padding: 6px;
     font-weight: normal !important;
+    padding: .4em 1em;
+    padding-bottom: 0px !important;
+    padding-top: 0px !important;
+    vertical-align: middle;
+    height: 22px;
+    line-height: 24px;
+    cursor: default !important;
 }
 
 /************************************************************

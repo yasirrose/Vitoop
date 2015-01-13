@@ -257,7 +257,6 @@ resourceDetail = (function () {
                 // TinyMCE
                 tinymce.init({
                     selector: 'textarea#remark_text',
-                    width: 535,
                     height: 300,
                     plugins: 'textcolor link',
                     menubar: false,
