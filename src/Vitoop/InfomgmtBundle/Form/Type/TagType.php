@@ -10,8 +10,11 @@ class TagType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('text', null, array('label' => 'Tag:'))
+                ->add('can_add', 'hidden', array('mapped' => false))
+                ->add('can_remove', 'hidden', array('mapped' => false))
                 ->add('showown', 'checkbox', array('label' => 'Zeige eigene Tags', 'mapped' => false))
-                ->add('save', 'input_type_submit', array('label' => '+'));
+                ->add('save', 'input_type_submit', array('label' => '+'))
+                ->add('remove', 'input_type_submit', array('label' => '-'));
     }
 
     public function getName()

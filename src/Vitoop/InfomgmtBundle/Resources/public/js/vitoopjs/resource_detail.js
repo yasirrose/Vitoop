@@ -248,6 +248,27 @@ resourceDetail = (function () {
                     of: '#' + container_name + ' .vtp-uiinfo-anchor',
                     collision: 'none'
                 }).hide("fade", 3000);
+                $('.vtp-tagbox-tag').click(function() {
+                    var text = $(this).text().trim();
+                    var pos = text.search(new RegExp('\\(\\d+\\)'));
+                    if (pos > -1) {
+                        text = text.substring(0, pos).trim();
+                    }
+                    $('#tag_text').val(text);
+                });
+                $('.vtp-tag-submit').click(function(event) {
+                    var input = $('#tag_text');
+                    if (input.val() == "") {
+                        input.focus();
+                        event.preventDefault();
+                    }
+                });
+                if ($('#tag_can_add').val() != "1") {
+                    $('#tag_save').button('disable');
+                }
+                if ($('#tag_can_remove').val() != "1") {
+                    $('#tag_remove').button('disable');
+                }
             }
 
             /*************************************************************************

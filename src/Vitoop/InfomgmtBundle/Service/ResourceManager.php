@@ -18,6 +18,9 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class ResourceManager
 {
+    const TAG_MAX_ALLOWED_ADDING = 5;
+    const TAG_MAX_ALLOWED_REMOVING = 2;
+
     protected $arr_resource_type_to_entityname = array(
         'res' => 'Resource',
         'pdf' => 'Pdf',
@@ -224,8 +227,29 @@ class ResourceManager
         return $lexicon->getId();
     }
 
+    public function isTagsAddingAvailable($resource)
+    {
+        $user = $this->vsec->getUser();
+
+        return ($this->em
+                ->getRepository('VitoopInfomgmtBundle:RelResourceTag')
+                ->getCountOfAddedTags($user->getId(), $resource->getId()) < self::TAG_MAX_ALLOWED_ADDING);
+    }
+
+    public function isTagsRemovingAvailable($resource)
+    {
+        $user = $this->vsec->getUser();
+
+        return ($this->em
+                ->getRepository('VitoopInfomgmtBundle:RelResourceTag')
+                ->getCountOfRemovedTags($user->getId(), $resource->getId()) < self::TAG_MAX_ALLOWED_REMOVING);
+    }
+
     public function setTag(Tag $tag, Resource $res)
     {
+        if (!$this->isTagsAddingAvailable($res)) {
+            throw new \Exception('Sie können nur fünf Schlagwörter zuweisen');
+        }
         $repo = $this->em->getRepository('VitoopInfomgmtBundle:Tag');
         $tag_exists = $repo->findOneByText($tag->getText());
 
@@ -233,21 +257,6 @@ class ResourceManager
             $this->em->persist($tag);
         } else {
             $tag = $tag_exists;
-        }
-
-        //count tag
-        $qb = $this->em->createQueryBuilder();
-        $qb->select('count(r.id)');
-        $qb->from('VitoopInfomgmtBundle:RelResourceTag','r');
-        $qb->where('r.resource = '.$res->getId().'And r.user = '.$this->vsec->getUser()->getId());
-
-        $relResTagCount = $qb->getQuery()->getSingleScalarResult();
-
-        //$relResTagCount count tag
-
-        if($relResTagCount >= 5)
-        {
-            throw new \Exception('Sie können nur fünf Schlagwörter zuweisen');
         }
 
         $relation = new RelResourceTag();
@@ -265,6 +274,31 @@ class ResourceManager
         $this->em->flush();
 
         return $tag->getText();
+    }
+
+    public function removeTag(Tag $tag, Resource $res)
+    {
+        if (!$this->isTagsRemovingAvailable($res)) {
+            throw new \Exception('Es können pro Datensatz nur zwei Tags gelöscht werden.');
+        }
+        $tag_exists = $this->em
+            ->getRepository('VitoopInfomgmtBundle:Tag')
+            ->findOneBy(array('text' => $tag->getText()));
+
+        if (is_null($tag_exists)) {
+            throw new \Exception('There is not such tag');
+        } else {
+            $rel = $this->em->getRepository('VitoopInfomgmtBundle:RelResourceTag')->getOneFirstRel($tag_exists, $res);
+            if (is_null($rel)) {
+                throw new \Exception('There is not such tag on this resource');
+            } else {
+                $rel->setDeletedByUser($this->vsec->getUser());
+                $this->em->merge($rel);
+                $this->em->flush();
+            }
+        }
+
+        return $tag_exists->getText();
     }
 
     public function setRating(Rating $rating, Resource $res)

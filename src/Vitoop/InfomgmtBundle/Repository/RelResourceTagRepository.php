@@ -7,7 +7,6 @@ use Doctrine\ORM\EntityRepository;
 use Vitoop\InfomgmtBundle\Entity\RelResourceTag;
 use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\Entity\Tag;
-use Vitoop\InfomgmtBundle\Entity\User;
 
 /**
  * RelResourceTagRepository
@@ -17,6 +16,18 @@ use Vitoop\InfomgmtBundle\Entity\User;
  */
 class RelResourceTagRepository extends EntityRepository
 {
+    public function getOneFirstRel(Tag $tag, Resource $resource)
+    {
+        return $this->createQueryBuilder('r')
+            ->where('r.tag = :tag')
+            ->andWhere('r.resource = :resource')
+            ->setParameter('tag', $tag->getId())
+            ->setParameter('resource', $resource->getId())
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     public function getCountOfAddedTags($userID, $resourceID)
     {
         return $this->createQueryBuilder('r')

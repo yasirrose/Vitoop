@@ -6,10 +6,6 @@ parameters:
     vitoop.user_config_manager.class:    Vitoop\InfomgmtBundle\Service\UserConfigManager
 
 services:
-    vitoop.tagger:
-       class:     Vitoop\InfomgmtBundle\Service\TagService
-       arguments: [@doctrine.orm.entity_manager]
-
     vitoop.resource_manager:
         class:          %vitoop.resource_manager.class%
         arguments:      [@doctrine.orm.entity_manager, @vitoop.vitoop_security]

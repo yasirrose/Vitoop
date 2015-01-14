@@ -10,6 +10,7 @@ namespace Vitoop\InfomgmtBundle\Service;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\Entity\Tag;
@@ -215,6 +216,14 @@ class ResourceDataCollector
         return ($this->initialized) ? $this->twig->render('VitoopInfomgmtBundle:Resource:xhr.resource.security.buttons.html.twig') : $this->twig->render('VitoopInfomgmtBundle:Resource:xhr.resource.security.buttons.new.html.twig');;
     }
 
+    private function addPermissionsToTagForm(FormInterface $form)
+    {
+        $form->get('can_add')->setData($this->rm->isTagsAddingAvailable($this->res));
+        $form->get('can_remove')->setData($this->rm->isTagsRemovingAvailable($this->res));
+
+        return $form;
+    }
+
     public function getTag()
     {
         $info_tag = '';
@@ -225,26 +234,46 @@ class ResourceDataCollector
             'action' => $this->router->generate('_xhr_resource_tags', array('res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId())),
             'method' => 'POST'
         ));
+        $form_tag = $this->addPermissionsToTagForm($form_tag);
+
 
         if ($this->handleData) {
             $form_tag->handleRequest($this->request);
             $tag_showown = $form_tag->get('showown')
                                     ->getData();
             if ($form_tag->isValid()) {
-                try {
-                    $tag_text = $this->rm->setTag($tag, $this->res);
-
-                    $info_tag = 'Tag "' . $tag_text . '" successfully added!';
-                    $form_tag = $this->ff->create('tag', new Tag(), array(
-                        'action' => $this->router->generate('_xhr_resource_tags', array('res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId())),
-                        'method' => 'POST'
-                    ));
-                    $form_tag->get('showown')
-                             ->setData($tag_showown);
-                } catch (\Exception $e) {
-                    $form_error = new FormError($e->getMessage());
-                    $form_tag->get('text')
-                             ->addError($form_error);
+                if ($form_tag->get('remove')->isEmpty()) {
+                    try {
+                        $tag_text = $this->rm->setTag($tag, $this->res);
+                        $info_tag = 'Tag "' . $tag_text . '" successfully added!';
+                        $form_tag = $this->ff->create('tag', new Tag(), array(
+                            'action' => $this->router->generate('_xhr_resource_tags', array('res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId())),
+                            'method' => 'POST'
+                        ));
+                        $form_tag = $this->addPermissionsToTagForm($form_tag);
+                        $form_tag->get('showown')
+                            ->setData($tag_showown);
+                    } catch (\Exception $e) {
+                        $form_error = new FormError($e->getMessage());
+                        $form_tag->get('text')
+                            ->addError($form_error);
+                    }
+                } else {
+                    try {
+                        $tag_text = $this->rm->removeTag($tag, $this->res);
+                        $info_tag = 'Tag "' . $tag_text . '" successfully removed!';
+                        $form_tag = $this->ff->create('tag', new Tag(), array(
+                            'action' => $this->router->generate('_xhr_resource_tags', array('res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId())),
+                            'method' => 'POST'
+                        ));
+                        $form_tag = $this->addPermissionsToTagForm($form_tag);
+                        $form_tag->get('showown')
+                            ->setData($tag_showown);
+                    } catch (\Exception $e) {
+                        $form_error = new FormError($e->getMessage());
+                        $form_tag->get('text')
+                            ->addError($form_error);
+                    }
                 }
             }
         }

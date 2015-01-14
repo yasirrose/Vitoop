@@ -16,12 +16,11 @@ class TagRepository extends EntityRepository
 {
     public function countAllTagsFromResource(Resource $resource)
     {
-
         return $this->getEntityManager()
                     ->createQuery('SELECT t.id, t.text, COUNT(t.id) AS cnt_tag, 0 AS is_own
                                     FROM VitoopInfomgmtBundle:Tag t
                                     JOIN t.rel_resources rr
-                                    WHERE rr.resource=:arg_resource
+                                    WHERE rr.resource=:arg_resource and rr.deletedByUser is null
                                     GROUP BY t.text
                                     ORDER BY t.text ASC')
                     ->setParameter('arg_resource', $resource)
