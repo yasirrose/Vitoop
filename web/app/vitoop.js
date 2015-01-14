@@ -4,11 +4,8 @@ var app = angular.module('vitoop', ['ui.tinymce']);
 
 app.controller('MainController', function ($scope, $http, $compile) {
     $scope.content = '';
-    $scope.ready = 0;
     $scope.click = function(text) {
         if (text == 'home') {
-            $scope.ready = 1;
-            
             setTimeout(function () {
               $compile(document.getElementById('todocontroller'))($scope);
             }, 1000);
@@ -24,7 +21,7 @@ app.controller('ToDoController', function ($scope, $http, $filter) {
     $scope.isDeleting = false;
     $scope.tinymceOptions = {
         width: 550,
-        height: 600,
+        height: 550,
         plugins: 'textcolor link media',
         menubar: false,
         style_formats: [
