@@ -208,7 +208,12 @@ class ResourceController extends Controller
 
         /* Search by Tags */
         $tag_list = $request->query->get('taglist');
+        $tag_list_ignore = $request->query->get('taglist_i');
+        $tag_list_highlight = $request->query->get('taglist_h');
         $tag_cnt = $request->query->get('tagcnt');
+
+        $tag_list_ignore = (is_null($tag_list_ignore))?(array()):($tag_list_ignore);
+        $tag_list_highlight = (is_null($tag_list_highlight))?(array()):($tag_list_highlight);
 
         /* Project View */
         $project_id = $request->query->get('project');
@@ -267,22 +272,24 @@ class ResourceController extends Controller
             // NEW: We catch the tag_list as an array, no more exploding needed
             $arr_tags = $tag_list; // inject into template vars
             $tpl_vars = array_merge($tpl_vars, array(
-                'taglist' => $tag_list
+                'taglist' => array_diff($tag_list, $tag_list_highlight),
+                'taglist_for_links' => $tag_list,
+                'taglist_h' => $tag_list_highlight,
+                'taglist_i' => $tag_list_ignore
             ));
-
             // normalize $tag_cnt, injection will follow if it is valid
             $tag_cnt = intval($tag_cnt);
 
             // if no or invalid $tag_cnt given a special resultpage will be shown
             if ($tag_cnt > count($arr_tags) || $tag_cnt < 1) {
                 $data_for_overview = $rm->getRepository($res_type)
-                                        ->getDataForOverview($arr_tags);
+                                        ->getDataForOverview($arr_tags, $tag_list_ignore);
                 $resources = null;
                 $block_content_tpl = 'VitoopInfomgmtBundle:Resource:search.bytags.overview.html.twig';
                 $tpl_vars = array_merge($tpl_vars, array('data_for_overview' => $data_for_overview));
             } else {
                 $resources = $rm->getRepository($res_type)
-                                ->getResourcesByTags($arr_tags, $tag_cnt);
+                                ->getResourcesByTags($arr_tags, $tag_list_ignore, $tag_list_highlight, $tag_cnt);
                 $tpl_vars = array_merge($tpl_vars, array(
                     'tagcnt' => $tag_cnt
                 ));

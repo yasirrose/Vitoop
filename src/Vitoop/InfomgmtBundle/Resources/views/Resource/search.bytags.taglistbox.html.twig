@@ -1,9 +1,33 @@
-<div id="vtp-search-bytags-taglistbox" class="ui-corner-all"{% if taglist is not defined or (taglist is defined and taglist is empty) %} style="display: none;"{% endif %}>
+<div id="vtp-search-bytags-taglistbox" class="ui-corner-all"{% if ((taglist is not defined or taglist is empty) and (taglist_i is not defined or taglist_i is empty) and (taglist_h is not defined or taglist_h is empty)) %} style="display: none;"{% endif %}>
+    {% if taglist_h is defined and taglist_h is not empty %}
+        {% for tag in taglist_h %}{# Decoration of tags is also in resource_search.js !!!#}
+            <span class="vtp-search-bytags-tag ui-corner-all vtp-search-bytags-tag-bulb">
+                <span class="vtp-icon-tag ui-icon ui-icon-tag" onclick="extendTag(event);"></span>
+                {{ tag }}
+                <span class="ui-icon ui-icon-lightbulb tag-icons-to-hide vtp-icon-bulb" style="display: none" onclick="highlightTag(event);"></span>
+                <span class="ui-icon ui-icon-cancel tag-icons-to-hide vtp-icon-cancel" style="display: none" onclick="ignoreTag(event);"></span>
+                <span class="vtp-icon-close vtp-uiaction-search-bytags-removetag ui-icon ui-icon-close"></span>
+            </span>
+        {% endfor %}
+    {% endif %}
     {% if taglist is defined and taglist is not empty %}
         {% for tag in taglist %}{# Decoration of tags is also in resource_search.js !!!#}
             <span class="vtp-search-bytags-tag ui-corner-all">
-                <span class="vtp-icon-tag ui-icon ui-icon-tag"></span>
+                <span class="vtp-icon-tag ui-icon ui-icon-tag" onclick="extendTag(event);"></span>
                 {{ tag }}
+                <span class="ui-icon ui-icon-lightbulb tag-icons-to-hide vtp-icon-bulb" style="display: none" onclick="highlightTag(event);"></span>
+                <span class="ui-icon ui-icon-cancel tag-icons-to-hide vtp-icon-cancel" style="display: none" onclick="ignoreTag(event);"></span>
+                <span class="vtp-icon-close vtp-uiaction-search-bytags-removetag ui-icon ui-icon-close"></span>
+            </span>
+        {% endfor %}
+    {% endif %}
+    {% if taglist_i is defined and taglist_i is not empty %}
+        {% for tag in taglist_i %}{# Decoration of tags is also in resource_search.js !!!#}
+            <span class="vtp-search-bytags-tag ui-corner-all vtp-search-bytags-tag-ignore">
+                <span class="vtp-icon-tag ui-icon ui-icon-tag" onclick="extendTag(event);"></span>
+                {{ tag }}
+                <span class="ui-icon ui-icon-lightbulb tag-icons-to-hide vtp-icon-bulb" style="display: none" onclick="highlightTag(event);"></span>
+                <span class="ui-icon ui-icon-cancel tag-icons-to-hide vtp-icon-cancel" style="display: none" onclick="ignoreTag(event);"></span>
                 <span class="vtp-icon-close vtp-uiaction-search-bytags-removetag ui-icon ui-icon-close"></span>
             </span>
         {% endfor %}

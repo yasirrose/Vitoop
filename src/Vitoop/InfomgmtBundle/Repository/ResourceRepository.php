@@ -66,11 +66,12 @@ class ResourceRepository extends EntityRepository
 
     /**
      * @param array $arr_tags
+     * @param array $arr_tags_ignore
      * @param int $tag_cnt
      * @return array
      * @throws \Exception
      */
-    public function getDataForOverview(Array $arr_tags, $tag_cnt = 0)
+    public function getDataForOverview(Array $arr_tags, Array $arr_tags_ignore, $tag_cnt = 0)
     {
         $max_tags = count($arr_tags);
         if ((null === $tag_cnt) || $tag_cnt > $max_tags || $tag_cnt < 0) {
@@ -79,7 +80,7 @@ class ResourceRepository extends EntityRepository
         $map_dst = array_fill(1, $max_tags, 0);
         $map_all = array_fill(1, $max_tags, 0);
 
-        $result = $this->getEntityManager()
+        $query = $this->getEntityManager()
                        ->createQueryBuilder()
                        ->select('COUNT(DISTINCT t.text) AS tag_cnt_dst', 'COUNT(t.text) AS tag_cnt_all')
                        ->from($this->getEntityName(), 'r')
@@ -87,12 +88,23 @@ class ResourceRepository extends EntityRepository
                        ->innerJoin('rt.tag', 't')
                        ->leftJoin('r.flags', 'f')
                        ->where('f IS NULL')
-                       ->AndWhere('t.text IN (:tags)')
+                       ->andWhere('t.text IN (:tags)')
                        ->groupBy('r.id')
                        ->orderBy('r.id', 'ASC')
-                       ->setParameters(array('tags' => $arr_tags))
-                       ->getQuery()
-                       ->getResult();
+                       ->setParameter('tags', $arr_tags);
+
+        if (!empty($arr_tags_ignore)) {
+            $query->andWhere('t.text NOT IN (:tags_ignore)')
+                  ->setParameter('tags_ignore', $arr_tags_ignore);
+            $queryExist = $this->getEntityManager()->createQueryBuilder()
+                ->select('rrt')
+                ->from('VitoopInfomgmtBundle:RelResourceTag', 'rrt')
+                ->innerJoin('rrt.tag', 't2', 'WITH', 't2.text IN (:tags_ignore)')
+                ->where('rrt.resource = r.id');
+            $query->andWhere($query->expr()->not($query->expr()->exists($queryExist->getDQL())));
+        }
+
+        $result = $query->getQuery()->getResult();
 
         $arr_tag_cnt_dst = array_map(function ($val) {
             return $val['tag_cnt_dst'];
@@ -113,11 +125,13 @@ class ResourceRepository extends EntityRepository
      * getAllResourcesByTags()
      *
      * @param array $arr_tags
+     * @param array $arr_tags_ignore
+     * @param array $arr_tags_highlight
      * @param int $tag_cnt
      *
      * @return Pagerfanta
      */
-    public function getResourcesByTags(Array $arr_tags, $tag_cnt = 0)
+    public function getResourcesByTags(Array $arr_tags, Array $arr_tags_ignore, Array $arr_tags_highlight, $tag_cnt = 0)
     {
         $max_tags = count($arr_tags);
         if (is_null($tag_cnt) || $tag_cnt > $max_tags || $tag_cnt <= 0) {
@@ -127,18 +141,45 @@ class ResourceRepository extends EntityRepository
         $qb = $this->getEntityManager()
                    ->createQueryBuilder();
 
-        $qb->select('r', 'partial u.{id, username}', 'COUNT(DISTINCT t.text)')
+        $qb->select('r', 'partial u.{id, username}', 'COUNT(DISTINCT t.text)', 'COUNT(t.text) AS HIDDEN quantity_all')
            ->from($this->getEntityName(), 'r')
            ->innerJoin('r.user', 'u')
            ->innerJoin('r.rel_tags', 'rt')
-           ->innerJoin('rt.tag', 't')
            ->leftJoin('r.flags', 'f')
            ->where('f IS NULL')
            ->andWhere('t.text IN (:tags)')
            ->groupBy('r')
            ->having('COUNT(DISTINCT t.text) = :tag_cnt')
-           ->orderBy('r.name', 'ASC')
-           ->setParameters(array('tags' => $arr_tags, 'tag_cnt' => $tag_cnt));
+           ->setParameters(array(
+                'tags' => $arr_tags,
+                'tag_cnt' => $tag_cnt
+           ));
+
+        if (!empty($arr_tags_ignore)) {
+            $qb->innerJoin('rt.tag', 't', 'WITH', 't.text NOT IN (:tags_ignore)')
+                ->setParameter('tags_ignore', $arr_tags_ignore);
+            $queryExist = $this->getEntityManager()->createQueryBuilder()
+                ->select('rrt')
+                ->from('VitoopInfomgmtBundle:RelResourceTag', 'rrt')
+                ->innerJoin('rrt.tag', 't2', 'WITH', 't2.text IN (:tags_ignore)')
+                ->where('rrt.resource = r.id');
+            $qb->andWhere($qb->expr()->not($qb->expr()->exists($queryExist->getDQL())));
+        } else {
+            $qb->innerJoin('rt.tag', 't');
+        }
+
+        if (!empty($arr_tags_highlight)) {
+            $qb->leftJoin('rt.tag', 'th', 'WITH', 'th.text IN (:tags_highlight)')
+                ->addSelect('COUNT(DISTINCT th.text) AS HIDDEN sort_order')
+                ->addSelect('COUNT(th.text) AS HIDDEN quantity_highlight')
+                ->orderBy('sort_order', 'DESC')
+                ->addOrderBy('quantity_highlight', 'DESC')
+                ->addOrderBy('quantity_all', 'DESC')
+                ->setParameter('tags_highlight', $arr_tags_highlight);
+        } else {
+            $qb->orderBy('quantity_all', 'DESC');
+        }
+        $qb->addOrderBy('r.name', 'ASC');
 
         $query = $qb->getQuery();
 

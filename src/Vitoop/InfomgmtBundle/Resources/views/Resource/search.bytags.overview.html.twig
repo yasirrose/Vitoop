@@ -3,6 +3,13 @@
 {% if taglist is defined %}
     {% set respath = respath|merge({'taglist': taglist}) %}
 {% endif %}
+{% if taglist_h is defined %}
+    {% set respath = respath|merge({'taglist': taglist_for_links}) %}
+    {% set respath = respath|merge({'taglist_h': taglist_h}) %}
+{% endif %}
+{% if taglist_i is defined %}
+    {% set respath = respath|merge({'taglist_i': taglist_i}) %}
+{% endif %}
 {% if maxperpage is defined %}
     {% set respath = respath|merge({'maxperpage': maxperpage}) %}
 {% endif %}

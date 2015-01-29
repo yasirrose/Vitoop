@@ -269,6 +269,23 @@ span.vtp-search-bytags-tag {
     background-color: #f2f5f7;
     color: #362b36;
     padding: 0 2em 0 1.3em;
+    transition: padding 0.4s ease 0s;
+}
+
+span.vtp-search-bytags-tag.vtp-search-bytags-tag-bulb {
+    background-color: #3baae3;
+}
+
+span.vtp-search-bytags-tag.vtp-search-bytags-tag-bulb > span {
+    background-image: url("cupertino/images/ui-icons_ffffff_256x240.png");
+}
+
+span.vtp-search-bytags-tag.vtp-search-bytags-tag-ignore {
+    text-decoration: line-through;
+}
+
+span.vtp-search-bytags-tag.vtp-search-bytags-tag-active {
+    padding: 0 4em 0 1.3em !important;
 }
 
 span.vtp-tagbox-cnttag,
@@ -292,11 +309,27 @@ span.vtp-icon-prj {
     left: 0.1em;
 }
 
+span.vtp-icon-cancel {
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    margin: -8px 0 0 0;
+    right: 1.2em;
+}
+
+span.vtp-icon-bulb {
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    margin: -8px 0 0 0;
+    right: 2.2em;
+}
+
 span.vtp-icon-close {
     right: 0.1em;
 }
 
-span.vtp-uiaction-search-bytags-removetag {
+span.vtp-uiaction-search-bytags-removetag, span.vtp-icon-tag, span.vtp-icon-cancel, span.vtp-icon-bulb {
     cursor: pointer;
 }
 

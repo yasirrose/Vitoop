@@ -1,6 +1,46 @@
 /**
  * JavaScript GUI for Vitoop Module: resource_search.js
  */
+
+function extendTag (event) {
+    var parent = $(event.target).parent();
+    if (parent.hasClass('vtp-search-bytags-tag-active')) {
+        $('.tag-icons-to-hide', parent).hide(400);
+        parent.removeClass('vtp-search-bytags-tag-active');
+    } else {
+        $('.tag-icons-to-hide').hide(400);
+        $('.vtp-search-bytags-tag').removeClass('vtp-search-bytags-tag-active');
+        $('.tag-icons-to-hide', parent).show(400);
+        parent.addClass('vtp-search-bytags-tag-active');
+    }
+};
+
+function ignoreTag(event) {
+    var parent = $(event.target).parent();
+    if (!parent.hasClass('vtp-search-bytags-tag-ignore')) {
+        parent.removeClass('vtp-search-bytags-tag-bulb');
+        parent.addClass('vtp-search-bytags-tag-ignore');
+        resourceSearch.ignoreTag(parent.text().trim(), true);
+    } else {
+        parent.removeClass('vtp-search-bytags-tag-ignore');
+        resourceSearch.ignoreTag(parent.text().trim(), false);
+    }
+};
+
+
+function highlightTag(event) {
+    var parent = $(event.target).parent();
+    if (!parent.hasClass('vtp-search-bytags-tag-bulb')) {
+        parent.removeClass('vtp-search-bytags-tag-ignore');
+        parent.addClass('vtp-search-bytags-tag-bulb');
+        resourceSearch.highlightTag(parent.text().trim(), true);
+    } else {
+        parent.removeClass('vtp-search-bytags-tag-bulb');
+        resourceSearch.highlightTag(parent.text().trim(), false);
+    }
+
+};
+
 resourceSearch = (function () {
 
     /*
@@ -12,15 +52,73 @@ resourceSearch = (function () {
 
         query_taglist = query.taglist, // may be undefined
 
+        query_taglist_ignored = query.taglist_i, // may be undefined
+
+        query_taglist_highlight = query.taglist_h, // may be undefined
+
         query_tagcnt = query.tagcnt, // may be undefined
 
         arr_taglist = [],
+
+        arr_taglist_ignore = [],
+
+        arr_taglist_highlight = [],
 
         tagcnt = 0,
 
         cnt_tags = 0,
 
         tag,
+
+    //direction - if true, thatn we move tag from general array to ignored array
+        ignoreTag = function (tag, direction) {
+            var index;
+            if (direction === true) {
+                index = arr_taglist.indexOf(tag);
+                if (index > -1) {
+                    arr_taglist.splice(index, 1);
+                    arr_taglist_ignore.push(tag);
+                }
+                index = arr_taglist_highlight.indexOf(tag);
+                if (index > -1) {
+                    arr_taglist_highlight.splice(index, 1);
+                }
+            } else if (direction === false) {
+                index = arr_taglist_ignore.indexOf(tag);
+                if (index > -1) {
+                    arr_taglist_ignore.splice(index, 1);
+                    arr_taglist.push(tag);
+                }
+            };
+            if (direction != undefined) {
+                maintainCntTags();
+            }
+        },
+
+    //direction - if true, thatn we move tag from general array to highlighted array
+        highlightTag = function (tag, direction) {
+            var index;
+            if (direction === true) {
+                index = arr_taglist.indexOf(tag);
+                if (index > -1) {
+                    arr_taglist_highlight.push(tag);
+                }
+                index = arr_taglist_ignore.indexOf(tag);
+                if (index > -1) {
+                    arr_taglist_ignore.splice(index, 1);
+                    arr_taglist.push(tag);
+                    arr_taglist_highlight.push(tag);
+                }
+            } else if (direction === false) {
+                index = arr_taglist_highlight.indexOf(tag);
+                if (index > -1) {
+                    arr_taglist_highlight.splice(index, 1);
+                }
+            };
+            if (direction != undefined) {
+                maintainCntTags();
+            }
+        },
 
         addTag = function (event, ui) {
 
@@ -43,34 +141,43 @@ resourceSearch = (function () {
                 return;
             }
             arr_taglist.push(tag);
-            decorateTag(tag).appendTo("#vtp-search-bytags-taglistbox");
+            decorateTag(tag, false, false).appendTo("#vtp-search-bytags-taglistbox");
 
             maintainCntTags();
         },
 
         removeTag = function (e) {
-            if (cnt_tags === 1) {
+            if ((cnt_tags === 1) && (arr_taglist_ignore.length === 0)) {
                 $('.vtp-uiaction-search-bytags-clear-taglistbox').trigger('click');
             }
-            // find string tagtext in array arr_taglist and remove it
-            var tagtext = $(this).parent().text();
-            tagtext = $.trim(tagtext);
-            for (var i = 0; i < arr_taglist.length; i += 1) {
-                if (tagtext == arr_taglist[i]) {
-                    arr_taglist.splice(i, 1);
-                    break;
+            var parent = $(this).parent();
+            var tagtext = parent.text().trim();
+            var index;
+            if (parent.hasClass('vtp-search-bytags-tag-ignore')) {
+                index = arr_taglist_ignore.indexOf(tagtext);
+                if (index > -1) {
+                    arr_taglist_ignore.splice(index, 1);
+                }
+            } else {
+                index = arr_taglist_highlight.indexOf(tagtext);
+                if (index > -1) {
+                    arr_taglist_highlight.splice(index, 1);
+                }
+                index = arr_taglist.indexOf(tagtext);
+                if (index > -1) {
+                    arr_taglist.splice(index, 1);
                 }
             }
             // remove span.vtp-...-tag @TODO detach it for undo?
-            $(this).parent().remove();
-
+            parent.remove();
             maintainCntTags();
-
         },
 
         removeAllTags = function (e) {
             $(this).siblings().remove();
             arr_taglist = [];
+            arr_taglist_highlight = [];
+            arr_taglist_ignore = [];
             cnt_tags = 0;
             tagcnt = 0;
             maintainCntTags();
@@ -88,7 +195,6 @@ resourceSearch = (function () {
             // value: if difference is 1, append or remove an element
             // otherwise renew all options e.g. for first initialization
             $_options = $('#vtp-search-bytags-tagcnt option');
-
             if ((($_options.length - 1) + 1 ) === cnt_tags) {
                 $('<option></option>').val(cnt_tags).text(cnt_tags).appendTo('#vtp-search-bytags-tagcnt');
             } else if ((($_options.length - 1) - 1) === cnt_tags) {
@@ -101,10 +207,17 @@ resourceSearch = (function () {
                 }
             }
 
+            if ((cnt_tags === 0) && (arr_taglist_ignore.length > 0)) {
+                $('#vtp-search-bytags-form-submit').attr("disabled", "disabled");
+            } else {
+                $('#vtp-search-bytags-form-submit').removeAttr("disabled");
+            }
+
             tagcnt = (tagcnt > cnt_tags) ? cnt_tags : tagcnt;
             $('#vtp-search-bytags-tagcnt').val(tagcnt);
 
-            resourceList.maintainResLinks({'taglist': arr_taglist, 'tagcnt': tagcnt});
+            var tempCount = (arr_taglist.length == 1)?(1):(tagcnt);
+            resourceList.maintainResLinks({'taglist': arr_taglist, 'taglist_i': arr_taglist_ignore, 'taglist_h': arr_taglist_highlight, 'tagcnt': tempCount});
         },
 
         maintainTaglistbox = function (force_hide) {
@@ -115,9 +228,9 @@ resourceSearch = (function () {
             if (force_hide) {
                 $('#vtp-search-bytags-taglistbox').hide('blind', 'fast');
             } else {
-                if (cnt_tags === 0) {
+                if ((cnt_tags === 0) && (arr_taglist_ignore.length === 0)) {
                     $('#vtp-search-bytags-taglistbox').hide('blind', 'fast');
-                } else if (cnt_tags > 0) {
+                } else {
                     $('#vtp-search-bytags-taglistbox').show('blind', 'fast');
                 }
             }
@@ -144,10 +257,20 @@ resourceSearch = (function () {
         },
 
     // Same code on server-side !!!
-        decorateTag = function (tag) {
-            return $('<span class="vtp-search-bytags-tag ui-corner-all"><span class="vtp-icon-tag ui-icon ui-icon-tag"></span>'
-                + tag + '<span class="vtp-icon-close vtp-uiaction-search-bytags-removetag ui-icon ui-icon-close"></span></span>');
+        decorateTag = function (tag, ignored, highlighted) {
+            if (typeof(ignored) === 'undefined') {
+                ignored = false;
+            }
+            if (typeof(highlighted) === 'undefined') {
+                highlighted = false;
+            }
+            var ignoredClass = (ignored)?(' vtp-search-bytags-tag-ignore'):('');
+            var highlightedClass = (highlighted)?(' vtp-search-bytags-tag-bulb'):('');
+
+            return $('<span class="vtp-search-bytags-tag ui-corner-all'+ignoredClass+highlightedClass+'"><span class="vtp-icon-tag ui-icon ui-icon-tag" onclick="extendTag(event);"></span>'
+                + tag + '<span class="ui-icon ui-icon-lightbulb tag-icons-to-hide vtp-icon-bulb" style="display: none" onclick="highlightTag(event)"></span><span class="ui-icon ui-icon-cancel tag-icons-to-hide vtp-icon-cancel" style="display: none" onclick="ignoreTag(event)"></span><span class="vtp-icon-close vtp-uiaction-search-bytags-removetag ui-icon ui-icon-close"></span></span>');
         },
+
 
         /****************************************************************************
          * INIT
@@ -172,15 +295,10 @@ resourceSearch = (function () {
                 select: addTag,
                 response: function (e, ui) {
                     // filter already selected tag ui.content
-                    for (var i = 0; i < arr_taglist.length; i += 1) {
-                        for (var j = 0; j < ui.content.length; j += 1) {
-                            // ui.content[j] is an object {label: 'label', value:
-                            // 'value'}
-                            if (arr_taglist[i] == ui.content[j].value) {
-                                // found, remove it, next i
-                                ui.content.splice(j, 1);
-                                break;
-                            }
+                    for (var i = 0; i < ui.content.length; i += 1) {
+                        if ((arr_taglist.indexOf(ui.content[i].value) > -1)||(arr_taglist_ignore.indexOf(ui.content[i].value) > -1)) {
+                            ui.content.splice(i, 1);
+                            i -= 1;
                         }
                     }
                 }});
@@ -207,7 +325,7 @@ resourceSearch = (function () {
                 if (false) {// currently not used... is done by server side
                     for (var i = 0; i < arr_taglist.length; i += 1) {
                         tag = arr_taglist[i];
-                        decorateTag(tag).appendTo('#vtp-search-bytags-taglistbox');
+                        decorateTag(tag, false, false).appendTo('#vtp-search-bytags-taglistbox');
                     }
                 }
             } else {
@@ -215,6 +333,17 @@ resourceSearch = (function () {
                 arr_taglist = [];
                 cnt_tags = 0;
             }
+            if (typeof query_taglist_ignored != 'undefined') {
+                arr_taglist_ignore = query_taglist_ignored;
+            } else {
+                arr_taglist_ignore = [];
+            }
+            if (typeof query_taglist_highlight != 'undefined') {
+                arr_taglist_highlight = query_taglist_highlight;
+            } else {
+                arr_taglist_highlight = [];
+            }
+
             if (typeof query_tagcnt === 'undefined' || query_tagcnt > cnt_tags || query_tagcnt < 0) {
                 // invalid tagcnt results in 0
                 tagcnt = 0;
@@ -227,7 +356,9 @@ resourceSearch = (function () {
 
     return {
         init: init,
-        maintainTaglistbox: maintainTaglistbox
+        maintainTaglistbox: maintainTaglistbox,
+        ignoreTag: ignoreTag,
+        highlightTag: highlightTag
     };
 })
     ();
