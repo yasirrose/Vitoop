@@ -278,7 +278,7 @@ resourceSearch = (function () {
             init = function () {
 
             $('#vtp-search-bytags-form').on('keypress', '#vtp-search-bytags-taglist', function (e) {
-                if (e.keyCode == 13 || e.keyCode == 108) {
+                if (e.keyCode == 13) {
                     // prevent submitting the form by hitting the enter key (or
                     // numpad-enter)
                     e.preventDefault();
