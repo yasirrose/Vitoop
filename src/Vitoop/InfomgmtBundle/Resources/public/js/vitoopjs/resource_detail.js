@@ -10,7 +10,7 @@ resourceDetail = (function () {
 
         res_type = '',
 
-        res_id = 0, prev_id = 0, next_id = 0,
+        res_id = 0, res_id_last = 0, prev_id = 0, next_id = 0,
 
         tr_res = null,
 
@@ -62,7 +62,6 @@ resourceDetail = (function () {
              * UIfy: data
              ************************************************************************/
             if ('resource-data' == container_name) {
-
                 $('#' + container_name + ' .vtp-uiaction-open-url').button({
                     icons: {
                         primary: "ui-icon-extlink"
@@ -95,6 +94,30 @@ resourceDetail = (function () {
                     of: '#' + container_name + ' .vtp-uiinfo-anchor',
                     collision: 'none'
                 }).hide("fade", 3000);
+
+
+                if (res_type == "prj") {
+                    var nameOrigin = $('#prj_name').val();
+                    var textOrigin = $('#prj_description').val();
+                    var buttonSave = $('#prj_save');
+
+                    var isChanged = function() {
+                        var name = $('#prj_name').val();
+                        var text = $('#prj_description').val();
+                        return ((nameOrigin.length != name.length) || (textOrigin.length != text.length) || (nameOrigin != name) || (textOrigin != text));
+                    };
+
+                    var changeClassOfButton = function() {
+                        if (!isChanged()) {
+                            buttonSave.removeClass('ui-state-need-to-save');
+                        } else {
+                            buttonSave.addClass('ui-state-need-to-save');
+                        }
+                    };
+
+                    $('#prj_name').on('change keyup', changeClassOfButton);
+                    $('#prj_description').on('change keyup', changeClassOfButton);
+                };
             }
             /*************************************************************************
              * UIfy: rating
@@ -276,6 +299,20 @@ resourceDetail = (function () {
              ************************************************************************/
             if ('resource-remark' == container_name) {
                 // TinyMCE
+                var buttonSave = $('#remark_save');
+                var changeClassOfButton = function() {
+                  if (!tinyMCE.activeEditor.isDirty()) {
+                    buttonSave.removeClass('ui-state-need-to-save');
+                  } else {
+                      buttonSave.addClass('ui-state-need-to-save');
+                  }
+                };
+
+                var setIntervalForText = function() {
+                  return setInterval(changeClassOfButton, 2000);
+                };
+
+
                 tinymce.init({
                     selector: 'textarea#remark_text',
                     height: 300,
@@ -292,6 +329,8 @@ resourceDetail = (function () {
                     ],
                     toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink'
                 });
+
+                setTimeout(setIntervalForText, 2000);
                 // Toggle lock/unlock-button initialization
                 var $btn_lock_remark = $('#' + container_name + ' input:checkbox');
 
@@ -343,6 +382,19 @@ resourceDetail = (function () {
              ************************************************************************/
             if ('resource-remark_private' == container_name) {
                 // TinyMCE
+                var buttonSave = $('#remark_private_save');
+                var changeClassOfButton = function() {
+                    if (!tinyMCE.activeEditor.isDirty()) {
+                        buttonSave.removeClass('ui-state-need-to-save');
+                    } else {
+                        buttonSave.addClass('ui-state-need-to-save');
+                    }
+                };
+
+                var setIntervalForText = function() {
+                    return setInterval(changeClassOfButton, 2000);
+                };
+
                 tinymce.init({
                     selector: 'textarea#remark_private_text',
                     height: 300,
@@ -359,6 +411,8 @@ resourceDetail = (function () {
                     ],
                     toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink'
                 });
+
+                setTimeout(setIntervalForText, 2000);
 
                 // submitbutton and fadein info
                 $('#' + container_name + ' input[type=submit]').button({
@@ -523,7 +577,6 @@ resourceDetail = (function () {
 
         showDialog = function (e) {
             var current_tr_res;
-
             if ($(e.target).hasClass('vtp-uiaction-open-extlink')) {
                 return true;
             }

@@ -712,6 +712,11 @@ span.vtp-icon {
 #vtp-res-flag-buttons {
 }
 
+.ui-state-need-to-save {
+    border: 1px solid #FF0000 !important;
+    color: #FF0000 !important;
+}
+
 /************************************************************
  * vtp-project-data & vtp-lexicon-data  vtp-user-data vtp-vitoop-blog                                  *
  ************************************************************/

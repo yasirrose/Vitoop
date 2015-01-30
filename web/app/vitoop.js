@@ -50,6 +50,8 @@ app.controller('ToDoController', function ($scope, $http, $filter) {
     $scope.edit = function(id) {
         angular.copy($filter('filter')($scope.to_do_items, {id: id}, true)[0], $scope.to_do_item);
         $scope.isNew = false;
+        $scope.toDoForm.$setPristine();
+        $scope.toDoForm.todoText.$setPristine();
     };
 
     $scope.newItem = function() {
@@ -58,6 +60,7 @@ app.controller('ToDoController', function ($scope, $http, $filter) {
       $scope.to_do_item.updated_at = $filter('date')(new Date(), 'dd.MM.yyyy');
       $scope.isNew = true;
       $scope.isDeleting = false;
+      $scope.toDoForm.$setDirty();
     };
 
     $scope.delete = function() {
@@ -66,6 +69,7 @@ app.controller('ToDoController', function ($scope, $http, $filter) {
                 var index = $scope.to_do_items.indexOf($filter('filter')($scope.to_do_items, {id: $scope.to_do_item.id}, true)[0]);
                 $scope.to_do_items.splice(index, 1);
                 $scope.newItem();
+                $scope.toDoForm.$setDirty();
             });
         } else {
             $scope.newItem();
@@ -87,5 +91,6 @@ app.controller('ToDoController', function ($scope, $http, $filter) {
                     $scope.to_do_items = $filter('orderBy')($scope.to_do_items, 'title');
             });
         }
+        $scope.toDoForm.$setPristine();
     }
 });

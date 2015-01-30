@@ -1,4 +1,5 @@
 <div ng-controller="ToDoController" id="todocontroller">
+    <form name="toDoForm">
     <fieldset class="ui-corner-all" ng-cloak>
         <legend>{{ user.username }}</legend>
         <div>
@@ -6,20 +7,20 @@
             <div>
                 <div class="vtp-fh-w50" style="float: left">
                     <div class="vtp-fh-w100">
-                        <textarea ui-tinymce="tinymceOptions" ng-model="to_do_item.text"></textarea>
+                        <textarea ui-tinymce="tinymceOptions" ng-model="to_do_item.text" name="todoText"></textarea>
                     </div>
                     <div class="vtp-fh-w100" style="margin-top: 20px; width: 550px">
                         <button ng-click="newItem()" ng-show="!isDeleting" class="ui-corner-all vtp-fh-w20" style="background-color: #ffffff; color: #2779aa; border: 1px solid #aed0ea; padding-bottom: 5px; padding-top: 5px">neu</button>
                         <button ng-click="isDeleting = true" ng-disabled="isDeleting" class="ui-corner-all vtp-fh-w20" style="background-color: #ffffff; color: #2779aa; border: 1px solid #aed0ea; padding-bottom: 5px; padding-top: 5px">löschen</button>
                         <button ng-click="delete()" ng-show="isDeleting" class="ui-corner-all vtp-fh-w20" style="background-color: #ffffff; color: #2779aa; border: 1px solid #aed0ea; padding-bottom: 5px; padding-top: 5px">ja</button>
                         <button ng-click="isDeleting = false" ng-show="isDeleting" class="ui-corner-all vtp-fh-w20" style="background-color: #ffffff; color: #2779aa; border: 1px solid #aed0ea; padding-bottom: 5px; padding-top: 5px">abbrechen</button>
-                        <button ng-click="save()" ng-show="!isDeleting" class="ui-corner-all vtp-fh-w30"  style="background-color: #ffffff; color: #2779aa; border: 1px solid #aed0ea; float: right; padding-bottom: 5px; padding-top: 5px">speichern</button>
+                        <button ng-click="save()" ng-show="!isDeleting" ng-class="{'ui-corner-all vtp-fh-w30': toDoForm.todoText.$pristine && toDoForm.todoTitle.$pristine, 'ui-corner-all vtp-fh-w30 ui-state-need-to-save': toDoForm.todoTitle.$dirty || toDoForm.todoText.$dirty}" style="background-color: #ffffff; color: #2779aa; border: 1px solid #aed0ea; float: right; padding-bottom: 5px; padding-top: 5px">speichern</button>
                     </div>
                 </div>
                 <div class="vtp-fh-w50" style="float: right">
                     <div class="vtp-fh-w100">
                         <div class="vtp-fh-top">
-                            <input type="text" id="todo-title" name="todo-title" class="vtp-fh-w100" style="font-size: 20px; color: #2779aa" ng-model="to_do_item.title">
+                            <input type="text" id="todo-title" name="todoTitle" class="vtp-fh-w100" style="font-size: 20px; color: #2779aa" ng-model="to_do_item.title">
                         </div>
                         <div style="float: right; color: #2779aa">
                             erstellt: <span ng-bind="to_do_item.created_at"></span> / geändert: <span ng-bind="to_do_item.updated_at"></span>
@@ -38,4 +39,5 @@
             </div>
         </div>
     </fieldset>
+  </form>
 </div>
