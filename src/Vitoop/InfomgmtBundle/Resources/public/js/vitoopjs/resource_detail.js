@@ -707,7 +707,6 @@ resourceDetail = (function () {
 
         flagResource = function (flag_type) {
             $('#vtp-res-flag-form').length || $('#resource-flags').append('<div id="vtp-res-flag-form"></div>');
-
             $.ajax({
                 url: vitoop.baseUrl + [res_type, res_id, 'flag', flag_type].join('/'),
                 success: function (responseHtml, textStatus, jqXHR) {
@@ -731,6 +730,15 @@ resourceDetail = (function () {
 
         fillFlagForm = function (html) {
             $('#vtp-res-flag-form').empty().append(html);
+            var elemSuccess = $('div.vtp-uiinfo-info', html);
+            if (elemSuccess.length > 0) {
+                notifyRefresh();
+                $('#vtp-res-dialog').dialog('close');
+                setTimeout(function() {
+                    $('#vtp-content').prepend(elemSuccess);
+                    $(elemSuccess, '#vtp-context').hide("fade", 5000);
+                }, 2000);
+            }
             $('#vtp-uiaction-close-flagform').button({
                 icons: {
                     primary: "ui-icon-close"

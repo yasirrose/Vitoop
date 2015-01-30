@@ -213,7 +213,7 @@ class ResourceDataCollector
 
     public function getButtons()
     {
-        return ($this->initialized) ? $this->twig->render('VitoopInfomgmtBundle:Resource:xhr.resource.security.buttons.html.twig') : $this->twig->render('VitoopInfomgmtBundle:Resource:xhr.resource.security.buttons.new.html.twig');;
+        return ($this->initialized) ? $this->twig->render('VitoopInfomgmtBundle:Resource:xhr.resource.security.buttons.html.twig', array('res_type' => $this->res_type)) : $this->twig->render('VitoopInfomgmtBundle:Resource:xhr.resource.security.buttons.new.html.twig');;
     }
 
     private function addPermissionsToTagForm(FormInterface $form)

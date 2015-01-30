@@ -1,6 +1,8 @@
 <button class="vtp-uistyle-iconbutton vtp-uiaction-detail-previous"></button>
 <button class="vtp-uistyle-iconbutton vtp-uiaction-detail-next"></button>
 {#<button class="vtp-uistyle-iconbutton vtp-uiaction-detail-save"></button>#}
+{% if not (res_type == "lex" or res_type == "prj") %}
 <button class="vtp-uistyle-iconbutton vtp-uiaction-detail-delete"></button>
+{% endif %}
 <button class="vtp-uistyle-iconbutton vtp-uiaction-detail-new"></button>
 <button class="vtp-uistyle-iconbutton vtp-uiaction-detail-blame"></button>

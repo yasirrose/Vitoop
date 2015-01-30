@@ -471,6 +471,11 @@ span.vtp-lexiconbox-cntres {
     padding: 0.5em 0 0 0;
 }
 
+#vtp-flag-box {
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
+
 #vtp-res-dialog-tabs form {
 / / / / / / / / osition : relative;
 }
@@ -682,8 +687,8 @@ span.vtp-icon {
 }
 
 #vtp-res-flag-form textarea, .vtp-res-flag-info-sheet {
-    width: 458px;
-    height: 64px;
+    width: 100%;
+    height: 100px;
 }
 
 .vtp-res-flag-info-sheet {
@@ -692,10 +697,16 @@ span.vtp-icon {
 
 #vtp-uiaction-close-flagform {
     position: absolute;
-    top: 26px;
-    right: 10px;
+    top: 27px;
+    right: 15px;
     width: 21px;
     height: 20px;
+}
+
+#flag_save {
+    position: absolute;
+    bottom: 17px;
+    right: 15px;
 }
 
 #vtp-res-flag-buttons {

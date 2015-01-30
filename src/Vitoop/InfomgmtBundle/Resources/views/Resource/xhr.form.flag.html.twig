@@ -2,15 +2,16 @@
 {{ form_start(fvflag, {'attr': {'id': 'form-flag', 'novalidate': 'novalidate' }}) }}
 <fieldset class="ui-corner-all">
     <legend>{{ flagtitle }}</legend>
-    <button id="vtp-uiaction-close-flagform" type="button">close</button>
     {% if infoflag is not empty %}
         <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all"><span class="vtp-icon ui-icon ui-icon-info"></span>{{ infoflag }}</div>
     {% endif %}
     <div id="vtp-flag-box">
-        {{ form_errors(fvflag.info) }}
-        {{ form_label (fvflag.info) }}
-        {{ form_widget(fvflag.info) }}
-        <div class="right">
+        <div class="vtp-fh-w75">
+            {{ form_errors(fvflag.info) }}
+            {{ form_widget(fvflag.info) }}
+        </div>
+        <div class="vtp-fh-w15 right">
+            <button id="vtp-uiaction-close-flagform" type="button">close</button>
             {{ form_widget(fvflag.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}
         </div>
     </div>
