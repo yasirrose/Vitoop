@@ -37,6 +37,11 @@ class RelResourceResource
     protected $user;
 
     /**
+     * @ORM\Column(name="coefficient", type="float")
+     */
+    protected $coefficient;
+
+    /**
      * Get id
      *
      * @return integer
@@ -107,5 +112,33 @@ class RelResourceResource
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set coefficient
+     *
+     * @param float $coefficient
+     * @return RelResourceResource
+     */
+    public function setCoefficient($coefficient)
+    {
+        $this->coefficient = $coefficient;
+
+        return $this;
+    }
+
+    /**
+     * Get coefficient
+     *
+     * @return float 
+     */
+    public function getCoefficient()
+    {
+        return $this->coefficient;
+    }
+
+    public function __construct()
+    {
+        $this->coefficient = 0;
     }
 }

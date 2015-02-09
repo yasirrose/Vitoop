@@ -356,14 +356,17 @@ class ResourceRepository extends EntityRepository
            ->innerJoin('r.user', 'u')
            ->leftJoin('r.ratings', 'ra')
            ->leftJoin('r.flags', 'f')
-           ->where('f IS NULL');
+           ->where('f IS NULL')
+           ->groupBy('r.id');
         If ($resource1) {
             $qb->innerJoin('r.rel_resources2', 'rr2')
                ->andWhere('rr2.resource1 = :arg_resource1')
-               ->setParameter('arg_resource1', $resource1);
+               ->setParameter('arg_resource1', $resource1)
+               ->orderBy('rr2.coefficient', 'DESC')
+               ->addOrderBy('r.created_at', 'DESC');
+        } else {
+            $qb->orderBy('r.created_at', 'DESC');
         }
-        $qb->groupBy('r.id')
-           ->orderBy('r.created_at', 'DESC');
 
         $query = $qb->getQuery();
 
