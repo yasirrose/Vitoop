@@ -21,7 +21,11 @@
         </td>
         <td>{{ prj.res12count }}</td>
         <td class="ui-corner-right">
-            <a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="{{ path('_home_project', {'project_id': prj.id}) }}" target="_self">-></a>
+            {% if prj.isPrivate and user.getID != prj.user.getID %}
+                <span class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" style="background-color: #DDDDDD">-></span>
+            {% else %}
+                <a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="{{ path('_home_project', {'project_id': prj.id}) }}" target="_self">-></a>
+            {% endif %}
         </td>
     </tr>
 {% endfor %}

@@ -37,7 +37,7 @@ class RelResourceResource
     protected $user;
 
     /**
-     * @ORM\Column(name="coefficient", type="float")
+     * @ORM\Column(name="coefficient", type="float", options={"default":0})
      */
     protected $coefficient;
 

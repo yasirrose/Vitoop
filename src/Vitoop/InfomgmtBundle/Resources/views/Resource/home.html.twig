@@ -2,7 +2,10 @@
 {% block cmstitle %}
     {% if project is defined %}
         <div id="vtp-projectdata-title" class="ui-corner-all">
-            <span>Projekt: {{ project.name }}</span><span id="vtp-projectdata-project-close" class="ui-icon ui-icon-close ui-corner-all"></span>
+            <span>Projekt: {{ project.name }}</span>
+            <span id="vtp-projectdata-project-live" class="ui-icon ui-icon-clipboard ui-corner-all"></span>
+            <span id="vtp-projectdata-project-edit" class="ui-icon ui-icon-wrench ui-corner-all"></span>
+            <span id="vtp-projectdata-project-close" class="ui-icon ui-icon-close ui-corner-all"></span>
         </div>
     {% endif %}
     {% if lexicon is defined %}

@@ -38,7 +38,7 @@ resourceProject = (function () {
         }).hide("fade", 3000);
 
         $('#vtp-projectdata-project-close').on('click', function () {
-            location.href = vitoop.baseUrl;
+            location.href = vitoop.baseUrl + 'prj/';
         });
 
         $('#vtp-lexicondata-lexicon-close').on('click', function () {

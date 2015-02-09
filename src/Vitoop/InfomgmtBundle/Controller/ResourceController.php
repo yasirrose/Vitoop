@@ -55,6 +55,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+
 
 use Pagerfanta\Pagerfanta;
 
@@ -145,6 +147,9 @@ class ResourceController extends Controller
         } elseif ($is_project_home) {
             $show_as_projectowner = false;
             $vsec = $this->get('vitoop.vitoop_security');
+            if (($project->getIsPrivate()) && ($project->getUser()->getId() != $vsec->getUser()->getId())) {
+                throw new AccessDeniedHttpException;
+            }
             if ($vsec->isEqualToCurrentUser($project->getUser())) {
                 $show_as_projectowner = true;
                 // Show the form for project data
@@ -198,6 +203,7 @@ class ResourceController extends Controller
     {
         $rm = $this->get('vitoop.resource_manager');
         $request = $this->getRequest();
+        $user = $this->get('vitoop.vitoop_security')->getUser();
 
         $mode_search_by_tags = false;
         $mode_filter_by_project_id = false;
@@ -261,7 +267,8 @@ class ResourceController extends Controller
         // preparing the template-vars
         $tpl_vars = array(
             'restype' => $res_type,
-            'resname' => $rm->getResourceName($res_type)
+            'resname' => $rm->getResourceName($res_type),
+            'user' => $user
         );
 
         if ($mode_search_by_tags) {

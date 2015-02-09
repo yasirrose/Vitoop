@@ -745,6 +745,26 @@ span.vtp-icon {
     cursor: pointer;
 }
 
+#vtp-projectdata-project-live, #vtp-projectdata-project-edit {
+    display: inline-block;
+    position: absolute;
+    border: 1px solid #aed0ea;
+    top: 50%;
+    margin: -8px 0 0 0;
+    background-color: #f2f5f7;
+    cursor: pointer;
+}
+
+#vtp-projectdata-project-edit {
+    right: 2.6em;
+}
+
+#vtp-projectdata-project-live {
+    right: 4.0em;
+}
+
+
+
 #vtp-projectdata-box, #vtp-lexicondata-box {
 }
 
