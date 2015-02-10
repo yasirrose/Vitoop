@@ -779,13 +779,28 @@ span.vtp-icon {
     width: 720px;
 }
 
-#vtp-projectdata-sheet-view {
-    background-color: #ffffff;
-    min-width: 600px;
-    max-width: 720px;
+#vtp-projectdata-sheet-view, #vtp-projectdata-sheet-info {
     overflow: auto;
     margin: 1em;
     padding: 1em;
+    border: 2px solid #aed0ea;
+    vertical-align: top;
+}
+
+span.vtp-icon-active {
+    background-color: #3baae3 !important;
+    background-image: url("cupertino/images/ui-icons_ffffff_256x240.png") !important;
+    cursor: default !important;
+}
+
+#vtp-projectdata-sheet-info > p {
+    color: #2779aa;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+#vtp-projectdata-sheet-info > p > span {
+    float: right;
 }
 
 #vtp-userdata-save-container {

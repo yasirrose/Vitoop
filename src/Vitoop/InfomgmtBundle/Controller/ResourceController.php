@@ -174,11 +174,13 @@ class ResourceController extends Controller
                     'infoprojectdata' => $info_project_data
                 ));
             }
+            $projectInfo = $this->getDoctrine()->getManager()->getRepository('VitoopInfomgmtBundle:Project')->getCountOfRelatedResources($project);
             $tpl_vars = array_merge($tpl_vars, array(
                 'project' => $project,
+                'projectInfo' => $projectInfo,
                 'showasprojectowner' => $show_as_projectowner
             ));
-            $home_content_tpl = 'VitoopInfomgmtBundle:Resource:home.project.html.twig';
+            $home_content_tpl = 'VitoopInfomgmtBundle:Resource:home.project.live.html.twig';
         } elseif ($is_lexicon_home) {
             $tpl_vars = array_merge($tpl_vars, array(
                 'lexicon' => $lexicon

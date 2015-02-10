@@ -4,6 +4,10 @@
 
 resourceProject = (function () {
 
+    var query = $.deparam.querystring();
+
+    var  queryEditMode = query.edit;
+
     var init = function () {
         tinymce.init({
             selector: 'textarea#project_data_sheet',
@@ -40,6 +44,24 @@ resourceProject = (function () {
         $('#vtp-projectdata-project-close').on('click', function () {
             location.href = vitoop.baseUrl + 'prj/';
         });
+
+        var editButton = $('#vtp-projectdata-project-edit');
+        var liveButton = $('#vtp-projectdata-project-live');
+
+        if ((typeof queryEditMode != 'undefined') && (queryEditMode == 1)) {
+            editButton.addClass('vtp-icon-active');
+            liveButton.removeClass('vtp-icon-active');
+            liveButton.on('click', function () {
+                location.href = location.href.replace('?edit=1', '');
+            });
+            resourceList.maintainResLinks({'edit': 1});
+        } else {
+            liveButton.addClass('vtp-icon-active');
+            editButton.removeClass('vtp-icon-active');
+            editButton.on('click', function () {
+                location.href = location.href + '?edit=1';
+            });
+        }
 
         $('#vtp-lexicondata-lexicon-close').on('click', function () {
             location.href = vitoop.baseUrl;

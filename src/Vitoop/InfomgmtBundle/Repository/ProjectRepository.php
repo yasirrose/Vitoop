@@ -2,6 +2,7 @@
 
 namespace Vitoop\InfomgmtBundle\Repository;
 
+use Vitoop\InfomgmtBundle\Entity\Project;
 use Vitoop\InfomgmtBundle\Entity\User;
 
 /**
@@ -41,5 +42,27 @@ class ProjectRepository extends ResourceRepository
                     ->createQuery('SELECT p, pd FROM VitoopInfomgmtBundle:Project p LEFT JOIN p.project_data pd WHERE p.id=:arg_id')
                     ->setParameters(array('arg_id' => $id))
                     ->getOneOrNullResult();
+    }
+
+    public function getCountOfRelatedResources(Project $project)
+    {
+        return $this->getEntityManager()->createQueryBuilder()
+            ->select('count(prj.id) as prjc')
+            ->addSelect('count(lex.id) as lexc')
+            ->addSelect('count(pdf.id) as pdfc')
+            ->addSelect('count(teli.id) as telic')
+            ->addSelect('count(link.id) as linkc')
+            ->addSelect('count(adr.id) as adrc')
+            ->from('VitoopInfomgmtBundle:RelResourceResource', 'rrr')
+            ->leftJoin('VitoopInfomgmtBundle:Project', 'prj', 'WITH', 'rrr.resource2 = prj.id')
+            ->leftJoin('VitoopInfomgmtBundle:Lexicon', 'lex', 'WITH', 'rrr.resource2 = lex.id')
+            ->leftJoin('VitoopInfomgmtBundle:Pdf', 'pdf', 'WITH', 'rrr.resource2 = pdf.id')
+            ->leftJoin('VitoopInfomgmtBundle:Teli', 'teli', 'WITH', 'rrr.resource2 = teli.id')
+            ->leftJoin('VitoopInfomgmtBundle:Link', 'link', 'WITH', 'rrr.resource2 = link.id')
+            ->leftJoin('VitoopInfomgmtBundle:Address', 'adr', 'WITH', 'rrr.resource2 = adr.id')
+            ->where('rrr.resource1 = :project')
+            ->setParameter('project', $project)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }
