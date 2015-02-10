@@ -71,10 +71,14 @@ class ResourceController extends Controller
         $is_user_home = false;
         $is_project_home = false;
         $is_lexicon_home = false;
+        $isEditMode = false;
 
         /* Project Home */
         if ($request->query->has('project')) {
             $project_id = $request->query->get('project');
+            if (($request->query->has('edit')) && ($request->query->get('edit') == 1)) {
+                $isEditMode = true;
+            }
         }
 
         /* Lexicon Home */
