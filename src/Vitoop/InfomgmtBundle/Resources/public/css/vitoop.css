@@ -450,6 +450,10 @@ span.vtp-lexiconbox-cntres {
     width: 88%;
 }
 
+.vtp-fh-w95 {
+    width: 95%;
+}
+
 .vtp-fh-w100 {
     width: 100%;
 }
@@ -745,6 +749,15 @@ span.vtp-icon {
     cursor: pointer;
 }
 
+.vtp-projectdata-unlink {
+    display: inline-block;
+    position: absolute;
+    border: 1px solid #aed0ea;
+    margin: -8px 0 0 0;
+    background-color: #f2f5f7;
+    cursor: pointer;
+}
+
 #vtp-projectdata-project-live, #vtp-projectdata-project-edit {
     display: inline-block;
     position: absolute;
@@ -769,9 +782,7 @@ span.vtp-icon {
 }
 
 #vtp-projectdata-save-container {
-    position: absolute;
-    top: 0.5em;
-    right: 2em;
+    vertical-align: top;
 }
 
 #vtp-projectdata-sheet-edit {

@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Vitoop\InfomgmtBundle\Entity\Invitation;
+use Vitoop\InfomgmtBundle\Entity\Project;
 use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\Entity\User;
 use Vitoop\InfomgmtBundle\Form\Type\UserType;
@@ -23,9 +24,29 @@ use Symfony\Component\Form\Form;
 
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Vitoop\InfomgmtBundle\Repository\Helper;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class UserController extends Controller
 {
+
+    /**
+     * @Route("api/project/{projectID}/user/find", name="user_names")
+     * @ParamConverter("project", class="Vitoop\InfomgmtBundle\Entity\Project", options={"id" = "projectID"})
+     */
+    public function getUserNamesAction(Project $project)
+    {
+        $letter = $this->getRequest()->query->get('s');
+        $user = $this->get('security.context')
+            ->getToken()
+            ->getUser();
+        $names = $this->getDoctrine()->getRepository('VitoopInfomgmtBundle:User')->getNames($letter, $user->getId(), $project->getUser());
+        $serializer = $this->get('jms_serializer');
+        $response = $serializer->serialize($names, 'json');
+
+        return new Response($response);
+    }
+
     /**
      * @Route("/register/{secret}", name="_register")
      * @Template()

@@ -8,6 +8,7 @@ resourceProject = (function () {
 
     var  queryEditMode = query.edit;
 
+
     var init = function () {
         tinymce.init({
             selector: 'textarea#project_data_sheet',
@@ -34,12 +35,7 @@ resourceProject = (function () {
             }
         });
 
-        !$('#vtp-projectdata-box .vtp-uiinfo-info').length || $('#vtp-projectdata-box .vtp-uiinfo-info').position({
-            my: 'right top',
-            at: 'left bottom',
-            of: '#vtp-projectdata-box .vtp-uiinfo-anchor',
-            collision: 'none'
-        }).hide("fade", 3000);
+
 
         $('#vtp-projectdata-project-close').on('click', function () {
             location.href = vitoop.baseUrl + 'prj/';
@@ -55,7 +51,19 @@ resourceProject = (function () {
                 location.href = location.href.replace('?edit=1', '');
             });
             resourceList.maintainResLinks({'edit': 1});
+
+            $('input#new_rel_project_user_name').autocomplete({
+                source: vitoop.baseUrl + 'user/names',
+                minLength: 2,
+                appendTo: 'body'
+            });
         } else {
+            !$('#vtp-projectdata-box .vtp-uiinfo-info').length || $('#vtp-projectdata-box .vtp-uiinfo-info').position({
+                my: 'right top',
+                at: 'left bottom',
+                of: '#vtp-projectdata-box .vtp-uiinfo-anchor',
+                collision: 'none'
+            }).hide("fade", 3000);
             liveButton.addClass('vtp-icon-active');
             editButton.removeClass('vtp-icon-active');
             editButton.on('click', function () {

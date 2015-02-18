@@ -109,7 +109,13 @@ class ResourceXhrController extends Controller
                          ->getAllProjectsByTermOrAllIfLessThanTen($term, $this->get('security.context')
                                                                               ->getToken()
                                                                               ->getUser());
+        $arr_flattened_result = array_map(function ($arr_element) {
+            return $arr_element['name'];
+        }, $projects);
 
-        return new Response($projects);
+        $serializer = $this->get('jms_serializer');
+        $response = $serializer->serialize($arr_flattened_result, 'json');
+
+        return new Response($response);
     }
 }

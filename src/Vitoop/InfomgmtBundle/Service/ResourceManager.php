@@ -377,7 +377,7 @@ class ResourceManager
         }
 
         // Only the Project Owner is allowed to assign resources to the project
-        if (('prj' == $resource1->getResourceType() && (!$this->vsec->isEqualToCurrentUser($resource1->getUser())))
+        if (('prj' == $resource1->getResourceType() && (!$resource1->getProjectData()->availableForWriting($this->vsec->getUser())))
         ) {
             throw new \Exception(sprintf('Das darf nur der Eigentümer der Resource, nämlich %s. ', $resource1->getUser()));
         }

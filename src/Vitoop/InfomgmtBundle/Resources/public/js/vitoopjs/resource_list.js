@@ -222,7 +222,6 @@ resourceList = (function () {
             $('#vtp-content').on('mouseleave', 'tr', function (e) {
                 $(this).removeClass('vtp-hilight');
             });
-
         };
 
     return {

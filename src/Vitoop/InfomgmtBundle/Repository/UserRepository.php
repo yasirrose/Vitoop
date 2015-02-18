@@ -13,4 +13,20 @@ class UserRepository extends EntityRepository
                     ->setparameters(array('arg_username' => $username, 'arg_email' => $email))
                     ->getResult();
     }
+
+    public function getNames($like, $currentUserID, $ownerID)
+    {
+        return $this->createQueryBuilder('u')
+            ->select('u.id')
+            ->addSelect('u.username')
+            ->where('u.username LIKE :like')
+            ->andWhere('u.id != :currentID')
+            ->andWhere('u.id != :ownerID')
+            ->setParameter('like', $like.'%')
+            ->setParameter('currentID', $currentUserID)
+            ->setParameter('ownerID', $ownerID)
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
 }

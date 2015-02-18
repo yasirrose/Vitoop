@@ -577,8 +577,8 @@ resourceDetail = (function () {
 
         showDialog = function (e) {
             var current_tr_res;
-            if ($(e.target).hasClass('vtp-uiaction-open-extlink')) {
-                return true;
+            if ($(e.target).hasClass('vtp-uiaction-open-extlink') || $(e.target).hasClass('vtp-projectdata-unlink') || $(e.target).hasClass('vtp-projectdata-unlink-coefficient')) {
+                return;
             }
 
             current_tr_res = $(e.target).parentsUntil('.vtp-uiaction-list-listener', '.vtp-uiaction-list-showdetail');

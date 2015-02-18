@@ -4,6 +4,7 @@ namespace Vitoop\InfomgmtBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
+use Vitoop\InfomgmtBundle\Entity\Project;
 use Vitoop\InfomgmtBundle\Entity\RelResourceResource;
 use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\Entity\User;
@@ -16,6 +17,20 @@ use Vitoop\InfomgmtBundle\Entity\User;
  */
 class RelResourceResourceRepository extends EntityRepository
 {
+    public function getCoefficients(Project $project, Array $resources)
+    {
+        return $this->createQueryBuilder('rrr')
+            ->select('rrr.resource2.id as id')
+            ->addSelect('rrr.coefficient as coefficient')
+            ->where('rrr.resource1 =:project')
+            ->andWhere('rrr.resource2 IN :resources')
+            ->setParameter('project', $project)
+            ->setParameter('resources', $resources)
+            ->getQuery()
+            ->getResult();
+    }
+
+
     public function exists(RelResourceResource $rrr)
     {
         return $this->getEntityManager()

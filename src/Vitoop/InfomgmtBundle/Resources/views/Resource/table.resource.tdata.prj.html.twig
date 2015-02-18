@@ -21,10 +21,14 @@
         </td>
         <td>{{ prj.res12count }}</td>
         <td class="ui-corner-right">
-            {% if prj.isPrivate and user.getID != prj.user.getID %}
-                <span class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" style="background-color: #DDDDDD">-></span>
+            {% if editMode is defined and editMode %}
+                <span class="vtp-projectdata-unlink ui-icon ui-icon-close ui-corner-all" onclick="unlinkRes({{ prj.id }})"></span>
             {% else %}
-                <a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="{{ path('_home_project', {'project_id': prj.id}) }}" target="_self">-></a>
+                {% if prj.getProjectData.availableForReading(user) %}
+                    <a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="{{ path('_home_project', {'project_id': prj.id}) }}" target="_self">-></a>
+                {% else %}
+                    <span class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" style="background-color: #DDDDDD">-></span>
+                {% endif %}
             {% endif %}
         </td>
     </tr>

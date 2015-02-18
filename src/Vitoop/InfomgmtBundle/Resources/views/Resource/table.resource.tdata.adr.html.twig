@@ -23,7 +23,11 @@
         <td>{{ adr.res12count }}</td>
         <td>{{ adr.user.username }}</td>
         <td class="ui-corner-right">
-            <a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="{{ adr.viewlink }}" target="_blank">-></a>
+            {% if editMode is defined and editMode %}
+                <span class="vtp-projectdata-unlink ui-icon ui-icon-close ui-corner-all" onclick="unlinkRes({{ adr.id }})"></span>
+            {% else %}
+                <a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="{{ adr.viewlink }}" target="_blank">-></a>
+            {% endif %}
         </td>
     </tr>
 {% endfor %}

@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('vitoop', ['ui.tinymce']);
+var app = angular.module('vitoop', ['ui.tinymce', 'angucomplete']);
 
 app.controller('MainController', function ($scope, $http, $compile) {
     $scope.content = '';
@@ -10,8 +10,107 @@ app.controller('MainController', function ($scope, $http, $compile) {
               $compile(document.getElementById('todocontroller'))($scope);
             }, 1000);
             
+        };
+        if (text == 'prjhome') {
+            $('#vtp-content').hide();
+            setTimeout(function () {
+                $compile(document.getElementById('prjcontroller'))($scope);
+            }, 1000);
+            setTimeout(function () {
+                $('#vtp-content').show();
+            }, 1200);
+
         }
     };
+});
+
+app.controller('PrjController', function ($scope, $http, $filter, $timeout) {
+    $scope.project = {};
+    $scope.message = "";
+    $scope.isError = false;
+    $scope.isSuccess = false;
+    $scope.isLoaded = false;
+    $scope.tinymceOptions = {
+        width: 550,
+        height: 550,
+        plugins: 'textcolor link media',
+        menubar: false,
+        style_formats: [
+            {title: 'p', block: 'p'},
+            {title: 'h1', block: 'h1'},
+            {title: 'h2', block: 'h2'},
+            {title: 'h3', block: 'h3'},
+            {title: 'h4', block: 'h4'},
+            {title: 'h5', block: 'h5'},
+            {title: 'h6', block: 'h6'}
+        ],
+        toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink '
+    };
+    $scope.$watch("projectId", function(){
+        $http.get('../api/project/'+$scope.projectId).success(function (data) {
+            $scope.project = data;
+            $timeout(function() {
+                $scope.projectSheetForm.projectText.$setPristine();
+                $scope.isLoaded = true;
+            }, 300);
+        });
+    });
+
+    $scope.save = function() {
+        $http.post('../api/project/'+$scope.projectId, angular.toJson($scope.project)).success(function (data) {
+            $scope.message = data.message;
+            if (data.status == "success") {
+                $scope.isError = false;
+                angular.element('#usernames-autocomplete').isolateScope().searchStr = "";
+                $scope.isSuccess = true;
+                $timeout(function() {
+                    $scope.isSuccess = false;
+                }, 3000);
+                $scope.projectSheetForm.projectText.$setPristine();
+                $scope.projectDataForm.$setPristine();
+            } else {
+                $scope.isError = true;
+            }
+        });
+    };
+
+    $scope.addUser = function() {
+        $http.post('../api/project/'+$scope.projectId+'/user', JSON.stringify($scope.user.originalObject)).success(function (data) {
+            $scope.message = data.message;
+            if (data.status == "success") {
+                $scope.isError = false;
+                $scope.project.project_data.rel_users.push(angular.copy(data.rel));
+                angular.element('#usernames-autocomplete').isolateScope().searchStr = "";
+                $scope.isSuccess = true;
+                $timeout(function() {
+                    $scope.isSuccess = false;
+                }, 3000);
+            } else {
+                $scope.isError = true;
+            }
+        });
+    };
+
+    $scope.removeUser = function() {
+        $http.delete('../api/project/'+$scope.projectId+'/user/'+$scope.user.originalObject.id).success(function (data) {
+            $scope.message = data.message;
+            if (data.status == "success") {
+                $scope.isError = false;
+                var index = $scope.project.project_data.rel_users.indexOf($filter('filter')($scope.project.project_data.rel_users, {id: data.rel.id}, true)[0]);
+                $scope.project.project_data.rel_users.splice(index, 1);
+                angular.element('#usernames-autocomplete').isolateScope().searchStr = "";
+                $scope.isSuccess = true;
+                $timeout(function() {
+                    $scope.isSuccess = false;
+                }, 3000);
+            } else {
+                $scope.isError = true;
+            }
+        });
+    };
+
+
+
 });
 
 app.controller('ToDoController', function ($scope, $http, $filter) {

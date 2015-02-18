@@ -1,0 +1,83 @@
+<div ng-controller="PrjController" id="prjcontroller">
+<fieldset class="ui-corner-all" ng-cloak>
+    <legend>By {{ project.user.username }}</legend>
+    <div id="vtp-projectdata-box">
+        {% if infoprojectdata is defined and infoprojectdata is not empty %}
+            <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all">
+                <span class="vtp-icon ui-icon ui-icon-info"></span>{{ infoprojectdata }}
+            </div>
+        {% endif %}
+        {% if editMode %}
+        <div>
+            <input type="text" style="display: none" ng-init="projectId={{ project.getID }}" ng-model="projectId">
+            <div class="vtp-fh-w60">
+                <form name="projectSheetForm">
+                <textarea ui-tinymce="tinymceOptions" ng-model="project.project_data.sheet" name="projectText"></textarea>
+                </form>
+            </div>
+            <div class="vtp-fh-w35" style="vertical-align: top" ng-show="isLoaded">
+                <form name="projectDataForm">
+                <div class="vtp-fh-w100" style="vertical-align: top; text-align: center">
+                    <button ng-click="save()" ng-cloak ng-class="{'ui-corner-all vtp-fh-w30 ui-state-default': projectDataForm.$pristine && projectSheetForm.projectText.$pristine, 'ui-corner-all vtp-fh-w30 ui-state-need-to-save': projectDataForm.$dirty || projectSheetForm.projectText.$dirty}" style="padding-bottom: 5px; padding-top: 5px">speichern</button>
+                </div>
+                <div class="vtp-fh-w100" style="vertical-align: top; margin-top: 20px; text-align: center; color: #2779aa; font-size: 16px">
+                    <div class="vtp-fh-w60">
+                        <label for="projectIsPrivate" style="margin-right: 20px">verstecken</label>
+                    </div>
+                    <div class="vtp-fh-w35">
+                        <input type="checkbox" ng-model="project.project_data.is_private" name="projectIsPrivate" style="-webkit-appearance: checkbox"/>
+                    </div>
+                </div>
+                <div class="vtp-fh-w100" style="vertical-align: top; margin-top: 20px; color: #2779aa; font-size: 16px; text-align: center">
+                    <div style="margin-bottom: 15px">
+                        <div class="vtp-fh-w60">
+                            <span>
+                                Benutzer
+                            </span>
+                        </div>
+                        <div class="vtp-fh-w35">
+                            <span>
+                                schreiben & verknüpfen
+                            </span>
+                        </div>
+                    </div>
+                    {% verbatim %}
+                    <div ng-repeat="rel in project.project_data.rel_users">
+                        <div class="vtp-fh-w60">
+                            <label for="userReadOnly-{{ rel.user.id }}" ng-bind="rel.user.username" style="margin-right: 20px"></label>
+                        </div>
+                        <div class="vtp-fh-w35">
+                            <input type="checkbox" ng-true-value="false" ng-false-value="true" ng-model="rel.read_only" name="userReadOnly-{{ rel.user.id }}" style="-webkit-appearance: checkbox"/>
+                        </div>
+                    </div>
+                    {% endverbatim %}
+                </div>
+                </form>
+                <div class="vtp-fh-w100" style="vertical-align: top; margin-top: 20px; text-align: center; color: #2779aa; font-size: 16px">
+                    <div class="vtp-fh-w40" style="vertical-align: top">
+                        <label for="newUser" style="margin-right: 20px">Neuer Benutzer:</label>
+                    </div>
+                    <div class="vtp-fh-w60">
+                        <div class="vtp-fh-w100">
+                            <div angucomplete id="usernames-autocomplete"
+                                 placeholder="Search users"
+                                 pause="300"
+                                 selectedobject="user"
+                                 url="../api/project/{{ project.getId }}/user/find?s="
+                                 titlefield="username"
+                                 inputclass="vtp-fh-w95"
+                                 style="margin-bottom: 5px"></div>
+                            <button ng-click="addUser()" class="ui-corner-all vtp-fh-w60 ui-state-default" style="font-size: 14px">verknüpfen</button>
+                            <button ng-click="removeUser()" class="ui-corner-all vtp-fh-w40 ui-state-default" style="font-size: 14px; float: right">löschen</button>
+                        </div>
+                    </div>
+                    <span ng-show="isError" id="error-span" class="form-error">Vitoooops!: <span ng-bind="message"></span></span>
+                    <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all" ng-show="isSuccess" style="transition: 0s linear all;"><span class="vtp-icon ui-icon ui-icon-info"></span><span ng-bind="message"></span></div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</fieldset>
+</div>
+

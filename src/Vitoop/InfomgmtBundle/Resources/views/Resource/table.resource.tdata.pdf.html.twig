@@ -23,7 +23,11 @@
         <td>{{ pdf.res12count }}</td>
         <td>{{ pdf.user.username }}</td>
         <td class="ui-corner-right">
-            <a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="{{ pdf.viewlink }}" target="_blank">-></a>
+            {% if editMode is defined and editMode %}
+                <span class="vtp-projectdata-unlink ui-icon ui-icon-close ui-corner-all" onclick="unlinkRes({{ pdf.id }})"></span>
+            {% else %}
+                <a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="{{ pdf.viewlink }}" target="_blank">-></a>
+            {% endif %}
         </td>
     </tr>
 {% endfor %}

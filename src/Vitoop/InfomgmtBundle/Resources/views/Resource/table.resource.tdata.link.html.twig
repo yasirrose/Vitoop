@@ -1,6 +1,8 @@
 {% for link in resources %}
     <tr id="link-{{ link.id }}" class="vtp-{{ cycle(zebra, loop.index) }} ui-corner-all vtp-uiaction-list-showdetail{% include "VitoopInfomgmtBundle:Resource:table.resource.res.classhelper.listtagger.html.twig" %}">
-        <td class="ui-corner-left">{{ link.createdat|date("d.m.y") }}</td>
+        <td class="ui-corner-left">
+                {{ link.createdat|date("d.m.y") }}
+        </td>
         <td title="{{ link.name }}">
             <div class="vtp-teasefader-wrapper">
                 {{ link.name }}
@@ -23,7 +25,11 @@
         <td>{{ link.res12count }}</td>
         <td>{{ link.user.username }}</td>
         <td class="ui-corner-right">
-            <a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="{{ link.viewlink }}" target="_blank">-></a>
+            {% if editMode is defined and editMode %}
+                <span class="vtp-projectdata-unlink ui-icon ui-icon-close ui-corner-all" onclick="unlinkRes({{ link.id }})"></span>
+            {% else %}
+                <a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="{{ link.viewlink }}" target="_blank">-></a>
+            {% endif %}
         </td>
     </tr>
 {% endfor %}

@@ -75,6 +75,7 @@ services:
         tags:
             - { name: form.type, alias: prj }
 
+
     #Other FormTypes
 
     vitoop.form.type.rating:

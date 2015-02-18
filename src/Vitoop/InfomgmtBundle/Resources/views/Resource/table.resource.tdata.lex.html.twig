@@ -22,7 +22,11 @@
         <td>{{ lex.res12count }}</td>
         <td>{{ lex.user.username }}</td>
         <td class="ui-corner-right">
-            <a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="{{ path('_home_lexicon', {'lexicon_id': lex.id}) }}" target="_self">-></a>
+            {% if editMode is defined and editMode %}
+                <span class="vtp-projectdata-unlink ui-icon ui-icon-close ui-corner-all" onclick="unlinkRes({{ lex.id }})"></span>
+            {% else %}
+                <a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="{{ path('_home_lexicon', {'lexicon_id': lex.id}) }}" target="_self">-></a>
+            {% endif %}
         </td>
     </tr>
 {% endfor %}

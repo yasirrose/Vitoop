@@ -1,4 +1,11 @@
 {% set zebra = ['even', 'odd'] %}
+{% if editMode is defined and editMode %}
+    {% set linkTitle = 'unlink' %}
+    {% set linkWidth = '5%' %}
+{% else %}
+    {% set linkWidth = '3%' %}
+    {% set linkTitle = 'link' %}
+{% endif %}
 <div id="vtp-res-list" class="vtp-uiaction-list-listener">
     <table>
         <tr id="{{ restype }}-table" class="vtp-res-dialog-onclick">
@@ -11,7 +18,7 @@
             <th style="width:8%;">Bewertung</th>
             <th style="width:3%;">RR</th>
             <th style="width:14%;">von</th>
-            <th style="width:3%;" class="ui-corner-tr">link</th>
+            <th style="width:{{ linkWidth }};" class="ui-corner-tr">{{ linkTitle }}</th>
         </tr>
         {% endif %}
         {% if restype == 'teli' %}
@@ -22,7 +29,7 @@
             <th style="width:8%;">Bewertung</th>
             <th style="width:3%;">RR</th>
             <th style="width:14%;">von</th>
-            <th style="width:3%;" class="ui-corner-tr">link</th>
+            <th style="width:{{ linkWidth }};" class="ui-corner-tr">{{ linkTitle }}</th>
             </tr>
         {% endif %}
         {% if restype == 'link' %}
@@ -34,7 +41,7 @@
             <th style="width:8%;">Bewertung</th>
             <th style="width:3%;">RR</th>
             <th style="width:14%;">von</th>
-            <th style="width:3%;" class="ui-corner-tr">link</th>
+            <th style="width:{{ linkWidth }};" class="ui-corner-tr">{{ linkTitle }}</th>
             </tr>
         {% endif %}
         {% if restype == 'adr' %}
@@ -46,7 +53,7 @@
             <th style="width:8%;">Bewertung</th>
             <th style="width:3%;">RR</th>
             <th style="width:14%;">von</th>
-            <th style="width:3%;" class="ui-corner-tr">link</th>
+            <th style="width:{{ linkWidth }};" class="ui-corner-tr">{{ linkTitle }}</th>
             </tr>
         {% endif %}
         {% if restype == 'lex' %}
@@ -57,7 +64,7 @@
             <th style="width:8%;">Bewertung</th>
             <th style="width:3%;">RR</th>
             <th style="width:14%;">von</th>
-            <th style="width:3%;" class="ui-corner-tr">link</th>
+            <th style="width:{{ linkWidth }};" class="ui-corner-tr">{{ linkTitle }}</th>
             </tr>
         {% endif %}
         {% if restype == 'prj' %}
@@ -67,7 +74,7 @@
             <th style="width:14%;">Projektmeister</th>
             <th style="width:8%;">Bewertung</th>
             <th style="width:3%;">RR</th>
-            <th style="width:3%;" class="ui-corner-tr">link</th>
+            <th style="width:{{ linkWidth }};" class="ui-corner-tr">{{ linkTitle }}</th>
             </tr>
         {% endif %}
         {% include "VitoopInfomgmtBundle:Resource:table.resource.tdata."~restype~".html.twig" %}

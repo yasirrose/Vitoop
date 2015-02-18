@@ -15,24 +15,20 @@ class ProjectRepository extends ResourceRepository
 {
     public function getAllProjectsByTermOrAllIfLessThanTen($term, User $user)
     {
-        // TODO ALL if less than ten
-        $arr_result = $this->getEntityManager()
-                           ->createQuery('SELECT p.name FROM VitoopInfomgmtBundle:Project p JOIN p.user u WHERE u=:arg_user AND p.name LIKE :arg_term  ORDER BY p.name ASC')
-                           ->setParameters(array(
-                'arg_user' => $user,
-                'arg_term' => $term . "%"
-            ))
-                           ->getResult();
-
-        if (!$arr_result) {
-            return null;
-        }
-        $arr_flattened_result = array_map(function ($arr_element) {
-            return $arr_element['name'];
-        }, $arr_result);
-        $json_result = '["' . implode('","', $arr_flattened_result) . '"]';
-
-        return $json_result;
+        return $this->createQueryBuilder('p')
+            ->select('DISTINCT(p.name) as name')
+            ->innerJoin('p.project_data', 'pd')
+            ->leftJoin('VitoopInfomgmtBundle:RelProjectUser', 'rpu', 'WITH', 'rpu.projectData = pd.id')
+            ->where('p.user = :user')
+            ->orWhere('rpu.user = :userId')
+            ->andWhere('rpu.readOnly = 0')
+            ->andWhere('p.name LIKE :term')
+            ->setParameter('term', $term."%")
+            ->setParameter('user', $user)
+            ->setParameter('userId', $user->getId())
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
     }
 
     public function getProjectWithData($id)

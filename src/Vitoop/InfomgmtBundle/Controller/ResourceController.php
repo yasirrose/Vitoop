@@ -4,6 +4,7 @@ namespace Vitoop\InfomgmtBundle\Controller;
 use Buzz\Browser;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Vitoop\InfomgmtBundle\Entity\Flag;
+use Vitoop\InfomgmtBundle\Entity\RelProjectUser;
 use Vitoop\InfomgmtBundle\Entity\UserData;
 use Vitoop\InfomgmtBundle\Entity\VitoopBlog;
 use Vitoop\InfomgmtBundle\Service\ResourceManager;
@@ -76,9 +77,10 @@ class ResourceController extends Controller
         /* Project Home */
         if ($request->query->has('project')) {
             $project_id = $request->query->get('project');
-            if (($request->query->has('edit')) && ($request->query->get('edit') == 1)) {
-                $isEditMode = true;
-            }
+        }
+
+        if (($request->query->has('edit')) && ($request->query->get('edit') == 1)) {
+            $isEditMode = true;
         }
 
         /* Lexicon Home */
@@ -149,14 +151,16 @@ class ResourceController extends Controller
             }
             $home_content_tpl = 'VitoopInfomgmtBundle:Resource:home.user.html.twig';
         } elseif ($is_project_home) {
-            $show_as_projectowner = false;
+            $projectInfo = null;
             $vsec = $this->get('vitoop.vitoop_security');
-            if (($project->getIsPrivate()) && ($project->getUser()->getId() != $vsec->getUser()->getId())) {
+            if (!$project->getProjectData()->availableForReading($vsec->getUser())) {
                 throw new AccessDeniedHttpException;
             }
-            if ($vsec->isEqualToCurrentUser($project->getUser())) {
-                $show_as_projectowner = true;
-                // Show the form for project data
+            $show_as_projectowner = $project->getProjectData()->availableForWriting($vsec->getUser());
+            if (!$show_as_projectowner) {
+                $isEditMode = false;
+            }
+            if ($isEditMode && $show_as_projectowner) {
                 $project_data = $project->getProjectData();
                 $info_project_data = '';
                 $form_project_data = $this->createForm('project_data', $project_data, array(
@@ -177,14 +181,20 @@ class ResourceController extends Controller
                     'fvprojectdata' => $fv_project_data,
                     'infoprojectdata' => $info_project_data
                 ));
+            } else {
+                $projectInfo = $this->getDoctrine()->getManager()->getRepository('VitoopInfomgmtBundle:Project')->getCountOfRelatedResources($project);
             }
-            $projectInfo = $this->getDoctrine()->getManager()->getRepository('VitoopInfomgmtBundle:Project')->getCountOfRelatedResources($project);
             $tpl_vars = array_merge($tpl_vars, array(
                 'project' => $project,
                 'projectInfo' => $projectInfo,
+                'editMode' => $isEditMode,
                 'showasprojectowner' => $show_as_projectowner
             ));
-            $home_content_tpl = 'VitoopInfomgmtBundle:Resource:home.project.live.html.twig';
+            if (!$isEditMode) {
+                $home_content_tpl = 'VitoopInfomgmtBundle:Resource:home.project.html.twig';
+            } else {
+                $home_content_tpl = 'VitoopInfomgmtBundle:Resource:home.project.edit.html.twig';
+            }
         } elseif ($is_lexicon_home) {
             $tpl_vars = array_merge($tpl_vars, array(
                 'lexicon' => $lexicon
@@ -215,6 +225,8 @@ class ResourceController extends Controller
         $mode_filter_by_project_id = false;
         $mode_filter_by_lexicon_id = false;
         $mode_normal = false;
+        $isEditMode = false;
+
 
         $block_content_tpl = 'VitoopInfomgmtBundle:Resource:table.resource.html.twig';
 
@@ -236,6 +248,10 @@ class ResourceController extends Controller
         $flagged = $request->query->get('flagged');
 
         // Decide mode
+        if (($request->query->has('edit')) && ($request->query->get('edit') == 1)) {
+            $isEditMode = true;
+        }
+
         if (!empty($tag_list) && is_array($tag_list)) {
             $mode_search_by_tags = true;
         } elseif (null !== $project_id) {
@@ -310,6 +326,11 @@ class ResourceController extends Controller
         } elseif ($mode_filter_by_project_id) {
             $resources = $rm->getRepository($res_type)
                             ->getResources2ByResource1($project);
+            /*$coefficients = $this->getDoctrine()->getRepository('VitoopInfomgmtBundle:RelResourceResource')->getCoefficients($project, $resources);
+            var_dump($coefficients);
+            exit(0);
+            */
+            $tpl_vars = array_merge($tpl_vars, array('editMode' => $isEditMode));
         } elseif ($mode_filter_by_lexicon_id) {
             $resources = $rm->getRepository($res_type)
                             ->getResources2ByResource1($lexicon);

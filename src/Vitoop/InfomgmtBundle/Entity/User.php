@@ -21,13 +21,14 @@ class User implements UserInterface, EquatableInterface
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Serializer\Groups({"edit"})
+     * @Serializer\Groups({"edit", "get_project"})
      * @Serializer\Type("integer")
      */
     protected $id;
 
     /**
      * @ORM\Column(name="username", type="string", length=25, unique=true)
+     * @Serializer\Groups({"get_project"})
      */
     protected $username;
 
@@ -122,12 +123,19 @@ class User implements UserInterface, EquatableInterface
      */
     protected $user_data;
 
+    /**
+     * @ORM\OneToMany(targetEntity="RelProjectUser", mappedBy="user")
+     */
+    protected $relProject;
+
+
     public function __construct()
     {
         $this->setActive(true);
         $this->salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
 
         $this->resources = new ArrayCollection();
+        $this->relProject = new ArrayCollection();
         $this->toDoItems = new ArrayCollection();
         $this->ratings = new ArrayCollection();
         $this->remarks = new ArrayCollection();
@@ -657,5 +665,38 @@ class User implements UserInterface, EquatableInterface
     public function getDeletedRelResourceTags()
     {
         return $this->deleted_rel_resource_tags;
+    }
+
+    /**
+     * Add relProject
+     *
+     * @param \Vitoop\InfomgmtBundle\Entity\RelProjectUser $relProject
+     * @return User
+     */
+    public function addRelProject(\Vitoop\InfomgmtBundle\Entity\RelProjectUser $relProject)
+    {
+        $this->relProject[] = $relProject;
+
+        return $this;
+    }
+
+    /**
+     * Remove relProject
+     *
+     * @param \Vitoop\InfomgmtBundle\Entity\RelProjectUser $relProject
+     */
+    public function removeRelProject(\Vitoop\InfomgmtBundle\Entity\RelProjectUser $relProject)
+    {
+        $this->relProject->removeElement($relProject);
+    }
+
+    /**
+     * Get relProject
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRelProject()
+    {
+        return $this->relProject;
     }
 }
