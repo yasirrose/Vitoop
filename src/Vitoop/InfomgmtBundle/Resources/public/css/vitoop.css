@@ -798,6 +798,18 @@ span.vtp-icon {
     vertical-align: top;
 }
 
+.ui-state-no-content {
+    background: #e6e6e6 url("cupertino/images/ui-bg_glass_75_e6e6e6_1x400.png") 50% 50% repeat-x !important;
+}
+
+.ui-state-no-content.ui-state-active {
+    border: 1px solid #2694e8;
+    background: #3baae3 url("cupertino/images/ui-bg_glass_50_3baae3_1x400.png") 50% 50% repeat-x !important;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+
 span.vtp-icon-active {
     background-color: #3baae3 !important;
     background-image: url("cupertino/images/ui-icons_ffffff_256x240.png") !important;

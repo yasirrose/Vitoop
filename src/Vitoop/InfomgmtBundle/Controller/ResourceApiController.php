@@ -6,11 +6,34 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Vitoop\InfomgmtBundle\Entity\Resource;
 
+
+/**
+ * @Route("api/")
+ */
 class ResourceApiController extends Controller
 {
     /**
-     * @Route("api/{resource_type}/url/check",
+     * @Route("resource/{resourceID}/tabs_info", name="get_resource_tabs_info")
+     * @Method({"GET"})
+     * @ParamConverter("resource", class="Vitoop\InfomgmtBundle\Entity\Resource", options={"id" = "resourceID"})
+     *
+     * @return array
+     */
+    public function getTabsInfo(Resource $resource)
+    {
+        $serializer = $this->get('jms_serializer');
+        $info = $this->getDoctrine()->getRepository('VitoopInfomgmtBundle:Resource')->getResourceTabsInfo($resource, $this->get('security.context')->getToken()->getUser());
+        $response = $serializer->serialize($info, 'json');
+
+        return new Response($response);
+
+    }
+
+    /**
+     * @Route("{resource_type}/url/check",
      * requirements={"resource_type"="pdf|link|teli"},
      * name="check_unique_url")
      * @Method({"POST"})

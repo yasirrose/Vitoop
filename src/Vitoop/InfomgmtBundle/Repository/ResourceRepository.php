@@ -2,6 +2,7 @@
 namespace Vitoop\InfomgmtBundle\Repository;
 
 use Vitoop\InfomgmtBundle\Entity\Resource;
+use Vitoop\InfomgmtBundle\Entity\User;
 use Vitoop\InfomgmtBundle\Pagination\ResourceListWithTagCountAdapter;
 use Vitoop\InfomgmtBundle\Pagination\ResourceListAdapter;
 
@@ -502,5 +503,23 @@ class ResourceRepository extends EntityRepository
         $pf = new Pagerfanta($ad);
 
         return $pf;
+    }
+
+    public function getResourceTabsInfo(Resource $resource, User $user)
+    {
+        return $this->createQueryBuilder('r')
+            ->select('count(DISTINCT rm.id) as remarks')
+            ->addSelect('count(DISTINCT rmp.id) as remarks_private')
+            ->addSelect('count(DISTINCT cm.id) as comments')
+            ->addSelect('count(DISTINCT rrr.id) as rels')
+            ->leftJoin('r.remarks', 'rm')
+            ->leftJoin('r.remarksPrivate', 'rmp', 'WITH', 'rmp.user = :user')
+            ->leftJoin('r.comments', 'cm')
+            ->leftJoin('VitoopInfomgmtBundle:RelResourceResource', 'rrr', 'WITH', 'r.id = rrr.resource2')
+            ->where('r = :resource')
+            ->setParameter('resource', $resource)
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

@@ -312,6 +312,10 @@ resourceDetail = (function () {
                   return setInterval(changeClassOfButton, 2000);
                 };
 
+                buttonSave.on('click', function() {
+                    $('#tab-title-remark').removeClass('ui-state-no-content');
+                });
+
 
                 tinymce.init({
                     selector: 'textarea#remark_text',
@@ -391,6 +395,11 @@ resourceDetail = (function () {
                     }
                 };
 
+                buttonSave.on('click', function() {
+                    $('#tab-title-remark-private').removeClass('ui-state-no-content');
+                });
+
+
                 var setIntervalForText = function() {
                     return setInterval(changeClassOfButton, 2000);
                 };
@@ -438,6 +447,9 @@ resourceDetail = (function () {
                         primary: "ui-icon-pencil"
                     }
                 });
+                $('#comment_save').on('click', function() {
+                    $('#tab-title-comments').removeClass('ui-state-no-content');
+                });
                 !$('#' + container_name + ' .vtp-uiinfo-info').length || $('#' + container_name + ' .vtp-uiinfo-info').position({
                     my: 'right top',
                     at: 'left bottom',
@@ -449,6 +461,9 @@ resourceDetail = (function () {
              * UIfy: project
              *****************************************************************/
             if ('resource-project' == container_name) {
+                $('#project_name_save').on('click', function() {
+                    $('#tab-title-rels').removeClass('ui-state-no-content');
+                });
                 $('#project_name_name').autocomplete({
                     source: vitoop.baseUrl + (['prj', 'suggest'].join('/')),
                     minLength: 2,
@@ -470,6 +485,9 @@ resourceDetail = (function () {
              * UIfy: lexicon
              ************************************************************************/
             if ('resource-lexicon' == container_name) {
+                $('#lexicon_name_save').on('click', function() {
+                    $('#tab-title-rels').removeClass('ui-state-no-content');
+                });
                 $('#lexicon_name_name').autocomplete({
                     source: function (request, response) {
                         $.ajax({
@@ -525,9 +543,18 @@ resourceDetail = (function () {
              ************************************************************************/
         },
 
+        clearTabsClasses = function() {
+                $('#tab-title-comments').removeClass('ui-state-no-content');
+                $('#tab-title-remark').removeClass('ui-state-no-content');
+                $('#tab-title-remark-private').removeClass('ui-state-no-content');
+                $('#tab-title-rels').removeClass('ui-state-no-content');
+        },
+
         loadTab = function (event, ui) {
             var tab_nr;
             var url;
+
+
 
             // Don't touch this. Works for three different calls with handcrafted parameters event and ui!
             if (typeof ui.newTab === 'undefined') {
@@ -537,11 +564,32 @@ resourceDetail = (function () {
             } else {
                 console.log('No TabIndex provided!');
             }
-
             url = vitoop.baseUrl + ([res_type, res_id, tab_name[tab_nr]].join('/'));
             // if the tab is already loaded then return without any action
             if (1 == tab_loaded[tab_nr]) {
                 return;
+            }
+            if (tab_nr == 0) {
+                $.ajax({
+                    url: vitoop.baseUrl + 'api/resource/' + res_id + '/tabs_info',
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function(responseJSON) {
+                        var info = responseJSON;
+                        if (info.comments == 0) {
+                            $('#tab-title-comments').addClass('ui-state-no-content');
+                        }
+                        if (info.remarks == 0) {
+                            $('#tab-title-remark').addClass('ui-state-no-content');
+                        }
+                        if (info.remarks_private == 0) {
+                            $('#tab-title-remark-private').addClass('ui-state-no-content');
+                        }
+                        if (info.rels == 0) {
+                            $('#tab-title-rels').addClass('ui-state-no-content');
+                        }
+                    }
+                });
             }
             if ('new' == res_id) {
                 url = vitoop.baseUrl + ([res_type, 'new'].join('/'));
@@ -623,6 +671,7 @@ resourceDetail = (function () {
                 // trigger the tab to be loaded with content the first time
                 loadTab(undefined, 0);
             }
+            clearTabsClasses();
             $('#vtp-res-dialog').dialog('open');
         },
 
