@@ -266,10 +266,13 @@ class ResourceManager
         $this->em->persist($relation);
 
         // $relation can't exist in DB when the tag doesn't exist.
-        if (($tag_exists) && ($this->em->getRepository('VitoopInfomgmtBundle:RelResourceTag')
+        if (($tag_exists) && ($tempRel = $this->em->getRepository('VitoopInfomgmtBundle:RelResourceTag')
                                        ->exists($relation))
         ) {
-            throw new \Exception('Diese Resource wurde von Dir bereits mit ":' . $tag . '" gettaggt!');
+            if (is_null($tempRel->getDeletedByUser())) {
+                throw new \Exception('Diese Resource wurde von Dir bereits mit ":' . $tag . '" gettaggt!');
+            }
+            throw new \Exception('You had already added this tag, but it was removed by another user.');
         }
         $this->em->flush();
 

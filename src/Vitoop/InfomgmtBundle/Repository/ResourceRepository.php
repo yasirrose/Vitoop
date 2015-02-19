@@ -148,6 +148,7 @@ class ResourceRepository extends EntityRepository
            ->leftJoin('r.flags', 'f')
            ->where('f IS NULL')
            ->andWhere('t.text IN (:tags)')
+           ->andWhere('rt.deletedByUser is null')
            ->groupBy('r')
            ->having('COUNT(DISTINCT t.text) = :tag_cnt')
            ->setParameters(array(

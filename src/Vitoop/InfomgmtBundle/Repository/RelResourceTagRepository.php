@@ -55,11 +55,9 @@ class RelResourceTagRepository extends EntityRepository
     public function exists(RelResourceTag $rrt)
     {
         return $this->createQueryBuilder('rrt')
-            ->select('rrt.id')
             ->where('rrt.resource = :resource')
             ->andWhere('rrt.tag = :tag')
             ->andWhere('rrt.user = :user')
-            ->andWhere('rrt.deletedByUser is NULL')
             ->setParameter('resource',$rrt->getResource())
             ->setParameter('tag', $rrt->getTag())
             ->setParameter('user', $rrt->getUser())
