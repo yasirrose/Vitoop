@@ -24,7 +24,7 @@
             {% if editMode is defined and editMode %}
                 <span class="vtp-projectdata-unlink ui-icon ui-icon-close ui-corner-all" onclick="unlinkRes({{ prj.id }})"></span>
             {% else %}
-                {% if prj.getProjectData.availableForReading(user) %}
+                {% if prj.getProjectData is null or prj.getProjectData.availableForReading(user) %}
                     <a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="{{ path('_home_project', {'project_id': prj.id}) }}" target="_self">-></a>
                 {% else %}
                     <span class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" style="background-color: #DDDDDD">-></span>
