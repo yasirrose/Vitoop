@@ -31,7 +31,7 @@ app.controller('PrjController', function ($scope, $http, $filter, $timeout) {
     $scope.isSuccess = false;
     $scope.isLoaded = false;
     $scope.tinymceOptions = {
-        width: 550,
+        width: 800,
         height: 550,
         plugins: 'textcolor link media',
         menubar: false,

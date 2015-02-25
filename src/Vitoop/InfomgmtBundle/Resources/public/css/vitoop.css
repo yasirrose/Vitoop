@@ -369,6 +369,7 @@ span.vtp-lexiconbox-cntres {
 }
 
 .vtp-fh-bottom {
+    margin-top: 5px;
     padding-top: 2px;
 }
 
@@ -452,6 +453,10 @@ span.vtp-lexiconbox-cntres {
 
 .vtp-fh-w95 {
     width: 95%;
+}
+
+.vtp-fh-w97 {
+    width: 97%;
 }
 
 .vtp-fh-w100 {
@@ -716,6 +721,15 @@ span.vtp-icon {
 #vtp-res-flag-buttons {
 }
 
+.vtp-noscrollbar::-webkit-scrollbar {
+    width: 0 !important
+}
+
+.vtp-noscrollbar {
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+}
+
 .ui-state-need-to-save {
     border: 1px solid #FF0000 !important;
     color: #FF0000 !important;
@@ -792,10 +806,18 @@ span.vtp-icon {
 
 #vtp-projectdata-sheet-view, #vtp-projectdata-sheet-info {
     overflow: auto;
-    margin: 1em;
+    margin: 5px;
     padding: 1em;
-    border: 2px solid #aed0ea;
+    border: 1px solid #aed0ea;
     vertical-align: top;
+}
+
+#vtp-projectdata-sheet-info {
+    float: right;
+}
+
+#vtp-projectdata-sheet-view {
+    width: 72%;
 }
 
 .ui-state-no-content {

@@ -569,7 +569,7 @@ resourceDetail = (function () {
             if (1 == tab_loaded[tab_nr]) {
                 return;
             }
-            if (tab_nr == 0) {
+            if (tab_nr == 0 && res_id != 'new') {
                 $.ajax({
                     url: vitoop.baseUrl + 'api/resource/' + res_id + '/tabs_info',
                     method: 'GET',

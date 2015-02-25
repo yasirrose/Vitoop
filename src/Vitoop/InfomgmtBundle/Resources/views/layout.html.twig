@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css?family=Merriweather:300" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="{{ asset('/css/vitoop.ini.css') }}">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/css/ie.css') }}" />
     {% block css %}{% endblock %}
     <script src="{{ asset('/js/jquery/jquery-1.11.1.min.js') }}"></script>
     <script src="{{ asset('/js/jquery/jquery-ui-1.10.4.custom.min.js') }}"></script>
@@ -64,6 +65,7 @@
             <div class="vtp-logo"><a href="{{ path('_base_url') }}">vitoop<span>.org</span></a></div>
             <div id="vtp-nav" class="vtp-menu ui-helper-clearfix ui-corner-all">
                 <ul>
+                    {% set ang = "click('')" %}
                     {% if restype is not defined %}
                         {% set restype = '' %}
                     {% endif %}
