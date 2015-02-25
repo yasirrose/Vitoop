@@ -27,6 +27,16 @@ class Lexicon extends Resource
     protected $wiki_fullurl;
 
     /**
+     * @ORM\Column(name="description", type="string", length=5000)
+     */
+    protected $description;
+
+    /**
+     * @ORM\Column(name="updated", type="datetime")
+     */
+    protected $updated;
+
+    /**
      * @ORM\OneToMany(targetEntity="WikiRedirect", mappedBy="lexicon")
      */
     protected $wiki_redirects;
@@ -35,6 +45,7 @@ class Lexicon extends Resource
     {
         parent::__construct();
         $this->wiki_redirects = new ArrayCollection();
+        $this->updated = new \DateTime();
     }
 
     /**
@@ -150,5 +161,74 @@ class Lexicon extends Resource
     public function getWikiRedirects()
     {
         return $this->wiki_redirects;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return Lexicon
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set updated
+     *
+     * @param \DateTime $updated
+     * @return Lexicon
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+
+        return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return \DateTime 
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Lexicon
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Remove wiki_redirects
+     *
+     * @param \Vitoop\InfomgmtBundle\Entity\WikiRedirect $wikiRedirects
+     */
+    public function removeWikiRedirect(\Vitoop\InfomgmtBundle\Entity\WikiRedirect $wikiRedirects)
+    {
+        $this->wiki_redirects->removeElement($wikiRedirects);
     }
 }

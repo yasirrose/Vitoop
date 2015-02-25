@@ -11,6 +11,7 @@ use Buzz\Client\Curl;
 class LexiconQueryManager
 {
     protected $browser;
+    protected $serializer;
 
     public function __construct(Browser $browser)
     {
@@ -112,16 +113,37 @@ class LexiconQueryManager
         return $arr_wiki;
     }
 
+    public function getDescriptionFromWikiApi($term)
+    {
+        $url = 'https://de.wikipedia.org/w/api.php';
+        $query = '?format=php&action=query&continue=&prop=extracts&exintro=&titles=' . urlencode($term);
+        $header = array(
+            'User-Agent' => 'VitooP/1.0 (http://vitoop.org; david@vitoop.org)'
+        );
+        /* @var $response \Buzz\Message\Response */
+        $response = $this->browser->get($url . $query, $header);
+        $err = $response->getHeader('MediaWiki-API-Error', ' -o- ');
+        if (!is_null($err)) {
+            throw new \Exception('MediaWiki-API-Error: ' . $err);
+        }
+        $arr_wiki = unserialize($response->getContent());
+
+        return $arr_wiki['query']['pages'];
+    }
+
     public function getLexiconFromSuggestTerm($term)
     {
         $arr_wiki = $this->getArrWikiFromWikiApi($term);
 
         $wiki_data = $this->getWikiDatafromArrWiki($arr_wiki);
 
+        $description = $this->getDescriptionFromWikiApi($term);
+
         $lexicon_entry = new Lexicon();
         $lexicon_entry->setName($wiki_data['wiki_title']);
         $lexicon_entry->setWikiFullurl($wiki_data['wiki_fullurl']);
         $lexicon_entry->setWikiPageId($wiki_data['wiki_page_id']);
+        $lexicon_entry->setDescription($description[$wiki_data['wiki_page_id']]['extract']);
 
         if (array_key_exists('wiki_redirect_title', $wiki_data)) {
             $arr_wiki = $this->getArrWikiFromWikiApi($wiki_data['wiki_redirect_title'], false);

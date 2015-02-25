@@ -552,13 +552,16 @@ class ResourceDataCollector
             if ($form_lex->isValid()) {
 
                 try {
-                    $wiki_lex = $this->lqm->getLexiconFromSuggestTerm($lex->getName());
-                    // @TODO SaveLexicon and setResource1 should be combined for
-                    // atomic DB <Transaction. Otherwise a Lexicon is created but
-                    // there could occure an error in assigning it to a resource!
+                    $lexicon = $this->rm->getRepository('lex')->findOneBy(array('name' => $lex->getName()));
+                    if (is_null($lexicon)) {
+                        $lexicon = $this->lqm->getLexiconFromSuggestTerm($lex->getName());
+                        // @TODO SaveLexicon and setResource1 should be combined for
+                        // atomic DB <Transaction. Otherwise a Lexicon is created but
+                        // there could occure an error in assigning it to a resource!
 
-                    $this->rm->saveLexicon($wiki_lex);
-                    $lex_name = $this->rm->setResource1($wiki_lex, $this->res);
+                        $this->rm->saveLexicon($lexicon);
+                    }
+                    $lex_name = $this->rm->setResource1($lexicon, $this->res);
 
                     $info_lex = 'Lexicon "' . $lex_name . '" successfully added!';
                     $form_lex = $this->ff->create('lexicon_name', new Lexicon(), array(

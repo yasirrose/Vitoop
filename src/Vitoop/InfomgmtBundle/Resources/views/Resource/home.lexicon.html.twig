@@ -1,7 +1,15 @@
-<fieldset class="ui-corner-all">
-    <legend>{{ lexicon.name }}</legend>
+<fieldset class="ui-corner-all" style="margin-top: 5px">
     <div id="vtp-lexicondata-box">
-        <a href="{{ lexicon.wikifullurl }}">{{ lexicon.wikifullurl }}</a>
+        {{ lexicon.getDescription|raw}}
+        <br/>
+        <br/>
+        <hr/>
+        <br/>
+        Dieser Artikel basiert auf dem Artikel <a rel="nofollow" href="{{ lexicon.wikifullurl }}" target="_blank">{{ lexicon.name }}</a> aus der freien Enzyklopädie
+        <a rel="nofollow" href="http://de.wikipedia.org/wiki/Wikipedia:Hauptseite" target="_blank">Wikipedia</a> und steht unter der Doppellizenz
+        <a rel="nofollow" href="http://www.hier-ihre-webseite-eintragen.de/lokale-fdl.txt" target="_blank">GNU-Lizenz für freie Dokumentation</a> und
+        <a rel="nofollow" href="http://creativecommons.org/licenses/by-sa/3.0/de/" target="_blank">Creative Commons CC-BY-SA 3.0 Unported</a> (<a rel="nofollow" href="http://creativecommons.org/licenses/by-sa/3.0/de/legalcode" target="_blank">Kurzfassung (de)</a>). In der Wikipedia ist eine
+        <a rel="nofollow" href="{{ lexicon.wikifullurl }}?action=history" target="_blank">Liste der Autoren</a> verfügbar.
         {% if lexicon.wikiredirects is not empty %}
         <div>
             <p>Folgende Begriffe wurden in VitooP verknüpft und werden in Wikipedia auf diesen Lexikonartikel weitergeleitet:</p>

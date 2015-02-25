@@ -66,6 +66,7 @@ class ResourceController extends Controller
     public function homeAction($project_id = 0, $lexicon_id = 0)
     {
         $rm = $this->get('vitoop.resource_manager');
+        $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $tpl_vars = array();
 
@@ -124,8 +125,6 @@ class ResourceController extends Controller
                 if ($request->isMethod('POST')) {
                     $form_user_data->handleRequest($request);
                     if ($form_user_data->isValid()) {
-                        $em = $this->getDoctrine()
-                                   ->getManager();
                         $em->persist($user_data);
                         $em->flush();
                         $info_user_data = 'Änderungen wurden erfolgreich gespeichert';
@@ -196,6 +195,16 @@ class ResourceController extends Controller
                 $home_content_tpl = 'VitoopInfomgmtBundle:Resource:home.project.edit.html.twig';
             }
         } elseif ($is_lexicon_home) {
+            $diff = date_diff(new \DateTime(), $lexicon->getUpdated());
+            if (($diff->m > 2)||($diff->y > 0)) {
+                $description = $this->get('vitoop.lexicon_query_manager')->getDescriptionFromWikiApi($lexicon->getName());
+                if (!array_key_exists(-1, $description)) {
+                    $lexicon->setDescription($description[$lexicon->getWikiPageId()]['extract']);
+                    $lexicon->setUpdated(new \DateTime());
+                    $lexicon = $em->merge($lexicon);
+                    $em->flush();
+                }
+            }
             $tpl_vars = array_merge($tpl_vars, array(
                 'lexicon' => $lexicon
             ));
