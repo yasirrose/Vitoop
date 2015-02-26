@@ -72,7 +72,7 @@ resourceProject = (function () {
         }
 
         $('#vtp-lexicondata-lexicon-close').on('click', function () {
-            location.href = vitoop.baseUrl;
+            location.href = vitoop.baseUrl + 'lex/';
         });
 
         tinymce.init({

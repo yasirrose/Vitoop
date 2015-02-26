@@ -369,7 +369,7 @@ span.vtp-lexiconbox-cntres {
 }
 
 .vtp-fh-bottom {
-    margin-top: 5px;
+    margin-top: 10px;
     padding-top: 2px;
 }
 
@@ -720,7 +720,7 @@ span.vtp-icon {
 
 #vtp-res-flag-buttons {
 }
-
+/*
 .vtp-noscrollbar::-webkit-scrollbar {
     width: 0 !important
 }
@@ -728,6 +728,12 @@ span.vtp-icon {
 .vtp-noscrollbar {
     -ms-overflow-style: none;
     overflow: -moz-scrollbars-none;
+}
+*/
+
+#vtp-lexicondata-box a {
+    color: #2779aa;
+    text-decoration: none;
 }
 
 .ui-state-need-to-save {
