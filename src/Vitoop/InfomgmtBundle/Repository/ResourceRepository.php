@@ -360,12 +360,19 @@ class ResourceRepository extends EntityRepository
            ->leftJoin('r.flags', 'f')
            ->where('f IS NULL')
            ->groupBy('r.id');
-        If ($resource1) {
+        if ($resource1) {
             $qb->innerJoin('r.rel_resources2', 'rr2')
                ->andWhere('rr2.resource1 = :arg_resource1')
-               ->setParameter('arg_resource1', $resource1)
-               ->orderBy('rr2.coefficient', 'DESC')
-               ->addOrderBy('r.created_at', 'DESC');
+               ->setParameter('arg_resource1', $resource1);
+            if ($resource1->getResourceTypeIdx() == 5) {
+                $qb->leftJoin('Vitoop\InfomgmtBundle\Entity\RelResourceResource', 'rrrc', 'WITH', 'rrrc.resource2 = r and rrrc.resource1 = :arg_resource1');
+                $qb->addSelect('COUNT(DISTINCT rrrc.id) as HIDDEN cn');
+                $qb->orderBy('cn', 'DESC');
+                $qb->addOrderBy('rr2.coefficient', 'DESC');
+            } else {
+                $qb->orderBy('rr2.coefficient', 'DESC');
+            }
+            $qb->addOrderBy('r.created_at', 'DESC');
         } else {
             $qb->orderBy('r.created_at', 'DESC');
         }
