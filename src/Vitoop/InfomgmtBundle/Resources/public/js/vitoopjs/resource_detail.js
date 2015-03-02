@@ -485,6 +485,7 @@ resourceDetail = (function () {
              * UIfy: lexicon
              ************************************************************************/
             if ('resource-lexicon' == container_name) {
+
                 $('#lexicon_name_save').on('click', function() {
                     $('#tab-title-rels').removeClass('ui-state-no-content');
                 });
@@ -495,6 +496,7 @@ resourceDetail = (function () {
                             data: {
                                 format: 'json',
                                 action: 'opensearch',
+                                continue: '',
                                 limit: 10,
                                 namespace: 0,
                                 search: request.term
@@ -521,6 +523,28 @@ resourceDetail = (function () {
                     of: '#' + container_name + ' .vtp-uiinfo-anchor',
                     collision: 'none'
                 }).hide("fade", 3000);
+
+                $('.vtp-lexiconbox-item').click(function() {
+                    var text = $(this).text().trim();
+                    var pos = text.search(new RegExp('\\(\\d+\\)'));
+                    if (pos > -1) {
+                        text = text.substring(0, pos).trim();
+                    }
+                    $('#lexicon_name_name').val(text);
+                });
+                $('.vtp-lexicon-submit').click(function(event) {
+                    var input = $('#lexicon_name_name');
+                    if (input.val() == "") {
+                        input.focus();
+                        event.preventDefault();
+                    }
+                });
+                if ($('#lexicon_name_can_add').val() != "1") {
+                    $('#lexicon_name_save').button('disable');
+                }
+                if ($('#lexicon_name_can_remove').val() != "1") {
+                    $('#lexicon_name_remove').button('disable');
+                }
             }
             /*************************************************************************
              * UIfy: flaginfo

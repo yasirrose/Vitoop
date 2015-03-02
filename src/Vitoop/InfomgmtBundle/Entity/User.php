@@ -109,6 +109,11 @@ class User implements UserInterface, EquatableInterface
     protected $deleted_rel_resource_tags;
 
     /**
+     * @ORM\OneToMany(targetEntity="RelResourceResource", mappedBy="deletedByUser")
+     */
+    protected $deleted_rel_resource_resources;
+
+    /**
      * @ORM\OneToMany(targetEntity="RelResourceResource", mappedBy="user")
      */
     protected $rel_resource_resources;
@@ -146,6 +151,7 @@ class User implements UserInterface, EquatableInterface
         $this->watchlist_entries = new ArrayCollection();
         $this->rel_resources_tags = new ArrayCollection();
         $this->deleted_rel_resource_tags = new ArrayCollection();
+        $this->deleted_rel_resource_resources = new ArrayCollection();
         $this->rel_resource_resources = new ArrayCollection();
     }
 
@@ -668,6 +674,39 @@ class User implements UserInterface, EquatableInterface
     }
 
     /**
+     * Add deleted_rel_resource_resources
+     *
+     * @param \Vitoop\InfomgmtBundle\Entity\RelResourceResource $deletedRelResourceResources
+     * @return User
+     */
+    public function addDeletedRelResourceResource(\Vitoop\InfomgmtBundle\Entity\RelResourceResource $deletedRelResourceResources)
+    {
+        $this->deleted_rel_resource_resources[] = $deletedRelResourceResources;
+
+        return $this;
+    }
+
+    /**
+     * Remove deleted_rel_resource_resources
+     *
+     * @param \Vitoop\InfomgmtBundle\Entity\RelResourceResource $deletedRelResourceResources
+     */
+    public function removeDeletedRelResourceResource(\Vitoop\InfomgmtBundle\Entity\RelResourceResource $deletedRelResourceResources)
+    {
+        $this->deleted_rel_resource_resources->removeElement($deletedRelResourceResources);
+    }
+
+    /**
+     * Get deleted_rel_resource_resources
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDeletedRelResourceResources()
+    {
+        return $this->deleted_rel_resource_resources;
+    }
+
+    /**
      * Add relProject
      *
      * @param \Vitoop\InfomgmtBundle\Entity\RelProjectUser $relProject
@@ -679,6 +718,8 @@ class User implements UserInterface, EquatableInterface
 
         return $this;
     }
+    
+    
 
     /**
      * Remove relProject

@@ -224,6 +224,14 @@ class ResourceDataCollector
         return $form;
     }
 
+    private function addPermissionsToLexiconForm(FormInterface $form)
+    {
+        $form->get('can_add')->setData($this->rm->isResourcesAddingAvailable($this->res));
+        $form->get('can_remove')->setData($this->rm->isResourcesRemovingAvailable($this->res));
+
+        return $form;
+    }
+
     public function getTag()
     {
         $info_tag = '';
@@ -547,39 +555,52 @@ class ResourceDataCollector
             'action' => $this->router->generate('_xhr_resource_lexicons', array('res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId())),
             'method' => 'POST'
         ));
+        $form_lex = $this->addPermissionsToLexiconForm($form_lex);
         if ($this->handleData) {
             $form_lex->handleRequest($this->request);
             if ($form_lex->isValid()) {
-
                 try {
-                    $lexicon = $this->rm->getRepository('lex')->findOneBy(array('name' => $lex->getName()));
-                    if (is_null($lexicon)) {
-                        $lexicon = $this->lqm->getLexiconFromSuggestTerm($lex->getName());
-                        // @TODO SaveLexicon and setResource1 should be combined for
-                        // atomic DB <Transaction. Otherwise a Lexicon is created but
-                        // there could occure an error in assigning it to a resource!
+                    if ($form_lex->get('remove')->isEmpty()) {
+                            $lexicon = $this->rm->getRepository('lex')->findOneBy(array('name' => $lex->getName()));
+                            if (is_null($lexicon)) {
+                                $lexicon = $this->lqm->getLexiconFromSuggestTerm($lex->getName());
+                                // @TODO SaveLexicon and setResource1 should be combined for
+                                // atomic DB <Transaction. Otherwise a Lexicon is created but
+                                // there could occure an error in assigning it to a resource!
 
-                        $this->rm->saveLexicon($lexicon);
+                                $this->rm->saveLexicon($lexicon);
+                            }
+                            $lex_name = $this->rm->setResource1($lexicon, $this->res);
+
+                            $info_lex = 'Lexicon "' . $lex_name . '" successfully added!';
+                            $form_lex = $this->ff->create('lexicon_name', new Lexicon(), array(
+                                'action' => $this->router->generate('_xhr_resource_lexicons', array('res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId())),
+                                'method' => 'POST'
+                            ));
+                            $form_lex = $this->addPermissionsToLexiconForm($form_lex);
+                    } else {
+                            $lexicon = $this->rm->getRepository('lex')->findOneBy(array('name' => $lex->getName()));
+                            if (is_null($lexicon)) {
+                                throw new \Exception("Lexicon is not found!");
+                            }
+                            $lex_name = $this->rm->removeLexicon($lexicon, $this->res);
+                            $info_lex = 'Lexicon "' . $lex_name . '" successfully removed!';
+                            $form_lex = $this->ff->create('lexicon_name', new Lexicon(), array(
+                                'action' => $this->router->generate('_xhr_resource_lexicons', array('res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId())),
+                                'method' => 'POST'
+                            ));
+                            $form_lex = $this->addPermissionsToLexiconForm($form_lex);
                     }
-                    $lex_name = $this->rm->setResource1($lexicon, $this->res);
-
-                    $info_lex = 'Lexicon "' . $lex_name . '" successfully added!';
-                    $form_lex = $this->ff->create('lexicon_name', new Lexicon(), array(
-                        'action' => $this->router->generate('_xhr_resource_lexicons', array('res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId())),
-                        'method' => 'POST'
-                    ));
                 } catch (\Exception $e) {
-
                     $form_error = new FormError($e->getMessage());
                     $form_lex->get('name')
-                             ->addError($form_error);
+                        ->addError($form_error);
                 }
             }
         }
 
         $lexicons = $this->rm->getRepository('lex')
                              ->countAllResources1($this->res);
-
         $lex_id_list_by_user = $this->rm->getRepository('lex')
                                         ->getResource1IdListByUser($this->res, $this->vsec->getUser());
         //print_r( $lex_id_list_by_user);die();

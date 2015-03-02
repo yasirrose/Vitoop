@@ -42,6 +42,12 @@ class RelResourceResource
     protected $coefficient;
 
     /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="deleted_rel_resource_resources")
+     * @ORM\JoinColumn(name="deleted_by_id_user", referencedColumnName="id", nullable=true)
+     */
+    protected $deletedByUser;
+
+    /**
      * Get id
      *
      * @return integer
@@ -140,5 +146,28 @@ class RelResourceResource
     public function __construct()
     {
         $this->coefficient = 0;
+    }
+
+    /**
+     * Set deletedByUser
+     *
+     * @param \Vitoop\InfomgmtBundle\Entity\User $deletedByUser
+     * @return RelResourceResource
+     */
+    public function setDeletedByUser(\Vitoop\InfomgmtBundle\Entity\User $deletedByUser = null)
+    {
+        $this->deletedByUser = $deletedByUser;
+
+        return $this;
+    }
+
+    /**
+     * Get deletedByUser
+     *
+     * @return \Vitoop\InfomgmtBundle\Entity\User
+     */
+    public function getDeletedByUser()
+    {
+        return $this->deletedByUser;
     }
 }

@@ -20,6 +20,8 @@ class ResourceManager
 {
     const TAG_MAX_ALLOWED_ADDING = 5;
     const TAG_MAX_ALLOWED_REMOVING = 2;
+    const RESOURCE_MAX_ALLOWED_ADDING = 5;
+    const RESOURCE_MAX_ALLOWED_REMOVING = 2;
 
     protected $arr_resource_type_to_entityname = array(
         'res' => 'Resource',
@@ -186,6 +188,23 @@ class ResourceManager
         return $resource->getId();
     }
 
+    public function removeLexicon(Lexicon $lexicon, Resource $res)
+    {
+        if (!$this->isResourcesRemovingAvailable($res)) {
+            throw new \Exception('Es können pro Datensatz nur zwei Lexicons gelöscht werden.');
+        }
+        $rel = $this->em->getRepository('VitoopInfomgmtBundle:RelResourceResource')->getOneFirstRel($lexicon, $res);
+        if (is_null($rel)) {
+            throw new \Exception('There is not such lexicon on this resource');
+        } else {
+            $rel->setDeletedByUser($this->vsec->getUser());
+            $this->em->merge($rel);
+            $this->em->flush();
+        }
+
+        return $lexicon->getName();
+    }
+
     public function saveLexicon(Lexicon $lexicon)
     {
         $repo = $this->getRepository('lex');
@@ -243,6 +262,24 @@ class ResourceManager
         return ($this->em
                 ->getRepository('VitoopInfomgmtBundle:RelResourceTag')
                 ->getCountOfRemovedTags($user->getId(), $resource->getId()) < self::TAG_MAX_ALLOWED_REMOVING);
+    }
+
+    public function isResourcesAddingAvailable($resource)
+    {
+        $user = $this->vsec->getUser();
+
+        return ($this->em
+                ->getRepository('VitoopInfomgmtBundle:RelResourceResource')
+                ->getCountOfAddedResources($user->getId(), $resource->getId()) < self::RESOURCE_MAX_ALLOWED_ADDING);
+    }
+
+    public function isResourcesRemovingAvailable($resource)
+    {
+        $user = $this->vsec->getUser();
+
+        return ($this->em
+                ->getRepository('VitoopInfomgmtBundle:RelResourceResource')
+                ->getCountOfRemovedResources($user->getId(), $resource->getId()) < self::RESOURCE_MAX_ALLOWED_REMOVING);
     }
 
     public function setTag(Tag $tag, Resource $res)

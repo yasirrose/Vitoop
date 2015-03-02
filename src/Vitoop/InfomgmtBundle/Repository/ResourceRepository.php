@@ -280,6 +280,7 @@ class ResourceRepository extends EntityRepository
                         LEFT JOIN r.flags f
                         WHERE rr.resource2=:arg_resource2
                         AND f IS NULL
+                        AND rr.deletedByUser is null
                         GROUP BY r.id
                         ORDER BY r.name ASC')
                     ->setParameter('arg_resource2', $resource2)
@@ -361,7 +362,7 @@ class ResourceRepository extends EntityRepository
            ->where('f IS NULL')
            ->groupBy('r.id');
         if ($resource1) {
-            $qb->innerJoin('r.rel_resources2', 'rr2')
+            $qb->innerJoin('r.rel_resources2', 'rr2', 'WITH', 'rr2.deletedByUser is null')
                ->andWhere('rr2.resource1 = :arg_resource1')
                ->setParameter('arg_resource1', $resource1);
             if ($resource1->getResourceTypeIdx() == 5) {

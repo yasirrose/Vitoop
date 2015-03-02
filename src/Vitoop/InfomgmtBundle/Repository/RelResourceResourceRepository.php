@@ -17,6 +17,44 @@ use Vitoop\InfomgmtBundle\Entity\User;
  */
 class RelResourceResourceRepository extends EntityRepository
 {
+    public function getOneFirstRel(Resource $resource1, Resource $resource2)
+    {
+        return $this->createQueryBuilder('r')
+            ->select('r')
+            ->where('r.resource1 = :resource1')
+            ->andWhere('r.resource2 = :resource2')
+            ->andWhere('r.deletedByUser IS NULL')
+            ->setParameter('resource1', $resource1)
+            ->setParameter('resource2', $resource2)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function getCountOfAddedResources($userID, $resourceID)
+    {
+        return $this->createQueryBuilder('r')
+            ->select('count(r.id)')
+            ->where('r.resource2 = :resourceID')
+            ->andWhere('r.user = :userID')
+            ->setParameter('resourceID', $resourceID)
+            ->setParameter('userID', $userID)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function getCountOfRemovedResources($userID, $resourceID)
+    {
+        return $this->createQueryBuilder('r')
+            ->select('count(r.id)')
+            ->where('r.resource2 = :resourceID')
+            ->andWhere('r.deletedByUser = :userID')
+            ->setParameter('resourceID', $resourceID)
+            ->setParameter('userID', $userID)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     public function getCoefficients(Project $project, Array $resources)
     {
         return $this->createQueryBuilder('rrr')

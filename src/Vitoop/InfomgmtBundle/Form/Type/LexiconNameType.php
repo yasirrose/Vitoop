@@ -10,7 +10,10 @@ class LexiconNameType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name', null, array('label' => 'Lexikonartikel'))
-                ->add('save', 'input_type_submit', array('label' => 'mit Lexikonartikel verknüpfen'));;
+            ->add('can_add', 'hidden', array('mapped' => false))
+            ->add('can_remove', 'hidden', array('mapped' => false))
+            ->add('save', 'input_type_submit', array('label' => '+'))
+            ->add('remove', 'input_type_submit', array('label' => '-'));
     }
 
     public function getName()

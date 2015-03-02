@@ -196,5 +196,12 @@
 <script src="{{ asset('js/vitoopjs/check_unique.js') }}"></script>
 <script src="{{ asset('js/vitoopjs/unlinkResource.js') }}"></script>
 <script src="{{ asset('../../app/vitoop.js') }}"></script>
+<script type="text/javascript">
+    $(document).on('focusin', function(e) {
+        if ($(event.target).closest(".mce-window").length) {
+            e.stopImmediatePropagation();
+        }
+    });
+</script>
 </body>
 </html>
