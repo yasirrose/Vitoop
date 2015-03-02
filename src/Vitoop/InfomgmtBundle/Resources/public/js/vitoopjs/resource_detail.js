@@ -492,7 +492,7 @@ resourceDetail = (function () {
                 $('#lexicon_name_name').autocomplete({
                     source: function (request, response) {
                         $.ajax({
-                            url: 'http://de.wikipedia.org/w/api.php',
+                            url: 'https://de.wikipedia.org/w/api.php',
                             data: {
                                 format: 'json',
                                 action: 'opensearch',
