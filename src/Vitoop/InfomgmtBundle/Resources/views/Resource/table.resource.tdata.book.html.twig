@@ -1,0 +1,31 @@
+{% for book in resources %}
+    <tr id="book-{{ book.id }}" class="vtp-{{ cycle(zebra, loop.index) }} ui-corner-all vtp-uiaction-list-showdetail{% include "VitoopInfomgmtBundle:Resource:table.resource.res.classhelper.listtagger.html.twig" %}">
+        <td class="ui-corner-left">{{ book.createdat|date("d.m.y") }}</td>
+        <td title="{{ book.name }}">
+            <div class="vtp-teasefader-wrapper">
+                {{ book.name }}
+                <div class="vtp-teasefader"></div>
+            </div>
+        </td>
+        <td title="{{ book.author }}">
+            <div class="vtp-teasefader-wrapper">
+                {{ book.author }}
+                <div class="vtp-teasefader"></div>
+            </div>
+        </td>
+        <td>{{ book.tnop }}</td>
+        <td>
+            <div class="vtp-rating-image-small" title="{{ book.avgmark|avgmarkhint }}"
+                 style="background-image: url('{{ asset('/img/rating/'~avgimg(book.avgmark)) }}');">
+                <span>&nbsp;</span>
+            </div>
+        </td>
+        <td>{{ book.res12count }}</td>
+        <td>{{ book.user.username }}</td>
+        <td class="ui-corner-right">
+            {% if editMode is defined and editMode %}
+                <span class="vtp-projectdata-unlink ui-icon ui-icon-close ui-corner-all" onclick="unlinkRes({{ book.id }})"></span>
+            {% endif %}
+        </td>
+    </tr>
+{% endfor %}

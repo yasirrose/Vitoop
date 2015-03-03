@@ -50,6 +50,11 @@ services:
         tags:
             - { name: form.type, alias: pdf }
 
+    vitoop.form.type.book:
+            class: Vitoop\InfomgmtBundle\Form\Type\BookType
+            tags:
+                - { name: form.type, alias: book }
+
     vitoop.form.type.adr:
         class: Vitoop\InfomgmtBundle\Form\Type\AddressType
         tags:

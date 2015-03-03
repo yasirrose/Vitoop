@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="doctrine2_dc", type="smallint")
  * @ORM\DiscriminatorMap({"0" = "Resource", "1" = "Pdf", "2"="Address", "3" =
- * "Link", "4" = "Teli", "5" = "Lexicon", "6" = "Project"})
+ * "Link", "4" = "Teli", "5" = "Lexicon", "6" = "Project", "7" = "Book"})
  */
 class Resource
 {
@@ -133,7 +133,7 @@ class Resource
      * Get the the numerical Index of the resource_type as used in the
      * discriminator map as follows:
      * "0" = "Resource", "1" = "Pdf", "2"="Address", "3" = "Link",
-     * "4" = "Teli", "5" = "Lexicon", "6" = "Project"
+     * "4" = "Teli", "5" = "Lexicon", "6" = "Project", "7" = "Book"
      *
      * @return integer
      */
@@ -148,7 +148,7 @@ class Resource
      * Get the the human readable Name of the resource_type as used in the
      * discriminator map as follows:
      * "0" = "Resource", "1" = "Pdf", "2"="Address", "3" = "Link",
-     * "4" = "Teli", "5" = "Lexicon", "6" = "Project"
+     * "4" = "Teli", "5" = "Lexicon", "6" = "Project", "7" = "Book"
      *
      * @return string
      */
@@ -161,7 +161,8 @@ class Resource
             "3" => "Link",
             "4" => "Textlink",
             "5" => "Lexikon",
-            "6" => "Projekt"
+            "6" => "Projekt",
+            "7" => "Book"
         );
 
         return $arr_resourcenames[$this->getResourceTypeIdx()];

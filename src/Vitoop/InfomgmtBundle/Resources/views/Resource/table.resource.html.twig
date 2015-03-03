@@ -21,6 +21,17 @@
             <th style="width:{{ linkWidth }};" class="ui-corner-tr">{{ linkTitle }}</th>
         </tr>
         {% endif %}
+        {% if restype == 'book' %}
+            {% set colspan=8 %}
+            <th style="width:7%;" class="ui-corner-tl">Erstellt</th>
+            <th style="width:43%;">Titel</th>
+            <th style="width:22%;">Autor</th>
+            <th style="width:5%;">Seiten</th>
+            <th style="width:8%;">Bewertung</th>
+            <th style="width:3%;">RR</th>
+            <th style="width:14%;">von</th>
+        </tr>
+        {% endif %}
         {% if restype == 'teli' %}
             {% set colspan=7 %}
             <th style="width:7%;" class="ui-corner-tl">Erstellt</th>

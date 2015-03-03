@@ -30,7 +30,8 @@ class ResourceRepository extends EntityRepository
             'link' => 'Link',
             'teli' => 'Teli',
             'lex' => 'Lexicon',
-            'prj' => 'Project'
+            'prj' => 'Project',
+            'book' => 'Book'
         );
 
         return $map_resource_type_to_classname_arr[$resource_type];
@@ -315,7 +316,8 @@ class ResourceRepository extends EntityRepository
                 3 => "Link",
                 4 => "Teli",
                 5 => "Lexicon",
-                6 => "Project"
+                6 => "Project",
+                7 => "Book"
             );
 
             return $arr_element->getName() . ' - ' . $arr_resource_name[$arr_element->getResourceTypeIdx()];

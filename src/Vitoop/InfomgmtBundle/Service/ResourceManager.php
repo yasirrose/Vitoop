@@ -30,7 +30,8 @@ class ResourceManager
         'link' => 'Link',
         'teli' => 'Teli',
         'lex' => 'Lexicon',
-        'prj' => 'Project'
+        'prj' => 'Project',
+        'book' => 'Book'
     );
 
     protected $arr_resource_type_idx_to_entityname = array(
@@ -40,7 +41,8 @@ class ResourceManager
         3 => "Link",
         4 => "Teli",
         5 => "Lexicon",
-        6 => "Project"
+        6 => "Project",
+        7 => "Book"
     );
 
     protected $arr_resource_type_idx_to_resource_type = array(
@@ -50,7 +52,8 @@ class ResourceManager
         3 => "link",
         4 => "teli",
         5 => "lex",
-        6 => "prj"
+        6 => "prj",
+        7 => "book"
     );
 
     /*

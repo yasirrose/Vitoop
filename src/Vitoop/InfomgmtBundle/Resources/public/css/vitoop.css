@@ -383,7 +383,7 @@ span.vtp-lexiconbox-cntres {
 }
 
 .vtp-fh-w0, .vtp-fh-w100,
-.vtp-fh-w10, .vtp-fh-w20, .vtp-fh-w30, .vtp-fh-w40, .vtp-fh-w50,
+.vtp-fh-w10, .vtp-fh-w20, .vtp-fh-w30, .vtp-fh-w31, .vtp-fh-w40, .vtp-fh-w50,
 .vtp-fh-w60, .vtp-fh-w70, .vtp-fh-w80, .vtp-fh-w90,
 .vtp-fh-w05, .vtp-fh-w15, .vtp-fh-w25, .vtp-fh-w35, .vtp-fh-w75, .vtp-fh-w85 {
     display: inline-block;
@@ -413,6 +413,10 @@ span.vtp-lexiconbox-cntres {
 
 .vtp-fh-w30 {
     width: 29%;
+}
+
+.vtp-fh-w31 {
+    width: 30%;
 }
 
 .vtp-fh-w35 {

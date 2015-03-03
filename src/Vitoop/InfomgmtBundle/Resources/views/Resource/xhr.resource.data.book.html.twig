@@ -1,0 +1,84 @@
+{# VitoopInfomgmtBundle:Resource:xhr.resource.data.book.html.twig #}
+{{ form_start(fvdata, {'attr': {'id': 'vtp-form-data', 'novalidate': 'novalidate' }}) }}
+<fieldset class="ui-corner-all">
+    <legend>{{ res.resourcename }}</legend>
+    {% if infodata is not empty %}
+        <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all">
+            <span class="vtp-icon ui-icon ui-icon-info"></span>{{ infodata }}
+        </div>
+    {% endif %}
+    <ul id="unique-url-error" style="display: none">
+        <li>Diese Url existiert schon. (Id# <span id="unique-url-error-id"></span> "<span id="unique-url-error-name"></span>")</li>
+    </ul>
+    {{ form_errors(fvdata) }}
+    <div class="vtp-fh-top">
+        {{ form_label(fvdata.name, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
+        {{ form_widget(fvdata.name, {'attr': {'class': 'vtp-fh-w90' }}) }}
+        <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.name) }}</div>
+    </div>
+    <div class="vtp-fh-middle">
+        {{ form_label(fvdata.author, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
+        {{ form_widget(fvdata.author, {'attr': {'class': 'vtp-fh-w90' }}) }}
+        <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.author) }}</div>
+    </div>
+    <div class="vtp-fh-middle">
+        {{ form_label(fvdata.publisher, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
+        {{ form_widget(fvdata.publisher, {'attr': {'class': 'vtp-fh-w90' }}) }}
+        <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.publisher) }}</div>
+    </div>
+    <div class="vtp-fh-middle">
+        {{ form_label(fvdata.issuer, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
+        {{ form_widget(fvdata.issuer, {'attr': {'class': 'vtp-fh-w90' }}) }}
+        <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.issuer) }}</div>
+    </div>
+    <div class="vtp-fh-middle">
+        <div class="vtp-fh-w35">
+            {{ form_label(fvdata.isbn13, null, {'label_attr': {'class': 'vtp-fh-w31', 'style': 'width: 26%' }}) }}
+            {{ form_widget(fvdata.isbn13, {'attr': {'class': 'vtp-fh-w60' }}) }}
+        </div>
+        <div class="vtp-fh-w35">
+            {{ form_label(fvdata.isbn10, null, {'label_attr': {'class': 'vtp-fh-w35' }}) }}
+            {{ form_widget(fvdata.isbn10, {'attr': {'class': 'vtp-fh-w60' }}) }}
+        </div>
+        <div class="vtp-fh-w31">
+            {{ form_label(fvdata.tnop, null, {'label_attr': {'class': 'vtp-fh-w31' }}) }}
+            {{ form_widget(fvdata.tnop, {'attr': {'class': 'vtp-fh-w60', 'style': 'float: right; margin-right: 11px' }}) }}
+        </div>
+    </div>
+    <div class="vtp-fh-middle">
+        <div class="vtp-fh-w35">
+            {{ form_label(fvdata.lang, null, {'label_attr': {'class': 'vtp-fh-w31', 'style': 'width: 26%' }}) }}
+            {{ form_widget(fvdata.lang, {'attr': {'class': 'vtp-fh-w60'}}) }}
+        </div>
+        <div class="vtp-fh-w35">
+            {{ form_label(fvdata.kind, null, {'label_attr': {'class': 'vtp-fh-w35' }}) }}
+            {{ form_widget(fvdata.kind, {'attr': {'class': 'vtp-fh-w60' }}) }}
+        </div>
+        <div class="vtp-fh-w31">
+            {{ form_label(fvdata.year, null, {'label_attr': {'class': 'vtp-fh-w31' }}) }}
+            {{ form_widget(fvdata.year, {'attr': {'class': 'vtp-fh-w60', 'style': 'float: right; margin-right: 11px' }}) }}
+        </div>
+    </div>
+    <div class="vtp-fh-middle">
+        {{ form_errors(fvdata.isbn13) }}
+        {{ form_errors(fvdata.isbn10) }}
+        {{ form_errors(fvdata.tnop) }}
+    </div>
+    <div class="vtp-fh-middle">
+        {{ form_errors(fvdata.lang) }}
+        {{ form_errors(fvdata.kind) }}
+        {{ form_errors(fvdata.year) }}
+    </div>
+    <div>
+        <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.lang) }}</div>
+    </div>
+    <div class="vtp-fh-bottom">
+        <div class="vtp-fh-infosave-box vtp-fh-w70">
+            Eingetragen am: {{ res.createdat|date('d.m.Y') }}{% if res.getUser is not null %} / von: {{ res.getUser.getUsername }}{% endif %} / ID: {{ res.getId }}
+        </div>
+        <div class="vtp-fh-right vtp-fh-w30">
+            {{ form_widget(fvdata.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}
+        </div>
+    </div>
+</fieldset>
+{{ form_end(fvdata) }}

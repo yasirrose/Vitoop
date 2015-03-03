@@ -28,68 +28,68 @@ _resource_list:
     path:       /{res_type}/
     defaults:   { _controller: VitoopInfomgmtBundle:Resource:list }
     requirements:
-        res_type:  pdf|adr|link|teli|lex|prj
+        res_type:  pdf|adr|link|teli|lex|prj|book
 
 _xhr_resource_data:
     path:       /{res_type}/{res_id}/data
     defaults:   { _controller: VitoopInfomgmtBundle:Resource:data }
     requirements:
-        res_type:  pdf|adr|link|teli|lex|prj
+        res_type:  pdf|adr|link|teli|lex|prj|book
         res_id:    \d+
 
 _xhr_resource_new:
     path:       /{res_type}/new
     defaults:   { _controller: VitoopInfomgmtBundle:Resource:new }
     requirements:
-        res_type:  pdf|adr|link|teli|lex|prj
+        res_type:  pdf|adr|link|teli|lex|prj|book
 
 _xhr_resource_rating:
     path:       /{res_type}/{res_id}/rating
     defaults:   { _controller: VitoopInfomgmtBundle:Resource:rating }
     requirements:
-        res_type:  pdf|adr|link|teli|lex|prj
+        res_type:  pdf|adr|link|teli|lex|prj|book
         res_id:    \d+
 
 _xhr_resource_tags:
     path:       /{res_type}/{res_id}/tags
     defaults:   { _controller: VitoopInfomgmtBundle:Resource:tag }
     requirements:
-        res_type:  pdf|adr|link|teli|lex|prj
+        res_type:  pdf|adr|link|teli|lex|prj|book
         res_id:    \d+
 
 _xhr_resource_remark:
     path:       /{res_type}/{res_id}/remark
     defaults:   { _controller: VitoopInfomgmtBundle:Resource:remark }
     requirements:
-        res_type:  pdf|adr|link|teli|lex|prj
+        res_type:  pdf|adr|link|teli|lex|prj|book
         res_id:    \d+
 
 _xhr_resource_remark_private:
     path:       /{res_type}/{res_id}/remark_private
     defaults:   { _controller: VitoopInfomgmtBundle:Resource:remarkPrivate }
     requirements:
-        res_type:  pdf|adr|link|teli|lex|prj
+        res_type:  pdf|adr|link|teli|lex|prj|book
         res_id:    \d+
 
 _xhr_resource_comments:
     path:       /{res_type}/{res_id}/comments
     defaults:   { _controller: VitoopInfomgmtBundle:Resource:comment }
     requirements:
-        res_type:  pdf|adr|link|teli|lex|prj
+        res_type:  pdf|adr|link|teli|lex|prj|book
         res_id:    \d+
 
 _xhr_resource_lexicons:
     path:       /{res_type}/{res_id}/lexicons
     defaults:   { _controller: VitoopInfomgmtBundle:Resource:lexicon }
     requirements:
-        res_type:  pdf|adr|link|teli|lex|prj
+        res_type:  pdf|adr|link|teli|lex|prj|book
         res_id:    \d+
 
 _xhr_resource_projects:
     path:       /{res_type}/{res_id}/projects
     defaults:   { _controller: VitoopInfomgmtBundle:Resource:project }
     requirements:
-        res_type:  pdf|adr|link|teli|lex|prj
+        res_type:  pdf|adr|link|teli|lex|prj|book
         res_id:    \d+
 
 _xhr_resource_quickview:
@@ -97,7 +97,7 @@ _xhr_resource_quickview:
     defaults:   { _controller: VitoopInfomgmtBundle:Resource:quickview }
     methods:    [GET]
     requirements:
-        res_type:  pdf|adr|link|teli|lex|prj
+        res_type:  pdf|adr|link|teli|lex|prj|book
         res_id:    \d+
 
 _xhr_resource_assignments:
@@ -105,14 +105,14 @@ _xhr_resource_assignments:
     defaults:   { _controller: VitoopInfomgmtBundle:Resource:assignment }
     methods:    [GET]
     requirements:
-        res_type:  pdf|adr|link|teli|lex|prj
+        res_type:  pdf|adr|link|teli|lex|prj|book
         res_id:    \d+
 
 _xhr_resource_flag:
     path:       /{res_type}/{res_id}/flag/{flag_type}
     defaults:   { _controller: VitoopInfomgmtBundle:Resource:flag }
     requirements:
-        res_type:  pdf|adr|link|teli|lex|prj
+        res_type:  pdf|adr|link|teli|lex|prj|book
         res_id:    \d+
         flag_type: delete|blame
 
@@ -121,7 +121,7 @@ _xhr_resource_flaginfo:
     defaults:   { _controller: VitoopInfomgmtBundle:Resource:flaginfo }
     methods:    [POST]
     requirements:
-        res_type:  pdf|adr|link|teli|lex|prj
+        res_type:  pdf|adr|link|teli|lex|prj|book
         res_id:    \d+
 
 _lexicon:
