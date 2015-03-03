@@ -279,15 +279,37 @@ resourceDetail = (function () {
                     }
                     $('#tag_text').val(text);
                 });
+
+                $('#tag_confirm_save').on('click', function() {
+                    if ($('#tag_text').val() == "") {
+                        return false;
+                    }
+                    $('#tag_confirm_save').hide();
+                    $('#tag_remove').hide();
+                    $('#div-confirm-tagging').show();
+                });
+
+                $('#tag_cancel_save').on('click', function() {
+                    $('#tag_confirm_save').show();
+                    $('#tag_remove').show();
+                    $('#div-confirm-tagging').hide();
+                    $('#tag_text').val('');
+                });
+
                 $('.vtp-tag-submit').click(function(event) {
                     var input = $('#tag_text');
-                    if (input.val() == "") {
+                    var text = input.val();
+                    if (text == "") {
                         input.focus();
                         event.preventDefault();
+                        return false;
                     }
                 });
+
                 if ($('#tag_can_add').val() != "1") {
                     $('#tag_save').button('disable');
+                    $('#tag_confirm_save').prop('disabled', true);
+                    $('#tag_confirm_save').addClass('ui-button-disabled ui-state-disabled');
                 }
                 if ($('#tag_can_remove').val() != "1") {
                     $('#tag_remove').button('disable');
@@ -922,7 +944,7 @@ resourceDetail = (function () {
 
             $('#vtp-res-dialog').before('<div id="resource-flags" style="display: none;"></div>');
 
-            $('#vtp-res-dialog-tabs form').ajaxForm({
+            $('#vtp-res-dialog-tabs form:not(#form-tag)').ajaxForm({
                 delegation: true,
                 dataType: 'json',
                 success: [notifyRefresh, loadTabSuccess],
@@ -931,6 +953,17 @@ resourceDetail = (function () {
                 }
 
             });
+
+            $('#vtp-res-dialog-tabs form#form-tag').ajaxForm({
+                delegation: true,
+                dataType: 'json',
+                success: [notifyRefresh, loadTabSuccess, function() {$('#tag_text').focus(); $('#div-confirm-tagging').hide();}],
+                error: function (jqXHR, textStatus, errorThrown, $form) {
+                    $form.empty().append('Vitoooops!: ' + textStatus + ' ' + jqXHR.status + ': ' + jqXHR.statusText);
+                }
+
+            });
+
             $('#vtp-res-flag-form form').ajaxForm({
                 delegation: true,
                 dataType: 'html',

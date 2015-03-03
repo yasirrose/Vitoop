@@ -14,12 +14,20 @@
         {{ form_widget(fvtag.can_add) }}
         {{ form_widget(fvtag.can_remove) }}
         {{ form_widget(fvtag.text, {'attr': {'class': 'vtp-fh-w40'}}) }}
-        {{ form_widget(fvtag.save, {'attr': {'class': 'vtp-uiinfo-anchor vtp-tag-submit' }}) }}
+        <input type="button" id="tag_confirm_save" name="tag[confirm_save]" class="vtp-uiinfo-anchor vtp-tag-submit ui-button ui-widget ui-state-default ui-corner-all" style="height: 24px; padding-top: 0px; padding-bottom: 0px;" value="+" role="button" aria-disabled="false">
         {{ form_widget(fvtag.remove, {'attr': {'class': 'vtp-uiinfo-anchor vtp-tag-submit' }}) }}
         <span style="float: right;">
          {{ form_label(fvtag.showown, null, {'label_attr': {'class': 'vtp-fh-h24' }}) }}
-             {{ form_widget(fvtag.showown, {'attr': {'id': 'vtp-tgl-tag-showown', 'class': 'vtp-uiaction-tag-showown' }}) }}
+            {{ form_widget(fvtag.showown, {'attr': {'id': 'vtp-tgl-tag-showown', 'class': 'vtp-uiaction-tag-showown' }}) }}
         </span>
+        <div id="div-confirm-tagging" class="vtp-fh-w100" style="margin-top: 5px; display: none">
+            <span>
+                    Willst Du in der Tag-Liste ein neues Tag anlegen?
+            </span>
+            {{ form_widget(fvtag.save, {'attr': {'class': 'vtp-uiinfo-anchor vtp-tag-submit' }}) }}
+            <input type="button" id="tag_cancel_save" name="tag[cancel_save]" class="vtp-uiinfo-anchor vtp-tag-submit ui-button ui-widget ui-state-default ui-corner-all" style="height: 24px; padding-top: 0px; padding-bottom: 0px; font-weight: normal" value="Nein" role="button" aria-disabled="false">
+        </div>
+
 
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvtag.text) }}</div>
     </div>

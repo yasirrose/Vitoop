@@ -13,7 +13,7 @@ class TagType extends AbstractType
                 ->add('can_add', 'hidden', array('mapped' => false))
                 ->add('can_remove', 'hidden', array('mapped' => false))
                 ->add('showown', 'checkbox', array('label' => 'Zeige eigene Tags', 'mapped' => false))
-                ->add('save', 'input_type_submit', array('label' => '+'))
+                ->add('save', 'input_type_submit', array('label' => 'Ja'))
                 ->add('remove', 'input_type_submit', array('label' => '-'));
     }
 
