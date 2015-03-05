@@ -138,11 +138,7 @@ app.controller('ToDoController', function ($scope, $http, $filter) {
     $scope.$watch("user", function(){
         $http.get('api/user/'+$scope.user.id+'/todo').success(function (data) {
             $scope.to_do_items = data;
-            if ($scope.to_do_items.length == 0) {
-                $scope.newItem();
-            } else {
-                angular.copy($scope.to_do_items[0], $scope.to_do_item);
-            }
+            $scope.loadItem();
         });
     });
 
@@ -162,16 +158,24 @@ app.controller('ToDoController', function ($scope, $http, $filter) {
       $scope.toDoForm.$setDirty();
     };
 
+    $scope.loadItem = function() {
+        if ($scope.to_do_items.length == 0) {
+            $scope.newItem();
+        } else {
+            angular.copy($scope.to_do_items[0], $scope.to_do_item);
+            $scope.isDeleting = false;
+        }
+    };
+
     $scope.delete = function() {
         if (angular.isDefined($scope.to_do_item.id)) {
             $http.delete('api/user/'+$scope.user.id+'/todo/'+$scope.to_do_item.id).success(function () {
                 var index = $scope.to_do_items.indexOf($filter('filter')($scope.to_do_items, {id: $scope.to_do_item.id}, true)[0]);
                 $scope.to_do_items.splice(index, 1);
-                $scope.newItem();
-                $scope.toDoForm.$setDirty();
+                $scope.loadItem();
             });
         } else {
-            $scope.newItem();
+            $scope.loadItem();
         }
     };
 
