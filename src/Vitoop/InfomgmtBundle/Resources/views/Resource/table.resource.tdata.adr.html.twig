@@ -1,6 +1,12 @@
 {% for adr in resources %}
     <tr id="adr-{{ adr.id }}" class="vtp-{{ cycle(zebra, loop.index) }} ui-corner-all vtp-uiaction-list-showdetail{% include "VitoopInfomgmtBundle:Resource:table.resource.res.classhelper.listtagger.html.twig" %}">
-        <td class="ui-corner-left">{{ adr.createdat|date("d.m.y") }}</td>
+        <td class="ui-corner-left">
+            {% if (editMode is defined) and (editMode) %}
+                <input type="number" id="coef-{{ attribute(coefficients, adr.getID).rel_id }}" data-rel_id="{{ attribute(coefficients, adr.getID).rel_id }}" min="0" data-original="{{ attribute(coefficients, adr.getID).coefficient }}" max="120" step="0.1" value="{{ attribute(coefficients, adr.getID).coefficient }}" class="vtp-uiaction-coefficient vtp-fh-w85"/>
+            {% else %}
+                {{ adr.createdat|date("d.m.y") }}
+            {% endif %}
+        </td>
         <td title="{{ adr.name }}">
             <div class="vtp-teasefader-wrapper">
                 {{ adr.name }}

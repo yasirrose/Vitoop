@@ -3,10 +3,12 @@
     {% set linkTitle = 'unlink' %}
     {% set linkWidth = '5%' %}
     {% set dateTitle = 'Koeff.' %}
+    {% set colsBook = 9 %}
 {% else %}
     {% set linkWidth = '3%' %}
     {% set linkTitle = 'link' %}
     {% set dateTitle = 'Erstellt' %}
+    {% set colsBook = 8 %}
 {% endif %}
 <div id="vtp-res-list" class="vtp-uiaction-list-listener">
     {% if resources|length > 0 %}
@@ -25,7 +27,7 @@
             </tr>
             {% endif %}
             {% if restype == 'book' %}
-            {% set colspan=8 %}
+            {% set colspan = colsBook %}
             <th style="width:7%;" class="ui-corner-tl">{{ dateTitle }}</th>
             <th style="width:43%;">Titel</th>
             <th style="width:22%;">Autor</th>
@@ -33,6 +35,9 @@
             <th style="width:8%;">Bewertung</th>
             <th style="width:3%;">RR</th>
             <th style="width:14%;">von</th>
+            {% if editMode is defined and editMode %}
+                <th style="width:{{ linkWidth }};" class="ui-corner-tr">{{ linkTitle }}</th>
+            {% endif %}
         </tr>
         {% endif %}
             {% if restype == 'teli' %}

@@ -1,6 +1,12 @@
 {% for pdf in resources %}
     <tr id="pdf-{{ pdf.id }}" class="vtp-{{ cycle(zebra, loop.index) }} ui-corner-all vtp-uiaction-list-showdetail{% include "VitoopInfomgmtBundle:Resource:table.resource.res.classhelper.listtagger.html.twig" %}">
-        <td class="ui-corner-left">{{ pdf.createdat|date("d.m.y") }}</td>
+        <td class="ui-corner-left">
+            {% if (editMode is defined) and (editMode) %}
+                <input type="number" id="coef-{{ attribute(coefficients, pdf.getID).rel_id }}" data-rel_id="{{ attribute(coefficients, pdf.getID).rel_id }}" min="0" data-original="{{ attribute(coefficients, pdf.getID).coefficient }}" max="120" step="0.1" value="{{ attribute(coefficients, pdf.getID).coefficient }}" class="vtp-uiaction-coefficient vtp-fh-w85"/>
+            {% else %}
+                {{ pdf.createdat|date("d.m.y") }}
+            {% endif %}
+        </td>
         <td title="{{ pdf.name }}">
             <div class="vtp-teasefader-wrapper">
                 {{ pdf.name }}

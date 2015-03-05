@@ -106,6 +106,7 @@ resourceList = (function () {
                     if ((~~upperCoefficient)-(~~currentCoefficient) >= 1) {
                         $(this).parent().parent().before($('<div style="background-color: #62bbe9; width: 1122px; padding-left: 20px; font-size: 16px; font-weight: bolder; height: 21px" class="vtp-uiaction-coefficient ui-corner-all"><span>'+ ~~ currentCoefficient+'</span></div>'));
                     }
+                    upperCoefficient = currentCoefficient;
                 });
             }
             $('#vtp-content').empty().append(html);

@@ -1,6 +1,12 @@
 {% for lex in resources %}
     <tr id="lex-{{ lex.id }}" class="vtp-{{ cycle(zebra, loop.index) }} ui-corner-all vtp-uiaction-list-showdetail{% include "VitoopInfomgmtBundle:Resource:table.resource.res.classhelper.listtagger.html.twig" %}">
-        <td class="ui-corner-left">{{ lex.createdat|date("d.m.y") }}</td>
+        <td class="ui-corner-left">
+            {% if (editMode is defined) and (editMode) %}
+                <input type="number" id="coef-{{ attribute(coefficients, lex.getID).rel_id }}" data-rel_id="{{ attribute(coefficients, lex.getID).rel_id }}" min="0" data-original="{{ attribute(coefficients, lex.getID).coefficient }}" max="120" step="0.1" value="{{ attribute(coefficients, lex.getID).coefficient }}" class="vtp-uiaction-coefficient vtp-fh-w85"/>
+            {% else %}
+                {{ lex.createdat|date("d.m.y") }}
+            {% endif %}
+        </td>
         <td title="{{ lex.name }}">
             <div class="vtp-teasefader-wrapper">
                 {{ lex.name }}
