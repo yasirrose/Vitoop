@@ -8,6 +8,8 @@ resourceList = (function () {
 
         maxperpage = query.maxperpage, // may be undefined
 
+        editMode = query.edit,
+
         current_url = location.href,
 
         uifyPagination = function () {
@@ -91,11 +93,51 @@ resourceList = (function () {
         },
 
         insertResourceList = function (responseHtml, textStatus, jqXHR, $_form) {
-            $('#vtp-content').empty().append(responseHtml);
+            var html = $(responseHtml);
+            if ((typeof(editMode) != 'undefined') && editMode) {
+                var upperCoefficient = -1000;
+                var currentCoefficient = 0;
+                $('table > tbody > tr > td > input.vtp-uiaction-coefficient', $(html)).each(function() {
+                    if (upperCoefficient < 0) {
+                        upperCoefficient = $(this).val();
+                        return true;
+                    }
+                    currentCoefficient = $(this).val();
+                    if ((~~upperCoefficient)-(~~currentCoefficient) >= 1) {
+                        $(this).parent().parent().before($('<div style="background-color: #62bbe9; width: 1122px; padding-left: 20px; font-size: 16px; font-weight: bolder; height: 21px" class="vtp-uiaction-coefficient ui-corner-all"><span>'+ ~~ currentCoefficient+'</span></div>'));
+                    }
+                });
+            }
+            $('#vtp-content').empty().append(html);
             resourceDetail.tgl_ls();
             uifyPagination();
             //@TODO What should be maintained here???????????????????
             maintainResLinks();
+            if (typeof(editMode) != 'undefined' && editMode == 1) {
+                $('.vtp-uiaction-coefficient').on('focusout', function() {
+                    if ($(this).val() < 0) {
+                        $(this).val($(this).data('original'));
+                        return false;
+                    }
+                    if ($(this).val() != $(this).data('original')) {
+                        $('.vtp-uiaction-coefficient').attr('disabled', true);
+                        $.ajax({
+                            dataType: 'json',
+                            delegate: true,
+                            data: JSON.stringify({'value': $(this).val()}),
+                            method: 'POST',
+                            url: '../api/rrr/' + $(this).data('rel_id') + '/coefficient',
+                            success: function (jqXHR) {
+                                if (jqXHR.success) {
+                                    loadContent();
+                                } else {
+                                    $('.vtp-uiaction-coefficient').attr('disabled', false);
+                                }
+                            }
+                        });
+                    }
+                });
+            }
         },
 
         insertHomeContent = function (responseHtml, textStatus, jqXHR, $_form) {

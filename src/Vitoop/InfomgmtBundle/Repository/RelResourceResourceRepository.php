@@ -55,15 +55,15 @@ class RelResourceResourceRepository extends EntityRepository
             ->getSingleScalarResult();
     }
 
-    public function getCoefficients(Project $project, Array $resources)
+    public function getCoefficients(Project $project)
     {
         return $this->createQueryBuilder('rrr')
-            ->select('rrr.resource2.id as id')
+            ->select('res.id as res_id')
+            ->addSelect('rrr.id as rel_id')
             ->addSelect('rrr.coefficient as coefficient')
+            ->innerJoin('rrr.resource2', 'res')
             ->where('rrr.resource1 =:project')
-            ->andWhere('rrr.resource2 IN :resources')
             ->setParameter('project', $project)
-            ->setParameter('resources', $resources)
             ->getQuery()
             ->getResult();
     }

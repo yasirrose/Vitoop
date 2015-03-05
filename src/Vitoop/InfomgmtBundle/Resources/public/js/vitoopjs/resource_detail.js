@@ -682,7 +682,7 @@ resourceDetail = (function () {
 
         showDialog = function (e) {
             var current_tr_res;
-            if ($(e.target).hasClass('vtp-uiaction-open-extlink') || $(e.target).hasClass('vtp-projectdata-unlink') || $(e.target).hasClass('vtp-projectdata-unlink-coefficient')) {
+            if ($(e.target).hasClass('vtp-uiaction-open-extlink') || $(e.target).hasClass('vtp-projectdata-unlink') || $(e.target).hasClass('vtp-projectdata-unlink-coefficient') || $(e.target).hasClass('vtp-uiaction-coefficient')) {
                 return;
             }
 
@@ -776,7 +776,11 @@ resourceDetail = (function () {
                 }));
             } else { // flip to NEXT resource
                 tgl();
-                tr_res = tr_res.next('tr');
+                var nextElement = tr_res.next('tr');
+                if (nextElement.length == 0) {
+                    nextElement = tr_res.next().next('tr');
+                }
+                tr_res = nextElement;
                 tgl();
                 prev_id = res_id;
                 res_id = next_id;
@@ -794,7 +798,11 @@ resourceDetail = (function () {
             } else if (tr_res.hasClass('vtp-list-last')) {
                 next_id = 0;
             } else {
-                next_id = (tr_res.next('tr').attr('id').split('-'))[1];
+                var nextElement = tr_res.next('tr');
+                if (nextElement.length == 0) {
+                    nextElement = tr_res.next().next('tr');
+                }
+                next_id = (nextElement.attr('id').split('-'))[1];
             }
         },
 
@@ -819,7 +827,11 @@ resourceDetail = (function () {
                 }));
             } else { // flip to PREVious resource
                 tgl();
-                tr_res = tr_res.prev('tr');
+                var prevElement = tr_res.prev('tr');
+                if (prevElement.length == 0) {
+                    prevElement = tr_res.prev().prev('tr');
+                }
+                tr_res = prevElement;
                 tgl();
                 next_id = res_id;
                 res_id = prev_id;
@@ -837,7 +849,11 @@ resourceDetail = (function () {
             } else if (tr_res.hasClass('vtp-list-first')) {
                 prev_id = 0;
             } else {
-                prev_id = (tr_res.prev('tr').attr('id').split('-'))[1];
+                var prevElement = tr_res.prev('tr');
+                if (prevElement.length == 0) {
+                    prevElement = tr_res.prev().prev('tr');
+                }
+                prev_id = (prevElement.attr('id').split('-'))[1];
             }
         },
 

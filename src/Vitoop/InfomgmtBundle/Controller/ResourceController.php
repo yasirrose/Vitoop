@@ -335,11 +335,17 @@ class ResourceController extends Controller
         } elseif ($mode_filter_by_project_id) {
             $resources = $rm->getRepository($res_type)
                             ->getResources2ByResource1($project);
-            /*$coefficients = $this->getDoctrine()->getRepository('VitoopInfomgmtBundle:RelResourceResource')->getCoefficients($project, $resources);
-            var_dump($coefficients);
-            exit(0);
-            */
+
             $tpl_vars = array_merge($tpl_vars, array('editMode' => $isEditMode));
+            if ($isEditMode && (count($resources) > 0)) {
+                $coefficients = $this->getDoctrine()->getRepository('VitoopInfomgmtBundle:RelResourceResource')->getCoefficients($project);
+                foreach ($coefficients as $coefficient) {
+                    $coefResult[$coefficient['res_id']] = array('rel_id' => $coefficient['rel_id'], 'coefficient' => $coefficient['coefficient']);
+                }
+                $tpl_vars = array_merge($tpl_vars, array('coefficients' => $coefResult));
+            }
+
+
         } elseif ($mode_filter_by_lexicon_id) {
             $resources = $rm->getRepository($res_type)
                             ->getResources2ByResource1($lexicon);

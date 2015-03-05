@@ -152,6 +152,10 @@ _project_api:
     resource: "@VitoopInfomgmtBundle/Controller/ProjectApiController.php"
     type:     annotation
 
+_rel_resource_resource_api:
+    resource: "@VitoopInfomgmtBundle/Controller/RelResourceResourceApiController.php"
+    type:     annotation
+
 _login_check:
     path: /login_check
    
