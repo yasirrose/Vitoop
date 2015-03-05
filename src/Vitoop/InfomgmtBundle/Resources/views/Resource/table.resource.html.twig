@@ -7,21 +7,22 @@
     {% set linkTitle = 'link' %}
 {% endif %}
 <div id="vtp-res-list" class="vtp-uiaction-list-listener">
-    <table>
-        <tr id="{{ restype }}-table" class="vtp-res-dialog-onclick">
-        {% if restype == 'pdf' %}
-            {% set colspan=9 %}
-            <th style="width:7%;" class="ui-corner-tl">Erstellt</th>
-            <th style="width:40%;">Titel</th>
-            <th style="width:20%;">Autor</th>
-            <th style="width:5%;">Seiten</th>
-            <th style="width:8%;">Bewertung</th>
-            <th style="width:3%;">RR</th>
-            <th style="width:14%;">von</th>
-            <th style="width:{{ linkWidth }};" class="ui-corner-tr">{{ linkTitle }}</th>
-        </tr>
-        {% endif %}
-        {% if restype == 'book' %}
+    {% if resources|length > 0 %}
+        <table>
+            <tr id="{{ restype }}-table" class="vtp-res-dialog-onclick">
+                {% if restype == 'pdf' %}
+                {% set colspan=9 %}
+                <th style="width:7%;" class="ui-corner-tl">Erstellt</th>
+                <th style="width:40%;">Titel</th>
+                <th style="width:20%;">Autor</th>
+                <th style="width:5%;">Seiten</th>
+                <th style="width:8%;">Bewertung</th>
+                <th style="width:3%;">RR</th>
+                <th style="width:14%;">von</th>
+                <th style="width:{{ linkWidth }};" class="ui-corner-tr">{{ linkTitle }}</th>
+            </tr>
+            {% endif %}
+            {% if restype == 'book' %}
             {% set colspan=8 %}
             <th style="width:7%;" class="ui-corner-tl">Erstellt</th>
             <th style="width:43%;">Titel</th>
@@ -32,7 +33,7 @@
             <th style="width:14%;">von</th>
         </tr>
         {% endif %}
-        {% if restype == 'teli' %}
+            {% if restype == 'teli' %}
             {% set colspan=7 %}
             <th style="width:7%;" class="ui-corner-tl">Erstellt</th>
             <th style="width:40%;" class="ui-corner-tl">Bezeichnung</th>
@@ -43,7 +44,7 @@
             <th style="width:{{ linkWidth }};" class="ui-corner-tr">{{ linkTitle }}</th>
             </tr>
         {% endif %}
-        {% if restype == 'link' %}
+            {% if restype == 'link' %}
             {% set colspan=8 %}
             <th style="width:7%;" class="ui-corner-tl">Erstellt</th>
             <th style="width:40%;">Bezeichnung</th>
@@ -55,7 +56,7 @@
             <th style="width:{{ linkWidth }};" class="ui-corner-tr">{{ linkTitle }}</th>
             </tr>
         {% endif %}
-        {% if restype == 'adr' %}
+            {% if restype == 'adr' %}
             {% set colspan=8 %}
             <th style="width:7%;" class="ui-corner-tl">Erstellt</th>
             <th style="width:40%;">Institution</th>
@@ -67,7 +68,7 @@
             <th style="width:{{ linkWidth }};" class="ui-corner-tr">{{ linkTitle }}</th>
             </tr>
         {% endif %}
-        {% if restype == 'lex' %}
+            {% if restype == 'lex' %}
             {% set colspan=7 %}
             <th style="width:7%;" class="ui-corner-tl">Erstellt</th>
             <th style="width:40%;">Lexikonbegriff</th>
@@ -78,7 +79,7 @@
             <th style="width:{{ linkWidth }};" class="ui-corner-tr">{{ linkTitle }}</th>
             </tr>
         {% endif %}
-        {% if restype == 'prj' %}
+            {% if restype == 'prj' %}
             {% set colspan=6 %}
             <th style="width:7%;" class="ui-corner-tl">Erstellt</th>
             <th style="width:65%;">Projektname</th>
@@ -88,17 +89,27 @@
             <th style="width:{{ linkWidth }};" class="ui-corner-tr">{{ linkTitle }}</th>
             </tr>
         {% endif %}
-        {% include "VitoopInfomgmtBundle:Resource:table.resource.tdata."~restype~".html.twig" %}
-        {# PAGINATION #}
-        <tr id="vtp-resource-pagination-tr">
-            <td colspan="{{ colspan }}" class="vtp-odd ui-corner-all">
-                <div id="vtp-resource-pagination" class="vtp-pg-pane">
-                    {% pg_theme resources 'VitoopInfomgmtBundle:Pagination:vitoop.default.html.twig' %}
-                    <div id="vtp-pg-pane-left">{{ pg_rowsperpage(resources) }}</div>
-                    <div id="vtp-pg-pane-middle">{{ pg_widget(resources) }}</div>
-                    <div id="vtp-pg-pane-right">{{ pg_totalrows(resources) }}</div>
-                </div>
-            </td>
-        </tr>
-    </table>
+            {% include "VitoopInfomgmtBundle:Resource:table.resource.tdata."~restype~".html.twig" %}
+            {# PAGINATION #}
+            <tr id="vtp-resource-pagination-tr">
+                <td colspan="{{ colspan }}" class="vtp-odd ui-corner-all">
+                    <div id="vtp-resource-pagination" class="vtp-pg-pane">
+                        {% pg_theme resources 'VitoopInfomgmtBundle:Pagination:vitoop.default.html.twig' %}
+                        <div id="vtp-pg-pane-left">{{ pg_rowsperpage(resources) }}</div>
+                        <div id="vtp-pg-pane-middle">{{ pg_widget(resources) }}</div>
+                        <div id="vtp-pg-pane-right">{{ pg_totalrows(resources) }}</div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    {% else %}
+        <div style="font-size: 42px; color: #2779aa">
+            <p style="padding-left: 30px">
+                .. hier gibt es leider keine Treffer  :-(
+            </p>
+            <p style="font-size: 32px; padding-right: 40px; text-align: right">
+                .. aber wenn Du willst, kannst Du welche eintragen   :-)
+            </p>
+        </div>
+    {% endif %}
 </div>
