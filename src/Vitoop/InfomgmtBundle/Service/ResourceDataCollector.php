@@ -206,8 +206,12 @@ class ResourceDataCollector
         if ($this->initialized) {
             return $this->twig->render('VitoopInfomgmtBundle:Resource:xhr.resource.title.html.twig', array('res' => $this->res));
         } else {
-            return $this->getResourceManager()
-                        ->getResourceName($this->res_type) . ' anlegen';
+            $type = $this->getResourceManager()
+                ->getResourceName($this->res_type);
+            if ($type == "Book") {
+                $type = "Buch";
+            }
+            return $type.' anlegen';
         }
     }
 

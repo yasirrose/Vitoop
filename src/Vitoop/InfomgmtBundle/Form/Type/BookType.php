@@ -16,14 +16,15 @@ class BookType extends AbstractType
                 ->add('name', null, array('label' => 'Titel:'))
                 ->add('author', null, array('label' => 'Autor:'))
                 ->add('publisher', null, array('label' => 'Verlag:'))
-                ->add('issuer', null, array('label' => 'Hrsg.:'))
+                ->add('issuer', null, array('label' => 'Hrsg.:', 'required' => false))
                 ->add('isbn13', null, array('label' => 'ISBN-13:'))
                 ->add('isbn10', null, array('label' => 'ISBN-10:'))
                 ->add('tnop', null, array('label' => 'Seiten:'))
                 ->add('kind', 'choice', array(
                     'choices' => array(
-                        'Roman' => 'Roman',
-                        'Sachbuch' => 'Sachbuch'
+                        'XX' => 'auswählen',
+                        'Sachbuch' => 'Sachbuch',
+                        'Roman' => 'Roman'
                     ),
                     'label' => 'Art'
                 ))

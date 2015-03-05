@@ -21,10 +21,10 @@
             {{ form_widget(fvtag.showown, {'attr': {'id': 'vtp-tgl-tag-showown', 'class': 'vtp-uiaction-tag-showown' }}) }}
         </span>
         <div id="div-confirm-tagging" class="vtp-fh-w100" style="margin-top: 5px; display: none">
-            <span>
+            <span style="margin-right: 30px">
                     Willst Du in der Tag-Liste ein neues Tag anlegen?
             </span>
-            {{ form_widget(fvtag.save, {'attr': {'class': 'vtp-uiinfo-anchor vtp-tag-submit' }}) }}
+            {{ form_widget(fvtag.save, {'attr': {'class': 'vtp-uiinfo-anchor vtp-tag-submit', 'style': 'width: 63px' }}) }}
             <input type="button" id="tag_cancel_save" name="tag[cancel_save]" class="vtp-uiinfo-anchor vtp-tag-submit ui-button ui-widget ui-state-default ui-corner-all" style="height: 24px; padding-top: 0px; padding-bottom: 0px; font-weight: normal" value="Nein" role="button" aria-disabled="false">
         </div>
 

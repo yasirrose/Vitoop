@@ -23,8 +23,6 @@ Vitoop\InfomgmtBundle\Entity\Book:
                 max: 256
                 maxMessage: "Dieses Feld darf nicht mehr als {{ limit }} Zeichen haben."
         issuer:
-            - NotBlank:
-                message: "Bitte gebe einen Hrsg. ein. Wenn der Hrsg. unbekannt ist, gebe \"??\" ein."
             - Length:
                 max: 256
                 maxMessage: "Dieses Feld darf nicht mehr als {{ limit }} Zeichen haben."

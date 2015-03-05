@@ -162,7 +162,7 @@ class Resource
             "4" => "Textlink",
             "5" => "Lexikon",
             "6" => "Projekt",
-            "7" => "Book"
+            "7" => "Buch"
         );
 
         return $arr_resourcenames[$this->getResourceTypeIdx()];

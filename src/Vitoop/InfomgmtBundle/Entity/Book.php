@@ -23,7 +23,7 @@ class Book extends Resource
     protected $publisher;
 
     /**
-     * @ORM\Column(name="issuer", type="string", length=256)
+     * @ORM\Column(name="issuer", type="string", length=256, nullable=true)
      */
     protected $issuer;
 

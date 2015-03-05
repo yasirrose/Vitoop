@@ -284,9 +284,20 @@ resourceDetail = (function () {
                     if ($('#tag_text').val() == "") {
                         return false;
                     }
-                    $('#tag_confirm_save').hide();
-                    $('#tag_remove').hide();
-                    $('#div-confirm-tagging').show();
+                    var tagExist = false;
+                    $('ul.ui-autocomplete > li > a').each(function(index) {
+                        if ($(this).text().toLowerCase() == $('#tag_text').val().toLowerCase()) {
+                            tagExist = true;
+                            return false;
+                        }
+                    });
+                    if (tagExist) {
+                        $('#tag_save').trigger('click');
+                    } else {
+                        $('#tag_confirm_save').hide();
+                        $('#tag_remove').hide();
+                        $('#div-confirm-tagging').show();
+                    }
                 });
 
                 $('#tag_cancel_save').on('click', function() {
