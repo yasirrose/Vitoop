@@ -371,9 +371,9 @@ class ResourceRepository extends EntityRepository
                 $qb->leftJoin('Vitoop\InfomgmtBundle\Entity\RelResourceResource', 'rrrc', 'WITH', 'rrrc.resource2 = r and rrrc.resource1 = :arg_resource1');
                 $qb->addSelect('COUNT(DISTINCT rrrc.id) as HIDDEN cn');
                 $qb->orderBy('cn', 'DESC');
-                $qb->addOrderBy('rr2.coefficient', 'DESC');
+                $qb->addOrderBy('rr2.coefficient', 'ASC');
             } else {
-                $qb->orderBy('rr2.coefficient', 'DESC');
+                $qb->orderBy('rr2.coefficient', 'ASC');
             }
             $qb->addOrderBy('r.created_at', 'DESC');
         } else {

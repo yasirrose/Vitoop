@@ -337,14 +337,11 @@ class ResourceController extends Controller
                             ->getResources2ByResource1($project);
 
             $tpl_vars = array_merge($tpl_vars, array('editMode' => $isEditMode));
-            if ($isEditMode && (count($resources) > 0)) {
-                $coefficients = $this->getDoctrine()->getRepository('VitoopInfomgmtBundle:RelResourceResource')->getCoefficients($project);
-                foreach ($coefficients as $coefficient) {
-                    $coefResult[$coefficient['res_id']] = array('rel_id' => $coefficient['rel_id'], 'coefficient' => $coefficient['coefficient']);
-                }
-                $tpl_vars = array_merge($tpl_vars, array('coefficients' => $coefResult));
+            $coefficients = $this->getDoctrine()->getRepository('VitoopInfomgmtBundle:RelResourceResource')->getCoefficients($project);
+            foreach ($coefficients as $coefficient) {
+                $coefResult[$coefficient['res_id']] = array('rel_id' => $coefficient['rel_id'], 'coefficient' => $coefficient['coefficient']);
             }
-
+            $tpl_vars = array_merge($tpl_vars, array('coefficients' => $coefResult));
 
         } elseif ($mode_filter_by_lexicon_id) {
             $resources = $rm->getRepository($res_type)

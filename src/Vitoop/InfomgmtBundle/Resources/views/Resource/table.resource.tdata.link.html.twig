@@ -5,6 +5,9 @@
                     <input type="number" id="coef-{{ attribute(coefficients, link.getID).rel_id }}" data-rel_id="{{ attribute(coefficients, link.getID).rel_id }}" min="0" data-original="{{ attribute(coefficients, link.getID).coefficient }}" max="120" step="0.1" value="{{ attribute(coefficients, link.getID).coefficient }}" class="vtp-uiaction-coefficient vtp-fh-w85"/>
             {% else %}
                 {{ link.createdat|date("d.m.y") }}
+                {% if coefficients is defined %}
+                <input type="hidden" id="coef-{{ attribute(coefficients, link.getID).rel_id }}" data-rel_id="{{ attribute(coefficients, link.getID).rel_id }}" value="{{ attribute(coefficients, link.getID).coefficient }}" class="vtp-uiaction-coefficient"/>
+                {% endif %}
             {% endif %}
         </td>
         <td title="{{ link.name }}">

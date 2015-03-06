@@ -5,6 +5,9 @@
                 <input type="number" id="coef-{{ attribute(coefficients, book.getID).rel_id }}" data-rel_id="{{ attribute(coefficients, book.getID).rel_id }}" min="0" data-original="{{ attribute(coefficients, book.getID).coefficient }}" max="120" step="0.1" value="{{ attribute(coefficients, book.getID).coefficient }}" class="vtp-uiaction-coefficient vtp-fh-w85"/>
             {% else %}
                 {{ book.createdat|date("d.m.y") }}
+                {% if coefficients is defined %}
+                    <input type="hidden" id="coef-{{ attribute(coefficients, book.getID).rel_id }}" data-rel_id="{{ attribute(coefficients, book.getID).rel_id }}" value="{{ attribute(coefficients, book.getID).coefficient }}" class="vtp-uiaction-coefficient"/>
+                {% endif %}
             {% endif %}
         </td>
         <td title="{{ book.name }}">

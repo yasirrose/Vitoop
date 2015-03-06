@@ -489,6 +489,10 @@ span.vtp-lexiconbox-cntres {
     padding-left: 10px;
 }
 
+input[type=number].vtp-uiaction-coefficient::-webkit-inner-spin-button, input[type=number].vtp-uiaction-coefficient::-webkit-outer-spin-button {
+    width: 8px;
+}
+
 #vtp-res-dialog-tabs form {
 / / / / / / / / osition : relative;
 }

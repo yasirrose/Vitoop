@@ -94,7 +94,8 @@ resourceList = (function () {
 
         insertResourceList = function (responseHtml, textStatus, jqXHR, $_form) {
             var html = $(responseHtml);
-            if ((typeof(editMode) != 'undefined') && editMode) {
+            var projectElem = $('#projectID');
+            if ((typeof(projectElem) != 'undefined') && projectElem.val() > -1) {
                 var upperCoefficient = -1000;
                 var currentCoefficient = 0;
                 $('table > tbody > tr > td > input.vtp-uiaction-coefficient', $(html)).each(function() {
@@ -103,8 +104,8 @@ resourceList = (function () {
                         return true;
                     }
                     currentCoefficient = $(this).val();
-                    if ((~~upperCoefficient)-(~~currentCoefficient) >= 1) {
-                        $(this).parent().parent().before($('<div style="background-color: #62bbe9; width: 1122px; padding-left: 20px; font-size: 16px; font-weight: bolder; height: 21px" class="vtp-uiaction-coefficient ui-corner-all"><span>'+ ~~ currentCoefficient+'</span></div>'));
+                    if ((~~upperCoefficient)-(~~currentCoefficient) <= 1) {
+                        $(this).parent().parent().before($('<div style="background-color: #000; color: #fff; width: 1122px; padding-left: 20px; font-size: 16px; font-weight: bolder; height: 21px" class="vtp-uiaction-coefficient ui-corner-all"><span>'+ ~~ currentCoefficient+'</span></div>'));
                     }
                     upperCoefficient = currentCoefficient;
                 });
