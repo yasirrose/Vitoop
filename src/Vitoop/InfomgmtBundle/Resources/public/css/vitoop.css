@@ -937,3 +937,26 @@ legend {
 div#vtp-res-dialog-tabs > div {
     padding: 1em 1em;
 }
+
+#vtp-credentials form div {
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+}
+
+#vtp-credentials div {
+    vertical-align: top;
+}
+
+
+input.ng-invalid{
+    border-color: red;
+}
+
+.vtp-button-light {
+    background-color: #ffffff;
+    color: #2779aa;
+    border: 1px solid #aed0ea;
+    padding-bottom: 5px;
+    padding-top: 5px
+}

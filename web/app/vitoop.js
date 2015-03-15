@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('vitoop', ['ui.tinymce', 'angucomplete']);
+var app = angular.module('vitoop', ['ui.tinymce', 'angucomplete', 'validation.match']);
 
 app.controller('MainController', function ($scope, $http, $compile) {
     $scope.content = '';
@@ -23,6 +23,47 @@ app.controller('MainController', function ($scope, $http, $compile) {
         }
     };
 });
+
+app.controller('UserController', function ($scope, $http, $filter, $timeout) {
+    $scope.user = {};
+    $scope.user.password = "";
+    $scope.user.email = "";
+    $scope.message = "";
+    $scope.email1 = "";
+    $scope.pass1 = "";
+    $scope.isError = false;
+    $scope.isSuccess = false;
+    $scope.isDeleting = false;
+
+    $scope.save = function() {
+        console.log($scope.user.email);
+        if ($scope.user_email.email2.$error.match || $scope.user_password.pass2.$error.match || (($scope.user.email == "" || angular.isUndefined($scope.user.email)) && ($scope.user.password == "" || angular.isUndefined($scope.user.password)))) {
+            return false;
+        }
+        $http.post('../../api/user/'+$scope.user.id+'/credentials', angular.toJson($scope.user)).success(function(data) {
+            $scope.message = data.message;
+            if (data.success) {
+                $scope.user.email = "";
+                $scope.user.password = "";
+                $scope.email1 = "";
+                $scope.pass1 = "";
+                $scope.isError = false;
+                $scope.isSuccess = true;
+                $timeout(function() {
+                    $scope.isSuccess = false;
+                }, 3000);
+                $scope.user_email.$setPristine();
+                $scope.user_password.$setPristine();
+            } else {
+                $scope.isError = true;
+            }
+
+        });
+    };
+
+});
+
+
 
 app.controller('PrjController', function ($scope, $http, $filter, $timeout) {
     $scope.project = {};

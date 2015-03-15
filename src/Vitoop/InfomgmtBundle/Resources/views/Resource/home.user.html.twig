@@ -11,9 +11,9 @@
                     </div>
                     <div class="vtp-fh-w100" style="margin-top: 20px; width: 550px">
                         <button ng-click="newItem()" ng-show="!isDeleting" class="ui-corner-all vtp-fh-w20" style="background-color: #ffffff; color: #2779aa; border: 1px solid #aed0ea; padding-bottom: 5px; padding-top: 5px">neu</button>
-                        <button ng-click="isDeleting = true" ng-disabled="isDeleting" class="ui-corner-all vtp-fh-w20" style="background-color: #ffffff; color: #2779aa; border: 1px solid #aed0ea; padding-bottom: 5px; padding-top: 5px">löschen</button>
-                        <button ng-click="delete()" ng-show="isDeleting" class="ui-corner-all vtp-fh-w20" style="background-color: #ffffff; color: #2779aa; border: 1px solid #aed0ea; padding-bottom: 5px; padding-top: 5px">ja</button>
-                        <button ng-click="isDeleting = false" ng-show="isDeleting" class="ui-corner-all vtp-fh-w20" style="background-color: #ffffff; color: #2779aa; border: 1px solid #aed0ea; padding-bottom: 5px; padding-top: 5px">abbrechen</button>
+                        <button ng-click="isDeleting = true" ng-disabled="isDeleting" class="ui-corner-all vtp-fh-w20 vtp-button-light">löschen</button>
+                        <button ng-click="delete()" ng-show="isDeleting" class="ui-corner-all vtp-fh-w20 vtp-button-light">ja</button>
+                        <button ng-click="isDeleting = false" ng-show="isDeleting" class="ui-corner-all vtp-fh-w20 vtp-button-light">abbrechen</button>
                         <button ng-click="save()" ng-show="!isDeleting" ng-class="{'ui-corner-all vtp-fh-w30': toDoForm.todoText.$pristine && toDoForm.todoTitle.$pristine, 'ui-corner-all vtp-fh-w30 ui-state-need-to-save': toDoForm.todoTitle.$dirty || toDoForm.todoText.$dirty}" style="background-color: #ffffff; color: #2779aa; border: 1px solid #aed0ea; float: right; padding-bottom: 5px; padding-top: 5px">speichern</button>
                     </div>
                 </div>

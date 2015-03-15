@@ -1,6 +1,7 @@
 <?php
 namespace Vitoop\InfomgmtBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -16,6 +17,10 @@ use Vitoop\InfomgmtBundle\Entity\User;
 use Vitoop\InfomgmtBundle\Form\Type\UserType;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use JMS\Serializer\DeserializationContext;
+use JMS\Serializer\SerializationContext;
+
 
 use Symfony\Component\Security\Core\SecurityContext;
 
@@ -26,6 +31,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Vitoop\InfomgmtBundle\Repository\Helper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class UserController extends Controller
 {
@@ -351,6 +357,68 @@ EOT;
         }
         return $this->render('VitoopInfomgmtBundle:User:changePassword.html.twig',array('token' => $request->get('token')));
         
+    }
+
+
+    /**
+     * @Method("GET")
+     * @Route("user/{userID}/settings", name="user_settings")
+     * @Template("@VitoopInfomgmt/User/credentials.html.twig")
+     * @ParamConverter("user", class="Vitoop\InfomgmtBundle\Entity\User", options={"id" = "userID"})
+     */
+    public function userDataAction(User $user) {
+        if (!$this->get('vitoop.vitoop_security')->isEqualToCurrentUser($user)) {
+            throw new AccessDeniedHttpException;
+        }
+
+        return array('user' => $user);
+    }
+
+    /**
+     * @Route("api/user/{userID}/credentials", requirements={"id": "\d+"}, name="user_new_credentials")
+     * @Method({"POST"})
+     * @ParamConverter("user", class="Vitoop\InfomgmtBundle\Entity\User", options={"id" = "userID"})
+     *
+     * @return array
+     */
+    public function newCredentialsAction(User $user, Request $request)
+    {
+        if (!$this->get('vitoop.vitoop_security')->isEqualToCurrentUser($user)) {
+            throw new AccessDeniedHttpException;
+        }
+        $response = array('success' => true, 'message' => "");
+        $serializer = $this->get('jms_serializer');
+        $em = $this->getDoctrine()->getManager();
+        $serializerContext = DeserializationContext::create()
+            ->setGroups(array('edit'));
+        $credentials = $serializer->deserialize(
+            $request->getContent(),
+            'Vitoop\InfomgmtBundle\Entity\User',
+            'json',
+            $serializerContext
+        );
+        if ($credentials->getEmail() != "" && $response['success']) {
+            if (is_null($em->getRepository('VitoopInfomgmtBundle:User')->findOneBy(array('email' => $credentials->getEmail())))) {
+                $user->setEmail($credentials->getEmail());
+                $response = array('success' => true, 'message' => "Email successfully changed!");
+            } else {
+                $response = array('success' => false, 'message' => "This email is already used!");
+            }
+        }
+        if ($credentials->getPassword() != "" && $response['success']) {
+            $factory = $this->get('security.encoder_factory');
+            $encoder = $factory->getEncoder($user);
+            $password = $encoder->encodePassword($credentials->getPassword(), $user->getSalt());
+
+            $user->setPassword($password);
+            $response['message'] .= " Password successfully changed!";
+        }
+        if ($response['success']) {
+            $em->merge($user);
+            $em->flush();
+        }
+
+        return new Response($serializer->serialize($response, 'json'));
     }
 }
 	

@@ -34,11 +34,15 @@ class User implements UserInterface, EquatableInterface
 
     /**
      * @ORM\Column(name="email", type="string", length=60, unique=true)
+     * @Serializer\Groups({"edit"})
+     * @Serializer\Type("string")
      */
     protected $email;
 
     /**
      * @ORM\Column(name="password", type="string", length=40)
+     * @Serializer\Groups({"edit"})
+     * @Serializer\Type("string")
      */
     protected $password;
 
