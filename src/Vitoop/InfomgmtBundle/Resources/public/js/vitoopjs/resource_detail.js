@@ -966,6 +966,66 @@ resourceDetail = (function () {
                 close: closeDialog
             });
 
+
+
+            $.ajax({
+                url: vitoop.baseUrl +'api/help',
+                method: 'GET',
+                success: function(data) {
+                    var answer = JSON.parse(data);
+                    if (answer.isAdmin) {
+                        var element = $('<input type="hidden" id="help-id" value="' + answer.help.id + '"><div class="vtp-fh-w100"><textarea id="help-text"></textarea></div><div class="vtp-fh-w100"><button class="ui-corner-all ui-state-default" id="button-help-save">speichern</button></div>');
+                        $('#help-text', element).val(answer.help.text);
+                        $('#vtp-res-dialog-help').append(element);
+                        tinymce.init({
+                            selector: 'textarea#help-text',
+                            height: 430,
+                            plugins: 'textcolor link',
+                            menubar: false,
+                            style_formats: [
+                                {title: 'p', block: 'p'},
+                                {title: 'h1', block: 'h1'},
+                                {title: 'h2', block: 'h2'},
+                                {title: 'h3', block: 'h3'},
+                                {title: 'h4', block: 'h4'},
+                                {title: 'h5', block: 'h5'},
+                                {title: 'h6', block: 'h6'}
+                            ],
+                            toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink'
+                        });
+                        $('#button-help-save').on('click', function() {
+                            tinyMCE.triggerSave();
+                            $.ajax({
+                                url: vitoop.baseUrl +'api/help',
+                                method: 'POST',
+                                data: JSON.stringify({'id': $('#help-id').val(), 'text': $('#help-text').val()}),
+                                success: function(data) {
+                                    var elemSuccess = $('<div class="vtp-uiinfo-info ui-state-highlight ui-corner-all"><span class="vtp-icon ui-icon ui-icon-info"></span>Help message saved!</div>');
+                                    $('#button-help-save').before(elemSuccess);
+                                    setTimeout(function() {
+                                        elemSuccess.hide(400);
+                                    }, 2000);
+                                }
+                            });
+                        });
+                    } else {
+                        $('#vtp-res-dialog-help').append(answer.help.text);
+                    }
+                    $('#vtp-res-dialog-help').dialog({
+                        autoOpen: false,
+                        width: 850,
+                        height: 600,
+                        position: { my: 'center top', at: 'center top', of: '#vtp-nav' },
+                        modal: true
+                    });
+                    $('#button-help').on('click', function() {
+                        $('#vtp-res-dialog-help').dialog('open');
+                    });
+                }
+            });
+
+
+
             $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').append('<span id="resource-title"></span>');
             $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').after('<span id="resource-buttons"></span>');
 

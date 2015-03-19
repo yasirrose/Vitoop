@@ -66,7 +66,7 @@
                     
                 {% endif %}
             </div>
-            <div class="vtp-logo"><a href="{{ path('_base_url') }}">vitoop<span>.org</span></a></div>
+            <div class="vtp-logo"><span class="beta-status">beta</span><a href="{{ path('_base_url') }}">vitoop<span>.org</span></a></div>
             <div id="vtp-nav" class="vtp-menu ui-helper-clearfix ui-corner-all">
                 <ul>
                     {% set ang = "click('')" %}
@@ -140,8 +140,14 @@
             {% endblock %}
         </div>
         <div id="vtp-footer" class="ui-corner-all">
-            <div id="vtp-footer-homelink">© 2014 by <a class="vtp-homelink" href={{ path('_base_url') }}>vitoop<span>.org</span></a></div>
-            <div id="vtp-imprint"><a href={{ path('_imprint') }}>Impressum</a></div>
+            <div id="vtp-footer-homelink">© 2015 by <a class="vtp-homelink" href={{ path('_base_url') }}>vitoop<span>.org</span></a></div>
+            <div id="vtp-imprint">
+                {% if app.user %}
+                    <a class="ui-corner-all ui-state-default" href={{ path('_tags') }}>Tags</a>
+                    <button class="ui-corner-all ui-state-default" id="button-help">Hilfe</button>
+                {% endif %}
+                <a class="ui-corner-all ui-state-default" href={{ path('_imprint') }}>Impressum</a>
+            </div>
         </div>
     </div>
     {% if app.user %}
@@ -194,6 +200,10 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div id="vtp-res-dialog-help" title="Hilfe">
+
             </div>
         {% endblock %}
     {%endif%}

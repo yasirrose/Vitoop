@@ -39,6 +39,7 @@ security:
       - { path: ^/password/forgotPassword, roles: IS_AUTHENTICATED_ANONYMOUSLY }
       - { path: ^/password/new, roles: IS_AUTHENTICATED_ANONYMOUSLY }
       - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: ^/impressum, roles: IS_AUTHENTICATED_ANONYMOUSLY }
       - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
       - { path: '^/register/[a-z0-9]{32}$', roles: IS_AUTHENTICATED_ANONYMOUSLY }
       - { path: ^/invite, roles: ROLE_ADMIN }

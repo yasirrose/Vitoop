@@ -109,7 +109,7 @@ class TagRepository extends EntityRepository
                        ->createQuery('SELECT t, COUNT(rrt) AS cnt FROM VitoopInfomgmtBundle:Tag t
                                     JOIN t.rel_resources rrt
                                     GROUP BY t
-                                    ORDER BY cnt ASC')
+                                    ORDER BY cnt DESC')
                        ->getResult();
 
         return $result;

@@ -484,10 +484,21 @@ span.vtp-lexiconbox-cntres {
     padding: 0.5em 0 0 0;
 }
 
+span.beta-status {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #2779aa !important;
+    padding-left: 63px;
+    margin-bottom: -11px;
+}
+
 #vtp-flag-box {
     padding-bottom: 10px;
     padding-left: 10px;
 }
+
+
 
 input[type=number].vtp-uiaction-coefficient::-webkit-inner-spin-button, input[type=number].vtp-uiaction-coefficient::-webkit-outer-spin-button {
     width: 8px;
@@ -918,13 +929,24 @@ a.vtp-homelink span {
     float: right;
 }
 
-#vtp-imprint a {
+#vtp-footer #vtp-imprint a, #vtp-footer #vtp-imprint button {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    font-weight: 400;
     text-decoration: none;
 }
 
-#vtp-imprint a:visited {
-    text-decoration: none;
-    color: #2779aa;
+#button-help-save {
+    width: 100%;
+    margin-top: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+div.ui-dialog-titlebar > button {
+    outline: 0 none;
 }
 
 fieldset {
