@@ -35,12 +35,24 @@ app.controller('UserController', function ($scope, $http, $filter, $timeout) {
     $scope.isSuccess = false;
     $scope.isDeleting = false;
 
+    $scope.delete = function() {
+        $http.delete('../../api/user/'+$scope.user.id).success(function(data) {
+            if (data.success) {
+                window.location = data.url;
+            } else {
+                $scope.isError = true;
+                $scope.message = data.message;
+            }
+
+        });
+    };
+
     $scope.save = function() {
         console.log($scope.user.email);
         if ($scope.user_email.email2.$error.match || $scope.user_password.pass2.$error.match || (($scope.user.email == "" || angular.isUndefined($scope.user.email)) && ($scope.user.password == "" || angular.isUndefined($scope.user.password)))) {
             return false;
         }
-        $http.post('../../api/user/'+$scope.user.id+'/credentials', angular.toJson($scope.user)).success(function(data) {
+        $http.post('../api/user/'+$scope.user.id+'/credentials', angular.toJson($scope.user)).success(function(data) {
             $scope.message = data.message;
             if (data.success) {
                 $scope.user.email = "";

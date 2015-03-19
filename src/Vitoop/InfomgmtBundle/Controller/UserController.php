@@ -35,6 +35,28 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class UserController extends Controller
 {
+    /**
+     * @Route("api/user/{userID}", name="user_delete")
+     * @Method({"DELETE"})
+     * @ParamConverter("user", class="Vitoop\InfomgmtBundle\Entity\User", options={"id" = "userID"})
+     *
+     * @return array
+     */
+    public function deleteUserAction(User $user)
+    {
+        if (!$this->get('vitoop.vitoop_security')->isEqualToCurrentUser($user)) {
+            throw new AccessDeniedHttpException;
+        }
+        $em = $this->getDoctrine()->getManager();
+        $user->setActive(false);
+        $em->merge($user);
+        $em->flush();
+        $this->get('security.context')->setToken(null);
+        $serializer = $this->get('jms_serializer');
+        $response = $serializer->serialize(array('success' => true, 'url' => $this->generateUrl('_base_url')), 'json');
+
+        return new Response($response);
+    }
 
     /**
      * @Route("api/project/{projectID}/user/find", name="user_names")
@@ -362,20 +384,17 @@ EOT;
 
     /**
      * @Method("GET")
-     * @Route("user/{userID}/settings", name="user_settings")
+     * @Route("user/settings", name="user_settings")
      * @Template("@VitoopInfomgmt/User/credentials.html.twig")
-     * @ParamConverter("user", class="Vitoop\InfomgmtBundle\Entity\User", options={"id" = "userID"})
      */
-    public function userDataAction(User $user) {
-        if (!$this->get('vitoop.vitoop_security')->isEqualToCurrentUser($user)) {
-            throw new AccessDeniedHttpException;
-        }
+    public function userDataAction() {
+        $user = $this->get('vitoop.vitoop_security')->getUser();
 
         return array('user' => $user);
     }
 
     /**
-     * @Route("api/user/{userID}/credentials", requirements={"id": "\d+"}, name="user_new_credentials")
+     * @Route("api/user/{userID}/credentials", requirements={"userID": "\d+"}, name="user_new_credentials")
      * @Method({"POST"})
      * @ParamConverter("user", class="Vitoop\InfomgmtBundle\Entity\User", options={"id" = "userID"})
      *

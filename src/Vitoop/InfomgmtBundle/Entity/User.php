@@ -1,6 +1,7 @@
 <?php
 namespace Vitoop\InfomgmtBundle\Entity;
 
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Vitoop\InfomgmtBundle\Entity\UserConfig;
 use Vitoop\InfomgmtBundle\Entity\UserData;
 
@@ -15,7 +16,7 @@ use JMS\Serializer\Annotation as Serializer;
  * @ORM\Table(name="vitoop_user")
  * @ORM\Entity(repositoryClass="Vitoop\InfomgmtBundle\Repository\UserRepository")
  */
-class User implements UserInterface, EquatableInterface
+class User implements UserInterface, EquatableInterface, AdvancedUserInterface
 {
     /**
      * @ORM\Column(name="id", type="integer")
@@ -743,5 +744,35 @@ class User implements UserInterface, EquatableInterface
     public function getRelProject()
     {
         return $this->relProject;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return boolean
+     */
+    public function getIsActive()
+    {
+        return $this->active;
+    }
+
+    public function isAccountNonExpired()
+    {
+        return true;
+    }
+
+    public function isAccountNonLocked()
+    {
+        return true;
+    }
+
+    public function isCredentialsNonExpired()
+    {
+        return true;
+    }
+
+    public function isEnabled()
+    {
+        return $this->active;
     }
 }
