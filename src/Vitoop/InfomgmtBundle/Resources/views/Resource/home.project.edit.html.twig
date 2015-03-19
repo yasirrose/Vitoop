@@ -21,7 +21,7 @@
                     <div style="float: left;">
                         <button ng-click="save()" ng-cloak ng-class="{'ui-corner-all ui-state-default': projectDataForm.$pristine && projectSheetForm.projectText.$pristine, 'ui-corner-all ui-state-need-to-save': projectDataForm.$dirty || projectSheetForm.projectText.$dirty}" style="padding-bottom: 5px; padding-top: 5px; float: right">speichern</button>
                     </div>
-                    <div style="vertical-align: top; float: right; text-align: center; color: #2779aa; font-size: 16px">
+                    <div style="vertical-align: top; float: right; text-align: center; color: #2779aa; font-size: 14px">
                         <div class="vtp-fh-w60">
                             <label for="projectIsPrivate" style="margin-right: 20px">verstecken</label>
                         </div>
@@ -31,7 +31,7 @@
                     </div>
                 </div>
 
-                <div class="vtp-fh-w100" style="vertical-align: top; margin-top: 20px; color: #2779aa; font-size: 16px">
+                <div class="vtp-fh-w100" style="vertical-align: top; margin-top: 20px; color: #2779aa; font-size: 14px">
                     <div style="margin-bottom: 15px">
                         <div class="vtp-fh-w60">
                             <span>
@@ -56,7 +56,7 @@
                     {% endverbatim %}
                 </div>
                 </form>
-                <div class="vtp-fh-w100" style="vertical-align: top; margin-top: 20px; color: #2779aa; font-size: 16px">
+                <div class="vtp-fh-w100" style="vertical-align: top; margin-top: 20px; color: #2779aa; font-size: 14px">
                     <div class="vtp-fh-w100" style="vertical-align: top; margin-bottom: 5px">
                         <label for="newUser">Neuer Benutzer:</label>
                     </div>
@@ -74,6 +74,14 @@
                         </div>
                     <span ng-show="isError" id="error-span" class="form-error">Vitoooops!: <span ng-bind="message"></span></span>
                     <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all" ng-show="isSuccess" style="transition: 0s linear all;"><span class="vtp-icon ui-icon ui-icon-info"></span><span ng-bind="message"></span></div>
+                </div>
+                <div class="vtp-fh-w100" ng-show="isOwner">
+                    <p ng-show="isDeleting">
+                        Dieser Vorgang kann nicht rückgängig gemacht werden. Soll das Projekt wirklich gelöscht werden?
+                    </p>
+                    <button ng-click="isDeleting = true" ng-show="!isDeleting" class="ui-corner-all vtp-button-light" style="margin-top: 20px; width: 100%">Projekt löschen</button>
+                    <button ng-click="delete()" ng-show="isDeleting" class="ui-corner-all vtp-fh-w30 vtp-button-light">Ja</button>
+                    <button ng-click="isDeleting = false" ng-show="isDeleting" class="ui-corner-all vtp-fh-w30 vtp-button-light">Nein</button>
                 </div>
             </div>
         </div>

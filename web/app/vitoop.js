@@ -83,6 +83,8 @@ app.controller('PrjController', function ($scope, $http, $filter, $timeout) {
     $scope.isError = false;
     $scope.isSuccess = false;
     $scope.isLoaded = false;
+    $scope.isOwner = false;
+    $scope.isDeleting = false;
     $scope.tinymceOptions = {
         width: 800,
         height: 550,
@@ -101,13 +103,28 @@ app.controller('PrjController', function ($scope, $http, $filter, $timeout) {
     };
     $scope.$watch("projectId", function(){
         $http.get('../api/project/'+$scope.projectId).success(function (data) {
-            $scope.project = data;
+            $scope.project = data.project;
+            $scope.isOwner = data.isOwner;
             $timeout(function() {
                 $scope.projectSheetForm.projectText.$setPristine();
                 $scope.isLoaded = true;
             }, 300);
         });
     });
+
+    $scope.delete = function() {
+        if ($scope.isOwner) {
+            $http.delete('../api/project/'+$scope.projectId).success(function(data) {
+                if (data.success) {
+                    $('#vtp-projectdata-project-close').trigger('click');
+                } else {
+                    $scope.isError = true;
+                    $scope.message = data.message;
+                }
+
+            });
+        }
+    };
 
     $scope.save = function() {
         $http.post('../api/project/'+$scope.projectId, angular.toJson($scope.project)).success(function (data) {

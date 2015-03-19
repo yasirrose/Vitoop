@@ -23,7 +23,7 @@ class Project extends Resource
     protected $description;
 
     /**
-     * @ORM\OneToOne(targetEntity="ProjectData", inversedBy="project", cascade = "merge")
+     * @ORM\OneToOne(targetEntity="ProjectData", inversedBy="project", cascade = {"merge", "remove"})
      * @Serializer\Groups({"get_project"})
      */
     protected $project_data;

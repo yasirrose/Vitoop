@@ -37,7 +37,7 @@ class ProjectData
     protected $isPrivate;
 
     /**
-     * @ORM\OneToMany(targetEntity="RelProjectUser", mappedBy="projectData", cascade="merge")
+     * @ORM\OneToMany(targetEntity="RelProjectUser", mappedBy="projectData", cascade={"merge", "remove"})
      * @Serializer\Groups({"get_project"})
      */
     protected $relUsers;

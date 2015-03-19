@@ -37,7 +37,7 @@ class ProjectApiController extends Controller
             $serializerContext = SerializationContext::create()
                 ->setGroups(array('get_project'));
             $response = $serializer->serialize(
-                $project,
+                array('project' => $project, 'isOwner' => ($project->getUser() == $this->get('security.context')->getToken()->getUser())),
                 'json',
                 $serializerContext
             );
@@ -47,6 +47,38 @@ class ProjectApiController extends Controller
 
         return new Response($response);
 
+    }
+
+    /**
+     * @Route("", name="delete_project_api")
+     * @Method({"DELETE"})
+     *
+     * @return array
+     */
+    public function deleteProjectAction(Project $project)
+    {
+        if ($project->getUser() == $this->get('security.context')->getToken()->getUser()) {
+            $em = $this->getDoctrine()->getManager();
+            $rels = $em->getRepository('VitoopInfomgmtBundle:RelResourceResource')->findBy(array('resource1' => $project));
+            foreach ($rels as $rel) {
+                $em->remove($rel);
+            }
+            $rels = $em->getRepository('VitoopInfomgmtBundle:RelResourceResource')->findBy(array('resource2' => $project));
+            foreach ($rels as $rel) {
+                $em->remove($rel);
+            }
+            $em->remove($project);
+            $em->flush();
+            $serializer = $this->get('jms_serializer');
+            $response = $serializer->serialize(
+                array('success' => true),
+                'json'
+            );
+        } else {
+            throw new AccessDeniedHttpException;
+        }
+
+        return new Response($response);
     }
 
     /**
@@ -80,10 +112,9 @@ class ProjectApiController extends Controller
         } else {
             throw new AccessDeniedHttpException;
         }
-
         $response = $serializer->serialize($response, 'json');
-        return new Response($response);
 
+        return new Response($response);
     }
 
     /**
