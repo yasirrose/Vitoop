@@ -486,8 +486,9 @@ span.vtp-lexiconbox-cntres {
 
 span.beta-status {
     display: block;
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
     color: #2779aa !important;
     padding-left: 63px;
     margin-bottom: -11px;

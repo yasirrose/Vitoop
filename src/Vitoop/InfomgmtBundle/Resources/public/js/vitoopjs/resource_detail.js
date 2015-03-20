@@ -977,22 +977,27 @@ resourceDetail = (function () {
                         var element = $('<input type="hidden" id="help-id" value="' + answer.help.id + '"><div class="vtp-fh-w100"><textarea id="help-text"></textarea></div><div class="vtp-fh-w100"><button class="ui-corner-all ui-state-default" id="button-help-save">speichern</button></div>');
                         $('#help-text', element).val(answer.help.text);
                         $('#vtp-res-dialog-help').append(element);
-                        tinymce.init({
-                            selector: 'textarea#help-text',
-                            height: 430,
-                            plugins: 'textcolor link',
-                            menubar: false,
-                            style_formats: [
-                                {title: 'p', block: 'p'},
-                                {title: 'h1', block: 'h1'},
-                                {title: 'h2', block: 'h2'},
-                                {title: 'h3', block: 'h3'},
-                                {title: 'h4', block: 'h4'},
-                                {title: 'h5', block: 'h5'},
-                                {title: 'h6', block: 'h6'}
-                            ],
-                            toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink'
-                        });
+                        setTimeout(function() {
+                            tinymce.init({
+                                mode: 'exact',
+                                selector: 'textarea#help-text',
+                                id: 'tiny-help',
+                                height: 430,
+                                plugins: 'textcolor link',
+                                menubar: false,
+                                style_formats: [
+                                    {title: 'p', block: 'p'},
+                                    {title: 'h1', block: 'h1'},
+                                    {title: 'h2', block: 'h2'},
+                                    {title: 'h3', block: 'h3'},
+                                    {title: 'h4', block: 'h4'},
+                                    {title: 'h5', block: 'h5'},
+                                    {title: 'h6', block: 'h6'}
+                                ],
+                                toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink'
+                            });
+                        }, 2000);
+
                         $('#button-help-save').on('click', function() {
                             tinyMCE.triggerSave();
                             $.ajax({
