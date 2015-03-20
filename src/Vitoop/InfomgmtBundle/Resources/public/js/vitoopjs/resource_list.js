@@ -97,9 +97,9 @@ resourceList = (function () {
             var projectElem = $('#projectID');
             if ((typeof(projectElem) != 'undefined') && projectElem.val() > -1) {
                 var upperCoefficient = -1000;
-                var currentCoefficient = 0;
+                var currentCoefficient = -1;
                 $('table > tbody > tr > td > input.vtp-uiaction-coefficient', $(html)).each(function() {
-                    if (upperCoefficient < 0) {
+                    if (upperCoefficient < -1) {
                         upperCoefficient = $(this).val();
                         return true;
                     }

@@ -109,6 +109,8 @@ class ResourceXhrController extends Controller
                          ->getAllProjectsByTermOrAllIfLessThanTen($term, $this->get('security.context')
                                                                               ->getToken()
                                                                               ->getUser());
+        var_dump($projects);
+        exit(0);
         $arr_flattened_result = array_map(function ($arr_element) {
             return $arr_element['name'];
         }, $projects);
