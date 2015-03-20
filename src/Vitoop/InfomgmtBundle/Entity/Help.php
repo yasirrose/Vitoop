@@ -8,7 +8,7 @@ use JMS\Serializer\Annotation as Serializer;
 /**
  * Help
  *
- * @ORM\Table("help")
+ * @ORM\Table(name="help")
  * @ORM\Entity(repositoryClass="Vitoop\InfomgmtBundle\Repository\HelpRepository")
  */
 class Help

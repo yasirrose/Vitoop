@@ -42,11 +42,18 @@ class ProjectData
      */
     protected $relUsers;
 
+    /**
+     * @ORM\OneToMany(targetEntity="ProjectRelsDivider", mappedBy="projectData", cascade={"merge", "remove"})
+     * @Serializer\Groups({"get_project"})
+     */
+    protected $dividers;
+
     public function __construct()
     {
         $this->sheet = '<h1>Leeres Projekt.</h1>';
         $this->isPrivate = false;
         $this->relUsers = new ArrayCollection();
+        $this->dividers = new ArrayCollection();
     }
 
     /**
@@ -194,5 +201,38 @@ class ProjectData
         }
 
         return false;
+    }
+
+    /**
+     * Add dividers
+     *
+     * @param \Vitoop\InfomgmtBundle\Entity\ProjectRelsDivider $dividers
+     * @return ProjectData
+     */
+    public function addDivider(\Vitoop\InfomgmtBundle\Entity\ProjectRelsDivider $dividers)
+    {
+        $this->dividers[] = $dividers;
+
+        return $this;
+    }
+
+    /**
+     * Remove dividers
+     *
+     * @param \Vitoop\InfomgmtBundle\Entity\ProjectRelsDivider $dividers
+     */
+    public function removeDivider(\Vitoop\InfomgmtBundle\Entity\ProjectRelsDivider $dividers)
+    {
+        $this->dividers->removeElement($dividers);
+    }
+
+    /**
+     * Get dividers
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getDividers()
+    {
+        return $this->dividers;
     }
 }
