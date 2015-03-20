@@ -338,6 +338,7 @@ class ResourceController extends Controller
 
             $tpl_vars = array_merge($tpl_vars, array('editMode' => $isEditMode));
             $coefficients = $this->getDoctrine()->getRepository('VitoopInfomgmtBundle:RelResourceResource')->getCoefficients($project);
+            $coefResult = array();
             foreach ($coefficients as $coefficient) {
                 $coefResult[$coefficient['res_id']] = array('rel_id' => $coefficient['rel_id'], 'coefficient' => $coefficient['coefficient']);
             }
