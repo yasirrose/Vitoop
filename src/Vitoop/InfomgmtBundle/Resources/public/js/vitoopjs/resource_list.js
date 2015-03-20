@@ -98,12 +98,21 @@ resourceList = (function () {
             if ((typeof(projectElem) != 'undefined') && projectElem.val() > -1) {
                 var upperCoefficient = -1000;
                 var currentCoefficient = 0;
-                $('table > tbody > tr > td > input.vtp-uiaction-coefficient', $(html)).each(function() {
-                    currentCoefficient = $(this).val();
-                    if ((~~upperCoefficient)-(~~currentCoefficient) <= -1) {
-                        $(this).parent().parent().before($('<div style="background-color: #62bbe9; width: 1122px; padding-left: 20px; font-size: 16px; font-weight: bolder; height: 21px" class="vtp-uiaction-coefficient ui-corner-all"><span>'+ ~~ currentCoefficient+'</span></div>'));
+                var dividers = [];
+                $.ajax({
+                    url: vitoop.baseUrl +'api/project/' + projectElem.val() + '/dividers',
+                    method: 'GET',
+                    success: function(data) {
+                        dividers = JSON.parse(data);
+                        console.log(dividers);
+                        $('table > tbody > tr > td > input.vtp-uiaction-coefficient', $(html)).each(function() {
+                            currentCoefficient = $(this).val();
+                            if ((~~upperCoefficient)-(~~currentCoefficient) <= -1) {
+                                $(this).parent().parent().before($('<div style="background-color: #62bbe9; width: 1122px; padding-left: 20px; font-size: 16px; font-weight: bolder" class="vtp-uiaction-coefficient ui-corner-all"><span>'+ ~~ currentCoefficient+'</span></div>'));
+                            }
+                            upperCoefficient = currentCoefficient;
+                        });
                     }
-                    upperCoefficient = currentCoefficient;
                 });
             }
             $('#vtp-content').empty().append(html);

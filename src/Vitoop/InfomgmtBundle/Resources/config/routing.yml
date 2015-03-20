@@ -156,6 +156,10 @@ _help_api:
     resource: "@VitoopInfomgmtBundle/Controller/HelpController.php"
     type:     annotation
 
+_project_rels_divider_api:
+    resource: "@VitoopInfomgmtBundle/Controller/ProjectRelsDividerController.php"
+    type:     annotation
+
 _rel_resource_resource_api:
     resource: "@VitoopInfomgmtBundle/Controller/RelResourceResourceApiController.php"
     type:     annotation

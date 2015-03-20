@@ -46,7 +46,6 @@ class ProjectApiController extends Controller
         }
 
         return new Response($response);
-
     }
 
     /**

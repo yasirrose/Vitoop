@@ -3,11 +3,14 @@
 namespace Vitoop\InfomgmtBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * ProjectRelsDivider
  *
- * @ORM\Table(name="project_rel_divider")
+ * @ORM\Table(name="project_rel_divider",
+ * uniqueConstraints={@ORM\UniqueConstraint(name="uniqueprjreldiv_idx",
+ * columns={"coefficient", "id_project_data"})})
  * @ORM\Entity
  */
 class ProjectRelsDivider
@@ -18,6 +21,8 @@ class ProjectRelsDivider
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Groups({"get", "edit"})
+     * @Serializer\Type("integer")
      */
     private $id;
 
@@ -25,6 +30,8 @@ class ProjectRelsDivider
      * @var string
      *
      * @ORM\Column(name="text", type="string", length=350, nullable=true)
+     * @Serializer\Groups({"get", "edit"})
+     * @Serializer\Type("integer")
      */
     private $text;
 
@@ -32,11 +39,13 @@ class ProjectRelsDivider
      * @var integer
      *
      * @ORM\Column(name="coefficient", type="integer")
+     * @Serializer\Groups({"get", "edit"})
+     * @Serializer\Type("integer")
      */
     private $coefficient;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ProjectData", inversedBy="relsDividers")
+     * @ORM\ManyToOne(targetEntity="ProjectData", inversedBy="dividers")
      * @ORM\JoinColumn(name="id_project_data", referencedColumnName="id")
      */
     protected $projectData;
