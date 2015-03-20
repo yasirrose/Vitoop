@@ -52,7 +52,10 @@
                         <button id="vtp-user-loginform-logout" class="vtp-button" title="Bei VitooP abmelden" value="logout" type="submit">{{ app.user.username }}</button>
                     </form>
                     <div style="float: right">
-                        <a href="{{ path('user_settings') }}" id="vtp-user-userdata"  class="ui-icon ui-icon-newwin vtp-extlink"></a>
+                        <a href="{{ path('user_settings') }}" id="vtp-user-userdata" class="vtp-button ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only">
+                            <span class="ui-button-icon-primary ui-icon ui-icon-newwin">
+                            </span>
+                        </a>
                     </div>
                 {% else %}
                     <form id="vtp-header-login" action="{{ path('_login_check') }}" method="post" enctype="application/x-www-form-urlencoded">

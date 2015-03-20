@@ -291,6 +291,19 @@ resourceDetail = (function () {
                             return false;
                         }
                     });
+                    if (!tagExist) {
+                        $('div#vtp-tagbox > span').each(function(index) {
+                            var text = $(this).text().trim();
+                            var pos = text.search(new RegExp('\\(\\d+\\)'));
+                            if (pos > -1) {
+                                text = text.substring(0, pos).trim();
+                            }
+                            if (text.toLowerCase() == $('#tag_text').val().toLowerCase()) {
+                                tagExist = true;
+                                return false;
+                            }
+                        });
+                    }
                     if (tagExist) {
                         $('#tag_save').trigger('click');
                     } else {

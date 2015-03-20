@@ -36,7 +36,7 @@ app.controller('UserController', function ($scope, $http, $filter, $timeout) {
     $scope.isDeleting = false;
 
     $scope.delete = function() {
-        $http.delete('../../api/user/'+$scope.user.id).success(function(data) {
+        $http.delete(vitoop.baseUrl + 'api/user/'+$scope.user.id).success(function(data) {
             if (data.success) {
                 window.location = data.url;
             } else {
@@ -52,7 +52,7 @@ app.controller('UserController', function ($scope, $http, $filter, $timeout) {
         if ($scope.user_email.email2.$error.match || $scope.user_password.pass2.$error.match || (($scope.user.email == "" || angular.isUndefined($scope.user.email)) && ($scope.user.password == "" || angular.isUndefined($scope.user.password)))) {
             return false;
         }
-        $http.post('../api/user/'+$scope.user.id+'/credentials', angular.toJson($scope.user)).success(function(data) {
+        $http.post(vitoop.baseUrl + 'api/user/'+$scope.user.id+'/credentials', angular.toJson($scope.user)).success(function(data) {
             $scope.message = data.message;
             if (data.success) {
                 $scope.user.email = "";
@@ -102,7 +102,7 @@ app.controller('PrjController', function ($scope, $http, $filter, $timeout) {
         toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink '
     };
     $scope.$watch("projectId", function(){
-        $http.get('../api/project/'+$scope.projectId).success(function (data) {
+        $http.get(vitoop.baseUrl + 'api/project/'+$scope.projectId).success(function (data) {
             $scope.project = data.project;
             $scope.isOwner = data.isOwner;
             $timeout(function() {
@@ -114,7 +114,7 @@ app.controller('PrjController', function ($scope, $http, $filter, $timeout) {
 
     $scope.delete = function() {
         if ($scope.isOwner) {
-            $http.delete('../api/project/'+$scope.projectId).success(function(data) {
+            $http.delete(vitoop.baseUrl + 'api/project/'+$scope.projectId).success(function(data) {
                 if (data.success) {
                     $('#vtp-projectdata-project-close').trigger('click');
                 } else {
@@ -127,7 +127,7 @@ app.controller('PrjController', function ($scope, $http, $filter, $timeout) {
     };
 
     $scope.save = function() {
-        $http.post('../api/project/'+$scope.projectId, angular.toJson($scope.project)).success(function (data) {
+        $http.post(vitoop.baseUrl + 'api/project/'+$scope.projectId, angular.toJson($scope.project)).success(function (data) {
             $scope.message = data.message;
             if (data.status == "success") {
                 $scope.isError = false;
@@ -145,7 +145,7 @@ app.controller('PrjController', function ($scope, $http, $filter, $timeout) {
     };
 
     $scope.addUser = function() {
-        $http.post('../api/project/'+$scope.projectId+'/user', JSON.stringify($scope.user.originalObject)).success(function (data) {
+        $http.post(vitoop.baseUrl + 'api/project/'+$scope.projectId+'/user', JSON.stringify($scope.user.originalObject)).success(function (data) {
             $scope.message = data.message;
             if (data.status == "success") {
                 $scope.isError = false;
@@ -162,7 +162,7 @@ app.controller('PrjController', function ($scope, $http, $filter, $timeout) {
     };
 
     $scope.removeUser = function() {
-        $http.delete('../api/project/'+$scope.projectId+'/user/'+$scope.user.originalObject.id).success(function (data) {
+        $http.delete(vitoop.baseUrl + 'api/project/'+$scope.projectId+'/user/'+$scope.user.originalObject.id).success(function (data) {
             $scope.message = data.message;
             if (data.status == "success") {
                 $scope.isError = false;
@@ -207,7 +207,7 @@ app.controller('ToDoController', function ($scope, $http, $filter) {
     };
 
     $scope.$watch("user", function(){
-        $http.get('api/user/'+$scope.user.id+'/todo').success(function (data) {
+        $http.get(vitoop.baseUrl + 'api/user/'+$scope.user.id+'/todo').success(function (data) {
             $scope.to_do_items = data;
             $scope.loadItem();
         });
@@ -240,7 +240,7 @@ app.controller('ToDoController', function ($scope, $http, $filter) {
 
     $scope.delete = function() {
         if (angular.isDefined($scope.to_do_item.id)) {
-            $http.delete('api/user/'+$scope.user.id+'/todo/'+$scope.to_do_item.id).success(function () {
+            $http.delete(vitoop.baseUrl + 'api/user/'+$scope.user.id+'/todo/'+$scope.to_do_item.id).success(function () {
                 var index = $scope.to_do_items.indexOf($filter('filter')($scope.to_do_items, {id: $scope.to_do_item.id}, true)[0]);
                 $scope.to_do_items.splice(index, 1);
                 $scope.loadItem();
@@ -252,7 +252,7 @@ app.controller('ToDoController', function ($scope, $http, $filter) {
 
     $scope.save = function() {
         if ($scope.isNew) {
-            $http.post('api/user/'+$scope.user.id+'/todo', JSON.stringify($scope.to_do_item)).success(function (data) {
+            $http.post(vitoop.baseUrl + 'api/user/'+$scope.user.id+'/todo', JSON.stringify($scope.to_do_item)).success(function (data) {
                 $scope.to_do_item.id = data.id;
                 $scope.to_do_items.push(angular.copy($scope.to_do_item));
                 $scope.to_do_items = $filter('orderBy')($scope.to_do_items, 'title');
