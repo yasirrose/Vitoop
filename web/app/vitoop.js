@@ -5,6 +5,11 @@ var app = angular.module('vitoop', ['ui.tinymce', 'angucomplete', 'validation.ma
 app.controller('MainController', function ($scope, $http, $compile) {
     $scope.content = '';
     $scope.click = function(text) {
+        //IE fix - before it user can't focus on inputs after TinyMCE was clicked
+        setTimeout(function() {
+            $('#vtp-search-bytags-taglist').focus();
+            $('#vtp-search-bytags-taglist').blur();
+        }, 1000);
         if (text == 'home') {
             setTimeout(function () {
               $compile(document.getElementById('todocontroller'))($scope);
