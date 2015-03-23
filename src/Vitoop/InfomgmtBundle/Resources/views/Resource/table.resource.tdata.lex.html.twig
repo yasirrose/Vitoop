@@ -4,9 +4,10 @@
             {% if (editMode is defined) and (editMode) %}
                 <input type="number" id="coef-{{ attribute(coefficients, lex.getID).rel_id }}" data-rel_id="{{ attribute(coefficients, lex.getID).rel_id }}" min="0" data-original="{{ attribute(coefficients, lex.getID).coefficient }}" max="120" step="0.1" value="{{ attribute(coefficients, lex.getID).coefficient }}" class="vtp-uiaction-coefficient vtp-fh-w85"/>
             {% else %}
-                {{ lex.createdat|date("d.m.y") }}
                 {% if coefficients is defined %}
-                    <input type="hidden" id="coef-{{ attribute(coefficients, lex.getID).rel_id }}" data-rel_id="{{ attribute(coefficients, lex.getID).rel_id }}" value="{{ attribute(coefficients, lex.getID).coefficient }}" class="vtp-uiaction-coefficient"/>
+                    <input type="number" id="coef-{{ attribute(coefficients, lex.getID).rel_id }}" data-rel_id="{{ attribute(coefficients, lex.getID).rel_id }}" value="{{ attribute(coefficients, lex.getID).coefficient }}" class="vtp-uiaction-coefficient vtp-fh-w85" disabled="disabled"/>
+                {% else %}
+                    {{ lex.createdat|date("d.m.y") }}
                 {% endif %}
             {% endif %}
         </td>

@@ -1,13 +1,16 @@
 {% set zebra = ['even', 'odd'] %}
+{% if coefficients is defined %}
+    {% set dateTitle = 'Koeff.' %}
+{% else %}
+    {% set dateTitle = 'Erstellt' %}
+{% endif %}
 {% if editMode is defined and editMode %}
     {% set linkTitle = 'unlink' %}
     {% set linkWidth = '5%' %}
-    {% set dateTitle = 'Koeff.' %}
     {% set colsBook = 9 %}
 {% else %}
     {% set linkWidth = '3%' %}
     {% set linkTitle = 'link' %}
-    {% set dateTitle = 'Erstellt' %}
     {% set colsBook = 8 %}
 {% endif %}
 <div id="vtp-res-list" class="vtp-uiaction-list-listener">

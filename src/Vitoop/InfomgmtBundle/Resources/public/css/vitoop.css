@@ -810,12 +810,22 @@ span.vtp-icon {
     cursor: pointer;
 }
 
-.divider {
-    margin-left: 49px;
+span.divider {
+    margin-left: 4px;
 }
 
 input.divider {
-    width: 1054px;
+    width: 100%;
+}
+
+div.divider-wrapper {
+    background-color: #62bbe9;
+    width: 1122px;
+    padding-left: 20px;
+    font-size: 16px;
+    font-weight: bolder;
+    height: 25px;
+    display: inline-flex
 }
 
 #vtp-projectdata-project-live, #vtp-projectdata-project-edit {

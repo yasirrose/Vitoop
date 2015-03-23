@@ -115,7 +115,7 @@ resourceList = (function () {
                                     divider = divider.text;
                                 }
                                 if ((typeof(editMode) != "undefined") && (editMode)) {
-                                    $(this).parent().parent().before($('<div style="background-color: #62bbe9; width: 1122px; padding-left: 20px; font-size: 16px; font-weight: bolder; height: 25px" class="vtp-uiaction-coefficient ui-corner-all"><span>'+ ~~ currentCoefficient+'</span><input class="divider" type="text" data-coef="'+(~~currentCoefficient)+'" value="'+divider+'" data-original="'+divider+'"></div>'));
+                                    $(this).parent().parent().before($('<div class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 5%"><span>'+ ~~ currentCoefficient+'</span></div><div style="width: 94.4%"><input class="divider" type="text" data-coef="'+(~~currentCoefficient)+'" value="'+divider+'" data-original="'+divider+'"></div></div>'));
                                     $('input.divider').on('focusout', function() {
                                         if ($(this).val() != $(this).data('original')) {
                                             $('.vtp-uiaction-coefficient, input.divider').attr('disabled', true);
@@ -132,7 +132,7 @@ resourceList = (function () {
                                         }
                                     });
                                 } else {
-                                    $(this).parent().parent().before($('<div style="background-color: #62bbe9; width: 1122px; padding-left: 20px; font-size: 16px; font-weight: bolder" class="vtp-uiaction-coefficient ui-corner-all"><span>'+ ~~ currentCoefficient+'</span><span class="divider">'+divider+'</span></span></div>'));
+                                    $(this).parent().parent().before($('<div style="height: 26px; padding-top: 5px;" class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 5%"><span>'+ ~~ currentCoefficient+'</span></div><div style="width: 94.4%"><span class="divider">'+divider+'</span></span></div></div>'));
                                 }
                             }
                             upperCoefficient = currentCoefficient;
