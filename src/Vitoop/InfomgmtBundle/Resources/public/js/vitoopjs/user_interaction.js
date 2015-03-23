@@ -40,9 +40,9 @@ userInteraction = (function () {
 
         tinymce.init({
             selector: 'textarea#vitoop_blog_sheet',
-            width: 575,
+            width: 615,
             height: 600,
-            plugins: 'textcolor link media',
+            plugins: 'textcolor link media code',
             menubar: false,
             style_formats: [
                 {title: 'p', block: 'p'},
@@ -53,7 +53,7 @@ userInteraction = (function () {
                 {title: 'h5', block: 'h5'},
                 {title: 'h6', block: 'h6'}
             ],
-            toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink | media'
+            toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink | media | code'
         });
     };
 

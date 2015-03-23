@@ -31,11 +31,14 @@
             </div>
         </td>
         <td>{{ book.res12count }}</td>
+        {% if editMode is defined and editMode %}
         <td>{{ book.user.username }}</td>
         <td class="ui-corner-right">
-            {% if editMode is defined and editMode %}
-                <span class="vtp-projectdata-unlink ui-icon ui-icon-close ui-corner-all" onclick="unlinkRes({{ book.id }})"></span>
-            {% endif %}
+            <span class="vtp-projectdata-unlink ui-icon ui-icon-close ui-corner-all" onclick="unlinkRes({{ book.id }})"></span>
         </td>
+        {% else %}
+            <td class="ui-corner-right">{{ book.user.username }}</td>
+        {% endif %}
+
     </tr>
 {% endfor %}

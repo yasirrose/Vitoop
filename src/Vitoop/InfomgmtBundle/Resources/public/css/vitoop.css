@@ -76,6 +76,13 @@ table {
     table-layout: fixed;
 }
 
+div#vtp-res-list table tr:first-of-type th {
+    color: #2779aa !important;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px !important;
+    font-weight: bold !important;
+}
+
 td {
     border: none !important;
     text-align: left;
@@ -518,8 +525,8 @@ input[type=number].vtp-uiaction-coefficient::-webkit-inner-spin-button, input[ty
     padding: 0;
 }
 
-.margin-top-10 {
-    margin-top: 10px;
+.margin-top-3 {
+    margin-top: 3px;
 }
 
 div.vtp-uiinfo-info, div.vtp-uiinfo-infobox {
@@ -810,6 +817,16 @@ span.vtp-icon {
     cursor: pointer;
 }
 
+div.forgotPass {
+    margin-bottom: -14px;
+}
+
+div.forgotPass > a {
+    text-decoration: none;
+    color: #003366;
+    margin-right: 83px;
+}
+
 span.divider {
     margin-left: 4px;
 }
@@ -918,7 +935,7 @@ span.vtp-icon-active {
 #vtp-vitoopblog-save-container {
     position: absolute;
     top: 0.5em;
-    right: 2em;
+    right: 0em;
 }
 
 #vtp-vitoopblog-sheet-edit {
@@ -933,13 +950,13 @@ span.vtp-icon-active {
     border: 1px solid #aed0ea;
     /*background-color: #deedf7;*/
     background: #cfe7f7; /* Old browsers */
-    background: -moz-linear-gradient(top,  #cfe7f7 0%, #f2f8fc 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cfe7f7), color-stop(100%,#f2f8fc)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  #cfe7f7 0%,#f2f8fc 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top,  #cfe7f7 0%,#f2f8fc 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top,  #cfe7f7 0%,#f2f8fc 100%); /* IE10+ */
-    background: linear-gradient(to bottom,  #cfe7f7 0%,#f2f8fc 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfe7f7', endColorstr='#f2f8fc',GradientType=0 ); /* IE6-9 */
+    background: -moz-linear-gradient(top,  #cfe7f7 0%, #E5F1FA 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cfe7f7), color-stop(100%,#E5F1FA)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #cfe7f7 0%,#E5F1FA 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #cfe7f7 0%,#E5F1FA 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #cfe7f7 0%,#E5F1FA 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #cfe7f7 0%,#E5F1FA 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfe7f7', endColorstr='#E5F1FA',GradientType=0 ); /* IE6-9 */
     color: #2779aa;
     margin-top: 2px;
     padding: 7px;
@@ -964,7 +981,7 @@ a.vtp-homelink span {
     float: right;
 }
 
-#vtp-footer #vtp-imprint a, #vtp-footer #vtp-imprint button {
+#vtp-footer #vtp-imprint a, #vtp-footer #vtp-imprint button, div#vtp-login form div.vtp-submit-wrapper input[type=submit] {
     padding-left: 4px;
     padding-right: 4px;
     padding-top: 5px;

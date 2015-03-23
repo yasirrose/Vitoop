@@ -195,7 +195,7 @@ app.controller('ToDoController', function ($scope, $http, $filter) {
     $scope.isDeleting = false;
     $scope.tinymceOptions = {
         selector: 'textarea#toDoArea',
-        width: 550,
+        width: 550, //574 for new one button
         height: 550,
         plugins: 'textcolor link media',
         menubar: false,

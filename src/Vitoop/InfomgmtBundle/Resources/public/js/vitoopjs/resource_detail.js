@@ -996,7 +996,7 @@ resourceDetail = (function () {
                                 selector: 'textarea#help-text',
                                 id: 'tiny-help',
                                 height: 430,
-                                plugins: 'textcolor link',
+                                plugins: 'textcolor link code',
                                 menubar: false,
                                 style_formats: [
                                     {title: 'p', block: 'p'},
@@ -1007,7 +1007,7 @@ resourceDetail = (function () {
                                     {title: 'h5', block: 'h5'},
                                     {title: 'h6', block: 'h6'}
                                 ],
-                                toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink'
+                                toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink | code'
                             });
                         }, 2000);
 

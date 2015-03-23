@@ -111,10 +111,12 @@
     height: 16px;
     line-height: 16px;
     font-size: 12px;
-    padding: 2px 8px;
+    padding: 2px 8px 2px 28px;
     cursor: default;
     vertical-align: middle;
     text-align: center;
+    border: none !important;
+    background: none !important;
 }
 
 #vtp-pg-maxperpage-form {
@@ -124,6 +126,8 @@
     cursor: default;
     vertical-align: middle;
     text-align: center;
+    border: none !important;
+    background: none !important;
 }
 
 #vtp-pg-maxperpage-form label {
