@@ -100,15 +100,40 @@ resourceList = (function () {
                 var currentCoefficient = 0;
                 var dividers = [];
                 $.ajax({
-                    url: vitoop.baseUrl +'api/project/' + projectElem.val() + '/dividers',
+                    url: vitoop.baseUrl +'api/project/' + projectElem.val() + '/divider',
                     method: 'GET',
                     success: function(data) {
                         dividers = JSON.parse(data);
-                        console.log(dividers);
+                        var divider = "";
                         $('table > tbody > tr > td > input.vtp-uiaction-coefficient', $(html)).each(function() {
                             currentCoefficient = $(this).val();
                             if ((~~upperCoefficient)-(~~currentCoefficient) <= -1) {
-                                $(this).parent().parent().before($('<div style="background-color: #62bbe9; width: 1122px; padding-left: 20px; font-size: 16px; font-weight: bolder" class="vtp-uiaction-coefficient ui-corner-all"><span>'+ ~~ currentCoefficient+'</span></div>'));
+                                divider = dividers["'"+currentCoefficient+"'"];
+                                if (typeof(divider) == "undefined") {
+                                    divider = "";
+                                } else {
+                                    divider = divider.text;
+                                }
+                                if ((typeof(editMode) != "undefined") && (editMode)) {
+                                    $(this).parent().parent().before($('<div style="background-color: #62bbe9; width: 1122px; padding-left: 20px; font-size: 16px; font-weight: bolder; height: 25px" class="vtp-uiaction-coefficient ui-corner-all"><span>'+ ~~ currentCoefficient+'</span><input class="divider" type="text" data-coef="'+(~~currentCoefficient)+'" value="'+divider+'" data-original="'+divider+'"></div>'));
+                                    $('input.divider').on('focusout', function() {
+                                        if ($(this).val() != $(this).data('original')) {
+                                            $('.vtp-uiaction-coefficient, input.divider').attr('disabled', true);
+                                            $.ajax({
+                                                dataType: 'json',
+                                                delegate: true,
+                                                data: JSON.stringify({'text': $(this).val(), 'coefficient': $(this).data('coef')}),
+                                                method: 'POST',
+                                                url: vitoop.baseUrl + 'api/project/' + projectElem.val() + '/divider',
+                                                success: function () {
+                                                    $('.vtp-uiaction-coefficient, input.divider').attr('disabled', false);
+                                                }
+                                            });
+                                        }
+                                    });
+                                } else {
+                                    $(this).parent().parent().before($('<div style="background-color: #62bbe9; width: 1122px; padding-left: 20px; font-size: 16px; font-weight: bolder" class="vtp-uiaction-coefficient ui-corner-all"><span>'+ ~~ currentCoefficient+'</span><span class="divider">'+divider+'</span></span></div>'));
+                                }
                             }
                             upperCoefficient = currentCoefficient;
                         });

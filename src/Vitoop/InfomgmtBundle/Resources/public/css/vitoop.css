@@ -810,6 +810,14 @@ span.vtp-icon {
     cursor: pointer;
 }
 
+.divider {
+    margin-left: 49px;
+}
+
+input.divider {
+    width: 1054px;
+}
+
 #vtp-projectdata-project-live, #vtp-projectdata-project-edit {
     display: inline-block;
     position: absolute;

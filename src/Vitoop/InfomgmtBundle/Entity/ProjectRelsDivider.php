@@ -31,7 +31,7 @@ class ProjectRelsDivider
      *
      * @ORM\Column(name="text", type="string", length=350, nullable=true)
      * @Serializer\Groups({"get", "edit"})
-     * @Serializer\Type("integer")
+     * @Serializer\Type("string")
      */
     private $text;
 

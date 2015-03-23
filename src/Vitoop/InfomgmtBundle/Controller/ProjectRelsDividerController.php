@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContext;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Vitoop\InfomgmtBundle\Entity\ProjectRelsDivider;
 use Vitoop\InfomgmtBundle\Entity\RelProjectUser;
 use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\Entity\User;
@@ -19,7 +20,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 
 /**
- * @Route("api/project/{projectID}/dividers")
+ * @Route("api/project/{projectID}/divider")
  * @ParamConverter("project", class="Vitoop\InfomgmtBundle\Entity\Project", options={"id" = "projectID"})
  */
 class ProjectRelsDividerController extends Controller
@@ -54,7 +55,29 @@ class ProjectRelsDividerController extends Controller
      */
     public function addOrEditDivider(Project $project, Request $request)
     {
-        return array();
+        if (!$project->getProjectData()->availableForWriting($this->get('vitoop.vitoop_security')->getUser())) {
+            throw new AccessDeniedHttpException;
+        }
+        $em = $this->getDoctrine()->getManager();
+        $serializer = $this->get('jms_serializer');
+        $serializerContext = DeserializationContext::create()
+            ->setGroups(array('edit'));
+        $divider = $serializer->deserialize($request->getContent(), 'Vitoop\InfomgmtBundle\Entity\ProjectRelsDivider', 'json', $serializerContext);
+        //var_dump($divider);
+        $dividerOrigin = $em->getRepository('VitoopInfomgmtBundle:ProjectRelsDivider')->findOneBy(array('projectData' => $project->getProjectData(), 'coefficient' => $divider->getCoefficient()));
+        //var_dump($dividerOrigin);
+        //exit(0);
+        if (is_null($dividerOrigin)) {
+            $dividerOrigin = new ProjectRelsDivider();
+            $dividerOrigin->setProjectData($project->getProjectData());
+            $dividerOrigin->setCoefficient($divider->getCoefficient());
+        }
+        $dividerOrigin->setText($divider->getText());
+        $em->merge($dividerOrigin);
+        $em->flush();
+        $response = $serializer->serialize(array('success' => true, 'message' => 'Divider updated!'), 'json');
+
+        return new Response($response);
     }
 
 }
