@@ -79,8 +79,7 @@ table {
 div#vtp-res-list table tr:first-of-type th {
     color: #2779aa !important;
     font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 12px !important;
-    font-weight: bold !important;
+    font-size: 13px !important;
 }
 
 td {
@@ -839,9 +838,9 @@ div.divider-wrapper {
     background-color: #62bbe9;
     width: 1122px;
     padding-left: 20px;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bolder;
-    height: 25px;
+    height: 23px;
     display: inline-flex
 }
 
@@ -941,6 +940,10 @@ span.vtp-icon-active {
 #vtp-vitoopblog-sheet-edit {
     position: relative;
     width: 720px;
+}
+
+form#form-tag fieldset {
+    padding-right: 22px;
 }
 
 /*----------------------------------------------------------------*/

@@ -169,6 +169,9 @@ class ResourceManager
         if ($new) {
             $resource->setUser($this->vsec->getUser());
             $resource->setCreatedAt(new \DateTime());
+            if (6 == $resource->getResourceTypeIdx()) {
+                $resource->setProjectData(new ProjectData());
+            }
         } else {
             $resource->setUpdatedAt(new \DateTime());
         }

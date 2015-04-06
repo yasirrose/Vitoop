@@ -43,7 +43,7 @@ class Resource
     protected $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="RelResourceTag", mappedBy="resource")
+     * @ORM\OneToMany(targetEntity="RelResourceTag", mappedBy="resource", cascade={"remove"})
      */
     protected $rel_tags;
 

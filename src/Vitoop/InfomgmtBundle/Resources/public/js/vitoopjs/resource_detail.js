@@ -623,9 +623,6 @@ resourceDetail = (function () {
         loadTab = function (event, ui) {
             var tab_nr;
             var url;
-
-
-
             // Don't touch this. Works for three different calls with handcrafted parameters event and ui!
             if (typeof ui.newTab === 'undefined') {
                 tab_nr = ui;
@@ -639,6 +636,7 @@ resourceDetail = (function () {
             if (1 == tab_loaded[tab_nr]) {
                 return;
             }
+
             if (tab_nr == 0 && res_id != 'new') {
                 $.ajax({
                     url: vitoop.baseUrl + 'api/resource/' + res_id + '/tabs_info',
@@ -690,7 +688,6 @@ resourceDetail = (function () {
                     uifyContainer(container_name);
                 }
             });
-
         },
 
         showDialog = function (e) {
@@ -885,8 +882,8 @@ resourceDetail = (function () {
             // pay attention. this triggers tab to load, if the array
             // tab_loaded is [0,.,.,.,.]
             $('#vtp-res-dialog-tabs').tabs('option', 'active', 0);
-            // focus must be maintained manually...
-            $('#vtp-res-dialog-tabs .ui-tabs-active>a').trigger('focus');
+            // focus must be maintained manually... it will fire bug in Mozilla!
+            //$('#vtp-res-dialog-tabs .ui-tabs-active > a').trigger('focus');
             // so the array must be reseted here
             tab_loaded = [ 0, 0, 0, 0, 0 ];
             // there was a li-element inserted for rating purposes

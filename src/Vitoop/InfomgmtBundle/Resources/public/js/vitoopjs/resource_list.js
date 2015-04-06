@@ -108,14 +108,14 @@ resourceList = (function () {
                         $('table > tbody > tr > td > input.vtp-uiaction-coefficient', $(html)).each(function() {
                             currentCoefficient = $(this).val();
                             if ((~~upperCoefficient)-(~~currentCoefficient) <= -1) {
-                                divider = dividers["'"+currentCoefficient+"'"];
+                                divider = dividers["'"+~~currentCoefficient+"'"];
                                 if (typeof(divider) == "undefined") {
                                     divider = "";
                                 } else {
                                     divider = divider.text;
                                 }
                                 if ((typeof(editMode) != "undefined") && (editMode)) {
-                                    $(this).parent().parent().before($('<div class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 5%"><span>'+ ~~ currentCoefficient+'</span></div><div style="width: 94.4%"><input class="divider" type="text" data-coef="'+(~~currentCoefficient)+'" value="'+divider+'" data-original="'+divider+'"></div></div>'));
+                                    $(this).parent().parent().before($('<div class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 5%; padding-top: 2px"><span>'+ ~~ currentCoefficient+'</span></div><div style="width: 94.4%"><input class="divider" type="text" data-coef="'+(~~currentCoefficient)+'" value="'+divider+'" data-original="'+divider+'"></div></div>'));
                                     $('input.divider').on('focusout', function() {
                                         if ($(this).val() != $(this).data('original')) {
                                             $('.vtp-uiaction-coefficient, input.divider').attr('disabled', true);
@@ -132,7 +132,7 @@ resourceList = (function () {
                                         }
                                     });
                                 } else {
-                                    $(this).parent().parent().before($('<div style="height: 26px; padding-top: 5px;" class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 5%"><span>'+ ~~ currentCoefficient+'</span></div><div style="width: 94.4%"><span class="divider">'+divider+'</span></span></div></div>'));
+                                    $(this).parent().parent().before($('<div style="height: 20px; padding-top: 2px;" class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 5%"><span>'+ ~~ currentCoefficient+'</span></div><div style="width: 94.4%"><span class="divider">'+divider+'</span></span></div></div>'));
                                 }
                             }
                             upperCoefficient = currentCoefficient;
@@ -147,7 +147,7 @@ resourceList = (function () {
             maintainResLinks();
             if (typeof(editMode) != 'undefined' && editMode == 1) {
                 $('.vtp-uiaction-coefficient').on('focusout', function() {
-                    if ($(this).val() < 0) {
+                    if ((isNaN($(this).val())) || ($(this).val() < 0)) {
                         $(this).val($(this).data('original'));
                         return false;
                     }
