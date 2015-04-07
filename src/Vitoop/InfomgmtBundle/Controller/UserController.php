@@ -49,6 +49,7 @@ class UserController extends Controller
         }
         $em = $this->getDoctrine()->getManager();
         $user->setActive(false);
+        $user->setUsername($user::USER_DISABLED_USERNAME.$user->getId());
         $em->merge($user);
         $em->flush();
         $this->get('security.context')->setToken(null);

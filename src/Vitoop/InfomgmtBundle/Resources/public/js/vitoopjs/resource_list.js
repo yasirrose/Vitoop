@@ -122,13 +122,23 @@ resourceList = (function () {
                                             $.ajax({
                                                 dataType: 'json',
                                                 delegate: true,
+                                                context: this,
                                                 data: JSON.stringify({'text': $(this).val(), 'coefficient': $(this).data('coef')}),
                                                 method: 'POST',
                                                 url: vitoop.baseUrl + 'api/project/' + projectElem.val() + '/divider',
                                                 success: function () {
                                                     $('.vtp-uiaction-coefficient, input.divider').attr('disabled', false);
+                                                    $(this).data('original', $(this).val());
+                                                    $('#vtp-projectdata-project-live').show(600);
                                                 }
                                             });
+                                        }
+                                    });
+                                    $('input.divider').on('change keyup', function() {
+                                        if ($(this).val() != $(this).data('original')) {
+                                            $('#vtp-projectdata-project-live').hide(600);
+                                        } else {
+                                            $('#vtp-projectdata-project-live').show(600);
                                         }
                                     });
                                 } else {

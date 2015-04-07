@@ -44,4 +44,5 @@ security:
       - { path: '^/register/[a-z0-9]{32}$', roles: IS_AUTHENTICATED_ANONYMOUSLY }
       - { path: ^/invite, roles: ROLE_ADMIN }
       - { path: ^/edit-vitoop-blog, roles: ROLE_ADMIN }
+      - { path: ^/api/help, roles: IS_AUTHENTICATED_ANONYMOUSLY }
       - { path: ^/, roles: ROLE_USER }

@@ -131,6 +131,10 @@ Vitoop\InfomgmtBundle\Entity\User:
             - Regex:
                 pattern: "/^[\x20-\x7FäöüÄÖÜß]+$/"
                 message: "Dein Username enthält nicht erlaubte Zeichen."
+            - Regex:
+                pattern: "/(^gel-)/"
+                match: false
+                message: "Username cannot starts from 'gel-'"
         email:
             - Email:
                 message: "Deine angegebene email {{ value }} is keine gültige email."

@@ -59,6 +59,7 @@
     display: inline-block !important;
     min-width: 16px;
     height: 16px;
+    font-weight: normal;
 }
 
 .vtp-pg-start {
@@ -128,6 +129,7 @@
     text-align: center;
     border: none !important;
     background: none !important;
+    font-weight: normal;
 }
 
 #vtp-pg-maxperpage-form label {

@@ -1,5 +1,5 @@
 {% for book in resources %}
-    <tr id="book-{{ book.id }}" class="vtp-{{ cycle(zebra, loop.index) }} ui-corner-all vtp-uiaction-list-showdetail{% include "VitoopInfomgmtBundle:Resource:table.resource.res.classhelper.listtagger.html.twig" %}">
+    <tr style="height: 39px" id="book-{{ book.id }}" class="vtp-{{ cycle(zebra, loop.index) }} ui-corner-all vtp-uiaction-list-showdetail{% include "VitoopInfomgmtBundle:Resource:table.resource.res.classhelper.listtagger.html.twig" %}">
         <td class="ui-corner-left">
             {% if (editMode is defined) and (editMode) %}
                 <input type="text" id="coef-{{ attribute(coefficients, book.getID).rel_id }}" data-rel_id="{{ attribute(coefficients, book.getID).rel_id }}" data-original="{{ attribute(coefficients, book.getID).coefficient }}" value="{{ attribute(coefficients, book.getID).coefficient }}" class="vtp-uiaction-coefficient vtp-fh-w85"/>

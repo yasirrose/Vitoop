@@ -18,6 +18,8 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class User implements UserInterface, EquatableInterface, AdvancedUserInterface
 {
+    const USER_DISABLED_USERNAME = "gel-";
+
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id()

@@ -823,7 +823,7 @@ div.forgotPass {
 div.forgotPass > a {
     text-decoration: none;
     color: #003366;
-    margin-right: 83px;
+    margin-right: 82px;
 }
 
 span.divider {
@@ -842,6 +842,10 @@ div.divider-wrapper {
     font-weight: bolder;
     height: 23px;
     display: inline-flex
+}
+
+#vtp-header-login > #username, #vtp-header-login > #password {
+    width: 156px;
 }
 
 #vtp-projectdata-project-live, #vtp-projectdata-project-edit {

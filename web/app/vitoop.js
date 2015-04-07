@@ -11,10 +11,8 @@ app.controller('MainController', function ($scope, $http, $compile) {
             $('#vtp-search-bytags-taglist').blur();
         }, 1000);
         if (text == 'home') {
-            setTimeout(function () {
-              $compile(document.getElementById('todocontroller'))($scope);
-            }, 1000);
-            
+            location.href = vitoop.baseUrl + "userhome";
+            return false;
         };
         if (text == 'prjhome') {
             $('#vtp-content').hide();
@@ -194,7 +192,6 @@ app.controller('ToDoController', function ($scope, $http, $filter) {
     $scope.isNew = false;
     $scope.isDeleting = false;
     $scope.tinymceOptions = {
-        selector: 'textarea#toDoArea',
         width: 550, //574 for new one button
         height: 550,
         plugins: 'textcolor link media',
