@@ -5,6 +5,7 @@ use Buzz\Browser;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Vitoop\InfomgmtBundle\Entity\Flag;
 use Vitoop\InfomgmtBundle\Entity\RelProjectUser;
+use Vitoop\InfomgmtBundle\Entity\UserConfig;
 use Vitoop\InfomgmtBundle\Entity\UserData;
 use Vitoop\InfomgmtBundle\Entity\VitoopBlog;
 use Vitoop\InfomgmtBundle\Service\ResourceManager;
@@ -86,7 +87,7 @@ class ResourceController extends Controller
 
         /* Lexicon Home */
         if ($request->query->has('lexicon')) {
-            $lexicon_id = $request->query->get(lexicon);
+            $lexicon_id = $request->query->get('lexicon');
         }
 
         /* flagged */
@@ -116,6 +117,11 @@ class ResourceController extends Controller
                 $user_data = $user->getUserData();
                 if (null === $user_data) {
                     $user_data = new UserData($user);
+                }
+                if (is_null($user->getUserConfig())) {
+                    $user->setUserConfig(new UserConfig($user));
+                    $em->merge($user);
+                    $em->flush();
                 }
                 $info_user_data = '';
                 $form_user_data = $this->createForm('user_data', $user_data, array(

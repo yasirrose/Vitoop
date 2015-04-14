@@ -126,7 +126,7 @@ class User implements UserInterface, EquatableInterface, AdvancedUserInterface
     protected $rel_resource_resources;
 
     /**
-     * @ORM\OneToOne(targetEntity="UserConfig", inversedBy="user")
+     * @ORM\OneToOne(targetEntity="UserConfig", inversedBy="user", cascade={"persist", "merge"})
      */
     protected $user_config;
 

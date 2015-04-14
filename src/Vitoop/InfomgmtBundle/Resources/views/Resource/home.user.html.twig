@@ -3,6 +3,9 @@
     <fieldset class="ui-corner-all margin-top-3" ng-cloak>
         <div>
             <input type="text" style="display: none" ng-init="user.id={{ user.getID }}" ng-model="user.id">
+            <input type="text" style="display: none" ng-init="user.number_of_todo_elements={{ user.getUserConfig.getNumberOfTodoElements }}" ng-model="user.number_of_todo_elements">
+            <input type="text" style="display: none" ng-init="user.height_of_todo_list={{ user.getUserConfig.getHeightOfTodoList }}" ng-model="user.height_of_todo_list">
+
             <div>
                 <div class="vtp-fh-w50" style="float: left">
                     <div class="vtp-fh-w100">

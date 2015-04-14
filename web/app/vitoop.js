@@ -210,6 +210,8 @@ app.controller('ToDoController', function ($scope, $http, $filter) {
 
     $scope.$watch("user", function(){
         $http.get(vitoop.baseUrl + 'api/user/'+$scope.user.id+'/todo').success(function (data) {
+            jQuery('#toDoArea_ifr').css('height', $scope.user.height_of_todo_list+'px');
+            jQuery('#noscroll-element').css('max-height', 33.5 * $scope.user.number_of_todo_elements+'px');
             $scope.to_do_items = data;
             $scope.loadItem();
         });
