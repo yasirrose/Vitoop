@@ -952,6 +952,10 @@ form#form-tag fieldset {
 
 /*----------------------------------------------------------------*/
 
+#vtp-res-list tr.vtp-uiaction-list-showdetail {
+    height: 40px;
+}
+
 #vtp-footer {
     overflow: hidden;
     border: 1px solid #aed0ea;
