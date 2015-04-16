@@ -104,18 +104,29 @@ class TagRepository extends EntityRepository
 
     public function getAllTagsWithRelResourceTagCount()
     {
+        $query = $this->createQueryBuilder('t')
+            ->select('t.id')
+            ->addSelect('t.text')
+            ->addSelect('count(rrt.id) as cnt')
+            ->addSelect('count(prj.id) as prjc')
+            ->addSelect('count(lex.id) as lexc')
+            ->addSelect('count(pdf.id) as pdfc')
+            ->addSelect('count(teli.id) as telic')
+            ->addSelect('count(link.id) as linkc')
+            ->addSelect('count(book.id) as bookc')
+            ->addSelect('count(adr.id) as adrc')
+            ->innerJoin('VitoopInfomgmtBundle:RelResourceTag', 'rrt', 'WITH', 'rrt.tag = t.id')
+            ->leftJoin('VitoopInfomgmtBundle:Project', 'prj', 'WITH', 'rrt.resource = prj.id')
+            ->leftJoin('VitoopInfomgmtBundle:Lexicon', 'lex', 'WITH', 'rrt.resource = lex.id')
+            ->leftJoin('VitoopInfomgmtBundle:Pdf', 'pdf', 'WITH', 'rrt.resource = pdf.id')
+            ->leftJoin('VitoopInfomgmtBundle:Teli', 'teli', 'WITH', 'rrt.resource = teli.id')
+            ->leftJoin('VitoopInfomgmtBundle:Link', 'link', 'WITH', 'rrt.resource = link.id')
+            ->leftJoin('VitoopInfomgmtBundle:Address', 'adr', 'WITH', 'rrt.resource = adr.id')
+            ->leftJoin('VitoopInfomgmtBundle:Book', 'book', 'WITH', 'rrt.resource = book.id')
+            ->groupBy('t.id')
+            ->orderBy('cnt', 'DESC')
+            ->addOrderBy('t.text', 'ASC');
 
-        $result = $this->getEntityManager()
-                       ->createQuery('SELECT t, COUNT(rrt) AS cnt FROM VitoopInfomgmtBundle:Tag t
-                                    JOIN t.rel_resources rrt
-                                    GROUP BY t
-                                    ORDER BY cnt DESC')
-                       ->getResult();
-
-        return $result;
-        /*
-                \Doctrine\Common\Util\Debug::dump($result);
-                die();
-        */
+        return $query->getQuery()->getResult();
     }
 }

@@ -1,16 +1,69 @@
 {% extends "VitoopInfomgmtBundle:Tag:layout.html.twig" %}
 {% block content %}
     <fieldset class="ui-corner-all margin-top-3">
-        {% for tag in tags %}
-            {% set current_tag = tag[0] %}
-            <div class="vtp-fh-w100" style="margin-bottom: 3px">
-                <div class="vtp-fh-w35">
-                    {{ current_tag.text }}:
-                </div>
-                <div class="vtp-fh-w10">
-                    {{ tag['cnt'] }}
-                </div>
-            </div>
-        {% endfor %}
+        <table id="tags-list" style="border-collapse: collapse">
+            <thead>
+            <tr style="background: none; border-bottom: 2px solid gray">
+                <td style="width: 29%">
+                    Tag:
+                </td>
+                <td>
+                    X
+                </td>
+                <td>
+                    Projekt:
+                </td>
+                <td>
+                    Lexicon:
+                </td>
+                <td>
+                    Pdf:
+                </td>
+                <td>
+                    Textlink:
+                </td>
+                <td>
+                    Link:
+                </td>
+                <td>
+                    Buch:
+                </td>
+                <td>
+                    Adresse:
+                </td>
+            </tr>
+            </thead>
+            {% for tag in tags %}
+                <tr>
+                    <td>
+                        {{ tag['text'] }}:
+                    </td>
+                    <td>
+                        {{ tag['cnt'] }}
+                    </td>
+                    <td>
+                        {{ tag['prjc'] }}
+                    </td>
+                    <td>
+                        {{ tag['lexc'] }}
+                    </td>
+                    <td>
+                        {{ tag['pdfc'] }}
+                    </td>
+                    <td>
+                        {{ tag['telic'] }}
+                    </td>
+                    <td>
+                        {{ tag['linkc'] }}
+                    </td>
+                    <td>
+                        {{ tag['bookc'] }}
+                    </td>
+                    <td>
+                        {{ tag['adrc'] }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
     </fieldset>
 {% endblock %}
