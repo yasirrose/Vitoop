@@ -44,7 +44,6 @@ class ProjectData
 
     /**
      * @ORM\OneToMany(targetEntity="ProjectRelsDivider", mappedBy="projectData", cascade={"merge", "remove"})
-     * @Serializer\Groups({"get_project"})
      */
     protected $dividers;
 

@@ -16,8 +16,6 @@ use JMS\Serializer\SerializationContext;
 use Vitoop\InfomgmtBundle\Entity\Project;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
-
-
 /**
  * @Route("api/project/{projectID}")
  * @ParamConverter("project", class="Vitoop\InfomgmtBundle\Entity\Project", options={"id" = "projectID"})
