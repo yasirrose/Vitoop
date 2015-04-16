@@ -218,6 +218,8 @@ resourceSearch = (function () {
 
             var tempCount = (arr_taglist.length == 1)?(1):(tagcnt);
             resourceList.maintainResLinks({'taglist': arr_taglist, 'taglist_i': arr_taglist_ignore, 'taglist_h': arr_taglist_highlight, 'tagcnt': tempCount});
+            $('select#vtp-search-bytags-tagcnt').selectmenu("refresh");
+            $('#vtp-search-bytags-form span.ui-selectmenu-button').removeAttr('tabIndex');
         },
 
         maintainTaglistbox = function (force_hide) {

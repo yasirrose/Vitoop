@@ -688,6 +688,12 @@ resourceDetail = (function () {
                     uifyContainer(container_name);
                 }
             });
+            $('select').selectmenu({
+                select: function( event, ui ) {
+                    $('span.ui-selectmenu-button').removeAttr('tabIndex');
+                }
+            });
+            $('span.ui-selectmenu-button').removeAttr('tabIndex');
         },
 
         showDialog = function (e) {
