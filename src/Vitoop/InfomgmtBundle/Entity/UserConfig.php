@@ -4,6 +4,7 @@ namespace Vitoop\InfomgmtBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Table(name="user_config")
@@ -34,8 +35,11 @@ class UserConfig
      *      min = 5,
      *      max = 20,
      *      minMessage = "Count must be more than 4",
-     *      maxMessage = "Count must be less than 21"
+     *      maxMessage = "Count must be less than 21",
+     *      invalidMessage="Count must be a number"
      * )
+     * @Serializer\Groups({"edit"})
+     * @Serializer\Type("integer")
      */
     protected $numberOfTodoElements;
 
@@ -44,9 +48,12 @@ class UserConfig
      * @Assert\Range(
      *      min = 150,
      *      max = 5000,
-     *      minMessage = "Count must be more than 150",
-     *      maxMessage = "Count must be less than 5000"
+     *      minMessage = "Height must be more than 150",
+     *      maxMessage = "Height must be less than 5000",
+     *      invalidMessage="Height must be a number"
      * )
+     * @Serializer\Groups({"edit"})
+     * @Serializer\Type("integer")
      */
     protected $heightOfTodoList;
 

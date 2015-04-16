@@ -417,6 +417,19 @@ EOT;
             'json',
             $serializerContext
         );
+        $validator = $this->get('validator');
+        $errors = $validator->validate($credentials->getUserConfig());
+
+        if (count($errors) > 0) {
+            $response['success'] = false;
+            $response['message'] = "";
+            foreach ($errors as $error){
+                $response['message'] .= $error->getMessage().". ";
+            }
+        } else {
+            $user->getUserConfig()->setHeightOfTodoList($credentials->getUserConfig()->getHeightOfTodoList());
+            $user->getUserConfig()->setNumberOfTodoElements($credentials->getUserConfig()->getNumberOfTodoElements());
+        }
         if ($credentials->getEmail() != "" && $response['success']) {
             if (is_null($em->getRepository('VitoopInfomgmtBundle:User')->findOneBy(array('email' => $credentials->getEmail())))) {
                 $user->setEmail($credentials->getEmail());
@@ -429,13 +442,12 @@ EOT;
             $factory = $this->get('security.encoder_factory');
             $encoder = $factory->getEncoder($user);
             $password = $encoder->encodePassword($credentials->getPassword(), $user->getSalt());
-
             $user->setPassword($password);
-            $response['message'] .= " Password successfully changed!";
         }
         if ($response['success']) {
             $em->merge($user);
             $em->flush();
+            $response['message'] = "Settings successfully changed!";
         }
 
         return new Response($serializer->serialize($response, 'json'));

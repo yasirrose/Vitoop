@@ -52,7 +52,7 @@ app.controller('UserController', function ($scope, $http, $filter, $timeout) {
 
     $scope.save = function() {
         console.log($scope.user.email);
-        if ($scope.user_email.email2.$error.match || $scope.user_password.pass2.$error.match || (($scope.user.email == "" || angular.isUndefined($scope.user.email)) && ($scope.user.password == "" || angular.isUndefined($scope.user.password)))) {
+        if ($scope.user_email.email2.$error.match || $scope.user_password.pass2.$error.match || !$scope.userTodo.$valid || !$scope.userTodo1.$valid) {
             return false;
         }
         $http.post(vitoop.baseUrl + 'api/user/'+$scope.user.id+'/credentials', angular.toJson($scope.user)).success(function(data) {

@@ -127,6 +127,7 @@ class User implements UserInterface, EquatableInterface, AdvancedUserInterface
 
     /**
      * @ORM\OneToOne(targetEntity="UserConfig", inversedBy="user", cascade={"persist", "merge"})
+     * @Serializer\Groups({"edit"})
      */
     protected $user_config;
 
