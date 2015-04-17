@@ -132,7 +132,7 @@ class User implements UserInterface, EquatableInterface, AdvancedUserInterface
     protected $user_config;
 
     /**
-     * @ORM\OneToOne(targetEntity="UserData", inversedBy="user")
+     * @ORM\OneToOne(targetEntity="UserData", inversedBy="user", cascade={"persist"})
      */
     protected $user_data;
 
