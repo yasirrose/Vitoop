@@ -647,7 +647,6 @@ resourceDetail = (function () {
                     method: 'GET',
                     dataType: 'json',
                     success: function(responseJSON) {
-                        console.log('ajax success');
                         var info = responseJSON;
                         if (info.comments == 0) {
                             $('#tab-title-comments').addClass('ui-state-no-content');
