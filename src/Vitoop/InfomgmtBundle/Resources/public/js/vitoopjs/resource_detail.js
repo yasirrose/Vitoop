@@ -637,12 +637,17 @@ resourceDetail = (function () {
                 return;
             }
 
+            if ('new' == res_id) {
+                url = vitoop.baseUrl + ([res_type, 'new'].join('/'));
+            }
+            tab_loaded[tab_nr] = 1;
             if (tab_nr == 0 && res_id != 'new') {
                 $.ajax({
                     url: vitoop.baseUrl + 'api/resource/' + res_id + '/tabs_info',
                     method: 'GET',
                     dataType: 'json',
                     success: function(responseJSON) {
+                        console.log('ajax success');
                         var info = responseJSON;
                         if (info.comments == 0) {
                             $('#tab-title-comments').addClass('ui-state-no-content');
@@ -659,10 +664,6 @@ resourceDetail = (function () {
                     }
                 });
             }
-            if ('new' == res_id) {
-                url = vitoop.baseUrl + ([res_type, 'new'].join('/'));
-            }
-            tab_loaded[tab_nr] = 1;
             $.ajax({
                 url: url,
                 success: loadTabSuccess,
@@ -894,6 +895,7 @@ resourceDetail = (function () {
             tab_loaded = [ 0, 0, 0, 0, 0 ];
             // there was a li-element inserted for rating purposes
             $('#vtp-rating-infobox-li').remove();
+            clearTabsClasses();
         },
 
         flagResource = function (flag_type) {

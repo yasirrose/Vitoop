@@ -658,6 +658,10 @@ ul.ui-menu.ui-autocomplete li.ui-menu-item.ui-state-focus {
     width: 95%;
 }
 
+.ui-dialog {
+    z-index: 101 !important;
+}
+
 .ui-menu li.ui-menu-item.ui-state-focus,
 .ui-menu li.ui-menu-item.ui-state-active,
 .ui-menu .ui-menu-item a.ui-state-focus,
