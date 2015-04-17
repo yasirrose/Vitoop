@@ -285,7 +285,7 @@ resourceDetail = (function () {
                         return false;
                     }
                     var tagExist = false;
-                    $('ul.ui-autocomplete > li > a').each(function(index) {
+                    $('ul.ui-autocomplete > li').each(function(index) {
                         if ($(this).text().toLowerCase() == $('#tag_text').val().toLowerCase()) {
                             tagExist = true;
                             return false;
