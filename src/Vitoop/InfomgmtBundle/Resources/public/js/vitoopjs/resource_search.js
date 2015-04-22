@@ -309,7 +309,7 @@ resourceSearch = (function () {
                 .on('click', '.vtp-uiaction-search-bytags-removetag', removeTag)
                 .on('click', '.vtp-uiaction-search-bytags-clear-taglistbox', removeAllTags);
 
-            $('#vtp-search-bytags-tagcnt').on('change', function () {
+            $('#vtp-search-bytags-tagcnt').on('selectmenuchange', function () {
                     tagcnt = +$(this).val();
                     resourceList.maintainResLinks({'tagcnt': tagcnt});
                 }
