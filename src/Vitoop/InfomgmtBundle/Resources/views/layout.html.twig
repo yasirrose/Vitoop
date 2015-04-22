@@ -58,15 +58,20 @@
                         </a>
                     </div>
                 {% else %}
-                    <form id="vtp-header-login" action="{{ path('_login_check') }}" method="post" enctype="application/x-www-form-urlencoded">
-                        <input id="username" name="_username" type="text" {% if last_username is defined %}value="{{ last_username }}" {% else %}placeholder="Benutzername"{% endif %}>
-                        <input id="password" name="_password" type="password" placeholder="Passwort">
-                        <button id="vtp-user-loginform-login" class="vtp-button" value="login" type="submit">login</button>
-                    </form><br/>
-                    <div class="forgotPass">
-                        <a href="{{ path('forgot_password') }}">Passwort vergessen</a>
-                    </div>
-                    
+                        <form id="vtp-header-login" action="{{ path('_login_check') }}" method="post" enctype="application/x-www-form-urlencoded">
+                            <div class="login-container">
+                                <div class="vtp-fh-w5">
+                                    <button id="vtp-user-loginform-login" class="vtp-button" value="login" type="submit">login</button>
+                                </div>
+                                <div class="vtp-fh-w16 forgotPass" style="width: 167px">
+                                    <input id="password" name="_password" type="password" placeholder="Passwort" style="width: 94%">
+                                    <a href="{{ path('forgot_password') }}">Passwort vergessen</a>
+                                </div>
+                                <div class="vtp-fh-w16" style="width: 167px">
+                                    <input id="username" style="width: 94%" name="_username" type="text" {% if last_username is defined %}value="{{ last_username }}" {% else %}placeholder="Benutzername"{% endif %}>
+                                </div>
+                            </div>
+                        </form><br/>
                 {% endif %}
             </div>
             <div class="vtp-logo"><span class="beta-status">beta</span><a href="{{ path('_base_url') }}">vitoop<span>.org</span></a></div>

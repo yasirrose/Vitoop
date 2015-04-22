@@ -391,7 +391,7 @@ span.vtp-lexiconbox-cntres {
 .vtp-fh-w0, .vtp-fh-w100,
 .vtp-fh-w10, .vtp-fh-w20, .vtp-fh-w30, .vtp-fh-w31, .vtp-fh-w40, .vtp-fh-w50,
 .vtp-fh-w60, .vtp-fh-w70, .vtp-fh-w80, .vtp-fh-w90,
-.vtp-fh-w05, .vtp-fh-w15, .vtp-fh-w25, .vtp-fh-w35, .vtp-fh-w75, .vtp-fh-w85 {
+.vtp-fh-w05, .vtp-fh-w15, .vtp-fh-w16, .vtp-fh-w25, .vtp-fh-w29, .vtp-fh-w35, .vtp-fh-w75, .vtp-fh-w85 {
     display: inline-block;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -409,6 +409,10 @@ span.vtp-lexiconbox-cntres {
     width: 14%;
 }
 
+.vtp-fh-w16 {
+    width: 15%;
+}
+
 .vtp-fh-w20 {
     width: 19%;
 }
@@ -419,6 +423,10 @@ span.vtp-lexiconbox-cntres {
 
 .vtp-fh-w30 {
     width: 29%;
+}
+
+.vtp-fh-w29 {
+    width: 28%;
 }
 
 .vtp-fh-w31 {
@@ -816,14 +824,22 @@ span.vtp-icon {
     cursor: pointer;
 }
 
-div.forgotPass {
-    margin-bottom: -14px;
-}
-
 div.forgotPass > a {
     text-decoration: none;
     color: #003366;
-    margin-right: 82px;
+    margin-left: 2px;
+}
+
+div.login-container {
+    width: 100%;
+    display: inline;
+    float: right;
+    text-align: left;
+    margin-bottom: -14px;
+}
+
+div.login-container > div {
+    float: right;
 }
 
 span.divider {
