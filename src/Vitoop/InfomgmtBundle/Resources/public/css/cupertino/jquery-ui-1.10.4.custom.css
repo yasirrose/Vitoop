@@ -541,12 +541,12 @@ button.ui-button::-moz-focus-inner {
 }
 
 .ui-dialog {
-    overflow: hidden;
     position: absolute;
     top: 0;
     left: 0;
     padding: .2em;
     outline: 0;
+    overflow: visible;
 }
 
 .ui-dialog .ui-dialog-titlebar {
