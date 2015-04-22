@@ -651,7 +651,7 @@ ul.ui-menu li.ui-menu-item {
 }
 
 ul#vtp-search-bytags-tagcnt-menu > li.ui-state-focus {
-    width: 79%;
+    width: 75%;
 }
 
 ul.ui-menu.ui-autocomplete li.ui-menu-item.ui-state-focus {
@@ -1927,5 +1927,9 @@ body .ui-tooltip {
     white-space: nowrap;
 }
 span.ui-selectmenu-button {
-    margin-bottom: -9px;
+    margin-bottom: -8px;
+}
+
+form#vtp-search-bytags-form span.ui-selectmenu-button {
+    height: 22px;
 }

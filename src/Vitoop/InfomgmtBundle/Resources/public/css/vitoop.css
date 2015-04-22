@@ -860,6 +860,10 @@ div.divider-wrapper {
     display: inline-flex
 }
 
+input#vtp-search-bytags-taglist {
+    height: 18px;
+}
+
 #vtp-header-login > #username, #vtp-header-login > #password {
     width: 156px;
 }
@@ -1064,4 +1068,10 @@ input.ng-invalid{
     border: 1px solid #aed0ea;
     padding-bottom: 5px;
     padding-top: 5px
+}
+
+div#vtp-res-list table input[disabled="disabled"] {
+    border: none;
+    background-color: inherit;
+    margin-left: 15px;
 }
