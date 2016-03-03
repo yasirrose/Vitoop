@@ -1,0 +1,29 @@
+---
+server:
+    install: '1'
+    packages: [vim, git, htop, npm, nodejs]
+    timezone: UTC
+    locale: ru_RU.UTF-8
+vagrant_local:
+    install: '1'
+    vm: { base_box: trusty64, hostname: default, ip: 192.168.77.99, memory: '1024', sharedfolder: ./, useVagrantCloud: '1', syncType: nfs }
+nginx:
+    install: '1'
+    docroot: /vagrant/application/web
+    servername: myApp.vb
+mysql:
+    install: '1'
+    root_password: '123'
+    database: vitoopdb
+    user: user
+    password: password
+    dump: devops/ansible/files/live_vitoop.dump.sql
+php:
+    install: '1'
+    ppa: php5-5.6
+    packages: [php5-cli, php5-intl, php5-mcrypt, php5-curl, php5-common, php5-gd, php5-fpm, php5-mysql]
+xdebug:
+    install: '1'
+composer:
+    install: '1'
+
