@@ -33,7 +33,7 @@ class Invitation
 
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="invitations")
-     * @ORM\JoinColumn(name="id_user", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_user", referencedColumnName="id", nullable=true)
      */
     protected $user;
 

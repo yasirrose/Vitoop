@@ -60,13 +60,18 @@ class User implements UserInterface, EquatableInterface, AdvancedUserInterface
     protected $active;
 
     /**
+     * @ORM\Column(name="is_agreed_with_terms", type="boolean", options={"default" = true})
+     */
+    protected $isAgreedWithTerms;
+
+    /**
      * @ORM\OneToMany(targetEntity="Resource", mappedBy="user")
      */
     protected $resources;
 
     /**
      * @ORM\OneToMany(targetEntity="ToDoItem", mappedBy="user")
-     * @ORM\OrderBy({"title" = "ASC"})
+     * @ORM\OrderBy({"order" = "ASC", "title" = "ASC"})
      */
     protected $toDoItems;
 
@@ -171,7 +176,7 @@ class User implements UserInterface, EquatableInterface, AdvancedUserInterface
     public function getRoles()
     {
         $roles = array('ROLE_USER');
-        $admins = array('david');
+        $admins = array('david', 'alex.shalkin');
 
         if (in_array($this->username, $admins)) {
             $roles = array_merge($roles, array('ROLE_ADMIN'));
@@ -238,6 +243,11 @@ class User implements UserInterface, EquatableInterface, AdvancedUserInterface
     public function setActive($active)
     {
         $this->active = $active;
+    }
+
+    public function setIsAgreedWithTerms($agreed)
+    {
+        $this->isAgreedWithTerms = $agreed;
     }
 
     /**
@@ -493,6 +503,16 @@ class User implements UserInterface, EquatableInterface, AdvancedUserInterface
     public function getActive()
     {
         return $this->active;
+    }
+
+    /**
+     * Get is_agreed
+     *
+     * @return boolean
+     */
+    public function getIsAgreedWithTerms()
+    {
+        return $this->isAgreedWithTerms;
     }
 
     /**

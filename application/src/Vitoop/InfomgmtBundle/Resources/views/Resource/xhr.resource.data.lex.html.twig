@@ -2,11 +2,14 @@
 <fieldset class="ui-corner-all">
     <legend>{{ res.resourcename }}</legend>
     <div>
-        <p>Lexikoneinträge können nicht bearbeitet werden</p>
+        {{ res.description|raw }}
     </div>
-    <div class="vtp-fh-bottom">
-        <div class="vtp-fh-infosave-box vtp-fh-w70">
-            Eingetragen am: {{ res.createdat|date('d.m.Y') }}{% if res.getUser is not null %} / von: {{ res.getUser.getUsername }}{% endif %} / ID: {{ res.getId }}
-        </div>
+    <hr/>
+    <div id="lexicon-rights">
+        Dieser Artikel basiert auf dem Artikel <a rel="nofollow" href="{{ res.wikifullurl }}" target="_blank">{{ res.name }}</a> aus der freien Enzyklopädie
+        <a rel="nofollow" href="http://de.wikipedia.org/wiki/Wikipedia:Hauptseite" target="_blank">Wikipedia</a> und steht unter der Doppellizenz
+        <a rel="nofollow" href="http://www.hier-ihre-webseite-eintragen.de/lokale-fdl.txt" target="_blank">GNU-Lizenz für freie Dokumentation</a> und
+        <a rel="nofollow" href="http://creativecommons.org/licenses/by-sa/3.0/de/" target="_blank">Creative Commons CC-BY-SA 3.0 Unported</a> (<a rel="nofollow" href="http://creativecommons.org/licenses/by-sa/3.0/de/legalcode" target="_blank">Kurzfassung (de)</a>). In der Wikipedia ist eine
+        <a rel="nofollow" href="{{ res.wikifullurl }}?action=history" target="_blank">Liste der Autoren</a> verfügbar.
     </div>
 </fieldset>

@@ -1,0 +1,43 @@
+{# VitoopInfomgmtBundle:Resource:lexicon.tag.html.twig #}
+{{ form_start(fvtag, {'attr': {'id': 'form-tag-lexicon', 'novalidate': 'novalidate' }}) }}
+<fieldset class="ui-corner-all" id="tags-lexicon-fieldset">
+    <legend>Verkn?pfungen mit Lexikonartikel</legend>
+    {% if infotag is not empty %}
+        <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all">
+            <span class="vtp-icon ui-icon ui-icon-info"></span>
+            {{ infotag }}
+        </div>
+    {% endif %}
+    {{ form_errors(fvtag) }}
+    <div>
+        {{ form_widget(fvtag.can_add, {'id': 'tag_lexicon_can_add'}) }}
+        {{ form_widget(fvtag.can_remove, {'id': 'tag_lexicon_can_remove'}) }}
+        {{ form_widget(fvtag.text, {'attr': {'class': 'vtp-fh-w40'}, 'id': 'tag_lexicon_text'}) }}
+        <input type="button" id="tag_lexicon_confirm_save" name="tag[confirm_save]" class="vtp-uiinfo-anchor vtp-tag-lexicon-submit ui-button ui-widget ui-state-default ui-corner-all" style="font-weight: normal; height: 24px; padding-top: 0px; padding-bottom: 0px;" value="+" role="button" aria-disabled="false">
+        {{ form_widget(fvtag.remove, {'id': 'tag_lexicon_remove', 'attr': {'class': 'vtp-uiinfo-anchor vtp-tag-lexicon-submit' }}) }}
+        <span style="float: right;">
+         <!--{{ form_label(fvtag.showown, null, {'label_attr': {'class': 'vtp-fh-h24' }}) }}
+         {{ form_widget(fvtag.showown, {'attr': {'id': 'vtp-tgl-tag-lexicon-showown', 'class': 'vtp-uiaction-tag-lexicon-showown' }}) }}-->
+        </span>
+        <div id="div-confirm-tagging-lexicon" class="vtp-fh-w100" style="margin-top: 5px; display: none">
+            <span style="margin-right: 30px">
+                    Willst Du in der Tag-Liste ein neues Tag anlegen?
+            </span>
+            {{ form_widget(fvtag.save, {'id': 'tag_lexicon_save', 'attr': {'class': 'vtp-uiinfo-anchor vtp-tag-lexicon-submit', 'style': 'width: 63px' }}) }}
+            <input type="button" id="tag_lexicon_cancel_save" name="tag[cancel_save]" class="vtp-uiinfo-anchor vtp-tag-lexicon-submit ui-button ui-widget ui-state-default ui-corner-all" style="height: 24px; padding-top: 0px; padding-bottom: 0px; font-weight: normal" value="Nein" role="button" aria-disabled="false">
+        </div>
+
+
+        <div class="vtp-uiinfo-form-error">{{ form_errors(fvtag.text) }}</div>
+    </div>
+    <div id="vtp-tagbox-lexicon" class="ui-corner-all">
+        {% for everytag in tags %}
+            <span id="spantag_lexicon_{{everytag.id}}" class="vtp-tagbox-lexicon-tag-lexicon {% if everytag.is_own %}vtp-owntag {% endif %}ui-corner-all">
+                <span class="vtp-icon-tag ui-icon ui-icon-tag"></span>
+                {{ everytag.text }}
+                <span class="vtp-tagbox-lexicon-cnttag">({{ everytag.cnt_tag }})</span>
+            </span>
+        {% endfor %}
+    </div>
+</fieldset>
+{{ form_end(fvtag) }}

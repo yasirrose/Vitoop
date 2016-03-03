@@ -8,8 +8,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Vitoop\InfomgmtBundle\Entity\RelResourceResource;
-use Vitoop\InfomgmtBundle\Entity\Resource;
-
 
 /**
  * @Route("api/rrr")
@@ -42,4 +40,3 @@ class RelResourceResourceApiController extends Controller
         return new Response($response);
     }
 }
-

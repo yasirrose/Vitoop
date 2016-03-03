@@ -68,6 +68,15 @@ class ToDoItem
      */
     private $user;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="sort_order", type="integer", options={"default"=0})
+     * @Serializer\Groups({"list", "edit"})
+     * @Serializer\Type("integer")
+     */
+    private $order;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -197,5 +206,28 @@ class ToDoItem
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set order
+     *
+     * @param integer $order
+     * @return ToDoItem
+     */
+    public function setOrder($order)
+    {
+        $this->order = $order;
+
+        return $this;
+    }
+
+    /**
+     * Get order
+     *
+     * @return integer 
+     */
+    public function getOrder()
+    {
+        return $this->order;
     }
 }

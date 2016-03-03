@@ -30,6 +30,11 @@ class Remark
     protected $text;
 
     /**
+     * @ORM\Column(name="ip", type="string", length=30, nullable=true)
+     */
+    protected $ip;
+
+    /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="remarks")
      * @ORM\JoinColumn(name="id_user", referencedColumnName="id")
      */
@@ -37,7 +42,7 @@ class Remark
 
     /**
      * @ORM\ManyToOne(targetEntity="Resource", inversedBy="remarks")
-     * @ORM\JoinColumn(name="id_resource", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_resource", referencedColumnName="id", onDelete="cascade")
      */
     protected $resource;
 
@@ -163,5 +168,37 @@ class Remark
     {
         return $this->locked;
     }
+
+    /**
+     * Get locked
+     *
+     * @return boolean 
+     */
+    public function getLocked()
+    {
+        return $this->locked;
+    }
+
+    /**
+     * Set ip
+     *
+     * @param string $ip
+     * @return Remark
+     */
+    public function setIp($ip)
+    {
+        $this->ip = $ip;
+
+        return $this;
+    }
+
+    /**
+     * Get ip
+     *
+     * @return string
+     */
+    public function getIp()
+    {
+        return $this->ip;
+    }
 }
-   

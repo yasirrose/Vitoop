@@ -3,21 +3,12 @@
 <head>
     <meta charset="utf-8"/>
     <title>vitoop</title>
-    <link href="https://fonts.googleapis.com/css?family=Merriweather:700" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Merriweather:300" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="{{ asset('/css/vitoop.ini.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/vitoop.css') }}">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" type="text/css" href="{{ asset('/css/ie.css') }}" />
-    {% block css %}{% endblock %}
-    <script src="{{ asset('/js/jquery/jquery-1.11.1.min.js') }}"></script>
-    <script src="{{ asset('/js/jquery/jquery-ui.min.js') }}"></script>
-    <script src="{{ asset('/js/jquery/jquery.form.js') }}"></script>
-    <script src="{{ asset('/js/jquery/jquery.ba-bbq.js') }}"></script>
-    <script src="{{ asset('/js/tinymce/tinymce.min.js') }}"></script>
+    <link href='https://fonts.googleapis.com/css?family=Merriweather:700,300' rel='stylesheet' type='text/css'>
+    <script src="{{ asset('js/vitoop.js') }}"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
-    <script src="{{ asset('/js/angular.tinymce.js') }}"></script>
-    <script src="{{ asset('/js/angular-input-match.js') }}"></script>
-    <script src="{{ asset('/js/angucomplete.js') }}"></script>
+    {% block css %}{% endblock %}
     <script type="text/javascript">
         vitoop = (function () {
             var baseUrl = '{{ path('_base_url') }}',
@@ -33,17 +24,20 @@
     {% block includescript %}{% endblock %}
     {% block onloadscript %}{% endblock %}
 </head>
-<body id="vtp-application" ng-controller="MainController">
+<body id="vtp-application" ng-controller="MainController" {% if (without_js is not defined) and (app.user) and (not app.user.getIsAgreedWithTerms()) %} style="display: none" {% endif %}>
 <div id="vtp-wrapper">
     <div class="vtp-paddingbox">
         <div id="vtp-header" class="ui-corner-all">
             <div id="vtp-header-status">
                 {% if is_granted('ROLE_ADMIN') %}
+                    <span style="margin-right: 6px; color: #2779aa">Downloads size: {{ vsettings.getCurrentDownloadsSize.getValue|number_format(2, '.', ' ') }} Mb</span>
                     <form id="vtp-header-toggle-flag" action="{{ path('_home') }}" method="get" enctype="application/x-www-form-urlencoded">
                         <label for="vtp-tgl-flag" class="vtp-button">Flags bearbeiten</label>
                         <input id="vtp-tgl-flag" class="vtp-uiaction-toggle-flag" name="flagged" type="checkbox" value="1">
                         <button class="vtp-button" type="submit">Flags bearbeiten</button>
                     </form>
+                    <button class="vtp-button" id="button-terms-admin">Terms</button>
+                    <button class="vtp-button" id="invitations-toggle">Invitations: <span>{% if (vsettings.getInvitation().getValue()) %} On {% else %} Off {% endif %}</span></button>
                     <a class="vtp-button vtp-uiaction-goto-invite" href="{{ path('_invite') }}">Einladung verschicken</a>
                     <a class="vtp-button vtp-uiaction-goto-edithome" href="{{ path('_edit_vitoop_blog') }}">Landingpage editieren</a>
                 {% endif %}
@@ -61,81 +55,92 @@
                         <form id="vtp-header-login" action="{{ path('_login_check') }}" method="post" enctype="application/x-www-form-urlencoded">
                             <div class="login-container">
                                 <div class="vtp-fh-w5">
-                                    <button id="vtp-user-loginform-login" class="vtp-button" value="login" type="submit">login</button>
+                                    <button id="vtp-user-loginform-login" class="vtp-button" value="login" tabindex="3" type="submit">login</button>
                                 </div>
                                 <div class="vtp-fh-w16 forgotPass" style="width: 167px">
-                                    <input id="password" name="_password" type="password" placeholder="Passwort" style="width: 94%">
+                                    <input id="password" name="_password" type="password" tabindex="2" placeholder="Passwort" style="width: 94%">
                                     <a href="{{ path('forgot_password') }}">Passwort vergessen</a>
                                 </div>
                                 <div class="vtp-fh-w16" style="width: 167px">
-                                    <input id="username" style="width: 94%" name="_username" type="text" {% if last_username is defined %}value="{{ last_username }}" {% else %}placeholder="Benutzername"{% endif %}>
+                                    <input id="username" style="width: 94%" name="_username" tabindex="1" type="text" {% if last_username is defined %}value="{{ last_username }}" {% else %}placeholder="Benutzername"{% endif %}>
+                                    {% if (vsettings.getInvitation().getValue() == true) %}
+                                        <a href="{{ path('new_invitation') }}">Registrieren</a>
+                                    {% endif %}
                                 </div>
                             </div>
                         </form><br/>
                 {% endif %}
             </div>
             <div class="vtp-logo"><span class="beta-status">beta</span><a href="{{ path('_base_url') }}">vitoop<span>.org</span></a></div>
-            <div id="vtp-nav" class="vtp-menu ui-helper-clearfix ui-corner-all">
-                <ul>
-                    {% set ang = "click('')" %}
-                    {% if restype is not defined %}
-                        {% set restype = '' %}
-                    {% endif %}
-                    {% set homeclass='' %}
-                    {% if project is defined %}
-                        {% if editMode is defined and editMode %}
-                            {% set href , home = path('_home_project', {'project_id': project.id, 'edit': 1 }), 'Projekt-Hauptseite' %}
-                            {% set ang = "click('prjhome')" %}
-                        {% else %}
-                            {% set href , home = path('_home_project', {'project_id': project.id }), 'Projekt-Hauptseite' %}
-                            {% set ang = "click('prj')" %}
+            {% if (not app.user) or (app.user.getIsAgreedWithTerms()) %}
+                <div id="vtp-nav" class="vtp-menu ui-helper-clearfix ui-corner-all">
+                    <ul>
+                        {% set ang = "click('')" %}
+                        {% if restype is not defined %}
+                            {% set restype = '' %}
                         {% endif %}
-                    {% elseif lexicon is defined %}
-                        {% set href , home = path('_home_lexicon', {'lexicon_id': lexicon.id }), 'Lexikon-Hauptseite' %}
-                    {% else %}
-                        {% set ang = "click('home')" %}
-                        {% set href, home = path('_home'), 'Benutzer-Hauptseite' %}
-                        {% set homeclass='vtp-resmenu-homelink-home ' %}
-                    {% endif %}
-                    <li><a class="vtp-resmenu-homelink {{ homeclass }}{{ (restype == '') ? 'vtp-nav-active ui-state-active ' }}ui-state-default ui-corner-all"
-                           href="{{ href }}" ng-click="{{ ang }}">{{ home }}</a></li>
-                    {% set respath = {} %}
-                    {# QUERYSTRING is set only on first page load or re-load#}
-                    {% if taglist is defined %}
-                        {% set respath = respath|merge({'taglist': taglist}) %}
-                    {% endif %}
-                    {% if tagcnt is defined %}
-                        {% set respath = respath|merge({'tagcnt': tagcnt}) %}
-                    {% endif %}
-                    {% if maxperpage is defined %}
-                        {% set respath = respath|merge({'maxperpage': maxperpage}) %}
-                    {% endif %}
-                    {% if project is defined %}
-                        {% set respath = respath|merge({'project': project.id}) %}
-                    {% endif %}
-                    {% if lexicon is defined %}
-                        {% set respath = respath|merge({'lexicon': lexicon.id}) %}
-                    {% endif %}
-                    {% if flagged is defined %}
-                        {% set respath = respath|merge({'flagged': 1}) %}
-                    {% endif %}
-                    {% for every_restype, every_resfullname in {'prj' : 'Projekt',
-                    'lex' : 'Lexikon',
-                    'pdf' : 'Pdf',
-                    'teli' : 'Textlink',
-                    'link' : 'Link',
-                    'book' : 'Buch',
-                    'adr' : 'Adresse'} %}
-                        {% set respath = respath|merge({'res_type': every_restype}) %}
-                        <li>
-                            <a class="vtp-resmenu-reslink {{ (every_restype == restype) ? 'vtp-nav-active ui-state-active ' }}ui-state-default ui-corner-all" href="{{ path('_resource_list', respath) }}" ng-click="click({{ every_resfullname }})">{{ every_resfullname }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-                {% block search_by_tags_form %}
-                    {% include 'VitoopInfomgmtBundle:Resource:search.bytags.form.html.twig' %}
-                {% endblock %}
-            </div>
+                        {% set homeclass='' %}
+                        {% if project is defined %}
+                            {% if editMode is defined and editMode %}
+                                {% set href , home = path('_home_project', {'project_id': project.id, 'edit': 1 }), 'Projekt-Hauptseite' %}
+                                {% set ang = "click('prjhome')" %}
+                            {% else %}
+                                {% set href , home = path('_home_project', {'project_id': project.id }), 'Projekt-Hauptseite' %}
+                                {% set ang = "click('prj')" %}
+                            {% endif %}
+                        {% elseif lexicon is defined %}
+                            {% set href , home = path('_home_lexicon', {'lexicon_id': lexicon.id }), 'Lexikon-Hauptseite' %}
+                        {% else %}
+                            {% set ang = "click('home')" %}
+                            {% set href, home = path('_home'), 'Benutzer-Hauptseite' %}
+                            {% set homeclass='vtp-resmenu-homelink-home ' %}
+                        {% endif %}
+                        <li><a class="vtp-resmenu-homelink {{ homeclass }}{{ (restype == '') ? 'vtp-nav-active ui-state-active ' }}ui-state-default ui-corner-all"
+                               href="{{ href }}" ng-click="{{ ang }}">{{ home }}</a></li>
+                        {% set respath = {} %}
+                        {# QUERYSTRING is set only on first page load or re-load#}
+                        {% if taglist is defined %}
+                            {% set respath = respath|merge({'taglist': taglist}) %}
+                        {% endif %}
+                        {% if tagcnt is defined %}
+                            {% set respath = respath|merge({'tagcnt': tagcnt}) %}
+                        {% endif %}
+                        {% if maxperpage is defined %}
+                            {% set respath = respath|merge({'maxperpage': maxperpage}) %}
+                        {% endif %}
+                        {% if project is defined %}
+                            {% set respath = respath|merge({'project': project.id}) %}
+                        {% endif %}
+                        {% if lexicon is defined %}
+                            {% set respath = respath|merge({'lexicon': lexicon.id}) %}
+                        {% endif %}
+                        {% if flagged is defined %}
+                            {% set respath = respath|merge({'flagged': 1}) %}
+                        {% endif %}
+                        {% for every_restype, every_resfullname in {'prj' : 'Projekt',
+                        'lex' : 'Lexikon',
+                        'pdf' : 'Pdf',
+                        'teli' : 'Textlink',
+                        'link' : 'Link',
+                        'book' : 'Buch',
+                        'adr' : 'Adresse'} %}
+                            {% set respath = respath|merge({'res_type': every_restype}) %}
+                            {% if resourceInfo is defined %}
+                            {% set count = resourceInfo[every_restype ~ 'c'] %}
+                            {% else %}
+                            {% set count = 1 %}
+                            {% endif %}
+                            <li>
+                                <a class="vtp-resmenu-reslink {{ (every_restype == restype) ? 'vtp-nav-active ui-state-active ' }}ui-state-default ui-corner-all {{ (count == 0) ? 'ui-state-no-content' }}" href="{{ path('_resource_list', respath) }}" ng-click="click({{ every_resfullname }})">{{ every_resfullname }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {% block search_by_tags_form %}
+                        {% include 'VitoopInfomgmtBundle:Resource:search.bytags.form.html.twig' %}
+                    {% endblock %}
+                </div>
+
+            {% endif %}
             <div id="vtp-cmstitle">{% block cmstitle %}{% endblock %}</div>
             <div id="vtp-filterbox">
                 {% block filterbox %}
@@ -151,7 +156,9 @@
             <div id="vtp-footer-homelink">© 2015 by <a class="vtp-homelink" href={{ path('_base_url') }}>vitoop<span>.org</span></a></div>
             <div id="vtp-imprint">
                 {% if app.user %}
-                    <a class="ui-corner-all ui-state-default" href={{ path('_tags') }}>Tags</a>
+                    {% if app.user.getIsAgreedWithTerms() %}
+                        <a class="ui-corner-all ui-state-default" href={{ path('_tags') }}>Tags</a>
+                    {% endif %}
                     <button class="ui-corner-all ui-state-default" id="button-help">Hilfe</button>
                 {% endif %}
                 <a class="ui-corner-all ui-state-default" href={{ path('_imprint') }}>Impressum</a>
@@ -213,16 +220,25 @@
             <div id="vtp-res-dialog-help" title="Hilfe">
 
             </div>
+            {% if is_granted('ROLE_ADMIN') %}
+                {% include 'VitoopInfomgmtBundle:User:termsTinyMce.html.twig' %}
+            {% endif %}
         {% endblock %}
     {%endif%}
 </div>
-<script src="{{ asset('js/vitoopjs/check_unique.js') }}"></script>
-<script src="{{ asset('js/vitoopjs/unlinkResource.js') }}"></script>
-<script src="{{ asset('../../app/vitoop.js') }}"></script>
+<script src="{{ asset('js/angular-modules.js') }}"></script>
+<script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
+<script src="{{ asset('js/datatables/datatables.js') }}"></script>
+<script src="{{ asset('app/vitoop.js') }}"></script>
+{% if (without_js is not defined) and (app.user) and (not app.user.getIsAgreedWithTerms()) %}
+    <script type="text/javascript">
+        window.location = "{{ path('user_agreement') }}";
+    </script>
+{% endif %}
 <script type="text/javascript">
     //Firefox bugfixes
     $(document).on('focusin', function(e) {
-        if ($(event.target).closest(".mce-window").length) {
+        if ($(e.target).closest(".mce-window").length) {
             e.stopImmediatePropagation();
         }
     });

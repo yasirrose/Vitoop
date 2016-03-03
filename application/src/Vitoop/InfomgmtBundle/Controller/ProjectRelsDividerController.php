@@ -6,18 +6,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\SecurityContext;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Vitoop\InfomgmtBundle\Entity\ProjectRelsDivider;
-use Vitoop\InfomgmtBundle\Entity\RelProjectUser;
-use Vitoop\InfomgmtBundle\Entity\Resource;
-use Vitoop\InfomgmtBundle\Entity\User;
 use JMS\Serializer\DeserializationContext;
-use JMS\Serializer\SerializationContext;
 use Vitoop\InfomgmtBundle\Entity\Project;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-
-
 
 /**
  * @Route("api/project/{projectID}/divider")

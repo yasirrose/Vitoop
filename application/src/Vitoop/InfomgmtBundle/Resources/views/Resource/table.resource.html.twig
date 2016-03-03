@@ -1,10 +1,9 @@
-{% set zebra = ['even', 'odd'] %}
-{% if coefficients is defined %}
+{% if isCoef is defined and isCoef %}
     {% set dateTitle = 'Koeff.' %}
 {% else %}
     {% set dateTitle = 'Erstellt' %}
 {% endif %}
-{% if editMode is defined and editMode %}
+{% if isEdit is defined and isEdit %}
     {% set linkTitle = 'unlink' %}
     {% set linkWidth = '5%' %}
     {% set colsBook = 9 %}
@@ -14,106 +13,7 @@
     {% set colsBook = 8 %}
 {% endif %}
 <div id="vtp-res-list" class="vtp-uiaction-list-listener">
-    {% if resources|length > 0 %}
-        <table>
-            <tr id="{{ restype }}-table" class="vtp-res-dialog-onclick">
-                {% if restype == 'pdf' %}
-                {% set colspan=9 %}
-                <th style="width:7%;" class="ui-corner-tl">{{ dateTitle }}</th>
-                <th style="width:40%;">Titel</th>
-                <th style="width:20%;">Autor</th>
-                <th style="width:5%;">Seiten</th>
-                <th style="width:8%;">Bewertung</th>
-                <th style="width:3%;">RR</th>
-                <th style="width:14%;">von</th>
-                <th style="width:{{ linkWidth }};" class="ui-corner-tr">{{ linkTitle }}</th>
-            </tr>
-            {% endif %}
-            {% if restype == 'book' %}
-            {% set colspan = colsBook %}
-            <th style="width:7%;" class="ui-corner-tl">{{ dateTitle }}</th>
-            <th style="width:43%;">Titel</th>
-            <th style="width:22%;">Autor</th>
-            <th style="width:5%;">Seiten</th>
-            <th style="width:8%;">Bewertung</th>
-            <th style="width:3%;">RR</th>
-            <th style="width:14%;">von</th>
-            {% if editMode is defined and editMode %}
-                <th style="width:{{ linkWidth }};" class="ui-corner-tr">{{ linkTitle }}</th>
-            {% endif %}
-        </tr>
-        {% endif %}
-            {% if restype == 'teli' %}
-            {% set colspan=7 %}
-            <th style="width:7%;" class="ui-corner-tl">{{ dateTitle }}</th>
-            <th style="width:40%;" class="ui-corner-tl">Bezeichnung</th>
-            <th style="width:25%;">Autor</th>
-            <th style="width:8%;">Bewertung</th>
-            <th style="width:3%;">RR</th>
-            <th style="width:14%;">von</th>
-            <th style="width:{{ linkWidth }};" class="ui-corner-tr">{{ linkTitle }}</th>
-            </tr>
-        {% endif %}
-            {% if restype == 'link' %}
-            {% set colspan=8 %}
-            <th style="width:7%;" class="ui-corner-tl">{{ dateTitle }}</th>
-            <th style="width:40%;">Bezeichnung</th>
-            <th style="width:22%;">URL</th>
-            <th style="width:3%;">HP</th>
-            <th style="width:8%;">Bewertung</th>
-            <th style="width:3%;">RR</th>
-            <th style="width:14%;">von</th>
-            <th style="width:{{ linkWidth }};" class="ui-corner-tr">{{ linkTitle }}</th>
-            </tr>
-        {% endif %}
-            {% if restype == 'adr' %}
-            {% set colspan=8 %}
-            <th style="width:7%;" class="ui-corner-tl">{{ dateTitle }}</th>
-            <th style="width:40%;">Institution</th>
-            <th style="width:5%;">PLZ</th>
-            <th style="width:20%;">Ort</th>
-            <th style="width:8%;">Bewertung</th>
-            <th style="width:3%;">RR</th>
-            <th style="width:14%;">von</th>
-            <th style="width:{{ linkWidth }};" class="ui-corner-tr">{{ linkTitle }}</th>
-            </tr>
-        {% endif %}
-            {% if restype == 'lex' %}
-            {% set colspan=7 %}
-            <th style="width:7%;" class="ui-corner-tl">{{ dateTitle }}</th>
-            <th style="width:40%;">Lexikonbegriff</th>
-            <th style="width:25%;">Wiki-URL</th>
-            <th style="width:8%;">Bewertung</th>
-            <th style="width:3%;">RR</th>
-            <th style="width:14%;">von</th>
-            <th style="width:{{ linkWidth }};" class="ui-corner-tr">{{ linkTitle }}</th>
-            </tr>
-        {% endif %}
-            {% if restype == 'prj' %}
-            {% set colspan=6 %}
-            <th style="width:7%;" class="ui-corner-tl">{{ dateTitle }}</th>
-            <th style="width:65%;">Projektname</th>
-            <th style="width:14%;">Projektmeister</th>
-            <th style="width:8%;">Bewertung</th>
-            <th style="width:3%;">RR</th>
-            <th style="width:{{ linkWidth }};" class="ui-corner-tr">{{ linkTitle }}</th>
-            </tr>
-        {% endif %}
-            {% include "VitoopInfomgmtBundle:Resource:table.resource.tdata."~restype~".html.twig" %}
-            {# PAGINATION #}
-            <tr id="vtp-resource-pagination-tr">
-                <td colspan="{{ colspan }}" class="vtp-odd ui-corner-all">
-                    <div id="vtp-resource-pagination" class="vtp-pg-pane">
-                        {% pg_theme resources 'VitoopInfomgmtBundle:Pagination:vitoop.default.html.twig' %}
-                        <div id="vtp-pg-pane-left">{{ pg_rowsperpage(resources) }}</div>
-                        <div id="vtp-pg-pane-middle">{{ pg_widget(resources) }}</div>
-                        <div id="vtp-pg-pane-right">{{ pg_totalrows(resources) }}</div>
-                    </div>
-                </td>
-            </tr>
-        </table>
-    {% else %}
-    <fieldset class="ui-corner-all margin-top-3">
+    <fieldset class="ui-corner-all margin-top-3 empty-datatables" style="display: none">
         <div style="font-size: 42px; color: #2779aa">
             <p style="padding-left: 30px">
                 .. hier gibt es leider keine Treffer  :-(
@@ -123,5 +23,143 @@
             </p>
         </div>
     </fieldset>
-    {% endif %}
+        <table id="list-{{ restype }}" class="table-datatables" data-restype="{{ restype }}">
+            <thead>
+            <tr id="{{ restype }}-table" class="vtp-res-dialog-onclick">
+                {% if restype == 'pdf' %}
+                <th style="width:7%;">{{ dateTitle }}</th>
+                <th style="width:40%;">Titel</th>
+                <th style="width:20%;">Autor</th>
+                <th style="width:5%;">Seiten</th>
+                <th style="width:8%;" data-b-searchable="false">Bewertung</th>
+                <th style="width:3%;" data-b-searchable="false">RR</th>
+                <th style="width:14%;">von</th>
+                {% if is_granted('ROLE_ADMIN') %}
+                    {% set colspan=10 %}
+                    <th style="width:5%;" data-b-searchable="false">Stored</th>
+                {% else %}
+                    {% set colspan=9 %}
+                {% endif %}
+                <th style="width:{{ linkWidth }};" data-b-sortable="false" data-b-searchable="false">{{ linkTitle }}</th>
+            </tr>
+            {% endif %}
+            {% if restype == 'book' %}
+            {% set colspan = colsBook %}
+            <th style="width:7%;">{{ dateTitle }}</th>
+            <th style="width:43%;">Titel</th>
+            <th style="width:22%;">Autor</th>
+            <th style="width:6%;">Seiten</th>
+            <th style="width:8%;" data-b-searchable="false">Bewertung</th>
+            <th style="width:3%;" data-b-searchable="false">RR</th>
+            <th style="width:14%;">von</th>
+            {% if isEdit is defined and isEdit %}
+                <th style="width:{{ linkWidth }};" data-b-sortable="false" data-b-searchable="false">{{ linkTitle }}</th>
+            {% endif %}
+        </tr>
+        {% endif %}
+            {% if restype == 'teli' %}
+            {% set colspan=7 %}
+            <th style="width:7%;">{{ dateTitle }}</th>
+            <th style="width:40%;">Bezeichnung</th>
+            <th style="width:25%;">Autor</th>
+            <th style="width:8%;" data-b-searchable="false">Bewertung</th>
+            <th style="width:3%;" data-b-searchable="false">RR</th>
+            <th style="width:14%;">von</th>
+            <th style="width:{{ linkWidth }};" data-b-sortable="false" data-b-searchable="false">{{ linkTitle }}</th>
+            </tr>
+        {% endif %}
+            {% if restype == 'link' %}
+            {% set colspan=8 %}
+            <th style="width:7%;">{{ dateTitle }}</th>
+            <th style="width:40%;">Bezeichnung</th>
+            <th style="width:22%;">URL</th>
+            <th style="width:3%;">HP</th>
+            <th style="width:8%;" data-b-searchable="false">Bewertung</th>
+            <th style="width:3%;" data-b-searchable="false">RR</th>
+            <th style="width:14%;">von</th>
+            <th style="width:{{ linkWidth }};" data-b-sortable="false" data-b-searchable="false">{{ linkTitle }}</th>
+            </tr>
+        {% endif %}
+            {% if restype == 'adr' %}
+            {% set colspan=8 %}
+            <th style="width:7%;">{{ dateTitle }}</th>
+            <th style="width:40%;">Institution</th>
+            <th style="width:5%;">PLZ</th>
+            <th style="width:20%;">Ort</th>
+            <th style="width:8%;" data-b-searchable="false">Bewertung</th>
+            <th style="width:3%;" data-b-searchable="false">RR</th>
+            <th style="width:14%;">von</th>
+            <th style="width:{{ linkWidth }};" data-b-sortable="false" data-b-searchable="false">{{ linkTitle }}</th>
+            </tr>
+        {% endif %}
+            {% if restype == 'lex' %}
+            {% set colspan=6 %}
+            <th style="width:7%;">{{ dateTitle }}</th>
+            <th style="width:40%;">Lexikonbegriff</th>
+            <th style="width:33%;" data-b-searchable="false">Wiki-URL</th>
+            <th style="width:3%;">RR</th>
+            <th style="width:14%;">von</th>
+            <th style="width:{{ linkWidth }};" data-b-sortable="false" data-b-searchable="false">{{ linkTitle }}</th>
+            </tr>
+        {% endif %}
+            {% if restype == 'prj' %}
+            {% set colspan=6 %}
+            <th style="width:7%;">{{ dateTitle }}</th>
+            <th style="width:65%;">Projektname</th>
+            <th style="width:14%;">Projektmeister</th>
+            <th style="width:8%;" data-b-searchable="false">Bewertung</th>
+            <th style="width:3%;" data-b-searchable="false">RR</th>
+            <th style="width:{{ linkWidth }};" data-b-searchable="false" data-b-sortable="false">{{ linkTitle }}</th>
+            </tr>
+        {% endif %}
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
 </div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $.fn.dataTable.moment('DD.MM.YY');
+        var domPrefix = (!searchToggler.getState())?('<"'):('<"ui-helper-hidden ');
+        domPrefix += dtDomObject();
+        $('table#list-{{ restype }}')
+                .on('xhr.dt', dtAjaxCallback)
+                .DataTable({
+                    "autoWidth": false,
+                    "stateSave": true,
+                    "lengthMenu": [ 7, 8, 9, 10, 11, 12, 13, 14, 15, 20, 50, 100 ],
+                    "language": dtLanguageObject(),
+                    "ajax": "{{ ajaxUrl |raw }}",
+                    "order": [],
+                    "dom": domPrefix,
+                    "columns": getColumns('{{ restype}}', {% if is_granted('ROLE_ADMIN') %}1{% else %}0{% endif %}, {% if isEdit is defined and isEdit %}1{% else %}0{% endif %}, {% if  isCoef is defined and isCoef %}1{% else %}0{% endif %}),
+                    "pagingType": "full_numbers",
+                    "rowCallback": dtRowCallback
+                    {% if (isCoef is defined and isCoef) %}
+                    , "drawCallback": dtDrawCallback,
+                    "ordering": false
+                    {% endif %}
+                });
+        $('div.paging_full_numbers > span').removeClass();
+        var api = $('table#list-{{ restype }}').dataTable().api();
+        $('.dataTables_length select').selectmenu({
+            appendTo: ".dataTables_length",
+            change: function( event, ui ) {
+                api.page.len(ui.item.value);
+                api.draw();
+            }
+        });
+        $('.dataTables_filter input').after($('<button id="vtp-search-clear" class="vtp-button"></button>'));
+        $('#vtp-search-clear').button({
+            icons: {
+                primary: "ui-icon-close"
+            },
+            text: false
+        });
+        $('#vtp-search-clear').on('click', function() {
+            $('.dataTables_filter input').val('');
+            api.search('');
+            api.draw();
+        });
+    });
+</script>

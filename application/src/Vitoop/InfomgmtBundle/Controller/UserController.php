@@ -3,33 +3,22 @@ namespace Vitoop\InfomgmtBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Vitoop\InfomgmtBundle\Entity\Invitation;
 use Vitoop\InfomgmtBundle\Entity\Project;
-use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\Entity\User;
 use Vitoop\InfomgmtBundle\Form\Type\UserType;
-
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use JMS\Serializer\DeserializationContext;
-use JMS\Serializer\SerializationContext;
-
-
 use Symfony\Component\Security\Core\SecurityContext;
-
 use Symfony\Component\Form\Exception;
-use Symfony\Component\Form\Form;
-
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Vitoop\InfomgmtBundle\Repository\Helper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
@@ -77,6 +66,29 @@ class UserController extends Controller
     }
 
     /**
+     * @Route("user/agreement", name="user_agreement")
+     * @Method({"POST", "GET"})
+     * @Template("VitoopInfomgmtBundle:User:agreement.html.twig")
+     *
+     * @return array
+     */
+    public function getUserAgreement(Request $request)
+    {
+        if ($request->getMethod() === 'POST') {
+            $em = $this->getDoctrine()->getManager();
+            $user = $this->get('vitoop.vitoop_security')->getUser();
+            $user->setIsAgreedWithTerms((bool) $request->get('user_agreed'));
+            $em->merge($user);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('_home'));
+        }
+        $terms = $this->get('vitoop.settings')->getTerms()->getValue();
+
+        return array('terms' => $terms, 'without_js' => true);
+    }
+
+    /**
      * @Route("/register/{secret}", name="_register")
      * @Template()
      */
@@ -102,6 +114,7 @@ class UserController extends Controller
         $request = $this->getRequest();
 
         $user = new User();
+        $user->setIsAgreedWithTerms(true);
         $user->setEmail(($invitation->getEmail()));
         $form = $this->createForm(new UserType(), $user, array(
             'action' => $this->generateUrl('_register', array('secret' => $secret)),
@@ -125,7 +138,6 @@ class UserController extends Controller
                     $this->authenticateUser($user);
 
                     return $this->redirect($this->generateUrl('_home'));
-                    //return new Response('You created: ' . $user->getUsername()); // $this->redirect($this->generateUrl('task_success'));
                 } catch (\Exception $e) {
                     $users = $this->getDoctrine()
                                   ->getRepository('VitoopInfomgmtBundle:User')
@@ -141,7 +153,7 @@ class UserController extends Controller
                             $form->get('email')
                                  ->addError($form_error);
                         }
-                    }
+                   }
                 }
             }
         }
@@ -453,4 +465,3 @@ EOT;
         return new Response($serializer->serialize($response, 'json'));
     }
 }
-	

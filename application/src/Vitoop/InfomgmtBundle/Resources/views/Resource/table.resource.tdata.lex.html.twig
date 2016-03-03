@@ -1,13 +1,13 @@
 {% for lex in resources %}
-    <tr id="lex-{{ lex.id }}" class="vtp-{{ cycle(zebra, loop.index) }} ui-corner-all vtp-uiaction-list-showdetail{% include "VitoopInfomgmtBundle:Resource:table.resource.res.classhelper.listtagger.html.twig" %}">
+    <tr id="lex-{{ lex.id }}" class="ui-corner-all vtp-uiaction-list-showdetail">
         <td class="ui-corner-left">
             {% if (editMode is defined) and (editMode) %}
-                <input type="text" id="coef-{{ attribute(coefficients, lex.getID).rel_id }}" data-rel_id="{{ attribute(coefficients, lex.getID).rel_id }}" data-original="{{ attribute(coefficients, lex.getID).coefficient }}" value="{{ attribute(coefficients, lex.getID).coefficient }}" class="vtp-uiaction-coefficient vtp-fh-w85"/>
+                <input type="text" id="coef-{{ attribute(coefficients, lex.id).rel_id }}" data-rel_id="{{ attribute(coefficients, lex.id).rel_id }}" data-original="{{ attribute(coefficients, lex.id).coefficient }}" value="{{ attribute(coefficients, lex.id).coefficient }}" class="vtp-uiaction-coefficient vtp-fh-w85"/>
             {% else %}
                 {% if coefficients is defined %}
-                    <input type="text" id="coef-{{ attribute(coefficients, lex.getID).rel_id }}" data-rel_id="{{ attribute(coefficients, lex.getID).rel_id }}" value="{{ attribute(coefficients, lex.getID).coefficient }}" class="vtp-uiaction-coefficient vtp-fh-w85" disabled="disabled"/>
+                    <input type="text" id="coef-{{ attribute(coefficients, lex.id).rel_id }}" data-rel_id="{{ attribute(coefficients, lex.id).rel_id }}" value="{{ attribute(coefficients, lex.id).coefficient }}" class="vtp-uiaction-coefficient vtp-fh-w85" disabled="disabled"/>
                 {% else %}
-                    {{ lex.createdat|date("d.m.y") }}
+                    {{ lex.created_at|date("d.m.y") }}
                 {% endif %}
             {% endif %}
         </td>
@@ -17,20 +17,14 @@
                 <div class="vtp-teasefader"></div>
             </div>
         </td>
-        <td title="{{ lex.wikifullurl }}">
+        <td title="{{ lex.url }}">
             <div class="vtp-teasefader-wrapper">
-                {{ lex.wikifullurl }}
+                {{ lex.url }}
                 <div class="vtp-teasefader"></div>
             </div>
         </td>
-        <td>
-            <div class="vtp-rating-image-small" title="{{ lex.avgmark|avgmarkhint }}"
-                 style="background-image: url('{{ asset('/img/rating/'~avgimg(lex.avgmark)) }}');">
-                <span>&nbsp;</span>
-            </div>
-        </td>
         <td>{{ lex.res12count }}</td>
-        <td>{{ lex.user.username }}</td>
+        <td>{{ lex.username }}</td>
         <td class="ui-corner-right">
             {% if editMode is defined and editMode %}
                 <span class="vtp-projectdata-unlink ui-icon ui-icon-close ui-corner-all" onclick="unlinkRes({{ lex.id }})"></span>

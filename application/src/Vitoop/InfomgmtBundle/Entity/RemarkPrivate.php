@@ -37,7 +37,7 @@ class RemarkPrivate
 
     /**
      * @ORM\ManyToOne(targetEntity="Resource", inversedBy="remarksPrivate")
-     * @ORM\JoinColumn(name="id_resource", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_resource", referencedColumnName="id", onDelete="cascade")
      */
     protected $resource;
 

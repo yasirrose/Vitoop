@@ -3,21 +3,37 @@ namespace Vitoop\InfomgmtBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Response;
 use Vitoop\InfomgmtBundle\Entity\Pdf;
 use Vitoop\InfomgmtBundle\Entity\Tag;
-use Vitoop\InfomgmtBundle\Entity\RelResourceRating;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\SecurityContext;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\Exception;
-use Symfony\Component\Form\Form;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class TagController extends Controller
 {
+    /**
+     * @Route("api/tag/tags_info", name="get_tags_info")
+     * @Method({"GET"})
+     *
+     * @return array
+     */
+    public function getTagsInfo()
+    {
+        $request = $this->getRequest();
+        $tag_list = $request->query->get('taglist');
+        $tag_list_ignore = $request->query->get('taglist_i');
+
+        $tag_list = (is_null($tag_list))?(array()):($tag_list);
+        $tag_list_ignore = (is_null($tag_list_ignore))?(array()):($tag_list_ignore);
+
+        $serializer = $this->get('jms_serializer');
+
+        $info = null;
+        $response = $serializer->serialize($info, 'json');
+
+        return new Response($response);
+    }
+
    /**
      * @Route("/tags", name="_tags"))
      */

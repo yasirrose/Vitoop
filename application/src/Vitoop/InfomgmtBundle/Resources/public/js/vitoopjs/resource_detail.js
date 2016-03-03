@@ -347,18 +347,26 @@ resourceDetail = (function () {
                 // TinyMCE
                 var buttonSave = $('#remark_save');
                 var changeClassOfButton = function() {
-                  if (!tinyMCE.activeEditor.isDirty()) {
-                    buttonSave.removeClass('ui-state-need-to-save');
-                  } else {
+                  if (tinyMCE.activeEditor.isDirty() && (($('#remark-accepted').length == 0) || ($('#remark-accepted').prop('checked')))) {
                       buttonSave.addClass('ui-state-need-to-save');
+                  } else {
+                      buttonSave.removeClass('ui-state-need-to-save');
                   }
                 };
+
+                if ($('#remark-accepted').length) {
+                    $('#remark-accepted').on('change', changeClassOfButton);
+                }
 
                 var setIntervalForText = function() {
                   return setInterval(changeClassOfButton, 2000);
                 };
 
-                buttonSave.on('click', function() {
+                buttonSave.on('click', function(event) {
+                    if (($('#remark-accepted').length > 0) && ($('#remark-accepted').prop('checked') == false)) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
                     $('#tab-title-remark').removeClass('ui-state-no-content');
                 });
 
@@ -366,8 +374,9 @@ resourceDetail = (function () {
                 tinymce.init({
                     selector: 'textarea#remark_text',
                     height: 300,
-                    plugins: 'textcolor link',
+                    plugins: 'textcolor link placeholder',
                     menubar: false,
+                    skin : "vitoop",
                     style_formats: [
                         {title: 'p', block: 'p'},
                         {title: 'h1', block: 'h1'},
@@ -377,12 +386,20 @@ resourceDetail = (function () {
                         {title: 'h5', block: 'h5'},
                         {title: 'h6', block: 'h6'}
                     ],
-                    toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink'
+                    toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink',
+                    setup: function (editor) {
+                        editor.on('focus', function (e) {
+                            console.log('focus');
+                        });
+                        editor.on('blur', function (e) {
+                            console.log('blur');
+                        });
+                    }
                 });
 
                 setTimeout(setIntervalForText, 2000);
                 // Toggle lock/unlock-button initialization
-                var $btn_lock_remark = $('#' + container_name + ' input:checkbox');
+                var $btn_lock_remark = $('#' + container_name + ' input#remark_locked:checkbox');
 
                 $btn_lock_remark.filter(':not(:checked)').button({
                     icons: {
@@ -455,6 +472,7 @@ resourceDetail = (function () {
                     height: 300,
                     plugins: 'textcolor link',
                     menubar: false,
+                    skin : "vitoop",
                     style_formats: [
                         {title: 'p', block: 'p'},
                         {title: 'h1', block: 'h1'},
@@ -688,7 +706,7 @@ resourceDetail = (function () {
                     uifyContainer(container_name);
                 }
             });
-            $('select').selectmenu({
+            $('#vtp-res-dialog select').selectmenu({
                 select: function( event, ui ) {
                     $('span.ui-selectmenu-button').removeAttr('tabIndex');
                 }
@@ -772,24 +790,20 @@ resourceDetail = (function () {
         },
 
         nextResource = function () {
-            var url;
             // tr_res is current (jqueryfied) tr-element
             if (next_id == -1) {// no NEXT page avaiable
                 return;
             } else if (next_id == 0) {// load NEXT listpage
-                url = $('.vtp-pg-next a').attr('href');
-                resourceList.loadResourceListPage(url, (function () {
-                    // additional callback for ajax pageload
-                    tr_res = $('.vtp-list-first');
-                    tgl();
-                    res_id = (tr_res.attr('id').split('-'))[1];
-                    prev_id = 0;
-                    setNextId();
-                    // We are still in an asynchronous callback: Tab Maintenance must be
-                    // done here
-                    hardResetTabs();
-                    loadTab(undefined, 0);
-                }));
+                $('#vtp-res-list table').DataTable().page('next').draw('page');
+                tr_res = $('.vtp-list-first');
+                tgl();
+                res_id = (tr_res.attr('id').split('-'))[1];
+                prev_id = 0;
+                setNextId();
+                // We are still in an asynchronous callback: Tab Maintenance must be
+                // done here
+                hardResetTabs();
+                loadTab(undefined, 0);
             } else { // flip to NEXT resource
                 tgl();
                 var nextElement = tr_res.next('tr');
@@ -823,24 +837,20 @@ resourceDetail = (function () {
         },
 
         previousResource = function () {
-            var url;
             // tr_res is current (jqueryfied) tr-element
             if (prev_id == -1) {// no PREVious page avaiable
                 return;
             } else if (prev_id == 0) {// load PREVious listpage
-                url = $('.vtp-pg-prev a').attr('href');
-                resourceList.loadResourceListPage(url, (function () {
-                    // loadPage:Success
-                    tr_res = $('.vtp-list-last');
-                    tgl();
-                    res_id = (tr_res.attr('id').split('-'))[1];
-                    next_id = 0;
-                    setPrevId();
-                    // We are still in an asynchronous callback: Tab Maintenance must be
-                    // done here
-                    hardResetTabs();
-                    loadTab(undefined, 0);
-                }));
+                $('#vtp-res-list table').DataTable().page('next').draw('page');
+                tr_res = $('.vtp-list-last');
+                tgl();
+                res_id = (tr_res.attr('id').split('-'))[1];
+                next_id = 0;
+                setPrevId();
+                // We are still in an asynchronous callback: Tab Maintenance must be
+                // done here
+                hardResetTabs();
+                loadTab(undefined, 0);
             } else { // flip to PREVious resource
                 tgl();
                 var prevElement = tr_res.prev('tr');
@@ -1000,7 +1010,11 @@ resourceDetail = (function () {
                                 selector: 'textarea#help-text',
                                 id: 'tiny-help',
                                 height: 430,
+                                skin : "vitoop",
                                 plugins: 'textcolor link code',
+                                relative_urls : false,
+                                remove_script_host : false,
+                                convert_urls : true,
                                 menubar: false,
                                 style_formats: [
                                     {title: 'p', block: 'p'},

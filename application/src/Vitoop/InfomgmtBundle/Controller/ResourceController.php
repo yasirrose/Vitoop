@@ -1,69 +1,30 @@
 <?php
 namespace Vitoop\InfomgmtBundle\Controller;
 
-use Buzz\Browser;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Vitoop\InfomgmtBundle\Entity\Flag;
-use Vitoop\InfomgmtBundle\Entity\RelProjectUser;
 use Vitoop\InfomgmtBundle\Entity\UserConfig;
 use Vitoop\InfomgmtBundle\Entity\UserData;
 use Vitoop\InfomgmtBundle\Entity\VitoopBlog;
-use Vitoop\InfomgmtBundle\Service\ResourceManager;
-
 use Vitoop\InfomgmtBundle\Entity\Resource;
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-
-use Vitoop\InfomgmtBundle\Entity\Tag;
-use Vitoop\InfomgmtBundle\Form\Type\TagType;
-
-use Vitoop\InfomgmtBundle\Entity\Project;
-use Vitoop\InfomgmtBundle\Form\Type\ProjectType;
-use Vitoop\InfomgmtBundle\Form\Type\ProjectNameType;
-
 use Vitoop\InfomgmtBundle\Entity\Lexicon;
-use Vitoop\InfomgmtBundle\Form\Type\LexiconType;
-use Vitoop\InfomgmtBundle\Form\Type\LexiconNameType;
-
-use Vitoop\InfomgmtBundle\Entity\Rating;
-use Vitoop\InfomgmtBundle\Form\Type\RatingType;
-
-use Vitoop\InfomgmtBundle\Entity\Comment;
-use Vitoop\InfomgmtBundle\Form\Type\CommentType;
-
-use Vitoop\InfomgmtBundle\Entity\RelResourceTag;
-
-use Vitoop\InfomgmtBundle\Entity\Remark;
-use Vitoop\InfomgmtBundle\Form\Type\RemarkType;
-
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-
-use Symfony\Component\Security\Core\SecurityContext;
-
 use Symfony\Component\Form\Exception;
-use Symfony\Component\Form\Form;
-
-use Symfony\Component\HttpKernel\HttpKernelInterface;
-
-use JMS\SecurityExtraBundle\Annotation\Secure;
-use JMS\SecurityExtraBundle\Security\Authorization\Expression\Expression;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-
-use Doctrine\Common\Collections\Criteria;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-
-
-use Pagerfanta\Pagerfanta;
 
 class ResourceController extends Controller
 {
+    /**
+     * @Route("/userhome", name="_home")
+     * @Route("/project/{project_id}", name="_home_project", requirements={"project_id": "\d+"})
+     * @Route("/lexicon/{lexicon_id}", name="_home_lexicon", requirements={"lexicon_id": "\d+"})
+     */
     public function homeAction($project_id = 0, $lexicon_id = 0)
     {
         $rm = $this->get('vitoop.resource_manager');
@@ -156,11 +117,11 @@ class ResourceController extends Controller
             }
             $home_content_tpl = 'VitoopInfomgmtBundle:Resource:home.user.html.twig';
         } elseif ($is_project_home) {
-            $projectInfo = null;
             $vsec = $this->get('vitoop.vitoop_security');
             if (!$project->getProjectData()->availableForReading($vsec->getUser())) {
                 throw new AccessDeniedHttpException;
             }
+            $resourceInfo = $this->getDoctrine()->getManager()->getRepository('VitoopInfomgmtBundle:Resource')->getCountOfRelatedResources($project);
             $show_as_projectowner = $project->getProjectData()->availableForWriting($vsec->getUser());
             if (!$show_as_projectowner) {
                 $isEditMode = false;
@@ -186,12 +147,10 @@ class ResourceController extends Controller
                     'fvprojectdata' => $fv_project_data,
                     'infoprojectdata' => $info_project_data
                 ));
-            } else {
-                $projectInfo = $this->getDoctrine()->getManager()->getRepository('VitoopInfomgmtBundle:Project')->getCountOfRelatedResources($project);
             }
             $tpl_vars = array_merge($tpl_vars, array(
                 'project' => $project,
-                'projectInfo' => $projectInfo,
+                'resourceInfo' => $resourceInfo,
                 'editMode' => $isEditMode,
                 'showasprojectowner' => $show_as_projectowner
             ));
@@ -211,12 +170,19 @@ class ResourceController extends Controller
                     $em->flush();
                 }
             }
+            $resourceInfo = $this->getDoctrine()->getManager()->getRepository('VitoopInfomgmtBundle:Resource')->getCountOfRelatedResources($lexicon);
             $tpl_vars = array_merge($tpl_vars, array(
-                'lexicon' => $lexicon
+                'lexicon' => $lexicon,
+                'resourceInfo' => $resourceInfo
             ));
+            $rdc = $this->get('vitoop.resource_data_collector');
+            $rdc->prepare('lex', $request);
+            $rdc->init($lexicon);
+            $lexiconsPart = $rdc->getLexicon(true);
+            $tpl_vars = array_merge($tpl_vars, array('lexicons' => $lexiconsPart));
+
             $home_content_tpl = 'VitoopInfomgmtBundle:Resource:home.lexicon.html.twig';
         }
-        //$tpl_vars = array_merge($tpl_vars, array());
 
         if ($this->getRequest()
                  ->isXmlHttpRequest()
@@ -230,11 +196,17 @@ class ResourceController extends Controller
         return $this->render($home_tpl, $tpl_vars);
     }
 
+    /**
+     * @Route("/{res_type}/", name="_resource_list", requirements={"res_type": "pdf|adr|link|teli|lex|prj|book"})
+     */
     public function listAction($res_type)
     {
         $rm = $this->get('vitoop.resource_manager');
         $request = $this->getRequest();
         $user = $this->get('vitoop.vitoop_security')->getUser();
+        $block_content_tpl = 'VitoopInfomgmtBundle:Resource:table.resource.html.twig';
+
+        $url = $this->generateUrl('api_resource_list', array('resType' => $res_type));
 
         $mode_search_by_tags = false;
         $mode_filter_by_project_id = false;
@@ -242,10 +214,9 @@ class ResourceController extends Controller
         $mode_normal = false;
         $isEditMode = false;
 
-
-        $block_content_tpl = 'VitoopInfomgmtBundle:Resource:table.resource.html.twig';
-
-        /* Search by Tags */
+        $project_id = $request->query->get('project');
+        $lexicon_id = $request->query->get('lexicon');
+        $flagged = $request->query->get('flagged');
         $tag_list = $request->query->get('taglist');
         $tag_list_ignore = $request->query->get('taglist_i');
         $tag_list_highlight = $request->query->get('taglist_h');
@@ -254,15 +225,6 @@ class ResourceController extends Controller
         $tag_list_ignore = (is_null($tag_list_ignore))?(array()):($tag_list_ignore);
         $tag_list_highlight = (is_null($tag_list_highlight))?(array()):($tag_list_highlight);
 
-        /* Project View */
-        $project_id = $request->query->get('project');
-        /* Lexicon View */
-        $lexicon_id = $request->query->get('lexicon');
-
-        /* flagged */
-        $flagged = $request->query->get('flagged');
-
-        // Decide mode
         if (($request->query->has('edit')) && ($request->query->get('edit') == 1)) {
             $isEditMode = true;
         }
@@ -270,38 +232,13 @@ class ResourceController extends Controller
         if (!empty($tag_list) && is_array($tag_list)) {
             $mode_search_by_tags = true;
         } elseif (null !== $project_id) {
-            $project = $rm->getProject($project_id);
-            if (null !== $project) {
-                $mode_filter_by_project_id = true;
-            } else {
-                $mode_normal = true;
-            }
-        } elseif (null !== $lexicon_id) {
-            $lexicon = $rm->getLexicon($lexicon_id);
-            if (null !== $lexicon) {
-                $mode_filter_by_lexicon_id = true;
-            } else {
-                $mode_normal = true;
-            }
+            $mode_filter_by_project_id = true;
+         } elseif (null !== $lexicon_id) {
+            $mode_filter_by_lexicon_id = true;
         } else {
             $mode_normal = true;
         }
 
-        /* Pagination Parameters */
-        $page = $request->query->get('page') ? $request->query->get('page') : 1;
-        $max_per_page = $request->query->get('maxperpage') ? $request->query->get('maxperpage') : $request->cookies->get('maxperpage');
-
-        //maxperpage set to a new value by inputbox?
-        $_max_per_page = $request->query->get('_maxperpage');
-        if (null !== $_max_per_page) {
-            $ucm = $this->get('vitoop.user_config_manager');
-            $ucm->setMaxPerPage($_max_per_page);
-            $max_per_page = $_max_per_page;
-            $this->get('event_dispatcher')
-                 ->addListener(KernelEvents::RESPONSE, array(($this->get('kernel.listener.login_listener')), 'onFilterResponse'));
-        }
-
-        // preparing the template-vars
         $tpl_vars = array(
             'restype' => $res_type,
             'resname' => $rm->getResourceName($res_type),
@@ -309,75 +246,37 @@ class ResourceController extends Controller
         );
 
         if ($mode_search_by_tags) {
-            // $tag_list="";
-            // die("taglist:".$tag_list."-".((''===$tag_list)?'1':'0')."-".(is_null($tag_list)?'1':'0')."-".gettype($tag_list));
-            // @TODO tag_list"="^[A-Za-z0-9ÄÖÜäöü,]+[A-Za-z0-9ÄÖÜäöü]$"
-            //$arr_tags = explode(',', $tag_list);
-            // NEW: We catch the tag_list as an array, no more exploding needed
-            $arr_tags = $tag_list; // inject into template vars
+            $url .= '?'.htmlspecialchars_decode($request->server->get('QUERY_STRING'));
+
             $tpl_vars = array_merge($tpl_vars, array(
                 'taglist' => array_diff($tag_list, $tag_list_highlight),
                 'taglist_for_links' => $tag_list,
                 'taglist_h' => $tag_list_highlight,
                 'taglist_i' => $tag_list_ignore
             ));
-            // normalize $tag_cnt, injection will follow if it is valid
+
             $tag_cnt = intval($tag_cnt);
-
-            // if no or invalid $tag_cnt given a special resultpage will be shown
-            if ($tag_cnt > count($arr_tags) || $tag_cnt < 1) {
-                $data_for_overview = $rm->getRepository($res_type)
-                                        ->getDataForOverview($arr_tags, $tag_list_ignore);
-                $resources = null;
-                $block_content_tpl = 'VitoopInfomgmtBundle:Resource:search.bytags.overview.html.twig';
-                $tpl_vars = array_merge($tpl_vars, array('data_for_overview' => $data_for_overview));
-            } else {
-                $resources = $rm->getRepository($res_type)
-                                ->getResourcesByTags($arr_tags, $tag_list_ignore, $tag_list_highlight, $tag_cnt);
-                $tpl_vars = array_merge($tpl_vars, array(
-                    'tagcnt' => $tag_cnt
-                ));
-            }
+            $tpl_vars = array_merge($tpl_vars, array(
+                'tagcnt' => $tag_cnt
+            ));
         } elseif ($mode_filter_by_project_id) {
-            $resources = $rm->getRepository($res_type)
-                            ->getResources2ByResource1($project);
-
-            $tpl_vars = array_merge($tpl_vars, array('editMode' => $isEditMode));
-            $coefficients = $this->getDoctrine()->getRepository('VitoopInfomgmtBundle:RelResourceResource')->getCoefficients($project);
-            $coefResult = array();
-            foreach ($coefficients as $coefficient) {
-                $coefResult[$coefficient['res_id']] = array('rel_id' => $coefficient['rel_id'], 'coefficient' => $coefficient['coefficient']);
-            }
-            $tpl_vars = array_merge($tpl_vars, array('coefficients' => $coefResult));
-
+            $url .= '?resource='.$project_id;
+            $tpl_vars = array_merge($tpl_vars, array('isCoef' => true, 'isEdit' => $isEditMode));
         } elseif ($mode_filter_by_lexicon_id) {
-            $resources = $rm->getRepository($res_type)
-                            ->getResources2ByResource1($lexicon);
+            $url .= '?resource='.$lexicon_id;
         } elseif ($mode_normal) {
-            // NORMAL FLOW
-            if (!$flagged) {
-                $resources = $rm->getRepository($res_type)
-                                ->getResources();
-            } else {
-                $resources = $rm->getflaggedResources($res_type);
+            if ($flagged) {
+                $url .= '?flagged=1';
                 $tpl_vars = array_merge($tpl_vars, array(
                     'flagged' => 1
                 ));
             }
         }
 
-        $tpl_vars = array_merge($tpl_vars, array('resources' => $resources));
-
-        /* @var $resources Pagerfanta */
-        if (isset($resources)) {
-            $resources->setMaxPerPage($max_per_page)
-                      ->setCurrentPage($page);
-        }
-
-        $tpl_vars = array_merge($tpl_vars, array('maxperpage' => $max_per_page));
+        $tpl_vars = array_merge($tpl_vars, array('ajaxUrl' => $url));
 
         if ($this->getRequest()
-                 ->isXmlHttpRequest()
+            ->isXmlHttpRequest()
         ) {
             $list_tpl = $block_content_tpl;
         } else {
@@ -388,6 +287,9 @@ class ResourceController extends Controller
         return $this->render($list_tpl, $tpl_vars);
     }
 
+    /**
+     * @Route("/edit-vitoop-blog", name="_edit_vitoop_blog")
+     */
     public function  editVitoopBlogAction()
     {
         $request = $this->getRequest();
@@ -434,6 +336,9 @@ class ResourceController extends Controller
         ));
     }
 
+    /**
+     * @Route("/", name="_base_url")
+     */
     public function guestAction()
     {
 
@@ -456,12 +361,9 @@ class ResourceController extends Controller
         ));
     }
 
-    /*
-     *
-     * RESOURCE Actions
-     *
-    */
-
+    /**
+     * @Route("/{res_type}/{res_id}/data", name="_xhr_resource_data", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
+     */
     public function dataAction($res_type, $res_id)
     {
         /* @var $rdc \Vitoop\InfomgmtBundle\Service\ResourceDataCollector */
@@ -478,6 +380,9 @@ class ResourceController extends Controller
         return new Response(json_encode($content));
     }
 
+    /**
+     * @Route("/{res_type}/new", name="_xhr_resource_new", requirements={"res_type": "pdf|adr|link|teli|lex|prj|book"})
+     */
     public function newAction($res_type)
     {
         /* @var $rdc \Vitoop\InfomgmtBundle\Service\ResourceDataCollector */
@@ -499,6 +404,9 @@ class ResourceController extends Controller
         return new Response(json_encode($content));
     }
 
+    /**
+     * @Route("/{res_type}/{res_id}/tags", name="_xhr_resource_tags", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
+     */
     public function tagAction($res_type, $res_id)
     {
         /* @var $rdc \Vitoop\InfomgmtBundle\Service\ResourceDataCollector */
@@ -512,6 +420,9 @@ class ResourceController extends Controller
         return new Response(json_encode($content));
     }
 
+    /**
+     * @Route("/{res_type}/{res_id}/rating", name="_xhr_resource_rating", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
+     */
     public function ratingAction($res_type, $res_id)
     {
         /* @var $rdc \Vitoop\InfomgmtBundle\Service\ResourceDataCollector */
@@ -525,6 +436,9 @@ class ResourceController extends Controller
         return new Response(json_encode($content));
     }
 
+    /**
+     * @Route("/{res_type}/{res_id}/quickview", name="_xhr_resource_quickview", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
+     */
     public function quickviewAction($res_type, $res_id)
     {
         /* @var $rdc \Vitoop\InfomgmtBundle\Service\ResourceDataCollector */
@@ -548,6 +462,9 @@ class ResourceController extends Controller
         return new Response(json_encode($content));
     }
 
+    /**
+     * @Route("/{res_type}/{res_id}/remark", name="_xhr_resource_remark", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
+     */
     public function remarkAction($res_type, $res_id)
     {
         /* @var $rdc \Vitoop\InfomgmtBundle\Service\ResourceDataCollector */
@@ -561,6 +478,9 @@ class ResourceController extends Controller
         return new Response(json_encode($content));
     }
 
+    /**
+     * @Route("/{res_type}/{res_id}/remark_private", name="_xhr_resource_remark_private", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
+     */
     public function remarkPrivateAction($res_type, $res_id)
     {
         /* @var $rdc \Vitoop\InfomgmtBundle\Service\ResourceDataCollector */
@@ -574,6 +494,9 @@ class ResourceController extends Controller
         return new Response(json_encode($content));
     }
 
+    /**
+     * @Route("/{res_type}/{res_id}/comments", name="_xhr_resource_comments", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
+     */
     public function commentAction($res_type, $res_id)
     {
         /* @var $rdc \Vitoop\InfomgmtBundle\Service\ResourceDataCollector */
@@ -587,7 +510,11 @@ class ResourceController extends Controller
         return new Response(json_encode($content));
     }
 
-    public function lexiconAction($res_type, $res_id)
+    /**
+     * @Route("/{res_type}/{res_id}/lexicons", name="_xhr_resource_lexicons", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
+     * @Route("/{res_type}/{res_id}/lexicons/{isLexiconHome}", name="_xhr_resource_lexicons_lexicon", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book", "isLexiconHome": "1"})
+     */
+    public function lexiconAction($res_type, $res_id, $isLexiconHome = false)
     {
         /* @var $rdc \Vitoop\InfomgmtBundle\Service\ResourceDataCollector */
         $rdc = $this->get('vitoop.resource_data_collector');
@@ -595,11 +522,14 @@ class ResourceController extends Controller
         /* @var $res \Vitoop\InfomgmtBundle\Entity\Resource */
         $res = $rdc->getResource();
 
-        $content['resource-lexicon'] = $rdc->getLexicon();
+        $content['resource-lexicon'] = $rdc->getLexicon($isLexiconHome);
 
         return new Response(json_encode($content));
     }
 
+    /**
+     * @Route("/{res_type}/{res_id}/projects", name="_xhr_resource_projects", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
+     */
     public function projectAction($res_type, $res_id)
     {
         /* @var $rdc \Vitoop\InfomgmtBundle\Service\ResourceDataCollector */
@@ -613,6 +543,9 @@ class ResourceController extends Controller
         return new Response(json_encode($content));
     }
 
+    /**
+     * @Route("/{res_type}/{res_id}/assignments", name="_xhr_resource_assignments", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
+     */
     public function assignmentAction($res_type, $res_id)
     {
         /* @var $rdc \Vitoop\InfomgmtBundle\Service\ResourceDataCollector */
@@ -627,6 +560,9 @@ class ResourceController extends Controller
         return new Response(json_encode($content));
     }
 
+    /**
+     * @Route("/{res_type}/{res_id}/flag/{flag_type}", name="_xhr_resource_flag", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book", "flag_type": "delete|blame"})
+     */
     public function flagAction($res_type, $res_id, $flag_type)
     {
         /* @var $rdc \Vitoop\InfomgmtBundle\Service\ResourceDataCollector */
@@ -687,6 +623,9 @@ class ResourceController extends Controller
         ));
     }
 
+    /**
+     * @Route("/{res_type}/{res_id}/flaginfo", name="_xhr_resource_flaginfo", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
+     */
     public function flagInfoAction($res_type, $res_id)
     {
         /* @var $rdc \Vitoop\InfomgmtBundle\Service\ResourceDataCollector */
@@ -697,4 +636,3 @@ class ResourceController extends Controller
         return new Response(json_encode($content));
     }
 }
-

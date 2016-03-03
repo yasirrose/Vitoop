@@ -16,6 +16,7 @@ resourceProject = (function () {
             height: 600,
             plugins: 'textcolor link',
             menubar: false,
+            skin : "vitoop",
             style_formats: [
                 {title: 'p', block: 'p'},
                 {title: 'h1', block: 'h1'},
@@ -80,6 +81,7 @@ resourceProject = (function () {
             width: 560,
             height: 600,
             plugins: 'textcolor link',
+            skin : "vitoop",
             menubar: false,
             style_formats: [
                 {title: 'p', block: 'p'},

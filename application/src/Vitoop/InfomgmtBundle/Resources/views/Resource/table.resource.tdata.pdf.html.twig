@@ -1,13 +1,13 @@
 {% for pdf in resources %}
-    <tr id="pdf-{{ pdf.id }}" class="vtp-{{ cycle(zebra, loop.index) }} ui-corner-all vtp-uiaction-list-showdetail{% include "VitoopInfomgmtBundle:Resource:table.resource.res.classhelper.listtagger.html.twig" %}">
+    <tr id="pdf-{{ pdf.id }}" class="ui-corner-all vtp-uiaction-list-showdetail">
         <td class="ui-corner-left">
             {% if (editMode is defined) and (editMode) %}
-                <input type="text" id="coef-{{ attribute(coefficients, pdf.getID).rel_id }}" data-rel_id="{{ attribute(coefficients, pdf.getID).rel_id }}" data-original="{{ attribute(coefficients, pdf.getID).coefficient }}" value="{{ attribute(coefficients, pdf.getID).coefficient }}" class="vtp-uiaction-coefficient vtp-fh-w85"/>
+                <input type="text" id="coef-{{ attribute(coefficients, pdf.id).rel_id }}" data-rel_id="{{ attribute(coefficients, pdf.id).rel_id }}" data-original="{{ attribute(coefficients, pdf.id).coefficient }}" value="{{ attribute(coefficients, pdf.id).coefficient }}" class="vtp-uiaction-coefficient vtp-fh-w85"/>
             {% else %}
                 {% if coefficients is defined %}
-                    <input type="text" id="coef-{{ attribute(coefficients, pdf.getID).rel_id }}" data-rel_id="{{ attribute(coefficients, pdf.getID).rel_id }}" value="{{ attribute(coefficients, pdf.getID).coefficient }}" class="vtp-uiaction-coefficient vtp-fh-w85" disabled="disabled"/>
+                    <input type="text" id="coef-{{ attribute(coefficients, pdf.id).rel_id }}" data-rel_id="{{ attribute(coefficients, pdf.id).rel_id }}" value="{{ attribute(coefficients, pdf.id).coefficient }}" class="vtp-uiaction-coefficient vtp-fh-w85" disabled="disabled"/>
                 {% else %}
-                    {{ pdf.createdat|date("d.m.y") }}
+                    {{ pdf.created_at|date("d.m.y") }}
                 {% endif %}
             {% endif %}
         </td>
@@ -24,19 +24,28 @@
             </div>
         </td>
         <td>{{ pdf.tnop }}</td>
-        <td>
+        <td data-order="{{ pdf.avgmark }}">
             <div class="vtp-rating-image-small" title="{{ pdf.avgmark|avgmarkhint }}"
                  style="background-image: url('{{ asset('/img/rating/'~avgimg(pdf.avgmark)) }}');">
                 <span>&nbsp;</span>
             </div>
         </td>
         <td>{{ pdf.res12count }}</td>
-        <td>{{ pdf.user.username }}</td>
+        <td>{{ pdf.username }}</td>
+        {% if is_granted('ROLE_ADMIN') %}
+            {% if pdf.isDownloaded == 0 %}
+                <td>Soon</td>
+            {% elseif pdf.isDownloaded == 1 %}
+                <td style="color: green">Yes</td>
+            {% else %}
+                <td style="color: #FF2222">Err.</td>
+            {% endif %}
+        {% endif %}
         <td class="ui-corner-right">
             {% if editMode is defined and editMode %}
                 <span class="vtp-projectdata-unlink ui-icon ui-icon-close ui-corner-all" onclick="unlinkRes({{ pdf.id }})"></span>
             {% else %}
-                <a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="{{ pdf.viewlink }}" target="_blank">-></a>
+                <a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="{{ pdf.url }}" target="_blank">-></a>
             {% endif %}
         </td>
     </tr>

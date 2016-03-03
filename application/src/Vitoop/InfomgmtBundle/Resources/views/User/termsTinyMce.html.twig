@@ -1,0 +1,68 @@
+<div id="vtp-res-dialog-terms" title="Terms and conditions" style="display: none">
+    <div class="vtp-fh-w100">
+    <textarea id="terms-text" tabindex="1">
+        {{ vsettings.getTerms().getValue() }}
+    </textarea>
+    </div>
+    <div class="vtp-fh-w100" style="margin: 10px 0 10px 0; padding: 0 10px 0 10px">
+        <input type="checkbox" value="0" name="all-users" id="terms-all-users" tabindex="20" style="-webkit-appearance: checkbox">
+        <label for="terms-all-users">All users must agree with terms (if leave empty - only David must agree for testing).</label>
+    </div>
+    <div class="vtp-fh-w100">
+        <button class="ui-corner-all ui-state-default" id="button-terms-save">
+            speichern
+        </button>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        tinymce.init({
+            mode: 'exact',
+            selector: 'textarea#terms-text',
+            id: 'tiny-terms',
+            height: 430,
+            skin : "vitoop",
+            plugins: 'textcolor link code',
+            menubar: false,
+            style_formats: [
+                {title: 'p', block: 'p'},
+                {title: 'h1', block: 'h1'},
+                {title: 'h2', block: 'h2'},
+                {title: 'h3', block: 'h3'},
+                {title: 'h4', block: 'h4'},
+                {title: 'h5', block: 'h5'},
+                {title: 'h6', block: 'h6'}
+            ],
+            toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink | code'
+        });
+        $('#button-terms-save').on('click', function() {
+            tinyMCE.triggerSave();
+            $.ajax({
+                url: vitoop.baseUrl +'api/terms',
+                method: 'POST',
+                data: JSON.stringify({'text': $('#terms-text').val(), 'all-users': $('#terms-all-users').prop('checked')}),
+                success: function(data) {
+                    var elemSuccess = $('<div class="vtp-uiinfo-info ui-state-highlight ui-corner-all"><span class="vtp-icon ui-icon ui-icon-info"></span>Terms and conditions saved!</div>');
+                    $('#button-terms-save').before(elemSuccess);
+                    setTimeout(function() {
+                        elemSuccess.hide(400);
+                    }, 2000);
+                }
+            });
+        });
+        $('#vtp-res-dialog-terms').dialog({
+            autoOpen: false,
+            width: 850,
+            height: 640,
+            position: { my: 'center top', at: 'center top', of: '#vtp-nav' },
+            modal: true
+        });
+        $('#button-terms-admin').on('click', function() {
+            $('#vtp-res-dialog-terms').dialog('open');
+            setTimeout(function() {
+                tinymce.execCommand('mceFocus',false,'tiny-terms');
+            },400);
+        });
+    });
+</script>
+

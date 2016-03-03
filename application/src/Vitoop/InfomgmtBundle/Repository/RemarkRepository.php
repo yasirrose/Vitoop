@@ -7,6 +7,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Vitoop\InfomgmtBundle\Entity\Resource;
 
 use Doctrine\ORM\EntityRepository;
+use Vitoop\InfomgmtBundle\Entity\User;
 
 /**
  * RemarkRepository
@@ -22,5 +23,29 @@ class RemarkRepository extends EntityRepository
                        ->getResult();
 
         return array_shift($result);
+    }
+
+    public function getAllRemarks(Resource $resource)
+    {
+        $query = $this->createQueryBuilder('r')
+            ->where('r.resource =:resource')
+            ->setParameter('resource', $resource)
+            ->orderBy('r.created_at');
+
+        return $query->getQuery()->getResult();
+    }
+
+    public function getRemarkByUser(Resource $resource, User $user)
+    {
+        return $this->createQueryBuilder('r')
+            ->select('r.id')
+            ->where('r.user = :user')
+            ->andWhere('r.resource = :resource')
+            ->andWhere('r.ip is not null')
+            ->setParameter('user', $user)
+            ->setParameter('resource', $resource)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

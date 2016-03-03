@@ -1,0 +1,16 @@
+{% extends "VitoopInfomgmtBundle:Resource:layout.html.twig" %}
+{% block title %}Terms and Conditions{% endblock %}
+{% block content %}
+    <fieldset class="ui-corner-all margin-top-3">
+        <div id="vtp-terms-user" class="ui-corner-all">
+            {{ terms|raw }}
+            {% if not app.user.getIsAgreedWithTerms() %}
+                <div class="vtp-fh-w100">
+                    <form action="{{ path('user_agreement') }}" method="post">
+                        <input type="submit" value="I've read Terms and Conditions and I agree with them" name="user_agreed" id="button-user-agreed" class="ui-state-default">
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+    </fieldset>
+{% endblock %}

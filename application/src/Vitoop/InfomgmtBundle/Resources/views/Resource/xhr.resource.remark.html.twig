@@ -2,38 +2,44 @@
 {% if showform %}
     {{ form_start(fvremark, {'attr': {'id': 'form-remark', 'novalidate': 'novalidate' }}) }}
 {% endif %}
-<fieldset class="ui-corner-all">
-    <legend>Remark</legend>
-    {% if inforemark is defined and inforemark is not empty %}
-        <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all">
-            <span class="vtp-icon ui-icon ui-icon-info"></span>{{ inforemark }}
+{% if inforemark is defined and inforemark is not empty %}
+    <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all">
+        <span class="vtp-icon ui-icon ui-icon-info"></span>{{ inforemark }}
+    </div>
+{% endif %}
+<div id="vtp-remark-box">
+    {% if showform %}
+        <div id="vtp-remark-sheet-edit">
+            {{ form_errors(fvremark.text) }}
+            {{ form_widget(fvremark.text, {'attr': {'placeholder': 'XXX XXX XXX XXX XXX XXX XXX'} }) }}
+        </div>
+    {% else %}
+        <div id="vtp-remark-sheet-view">
+            {{ remark.text|raw }}
         </div>
     {% endif %}
-    <div id="vtp-remark-box">
-        {% if showform %}
-            <div id="vtp-remark-sheet-edit">
-                {{ form_errors(fvremark.text) }}
-                {{ form_widget(fvremark.text) }}
-            </div>
-        {% else %}
-            <div id="vtp-remark-sheet-view">
-                {{ remark.text|raw }}
+    {% if (needToAccept)%}
+        <div style="text-align: right; color: #2779aa; margin: 15px 0; display: none" class="remark-agreement">
+            <label for="">Ich stelle den von mir eingegebenen Text zu diesem Datensatz unter die xxx Lizenz.</label>
+            <input type="checkbox" id="remark-accepted" style="-webkit-appearance: checkbox">
+        </div>
+    {% endif %}
+    <div id="vtp-remark-buttons">
+        {% if (remarks is not empty) %}
+            <div id="vtp-remark-owner">
+                <span>Bearbeiter:</span>
+                {% for rem in remarks %}
+                    <span class="remarks-button" {% if is_granted('ROLE_ADMIN') %} title="{{ rem.getCreatedAt|date("m-d-Y") }}, {{ rem.getIp }}" data-text="{{ rem.text }}" {% endif %}>
+                        {{ rem.user.username }}{% if (not loop.last) %}, {% endif %}
+                    </span>
+                {% endfor %}
             </div>
         {% endif %}
-        <div id="vtp-remark-buttons">
-            {% if remark.user is not null %}
-                <div id="vtp-remark-owner" class="ui-button ui-widget ui-state-default ui-corner-all">
-                    <span>Letzter Bearbeiter:</span>
-                    <span>{{ remark.user.username }}</span>
-                </div>
-            {% endif %}
-            {{ form_label(fvremark.locked, null, {'label_attr': {'class': 'vtp-fh-h24 vtp-button' }}) }}{{ form_widget(fvremark.locked) }}
-            {{ form_widget(fvremark.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}
-        </div>
-
+        {{ form_label(fvremark.locked, null, {'label_attr': {'class': 'vtp-fh-h24 vtp-button' }}) }}{{ form_widget(fvremark.locked) }}
+        {{ form_widget(fvremark.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}
     </div>
-</fieldset>
+
+</div>
 {% if showform %}
     {{ form_end(fvremark) }}
 {% endif %}
-

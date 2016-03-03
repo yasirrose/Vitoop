@@ -30,7 +30,7 @@ class Watchlist
 
     /**
      * @ORM\ManyToOne(targetEntity="Resource", inversedBy="watchlist_entries")
-     * @ORM\JoinColumn(name="id_resource", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_resource", referencedColumnName="id", onDelete="cascade")
      */
     protected $resource;
 

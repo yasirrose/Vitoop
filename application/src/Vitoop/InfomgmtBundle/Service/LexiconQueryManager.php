@@ -49,8 +49,9 @@ class LexiconQueryManager
                 if (array_key_exists('missing', $key_pages)) {
                     throw new \Exception('This Wikipedia Searchterm does not exist!');
                 }
-                if (array_key_exists('categories', $key_pages)) {
+                /*if (array_key_exists('categories', $key_pages)) {
                     $key_categories = $key_pages['categories'];
+
                     $term_info = 'This Wikipedia Searchterm is ';
                     $abbreviation = false;
                     $disambiguation = false;
@@ -78,11 +79,11 @@ class LexiconQueryManager
 
                     throw new \Exception($term_info . '. Please visit: ' . $key_pages['fullurl']);
                 } else {
-
+*/
                     $wiki_data['wiki_page_id'] = $key_pages['pageid'];
                     $wiki_data['wiki_title'] = $key_pages['title'];
                     $wiki_data['wiki_fullurl'] = rawurldecode($key_pages['fullurl']);
-                }
+  //              }
             } else {
                 throw new \Exception('Bad Answer from Wikipedia (no "query"-attribute given)');
             }

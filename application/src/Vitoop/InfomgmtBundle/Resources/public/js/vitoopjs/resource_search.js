@@ -58,11 +58,19 @@ resourceSearch = (function () {
 
         query_tagcnt = query.tagcnt, // may be undefined
 
+        is_changed = false,
+
         arr_taglist = [],
+
+        tag_count = 0,
 
         arr_taglist_ignore = [],
 
+        ig_count = 0,
+
         arr_taglist_highlight = [],
+
+        hl_count = 0,
 
         tagcnt = 0,
 
@@ -71,6 +79,17 @@ resourceSearch = (function () {
         tag,
 
     //direction - if true, thatn we move tag from general array to ignored array
+        changeColor = function () {
+            if ((!is_changed) && ((tag_count != arr_taglist.length) || (ig_count != arr_taglist_ignore.length) || (hl_count != arr_taglist_highlight.length))) {
+
+                $('#vtp-search-bytags-form-submit').addClass('act');
+                is_changed = true;
+            }
+            tag_count = arr_taglist.length;
+            ig_count = arr_taglist_ignore.length;
+            hl_count = arr_taglist_highlight.length;
+        },
+
         ignoreTag = function (tag, direction) {
             var index;
             if (direction === true) {
@@ -181,12 +200,14 @@ resourceSearch = (function () {
             cnt_tags = 0;
             tagcnt = 0;
             maintainCntTags();
+            $('#vtp-search-bytags-form-submit').removeClass('act').blur();
+            is_changed = false;
             resourceList.loadResourceListPage(e);
         },
 
         maintainCntTags = function () {
             var $_options;
-
+            changeColor();
             cnt_tags = arr_taglist.length;
             // show or hide the taglistbox when there are tags to show
             maintainTaglistbox();
@@ -288,7 +309,12 @@ resourceSearch = (function () {
             });
 
             // #APR# tag bytags SUBMIT
-            $('#vtp-search-bytags-form').on('submit', resourceList.loadResourceListPage);
+            $('#vtp-search-bytags-form').on('submit', function(e, secondSuccessFunc) {
+                resourceList.loadResourceListPage(e, secondSuccessFunc);
+                $('#vtp-search-bytags-form-submit').removeClass('act').blur();
+                is_changed = false;
+
+            });
 
             $('#vtp-search-bytags-taglist').autocomplete({
                 source: vitoop.baseUrl + (['tag', 'suggest'].join('/')),
@@ -352,7 +378,9 @@ resourceSearch = (function () {
             } else {
                 tagcnt = +query_tagcnt;
             }
-
+            tag_count = arr_taglist.length;
+            ig_count = arr_taglist_ignore.length;
+            hl_count = arr_taglist_highlight.length;
             maintainCntTags();
         };
 

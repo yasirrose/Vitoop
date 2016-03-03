@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('vitoop', ['ui.tinymce', 'angucomplete', 'validation.match']);
+var app = angular.module('vitoop', ['ui.tinymce', 'angucomplete', 'validation.match', 'as.sortable']);
 
 app.controller('MainController', function ($scope, $http, $compile) {
     $scope.content = '';
@@ -66,6 +66,7 @@ app.controller('UserController', function ($scope, $http, $filter, $timeout) {
                 $scope.isSuccess = true;
                 $timeout(function() {
                     $scope.isSuccess = false;
+                    window.location = '../userhome';
                 }, 3000);
                 $scope.user_email.$setPristine();
                 $scope.user_password.$setPristine();
@@ -93,6 +94,7 @@ app.controller('PrjController', function ($scope, $http, $filter, $timeout) {
         height: 550,
         plugins: 'textcolor link media',
         menubar: false,
+        skin : "vitoop",
         style_formats: [
             {title: 'p', block: 'p'},
             {title: 'h1', block: 'h1'},
@@ -196,6 +198,7 @@ app.controller('ToDoController', function ($scope, $http, $filter) {
         height: 550,
         plugins: 'textcolor link media',
         menubar: false,
+        skin : "vitoop",
         style_formats: [
             {title: 'p', block: 'p'},
             {title: 'h1', block: 'h1'},
@@ -206,6 +209,14 @@ app.controller('ToDoController', function ($scope, $http, $filter) {
             {title: 'h6', block: 'h6'}
         ],
         toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink '
+    };
+
+    $scope.sortableOptions = {
+        orderChanged: function(event) {
+            $scope.to_do_items[event.dest.index].order += event.dest.index - event.source.index;
+            $http.put('api/user/'+$scope.user.id+'/todo/'+$scope.to_do_items[event.dest.index].id, JSON.stringify($scope.to_do_items[event.dest.index]));
+        },
+        containment: '#noscroll-element'
     };
 
     $scope.$watch("user", function(){
@@ -228,6 +239,7 @@ app.controller('ToDoController', function ($scope, $http, $filter) {
       $scope.to_do_item = {};
       $scope.to_do_item.created_at = $filter('date')(new Date(), 'dd.MM.yyyy');
       $scope.to_do_item.updated_at = $filter('date')(new Date(), 'dd.MM.yyyy');
+      $scope.to_do_item.order = 0;
       $scope.isNew = true;
       $scope.isDeleting = false;
       $scope.toDoForm.$setDirty();
@@ -259,14 +271,14 @@ app.controller('ToDoController', function ($scope, $http, $filter) {
             $http.post(vitoop.baseUrl + 'api/user/'+$scope.user.id+'/todo', JSON.stringify($scope.to_do_item)).success(function (data) {
                 $scope.to_do_item.id = data.id;
                 $scope.to_do_items.push(angular.copy($scope.to_do_item));
-                $scope.to_do_items = $filter('orderBy')($scope.to_do_items, 'title');
+                $scope.to_do_items = $filter('orderBy')($scope.to_do_items, ['order', 'title']);
                 $scope.isNew = false;
             });
         } else {
             $scope.to_do_item.updated_at = $filter('date')(new Date(), 'dd.MM.yyyy');
-            $http.post('api/user/'+$scope.user.id+'/todo/'+$scope.to_do_item.id, JSON.stringify($scope.to_do_item)).success(function (data) {
+            $http.put('api/user/'+$scope.user.id+'/todo/'+$scope.to_do_item.id, JSON.stringify($scope.to_do_item)).success(function (data) {
                     angular.copy($scope.to_do_item, $filter('filter')($scope.to_do_items, {id: $scope.to_do_item.id}, true)[0]);
-                    $scope.to_do_items = $filter('orderBy')($scope.to_do_items, 'title');
+                    $scope.to_do_items = $filter('orderBy')($scope.to_do_items, ['order', 'title']);
             });
         }
         $scope.toDoForm.$setPristine();

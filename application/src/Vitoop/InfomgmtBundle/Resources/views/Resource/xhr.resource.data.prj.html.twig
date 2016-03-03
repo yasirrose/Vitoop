@@ -18,7 +18,7 @@
         {{ form_widget(fvdata.description, {'attr': {'class': 'vtp-fh-w80', 'rows': '10' }}) }}
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.description) }}</div>
     </div>
-    <div class="vtp-fh-bottom">
+    <div class="vtp-fh-bottom created-info-project">
         <div class="vtp-fh-infosave-box vtp-fh-w70">
             Eingetragen am: {{ res.createdat|date('d.m.Y') }}{% if res.getUser is not null %} / von: {{ res.getUser.getUsername }}{% endif %} / ID: {{ res.getId }}
         </div>

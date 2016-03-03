@@ -236,14 +236,29 @@ class ResourceDataCollector
         return $form;
     }
 
-    public function getTag()
+    public function getTag($forFullLexiconPage = false)
     {
         $info_tag = '';
         $tag_text = '';
         $tag = new Tag();
 
+        //if ($forFullLexiconPage) {
+        //    $action = $this->router->generate('_xhr_resource_tags_lexicon', array(
+        //        'res_type' => $this->res->getResourceType(),
+        //        'res_id' => $this->res->getId(),
+        //        'isLexiconHome' => 1
+        //    ));
+        //    $template = 'VitoopInfomgmtBundle:Resource:lexicon.tag.html.twig';
+        //} else {
+            $action = $this->router->generate('_xhr_resource_tags', array(
+                'res_type' => $this->res->getResourceType(),
+                'res_id' => $this->res->getId()
+            ));
+            $template = 'VitoopInfomgmtBundle:Resource:xhr.resource.tag.html.twig';
+        //}
+
         $form_tag = $this->ff->create('tag', $tag, array(
-            'action' => $this->router->generate('_xhr_resource_tags', array('res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId())),
+            'action' => $action,
             'method' => 'POST'
         ));
         $form_tag = $this->addPermissionsToTagForm($form_tag);
@@ -259,7 +274,7 @@ class ResourceDataCollector
                         $tag_text = $this->rm->setTag($tag, $this->res);
                         $info_tag = 'Tag "' . $tag_text . '" successfully added!';
                         $form_tag = $this->ff->create('tag', new Tag(), array(
-                            'action' => $this->router->generate('_xhr_resource_tags', array('res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId())),
+                            'action' => $action,
                             'method' => 'POST'
                         ));
                         $form_tag = $this->addPermissionsToTagForm($form_tag);
@@ -275,7 +290,7 @@ class ResourceDataCollector
                         $tag_text = $this->rm->removeTag($tag, $this->res);
                         $info_tag = 'Tag "' . $tag_text . '" successfully removed!';
                         $form_tag = $this->ff->create('tag', new Tag(), array(
-                            'action' => $this->router->generate('_xhr_resource_tags', array('res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId())),
+                            'action' => $action,
                             'method' => 'POST'
                         ));
                         $form_tag = $this->addPermissionsToTagForm($form_tag);
@@ -307,7 +322,7 @@ class ResourceDataCollector
 
         $fv_tag = $form_tag->createView();
 
-        return $this->twig->render('VitoopInfomgmtBundle:Resource:xhr.resource.tag.html.twig', array(
+        return $this->twig->render($template, array(
             'res' => $this->res,
             'fvtag' => $fv_tag,
             'infotag' => $info_tag,
@@ -323,6 +338,9 @@ class ResourceDataCollector
 
     public function getRating()
     {
+        if ($this->res_type == "lex") {
+            return null;
+        }
         $info_rating = '';
         $fv_rating = null;
         // Show Average Rating 1.) to Anon.2.) to user already rated
@@ -396,11 +414,21 @@ class ResourceDataCollector
         $info_remark = '';
         $fv_remark = null;
         $tpl_vars = array();
-        $remark = $this->rm->getEntityManager()
+        $remarkLast = $this->rm->getEntityManager()
                            ->getRepository('VitoopInfomgmtBundle:Remark')
                            ->getLatestRemark($this->res);
-        if (null === $remark) {
-            $remark = new Remark();
+        $remark = new Remark();
+        if (!is_null($remarkLast)) {
+            $remark->setText($remarkLast->getText());
+            $remark->setLocked($remarkLast->getLocked());
+        }
+
+        $needToAccept = false;
+
+        if (is_null($this->rm->getEntityManager()
+            ->getRepository('VitoopInfomgmtBundle:Remark')
+            ->getRemarkByUser($this->res, $this->vsec->getUser()))) {
+            $needToAccept = true;
         }
 
         $show_form = false;
@@ -426,6 +454,7 @@ class ResourceDataCollector
 
                     $remark->setResource($this->res);
                     $remark->setUser($this->vsec->getUser());
+                    $remark->setIp($this->request->getClientIp());
                     $this->rm->getEntityManager()
                              ->persist($remark);
                     $this->rm->getEntityManager()
@@ -452,12 +481,18 @@ class ResourceDataCollector
 
         $tpl_vars = array_merge($tpl_vars, array(
             'fvremark' => $fv_remark,
-            'inforemark' => $info_remark
+            'inforemark' => $info_remark,
+            'needToAccept' => $needToAccept
         ));
+
+        $remarks = $this->rm->getEntityManager()
+            ->getRepository('VitoopInfomgmtBundle:Remark')
+            ->getAllRemarks($this->res);
 
         return $this->twig->render('VitoopInfomgmtBundle:Resource:xhr.resource.remark.html.twig', array_merge($tpl_vars, array(
             'res' => $this->res,
             'remark' => $remark,
+            'remarks' => $remarks,
             'showform' => $show_form
         )));
     }
@@ -549,14 +584,27 @@ class ResourceDataCollector
         ));
     }
 
-    public function getLexicon()
+    public function getLexicon($isLexiconHome = false)
     {
-
+        if ($isLexiconHome) {
+            $action = $this->router->generate('_xhr_resource_lexicons_lexicon', array(
+                'res_type' => $this->res->getResourceType(),
+                'res_id' => $this->res->getId(),
+                'isLexiconHome' => 1
+            ));
+            $template = 'VitoopInfomgmtBundle:Resource:lexicon.lexicon.html.twig';
+        } else {
+            $action = $this->router->generate('_xhr_resource_lexicons', array(
+                'res_type' => $this->res->getResourceType(),
+                'res_id' => $this->res->getId()
+            ));
+            $template = 'VitoopInfomgmtBundle:Resource:xhr.resource.lexicon.html.twig';
+        }
         $info_lex = '';
         $lex_name = '';
         $lex = new Lexicon();
         $form_lex = $this->ff->create('lexicon_name', $lex, array(
-            'action' => $this->router->generate('_xhr_resource_lexicons', array('res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId())),
+            'action' => $action,
             'method' => 'POST'
         ));
         $form_lex = $this->addPermissionsToLexiconForm($form_lex);
@@ -578,7 +626,7 @@ class ResourceDataCollector
 
                             $info_lex = 'Lexicon "' . $lex_name . '" successfully added!';
                             $form_lex = $this->ff->create('lexicon_name', new Lexicon(), array(
-                                'action' => $this->router->generate('_xhr_resource_lexicons', array('res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId())),
+                                'action' => $action,
                                 'method' => 'POST'
                             ));
                             $form_lex = $this->addPermissionsToLexiconForm($form_lex);
@@ -590,7 +638,7 @@ class ResourceDataCollector
                             $lex_name = $this->rm->removeLexicon($lexicon, $this->res);
                             $info_lex = 'Lexicon "' . $lex_name . '" successfully removed!';
                             $form_lex = $this->ff->create('lexicon_name', new Lexicon(), array(
-                                'action' => $this->router->generate('_xhr_resource_lexicons', array('res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId())),
+                                'action' => $action,
                                 'method' => 'POST'
                             ));
                             $form_lex = $this->addPermissionsToLexiconForm($form_lex);
@@ -617,7 +665,7 @@ class ResourceDataCollector
 
         $fv_lex = $form_lex->createView();
 
-        return $this->twig->render('VitoopInfomgmtBundle:Resource:xhr.resource.lexicon.html.twig', array('lexname' => $lex_name, 'fvassignlexicon' => $fv_lex, 'lexicons' => $lexicons, 'infoassignlexicon' => $info_lex));
+        return $this->twig->render($template, array('lexname' => $lex_name, 'fvassignlexicon' => $fv_lex, 'lexicons' => $lexicons, 'infoassignlexicon' => $info_lex));
     }
 
     public function getProject()
@@ -626,9 +674,15 @@ class ResourceDataCollector
         $info_prj = '';
         $prj_name = '';
         $prj = new Project();
+        $projectsCollection = $this->rm->getEntityManager()->getRepository('VitoopInfomgmtBundle:Project')->getAllProjectsByUser($this->vsec->getUser());
+        $projects = array();
+        foreach ($projectsCollection as $project) {
+            $projects[$project['name']] = $project['name'];
+        }
         $form_prj = $this->ff->create('project_name', $prj, array(
             'action' => $this->router->generate('_xhr_resource_projects', array('res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId())),
-            'method' => 'POST'
+            'method' => 'POST',
+            'projects' => $projects
         ));
         if ($this->handleData) {
             $form_prj->handleRequest($this->request);
@@ -638,7 +692,8 @@ class ResourceDataCollector
                     $info_prj = 'Project "' . $prj_name . '" successfully added!';
                     $form_prj = $this->ff->create('project_name', new Project(), array(
                         'action' => $this->router->generate('_xhr_resource_projects', array('res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId())),
-                        'method' => 'POST'
+                        'method' => 'POST',
+                        'projects' => $projects
                     ));
                 } catch (\Exception $e) {
 

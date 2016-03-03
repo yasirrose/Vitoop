@@ -18,6 +18,25 @@ userInteraction = (function () {
             }
         });
 
+        $('#invitations-toggle').button({
+
+        });
+
+        $('#button-terms-admin').button({
+
+        });
+
+        $('#invitations-toggle').click(function() {
+            $.ajax({
+                method: "PUT",
+                url: "invitation/toggle",
+                success: function(data){
+                    var answer = JSON.parse(data);
+                    $('#invitations-toggle > span > span').text(answer.invitation ? 'On' : 'Off');
+                }
+            });
+        });
+
         !$('#vtp-form-invite .vtp-uiinfo-info').length || $('#vtp-form-invite .vtp-uiinfo-info').position({
             my: 'right bottom',
             at: 'left top',
@@ -43,6 +62,7 @@ userInteraction = (function () {
             width: 615,
             height: 600,
             plugins: 'textcolor link media code',
+            skin : "vitoop",
             menubar: false,
             style_formats: [
                 {title: 'p', block: 'p'},

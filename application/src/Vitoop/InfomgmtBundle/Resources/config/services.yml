@@ -3,9 +3,18 @@ parameters:
     vitoop.lexicon_query_manager.class:         Vitoop\InfomgmtBundle\Service\LexiconQueryManager
     vitoop.resource_data_collector.class:       Vitoop\InfomgmtBundle\Service\ResourceDataCollector
     vitoop.vitoop_security.class:               Vitoop\InfomgmtBundle\Service\VitoopSecurity
-    vitoop.user_config_manager.class:    Vitoop\InfomgmtBundle\Service\UserConfigManager
+    vitoop.user_config_manager.class:           Vitoop\InfomgmtBundle\Service\UserConfigManager
+    vitoop.options_repository.class:            Vitoop\InfomgmtBundle\Repository\OptionRepository
 
 services:
+    vitoop.settings:
+        class:          Vitoop\InfomgmtBundle\Service\SettingsService
+        arguments:      [@doctrine.orm.entity_manager]
+
+    vitoop.downloads:
+        class:          Vitoop\InfomgmtBundle\Service\DownloadsService
+        arguments:      [@doctrine.orm.entity_manager, @service_container, @vitoop.settings]
+
     vitoop.resource_manager:
         class:          %vitoop.resource_manager.class%
         arguments:      [@doctrine.orm.entity_manager, @vitoop.vitoop_security]
@@ -137,6 +146,11 @@ services:
         class: Vitoop\InfomgmtBundle\Form\Type\InvitationType
         tags:
             - { name: form.type, alias: invitation }
+
+    vitoop.form.type.invitation_new:
+        class: Vitoop\InfomgmtBundle\Form\Type\InvitationNewType
+        tags:
+            - { name: form.type, alias: invitation_new }
 
     vitoop.form.type.project_data:
         class: Vitoop\InfomgmtBundle\Form\Type\ProjectDataType

@@ -45,18 +45,18 @@
     </div>
     <div class="vtp-fh-middle">
         {{ form_label(fvdata.contact4, null, {'label_attr': {'class': 'vtp-fh-w15' }}) }}
-        {{ form_widget(fvdata.contact4, {'attr': {'class': 'vtp-fh-w75' }}) }}
-        <div class="vtp-fh-right vtp-fh-w0" style="width: 9.5%;"><a href="mailto:{{ res.contact4 }}" target="_blank" class="vtp-uiaction-open-mail vtp-button">eMail schreiben</a></div>
+        {{ form_widget(fvdata.contact4, {'attr': {'class': 'vtp-fh-w75', 'style': 'width: 77.7%' }}) }}
+        <div class="vtp-fh-right vtp-fh-w0"><a href="mailto:{{ res.contact4 }}" target="_blank" class="vtp-uiaction-open-mail vtp-button">eMail schreiben</a></div>
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.contact3) }}</div>
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.contact4) }}</div>
     </div>
     <div class="vtp-fh-middle">
         {{ form_label(fvdata.contact5, null, {'label_attr': {'class': 'vtp-fh-w15' }}) }}
-        {{ form_widget(fvdata.contact5, {'attr': {'class': 'vtp-fh-w75' }}) }}
-        <div class="vtp-fh-right vtp-fh-w0" style="width: 9.5%;"><a href="{{ res.contact5 }}" target="_blank" class="vtp-uiaction-open-url vtp-button">URL öffnen</a></div>
+        {{ form_widget(fvdata.contact5, {'attr': {'class': 'vtp-fh-w75', 'style': 'width: 77.7%' }}) }}
+        <div class="vtp-fh-right vtp-fh-w0"><a href="{{ res.contact5 }}" target="_blank" class="vtp-uiaction-open-url vtp-button">URL öffnen</a></div>
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.contact5) }}</div>
     </div>
-    <div class="vtp-fh-bottom">
+    <div class="vtp-fh-bottom created-info">
         <div class="vtp-fh-infosave-box vtp-fh-w70">
             Eingetragen am: {{ res.createdat|date('d.m.Y') }}{% if res.getUser is not null %} / von: {{ res.getUser.getUsername }}{% endif %} / ID: {{ res.getId }}
         </div>

@@ -19,8 +19,6 @@ framework:
         enable_annotations: true
     templating:
         engines: ['twig']
-    #assets_version: SomeVersionScheme
-        assets_base_urls: {http: [/bundles/vitoopinfomgmt], ssl: [/bundles/vitoopinfomgmt]}
     default_locale:  de
     trusted_proxies: ~
     session:         ~
@@ -35,6 +33,7 @@ twig:
             - 'VitoopInfomgmtBundle:Form:fields.html.twig'
     globals:
         vsec: '@vitoop.vitoop_security'
+        vsettings: '@vitoop.settings'
 
 # Assetic Configuration
 assetic:

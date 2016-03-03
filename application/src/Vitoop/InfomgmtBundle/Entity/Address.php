@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="address")
- * @ORM\Entity(repositoryClass="Vitoop\InfomgmtBundle\Repository\PdfRepository")
+ * @ORM\Entity(repositoryClass="Vitoop\InfomgmtBundle\Repository\AddressRepository")
  */
 class Address extends Resource
 {

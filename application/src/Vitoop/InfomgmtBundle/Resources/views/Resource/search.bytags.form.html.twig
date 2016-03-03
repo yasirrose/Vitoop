@@ -1,3 +1,4 @@
+<button id="vtp-search-toggle" class="vtp-button" {% if restype == '' %}style="display: none;"{% endif %}>^</button>
 <form id="vtp-search-bytags-form" action="" method="get" novalidate="novalidate"{% if restype == '' %} style="display: none;"{% endif %}>
     {% if app.user %}
     <input id="vtp-search-bytags-taglist" name="taglist[]" maxlength="64" type="text" placeholder="tag eingeben">
@@ -8,5 +9,5 @@
         {% endfor %}
     </select>
     <button id="vtp-search-bytags-form-submit" class="vtp-button" type="submit" name="submit" value="suchen">-></button>
-    {% endif %}
+   {% endif %}
 </form>

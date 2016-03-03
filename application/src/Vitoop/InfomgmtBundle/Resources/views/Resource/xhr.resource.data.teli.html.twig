@@ -23,8 +23,8 @@
     </div>
     <div class="vtp-fh-middle">
         {{ form_label(fvdata.url, null, {'label_attr': {'class': 'vtp-fh-w15' }}) }}
-        {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w75', 'onblur': 'checkUniqueUrl("teli", event);' }}) }}
-        <div class="vtp-fh-right vtp-fh-w0" style="width: 9.5%;"><a href="{{ res.url }}" target="_blank" class="vtp-uiaction-open-url vtp-button">URL öffnen</a></div>
+        {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w75', 'onblur': 'checkUniqueUrl("teli", event);', 'style': 'width: 77.7%' }}) }}
+        <div class="vtp-fh-right vtp-fh-w0"><a href="{{ res.url }}" target="_blank" class="vtp-uiaction-open-url vtp-button">URL öffnen</a></div>
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.url) }}</div>
     </div>
     <div class="vtp-fh-middle">
@@ -38,7 +38,7 @@
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.release_date) }}</div>
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.lang) }}</div>
     </div>
-    <div class="vtp-fh-bottom">
+    <div class="vtp-fh-bottom created-info">
         <div class="vtp-fh-infosave-box vtp-fh-w70">
             Eingetragen am: {{ res.createdat|date('d.m.Y') }}{% if res.getUser is not null %} / von: {{ res.getUser.getUsername }}{% endif %} / ID: {{ res.getId }}
         </div>

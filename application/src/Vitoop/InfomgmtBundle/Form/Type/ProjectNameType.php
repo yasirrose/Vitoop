@@ -9,7 +9,11 @@ class ProjectNameType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', null, array('label' => 'Projekt'))
+        $builder->add('name', 'choice', array(
+            'label' => 'Projekt',
+            'choices' => $options['projects'],
+            'empty_value' => 'Choose a project...'
+            ))
                 ->add('save', 'input_type_submit', array('label' => 'mit meinem Projekt verknüpfen'));
     }
 
@@ -20,6 +24,9 @@ class ProjectNameType extends AbstractType
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array('data_class' => 'Vitoop\InfomgmtBundle\Entity\Project'));
+        $resolver->setDefaults(array(
+            'data_class' => 'Vitoop\InfomgmtBundle\Entity\Project',
+            'projects' => array()
+            ));
     }
 }

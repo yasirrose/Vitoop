@@ -1,0 +1,76 @@
+.vtp-pg-start,
+.vtp-pg-prev,
+.vtp-pg-next,
+.vtp-pg-end {
+    display: inline-block !important;
+    height: 16px;
+    line-height: 16px;
+    cursor: pointer;
+    vertical-align: middle;
+    text-align: center;
+    padding: 2px 2px 2px 2px;
+}
+
+.vtp-pg-prev,
+.vtp-pg-next {
+    width: 48px;
+    margin: 3px 3px 3px 3px;
+}
+
+.vtp-pg-start,
+.vtp-pg-end {
+    width: 24px;
+    margin: 3px 3px 3px 3px;
+}
+
+.vtp-pg-inner {
+    display: inline-block !important;
+    min-width: 16px;
+    height: 16px;
+    font-weight: normal;
+}
+
+.vtp-pg-start {
+    margin: 3px 3px 3px 3px;
+}
+
+.vtp-pg-end {
+    margin: 3px 5px 3px 3px;
+}
+
+.vtp-pg-proximitybox {
+    display: inline-block !important;
+    margin: 3px 5px 3px 5px;
+    vertical-align: middle;
+}
+
+.vtp-pg-proximity, .vtp-pg-current {
+    display: inline-block !important;
+    margin: 3px 3px 3px 3px;
+    font-size: 12px;
+    text-align: center;
+    padding: 2px 2px 2px 2px;
+    vertical-align: middle;
+}
+
+.vtp-pg-dotsleft {
+    display: inline-block !important;
+    margin-left: 5px;
+    font-size: 12px;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.vtp-pg-dotsright {
+    display: inline-block !important;
+    margin-right: 5px;
+    font-size: 12px;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.vtp-pg-current, .vtp-pg-dotsleft, .vtp-pg-dotsright {
+    cursor: default;
+}

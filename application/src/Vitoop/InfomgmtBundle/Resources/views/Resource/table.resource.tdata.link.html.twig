@@ -1,13 +1,13 @@
 {% for link in resources %}
-    <tr id="link-{{ link.id }}" class="vtp-{{ cycle(zebra, loop.index) }} ui-corner-all vtp-uiaction-list-showdetail{% include "VitoopInfomgmtBundle:Resource:table.resource.res.classhelper.listtagger.html.twig" %}">
+    <tr id="link-{{ link.id }}" class="ui-corner-all vtp-uiaction-list-showdetail">
         <td class="ui-corner-left">
             {% if (editMode is defined) and (editMode) %}
-                    <input type="text" id="coef-{{ attribute(coefficients, link.getID).rel_id }}" data-rel_id="{{ attribute(coefficients, link.getID).rel_id }}" data-original="{{ attribute(coefficients, link.getID).coefficient }}" value="{{ attribute(coefficients, link.getID).coefficient }}" class="vtp-uiaction-coefficient vtp-fh-w85"/>
+                    <input type="text" id="coef-{{ attribute(coefficients, link.id).rel_id }}" data-rel_id="{{ attribute(coefficients, link.id).rel_id }}" data-original="{{ attribute(coefficients, link.id).coefficient }}" value="{{ attribute(coefficients, link.id).coefficient }}" class="vtp-uiaction-coefficient vtp-fh-w85"/>
             {% else %}
                 {% if coefficients is defined %}
-                <input type="text" id="coef-{{ attribute(coefficients, link.getID).rel_id }}" data-rel_id="{{ attribute(coefficients, link.getID).rel_id }}" value="{{ attribute(coefficients, link.getID).coefficient }}" class="vtp-uiaction-coefficient vtp-fh-w85" disabled="disabled"/>
+                <input type="text" id="coef-{{ attribute(coefficients, link.id).rel_id }}" data-rel_id="{{ attribute(coefficients, link.id).rel_id }}" value="{{ attribute(coefficients, link.id).coefficient }}" class="vtp-uiaction-coefficient vtp-fh-w85" disabled="disabled"/>
                 {% else %}
-                    {{ link.createdat|date("d.m.y") }}
+                    {{ link.created_at|date("d.m.y") }}
                 {% endif %}
             {% endif %}
         </td>
@@ -23,20 +23,20 @@
                 <div class="vtp-teasefader"></div>
             </div>
         </td>
-        <td>{{ link.ishp ? "ja" : "nein" }}</td>
-        <td>
+        <td>{{ link.is_hp ? "ja" : "nein" }}</td>
+        <td data-order="{{ link.avgmark }}">
             <div class="vtp-rating-image-small" title="{{ link.avgmark|avgmarkhint }}"
                  style="background-image: url('{{ asset('/img/rating/'~avgimg(link.avgmark)) }}');">
                 <span>&nbsp;</span>
             </div>
         </td>
         <td>{{ link.res12count }}</td>
-        <td>{{ link.user.username }}</td>
+        <td>{{ link.username }}</td>
         <td class="ui-corner-right">
             {% if editMode is defined and editMode %}
                 <span class="vtp-projectdata-unlink ui-icon ui-icon-close ui-corner-all" onclick="unlinkRes({{ link.id }})"></span>
             {% else %}
-                <a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="{{ link.viewlink }}" target="_blank">-></a>
+                <a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="{{ link.url }}" target="_blank">-></a>
             {% endif %}
         </td>
     </tr>

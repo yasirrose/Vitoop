@@ -1,0 +1,64 @@
+/* vtp-menu.css */
+/* ==========================================================================
+ *  CSS for VitooP.org (c) 2013 - vtp-menu.css
+ * ========================================================================== */
+
+div#menu, ul, li {
+}
+
+.vtp-menu {
+    padding: 0.5em 0.5em;
+    line-height: 1em;
+}
+
+.vtp-menu ul {
+    margin: 0;
+    padding: 0;
+    float: left;
+}
+
+.vtp-menu ul li {
+    float: left;
+    font-size: 1.0em;
+    line-height: 1em;
+    list-style-type: none;
+    margin: 0 .25em 0 0;
+    padding: 0;
+}
+
+.vtp-menu ul li a,
+.vtp-menu ul li strong {
+    display: block;
+    font-size: 1em;
+    padding: 0 0.5em;
+    font-weight: normal !important;
+    text-decoration: none;
+    width: auto;
+}
+
+/* Vertical alignment ul and form*/
+.vtp-menu ul li a,
+.vtp-menu ul li strong,
+#vtp-search-bytags-form {
+    line-height: 1.8em;
+}
+
+.vtp-menu ul li a:hover,
+.vtp-menu ul li a:active {
+    border: 1px solid #74b2e2;
+    background: #e4f1fb url(../img/ui-bg_glass_100_e4f1fb_1x400.png) 50% 50% repeat-x;
+    font-weight: bold;
+    color: #0070a3;
+    text-decoration: none;
+    outline: 0 none;
+}
+
+.vtp-menu ul li button:hover,
+.vtp-menu ul li button:active {
+    border: 1px solid #74b2e2;
+    background: #e4f1fb url(../img/ui-bg_glass_100_e4f1fb_1x400.png) 50% 50% repeat-x;
+    font-weight: bold;
+    color: #0070a3;
+    text-decoration: none;
+    outline: 0 none;
+}

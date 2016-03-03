@@ -32,6 +32,11 @@ class SecurityAwareTypeExtension extends AbstractTypeExtension
                                            ->getType()
                                            ->getName() === 'user');
 
+        $is_invitation_form = ($form->getRoot()
+                ->getConfig()
+                ->getType()
+                ->getName() === 'invitation_new');
+
         $disable_form = true;
 
         // Admins may change the Form
@@ -47,7 +52,7 @@ class SecurityAwareTypeExtension extends AbstractTypeExtension
             $disable_form = false;
         }
         // User Registration must be accessable
-        if (true === $is_user_registration_form) {
+        if ((true === $is_user_registration_form) || (true === $is_invitation_form)) {
             $disable_form = false;
         }
 

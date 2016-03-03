@@ -11,6 +11,7 @@ use Pagerfanta\Pagerfanta;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 
 /*
  * ResourceRepository
@@ -124,39 +125,34 @@ class ResourceRepository extends EntityRepository
     }
 
     /**
-     * getAllResourcesByTags()
-     *
      * @param array $arr_tags
      * @param array $arr_tags_ignore
      * @param array $arr_tags_highlight
      * @param int $tag_cnt
+     * @param QueryBuilder $qb
      *
-     * @return Pagerfanta
+     * @return QueryBuilder
      */
-    public function getResourcesByTags(Array $arr_tags, Array $arr_tags_ignore, Array $arr_tags_highlight, $tag_cnt = 0)
+    public function prepareListByTagsQueryBuilder(QueryBuilder $qb, $arr_tags, $arr_tags_highlight, $arr_tags_ignore, $tag_cnt)
     {
         $max_tags = count($arr_tags);
-        if (is_null($tag_cnt) || $tag_cnt > $max_tags || $tag_cnt <= 0) {
+        if (is_null($tag_cnt) || $tag_cnt > $max_tags || $tag_cnt < 0) {
             $tag_cnt = $max_tags;
         }
-        /* @var $qb \Doctrine\ORM\Querybuilder */
-        $qb = $this->getEntityManager()
-                   ->createQueryBuilder();
 
-        $qb->select('r', 'partial u.{id, username}', 'COUNT(DISTINCT t.text)', 'COUNT(t.text) AS HIDDEN quantity_all')
-           ->from($this->getEntityName(), 'r')
-           ->innerJoin('r.user', 'u')
+        $qb->addSelect('COUNT(DISTINCT t.text) as count_different', 'COUNT(t.text) AS HIDDEN quantity_all')
            ->innerJoin('r.rel_tags', 'rt')
-           ->leftJoin('r.flags', 'f')
-           ->where('f IS NULL')
            ->andWhere('t.text IN (:tags)')
            ->andWhere('rt.deletedByUser is null')
-           ->groupBy('r')
-           ->having('COUNT(DISTINCT t.text) = :tag_cnt')
+           ->groupBy('r.id')
            ->setParameters(array(
-                'tags' => $arr_tags,
-                'tag_cnt' => $tag_cnt
+                'tags' => $arr_tags
            ));
+
+        if ($tag_cnt != 0) {
+            $qb->having('COUNT(DISTINCT t.text) = :tag_cnt');
+            $qb->setParameter('tag_cnt', $tag_cnt);
+        }
 
         if (!empty($arr_tags_ignore)) {
             $qb->innerJoin('rt.tag', 't', 'WITH', 't.text NOT IN (:tags_ignore)')
@@ -176,54 +172,19 @@ class ResourceRepository extends EntityRepository
                 ->addSelect('COUNT(DISTINCT th.text) AS HIDDEN sort_order')
                 ->addSelect('COUNT(th.text) AS HIDDEN quantity_highlight')
                 ->orderBy('sort_order', 'DESC')
-                ->addOrderBy('quantity_highlight', 'DESC')
-                ->addOrderBy('quantity_all', 'DESC')
+                ->addOrderBy('quantity_highlight', 'DESC');
+            if ($tag_cnt == 0) {
+                $qb->addOrderBy('count_different', 'DESC');
+            }
+                $qb->addOrderBy('quantity_all', 'DESC')
                 ->setParameter('tags_highlight', $arr_tags_highlight);
         } else {
-            $qb->orderBy('quantity_all', 'DESC');
+            $qb->orderBy('count_different', 'DESC');
+            $qb->addOrderBy('quantity_all', 'DESC');
         }
         $qb->addOrderBy('r.name', 'ASC');
 
-        $query = $qb->getQuery();
-
-        /* @var $merge_qb \Doctrine\ORM\Querybuilder */
-        $merge_qb = $this->getEntityManager()
-                         ->createQueryBuilder();
-
-        if (('Vitoop\InfomgmtBundle\Entity\Lexicon' == $this->getEntityName()) or ('Vitoop\InfomgmtBundle\Entity\Project' == $this->getEntityName())) {
-            $merge_query = $merge_qb->select('l_or_p.id', 'COUNT(rr1.id) AS res12count')
-                                    ->from($this->getEntityName(), 'l_or_p')
-                                    ->innerJoin('l_or_p.rel_resources1', 'rr1')
-                                    ->innerJoin('rr1.resource2', 'r2')
-                                    ->leftJoin('r2.flags', 'f2')
-                                    ->where('f2 IS NULL')
-                                    ->groupBy('l_or_p.id');
-        } else {
-            $merge_query = $merge_qb->select('r.id', 'COUNT(rr2.id) AS res12count')
-                                    ->from($this->getEntityName(), 'r')
-                                    ->innerJoin('r.rel_resources2', 'rr2')
-                                    ->innerJoin('rr2.resource1', 'r1')
-                                    ->leftJoin('r1.flags', 'f1')
-                                    ->where('f1 IS NULL')
-                                    ->andWhere('r1 INSTANCE OF Vitoop\InfomgmtBundle\Entity\Lexicon OR r1 INSTANCE OF Vitoop\InfomgmtBundle\Entity\Project')
-                                    ->groupBy('r.id');
-        }
-        $avgmark_qb = $this->getEntityManager()
-                           ->createQueryBuilder();
-        $avgmark_query = $avgmark_qb->select('r.id', 'AVG(ra.mark) AS avgmark')
-                                    ->from($this->getEntityName(), 'r')
-                                    ->leftJoin('r.ratings', 'ra')
-                                    ->leftJoin('r.flags', 'f')
-                                    ->where('f IS NULL')
-                                    ->groupBy('r.id');
-
-        $ad = new ResourceListWithTagCountAdapter(new DoctrineORMAdapter($query, false));
-        $ad->setMergeQuery($merge_query);
-        $ad->setAvgmarkQuery($avgmark_query);
-
-        $pf = new Pagerfanta($ad);
-
-        return $pf;
+        return $qb;
     }
 
     /**
@@ -329,96 +290,48 @@ class ResourceRepository extends EntityRepository
     }
 
     /**
-     * @param Resource $resource1
-     * @return Pagerfanta
+     * @param QueryBuilder $query
+     * @param bool $flagged
+     * @return QueryBuilder
      */
-
-    public function getResources2ByResource1(Resource $resource1)
+    protected function prepareListQueryBuilder(QueryBuilder $query, $flagged = false)
     {
-        return $this->versatile_getResources($resource1);
+        $query->addSelect('r.name', 'r.created_at', 'r.id', 'u.username','AVG(ra.mark) AS avgmark', 'COUNT(DISTINCT rrr.id) as res12count')
+            ->innerJoin('r.user', 'u')
+            ->leftJoin('r.flags', 'f')
+            ->leftJoin('r.ratings', 'ra')
+            ->groupBy('r.id')
+            ->addOrderBy('r.created_at', 'DESC');
+        $rootEntity = $query->getRootEntities();
+        $rootEntity = $rootEntity[0];
+        if (($rootEntity == 'Vitoop\InfomgmtBundle\Entity\Lexicon') || ($rootEntity == 'Vitoop\InfomgmtBundle\Entity\Project')) {
+            $query->leftJoin('r.rel_resources1', 'rrr');
+        } else {
+            $query->leftJoin('r.rel_resources2', 'rrr');
+        }
+        if ($flagged) {
+            $query->where('f IS NOT NULL')
+                ->andWhere('f.type != 128');
+        } else {
+            $query->where('f IS NULL');
+        }
+
+        return $query;
     }
 
     /**
-     * @return Pagerfanta
+     * @param QueryBuilder $query
+     * @return QueryBuilder
      */
-    public function getResources()
+    protected function prepareListByResourceQueryBuilder(QueryBuilder $query, $resource)
     {
-        return $this->versatile_getResources();
-    }
-
-    /**
-     * @param Resource $resource1
-     * @return Pagerfanta
-     */
-    protected function versatile_getResources(Resource $resource1 = null)
-    {
-        /* @var $qb \Doctrine\ORM\Querybuilder */
-        $qb = $this->getEntityManager()
-                   ->createQueryBuilder();
-
-        $qb->select('r', 'partial u.{id, username}', 'AVG(ra.mark) AS avgmark')
-           ->from($this->getEntityName(), 'r')
-           ->innerJoin('r.user', 'u')
-           ->leftJoin('r.ratings', 'ra')
-           ->leftJoin('r.flags', 'f')
-           ->where('f IS NULL')
-           ->groupBy('r.id');
-        if ($resource1) {
-            $qb->innerJoin('r.rel_resources2', 'rr2', 'WITH', 'rr2.deletedByUser is null')
-               ->andWhere('rr2.resource1 = :arg_resource1')
-               ->setParameter('arg_resource1', $resource1);
-            if ($resource1->getResourceTypeIdx() == 5) {
-                $qb->leftJoin('Vitoop\InfomgmtBundle\Entity\RelResourceResource', 'rrrc', 'WITH', 'rrrc.resource2 = r and rrrc.resource1 = :arg_resource1');
-                $qb->addSelect('COUNT(DISTINCT rrrc.id) as HIDDEN cn');
-                $qb->orderBy('cn', 'DESC');
-                $qb->addOrderBy('rr2.coefficient', 'ASC');
-            } else {
-                $qb->orderBy('rr2.coefficient', 'ASC');
-            }
-            $qb->addOrderBy('r.created_at', 'DESC');
-        } else {
-            $qb->orderBy('r.created_at', 'DESC');
-        }
-
-        $query = $qb->getQuery();
-
-        /* @var $merge_qb \Doctrine\ORM\Querybuilder */
-        $merge_qb = $this->getEntityManager()
-                         ->createQueryBuilder();
-
-        if (('Vitoop\InfomgmtBundle\Entity\Lexicon' == $this->getEntityName()) or ('Vitoop\InfomgmtBundle\Entity\Project' == $this->getEntityName())) {
-            // @TODO Here is no logic if $resource1 is given... talk to david
-            $merge_query = $merge_qb->select('l_or_p.id', 'COUNT(rr1.id) AS res12count')
-                                    ->from($this->getEntityName(), 'l_or_p')
-                                    ->innerJoin('l_or_p.rel_resources1', 'rr1')
-                                    ->innerJoin('rr1.resource2', 'r2')
-                                    ->leftJoin('r2.flags', 'f2')
-                                    ->where('f2 IS NULL')
-                                    ->groupBy('l_or_p.id');
-        } else {
-            $merge_qb->select('r.id', 'COUNT(rr2.id) AS res12count')
-                     ->from($this->getEntityName(), 'r')
-                     ->innerJoin('r.rel_resources2', 'rr2')
-                     ->innerJoin('rr2.resource1', 'r1')
-                     ->leftJoin('r1.flags', 'f1')
-                     ->where('f1 IS NULL');
-
-            if ($resource1) {
-                $merge_qb->andWhere('rr2.resource1 = :arg_resource1')
-                         ->setParameter('arg_resource1', $resource1);
-            } else {
-                $merge_qb->andWhere('r1 INSTANCE OF Vitoop\InfomgmtBundle\Entity\Lexicon OR r1 INSTANCE OF Vitoop\InfomgmtBundle\Entity\Project');
-            }
-            $merge_qb->groupBy('r.id');
-            // unfortunately the merge_query is a querybuilder ;-)
-            $merge_query = $merge_qb;
-        }
-
-        $ad = new ResourceListAdapter(new DoctrineORMAdapter($query, false));
-        $ad->setMergeQuery($merge_query);
-        $pf = new Pagerfanta($ad);
-
-        return $pf;
+        return $query->innerJoin('r.rel_resources2', 'rr2', 'WITH', 'rr2.deletedByUser is null')
+            ->addSelect('rr2.coefficient as coef')
+            ->addSelect('rr2.id as coefId')
+            ->andWhere('rr2.resource1 = :resource')
+            ->orderBy('rr2.coefficient', 'ASC')
+            ->addOrderBy('r.created_at', 'DESC')
+            ->setParameter('resource', $resource);
     }
 
     /**
@@ -454,67 +367,6 @@ class ResourceRepository extends EntityRepository
         return $pf;
     }
 
-    protected function OLDversatile_getResources(Resource $resource1 = null)
-    {
-        /* @var $qb \Doctrine\ORM\Querybuilder */
-        $qb = $this->getEntityManager()
-                   ->createQueryBuilder();
-
-        $qb->select('r', 'partial u.{id, username}', 'AVG(ra.mark) AS avgmark')
-           ->from($this->getEntityName(), 'r')
-           ->innerJoin('r.user', 'u')
-           ->leftJoin('r.ratings', 'ra')
-           ->leftJoin('r.flags', 'f')
-           ->where('f IS NULL');
-        If ($resource1) {
-            $qb->innerJoin('r.rel_resources2', 'rr2')
-               ->andWhere('rr2.resource1 = :arg_resource1')
-               ->setParameter('arg_resource1', $resource1);
-        }
-        $qb->groupBy('r.id')
-           ->orderBy('r.created_at', 'DESC');
-
-        $query = $qb->getQuery();
-
-        /* @var $merge_qb \Doctrine\ORM\Querybuilder */
-        $merge_qb = $this->getEntityManager()
-                         ->createQueryBuilder();
-
-        if (('Vitoop\InfomgmtBundle\Entity\Lexicon' == $this->getEntityName()) or ('Vitoop\InfomgmtBundle\Entity\Project' == $this->getEntityName())) {
-            // @TODO Here is no logic if $resource1 is given... talk to david
-            $merge_query = $merge_qb->select('l_or_p.id', 'COUNT(rr1.id) AS res12count')
-                                    ->from($this->getEntityName(), 'l_or_p')
-                                    ->innerJoin('l_or_p.rel_resources1', 'rr1')
-                                    ->innerJoin('rr1.resource2', 'r2')
-                                    ->leftJoin('r2.flags', 'f2')
-                                    ->where('f2 IS NULL')
-                                    ->groupBy('l_or_p.id');
-        } else {
-            $merge_qb->select('r.id', 'COUNT(rr2.id) AS res12count')
-                     ->from($this->getEntityName(), 'r')
-                     ->innerJoin('r.rel_resources2', 'rr2')
-                     ->innerJoin('rr2.resource1', 'r1')
-                     ->leftJoin('r1.flags', 'f1')
-                     ->where('f1 IS NULL');
-
-            if ($resource1) {
-                $merge_qb->andWhere('rr2.resource1 = :arg_resource1')
-                         ->setParameter('arg_resource1', $resource1);
-            } else {
-                $merge_qb->andWhere('r1 INSTANCE OF Vitoop\InfomgmtBundle\Entity\Lexicon OR r1 INSTANCE OF Vitoop\InfomgmtBundle\Entity\Project');
-            }
-            $merge_qb->groupBy('r.id');
-            // unfortunately the merge_query is a querybuilder ;-)
-            $merge_query = $merge_qb;
-        }
-
-        $ad = new ResourceListAdapter(new DoctrineORMAdapter($query, false));
-        $ad->setMergeQuery($merge_query);
-        $pf = new Pagerfanta($ad);
-
-        return $pf;
-    }
-
     public function getResourceTabsInfo(Resource $resource, User $user)
     {
         return $this->createQueryBuilder('r')
@@ -529,6 +381,30 @@ class ResourceRepository extends EntityRepository
             ->where('r = :resource')
             ->setParameter('resource', $resource)
             ->setParameter('user', $user)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function getCountOfRelatedResources(Resource $resource)
+    {
+        return $this->getEntityManager()->createQueryBuilder()
+            ->select('count(prj.id) as prjc')
+            ->addSelect('count(lex.id) as lexc')
+            ->addSelect('count(pdf.id) as pdfc')
+            ->addSelect('count(teli.id) as telic')
+            ->addSelect('count(link.id) as linkc')
+            ->addSelect('count(adr.id) as adrc')
+            ->addSelect('count(book.id) as bookc')
+            ->from('VitoopInfomgmtBundle:RelResourceResource', 'rrr')
+            ->leftJoin('VitoopInfomgmtBundle:Project', 'prj', 'WITH', 'rrr.resource2 = prj.id')
+            ->leftJoin('VitoopInfomgmtBundle:Lexicon', 'lex', 'WITH', 'rrr.resource2 = lex.id')
+            ->leftJoin('VitoopInfomgmtBundle:Pdf', 'pdf', 'WITH', 'rrr.resource2 = pdf.id')
+            ->leftJoin('VitoopInfomgmtBundle:Teli', 'teli', 'WITH', 'rrr.resource2 = teli.id')
+            ->leftJoin('VitoopInfomgmtBundle:Link', 'link', 'WITH', 'rrr.resource2 = link.id')
+            ->leftJoin('VitoopInfomgmtBundle:Address', 'adr', 'WITH', 'rrr.resource2 = adr.id')
+            ->leftJoin('VitoopInfomgmtBundle:Book', 'book', 'WITH', 'rrr.resource2 = book.id')
+            ->where('rrr.resource1 = :resource')
+            ->setParameter('resource', $resource)
             ->getQuery()
             ->getOneOrNullResult();
     }

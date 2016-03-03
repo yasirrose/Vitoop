@@ -1,11 +1,12 @@
-{% for prj in resources %}
-    <tr id="prj-{{ prj.id }}" class="vtp-{{ cycle(zebra, loop.index) }} ui-corner-all vtp-uiaction-list-showdetail{% include "VitoopInfomgmtBundle:Resource:table.resource.res.classhelper.listtagger.html.twig" %}">
+{% for prjTop in resources %}
+    {% set prj = prjTop[0] %}
+    <tr id="prj-{{ prj.id }}" class="ui-corner-all vtp-uiaction-list-showdetail">
         <td class="ui-corner-left">
             {% if (editMode is defined) and (editMode) %}
-                <input type="text" id="coef-{{ attribute(coefficients, prj.getID).rel_id }}" data-rel_id="{{ attribute(coefficients, prj.getID).rel_id }}" data-original="{{ attribute(coefficients, prj.getID).coefficient }}" value="{{ attribute(coefficients, prj.getID).coefficient }}" class="vtp-uiaction-coefficient vtp-fh-w85"/>
+                <input type="text" id="coef-{{ attribute(coefficients, prj.id).rel_id }}" data-rel_id="{{ attribute(coefficients, prj.id).rel_id }}" data-original="{{ attribute(coefficients, prj.id).coefficient }}" value="{{ attribute(coefficients, prj.id).coefficient }}" class="vtp-uiaction-coefficient vtp-fh-w85"/>
             {% else %}
                 {% if coefficients is defined %}
-                    <input type="text" id="coef-{{ attribute(coefficients, prj.getID).rel_id }}" data-rel_id="{{ attribute(coefficients, prj.getID).rel_id }}" value="{{ attribute(coefficients, prj.getID).coefficient }}" class="vtp-uiaction-coefficient vtp-fh-w85" disabled="disabled"/>
+                    <input type="text" id="coef-{{ attribute(coefficients, prj.id).rel_id }}" data-rel_id="{{ attribute(coefficients, prj.id).rel_id }}" value="{{ attribute(coefficients, prj.id).coefficient }}" class="vtp-uiaction-coefficient vtp-fh-w85" disabled="disabled"/>
                 {% else %}
                     {{ prj.createdat|date("d.m.y") }}
                 {% endif %}
@@ -23,13 +24,13 @@
                 <div class="vtp-teasefader"></div>
             </div>
         </td>
-        <td>
-            <div class="vtp-rating-image-small" title="{{ prj.avgmark|avgmarkhint }}"
-                 style="background-image: url('{{ asset('/img/rating/'~avgimg(prj.avgmark)) }}');">
+        <td data-order="{{ prjTop.avgmark }}">
+            <div class="vtp-rating-image-small" title="{{ prjTop.avgmark|avgmarkhint }}"
+                 style="background-image: url('{{ asset('/img/rating/'~avgimg(prjTop.avgmark)) }}');">
                 <span>&nbsp;</span>
             </div>
         </td>
-        <td>{{ prj.res12count }}</td>
+        <td>{{ prjTop.res12count }}</td>
         <td class="ui-corner-right">
             {% if editMode is defined and editMode %}
                 <span class="vtp-projectdata-unlink ui-icon ui-icon-close ui-corner-all" onclick="unlinkRes({{ prj.id }})"></span>

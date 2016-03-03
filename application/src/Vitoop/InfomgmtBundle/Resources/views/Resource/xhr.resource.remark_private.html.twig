@@ -1,21 +1,18 @@
 {# VitoopInfomgmtBundle:Resource:xhr.resource.remark_private.html.twig #}
 {{ form_start(fvremarkpr, {'attr': {'id': 'form-remark-private', 'novalidate': 'novalidate' }}) }}
-<fieldset class="ui-corner-all">
-    <legend>Private Remark</legend>
-    {% if inforemark is defined and inforemark is not empty %}
-        <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all">
-            <span class="vtp-icon ui-icon ui-icon-info"></span>{{ inforemark }}
-        </div>
-    {% endif %}
-    <div id="vtp-remark-box">
-        <div id="vtp-remark-sheet-edit">
-                {{ form_errors(fvremarkpr.text) }}
-                {{ form_widget(fvremarkpr.text) }}
-        </div>
-        <div id="vtp-remark-buttons">
-            {{ form_widget(fvremarkpr.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}
-        </div>
+{% if inforemark is defined and inforemark is not empty %}
+    <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all">
+        <span class="vtp-icon ui-icon ui-icon-info"></span>{{ inforemark }}
     </div>
-</fieldset>
+{% endif %}
+<div id="vtp-remark-box">
+    <div id="vtp-remark-sheet-edit">
+            {{ form_errors(fvremarkpr.text) }}
+            {{ form_widget(fvremarkpr.text) }}
+    </div>
+    <div id="vtp-remark-buttons">
+        {{ form_widget(fvremarkpr.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}
+    </div>
+</div>
 {{ form_end(fvremarkpr) }}
 

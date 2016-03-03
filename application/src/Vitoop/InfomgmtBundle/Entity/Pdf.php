@@ -10,7 +10,7 @@ use Vitoop\InfomgmtBundle\Validator\Constraints\DateFormat as DateFormatAssert;
  * @ORM\Table(name="pdf")
  * @ORM\Entity(repositoryClass="Vitoop\InfomgmtBundle\Repository\PdfRepository")
  */
-class Pdf extends Resource
+class Pdf extends Resource implements DownloadableInterface
 {
     /**
      * @ORM\Column(name="author", type="string", length=128)
@@ -39,9 +39,27 @@ class Pdf extends Resource
      */
     protected $pdf_date;
 
+    /**
+     * @ORM\Column(name="is_downloaded", type="smallint", options={"default" = 0})
+     *
+     * 0 = Not downloaded still
+     * 1 = Downloaded on server
+     * 5 = Wrong url
+     * code = Download error (404 or something else)
+     */
+    protected $isDownloaded;
+
+    /**
+     * @ORM\Column(name="downloaded_at", type="datetime", nullable=true, options={"default" = null})
+     */
+    protected $downloadedAt;
+
+
     public function __construct()
     {
         parent::__construct();
+        $this->isDownloaded = 0;
+        $this->downloadedAt = null;
     }
 
     /**
@@ -197,5 +215,51 @@ class Pdf extends Resource
     public function getPdfDate()
     {
         return $this->pdf_date;
+    }
+
+    /**
+     * Set isDownloaded
+     *
+     * @param integer $isDownloaded
+     * @return Pdf
+     */
+    public function setIsDownloaded($isDownloaded)
+    {
+        $this->isDownloaded = $isDownloaded;
+
+        return $this;
+    }
+
+    /**
+     * Get isDownloaded
+     *
+     * @return integer 
+     */
+    public function getIsDownloaded()
+    {
+        return $this->isDownloaded;
+    }
+
+    /**
+     * Set downloadedAt
+     *
+     * @param \DateTime $downloadedAt
+     * @return Pdf
+     */
+    public function setDownloadedAt($downloadedAt)
+    {
+        $this->downloadedAt = $downloadedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get downloadedAt
+     *
+     * @return \DateTime 
+     */
+    public function getDownloadedAt()
+    {
+        return $this->downloadedAt;
     }
 }

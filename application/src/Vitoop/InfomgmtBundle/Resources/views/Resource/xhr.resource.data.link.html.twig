@@ -19,8 +19,8 @@
 
     <div class="vtp-fh-middle">
         {{ form_label(fvdata.url, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
-        {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w75', 'onblur': 'checkUniqueUrl("link", event);' }}) }}
-        <div class="vtp-fh-right vtp-fh-w0" style="width: 14.5%;">
+        {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w75', 'onblur': 'checkUniqueUrl("link", event);', 'style': 'width: 78%' }}) }}
+        <div class="vtp-fh-right vtp-fh-w0">
             {{ form_label(fvdata.is_hp, null, {'label_attr': {'class': 'vtp-fh-w60 vtp-button' }}) }}
             {{ form_widget(fvdata.is_hp, {'attr': {'class': 'vtp-fh-w40' }}) }}
             <a href="{{ res.url }}" target="_blank" class="vtp-uiaction-open-url vtp-button">URL öffnen</a>
@@ -35,7 +35,7 @@
     <div>
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.lang) }}</div>
     </div>
-    <div class="vtp-fh-bottom">
+    <div class="vtp-fh-bottom created-info-book">
         <div class="vtp-fh-infosave-box vtp-fh-w70">
             Eingetragen am: {{ res.createdat|date('d.m.Y') }}{% if res.getUser is not null %} / von: {{ res.getUser.getUsername }}{% endif %} / ID: {{ res.getId }}
         </div>

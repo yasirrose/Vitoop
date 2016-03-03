@@ -17,10 +17,8 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  * @Route("/api/user/{user_id}/todo", requirements={"user_id": "\d+"})
  * @ParamConverter("user", class="Vitoop\InfomgmtBundle\Entity\User", options={"id" = "user_id"})
  */
-
 class ToDoController extends Controller
 {
-
     /**
      * @Route("/{id}", requirements={"id": "\d+"}, name="to_do_items_delete")
      * @Method({"DELETE"})
@@ -45,7 +43,7 @@ class ToDoController extends Controller
 
     /**
      * @Route("/{id}", requirements={"id": "\d+"}, name="to_do_items_edit")
-     * @Method({"POST"})
+     * @Method({"PUT"})
      *
      * @return array
      */
@@ -91,6 +89,9 @@ class ToDoController extends Controller
                 'json',
                 $serializerContext
             );
+            if (is_null($item->getOrder())) {
+                $item->setOrder(0);
+            }
             $item->setUser($user);
             $em = $this->getDoctrine()->getManager();
             $item = $em->merge($item);
@@ -127,4 +128,3 @@ class ToDoController extends Controller
         return new Response($response);
     }
 }
-

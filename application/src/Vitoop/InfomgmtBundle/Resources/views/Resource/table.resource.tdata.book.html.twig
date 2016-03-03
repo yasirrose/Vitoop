@@ -1,13 +1,13 @@
 {% for book in resources %}
-    <tr id="book-{{ book.id }}" class="vtp-{{ cycle(zebra, loop.index) }} ui-corner-all vtp-uiaction-list-showdetail{% include "VitoopInfomgmtBundle:Resource:table.resource.res.classhelper.listtagger.html.twig" %}">
+    <tr id="book-{{ book.id }}" class="ui-corner-all vtp-uiaction-list-showdetail">
         <td class="ui-corner-left">
             {% if (editMode is defined) and (editMode) %}
-                <input type="text" id="coef-{{ attribute(coefficients, book.getID).rel_id }}" data-rel_id="{{ attribute(coefficients, book.getID).rel_id }}" data-original="{{ attribute(coefficients, book.getID).coefficient }}" value="{{ attribute(coefficients, book.getID).coefficient }}" class="vtp-uiaction-coefficient vtp-fh-w85"/>
+                <input type="text" id="coef-{{ attribute(coefficients, book.id).rel_id }}" data-rel_id="{{ attribute(coefficients, book.id).rel_id }}" data-original="{{ attribute(coefficients, book.id).coefficient }}" value="{{ attribute(coefficients, book.id).coefficient }}" class="vtp-uiaction-coefficient vtp-fh-w85"/>
             {% else %}
                 {% if coefficients is defined %}
-                    <input type="text" id="coef-{{ attribute(coefficients, book.getID).rel_id }}" data-rel_id="{{ attribute(coefficients, book.getID).rel_id }}" value="{{ attribute(coefficients, book.getID).coefficient }}" class="vtp-uiaction-coefficient vtp-fh-w85" disabled="disabled"/>
+                    <input type="text" id="coef-{{ attribute(coefficients, book.id).rel_id }}" data-rel_id="{{ attribute(coefficients, book.id).rel_id }}" value="{{ attribute(coefficients, book.id).coefficient }}" class="vtp-uiaction-coefficient vtp-fh-w85" disabled="disabled"/>
                 {% else %}
-                    {{ book.createdat|date("d.m.y") }}
+                    {{ book.created_at|date("d.m.y") }}
                 {% endif %}
             {% endif %}
         </td>
@@ -24,7 +24,7 @@
             </div>
         </td>
         <td>{{ book.tnop }}</td>
-        <td>
+        <td data-order="{{ book.avgmark }}">
             <div class="vtp-rating-image-small" title="{{ book.avgmark|avgmarkhint }}"
                  style="background-image: url('{{ asset('/img/rating/'~avgimg(book.avgmark)) }}');">
                 <span>&nbsp;</span>
@@ -32,12 +32,12 @@
         </td>
         <td>{{ book.res12count }}</td>
         {% if editMode is defined and editMode %}
-        <td>{{ book.user.username }}</td>
+        <td>{{ book.username }}</td>
         <td class="ui-corner-right">
             <span class="vtp-projectdata-unlink ui-icon ui-icon-close ui-corner-all" onclick="unlinkRes({{ book.id }})"></span>
         </td>
         {% else %}
-            <td class="ui-corner-right">{{ book.user.username }}</td>
+            <td class="ui-corner-right">{{ book.username }}</td>
         {% endif %}
 
     </tr>
