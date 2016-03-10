@@ -457,14 +457,20 @@ table.dataTable thead th div.DataTables_sort_wrapper {
   position: relative;
 }
 table.dataTable thead th div.DataTables_sort_wrapper span {
-  position: absolute;
+  /*position: absolute;
   top: 50%;
   margin-top: -8px;
-  right: -5px;
+  right: -5px;*/
 }
+
+.table-head {
+    float:left;
+}
+
 table.dataTable thead th.ui-state-default,
 table.dataTable tfoot th.ui-state-default {
   border-right-width: 0;
+  border-left-width: 0;
 }
 table.dataTable thead th.ui-state-default:last-child,
 table.dataTable tfoot th.ui-state-default:last-child {

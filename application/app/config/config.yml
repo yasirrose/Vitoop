@@ -21,7 +21,8 @@ framework:
         engines: ['twig']
     default_locale:  de
     trusted_proxies: ~
-    session:         ~
+    session:
+        handler_id: ~
     fragments:       ~
 
 # Twig Configuration

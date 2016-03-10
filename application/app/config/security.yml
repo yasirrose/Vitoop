@@ -29,6 +29,7 @@ security:
             always_use_default_target_path: true
             failure_path: /login
             require_previous_session: false
+            provider: user_db
             #target_path_parameter: the parameter in the hidden form field value="...
          logout:
             path:    /logout

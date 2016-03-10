@@ -16,7 +16,7 @@ use JMS\Serializer\Annotation as Serializer;
  * @ORM\Table(name="vitoop_user")
  * @ORM\Entity(repositoryClass="Vitoop\InfomgmtBundle\Repository\UserRepository")
  */
-class User implements UserInterface, EquatableInterface, AdvancedUserInterface
+class User implements EquatableInterface, AdvancedUserInterface, \Serializable
 {
     const USER_DISABLED_USERNAME = "gel-";
 
@@ -797,5 +797,27 @@ class User implements UserInterface, EquatableInterface, AdvancedUserInterface
     public function isEnabled()
     {
         return $this->active;
+    }
+
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+            $this->salt,
+            $this->active
+        ));
+    }
+
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+            $this->salt,
+            $this->active
+        ) = unserialize($serialized);
     }
 }

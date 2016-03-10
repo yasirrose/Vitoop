@@ -1,2 +1,4 @@
 /.vagrant/
 /application/node_modules/
+/application/web/js/
+/application/web/css/
