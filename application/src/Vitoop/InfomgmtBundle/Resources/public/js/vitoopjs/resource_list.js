@@ -140,13 +140,21 @@ resourceList = (function () {
                 },
                 text: false,
                 label: "bei Vitoop anmelden"
-            })
+            });
 
             $('#vtp-user-loginform-logout').button({
                 icons: {
                     secondary: "ui-icon-power"
                 }
-            })
+            });
+
+            $('#vtp-user-loginform-login').on('click', function () {
+                $('#vtp-search-clear').click();
+            });
+
+            $('#vtp-user-loginform-logout').on('click', function () {
+                $('#vtp-search-clear').click();
+            });
 
             $('#vtp-header-toggle-flag input[type=checkbox]').button({
                 icons: {

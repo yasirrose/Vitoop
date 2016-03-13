@@ -25,7 +25,7 @@ searchToggler = (function() {
     }
 
     function showHideSearch() {
-
+        
         if (state) {
             $('#vtp-res-list .top-toolbar').hide(400);
         } else {

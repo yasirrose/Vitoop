@@ -17,7 +17,7 @@ mysql:
     database: vitoopdb
     user: user
     password: password
-    #dump: devops/ansible/files/live_vitoop.dump.sql
+    dump: false #devops/ansible/files/live_vitoop.dump.sql
 php:
     install: '1'
     ppa: php5-5.6
