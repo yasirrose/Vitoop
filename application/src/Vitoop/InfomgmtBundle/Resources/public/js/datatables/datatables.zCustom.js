@@ -130,7 +130,7 @@ function dtDrawCallback() {
 								}
 							});
 						} else {
-							$(this).parent().parent().before($('<div style="height: 20px; padding-top: 2px;" class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 5%"><span>'+ ~~ currentCoefficient+'</span></div><div style="width: 94.4%"><span class="divider">'+divider+'</span></span></div></div>'));
+							$(this).parent().parent().before($('<div style="height: 18px; padding-top: 2px;" class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 5%"><span>'+ ~~ currentCoefficient+'</span></div><div style="width: 94.4%"><span class="divider">'+divider+'</span></span></div></div>'));
 						}
 					}
 					upperCoefficient = currentCoefficient;

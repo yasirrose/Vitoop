@@ -716,10 +716,6 @@ resourceDetail = (function () {
 
         showDialog = function (e) {
             var current_tr_res;
-            if ($(e.target).hasClass('vtp-uiaction-open-extlink') || $(e.target).hasClass('vtp-projectdata-unlink') || $(e.target).hasClass('vtp-projectdata-unlink-coefficient') || $(e.target).hasClass('vtp-uiaction-coefficient')) {
-                return;
-            }
-
             current_tr_res = $(e.target).parentsUntil('.vtp-uiaction-list-listener', '.vtp-uiaction-list-showdetail');
             if (current_tr_res.length === 0) {
                 return true;
@@ -731,6 +727,10 @@ resourceDetail = (function () {
             }
             tr_res = current_tr_res;
             tgl();
+
+            if ($(e.target).hasClass('vtp-uiaction-open-extlink') || $(e.target).hasClass('vtp-projectdata-unlink') || $(e.target).hasClass('vtp-projectdata-unlink-coefficient') || $(e.target).hasClass('vtp-uiaction-coefficient')) {
+                return;
+            }
 
             // res_id is retrieved from the tablerow id (e.g. <tr
             // id="pdf-1">).
@@ -947,7 +947,7 @@ resourceDetail = (function () {
                 },
                 text: false,
                 label: "verwerfen"
-            })
+            });
             $('#vtp-res-flag-form form input[type=submit]').button({
                 icons: {
                     primary: "ui-icon-trash"
@@ -992,8 +992,6 @@ resourceDetail = (function () {
                 modal: true,
                 close: closeDialog
             });
-
-
 
             $.ajax({
                 url: vitoop.baseUrl +'api/help',
@@ -1059,8 +1057,6 @@ resourceDetail = (function () {
                     });
                 }
             });
-
-
 
             $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').append('<span id="resource-title"></span>');
             $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').after('<span id="resource-buttons"></span>');
