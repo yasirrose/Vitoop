@@ -93,6 +93,9 @@ class VitoopSecurity
 
     public function isEqualToCurrentUser($user)
     {
+        if (!$user instanceof UserInterface) {
+            return false;
+        }
         if ($this->getUser() instanceof UserInterface) {
             return $user->isEqualTo($this->getUser());
         }
@@ -102,7 +105,6 @@ class VitoopSecurity
 
     public function getUser()
     {
-        return $this->sc->getToken()
-                        ->getUser();
+        return $this->sc->getToken()->getUser();
     }
 }

@@ -3,36 +3,35 @@
 namespace Vitoop\InfomgmtBundle\Repository;
 
 use Symfony\Component\Security\Core\User\UserInterface;
-
 use Vitoop\InfomgmtBundle\Entity\Resource;
-
 use Doctrine\ORM\EntityRepository;
 use Vitoop\InfomgmtBundle\Entity\User;
 
-/**
- * RemarkRepository
- */
 class RemarkRepository extends EntityRepository
 {
     public function getLatestRemark(Resource $resource)
     {
-
-        $result = $this->getEntityManager()
-                       ->createQuery('SELECT rem, u FROM VitoopInfomgmtBundle:Remark rem JOIN rem.user u WHERE rem.resource=:arg_resource ORDER BY rem.created_at DESC')
-                       ->setParameter('arg_resource', $resource)
-                       ->getResult();
-
-        return array_shift($result);
+        return $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select('rem, u')
+            ->from('VitoopInfomgmtBundle:Remark', 'rem')
+            ->join('rem.user', 'u')
+            ->where('rem.resource=:arg_resource')
+            ->orderBy('rem.created_at', 'DESC')
+            ->setParameter('arg_resource', $resource)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     public function getAllRemarks(Resource $resource)
     {
-        $query = $this->createQueryBuilder('r')
+        return $this->createQueryBuilder('r')
             ->where('r.resource =:resource')
             ->setParameter('resource', $resource)
-            ->orderBy('r.created_at');
-
-        return $query->getQuery()->getResult();
+            ->orderBy('r.created_at')
+            ->getQuery()
+            ->getResult();
     }
 
     public function getRemarkByUser(Resource $resource, User $user)

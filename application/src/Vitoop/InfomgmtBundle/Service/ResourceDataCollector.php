@@ -414,16 +414,16 @@ class ResourceDataCollector
         $info_remark = '';
         $fv_remark = null;
         $tpl_vars = array();
+        $needToAccept = false;
+
         $remarkLast = $this->rm->getEntityManager()
-                           ->getRepository('VitoopInfomgmtBundle:Remark')
-                           ->getLatestRemark($this->res);
+            ->getRepository('VitoopInfomgmtBundle:Remark')
+            ->getLatestRemark($this->res);
         $remark = new Remark();
         if (!is_null($remarkLast)) {
             $remark->setText($remarkLast->getText());
             $remark->setLocked($remarkLast->getLocked());
         }
-
-        $needToAccept = false;
 
         if (is_null($this->rm->getEntityManager()
             ->getRepository('VitoopInfomgmtBundle:Remark')
@@ -455,10 +455,8 @@ class ResourceDataCollector
                     $remark->setResource($this->res);
                     $remark->setUser($this->vsec->getUser());
                     $remark->setIp($this->request->getClientIp());
-                    $this->rm->getEntityManager()
-                             ->persist($remark);
-                    $this->rm->getEntityManager()
-                             ->flush();
+                    $this->rm->getEntityManager()->persist($remark);
+                    $this->rm->getEntityManager()->flush();
                     $info_remark = 'Bemerkung wurde erfolgreich gespeichert.';
                 }
             }

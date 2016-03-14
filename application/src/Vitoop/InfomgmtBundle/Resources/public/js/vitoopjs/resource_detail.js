@@ -346,6 +346,7 @@ resourceDetail = (function () {
             if ('resource-remark' == container_name) {
                 // TinyMCE
                 var buttonSave = $('#remark_save');
+                var remarkForm = $('#form-remark');
                 var changeClassOfButton = function() {
                   if (tinyMCE.activeEditor.isDirty() && (($('#remark-accepted').length == 0) || ($('#remark-accepted').prop('checked')))) {
                       buttonSave.addClass('ui-state-need-to-save');
@@ -362,12 +363,14 @@ resourceDetail = (function () {
                   return setInterval(changeClassOfButton, 2000);
                 };
 
-                buttonSave.on('click', function(event) {
+                remarkForm.on('submit', function(event) {
                     if (($('#remark-accepted').length > 0) && ($('#remark-accepted').prop('checked') == false)) {
                         event.preventDefault();
                         event.stopPropagation();
                     }
                     $('#tab-title-remark').removeClass('ui-state-no-content');
+
+                    return;
                 });
 
 
