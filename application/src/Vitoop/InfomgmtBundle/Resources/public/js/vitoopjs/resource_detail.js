@@ -391,11 +391,8 @@ resourceDetail = (function () {
                     ],
                     toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink',
                     setup: function (editor) {
-                        editor.on('focus', function (e) {
-                            console.log('focus');
-                        });
-                        editor.on('blur', function (e) {
-                            console.log('blur');
+                        editor.on('change', function (e) {
+                            $('.remark-agreement').show();
                         });
                     }
                 });
