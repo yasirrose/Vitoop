@@ -121,9 +121,10 @@
                         'lex' : 'Lexikon',
                         'pdf' : 'Pdf',
                         'teli' : 'Textlink',
-                        'link' : 'Link',
                         'book' : 'Buch',
-                        'adr' : 'Adresse'} %}
+                        'adr' : 'Adresse',
+                        'link' : 'Link'
+                        } %}
                             {% set respath = respath|merge({'res_type': every_restype}) %}
                             {% if resourceInfo is defined %}
                             {% set count = resourceInfo[every_restype ~ 'c'] %}
