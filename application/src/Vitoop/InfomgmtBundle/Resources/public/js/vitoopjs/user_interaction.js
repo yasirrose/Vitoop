@@ -25,6 +25,8 @@ userInteraction = (function () {
         $('#button-terms-admin').button({
 
         });
+        
+        $('#button-data-p').button({});
 
         $('#invitations-toggle').click(function() {
             $.ajax({
@@ -56,6 +58,15 @@ userInteraction = (function () {
             of: '#vtp-form-vitoop-blog .vtp-uiinfo-anchor',
             collision: 'none'
         }).hide("fade", 5000);
+
+        $('#button-user-agreed').attr('disabled','disabled');
+        $('#user_agreed_datap').on('change', function () {
+            if ($('#user_agreed_datap').prop('checked') == false) {
+                $('#button-user-agreed').attr('disabled','disabled');
+            } else {
+                $('#button-user-agreed').removeAttr('disabled');
+            }
+        });
 
         tinymce.init({
             selector: 'textarea#vitoop_blog_sheet',

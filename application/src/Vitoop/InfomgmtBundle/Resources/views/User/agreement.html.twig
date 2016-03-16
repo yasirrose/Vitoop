@@ -6,8 +6,10 @@
             {{ terms|raw }}
             {% if not app.user.getIsAgreedWithTerms() %}
                 <div class="vtp-fh-w100">
-                    <form action="{{ path('user_agreement') }}" method="post">
-                        <input type="submit" value="I've read Terms and Conditions and I agree with them" name="user_agreed" id="button-user-agreed" class="ui-state-default">
+                    <form action="{{ path('user_agreement') }}" method="post" id="user_agreement_form">
+                        <input type="checkbox" name="user_agreed_datap" id="user_agreed_datap">
+                        <span>Ich habe die Nutzungsbedienungen und die <a href="{{ path('user_datap') }}" target="_blank">Datenschutzbedienungen</a> gelesen und akzeptiere sie</span>
+                        <input type="submit" value="Akzeptieren" name="user_agreed" id="button-user-agreed">
                     </form>
                 </div>
             {% endif %}

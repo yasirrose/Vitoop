@@ -37,6 +37,7 @@
                         <button class="vtp-button" type="submit">Flags bearbeiten</button>
                     </form>
                     <button class="vtp-button" id="button-terms-admin">Terms</button>
+                    <button class="vtp-button" id="button-data-p">data-P</button>
                     <button class="vtp-button" id="invitations-toggle">Invitations: <span>{% if (vsettings.getInvitation().getValue()) %} On {% else %} Off {% endif %}</span></button>
                     <a class="vtp-button vtp-uiaction-goto-invite" href="{{ path('_invite') }}">Einladung verschicken</a>
                     <a class="vtp-button vtp-uiaction-goto-edithome" href="{{ path('_edit_vitoop_blog') }}">Landingpage editieren</a>
@@ -223,6 +224,7 @@
             </div>
             {% if is_granted('ROLE_ADMIN') %}
                 {% include 'VitoopInfomgmtBundle:User:termsTinyMce.html.twig' %}
+                {% include 'VitoopInfomgmtBundle:User:datapTinyMce.html.twig' %}
             {% endif %}
         {% endblock %}
     {%endif%}

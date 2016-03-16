@@ -8,11 +8,12 @@ use Vitoop\InfomgmtBundle\Repository\OptionRepository;
 
 class SettingsService
 {
-    const NAME_HELP = "help";
-    const NAME_TERMS = "terms";
-    const NAME_TERMS_MUST_BE_ACCEPTED = "terms_accepted";
-    const NAME_INVITATION = "invitation";
-    const NAME_CURRENT_SIZE = "current_downloads_size";
+    const NAME_HELP = 'help';
+    const NAME_TERMS = 'terms';
+    const NAME_TERMS_MUST_BE_ACCEPTED = 'terms_accepted';
+    const NAME_DATAP = 'datap';
+    const NAME_INVITATION = 'invitation';
+    const NAME_CURRENT_SIZE = 'current_downloads_size';
 
     private $repository = null;
     private $em = null;
@@ -41,6 +42,11 @@ class SettingsService
     public function getTermsMustBeAccepted()
     {
         return $this->get(self::NAME_TERMS_MUST_BE_ACCEPTED);
+    }
+
+    public function getDataP()
+    {
+        return $this->get(self::NAME_DATAP);
     }
 
     public function getCurrentDownloadsSize()
@@ -75,9 +81,16 @@ class SettingsService
         $this->set(self::NAME_HELP, $value);
     }
 
-    public function setTerms($value)
+    public function setTerms($value, $allUsers = false)
     {
         $this->set(self::NAME_TERMS, $value);
+        $this->setNewTermsForUsers($allUsers);
+    }
+
+    public function setDataP($value)
+    {
+        $this->set(self::NAME_DATAP, $value);
+        $this->setNewTermsForUsers(true);
     }
 
     public function setTermsMustBeAccepted($value)
@@ -103,7 +116,7 @@ class SettingsService
         return $invitation;
     }
 
-    public function setNewTermsForUsers($allUsers = false)
+    private function setNewTermsForUsers($allUsers = false)
     {
         $users = array();
         if ($allUsers) {

@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Vitoop\InfomgmtBundle\Entity\Invitation;
 use Vitoop\InfomgmtBundle\Entity\Project;
 use Vitoop\InfomgmtBundle\Entity\User;
+use Vitoop\InfomgmtBundle\Entity\UserAgreement;
 use Vitoop\InfomgmtBundle\Form\Type\UserType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -78,7 +79,10 @@ class UserController extends Controller
             $em = $this->getDoctrine()->getManager();
             $user = $this->get('vitoop.vitoop_security')->getUser();
             $user->setIsAgreedWithTerms((bool) $request->get('user_agreed'));
-            $em->merge($user);
+            if ($request->get('user_agreed')) {
+                $history = new UserAgreement($user, $request->getClientIp());
+                $em->persist($history);
+            }
             $em->flush();
 
             return $this->redirect($this->generateUrl('_home'));
@@ -86,6 +90,19 @@ class UserController extends Controller
         $terms = $this->get('vitoop.settings')->getTerms()->getValue();
 
         return array('terms' => $terms, 'without_js' => true);
+    }
+
+    /**
+     * @Route("user/datap", name="user_datap")
+     * @Method({"GET"})
+     * @Template("VitoopInfomgmtBundle:User:datap.html.twig")
+     */
+    public function dataPAction()
+    {
+        return array(
+            'datap' => $this->get('vitoop.settings')->getDataP()->getValue(),
+            'without_js' => true
+        );
     }
 
     /**

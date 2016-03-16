@@ -2,7 +2,6 @@
 namespace Vitoop\InfomgmtBundle\Controller;
 
 use JMS\Serializer\SerializationContext;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +12,7 @@ use Vitoop\InfomgmtBundle\Entity\Resource;
 /**
  * @Route("api/")
  */
-class ResourceApiController extends Controller
+class ResourceApiController extends ApiController
 {
     /**
      * @Route("resource/{resType}", name="api_resource_list", requirements={"resType": "pdf|adr|link|teli|lex|prj|book"})

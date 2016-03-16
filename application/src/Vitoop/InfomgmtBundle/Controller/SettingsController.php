@@ -1,7 +1,6 @@
 <?php
 namespace Vitoop\InfomgmtBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use JMS\Serializer\DeserializationContext;
 use JMS\Serializer\SerializationContext;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -10,10 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
-/**
- *
- */
-class SettingsController extends Controller
+class SettingsController extends ApiController
 {
     /**
      * @Route("/api/terms", name="get_terms")
@@ -44,11 +40,28 @@ class SettingsController extends Controller
         $serializer = $this->get('jms_serializer');
         $serializerContext = DeserializationContext::create();
         $terms = $serializer->deserialize($request->getContent(), 'array', 'json', $serializerContext);
-        $this->get('vitoop.settings')->setTerms($terms['text']);
-        $this->get('vitoop.settings')->setNewTermsForUsers((bool) $terms['all-users']);
+        $this->get('vitoop.settings')->setTerms($terms['text'], (bool) $terms['all-users']);
         $response = $serializer->serialize(array('success' => true), 'json');
 
         return new Response($response);
+    }
+
+    /**
+     * @Route("/api/datap", name="api_datap_edit")
+     * @Method({"POST"})
+     *
+     * @return array
+     */
+    public function editDataPAction(Request $request)
+    {
+        if (!$this->get('vitoop.vitoop_security')->isAdmin()) {
+            throw new AccessDeniedHttpException;
+        }
+ 
+        $data = json_decode($request->getContent());
+        $this->get('vitoop.settings')->setDataP($data->text);
+
+        return $this->getApiResponse(array('success' => true));
     }
 
     /**

@@ -1,0 +1,64 @@
+<div id="vtp-res-dialog-datap" title="Data privacy statement" style="display: none">
+    <div class="vtp-fh-w100">
+    <textarea id="datap-text" tabindex="1">
+        {{ vsettings.getDataP().getValue() }}
+    </textarea>
+    </div>
+    <div class="vtp-fh-w100">
+        <button class="ui-corner-all ui-state-default" id="button-datap-save">
+            speichern
+        </button>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        tinymce.init({
+            mode: 'exact',
+            selector: 'textarea#datap-text',
+            id: 'tiny-datap',
+            height: 430,
+            skin : "vitoop",
+            plugins: 'textcolor link code',
+            menubar: false,
+            style_formats: [
+                {title: 'p', block: 'p'},
+                {title: 'h1', block: 'h1'},
+                {title: 'h2', block: 'h2'},
+                {title: 'h3', block: 'h3'},
+                {title: 'h4', block: 'h4'},
+                {title: 'h5', block: 'h5'},
+                {title: 'h6', block: 'h6'}
+            ],
+            toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink | code'
+        });
+        $('#button-datap-save').on('click', function() {
+            tinyMCE.triggerSave();
+            $.ajax({
+                url: vitoop.baseUrl +'api/datap',
+                method: 'POST',
+                data: JSON.stringify({'text': $('#datap-text').val()}),
+                success: function(data) {
+                    var elemSuccess = $('<div class="vtp-uiinfo-info ui-state-highlight ui-corner-all"><span class="vtp-icon ui-icon ui-icon-info"></span>Data privacy statement saved!</div>');
+                    $('#button-datap-save').before(elemSuccess);
+                    setTimeout(function() {
+                        elemSuccess.hide(400);
+                    }, 2000);
+                }
+            });
+        });
+        $('#vtp-res-dialog-datap').dialog({
+            autoOpen: false,
+            width: 850,
+            height: 640,
+            position: { my: 'center top', at: 'center top', of: '#vtp-nav' },
+            modal: true
+        });
+        $('#button-data-p').on('click', function() {
+            $('#vtp-res-dialog-datap').dialog('open');
+            setTimeout(function() {
+                tinymce.execCommand('mceFocus',false,'tiny-datap');
+            },400);
+        });
+    });
+</script>
+
