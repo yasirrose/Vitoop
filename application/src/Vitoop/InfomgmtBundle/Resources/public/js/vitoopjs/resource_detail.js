@@ -373,6 +373,9 @@ resourceDetail = (function () {
                     return;
                 });
 
+                $('.remarks-button').on('click', function () {
+                    tinyMCE.activeEditor.setContent($(this).attr('data-text'));
+                });
 
                 tinymce.init({
                     selector: 'textarea#remark_text',
@@ -996,8 +999,7 @@ resourceDetail = (function () {
             $.ajax({
                 url: vitoop.baseUrl +'api/help',
                 method: 'GET',
-                success: function(data) {
-                    var answer = JSON.parse(data);
+                success: function(answer) {
                     if (answer.isAdmin) {
                         var element = $('<input type="hidden" id="help-id" value="' + answer.help.id + '"><div class="vtp-fh-w100"><textarea id="help-text"></textarea></div><div class="vtp-fh-w100"><button class="ui-corner-all ui-state-default" id="button-help-save">speichern</button></div>');
                         $('#help-text', element).val(answer.help.text);

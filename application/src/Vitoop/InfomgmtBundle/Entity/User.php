@@ -245,6 +245,12 @@ class User implements EquatableInterface, AdvancedUserInterface, \Serializable
         $this->active = $active;
     }
 
+    public function deactivate()
+    {
+        $this->active = false;
+        $this->username = self::USER_DISABLED_USERNAME.$this->id;
+    }
+
     public function setIsAgreedWithTerms($agreed)
     {
         $this->isAgreedWithTerms = $agreed;
@@ -746,8 +752,6 @@ class User implements EquatableInterface, AdvancedUserInterface, \Serializable
 
         return $this;
     }
-    
-    
 
     /**
      * Remove relProject

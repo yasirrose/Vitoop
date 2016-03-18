@@ -37,11 +37,9 @@ class UserController extends Controller
         if (!$this->get('vitoop.vitoop_security')->isEqualToCurrentUser($user)) {
             throw new AccessDeniedHttpException;
         }
-        $em = $this->getDoctrine()->getManager();
-        $user->setActive(false);
-        $user->setUsername($user::USER_DISABLED_USERNAME.$user->getId());
-        $em->merge($user);
-        $em->flush();
+        $user->deactivate();
+        $this->getDoctrine()->getManager()->flush();
+
         $this->get('security.context')->setToken(null);
         $serializer = $this->get('jms_serializer');
         $response = $serializer->serialize(array('success' => true, 'url' => $this->generateUrl('_base_url')), 'json');
@@ -111,11 +109,10 @@ class UserController extends Controller
      */
     public function registerAction($secret)
     {
-
         $invitation = $this->getDoctrine()
-                           ->getManager()
-                           ->getRepository('VitoopInfomgmtBundle:Invitation')
-                           ->findOneBy(array('secret' => $secret));
+            ->getManager()
+            ->getRepository('VitoopInfomgmtBundle:Invitation')
+            ->findOneBy(array('secret' => $secret));
 
         if (null === $invitation) {
             throw new AccessDeniedException();

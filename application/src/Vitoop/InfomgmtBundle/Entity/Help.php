@@ -66,4 +66,12 @@ class Help
     {
         return $this->text;
     }
+
+    public function toDTO()
+    {
+        return array(
+            'id' => $this->id,
+            'text' => $this->text
+        );
+    }
 }

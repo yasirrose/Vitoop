@@ -27,6 +27,7 @@ class ResourceController extends Controller
      */
     public function homeAction($project_id = 0, $lexicon_id = 0)
     {
+        //@TODO: Fat controller - need refactoring
         $rm = $this->get('vitoop.resource_manager');
         $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();

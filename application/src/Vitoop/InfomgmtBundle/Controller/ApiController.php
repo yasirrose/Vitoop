@@ -11,4 +11,9 @@ class ApiController extends Controller
     {
         return new JsonResponse($data, $status);
     }
+
+    public function getDTOFromRequest($type = null)
+    {
+        return json_decode($this->getRequest()->getContent());
+    }
 }

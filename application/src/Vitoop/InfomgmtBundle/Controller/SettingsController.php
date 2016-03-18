@@ -19,11 +19,10 @@ class SettingsController extends ApiController
      */
     public function getTermsAction()
     {
-        $serializer = $this->get('jms_serializer');
-        $serializerContext = SerializationContext::create();
-        $response = $serializer->serialize(array('terms' => $this->get('vitoop.settings')->getTerms(), 'isAdmin' => $this->get('vitoop.vitoop_security')->isAdmin()), 'json', $serializerContext);
-
-        return new Response($response);
+        return $this->getApiResponse(array(
+            'terms' => $this->get('vitoop.settings')->getTerms(),
+            'isAdmin' => $this->get('vitoop.vitoop_security')->isAdmin()
+        ));
     }
 
     /**
@@ -37,13 +36,10 @@ class SettingsController extends ApiController
         if (!$this->get('vitoop.vitoop_security')->isAdmin()) {
             throw new AccessDeniedHttpException;
         }
-        $serializer = $this->get('jms_serializer');
-        $serializerContext = DeserializationContext::create();
-        $terms = $serializer->deserialize($request->getContent(), 'array', 'json', $serializerContext);
-        $this->get('vitoop.settings')->setTerms($terms['text'], (bool) $terms['all-users']);
-        $response = $serializer->serialize(array('success' => true), 'json');
+        $terms = $this->getDTOFromRequest();
+        $this->get('vitoop.settings')->setTerms($terms->text, (bool) $terms->allUsers);
 
-        return new Response($response);
+        return $this->getApiResponse(array('success' => true));
     }
 
     /**
@@ -57,8 +53,8 @@ class SettingsController extends ApiController
         if (!$this->get('vitoop.vitoop_security')->isAdmin()) {
             throw new AccessDeniedHttpException;
         }
- 
-        $data = json_decode($request->getContent());
+
+        $data = $this->getDTOFromRequest();
         $this->get('vitoop.settings')->setDataP($data->text);
 
         return $this->getApiResponse(array('success' => true));
@@ -73,11 +69,11 @@ class SettingsController extends ApiController
     public function getHelpAction()
     {
         $help = $this->getDoctrine()->getManager()->getRepository('VitoopInfomgmtBundle:Help')->getHelp();
-        $serializer = $this->get('jms_serializer');
-        $serializerContext = SerializationContext::create()->setGroups(array('get'));
-        $response = $serializer->serialize(array('help' => $help, 'isAdmin' => $this->get('vitoop.vitoop_security')->isAdmin()), 'json', $serializerContext);
 
-        return new Response($response);
+        return $this->getApiResponse(array(
+            'help' => $help?$help->toDTO():null,
+            'isAdmin' => $this->get('vitoop.vitoop_security')->isAdmin()
+        ));
     }
 
     /**

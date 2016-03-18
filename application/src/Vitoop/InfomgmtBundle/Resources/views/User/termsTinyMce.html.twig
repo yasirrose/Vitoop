@@ -40,7 +40,7 @@
             $.ajax({
                 url: vitoop.baseUrl +'api/terms',
                 method: 'POST',
-                data: JSON.stringify({'text': $('#terms-text').val(), 'all-users': $('#terms-all-users').prop('checked')}),
+                data: JSON.stringify({'text': $('#terms-text').val(), 'allUsers': $('#terms-all-users').prop('checked')}),
                 success: function(data) {
                     var elemSuccess = $('<div class="vtp-uiinfo-info ui-state-highlight ui-corner-all"><span class="vtp-icon ui-icon ui-icon-info"></span>Terms and conditions saved!</div>');
                     $('#button-terms-save').before(elemSuccess);

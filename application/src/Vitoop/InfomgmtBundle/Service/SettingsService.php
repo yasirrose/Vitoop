@@ -131,7 +131,6 @@ class SettingsService
         }
         foreach ($users as $user) {
             $user->setIsAgreedWithTerms(false);
-            $this->em->merge($user);
         }
         $this->em->flush();
     }
