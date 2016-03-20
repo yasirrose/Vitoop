@@ -26,6 +26,10 @@ table {
     table-layout: fixed;
 }
 
+div#vtp-res-list table tr:first-of-type th:first-of-type {
+    border-left-width: 1px;
+}
+
 div#vtp-res-list table tr:first-of-type th {
     color: #2779aa !important;
     font-family: Verdana, Arial, Helvetica, sans-serif;
@@ -594,6 +598,7 @@ span.vtp-icon {
 #vtp-header-status {
     text-align: right;
     font-size: 0.8em;
+    padding-right: 0.7em;
 }
 
 #vtp-header-admin-buttons {

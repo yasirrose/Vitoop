@@ -380,7 +380,7 @@ resourceDetail = (function () {
                 tinymce.init({
                     selector: 'textarea#remark_text',
                     height: 300,
-                    plugins: 'textcolor link placeholder',
+                    plugins: ['textcolor', 'link', 'placeholder'],
                     menubar: false,
                     skin : "vitoop",
                     style_formats: [
@@ -473,7 +473,7 @@ resourceDetail = (function () {
                 tinymce.init({
                     selector: 'textarea#remark_private_text',
                     height: 300,
-                    plugins: 'textcolor link',
+                    plugins: ['textcolor', 'link', 'placeholder'],
                     menubar: false,
                     skin : "vitoop",
                     style_formats: [
