@@ -1,18 +1,18 @@
 function dtLanguageObject() {
-	return {
-		"lengthMenu": "Treffer/Seite _MENU_",
-		"search": "",
-		"loadingRecords": '<div id="ballsWaveG"><div id="ballsWaveG_1" class="ballsWaveG"></div><div id="ballsWaveG_2" class="ballsWaveG"></div><div id="ballsWaveG_3" class="ballsWaveG"></div><div id="ballsWaveG_4" class="ballsWaveG"></div><div id="ballsWaveG_5" class="ballsWaveG"></div><div id="ballsWaveG_6" class="ballsWaveG"></div><div id="ballsWaveG_7" class="ballsWaveG"></div><div id="ballsWaveG_8" class="ballsWaveG"></div></div>',
-		"searchPlaceholder": "ergebnisliste durchsuchen",
-		"info": "_START_ - _END_ aus _TOTAL_ Datensätzen",
-		"infoEmpty": "0 - 0 aus 0 Datensätzen",
-		"paginate": {
-			"first": "<span class='vtp-pg-inner ui-icon ui-icon-seek-start'>|&lt;&lt;</span>",
-			"last": "<span class='vtp-pg-inner ui-icon ui-icon-seek-end'>&gt;&gt;|</span>",
-			"previous": "<span class='vtp-pg-inner ui-icon ui-icon-seek-prev'>|&lt;</span>",
-			"next": "<span class='vtp-pg-inner ui-icon ui-icon-seek-next'>&gt;|</span>"
-		}
-	}
+    return {
+        "lengthMenu": "Treffer/Seite _MENU_",
+        "search": "",
+        "loadingRecords": '<div id="ballsWaveG"><div id="ballsWaveG_1" class="ballsWaveG"></div><div id="ballsWaveG_2" class="ballsWaveG"></div><div id="ballsWaveG_3" class="ballsWaveG"></div><div id="ballsWaveG_4" class="ballsWaveG"></div><div id="ballsWaveG_5" class="ballsWaveG"></div><div id="ballsWaveG_6" class="ballsWaveG"></div><div id="ballsWaveG_7" class="ballsWaveG"></div><div id="ballsWaveG_8" class="ballsWaveG"></div></div>',
+        "searchPlaceholder": "ergebnisliste durchsuchen",
+        "info": "_START_ - _END_ aus _TOTAL_ Datensätzen",
+        "infoEmpty": "0 - 0 aus 0 Datensätzen",
+        "paginate": {
+            "first": "<span class='vtp-pg-inner ui-icon ui-icon-seek-start'>|&lt;&lt;</span>",
+            "last": "<span class='vtp-pg-inner ui-icon ui-icon-seek-end'>&gt;&gt;|</span>",
+            "previous": "<span class='vtp-pg-inner ui-icon ui-icon-seek-prev'>|&lt;</span>",
+            "next": "<span class='vtp-pg-inner ui-icon ui-icon-seek-next'>&gt;|</span>"
+        }
+    }
 }
 
 function dtDomObject() {

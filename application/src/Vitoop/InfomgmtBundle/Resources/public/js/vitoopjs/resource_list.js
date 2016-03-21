@@ -148,10 +148,6 @@ resourceList = (function () {
                 }
             });
 
-            $('#vtp-user-loginform-login').on('click', function () {
-                $('#vtp-search-clear').click();
-            });
-
             $('#vtp-user-loginform-logout').on('click', function () {
                 $('#vtp-search-clear').click();
             });

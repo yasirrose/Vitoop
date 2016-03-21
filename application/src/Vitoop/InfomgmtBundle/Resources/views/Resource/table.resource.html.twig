@@ -121,27 +121,33 @@
     $(document).ready(function() {
         $.fn.dataTable.moment('DD.MM.YY');
         var domPrefix = (!searchToggler.getState())?('<"'):('<"ui-helper-hidden ');
+        //searchToggler.createButton();
         domPrefix += dtDomObject();
-        $('table#list-{{ restype }}')
-                .on('xhr.dt', dtAjaxCallback)
-                .DataTable({
-                    "autoWidth": false,
-                    "stateSave": true,
-                    "lengthMenu": [ 7, 8, 9, 10, 11, 12, 13, 14, 15, 20, 50, 100 ],
-                    "language": dtLanguageObject(),
-                    "ajax": "{{ ajaxUrl |raw }}",
-                    "order": [],
-                    "dom": domPrefix,
-                    "columns": getColumns('{{ restype}}', {% if is_granted('ROLE_ADMIN') %}1{% else %}0{% endif %}, {% if isEdit is defined and isEdit %}1{% else %}0{% endif %}, {% if  isCoef is defined and isCoef %}1{% else %}0{% endif %}),
-                    "pagingType": "full_numbers",
-                    "rowCallback": dtRowCallback
-                    {% if (isCoef is defined and isCoef) %}
-                    , "drawCallback": dtDrawCallback,
-                    "ordering": false
-                    {% endif %}
-                });
+        var datatable = $('table#list-{{ restype }}').DataTable({
+            "autoWidth": false,
+            "stateSave": true,
+            "lengthMenu": [ 7, 8, 9, 10, 11, 12, 13, 14, 15, 20, 50, 100 ],
+            "language": dtLanguageObject(),
+            "ajax": "{{ ajaxUrl |raw }}",
+            "order": [],
+            "dom": domPrefix,
+            "columns": getColumns('{{ restype}}', {% if is_granted('ROLE_ADMIN') %}1{% else %}0{% endif %}, {% if isEdit is defined and isEdit %}1{% else %}0{% endif %}, {% if  isCoef is defined and isCoef %}1{% else %}0{% endif %}),
+            "pagingType": "full_numbers",
+            "rowCallback": dtRowCallback
+            {% if (isCoef is defined and isCoef) %}
+            , "drawCallback": dtDrawCallback,
+            "ordering": false
+            {% endif %}
+        });
+        datatable
+            .on('xhr.dt', dtAjaxCallback)
+            .on('search.dt', function (e) {
+                localStorage.setItem('dt-search', datatable.search());
+            });
+                
         $('div.paging_full_numbers > span').removeClass();
         var api = $('table#list-{{ restype }}').dataTable().api();
+        api.search(localStorage.getItem('dt-search')?localStorage.getItem('dt-search'):'');
         $('.dataTables_length select').selectmenu({
             appendTo: ".dataTables_length",
             change: function( event, ui ) {
@@ -160,6 +166,7 @@
             $('.dataTables_filter input').val('');
             api.search('');
             api.draw();
+            localStorage.removeItem('dt-search')
         });
     });
 </script>
