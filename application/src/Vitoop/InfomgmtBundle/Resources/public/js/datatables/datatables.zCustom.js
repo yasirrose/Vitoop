@@ -166,7 +166,7 @@ function getTnopColumn() {
 }
 
 function getRes12Column() {
-	return {"data": "res12count"};
+	return {"data": "res12count", orderSequence: [ "desc", "asc"]};
 }
 
 function getRatingValue(data, type, row, meta) {
@@ -197,7 +197,7 @@ function getRatingValue(data, type, row, meta) {
 }
 
 function getRatingColumn() {
-	return {"data": "avgmark", "render": getRatingValue};
+	return {"data": "avgmark", "render": getRatingValue, orderSequence: [ "desc", "asc"]};
 }
 
 function getOwnerColumn() {
@@ -339,85 +339,85 @@ function getFirstColumn(isCoef, isEdit) {
 }
 
 function getColumns(type, isAdmin, isEdit, isCoef) {
-	var columns = [];
-	if (type == 'prj') {
-		columns = [
-			getFirstColumn(isCoef, isEdit),
-			getNameColumn(),
-			getOwnerColumn(),
-			getRatingColumn(),
-			getRes12Column(),
-			getProjectUrlColumn()
-		];
-	} else if (type == 'lex') {
-		columns = [
-			getFirstColumn(isCoef, isEdit),
-			getNameColumn(),
-			getUrlTextColumn(),
-			getRes12Column(),
-			getOwnerColumn(),
-			getLexiconUrlColumn(isEdit)
-		];
-	} else if (type == 'pdf') {
-		columns = [
-			getFirstColumn(isCoef, isEdit),
-			getNameColumn(),
-			getAuthorColumn(),
-			getTnopColumn(),
-			getRatingColumn(),
-			getRes12Column(),
-			getOwnerColumn()
-		];
-		if (isAdmin) {
-			columns.push(getIsDownloadedColumn());
-		}
-		columns.push(getUrlColumn(isEdit));
-	} else if (type == 'teli') {
-		columns = [
-			getFirstColumn(isCoef, isEdit),
-			getNameColumn(),
-			getAuthorColumn(),
-			getRatingColumn(),
-			getRes12Column(),
-			getOwnerColumn(),
-			getUrlColumn(isEdit)
-		];
-	} else if (type == 'link') {
-		columns = [
-			getFirstColumn(isCoef, isEdit),
-			getNameColumn(),
-			getUrlTextColumn(),
-			getIsHpColumn(),
-			getRatingColumn(),
-			getRes12Column(),
-			getOwnerColumn(),
-			getUrlColumn(isEdit)
-		];
-	} else if (type == 'book') {
-		columns = [
-			getFirstColumn(isCoef, isEdit),
-			getNameColumn(),
-			getAuthorColumn(),
-			getTnopColumn(),
-			getRatingColumn(),
-			getRes12Column(),
-			getOwnerColumn()
-		];
-		if (isEdit) {
-			columns.push(getUnlinkColumn());
-		}
-	} else if (type == 'adr') {
-		columns = [
-			getFirstColumn(isCoef, isEdit),
-			getNameColumn(),
-			getZipColumn(),
-			getCityColumn(),
-			getRatingColumn(),
-			getRes12Column(),
-			getOwnerColumn(),
-			getMapsLinkColumn()
-		];
-	}
+    var columns = [];
+    if (type == 'prj') {
+        columns = [
+            getFirstColumn(isCoef, isEdit),
+            getNameColumn(),
+            getOwnerColumn(),
+            getRatingColumn(),
+            getRes12Column(),
+            getProjectUrlColumn()
+        ];
+    } else if (type == 'lex') {
+        columns = [
+            getFirstColumn(isCoef, isEdit),
+            getNameColumn(),
+            getUrlTextColumn(),
+            getRes12Column(),
+            getOwnerColumn(),
+            getLexiconUrlColumn(isEdit)
+        ];
+    } else if (type == 'pdf') {
+        columns = [
+            getFirstColumn(isCoef, isEdit),
+            getNameColumn(),
+            getAuthorColumn(),
+            getTnopColumn(),
+            getRatingColumn(),
+            getRes12Column(),
+            getOwnerColumn()
+        ];
+        if (isAdmin) {
+            columns.push(getIsDownloadedColumn());
+        }
+        columns.push(getUrlColumn(isEdit));
+    } else if (type == 'teli') {
+        columns = [
+            getFirstColumn(isCoef, isEdit),
+            getNameColumn(),
+            getAuthorColumn(),
+            getRatingColumn(),
+            getRes12Column(),
+            getOwnerColumn(),
+            getUrlColumn(isEdit)
+        ];
+    } else if (type == 'link') {
+        columns = [
+            getFirstColumn(isCoef, isEdit),
+            getNameColumn(),
+            getUrlTextColumn(),
+            getIsHpColumn(),
+            getRatingColumn(),
+            getRes12Column(),
+            getOwnerColumn(),
+            getUrlColumn(isEdit)
+        ];
+    } else if (type == 'book') {
+        columns = [
+            getFirstColumn(isCoef, isEdit),
+            getNameColumn(),
+            getAuthorColumn(),
+            getTnopColumn(),
+            getRatingColumn(),
+            getRes12Column(),
+            getOwnerColumn()
+        ];
+        if (isEdit) {
+            columns.push(getUnlinkColumn());
+        }
+    } else if (type == 'adr') {
+        columns = [
+            getFirstColumn(isCoef, isEdit),
+            getNameColumn(),
+            getZipColumn(),
+            getCityColumn(),
+            getRatingColumn(),
+            getRes12Column(),
+            getOwnerColumn(),
+            getMapsLinkColumn()
+        ];
+    }
 
-	return columns;
+    return columns;
 }

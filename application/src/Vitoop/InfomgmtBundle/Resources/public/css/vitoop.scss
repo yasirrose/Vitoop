@@ -1147,6 +1147,7 @@ div#vtp-res-list table input[disabled="disabled"] {
     border: 1px solid #aed0ea;
     background: #d7ebf9 url("../img/ui-bg_glass_80_d7ebf9_1x400.png") 50% 50% repeat-x;
     color: #2779aa;
+    margin-left: 20px;
 }
 
 #button-user-agreed:hover:enabled {
@@ -1156,8 +1157,8 @@ div#vtp-res-list table input[disabled="disabled"] {
 }
 
 #user_agreement_form {
-    width: 80%;
-    margin: 15px auto 15px 10%;
+    width: 94%;
+    margin: 15px auto 15px 5%;
     height: 45px;
     font-size: 16px;
     font-family: Arial, Helvetica, sans-serif;
