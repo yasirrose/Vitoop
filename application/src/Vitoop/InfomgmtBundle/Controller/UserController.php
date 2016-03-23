@@ -83,7 +83,7 @@ class UserController extends Controller
             }
             $em->flush();
 
-            return $this->redirect($this->generateUrl('_home'));
+            return $this->redirect($this->generateUrl('_resource_list', array('res_type'=>'link')));
         }
         $terms = $this->get('vitoop.settings')->getTerms()->getValue();
 

@@ -377,7 +377,7 @@ resourceDetail = (function () {
                     tinyMCE.activeEditor.setContent($(this).attr('data-text'));
                 });
 
-                tinymce.init({
+                tinyMCE.init({
                     selector: 'textarea#remark_text',
                     height: 300,
                     plugins: ['textcolor', 'link', 'placeholder'],
@@ -470,7 +470,7 @@ resourceDetail = (function () {
                     return setInterval(changeClassOfButton, 2000);
                 };
 
-                tinymce.init({
+                tinyMCE.init({
                     selector: 'textarea#remark_private_text',
                     height: 300,
                     plugins: ['textcolor', 'link', 'placeholder'],
@@ -639,6 +639,10 @@ resourceDetail = (function () {
                 $('#tab-title-remark').removeClass('ui-state-no-content');
                 $('#tab-title-remark-private').removeClass('ui-state-no-content');
                 $('#tab-title-rels').removeClass('ui-state-no-content');
+
+                //reset tinymce
+                tinymce.execCommand('mceRemoveEditor', true, "remark_text");
+                tinymce.execCommand('mceRemoveEditor', true, "remark_private_text");
         },
 
         loadTab = function (event, ui) {
@@ -1005,7 +1009,7 @@ resourceDetail = (function () {
                         $('#help-text', element).val(answer.help.text);
                         $('#vtp-res-dialog-help').append(element);
                         setTimeout(function() {
-                            tinymce.init({
+                            tinyMCE.init({
                                 mode: 'exact',
                                 selector: 'textarea#help-text',
                                 id: 'tiny-help',

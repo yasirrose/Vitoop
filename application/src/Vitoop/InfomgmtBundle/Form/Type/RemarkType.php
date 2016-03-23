@@ -9,9 +9,10 @@ class RemarkType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('text', 'textarea', array('label' => 'Bemerkung'))
-                ->add('locked', 'checkbox', array('label' => 'Für weitere Bearbeitung schließen'))
-                ->add('save', 'input_type_submit', array('label' => 'speichern'));
+        $builder
+            ->add('text', 'textarea', array('label' => 'Bemerkung'))
+            ->add('locked', 'checkbox', array('label' => 'Für weitere Bearbeitung schließen'))
+            ->add('save', 'input_type_submit', array('label' => 'speichern'));
     }
 
     public function getName()
