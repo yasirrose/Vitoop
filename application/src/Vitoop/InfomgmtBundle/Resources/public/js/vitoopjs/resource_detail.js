@@ -250,6 +250,14 @@ resourceDetail = (function () {
                     minLength: 2,
                     appendTo: 'body'
                 });
+                $('#tag_text').keypress(function(e) {
+                    if(e.keyCode == 13) {
+                        e.preventDefault();
+                        $(this).autocomplete('close');
+                        $('#tag_confirm_save').click();
+                    }
+                });
+                
                 $('.vtp-uiaction-tag-showown').button({
                     icons: {
                         primary: "ui-icon-lightbulb"
@@ -676,6 +684,12 @@ resourceDetail = (function () {
                         if (info.comments == 0) {
                             $('#tab-title-comments').addClass('ui-state-no-content');
                         }
+                        if (res_type == 'prj' || res_type == 'lex') {
+                            $('#tab-title-remark').hide();
+                        } else {
+                            $('#tab-title-remark').show();
+                        }
+                        
                         if (info.remarks == 0) {
                             $('#tab-title-remark').addClass('ui-state-no-content');
                         }

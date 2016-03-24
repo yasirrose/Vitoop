@@ -7,7 +7,6 @@ use Vitoop\InfomgmtBundle\Entity\UserConfig;
 use Vitoop\InfomgmtBundle\Entity\UserData;
 use Vitoop\InfomgmtBundle\Entity\VitoopBlog;
 use Vitoop\InfomgmtBundle\Entity\Resource;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -18,7 +17,7 @@ use Symfony\Component\Form\Exception;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
-class ResourceController extends Controller
+class ResourceController extends ApiController
 {
     /**
      * @Route("/userhome", name="_home")
@@ -416,9 +415,9 @@ class ResourceController extends Controller
         /* @var $res \Vitoop\InfomgmtBundle\Entity\Resource */
         $res = $rdc->getResource();
 
-        $content['resource-tag'] = $rdc->getTag();
-
-        return new Response(json_encode($content));
+        return $this->getApiResponse(array(
+            'resource-tag' => $rdc->getTag()
+        ));
     }
 
     /**

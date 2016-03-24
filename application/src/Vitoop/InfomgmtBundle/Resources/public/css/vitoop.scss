@@ -813,13 +813,13 @@ span.vtp-icon {
     color: #222222;
     font-weight: bold;
     background: #deedf7;
-    background: -moz-linear-gradient(left,  #deedf7 0%, #cbebff 47%, #aad8f7 100%);
-    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#deedf7), color-stop(47%,#cbebff), color-stop(100%,#aad8f7));
-    background: -webkit-linear-gradient(left,  #deedf7 0%,#cbebff 47%,#aad8f7 100%);
-    background: -o-linear-gradient(left,  #deedf7 0%,#cbebff 47%,#aad8f7 100%);
-    background: -ms-linear-gradient(left,  #deedf7 0%,#cbebff 47%,#aad8f7 100%);
-    background: linear-gradient(to right,  #deedf7 0%,#cbebff 47%,#aad8f7 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#deedf7', endColorstr='#aad8f7',GradientType=1 );
+    background: -moz-linear-gradient(left,  #deedf7 0%, #cbebff 47%, #3999ca 100%);
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#deedf7), color-stop(47%,#cbebff), color-stop(100%,#3999ca));
+    background: -webkit-linear-gradient(left,  #deedf7 0%,#cbebff 47%,#3999ca 100%);
+    background: -o-linear-gradient(left,  #deedf7 0%,#cbebff 47%,#3999ca 100%);
+    background: -ms-linear-gradient(left,  #deedf7 0%,#cbebff 47%,#3999ca 100%);
+    background: linear-gradient(to right,  #deedf7 0%,#cbebff 47%,#3999ca 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#deedf7', endColorstr='#3999ca',GradientType=1 );
 }
 
 #vtp-projectdata-project-close, #vtp-lexicondata-lexicon-close {
@@ -828,7 +828,7 @@ span.vtp-icon {
     border: 1px solid #aed0ea;
     top: 50%;
     right: 0.4em;
-    margin: -8px 0 0 0;
+    margin: -9px 0 0 0;
     background-color: #f2f5f7;
     cursor: pointer;
 }
