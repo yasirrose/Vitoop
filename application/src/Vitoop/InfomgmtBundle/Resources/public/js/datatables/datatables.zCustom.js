@@ -22,10 +22,10 @@ function dtDomObject() {
 }
 
 function dtAjaxCallback(e, settings, json, xhr) {
-	if (json.data.length == 0) {
-		$('.table-datatables').hide();
-		$('.empty-datatables').show();
-	}
+    if (json.length == 0) {
+            $('.table-datatables').hide();
+            $('.empty-datatables').show();
+    }
 }
 
 function dtRowCallback(row, data, index) {

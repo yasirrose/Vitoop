@@ -2,7 +2,6 @@
 namespace Vitoop\InfomgmtBundle\Service;
 
 use Doctrine\ORM\NoResultException;
-
 use Vitoop\InfomgmtBundle\Entity\Flag;
 use Vitoop\InfomgmtBundle\Entity\ProjectData;
 use Vitoop\InfomgmtBundle\Entity\Tag;
@@ -14,6 +13,7 @@ use Vitoop\InfomgmtBundle\Entity\Comment;
 use Vitoop\InfomgmtBundle\Entity\RelResourceTag;
 use Vitoop\InfomgmtBundle\Entity\RelResourceResource;
 use Vitoop\InfomgmtBundle\Entity\Watchlist;
+use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
 use Doctrine\Common\Persistence\ObjectManager;
 
 class ResourceManager
@@ -81,7 +81,6 @@ class ResourceManager
      */
     public function getResource($res_type, $res_id)
     {
-
         /* @var $res \Vitoop\InfomgmtBundle\Entity\Resource */
         $res = $this->getRepository($res_type)
                     ->find($res_id);
@@ -139,12 +138,10 @@ class ResourceManager
     public function getFlaggedResources($res_type)
     {
         if ($this->vsec->isAdmin()) {
-            return $this->getRepository($res_type)
-                        ->getFlaggedResources();
-        } else {
-            return $this->getRepository($res_type)
-                        ->getResources();
+            return $this->getRepository($res_type)->getFlaggedResources();
         }
+
+        return $this->getRepository($res_type)->getResources(new SearchResource());
     }
 
     public function saveResource(Resource $resource, $new = false)

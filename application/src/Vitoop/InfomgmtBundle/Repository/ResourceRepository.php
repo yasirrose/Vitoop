@@ -5,10 +5,9 @@ use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\Entity\User;
 use Vitoop\InfomgmtBundle\Pagination\ResourceListWithTagCountAdapter;
 use Vitoop\InfomgmtBundle\Pagination\ResourceListAdapter;
-
+use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
-
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
@@ -16,7 +15,6 @@ use Doctrine\ORM\QueryBuilder;
 /*
  * ResourceRepository
  */
-
 class ResourceRepository extends EntityRepository
 {
     //\Doctrine\Common\Util\Debug::dump($result);die();
@@ -125,19 +123,16 @@ class ResourceRepository extends EntityRepository
     }
 
     /**
-     * @param array $arr_tags
-     * @param array $arr_tags_ignore
-     * @param array $arr_tags_highlight
-     * @param int $tag_cnt
      * @param QueryBuilder $qb
+     * @param SearchResource $search
      *
      * @return QueryBuilder
      */
-    public function prepareListByTagsQueryBuilder(QueryBuilder $qb, $arr_tags, $arr_tags_highlight, $arr_tags_ignore, $tag_cnt)
+    public function prepareListByTagsQueryBuilder(QueryBuilder $qb, SearchResource $search)
     {
-        $max_tags = count($arr_tags);
-        if (is_null($tag_cnt) || $tag_cnt > $max_tags || $tag_cnt < 0) {
-            $tag_cnt = $max_tags;
+        $max_tags = count($search->tags);
+        if (is_null($search->countTags) || $search->countTags > $max_tags || $search->countTags < 0) {
+            $search->countTags = $max_tags;
         }
 
         $qb->addSelect('COUNT(DISTINCT t.text) as count_different', 'COUNT(t.text) AS HIDDEN quantity_all')
@@ -146,17 +141,17 @@ class ResourceRepository extends EntityRepository
            ->andWhere('rt.deletedByUser is null')
            ->groupBy('r.id')
            ->setParameters(array(
-                'tags' => $arr_tags
+                'tags' => $search->tags
            ));
 
-        if ($tag_cnt != 0) {
+        if ($search->countTags != 0) {
             $qb->having('COUNT(DISTINCT t.text) = :tag_cnt');
-            $qb->setParameter('tag_cnt', $tag_cnt);
+            $qb->setParameter('tag_cnt', $search->countTags);
         }
 
-        if (!empty($arr_tags_ignore)) {
+        if (!empty($search->ignoredTags)) {
             $qb->innerJoin('rt.tag', 't', 'WITH', 't.text NOT IN (:tags_ignore)')
-                ->setParameter('tags_ignore', $arr_tags_ignore);
+                ->setParameter('tags_ignore', $search->ignoredTags);
             $queryExist = $this->getEntityManager()->createQueryBuilder()
                 ->select('rrt')
                 ->from('VitoopInfomgmtBundle:RelResourceTag', 'rrt')
@@ -167,17 +162,17 @@ class ResourceRepository extends EntityRepository
             $qb->innerJoin('rt.tag', 't');
         }
 
-        if (!empty($arr_tags_highlight)) {
+        if (!empty($search->highlightTags)) {
             $qb->leftJoin('rt.tag', 'th', 'WITH', 'th.text IN (:tags_highlight)')
                 ->addSelect('COUNT(DISTINCT th.text) AS HIDDEN sort_order')
                 ->addSelect('COUNT(th.text) AS HIDDEN quantity_highlight')
                 ->orderBy('sort_order', 'DESC')
                 ->addOrderBy('quantity_highlight', 'DESC');
-            if ($tag_cnt == 0) {
+            if ($search->countTags == 0) {
                 $qb->addOrderBy('count_different', 'DESC');
             }
                 $qb->addOrderBy('quantity_all', 'DESC')
-                ->setParameter('tags_highlight', $arr_tags_highlight);
+                ->setParameter('tags_highlight', $search->highlightTags);
         } else {
             $qb->orderBy('count_different', 'DESC');
             $qb->addOrderBy('quantity_all', 'DESC');
@@ -294,9 +289,10 @@ class ResourceRepository extends EntityRepository
      * @param bool $flagged
      * @return QueryBuilder
      */
-    protected function prepareListQueryBuilder(QueryBuilder $query, $flagged = false)
+    protected function prepareListQueryBuilder(QueryBuilder $query, SearchResource $search)
     {
-        $query->addSelect('r.name', 'r.created_at', 'r.id', 'u.username','AVG(ra.mark) AS avgmark', 'COUNT(DISTINCT rrr.id) as res12count')
+        $query
+            ->addSelect('r.id, r.name, CONCAT(r.created_at,\'\') AS created_at, u.username, AVG(ra.mark) as avgmark, COUNT(DISTINCT rrr.id) as res12count')
             ->innerJoin('r.user', 'u')
             ->leftJoin('r.flags', 'f')
             ->leftJoin('r.ratings', 'ra')
@@ -309,13 +305,22 @@ class ResourceRepository extends EntityRepository
         } else {
             $query->leftJoin('r.rel_resources2', 'rrr');
         }
-        if ($flagged) {
+        if ($search->flagged) {
             $query->where('f IS NOT NULL')
                 ->andWhere('f.type != 128');
         } else {
             $query->where('f IS NULL');
         }
 
+        if (!is_null($search->resource)) {
+            $this->prepareListByResourceQueryBuilder($query, $search->resource);
+        } elseif (!empty($search->tags)) {
+            $this->prepareListByTagsQueryBuilder($query, $search);
+        }
+
+        //@TODO: Remove after refactoring
+        $query->setMaxResults(10);
+        
         return $query;
     }
 

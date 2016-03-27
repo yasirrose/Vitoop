@@ -27,6 +27,7 @@ class Resource
     protected $name;
 
     /**
+     * @var \DateTime
      * @ORM\Column(name="created_at", type="datetime")
      */
     protected $created_at;

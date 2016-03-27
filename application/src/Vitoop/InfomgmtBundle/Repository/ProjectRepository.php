@@ -4,6 +4,7 @@ namespace Vitoop\InfomgmtBundle\Repository;
 
 use Vitoop\InfomgmtBundle\Entity\Project;
 use Vitoop\InfomgmtBundle\Entity\User;
+use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
 
 /**
  * ProjectRepository
@@ -13,16 +14,11 @@ use Vitoop\InfomgmtBundle\Entity\User;
  */
 class ProjectRepository extends ResourceRepository
 {
-    public function getResources($flagged = false, $resource = null, $arr_tags = array(), $arr_tags_ignore = array(), $arr_tags_highlight = array(), $tag_cnt = 0)
+    public function getResources(SearchResource $search)
     {
-        $qb = $this->createQueryBuilder('r');
-        $qb->select('r.lang');
-        $this->prepareListQueryBuilder($qb, $flagged);
-        if (!is_null($resource)) {
-            $this->prepareListByResourceQueryBuilder($qb, $resource);
-        } elseif (!empty($arr_tags)) {
-            $this->prepareListByTagsQueryBuilder($qb, $arr_tags, $arr_tags_highlight, $arr_tags_ignore, $tag_cnt);
-        }
+        $qb = $this->createQueryBuilder('r')
+            ->select('r.lang');
+        $this->prepareListQueryBuilder($qb, $search);
 
         return $qb->getQuery()->getResult();
     }

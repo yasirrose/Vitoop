@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Vitoop\InfomgmtBundle\Entity\Resource;
+use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
 
 /**
  * @Route("api/")
@@ -22,33 +23,22 @@ class ResourceApiController extends ApiController
      */
     public function listAction($resType, Request $request)
     {
-        $serializer = $this->get('jms_serializer');
-        $context = new SerializationContext();
-        $context->setSerializeNull(true);
-        $resource = null;
-        $flagged = false;
-        $tag_list = array();
-        $tag_list_ignore = array();
-        $tag_list_highlight = array();
-        $tag_cnt = 0;
-        if ($request->query->has('resource')) {
-            $resource = $request->query->getDigits('resource');
-        }
-        if ($request->query->has('flagged')) {
-            $flagged = true;
-        }
+        //$serializer = $this->get('jms_serializer');
+        //$context = new SerializationContext();
+        //$context->setSerializeNull(true);
 
-        if ($request->query->has('taglist')) {
-            $tag_list = $request->query->get('taglist');
-            $tag_list_ignore = $request->query->get('taglist_i');
-            $tag_list_highlight = $request->query->get('taglist_h');
-            $tag_cnt = $request->query->get('tagcnt');
-            $tag_list_ignore = (is_null($tag_list_ignore))?(array()):($tag_list_ignore);
-            $tag_list_highlight = (is_null($tag_list_highlight))?(array()):($tag_list_highlight);
+        $search = new SearchResource(
+            $request->query->has('flagged'),
+            $request->query->has('resource')?$request->query->getDigits('resource'):null,
+            $request->query->get('taglist', array()),
+            $request->query->get('taglist_i', array()),
+            $request->query->get('taglist_h', array()),
+            $request->query->get('tagcnt', 0)
+        );
 
-        }
-
-        $resources = $this->get('vitoop.resource_manager')->getRepository($resType)->getResources($flagged, $resource, $tag_list, $tag_list_ignore, $tag_list_highlight, $tag_cnt);
+        $resources = $this->get('vitoop.resource_manager')
+            ->getRepository($resType)
+            ->getResources($search);
         if ($resType == 'prj') {
             $repo = $this->getDoctrine()->getRepository('VitoopInfomgmtBundle:Project');
             foreach ($resources as &$resource) {
@@ -56,11 +46,12 @@ class ResourceApiController extends ApiController
                 $resource['canRead'] = $project->getProjectData()->availableForReading($this->getUser());
             }
         }
-        $resources['data'] = $resources;
-        $response = $serializer->serialize($resources, 'json', $context);
-
-        return new Response($response);
-
+        //$resources = array_values($resources);
+        //$response = $serializer->serialize(['data'=> $resources], 'json', $context);
+        //return new Response($response);
+        //var_dump($resources);
+       // exit();
+        return $this->getApiResponse(['data'=> $resources]);
     }
 
     /**
