@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f9e9d6eb69a7823ffff5b7c360285ca6",
-    "content-hash": "8750968936a4fd6a40c053961f0a293d",
+    "hash": "54f4bcab3af89c1b24d41bf0beb8b4a2",
+    "content-hash": "b300fbe063a6a59f130fd73a2e23485c",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -77,33 +77,33 @@
         },
         {
             "name": "doctrine/cache",
-            "version": "v1.6.0",
+            "version": "v1.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "f8af318d14bdb0eff0336795b428b547bd39ccb6"
+                "reference": "47cdc76ceb95cc591d9c79a36dc3794975b5d136"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/f8af318d14bdb0eff0336795b428b547bd39ccb6",
-                "reference": "f8af318d14bdb0eff0336795b428b547bd39ccb6",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/47cdc76ceb95cc591d9c79a36dc3794975b5d136",
+                "reference": "47cdc76ceb95cc591d9c79a36dc3794975b5d136",
                 "shasum": ""
             },
             "require": {
-                "php": "~5.5|~7.0"
+                "php": ">=5.3.2"
             },
             "conflict": {
                 "doctrine/common": ">2.2,<2.4"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.8|~5.0",
+                "phpunit/phpunit": ">=3.7",
                 "predis/predis": "~1.0",
                 "satooshi/php-coveralls": "~0.6"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.6.x-dev"
+                    "dev-master": "1.5.x-dev"
                 }
             },
             "autoload": {
@@ -143,7 +143,7 @@
                 "cache",
                 "caching"
             ],
-            "time": "2015-12-31 16:37:02"
+            "time": "2015-12-19 05:03:47"
         },
         {
             "name": "doctrine/collections",
@@ -213,16 +213,16 @@
         },
         {
             "name": "doctrine/common",
-            "version": "v2.6.1",
+            "version": "v2.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/common.git",
-                "reference": "a579557bc689580c19fee4e27487a67fe60defc0"
+                "reference": "10f1f19651343f87573129ca970aef1a47a6f29e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/common/zipball/a579557bc689580c19fee4e27487a67fe60defc0",
-                "reference": "a579557bc689580c19fee4e27487a67fe60defc0",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/10f1f19651343f87573129ca970aef1a47a6f29e",
+                "reference": "10f1f19651343f87573129ca970aef1a47a6f29e",
                 "shasum": ""
             },
             "require": {
@@ -231,20 +231,20 @@
                 "doctrine/collections": "1.*",
                 "doctrine/inflector": "1.*",
                 "doctrine/lexer": "1.*",
-                "php": "~5.5|~7.0"
+                "php": ">=5.3.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.8|~5.0"
+                "phpunit/phpunit": "~3.7"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.7.x-dev"
+                    "dev-master": "2.5.x-dev"
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Doctrine\\Common\\": "lib/Doctrine/Common"
+                "psr-0": {
+                    "Doctrine\\Common\\": "lib/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -282,7 +282,7 @@
                 "persistence",
                 "spl"
             ],
-            "time": "2015-12-25 13:18:31"
+            "time": "2015-12-25 13:10:16"
         },
         {
             "name": "doctrine/dbal",
@@ -524,26 +524,23 @@
         },
         {
             "name": "doctrine/doctrine-migrations-bundle",
-            "version": "dev-master",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineMigrationsBundle.git",
-                "reference": "c0a2f5d069e56e2ac7a42719dfda63fd996a39ed"
+                "reference": "303a576e2124efb07ec215e34ea2480b841cf5e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineMigrationsBundle/zipball/c0a2f5d069e56e2ac7a42719dfda63fd996a39ed",
-                "reference": "c0a2f5d069e56e2ac7a42719dfda63fd996a39ed",
+                "url": "https://api.github.com/repos/doctrine/DoctrineMigrationsBundle/zipball/303a576e2124efb07ec215e34ea2480b841cf5e4",
+                "reference": "303a576e2124efb07ec215e34ea2480b841cf5e4",
                 "shasum": ""
             },
             "require": {
                 "doctrine/doctrine-bundle": "~1.0",
-                "doctrine/migrations": "^1.1",
-                "php": ">=5.4.0",
+                "doctrine/migrations": "~1.0",
+                "php": ">=5.3.2",
                 "symfony/framework-bundle": "~2.3|~3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.8"
             },
             "type": "symfony-bundle",
             "extra": {
@@ -581,7 +578,7 @@
                 "migrations",
                 "schema"
             ],
-            "time": "2016-03-09 15:29:46"
+            "time": "2015-11-04 13:45:30"
         },
         {
             "name": "doctrine/inflector",
@@ -706,49 +703,38 @@
         },
         {
             "name": "doctrine/migrations",
-            "version": "dev-master",
+            "version": "v1.0.0-alpha3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/migrations.git",
-                "reference": "5f9429e5e6dd31d0f36c8951daa184112a39e195"
+                "reference": "d2d18ef671b47a7d48fae54806adac87e82fe8e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/5f9429e5e6dd31d0f36c8951daa184112a39e195",
-                "reference": "5f9429e5e6dd31d0f36c8951daa184112a39e195",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/d2d18ef671b47a7d48fae54806adac87e82fe8e9",
+                "reference": "d2d18ef671b47a7d48fae54806adac87e82fe8e9",
                 "shasum": ""
             },
             "require": {
-                "doctrine/dbal": "~2.2",
-                "ocramius/proxy-manager": "^1.0|^2.0",
-                "php": "^5.5|^7.0",
-                "symfony/console": "~2.3|~3.0",
-                "symfony/yaml": "~2.3|~3.0"
+                "doctrine/dbal": "~2.0",
+                "php": ">=5.3.2"
             },
             "require-dev": {
-                "doctrine/coding-standard": "dev-master",
-                "doctrine/orm": "2.*",
-                "jdorn/sql-formatter": "~1.1",
-                "johnkary/phpunit-speedtrap": "~1.0@dev",
-                "mockery/mockery": "^0.9.4",
-                "phpunit/phpunit": "~4.7",
-                "satooshi/php-coveralls": "0.6.*"
+                "symfony/console": "2.*",
+                "symfony/yaml": "2.*"
             },
             "suggest": {
-                "jdorn/sql-formatter": "Allows to generate formatted SQL with the diff command."
+                "symfony/console": "to run the migration from the console"
             },
-            "bin": [
-                "bin/doctrine-migrations"
-            ],
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "v1.5.x-dev"
+                    "dev-master": "1.0.x-dev"
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Doctrine\\DBAL\\Migrations\\": "lib/Doctrine/DBAL/Migrations"
+                "psr-0": {
+                    "Doctrine\\DBAL\\Migrations": "lib"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -763,10 +749,6 @@
                 {
                     "name": "Jonathan Wage",
                     "email": "jonwage@gmail.com"
-                },
-                {
-                    "name": "Michael Simonson",
-                    "email": "contact@mikesimonson.com"
                 }
             ],
             "description": "Database Schema migrations using Doctrine DBAL",
@@ -775,7 +757,7 @@
                 "database",
                 "migrations"
             ],
-            "time": "2016-03-26 12:55:42"
+            "time": "2015-03-22 13:09:02"
         },
         {
             "name": "doctrine/orm",
@@ -1047,22 +1029,21 @@
         },
         {
             "name": "jms/di-extra-bundle",
-            "version": "dev-master",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/JMSDiExtraBundle.git",
-                "reference": "fb2da6655761718bb61c1367ceafd9ff4f4bccc1"
+                "reference": "85a989bedcf22495c03bf94339ddc5e856bd9b46"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/JMSDiExtraBundle/zipball/fb2da6655761718bb61c1367ceafd9ff4f4bccc1",
-                "reference": "fb2da6655761718bb61c1367ceafd9ff4f4bccc1",
+                "url": "https://api.github.com/repos/schmittjoh/JMSDiExtraBundle/zipball/85a989bedcf22495c03bf94339ddc5e856bd9b46",
+                "reference": "85a989bedcf22495c03bf94339ddc5e856bd9b46",
                 "shasum": ""
             },
             "require": {
                 "jms/aop-bundle": "~1.1",
                 "jms/metadata": "~1.0",
-                "php": "~5.3|~7.0",
                 "symfony/dependency-injection": "~2.3|~3.0",
                 "symfony/finder": "~2.3|~3.0",
                 "symfony/framework-bundle": "~2.3|~3.0",
@@ -1073,7 +1054,7 @@
             "require-dev": {
                 "doctrine/doctrine-bundle": "~1.5",
                 "doctrine/orm": "~2.3",
-                "jms/security-extra-bundle": "~1.0",
+                "jms/security-extra-bundle": "~1.0@dev",
                 "phpcollection/phpcollection": ">=0.2,<0.3-dev",
                 "sensio/framework-extra-bundle": "~2.0|~3.0",
                 "symfony/browser-kit": "~2.3|~3.0",
@@ -1112,7 +1093,7 @@
                 "annotations",
                 "dependency injection"
             ],
-            "time": "2016-02-21 22:25:12"
+            "time": "2016-02-21 22:14:09"
         },
         {
             "name": "jms/metadata",
@@ -1462,16 +1443,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.18.1",
+            "version": "1.18.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "a5f2734e8c16f3aa21b3da09715d10e15b4d2d45"
+                "reference": "064b38c16790249488e7a8b987acf1c9d7383c09"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/a5f2734e8c16f3aa21b3da09715d10e15b4d2d45",
-                "reference": "a5f2734e8c16f3aa21b3da09715d10e15b4d2d45",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/064b38c16790249488e7a8b987acf1c9d7383c09",
+                "reference": "064b38c16790249488e7a8b987acf1c9d7383c09",
                 "shasum": ""
             },
             "require": {
@@ -1486,13 +1467,13 @@
                 "doctrine/couchdb": "~1.0@dev",
                 "graylog2/gelf-php": "~1.0",
                 "jakub-onderka/php-parallel-lint": "0.9",
+                "php-amqplib/php-amqplib": "~2.4",
                 "php-console/php-console": "^3.1.3",
                 "phpunit/phpunit": "~4.5",
                 "phpunit/phpunit-mock-objects": "2.3.0",
                 "raven/raven": "^0.13",
                 "ruflin/elastica": ">=0.90 <3.0",
-                "swiftmailer/swiftmailer": "~5.3",
-                "videlalvaro/php-amqplib": "~2.4"
+                "swiftmailer/swiftmailer": "~5.3"
             },
             "suggest": {
                 "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
@@ -1501,11 +1482,11 @@
                 "ext-mongo": "Allow sending log messages to a MongoDB server",
                 "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
                 "mongodb/mongodb": "Allow sending log messages to a MongoDB server via PHP Driver",
+                "php-amqplib/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib",
                 "php-console/php-console": "Allow sending log messages to Google Chrome",
                 "raven/raven": "Allow sending log messages to a Sentry server",
                 "rollbar/rollbar": "Allow sending log messages to Rollbar",
-                "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
-                "videlalvaro/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib"
+                "ruflin/elastica": "Allow sending log messages to an Elastic Search server"
             },
             "type": "library",
             "extra": {
@@ -1536,70 +1517,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2016-03-13 16:08:35"
-        },
-        {
-            "name": "ocramius/proxy-manager",
-            "version": "1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Ocramius/ProxyManager.git",
-                "reference": "57e9272ec0e8deccf09421596e0e2252df440e11"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Ocramius/ProxyManager/zipball/57e9272ec0e8deccf09421596e0e2252df440e11",
-                "reference": "57e9272ec0e8deccf09421596e0e2252df440e11",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3",
-                "zendframework/zend-code": ">2.2.5,<3.0"
-            },
-            "require-dev": {
-                "ext-phar": "*",
-                "phpunit/phpunit": "~4.0",
-                "squizlabs/php_codesniffer": "1.5.*"
-            },
-            "suggest": {
-                "ocramius/generated-hydrator": "To have very fast object to array to object conversion for ghost objects",
-                "zendframework/zend-json": "To have the JsonRpc adapter (Remote Object feature)",
-                "zendframework/zend-soap": "To have the Soap adapter (Remote Object feature)",
-                "zendframework/zend-stdlib": "To use the hydrator proxy",
-                "zendframework/zend-xmlrpc": "To have the XmlRpc adapter (Remote Object feature)"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "ProxyManager\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Marco Pivetta",
-                    "email": "ocramius@gmail.com",
-                    "homepage": "http://ocramius.github.com/"
-                }
-            ],
-            "description": "A library providing utilities to generate, instantiate and generally operate with Object Proxies",
-            "homepage": "https://github.com/Ocramius/ProxyManager",
-            "keywords": [
-                "aop",
-                "lazy loading",
-                "proxy",
-                "proxy pattern",
-                "service proxies"
-            ],
-            "time": "2015-08-09 04:28:19"
+            "time": "2016-04-02 13:12:58"
         },
         {
             "name": "paragonie/random_compat",
@@ -2549,121 +2467,13 @@
                 "templating"
             ],
             "time": "2016-01-25 21:22:18"
-        },
-        {
-            "name": "zendframework/zend-code",
-            "version": "2.6.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zendframework/zend-code.git",
-                "reference": "c4e8f976a772cfb14b47dabd69b5245a423082b4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-code/zipball/c4e8f976a772cfb14b47dabd69b5245a423082b4",
-                "reference": "c4e8f976a772cfb14b47dabd69b5245a423082b4",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5",
-                "zendframework/zend-eventmanager": "^2.6|^3.0"
-            },
-            "require-dev": {
-                "doctrine/annotations": "~1.0",
-                "fabpot/php-cs-fixer": "1.7.*",
-                "phpunit/phpunit": "~4.0",
-                "zendframework/zend-stdlib": "~2.7"
-            },
-            "suggest": {
-                "doctrine/annotations": "Doctrine\\Common\\Annotations >=1.0 for annotation features",
-                "zendframework/zend-stdlib": "Zend\\Stdlib component"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.6-dev",
-                    "dev-develop": "2.7-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Zend\\Code\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "provides facilities to generate arbitrary code using an object oriented interface",
-            "homepage": "https://github.com/zendframework/zend-code",
-            "keywords": [
-                "code",
-                "zf2"
-            ],
-            "time": "2016-01-05 05:58:37"
-        },
-        {
-            "name": "zendframework/zend-eventmanager",
-            "version": "3.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zendframework/zend-eventmanager.git",
-                "reference": "5c80bdee0e952be112dcec0968bad770082c3a6e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-eventmanager/zipball/5c80bdee0e952be112dcec0968bad770082c3a6e",
-                "reference": "5c80bdee0e952be112dcec0968bad770082c3a6e",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.5 || ^7.0"
-            },
-            "require-dev": {
-                "athletic/athletic": "^0.1",
-                "container-interop/container-interop": "^1.1.0",
-                "phpunit/phpunit": "~4.0",
-                "squizlabs/php_codesniffer": "^2.0",
-                "zendframework/zend-stdlib": "^2.7.3 || ^3.0"
-            },
-            "suggest": {
-                "container-interop/container-interop": "^1.1.0, to use the lazy listeners feature",
-                "zendframework/zend-stdlib": "^2.7.3 || ^3.0, to use the FilterChain feature"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.0-dev",
-                    "dev-develop": "3.1-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Zend\\EventManager\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "Trigger and listen to events within a PHP application",
-            "homepage": "https://github.com/zendframework/zend-eventmanager",
-            "keywords": [
-                "event",
-                "eventmanager",
-                "events",
-                "zf2"
-            ],
-            "time": "2016-02-18 20:53:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "doctrine/migrations": 20,
-        "doctrine/doctrine-migrations-bundle": 20,
-        "jms/di-extra-bundle": 20,
+        "doctrine/migrations": 15,
         "jms/serializer-bundle": 20
     },
     "prefer-stable": false,
