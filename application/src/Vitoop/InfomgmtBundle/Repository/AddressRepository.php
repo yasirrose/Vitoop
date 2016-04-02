@@ -9,12 +9,12 @@ use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
  */
 class AddressRepository extends ResourceRepository
 {
-    public function getResources(SearchResource $search)
+    public function getResourcesQuery(SearchResource $search)
     {
         $qb = $this->createQueryBuilder('r')
             ->select('r.zip, r.city, r.street, r.country');
         $this->prepareListQueryBuilder($qb, $search);
 
-        return $qb->getQuery()->getResult();
+        return $qb;
     }
 }

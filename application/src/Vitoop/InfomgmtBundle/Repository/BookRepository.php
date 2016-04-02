@@ -12,11 +12,11 @@ use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
  */
 class BookRepository extends ResourceRepository
 {
-    public function getResources(SearchResource $search)
+    public function getResourcesQuery(SearchResource $search)
     {
         $qb = $this->createQueryBuilder('r')->select('r.author, r.tnop');
         $this->prepareListQueryBuilder($qb, $search);
 
-        return $qb->getQuery()->getResult();
+        return $qb;
     }
 }

@@ -7,8 +7,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
+use Vitoop\InfomgmtBundle\DTO\Resource\SearchColumns;
+use Vitoop\InfomgmtBundle\DTO\Paging;
 
 /**
  * @Route("api/")
@@ -23,22 +26,31 @@ class ResourceApiController extends ApiController
      */
     public function listAction($resType, Request $request)
     {
-        //$serializer = $this->get('jms_serializer');
-        //$context = new SerializationContext();
-        //$context->setSerializeNull(true);
-
-        $search = new SearchResource(
+       $search = new SearchResource(
+            new Paging(
+                $request->query->get('start', 0),
+                $request->query->get('length')
+            ),
+            new SearchColumns(
+                $request->query->get('columns', array()),
+                $request->query->get('order', array())
+            ),
             $request->query->has('flagged'),
             $request->query->has('resource')?$request->query->getDigits('resource'):null,
             $request->query->get('taglist', array()),
             $request->query->get('taglist_i', array()),
             $request->query->get('taglist_h', array()),
-            $request->query->get('tagcnt', 0)
+            $request->query->get('tagcnt', 0),
+            $request->query->get('search', null)
         );
 
         $resources = $this->get('vitoop.resource_manager')
             ->getRepository($resType)
             ->getResources($search);
+        $total = $this->get('vitoop.resource_manager')
+            ->getRepository($resType)
+            ->getResourcesTotal($search);
+        
         if ($resType == 'prj') {
             $repo = $this->getDoctrine()->getRepository('VitoopInfomgmtBundle:Project');
             foreach ($resources as &$resource) {
@@ -46,12 +58,13 @@ class ResourceApiController extends ApiController
                 $resource['canRead'] = $project->getProjectData()->availableForReading($this->getUser());
             }
         }
-        //$resources = array_values($resources);
-        //$response = $serializer->serialize(['data'=> $resources], 'json', $context);
-        //return new Response($response);
-        //var_dump($resources);
-       // exit();
-        return $this->getApiResponse(['data'=> $resources]);
+
+        return $this->getApiResponse(array(
+            'draw' => $request->query->get('draw'),
+            'recordsTotal' => $total,
+            'recordsFiltered' => $total,
+            'data'=> $resources,
+        ));
     }
 
     /**

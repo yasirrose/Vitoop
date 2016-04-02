@@ -30,11 +30,12 @@ class LexiconRepository extends ResourceRepository
                     ->getResult();
     }
 
-    public function getResources(SearchResource $search)
+    public function getResourcesQuery(SearchResource $search)
     {
-        $qb = $this->createQueryBuilder('r')->select('r.wiki_fullurl');
+        $qb = $this->createQueryBuilder('r')
+            ->select('r.wiki_fullurl as url');
         $this->prepareListQueryBuilder($qb, $search);
 
-        return $qb->getQuery()->getResult();
+        return $qb;
     }
 }

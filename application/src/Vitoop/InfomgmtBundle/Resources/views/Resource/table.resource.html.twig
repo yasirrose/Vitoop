@@ -73,10 +73,10 @@
             <th style="width:7%;"><span class="table-head">{{ dateTitle }}</span></th>
             <th style="width:36%;"><span class="table-head">Bezeichnung</span></th>
             <th style="width:22%;"><span class="table-head">URL</span></th>
-            <th style="width:4%;"><span class="table-head">HP</span></th>
+            <th style="width:4%;" data-b-searchable="false"><span class="table-head">HP</span></th>
             <th style="width:10%;" data-b-searchable="false"><span class="table-head">Bewertung</span></th>
             <th style="width:4%;" data-b-searchable="false"><span class="table-head">RR</span></th>
-            <th style="width:14%;"><span class="table-head">von</span></th>
+            <th style="width:14%;" data-b-searchable="false"><span class="table-head">von</span></th>
             <th style="width:{{ linkWidth }};" data-b-sortable="false" data-b-searchable="false"><span class="table-head">{{ linkTitle }}</span></th>
             </tr>
         {% endif %}
@@ -97,7 +97,7 @@
             <th style="width:7%;"><span class="table-head">{{ dateTitle }}</span></th>
             <th style="width:40%;"><span class="table-head">Lexikonbegriff</span></th>
             <th style="width:33%;" data-b-searchable="false"><span class="table-head">Wiki-URL</span></th>
-            <th style="width:4%;"><span class="table-head">RR</span></th>
+            <th style="width:4%;" data-b-searchable="false"><span class="table-head">RR</span></th>
             <th style="width:14%;"><span class="table-head">von</span></th>
             <th style="width:{{ linkWidth }};" data-b-sortable="false" data-b-searchable="false"><span class="table-head">{{ linkTitle }}</span></th>
             </tr>
@@ -123,19 +123,20 @@
         var domPrefix = (!searchToggler.getState())?('<"'):('<"ui-helper-hidden ');
         domPrefix += dtDomObject();
         var datatable = $('table#list-{{ restype }}').DataTable({
-            "autoWidth": false,
-            "stateSave": true,
-            "lengthMenu": [ 7, 8, 9, 10, 11, 12, 13, 14, 15, 20, 50, 100 ],
-            "language": dtLanguageObject(),
-            "ajax": "{{ ajaxUrl |raw }}",
-            "order": [],
-            "dom": domPrefix,
-            "columns": getColumns('{{ restype}}', {% if is_granted('ROLE_ADMIN') %}1{% else %}0{% endif %}, {% if isEdit is defined and isEdit %}1{% else %}0{% endif %}, {% if  isCoef is defined and isCoef %}1{% else %}0{% endif %}),
-            "pagingType": "full_numbers",
-            "rowCallback": dtRowCallback,
+            autoWidth: false,
+            stateSave: true,
+            lengthMenu: [ 7, 8, 9, 10, 11, 12, 13, 14, 15, 20, 50, 100 ],
+            language: dtLanguageObject(),
+            serverSide: true,
+            ajax: "{{ ajaxUrl |raw }}",
+            order: [],
+            dom: domPrefix,
+            columns: getColumns('{{ restype}}', {% if is_granted('ROLE_ADMIN') %}1{% else %}0{% endif %}, {% if isEdit is defined and isEdit %}1{% else %}0{% endif %}, {% if  isCoef is defined and isCoef %}1{% else %}0{% endif %}),
+            pagingType: "full_numbers",
+            rowCallback: dtRowCallback,
             {% if (isCoef is defined and isCoef) %}
-            "drawCallback": dtDrawCallback,
-            "ordering": false,
+            drawCallback: dtDrawCallback,
+            ordering: false,
             {% endif %}
         });
         datatable

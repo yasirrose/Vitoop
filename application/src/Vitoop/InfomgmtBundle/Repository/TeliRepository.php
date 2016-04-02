@@ -11,11 +11,12 @@ use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
  */
 class TeliRepository extends ResourceRepository
 {
-    public function getResources(SearchResource $search)
+    public function getResourcesQuery(SearchResource $search)
     {
-        $qb = $this->createQueryBuilder('r')->select('r.author, r.url');
+        $qb = $this->createQueryBuilder('r')
+            ->select('r.author, r.url');
         $this->prepareListQueryBuilder($qb, $search);
 
-        return $qb->getQuery()->getResult();
+        return $qb;
     }
 }

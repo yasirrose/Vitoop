@@ -2,6 +2,8 @@
 
 namespace Vitoop\InfomgmtBundle\DTO\Resource;
 
+use Vitoop\InfomgmtBundle\DTO\Paging;
+
 class SearchResource
 {
     /**
@@ -31,13 +33,31 @@ class SearchResource
      */
     public $countTags = 0;
 
+    /**
+     * @var string 
+     */
+    public $searchString = null;
+
+    /**
+     * @var Paging 
+     */
+    public $paging;
+
+    /**
+     * @var SearchColumns 
+     */
+    public $columns;
+
     public function __construct(
+        Paging $paging,
+        SearchColumns $columns,
         $flagged = false,
         $resource = null,
         $tags = array(),
         $ignoredTags = array(),
         $highlightTags = array(),
-        $countTags = array()
+        $countTags = array(),
+        $search = null
     ) {
         $this->flagged = $flagged;
         $this->resource = $resource;
@@ -45,5 +65,10 @@ class SearchResource
         $this->ignoredTags = $ignoredTags;
         $this->highlightTags = $highlightTags;
         $this->countTags = $countTags;
+        if (isset($search['value'])) {
+            $this->searchString = $search['value'];
+        }
+        $this->paging = $paging;
+        $this->columns = $columns;
     }
 }

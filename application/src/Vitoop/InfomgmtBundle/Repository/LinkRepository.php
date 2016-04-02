@@ -9,12 +9,12 @@ use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
  */
 class LinkRepository extends ResourceRepository
 {
-    public function getResources(SearchResource $search)
+    public function getResourcesQuery(SearchResource $search)
     {
         $qb = $this->createQueryBuilder('r')
             ->select('r.is_hp, r.url');
         $this->prepareListQueryBuilder($qb, $search);
 
-        return $qb->getQuery()->getResult();
+        return $qb;
     }
 }

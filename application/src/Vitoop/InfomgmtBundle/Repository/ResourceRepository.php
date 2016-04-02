@@ -11,6 +11,7 @@ use Pagerfanta\Pagerfanta;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /*
  * ResourceRepository
@@ -19,6 +20,15 @@ class ResourceRepository extends EntityRepository
 {
     //\Doctrine\Common\Util\Debug::dump($result);die();
 
+    /**
+     * @param SearchResource $search
+     * @return QueryBuilder
+     */
+    public function getResourcesQuery(SearchResource $search)
+    {
+        
+    }
+    
     protected function map_resource_type_to_classname($resource_type)
     {
 
@@ -312,15 +322,36 @@ class ResourceRepository extends EntityRepository
             $query->where('f IS NULL');
         }
 
+        if ($search->searchString) {
+            $searchString = implode('OR ', array_map(function ($field) {
+                $alias = 'username'==$field?'u.':'r.';
+                return $alias.$field . ' LIKE :searchString ';
+            }, $search->columns->searchable));
+
+            $query
+                ->andWhere($searchString)
+                ->setParameter('searchString', '%'.$search->searchString.'%');
+        }
+
         if (!is_null($search->resource)) {
             $this->prepareListByResourceQueryBuilder($query, $search->resource);
         } elseif (!empty($search->tags)) {
             $this->prepareListByTagsQueryBuilder($query, $search);
         }
 
-        //@TODO: Remove after refactoring
-        $query->setMaxResults(10);
+        if ($search->columns->sortableColumn) {
+            $sortAlias = $this->getResourceFieldAlias($search->columns->sortableColumn, $rootEntity);
+            $query
+                ->orderBy(
+                    $sortAlias.$search->columns->sortableColumn,
+                    $search->columns->sortableOrder
+                );
+        }
         
+        $query
+            ->setFirstResult($search->paging->offset)
+            ->setMaxResults($search->paging->limit);
+
         return $query;
     }
 
@@ -412,5 +443,38 @@ class ResourceRepository extends EntityRepository
             ->setParameter('resource', $resource)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function getResources(SearchResource $search)
+    {
+        return $this->getResourcesQuery($search)
+            ->getQuery()
+            ->setHint(
+                \Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER,
+                'Vitoop\\InfomgmtBundle\\Doctrine\\Walkers\\MysqlPaginationWalker'
+            )
+            ->setHint("mysqlWalker.sqlCalcFoundRows", true)
+            ->getResult();
+    }
+    public function getResourcesTotal(SearchResource $search)
+    { 
+        return $this->_em->getConnection()->query('SELECT FOUND_ROWS()')->fetchColumn(0);
+    }
+
+    private function getResourceFieldAlias($field, $rootEntity)
+    {
+        switch ($field){
+            case 'username':
+                return 'u.';
+            case 'avgmark':
+            case 'res12count':
+                return '';
+            case 'url':
+                if ($rootEntity == 'Vitoop\InfomgmtBundle\Entity\Lexicon') {
+                    return '';
+                }
+            default:
+                return 'r.';
+        }
     }
 }

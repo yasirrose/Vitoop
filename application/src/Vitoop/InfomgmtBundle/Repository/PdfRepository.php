@@ -30,12 +30,12 @@ class PdfRepository extends ResourceRepository
         return $query->getQuery()->getResult();
     }
 
-    public function getResources(SearchResource $search)
+    public function getResourcesQuery(SearchResource $search)
     {
         $qb = $this->createQueryBuilder('r')
             ->select('r.author, r.url, r.tnop, r.isDownloaded');
         $this->prepareListQueryBuilder($qb, $search);
 
-        return $qb->getQuery()->getResult();
+        return $qb;
     }
 }
