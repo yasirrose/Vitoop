@@ -2,6 +2,7 @@
 namespace Vitoop\InfomgmtBundle\Controller;
 
 use Symfony\Component\HttpKernel\KernelEvents;
+use Vitoop\InfomgmtBundle\Entity\Comment;
 use Vitoop\InfomgmtBundle\Entity\Flag;
 use Vitoop\InfomgmtBundle\Entity\UserConfig;
 use Vitoop\InfomgmtBundle\Entity\UserData;
@@ -505,10 +506,35 @@ class ResourceController extends ApiController
         /* @var $res \Vitoop\InfomgmtBundle\Entity\Resource */
         $res = $rdc->getResource();
 
-        $content['resource-comments'] = $rdc->getComment();
-
-        return new Response(json_encode($content));
+        return $this->getApiResponse(array(
+            'resource-comments' => $rdc->getComment()
+        ));
     }
+
+    /**
+     * @Route(
+     *      "/{resType}/{resId}/comments/{comment}",
+     *      name="_xhr_resource_comments_hide",
+     *      requirements={
+     *          "res_id": "\d+",
+     *          "res_type": "pdf|adr|link|teli|lex|prj|book",
+     *          "comment": "\d+"
+     *      }
+     * )
+     * @Method({"PATCH"})
+     */
+    public function removeCommentAction(Comment $comment, $resType, $resId)
+    {
+        if (!$this->get('vitoop.vitoop_security')->isAdmin()) {
+            throw new AccessDeniedHttpException;
+        }
+        $dto = $this->getDTOFromRequest();
+        $comment->changeVisibity($dto->isVisible);
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->getApiResponse($comment);
+    }
+
 
     /**
      * @Route("/{res_type}/{res_id}/lexicons", name="_xhr_resource_lexicons", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})

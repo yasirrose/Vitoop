@@ -568,9 +568,15 @@ class ResourceDataCollector
             }
         }
 
-        $comments = $this->rm->getEntityManager()
-                             ->getRepository('VitoopInfomgmtBundle:Comment')
-                             ->getAllCommentsFromResource($this->res);
+        if ($this->vsec->isAdmin()) {
+            $comments = $this->rm->getEntityManager()
+                ->getRepository('VitoopInfomgmtBundle:Comment')
+                ->getAllCommentsFromResource($this->res);
+        } else {
+            $comments = $this->rm->getEntityManager()
+                ->getRepository('VitoopInfomgmtBundle:Comment')
+                ->getAllVisibleCommentsFromResource($this->res);
+        }
 
         $fv_comment = $form_comment->createView();
 

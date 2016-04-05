@@ -2,12 +2,13 @@
 namespace Vitoop\InfomgmtBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Vitoop\InfomgmtBundle\DTO\GetDTOInterface;
 
 /**
  * @ORM\Table(name="comment")
  * @ORM\Entity(repositoryClass="Vitoop\InfomgmtBundle\Repository\CommentRepository")
  */
-class Comment
+class Comment implements GetDTOInterface
 {
     /**
      * @ORM\Column(name="id", type="integer")
@@ -37,6 +38,13 @@ class Comment
      * @ORM\JoinColumn(name="id_resource", referencedColumnName="id", onDelete="cascade")
      */
     protected $resource;
+
+    /**
+     * @var boolean
+     * 
+     * @ORM\Column(name="is_visible", type="boolean", options={"default":true})
+     */
+    protected $isVisible = true;
 
     public function __construct()
     {
@@ -133,5 +141,29 @@ class Comment
     public function getResource()
     {
         return $this->resource;
+    }
+
+    public function getIsVisible()
+    {
+        return $this->isVisible;
+    }
+
+    public function changeVisibity($isVisble)
+    {
+        $this->isVisible = $isVisble;
+    }
+
+    public function getDTO()
+    {
+        return array(
+            'id'=> $this->id,
+            'text' => $this->text,
+            'user' => array(
+                'id' => $this->user->getId(),
+                'username' => $this->user->getUsername(),
+            ),
+            'isVisible' => $this->isVisible,
+            'created_at' => $this->created_at->format(\DateTime::ISO8601)
+        );
     }
 }

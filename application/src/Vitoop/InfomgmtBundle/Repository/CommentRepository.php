@@ -4,27 +4,33 @@ namespace Vitoop\InfomgmtBundle\Repository;
 
 use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\Entity\User;
-
 use Doctrine\ORM\EntityRepository;
 
-/**
- * CommentRepository
- */
-
-/**
- *
- * @author tweini
- */
 class CommentRepository extends EntityRepository
 {
     public function getAllCommentsFromResource(Resource $resource)
     {
+        return $this->getAllCommentsQuery($resource)
+            ->getQuery()
+            ->getResult();
+    }
 
-        $comments = $this->getEntityManager()
-                         ->createQuery('SELECT c, partial u.{id, username} FROM VitoopInfomgmtBundle:Comment c  LEFT JOIN c.user u WHERE c.resource=:arg_resource')
-                         ->setParameter('arg_resource', $resource)
-                         ->getResult();
+    public function getAllVisibleCommentsFromResource(Resource $resource)
+    {
+        return $this->getAllCommentsQuery($resource)
+            ->andWhere('c.isVisible = :isVisible')
+            ->setParameter('isVisible', true)
+            ->getQuery()
+            ->getResult();
+    }
 
-        return $comments;
+    private function getAllCommentsQuery(Resource $resource)
+    {
+        return $this->getEntityManager()->createQueryBuilder()
+            ->select('c, partial u.{id, username}')
+            ->from('VitoopInfomgmtBundle:Comment', 'c')
+            ->leftJoin('c.user', 'u')
+            ->where('c.resource=:arg_resource')
+            ->setParameter('arg_resource', $resource);
     }
 }

@@ -531,6 +531,26 @@ resourceDetail = (function () {
                     of: '#' + container_name + ' .vtp-uiinfo-anchor',
                     collision: 'none'
                 }).hide("fade", 3000);
+                
+                $('.vtp-verstecken').on('click', function () {
+                    var showHideButton =  $(this);
+                    $.ajax({
+                        method: 'PATCH',
+                        url: vitoop.baseUrl + ([res_type, res_id, 'comments', showHideButton.attr('data-id')].join('/')),
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            isVisible: showHideButton.hasClass('ui-state-active')
+                        }),
+                        success: function (data) {
+                            if (data.isVisible) {
+                                showHideButton.removeClass('ui-state-active');
+                            } else {
+                                showHideButton.addClass('ui-state-active');
+                            }
+                        }
+                    });
+                });
             }
             /*************************************************************************
              * UIfy: project
