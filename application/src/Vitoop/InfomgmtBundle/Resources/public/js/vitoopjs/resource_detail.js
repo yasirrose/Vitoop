@@ -834,17 +834,19 @@ resourceDetail = (function () {
             // tr_res is current (jqueryfied) tr-element
             if (next_id == -1) {// no NEXT page avaiable
                 return;
-            } else if (next_id == 0) {// load NEXT listpage
-                $('#vtp-res-list table').DataTable().page('next').draw('page');
-                tr_res = $('.vtp-list-first');
-                tgl();
-                res_id = (tr_res.attr('id').split('-'))[1];
-                prev_id = 0;
-                setNextId();
-                // We are still in an asynchronous callback: Tab Maintenance must be
-                // done here
-                hardResetTabs();
-                loadTab(undefined, 0);
+            }
+            if (next_id == 0) {// load NEXT listpage
+                rows = $('#vtp-res-list table').DataTable().page('next').draw('page');
+                rows.on( 'draw.dt', function () {
+                    console.log( 'Table redrawn' );
+                    tr_res = $('.vtp-list-first');
+                    tgl();
+                    res_id = (tr_res.attr('id').split('-'))[1];
+                    prev_id = 0;
+                    setNextId();
+                    hardResetTabs();
+                    loadTab(undefined, 0);
+                });
             } else { // flip to NEXT resource
                 tgl();
                 var nextElement = tr_res.next('tr');
