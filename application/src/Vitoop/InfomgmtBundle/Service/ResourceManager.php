@@ -181,6 +181,9 @@ class ResourceManager
             $this->em->persist($resource);
             $this->em->flush();
         } catch (\Exception $e) {
+            if (!method_exists($resource, 'getUrl')) {
+                throw $e;
+            }
             $existing_resource = $repo->findOneBy(array('url' => $resource->getUrl()));
             if (null === $existing_resource) {
                 throw new \Exception('EIn Fehler ist aufgetreten, sorry!');

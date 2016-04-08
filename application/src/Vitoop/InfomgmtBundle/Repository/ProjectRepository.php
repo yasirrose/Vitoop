@@ -17,7 +17,8 @@ class ProjectRepository extends ResourceRepository
     public function getResourcesQuery(SearchResource $search)
     {
         $qb = $this->createQueryBuilder('r')
-            ->select('r.lang');
+            ->select('la.code')
+            ->join('r.lang', 'la');
         $this->prepareListQueryBuilder($qb, $search);
 
         return $qb;

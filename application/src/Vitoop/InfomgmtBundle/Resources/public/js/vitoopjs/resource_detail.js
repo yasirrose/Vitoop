@@ -838,7 +838,6 @@ resourceDetail = (function () {
             if (next_id == 0) {// load NEXT listpage
                 rows = $('#vtp-res-list table').DataTable().page('next').draw('page');
                 rows.on( 'draw.dt', function () {
-                    console.log( 'Table redrawn' );
                     tr_res = $('.vtp-list-first');
                     tgl();
                     res_id = (tr_res.attr('id').split('-'))[1];

@@ -4,33 +4,33 @@ namespace Vitoop\InfomgmtBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Doctrine\ORM\EntityRepository;
 
 class ResourceType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name', null, array('label' => 'Name:'))
-                ->add('country', 'choice', array(
-                    'choices' => array(
-                        'DE' => 'Deutschland',
-                        'DK' => 'Dänemark',
-                        'NL' => 'Niederlande',
-                        'XX' => 'anderes Land'
-                    ),
-                    'label' => 'Land.'
-                ))
-                ->add('lang', 'choice', array(
-                    'choices' => array(
-                        'de' => 'deutsch',
-                        'en' => 'englisch',
-                        'fr' => 'französisch',
-                        'es' => 'spanisch',
-                        'po' => 'portugiesisch',
-                        'nl' => 'niederländisch',
-                        'xx' => 'andere Sprache'
-                    ),
-                    'label' => 'Sprache:'
-                ))
+                ->add('country', 'entity', array(
+                    'label' => 'Land.',
+                    'class' => 'VitoopInfomgmtBundle:Country',
+                    'property' => 'name',
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('c')
+                            ->orderBy('c.sortOrder', 'ASC');
+                        },
+                    )
+                )
+                ->add('lang', 'entity', array(
+                    'label' => 'Sprache:',
+                    'class' => 'VitoopInfomgmtBundle:Language',
+                    'property' => 'name',
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('l')
+                            ->orderBy('l.sortOrder', 'ASC');
+                        },
+                    )
+                )
                 ->add('save', 'input_type_submit', array('label' => 'speichern'));
     }
 

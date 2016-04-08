@@ -74,12 +74,14 @@ class Resource
     protected $flags;
 
     /**
-     * @ORM\Column(name="language", type="string", length=2)
+     * @ORM\ManyToOne(targetEntity="Language")
+     * @ORM\JoinColumn(name="language", referencedColumnName="code")
      */
     protected $lang;
 
     /**
-     * @ORM\Column(name="country", type="string", length=2)
+     * @ORM\ManyToOne(targetEntity="Country")
+     * @ORM\JoinColumn(name="country", referencedColumnName="code")
      */
     protected $country;
 
@@ -106,8 +108,8 @@ class Resource
     {
         $this->created_at = new \DateTime();
         $this->updated_at = new \DateTime();
-        $this->lang = 'xx';
-        $this->country = 'XX';
+        //$this->lang = 'xx';
+        //$this->country = 'XX';
 
         $this->rel_tags = new ArrayCollection();
         $this->ratings = new ArrayCollection();
