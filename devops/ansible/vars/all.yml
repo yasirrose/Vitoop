@@ -1,7 +1,7 @@
 ---
 server:
     install: '1'
-    packages: [vim, git, htop, npm, nodejs]
+    packages: [vim, git, htop, nodejs]
     timezone: UTC
     locale: ru_RU.UTF-8
 vagrant_local:
@@ -20,8 +20,8 @@ mysql:
     dump: false #devops/ansible/files/live_vitoop.dump.sql
 php:
     install: '1'
-    ppa: php5-5.6
-    packages: [php5-cli, php5-intl, php5-mcrypt, php5-curl, php5-common, php5-gd, php5-fpm, php5-mysql]
+    ppa: php
+    packages: [php7.0-cli, php7.0-intl, php7.0-mcrypt, php7.0-curl, php7.0-common, php7.0-gd, php7.0-fpm, php7.0-mysql]
 xdebug:
     install: '1'
 composer:
