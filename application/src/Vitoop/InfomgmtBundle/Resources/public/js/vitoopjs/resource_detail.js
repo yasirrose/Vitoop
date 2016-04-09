@@ -815,6 +815,7 @@ resourceDetail = (function () {
         },
 
         tgl = function () {
+            $('td.ui-state-active').removeClass('ui-state-active');
             tr_res.children().toggleClass('ui-state-active');
         },
 
@@ -837,11 +838,12 @@ resourceDetail = (function () {
             }
             if (next_id == 0) {// load NEXT listpage
                 rows = $('#vtp-res-list table').DataTable().page('next').draw('page');
-                rows.on( 'draw.dt', function () {
+                rows.on('draw.dt', function () {
                     tr_res = $('.vtp-list-first');
                     tgl();
                     res_id = (tr_res.attr('id').split('-'))[1];
                     prev_id = 0;
+                    
                     setNextId();
                     hardResetTabs();
                     loadTab(undefined, 0);
@@ -882,17 +884,20 @@ resourceDetail = (function () {
             // tr_res is current (jqueryfied) tr-element
             if (prev_id == -1) {// no PREVious page avaiable
                 return;
-            } else if (prev_id == 0) {// load PREVious listpage
-                $('#vtp-res-list table').DataTable().page('next').draw('page');
-                tr_res = $('.vtp-list-last');
-                tgl();
-                res_id = (tr_res.attr('id').split('-'))[1];
-                next_id = 0;
-                setPrevId();
-                // We are still in an asynchronous callback: Tab Maintenance must be
-                // done here
-                hardResetTabs();
-                loadTab(undefined, 0);
+            }
+            if (prev_id == 0) {// load PREVious listpage
+                rows = $('#vtp-res-list table').DataTable().page('previous').draw('page');
+                rows.on('draw.dt', function () {
+                    tr_res = $('.vtp-list-last');
+                    tgl();
+                    res_id = (tr_res.attr('id').split('-'))[1];
+                    next_id = 0;
+                    setPrevId();
+                    // We are still in an asynchronous callback: Tab Maintenance must be
+                    // done here
+                    hardResetTabs();
+                    loadTab(undefined, 0);
+                });
             } else { // flip to PREVious resource
                 tgl();
                 var prevElement = tr_res.prev('tr');
@@ -1011,6 +1016,7 @@ resourceDetail = (function () {
 
         closeDialog = function () {
             hardResetTabs();
+            $('#vtp-res-list table').DataTable().off('draw.dt');
             // "last seen" is maintained through arr_res_tr_attr_id[]
             arr_tr_res_attr_id[res_type] = res_type + '-' + res_id;
             if (refresh_list) {
