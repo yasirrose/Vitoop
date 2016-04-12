@@ -4,7 +4,6 @@ namespace Vitoop\InfomgmtBundle\Twig\Extension;
 use Vitoop\InfomgmtBundle\Twig\TokenParser\PaginationThemeTokenParser;
 use Vitoop\InfomgmtBundle\Twig\TokenParser\PaginationOptionsTokenParser;
 use Pagerfanta\Pagerfanta;
-
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;

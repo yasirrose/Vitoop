@@ -5,7 +5,7 @@ use Vitoop\InfomgmtBundle\Form\EventListener\TestSubscriber;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TestType extends AbstractType
 {
@@ -14,19 +14,19 @@ class TestType extends AbstractType
         $builder->add('id', null, array('label' => 'ID:'))
                 ->add('testvar1', null, array('label' => 'FIELD_1:'))
                 ->add('testvar2', 'number', array('label' => 'FIELD_2:'))
-                ->add('abschicken', 'input_type_submit', array('label' => 'SAVE'));
+                ->add('abschicken', InputTypeSubmitType::class, array('label' => 'SAVE'));
         // ->add('tags', 'collection', array ('type' => new TestTagType(), 'allow_add' => true));
 
         // $builder->addEventSubscriber(new TestSubscriber());
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
 
         return 'test';
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
 
         $resolver->setDefaults(array('data_class' => 'Vitoop\InfomgmtBundle\Entity\Test', 'lkw_secured' => true));

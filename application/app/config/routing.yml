@@ -1,3 +1,54 @@
-VitoopInfomgmtBundle:
-   resource: "@VitoopInfomgmtBundle/Resources/config/routing.yml"
-   prefix:   /
+_resource:
+    resource: "@VitoopInfomgmtBundle/Controller/ResourceController.php"
+    type:     annotation
+
+_lexicon:
+    resource: "@VitoopInfomgmtBundle/Controller/LexiconController.php"
+    type:     annotation
+   
+_resourcexhr:
+    resource: "@VitoopInfomgmtBundle/Controller/ResourceXhrController.php"
+    type:     annotation
+
+_user:
+    resource: "@VitoopInfomgmtBundle/Controller/UserController.php"
+    type:     annotation
+
+_tag:
+    resource: "@VitoopInfomgmtBundle/Controller/TagController.php"
+    type:     annotation
+
+_todo:
+    resource: "@VitoopInfomgmtBundle/Controller/ToDoController.php"
+    type:     annotation
+
+_resource_api:
+    resource: "@VitoopInfomgmtBundle/Controller/ResourceApiController.php"
+    type:     annotation
+
+_project_api:
+    resource: "@VitoopInfomgmtBundle/Controller/ProjectApiController.php"
+    type:     annotation
+
+_settings:
+    resource: "@VitoopInfomgmtBundle/Controller/SettingsController.php"
+    type:     annotation
+
+_invitation:
+    resource: "@VitoopInfomgmtBundle/Controller/InvitationController.php"
+    type:     annotation
+
+_project_rels_divider_api:
+    resource: "@VitoopInfomgmtBundle/Controller/ProjectRelsDividerController.php"
+    type:     annotation
+
+_rel_resource_resource_api:
+    resource: "@VitoopInfomgmtBundle/Controller/RelResourceResourceApiController.php"
+    type:     annotation
+
+_login_check:
+    path: /login_check
+   
+_logout:
+    path: /logout
+   

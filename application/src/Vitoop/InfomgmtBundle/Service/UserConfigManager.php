@@ -1,27 +1,21 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Master-Tobi
- * Date: 16.04.14
- * Time: 22:19
- */
 
 namespace Vitoop\InfomgmtBundle\Service;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Vitoop\InfomgmtBundle\Entity\UserConfig;
 
 class UserConfigManager
 {
     protected $em;
 
-    protected $sc;
+    protected $tokenStorage;
 
-    public function __construct(ObjectManager $em, SecurityContextInterface $sc)
+    public function __construct(ObjectManager $em, TokenStorageInterface $tokenStorage)
     {
         $this->em = $em;
-        $this->sc = $sc;
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -30,7 +24,7 @@ class UserConfigManager
     public function getUserConfig()
     {
 
-        $user = $this->sc->getToken()
+        $user = $this->tokenStorage->getToken()
                          ->getUser();
 
         $user_config = $user->getUserConfig();

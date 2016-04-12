@@ -3,6 +3,7 @@
 namespace Vitoop\InfomgmtBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Vitoop\InfomgmtBundle\DTO\GetDTOInterface;
 
@@ -17,8 +18,8 @@ class ApiController extends Controller
         return new JsonResponse($data, $status);
     }
 
-    public function getDTOFromRequest($type = null)
+    public function getDTOFromRequest(Request $request, $type = null)
     {
-        return json_decode($this->getRequest()->getContent());
+        return json_decode($request->getContent());
     }
 }

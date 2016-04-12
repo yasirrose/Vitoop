@@ -2,21 +2,20 @@
 namespace Vitoop\InfomgmtBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use JMS\Serializer\SerializationContext;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Vitoop\InfomgmtBundle\Entity\Invitation;
+use Vitoop\InfomgmtBundle\Form\Type\InvitationNewType;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * @Route("/invitation")
  */
-
-class InvitationController extends Controller
+class InvitationController extends ApiController
 {
-
     /**
      * @Route("/toggle", name="invitation_toggle")
      * @Method({"PUT"})
@@ -40,7 +39,7 @@ class InvitationController extends Controller
      *
      * @return array
      */
-    public function newAction()
+    public function newAction(Request $request)
     {
         if ($this->get('vitoop.settings')->getInvitation()->getValue() == false) {
             return $this->redirect($this->generateUrl('_base_url'));
@@ -62,18 +61,15 @@ David Rogalski
 EOT;
 
         $invitation = new Invitation();
-        $form = $this->createForm('invitation_new', $invitation, array(
+        $form = $this->createForm(InvitationNewType::class, $invitation, array(
             'action' => $this->generateUrl('new_invitation'),
             'method' => 'POST'
         ));
 
-        $request = $this->getRequest();
-
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
             if ($form->isValid()) {
-                $em = $this->getDoctrine()
-                    ->getManager();
+                $em = $this->getDoctrine()->getManager();
                 $existing_invitation = $this->getDoctrine()
                     ->getManager()
                     ->getRepository('VitoopInfomgmtBundle:Invitation')

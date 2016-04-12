@@ -2,9 +2,9 @@
 namespace Vitoop\InfomgmtBundle\Form\Type;
 
 use Vitoop\InfomgmtBundle\Form\DataTransformer\EmptyStringToNullTransformer;
-
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 
 class TeliType extends AbstractType
 {
@@ -16,7 +16,7 @@ class TeliType extends AbstractType
                 ->remove('country')
                 ->add('name', null, array('label' => 'Titel:'))
                 ->add('author', null, array('label' => 'Autor'))
-                ->add('url', 'url', array('label' => 'URL'))
+                ->add('url', UrlType::class, array('label' => 'URL'))
                 ->add('release_date', null, array('label' => 'Erschienen:'));
         $builder->get('author')
                 ->addModelTransformer($transformer);
@@ -24,10 +24,10 @@ class TeliType extends AbstractType
 
     public function getParent()
     {
-        return 'res';
+        return ResourceType::class;
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'teli';
     }

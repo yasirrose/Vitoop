@@ -3,7 +3,8 @@ namespace Vitoop\InfomgmtBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vitoop\InfomgmtBundle\Form\DataTransformer\EmptyStringToNullTransformer;
 use Vitoop\InfomgmtBundle\Form\DataTransformer\PublishedToDateStringTransformer;
 
@@ -20,28 +21,28 @@ class BookType extends AbstractType
                 ->add('isbn13', null, array('label' => 'ISBN-13:'))
                 ->add('isbn10', null, array('label' => 'ISBN-10:'))
                 ->add('tnop', null, array('label' => 'Seiten:'))
-                ->add('kind', 'choice', array(
-                    'choices' => array(
+                ->add('kind', ChoiceType::class, [
+                    'choices' => [
                         'XX' => 'auswählen',
                         'Sachbuch' => 'Sachbuch',
                         'Roman' => 'Roman'
-                    ),
+                    ],
                     'label' => 'Art'
-                ))
+                ])
                 ->add('year', null, array('label' => 'Jahr:'));
     }
 
     public function getParent()
     {
-        return 'res';
+        return ResourceType::class;
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'book';
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array('data_class' => 'Vitoop\InfomgmtBundle\Entity\Book'));
     }

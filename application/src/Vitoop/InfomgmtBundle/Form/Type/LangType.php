@@ -3,13 +3,13 @@ namespace Vitoop\InfomgmtBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class LangType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
-        $builder->add('lang', 'choice', array(
+        $builder->add('lang', ChoiceType::class, array(
             'choices' => array(
                 'de' => 'deutsch',
                 'en' => 'englisch',
@@ -23,15 +23,13 @@ class LangType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
-
         return 'lang';
     }
 
     public function getDefaultOptions(array $options)
     {
-
         return array(
             'virtual' => true
         );

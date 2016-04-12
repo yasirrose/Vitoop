@@ -3,15 +3,18 @@ namespace Vitoop\InfomgmtBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class InvitationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('email', 'text', array('label' => 'eMail:'))
-                ->add('days', 'choice', array(
+        $builder->add('email', TextType::class, array('label' => 'eMail:'))
+                ->add('days', ChoiceType::class, array(
                     'label' => 'Gültigkeit:',
                     'choices' => array('1' => '1 Tag', '2' => '2 Tage', '3' => '3 Tage'),
                     'constraints' => new Assert\Range(array(
@@ -22,17 +25,17 @@ class InvitationType extends AbstractType
                         )),
                     'mapped' => false
                 ))
-                ->add('subject', 'text', array('label' => 'Betreff:'))
-                ->add('mail', 'textarea', array('label' => 'Einladungstext:'))
-                ->add('save', 'input_type_submit', array('label' => 'Einladung versenden'));
+                ->add('subject', TextType::class, array('label' => 'Betreff:'))
+                ->add('mail', TextareaType::class, array('label' => 'Einladungstext:'))
+                ->add('save', InputTypeSubmitType::class, array('label' => 'Einladung versenden'));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'invitation';
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array('data_class' => 'Vitoop\InfomgmtBundle\Entity\Invitation'));
     }

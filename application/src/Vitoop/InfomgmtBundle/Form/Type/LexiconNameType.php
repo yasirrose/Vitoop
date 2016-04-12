@@ -3,25 +3,26 @@ namespace Vitoop\InfomgmtBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class LexiconNameType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name', null, array('label' => 'Lexikonartikel'))
-            ->add('can_add', 'hidden', array('mapped' => false))
-            ->add('can_remove', 'hidden', array('mapped' => false))
-            ->add('save', 'input_type_submit', array('label' => '+'))
-            ->add('remove', 'input_type_submit', array('label' => '-'));
+            ->add('can_add', HiddenType::class, array('mapped' => false))
+            ->add('can_remove', HiddenType::class, array('mapped' => false))
+            ->add('save', InputTypeSubmitType::class, array('label' => '+'))
+            ->add('remove', InputTypeSubmitType::class, array('label' => '-'));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'lexicon_name';
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array('data_class' => 'Vitoop\InfomgmtBundle\Entity\Lexicon'));
     }

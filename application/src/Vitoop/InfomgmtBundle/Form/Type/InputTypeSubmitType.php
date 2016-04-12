@@ -5,7 +5,7 @@ namespace Vitoop\InfomgmtBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class InputTypeSubmitType extends AbstractType
 {
@@ -21,13 +21,13 @@ class InputTypeSubmitType extends AbstractType
             // because it has been set in BaseType from the $options
             $options['label'] = false;
         } else {
-            $value = $form->getName();
+            $value = $form->getBlockPrefix();
         }
         // label is set to false (see above) so the label isn't shown
         $view->vars = array_replace($view->vars, array('type' => 'submit', 'value' => $value, 'label' => false));
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array('mapped' => false, 'label' => false, 'required' => false, 'compound' => false));
     }
@@ -35,7 +35,7 @@ class InputTypeSubmitType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'input_type_submit';
     }

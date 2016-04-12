@@ -3,13 +3,14 @@ namespace Vitoop\InfomgmtBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RatingType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('mark', 'choice', array(
+        $builder->add('mark', ChoiceType::class, array(
             'label' => 'Deine Bewertung:',
             'choices' => array(
                 '-5' => '-5',
@@ -24,18 +25,18 @@ class RatingType extends AbstractType
                 '4' => '+4',
                 '5' => '+5'
             ),
-            'empty_value' => 'Bewerte von -5 bis +5'
+            'placeholder' => 'Bewerte von -5 bis +5'
         ))
-                ->add('save_slider', 'input_type_submit', array('label' => 'bewerten', 'attr' => array('name' => 'slider')))
-                ->add('save_dropdown', 'input_type_submit', array('label' => 'bewerten', 'attr' => array('name' => 'dropdown')));
+                ->add('save_slider', InputTypeSubmitType::class, array('label' => 'bewerten', 'attr' => array('name' => 'slider')))
+                ->add('save_dropdown', InputTypeSubmitType::class, array('label' => 'bewerten', 'attr' => array('name' => 'dropdown')));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'rating';
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array('data_class' => 'Vitoop\InfomgmtBundle\Entity\Rating'));
     }

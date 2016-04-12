@@ -9,42 +9,42 @@ parameters:
 services:
     vitoop.settings:
         class:          Vitoop\InfomgmtBundle\Service\SettingsService
-        arguments:      [@doctrine.orm.entity_manager]
+        arguments:      ['@doctrine.orm.entity_manager']
 
     vitoop.downloads:
         class:          Vitoop\InfomgmtBundle\Service\DownloadsService
-        arguments:      [@doctrine.orm.entity_manager, @service_container, @vitoop.settings]
+        arguments:      ['@doctrine.orm.entity_manager', '@service_container', '@vitoop.settings']
 
     vitoop.resource_manager:
-        class:          %vitoop.resource_manager.class%
-        arguments:      [@doctrine.orm.entity_manager, @vitoop.vitoop_security]
+        class:          '%vitoop.resource_manager.class%'
+        arguments:      ['@doctrine.orm.entity_manager', '@vitoop.vitoop_security']
       
     vitoop.lexicon_query_manager:
-        class:          %vitoop.lexicon_query_manager.class%
-        arguments:      [@buzz.browser]
+        class:          '%vitoop.lexicon_query_manager.class%'
+        arguments:      ['@buzz.browser']
 
     vitoop.resource_data_collector:
-        class:          %vitoop.resource_data_collector.class%
-        arguments:      [@vitoop.resource_manager, @vitoop.vitoop_security, @vitoop.lexicon_query_manager, @form.factory, @twig, @router]
+        class:          '%vitoop.resource_data_collector.class%'
+        arguments:      ['@vitoop.resource_manager', '@vitoop.vitoop_security', '@vitoop.lexicon_query_manager', '@form.factory', '@twig', '@router']
 
     vitoop.vitoop_security:
-        class:          %vitoop.vitoop_security.class%
-        arguments:      [@security.context]
+        class:          '%vitoop.vitoop_security.class%'
+        arguments:      ['@security.token_storage','@security.authorization_checker']
 
     vitoop.user_config_manager:
-        class:          %vitoop.user_config_manager.class%
-        arguments:      [@doctrine.orm.entity_manager, @security.context]
+        class:          '%vitoop.user_config_manager.class%'
+        arguments:      ['@doctrine.orm.entity_manager', '@security.token_storage']
 
     #KernelListeners
     kernel.listener.resource_data_collector_initializer_listener:
         class:          Vitoop\InfomgmtBundle\EventListener\ResourceDataCollectorInitializerListener
-        arguments:      [@vitoop.resource_data_collector, @vitoop.resource_manager]
+        arguments:      ['@vitoop.resource_data_collector', '@vitoop.resource_manager']
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
 
     kernel.listener.login_listener:
         class:          Vitoop\InfomgmtBundle\EventListener\LoginListener
-        arguments:      [@vitoop.user_config_manager]
+        arguments:      ['@vitoop.user_config_manager', '@event_dispatcher']
         tags:
             - { name: kernel.event_listener, event: security.interactive_login, method: onInteractiveLogin }
 
@@ -60,9 +60,9 @@ services:
             - { name: form.type, alias: pdf }
 
     vitoop.form.type.book:
-            class: Vitoop\InfomgmtBundle\Form\Type\BookType
-            tags:
-                - { name: form.type, alias: book }
+        class: Vitoop\InfomgmtBundle\Form\Type\BookType
+        tags:
+            - { name: form.type, alias: book }
 
     vitoop.form.type.adr:
         class: Vitoop\InfomgmtBundle\Form\Type\AddressType
@@ -174,14 +174,14 @@ services:
 
     vitoop.form.type_extension.security_aware_extension:
         class: Vitoop\InfomgmtBundle\Form\Extension\SecurityAwareTypeExtension
-        arguments:     [@vitoop.vitoop_security]
+        arguments:     ['@vitoop.vitoop_security']
         tags:
-            - { name: form.type_extension, alias: form }
+            - { name: form.type_extension, extended_type:  Symfony\Component\Form\Extension\Core\Type\FormType }
               
     # pg_xxx() - Twig Function
     vitoop.twig.extension.pagination_extension:
         class:   Vitoop\InfomgmtBundle\Twig\Extension\PaginationExtension
-        arguments:     [@router]
+        arguments: ['@router']
         calls:
             - [setRequest, ['@?request=']]
         tags:
@@ -203,6 +203,6 @@ services:
     # Buzz browser
     buzz.browser:
         class:     Buzz\Browser
-        arguments: [@buzz.client.curl]
+        arguments: ['@buzz.client.curl']
 
    

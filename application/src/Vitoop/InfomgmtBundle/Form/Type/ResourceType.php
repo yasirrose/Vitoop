@@ -3,7 +3,8 @@ namespace Vitoop\InfomgmtBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
 
 class ResourceType extends AbstractType
@@ -11,50 +12,36 @@ class ResourceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name', null, array('label' => 'Name:'))
-                ->add('country', 'entity', array(
+                ->add('country', EntityType::class, array(
                     'label' => 'Land.',
                     'class' => 'VitoopInfomgmtBundle:Country',
-                    'property' => 'name',
+                    'choice_label' => 'name',
                     'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('c')
                             ->orderBy('c.sortOrder', 'ASC');
                         },
                     )
                 )
-                ->add('lang', 'entity', array(
+                ->add('lang', EntityType::class, array(
                     'label' => 'Sprache:',
                     'class' => 'VitoopInfomgmtBundle:Language',
-                    'property' => 'name',
+                    'choice_label' => 'name',
                     'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('l')
                             ->orderBy('l.sortOrder', 'ASC');
                         },
                     )
                 )
-                ->add('save', 'input_type_submit', array('label' => 'speichern'));
+                ->add('save', InputTypeSubmitType::class, array('label' => 'speichern'));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'res';
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array('data_class' => 'Vitoop\InfomgmtBundle\Entity\Resource'));
     }
 }
-/*
-               ->add('created_at', 'date', array(
-                    'widget' => 'single_text',
-                    'format' => 'dd.MM.yyyy',
-                    'disabled' => true,
-                    'label' => 'Eingetragen am:'
-                ))
-                ->add('updated_at', 'date', array(
-                    'widget' => 'single_text',
-                    'format' => 'dd.MM.yyyy',
-                    'disabled' => true,
-                    'label' => 'geändert am:'
-                ))
-*/

@@ -14,7 +14,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Vitoop\InfomgmtBundle\Entity\Lexicon;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Exception;
+use Vitoop\InfomgmtBundle\Form\Type\UserDataType;
+use Vitoop\InfomgmtBundle\Form\Type\ProjectDataType;
+use Vitoop\InfomgmtBundle\Form\Type\VitoopBlogType;
+use Vitoop\InfomgmtBundle\Form\Type\FlagType;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
@@ -25,12 +30,11 @@ class ResourceController extends ApiController
      * @Route("/project/{project_id}", name="_home_project", requirements={"project_id": "\d+"})
      * @Route("/lexicon/{lexicon_id}", name="_home_lexicon", requirements={"lexicon_id": "\d+"})
      */
-    public function homeAction($project_id = 0, $lexicon_id = 0)
+    public function homeAction(Request $request, $project_id = 0, $lexicon_id = 0)
     {
         //@TODO: Fat controller - need refactoring
         $rm = $this->get('vitoop.resource_manager');
         $em = $this->getDoctrine()->getManager();
-        $request = $this->getRequest();
         $tpl_vars = array();
 
         $is_user_home = false;
@@ -86,7 +90,7 @@ class ResourceController extends ApiController
                     $em->flush();
                 }
                 $info_user_data = '';
-                $form_user_data = $this->createForm('user_data', $user_data, array(
+                $form_user_data = $this->createForm(UserDataType::class, $user_data, array(
                     'action' => $this->generateUrl('_home'),
                     'method' => 'POST'
                 ));
@@ -130,7 +134,7 @@ class ResourceController extends ApiController
             if ($isEditMode && $show_as_projectowner) {
                 $project_data = $project->getProjectData();
                 $info_project_data = '';
-                $form_project_data = $this->createForm('project_data', $project_data, array(
+                $form_project_data = $this->createForm(ProjectDataType::class, $project_data, array(
                     'action' => $this->generateUrl('_home_project', array('project_id' => $project->getId())),
                     'method' => 'POST'
                 ));
@@ -185,9 +189,7 @@ class ResourceController extends ApiController
             $home_content_tpl = 'VitoopInfomgmtBundle:Resource:home.lexicon.html.twig';
         }
 
-        if ($this->getRequest()
-                 ->isXmlHttpRequest()
-        ) {
+        if ($request->isXmlHttpRequest()) {
             $home_tpl = $home_content_tpl;
         } else {
             $home_tpl = 'VitoopInfomgmtBundle:Resource:home.html.twig';
@@ -200,10 +202,9 @@ class ResourceController extends ApiController
     /**
      * @Route("/{res_type}/", name="_resource_list", requirements={"res_type": "pdf|adr|link|teli|lex|prj|book"})
      */
-    public function listAction($res_type)
+    public function listAction(Request $request, $res_type)
     {
         $rm = $this->get('vitoop.resource_manager');
-        $request = $this->getRequest();
         $user = $this->get('vitoop.vitoop_security')->getUser();
         $block_content_tpl = 'VitoopInfomgmtBundle:Resource:table.resource.html.twig';
 
@@ -276,9 +277,7 @@ class ResourceController extends ApiController
 
         $tpl_vars = array_merge($tpl_vars, array('ajaxUrl' => $url));
 
-        if ($this->getRequest()
-            ->isXmlHttpRequest()
-        ) {
+        if ($request->isXmlHttpRequest()) {
             $list_tpl = $block_content_tpl;
         } else {
             $list_tpl = 'VitoopInfomgmtBundle:Resource:list.html.twig';
@@ -291,22 +290,20 @@ class ResourceController extends ApiController
     /**
      * @Route("/edit-vitoop-blog", name="_edit_vitoop_blog")
      */
-    public function  editVitoopBlogAction()
+    public function  editVitoopBlogAction(Request $request)
     {
-        $request = $this->getRequest();
         $vsec = $this->get('vitoop.vitoop_security');
         if (!$vsec->isAdmin()) {
             throw new AccessDeniedException();
         }
 
         $vitoop_blog = $this->getDoctrine()
-                            ->getRepository('VitoopInfomgmtBundle:VitoopBlog')
-                            ->findAll();
+            ->getRepository('VitoopInfomgmtBundle:VitoopBlog')
+            ->findAll();
         if (empty($vitoop_blog)) {
             // create initial entry on the fly
             $vitoop_blog = new VitoopBlog();
-            $em = $this->getDoctrine()
-                       ->getManager();
+            $em = $this->getDoctrine()->getManager();
             $em->persist($vitoop_blog);
             $em->flush();
         } else {
@@ -314,15 +311,14 @@ class ResourceController extends ApiController
         }
 
         $info_vitoop_blog = '';
-        $form_vitoop_blog = $this->createForm('vitoop_blog', $vitoop_blog, array(
+        $form_vitoop_blog = $this->createForm(VitoopBlogType::class, $vitoop_blog, array(
             'action' => $this->generateUrl('_edit_vitoop_blog'),
             'method' => 'POST'
         ));
         if ($request->isMethod('POST')) {
             $form_vitoop_blog->handleRequest($request);
             if ($form_vitoop_blog->isValid()) {
-                $em = $this->getDoctrine()
-                           ->getManager();
+                $em = $this->getDoctrine()->getManager();
                 $em->persist($vitoop_blog);
                 $em->flush();
                 $info_vitoop_blog = 'Änderungen wurden erfolgreich gespeichert';
@@ -523,12 +519,12 @@ class ResourceController extends ApiController
      * )
      * @Method({"PATCH"})
      */
-    public function removeCommentAction(Comment $comment, $resType, $resId)
+    public function removeCommentAction(Comment $comment, $resType, $resId, Request $request)
     {
         if (!$this->get('vitoop.vitoop_security')->isAdmin()) {
             throw new AccessDeniedHttpException;
         }
-        $dto = $this->getDTOFromRequest();
+        $dto = $this->getDTOFromRequest($request);
         $comment->changeVisibity($dto->isVisible);
         $this->getDoctrine()->getManager()->flush();
 
@@ -589,7 +585,7 @@ class ResourceController extends ApiController
     /**
      * @Route("/{res_type}/{res_id}/flag/{flag_type}", name="_xhr_resource_flag", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book", "flag_type": "delete|blame"})
      */
-    public function flagAction($res_type, $res_id, $flag_type)
+    public function flagAction(Request $request, $res_type, $res_id, $flag_type)
     {
         /* @var $rdc \Vitoop\InfomgmtBundle\Service\ResourceDataCollector */
         $rdc = $this->get('vitoop.resource_data_collector');
@@ -600,15 +596,12 @@ class ResourceController extends ApiController
         /* @var $res \Vitoop\InfomgmtBundle\Entity\Resource */
         $res = $rdc->getResource();
 
-        /* @var $request \Symfony\Component\HttpFoundation\Request */
-        $request = $rdc->getRequest();
-
         $flag_map_for_title = array('delete' => 'löschen', 'blame' => 'an den Administrator melden');
         $flag_map_for_constant = array('delete' => Flag::FLAG_DELETE, 'blame' => Flag::FLAG_BLAME);
         $info_flag = '';
         $flag_title = $res->getResourceName() . ' ' . $flag_map_for_title[$flag_type];
         $flag = new Flag();
-        $form_flag = $this->createForm('flag', $flag, array(
+        $form_flag = $this->createForm(FlagType::class, $flag, array(
             'action' => $this->generateUrl('_xhr_resource_flag', array('res_type' => $res->getResourceType(), 'res_id' => $res->getId(), 'flag_type' => $flag_type)),
             'method' => 'POST'
         ));

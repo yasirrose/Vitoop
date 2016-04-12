@@ -3,7 +3,7 @@ namespace Vitoop\InfomgmtBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TestTagType extends AbstractType
 {
@@ -12,14 +12,14 @@ class TestTagType extends AbstractType
         $builder->add('name');
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'Vitoop\InfomgmtBundle\Entity\TestTag',
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'testtag';
     }

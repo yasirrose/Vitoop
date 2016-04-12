@@ -1,30 +1,30 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Master-Tobi
- * Date: 19.02.14
- * Time: 02:50
- */
 
 namespace Vitoop\InfomgmtBundle\Service;
 
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
-use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Vitoop\InfomgmtBundle\Entity\Resource;
 
 class VitoopSecurity
 {
-    protected $sc;
+    protected $tokenStorage;
+    
+    protected $authChecker;
 
     protected $decisions;
 
     /* @var $res \Vitoop\InfomgmtBundle\Entity\Resource */
     protected $res;
 
-    public function __construct(SecurityContext $sc)
-    {
-        $this->sc = $sc;
+    public function __construct(
+        TokenStorageInterface $tokenStorage,
+        AuthorizationCheckerInterface $authChecker
+    ) {
+        $this->tokenStorage = $tokenStorage;
+        $this->authChecker = $authChecker;
         $this->decisions = array();
         $this->res = null;
     }
@@ -50,7 +50,7 @@ class VitoopSecurity
     public function isViewer()
     {
         if (!isset ($this->decisions['is_read_only'])) {
-            $this->decisions['is_read_only'] = !$this->sc->isGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED);
+            $this->decisions['is_read_only'] = !$this->authChecker->isGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED);
         }
 
         return $this->decisions['is_read_only'];
@@ -59,7 +59,7 @@ class VitoopSecurity
     public function isUser()
     {
         if (!isset ($this->decisions['is_user'])) {
-            $this->decisions['is_user'] = $this->sc->isGranted('ROLE_USER');
+            $this->decisions['is_user'] = $this->authChecker->isGranted('ROLE_USER');
         }
 
         return $this->decisions['is_user'];
@@ -85,7 +85,7 @@ class VitoopSecurity
     public function isAdmin()
     {
         if (!isset ($this->decisions['is_admin'])) {
-            $this->decisions['is_admin'] = $this->sc->isGranted('ROLE_ADMIN');
+            $this->decisions['is_admin'] = $this->authChecker->isGranted('ROLE_ADMIN');
         }
 
         return $this->decisions['is_admin'];
@@ -105,6 +105,6 @@ class VitoopSecurity
 
     public function getUser()
     {
-        return $this->sc->getToken()->getUser();
+        return $this->tokenStorage->getToken()->getUser();
     }
 }

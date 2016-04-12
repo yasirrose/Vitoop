@@ -77,7 +77,8 @@ class ResourceApiController extends ApiController
     public function getTabsInfo(Resource $resource)
     {
         $serializer = $this->get('jms_serializer');
-        $info = $this->getDoctrine()->getRepository('VitoopInfomgmtBundle:Resource')->getResourceTabsInfo($resource, $this->get('security.context')->getToken()->getUser());
+        $info = $this->getDoctrine()->getRepository('VitoopInfomgmtBundle:Resource')
+            ->getResourceTabsInfo($resource, $this->getUser());
         $response = $serializer->serialize($info, 'json');
 
         return new Response($response);

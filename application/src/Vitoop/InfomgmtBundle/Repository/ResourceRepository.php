@@ -69,7 +69,7 @@ class ResourceRepository extends EntityRepository
                         FROM ' . $this->getEntityName() . ' r
                         JOIN r.user u
                         LEFT JOIN r.flags f
-                        WHERE f IS NULL
+                        WHERE f.id IS NULL
                         AND r.name=:arg_resource_name')
                     ->setParameter('arg_resource_name', $resource_name)
                     ->getOneOrNullResult();
@@ -98,7 +98,7 @@ class ResourceRepository extends EntityRepository
                        ->innerJoin('r.rel_tags', 'rt')
                        ->innerJoin('rt.tag', 't')
                        ->leftJoin('r.flags', 'f')
-                       ->where('f IS NULL')
+                       ->where('f.id IS NULL')
                        ->andWhere('t.text IN (:tags)')
                        ->groupBy('r.id')
                        ->orderBy('r.id', 'ASC')
@@ -205,7 +205,7 @@ class ResourceRepository extends EntityRepository
                         JOIN r.rel_resources1 rr
                         LEFT JOIN r.flags f
                         WHERE rr.resource2=:arg_resource2
-                        AND f IS NULL
+                        AND f.id IS NULL
                         ORDER BY r.name ASC')
                        ->setParameter('arg_resource2', $resource2)
                        ->getResult();
@@ -222,7 +222,7 @@ class ResourceRepository extends EntityRepository
                                     LEFT JOIN r.flags f
                                     WHERE rr.resource2=:arg_resource2
                                     AND rr.user =:arg_user
-                                    AND f IS NULL
+                                    AND f.id IS NULL
                                     ORDER BY r.name ASC')
                            ->setParameters(array('arg_resource2' => $resource2, 'arg_user' => $user))
                            ->getResult();
@@ -246,7 +246,7 @@ class ResourceRepository extends EntityRepository
                         JOIN r.rel_resources1 rr
                         LEFT JOIN r.flags f
                         WHERE rr.resource2=:arg_resource2
-                        AND f IS NULL
+                        AND f.id IS NULL
                         AND rr.deletedByUser is null
                         GROUP BY r.id
                         ORDER BY r.name ASC')
@@ -316,10 +316,10 @@ class ResourceRepository extends EntityRepository
             $query->leftJoin('r.rel_resources2', 'rrr');
         }
         if ($search->flagged) {
-            $query->where('f IS NOT NULL')
+            $query->where('f.id IS NOT NULL')
                 ->andWhere('f.type != 128');
         } else {
-            $query->where('f IS NULL');
+            $query->where('f.id IS NULL');
         }
 
         if ($search->searchString) {
@@ -383,7 +383,7 @@ class ResourceRepository extends EntityRepository
            ->from($this->getEntityName(), 'r')
            ->innerJoin('r.user', 'u')
            ->leftJoin('r.flags', 'f')
-           ->where('f IS NOT NULL')
+           ->where('f.id IS NOT NULL')
            ->andWhere('f.type != 128')
            ->orderBy('r.created_at', 'DESC');
 

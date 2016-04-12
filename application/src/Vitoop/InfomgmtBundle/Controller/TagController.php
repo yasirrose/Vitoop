@@ -4,6 +4,7 @@ namespace Vitoop\InfomgmtBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Vitoop\InfomgmtBundle\Entity\Pdf;
 use Vitoop\InfomgmtBundle\Entity\Tag;
@@ -17,9 +18,8 @@ class TagController extends Controller
      *
      * @return array
      */
-    public function getTagsInfo()
+    public function getTagsInfo(Request $request)
     {
-        $request = $this->getRequest();
         $tag_list = $request->query->get('taglist');
         $tag_list_ignore = $request->query->get('taglist_i');
 
@@ -40,8 +40,8 @@ class TagController extends Controller
     public function listAction()
     {
         $tags = $this->getDoctrine()
-                     ->getRepository('VitoopInfomgmtBundle:Tag')
-                     ->getAllTagsWithRelResourceTagCount();
+            ->getRepository('VitoopInfomgmtBundle:Tag')
+            ->getAllTagsWithRelResourceTagCount();
 
         return $this->render('VitoopInfomgmtBundle:Tag:tags.html.twig', array('tags' => $tags));
     }
@@ -51,12 +51,11 @@ class TagController extends Controller
      */
     public function convertAction()
     {
-        $em = $this->getDoctrine()
-                   ->getManager();
+        $em = $this->getDoctrine()->getManager();
 
         $pdfs = $this->getDoctrine()
-                     ->getRepository('VitoopInfomgmtBundle:Pdf')
-                     ->findAll();
+            ->getRepository('VitoopInfomgmtBundle:Pdf')
+            ->findAll();
 
         foreach ($pdfs as $pdf) {
             $date_string = $pdf->getPdfDate();

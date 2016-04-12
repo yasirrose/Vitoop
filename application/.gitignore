@@ -1,14 +1,17 @@
 .idea
 *~
 .idea/*
-/web/bundles/
-/app/bootstrap.php.cache
-/app/cache/*
 /app/config/parameters.yml
-/app/logs/*
 /build/
-/vendor/
-/bin/
 /composer.phar
-
+/vendor/
+/web/bundles/
+/var/bootstrap.php.cache
+/var/SymfonyRequirements.php
+/var/cache/*
+!/var/cache/.gitkeep
+/var/logs/*
+!/var/logs/.gitkeep
+/var/sessions/*
+!/var/sessions/.gitkeep
 

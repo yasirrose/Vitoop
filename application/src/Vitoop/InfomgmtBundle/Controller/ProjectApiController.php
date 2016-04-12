@@ -29,12 +29,12 @@ class ProjectApiController extends Controller
      */
     public function getProject(Project $project)
     {
-        if ($project->getProjectData()->availableForWriting($this->get('security.context')->getToken()->getUser())) {
+        if ($project->getProjectData()->availableForWriting($this->getUser())) {
             $serializer = $this->get('jms_serializer');
             $serializerContext = SerializationContext::create()
                 ->setGroups(array('get_project'));
             $response = $serializer->serialize(
-                array('project' => $project, 'isOwner' => ($project->getUser() == $this->get('security.context')->getToken()->getUser())),
+                array('project' => $project, 'isOwner' => ($project->getUser() == $this->getUser())),
                 'json',
                 $serializerContext
             );
@@ -53,7 +53,7 @@ class ProjectApiController extends Controller
      */
     public function deleteProjectAction(Project $project)
     {
-        if ($project->getUser() == $this->get('security.context')->getToken()->getUser()) {
+        if ($project->getUser() == $this->getUser()) {
             $em = $this->getDoctrine()->getManager();
             $rels = $em->getRepository('VitoopInfomgmtBundle:RelResourceResource')->findBy(array('resource1' => $project));
             foreach ($rels as $rel) {
@@ -85,7 +85,7 @@ class ProjectApiController extends Controller
      */
     public function saveProject(Project $project, Request $request)
     {
-        if ($project->getProjectData()->availableForWriting($this->get('security.context')->getToken()->getUser())) {
+        if ($project->getProjectData()->availableForWriting($this->getUser())) {
             $serializer = $this->get('jms_serializer');
             $em = $this->getDoctrine()->getManager();
             $serializerContext = DeserializationContext::create()

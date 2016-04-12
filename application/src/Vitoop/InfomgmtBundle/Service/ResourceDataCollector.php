@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Master-Tobi
- * Date: 13.02.14
- * Time: 04:14
- */
 
 namespace Vitoop\InfomgmtBundle\Service;
 
@@ -21,8 +15,14 @@ use Vitoop\InfomgmtBundle\Entity\Comment;
 use Vitoop\InfomgmtBundle\Entity\Lexicon;
 use Vitoop\InfomgmtBundle\Entity\Project;
 use Vitoop\InfomgmtBundle\Entity\Flag;
-
-use Symfony\Component\Security\Core\SecurityContext;
+use Vitoop\InfomgmtBundle\Form\Adapter\ResourceFormAdapter;
+use Vitoop\InfomgmtBundle\Form\Type\TagType;
+use Vitoop\InfomgmtBundle\Form\Type\CommentType;
+use Vitoop\InfomgmtBundle\Form\Type\LexiconNameType;
+use Vitoop\InfomgmtBundle\Form\Type\ProjectNameType;
+use Vitoop\InfomgmtBundle\Form\Type\RatingType;
+use Vitoop\InfomgmtBundle\Form\Type\RemarkType;
+use Vitoop\InfomgmtBundle\Form\Type\RemarkPrivateType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -121,10 +121,19 @@ class ResourceDataCollector
 
     protected function getFormData()
     {
-        return $this->ff->create($this->res->getResourceType(), $this->res, array(
-            'action' => $this->router->generate('_xhr_resource_data', array('res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId())),
-            'method' => 'POST'
-        ));
+        return $this->ff->create(
+            ResourceFormAdapter::getFormType($this->res->getResourceType()),
+            $this->res,
+            [
+                'action' => $this->router->generate(
+                    '_xhr_resource_data',
+                    [
+                        'res_type' => $this->res->getResourceType(),
+                        'res_id' => $this->res->getId()
+                    ]
+                ),
+                'method' => 'POST'
+        ]);
     }
 
     public function getData()
@@ -242,32 +251,22 @@ class ResourceDataCollector
         $tag_text = '';
         $tag = new Tag();
 
-        //if ($forFullLexiconPage) {
-        //    $action = $this->router->generate('_xhr_resource_tags_lexicon', array(
-        //        'res_type' => $this->res->getResourceType(),
-        //        'res_id' => $this->res->getId(),
-        //        'isLexiconHome' => 1
-        //    ));
-        //    $template = 'VitoopInfomgmtBundle:Resource:lexicon.tag.html.twig';
-        //} else {
-            $action = $this->router->generate('_xhr_resource_tags', array(
-                'res_type' => $this->res->getResourceType(),
-                'res_id' => $this->res->getId()
-            ));
-            $template = 'VitoopInfomgmtBundle:Resource:xhr.resource.tag.html.twig';
-        //}
+        $action = $this->router->generate('_xhr_resource_tags', array(
+            'res_type' => $this->res->getResourceType(),
+            'res_id' => $this->res->getId()
+        ));
+        $template = 'VitoopInfomgmtBundle:Resource:xhr.resource.tag.html.twig';
 
-        $form_tag = $this->ff->create('tag', $tag, array(
+        $form_tag = $this->ff->create(TagType::class, $tag, [
             'action' => $action,
             'method' => 'POST'
-        ));
+        ]);
         $form_tag = $this->addPermissionsToTagForm($form_tag);
 
 
         if ($this->handleData) {
             $form_tag->handleRequest($this->request);
-            $tag_showown = $form_tag->get('showown')
-                                    ->getData();
+            $tag_showown = $form_tag->get('showown')->getData();
             if ($form_tag->isValid()) {
                 if ($form_tag->get('remove')->isEmpty()) {
                     try {
@@ -353,7 +352,7 @@ class ResourceDataCollector
         // Form will be shown and processed when 1.) User hasn't rated AND 2.) User is a logged in User
         if (null === $mark && !$this->vsec->isViewer()) {
             $rating = new Rating();
-            $form_rating = $this->ff->create('rating', $rating, array(
+            $form_rating = $this->ff->create(RatingType::class, $rating, array(
                 'action' => $this->router->generate('_xhr_resource_rating', array('res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId())),
                 'method' => 'POST'
             ));
@@ -375,8 +374,8 @@ class ResourceDataCollector
         }
 
         $avg_mark = $this->rm->getEntityManager()
-                             ->getRepository('VitoopInfomgmtBundle:Rating')
-                             ->getAverageMarkFromResource($this->res);
+            ->getRepository('VitoopInfomgmtBundle:Rating')
+            ->getAverageMarkFromResource($this->res);
         // @TODO Debug-Outputs - is everything correct?
         // for ($i = - 5; $i <= 5; $i += 0.01) {
         // $avg_mark = $i;
@@ -443,7 +442,7 @@ class ResourceDataCollector
             $show_form = true;
         }
 
-        $form_remark = $this->ff->create('remark', $remark, array(
+        $form_remark = $this->ff->create(RemarkType::class, $remark, array(
             'action' => $this->router->generate('_xhr_resource_remark', array('res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId())),
             'method' => 'POST'
         ));
@@ -513,7 +512,7 @@ class ResourceDataCollector
 
         $show_form = true;
 
-        $form_remark = $this->ff->create('remark_private', $remarkPrivate, array(
+        $form_remark = $this->ff->create(RemarkPrivateType::class, $remarkPrivate, array(
             'action' => $this->router->generate('_xhr_resource_remark_private', array('res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId())),
             'method' => 'POST'
         ));
@@ -549,7 +548,7 @@ class ResourceDataCollector
         $info_comment = '';
 
         $comment = new Comment();
-        $form_comment = $this->ff->create('comment', $comment, array(
+        $form_comment = $this->ff->create(CommentType::class, $comment, array(
             'action' => $this->router->generate('_xhr_resource_comments', array('res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId())),
             'method' => 'POST'
         ));
@@ -561,7 +560,7 @@ class ResourceDataCollector
                 $info_comment = 'Kommentar erfolgreich gespeichert';
 
                 $comment = new Comment();
-                $form_comment = $this->ff->create('comment', $comment, array(
+                $form_comment = $this->ff->create(CommentType::class, $comment, array(
                     'action' => $this->router->generate('_xhr_resource_comments', array('res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId())),
                     'method' => 'POST'
                 ));
@@ -607,7 +606,7 @@ class ResourceDataCollector
         $info_lex = '';
         $lex_name = '';
         $lex = new Lexicon();
-        $form_lex = $this->ff->create('lexicon_name', $lex, array(
+        $form_lex = $this->ff->create(LexiconNameType::class, $lex, array(
             'action' => $action,
             'method' => 'POST'
         ));
@@ -629,7 +628,7 @@ class ResourceDataCollector
                             $lex_name = $this->rm->setResource1($lexicon, $this->res);
 
                             $info_lex = 'Lexicon "' . $lex_name . '" successfully added!';
-                            $form_lex = $this->ff->create('lexicon_name', new Lexicon(), array(
+                            $form_lex = $this->ff->create(LexiconNameType::class, new Lexicon(), array(
                                 'action' => $action,
                                 'method' => 'POST'
                             ));
@@ -641,7 +640,7 @@ class ResourceDataCollector
                             }
                             $lex_name = $this->rm->removeLexicon($lexicon, $this->res);
                             $info_lex = 'Lexicon "' . $lex_name . '" successfully removed!';
-                            $form_lex = $this->ff->create('lexicon_name', new Lexicon(), array(
+                            $form_lex = $this->ff->create(LexiconNameType::class, new Lexicon(), array(
                                 'action' => $action,
                                 'method' => 'POST'
                             ));
@@ -683,7 +682,7 @@ class ResourceDataCollector
         foreach ($projectsCollection as $project) {
             $projects[$project['name']] = $project['name'];
         }
-        $form_prj = $this->ff->create('project_name', $prj, array(
+        $form_prj = $this->ff->create(ProjectNameType::class, $prj, array(
             'action' => $this->router->generate('_xhr_resource_projects', array('res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId())),
             'method' => 'POST',
             'projects' => $projects
@@ -694,7 +693,7 @@ class ResourceDataCollector
                 try {
                     $prj_name = $this->rm->setResource1($prj, $this->res);
                     $info_prj = 'Project "' . $prj_name . '" successfully added!';
-                    $form_prj = $this->ff->create('project_name', new Project(), array(
+                    $form_prj = $this->ff->create(ProjectNameType::class, new Project(), array(
                         'action' => $this->router->generate('_xhr_resource_projects', array('res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId())),
                         'method' => 'POST',
                         'projects' => $projects

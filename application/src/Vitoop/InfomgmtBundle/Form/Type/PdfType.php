@@ -3,7 +3,9 @@ namespace Vitoop\InfomgmtBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vitoop\InfomgmtBundle\Form\DataTransformer\EmptyStringToNullTransformer;
 use Vitoop\InfomgmtBundle\Form\DataTransformer\PublishedToDateStringTransformer;
 
@@ -16,24 +18,24 @@ class PdfType extends AbstractType
                 ->add('name', null, array('label' => 'Titel:'))
                 ->add('author', null, array('label' => 'Autor:'))
                 ->add('publisher', null, array('label' => 'Hrsg.:'))
-                ->add('url', 'url', array('label' => 'URL:'))
+                ->add('url', UrlType::class, array('label' => 'URL:'))
                 ->add('tnop', null, array('label' => 'Seiten:'))
-                ->add('pdf_date', 'text', array('label' => 'Erschienen:'));
+                ->add('pdf_date', TextareaType::class, array('label' => 'Erschienen:'));
         $builder->get('publisher')
                 ->addModelTransformer(new EmptyStringToNullTransformer());
     }
 
     public function getParent()
     {
-        return 'res';
+        return ResourceType::class;
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'pdf';
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array('data_class' => 'Vitoop\InfomgmtBundle\Entity\Pdf'));
     }

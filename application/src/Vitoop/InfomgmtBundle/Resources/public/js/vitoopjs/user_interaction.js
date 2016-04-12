@@ -31,7 +31,7 @@ userInteraction = (function () {
         $('#invitations-toggle').click(function() {
             $.ajax({
                 method: "PUT",
-                url: "invitation/toggle",
+                url: "/invitation/toggle",
                 success: function(data){
                     var answer = JSON.parse(data);
                     $('#invitations-toggle > span > span').text(answer.invitation ? 'On' : 'Off');

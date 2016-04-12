@@ -3,27 +3,32 @@ namespace Vitoop\InfomgmtBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TagType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('text', null, array('label' => 'Tag:'))
-                ->add('can_add', 'hidden', array('mapped' => false))
-                ->add('can_remove', 'hidden', array('mapped' => false))
-                ->add('showown', 'checkbox', array('label' => 'Zeige eigene Tags', 'mapped' => false))
-                ->add('save', 'input_type_submit', array('label' => 'Ja'))
-                ->add('remove', 'input_type_submit', array('label' => '-'));
+        $builder->add('text', null, ['label' => 'Tag:'])
+                ->add('can_add', HiddenType::class, ['mapped' => false])
+                ->add('can_remove', HiddenType::class, ['mapped' => false])
+                ->add('showown', CheckboxType::class, ['label' => 'Zeige eigene Tags', 'mapped' => false])
+                ->add('save', InputTypeSubmitType::class, ['label' => 'Ja'])
+                ->add('remove', InputTypeSubmitType::class, ['label' => '-']);
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'tag';
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array('data_class' => 'Vitoop\InfomgmtBundle\Entity\Tag', 'resource_id' => null));
+        $resolver->setDefaults([
+            'data_class' => 'Vitoop\InfomgmtBundle\Entity\Tag',
+            'resource_id' => null
+        ]);
     }
 }

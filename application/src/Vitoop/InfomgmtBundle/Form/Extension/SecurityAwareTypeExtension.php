@@ -6,6 +6,7 @@ use Vitoop\InfomgmtBundle\Service\VitoopSecurity;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 
 class SecurityAwareTypeExtension extends AbstractTypeExtension
 {
@@ -21,21 +22,9 @@ class SecurityAwareTypeExtension extends AbstractTypeExtension
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $is_resource_form = ($form->getRoot()
-                                  ->getConfig()
-                                  ->getType()
-                                  ->getParent()
-                                  ->getName() === 'res');
-
-        $is_user_registration_form = ($form->getRoot()
-                                           ->getConfig()
-                                           ->getType()
-                                           ->getName() === 'user');
-
-        $is_invitation_form = ($form->getRoot()
-                ->getConfig()
-                ->getType()
-                ->getName() === 'invitation_new');
+        $is_resource_form = ($this->getRootFormName($form) === 'res');
+        $is_user_registration_form = ($this->getRootFormName($form) === 'user');
+        $is_invitation_form = ($this->getRootFormName($form) === 'invitation_new');
 
         $disable_form = true;
 
@@ -76,6 +65,14 @@ class SecurityAwareTypeExtension extends AbstractTypeExtension
      */
     public function getExtendedType()
     {
-        return 'form';
+        return FormType::class;
+    }
+
+    private function getRootFormName(FormInterface $form)
+    {
+        return $form->getRoot()
+            ->getConfig()
+            ->getType()
+            ->getBlockPrefix();
     }
 }

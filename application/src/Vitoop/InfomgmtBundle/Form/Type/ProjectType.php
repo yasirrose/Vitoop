@@ -3,6 +3,7 @@ namespace Vitoop\InfomgmtBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Vitoop\InfomgmtBundle\Form\DataTransformer\EmptyStringToNullTransformer;
 
 class ProjectType extends AbstractType
@@ -11,17 +12,17 @@ class ProjectType extends AbstractType
     {
         $builder->remove('country')
                 ->remove('lang')
-                ->add('description', 'textarea', array('label' => 'Projekbescheibung:'));
+                ->add('description', TextareaType::class, array('label' => 'Projekbescheibung:'));
         $builder->get('description')
                 ->addModelTransformer(new EmptyStringToNullTransformer());
     }
 
     public function getParent()
     {
-        return 'res';
+        return ResourceType::class;
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'prj';
     }

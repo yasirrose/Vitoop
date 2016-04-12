@@ -3,30 +3,33 @@ namespace Vitoop\InfomgmtBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProjectNameType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', 'choice', array(
-            'label' => 'Projekt',
-            'choices' => $options['projects'],
-            'empty_value' => 'Choose a project...'
-            ))
-                ->add('save', 'input_type_submit', array('label' => 'mit meinem Projekt verknüpfen'));
+        $builder
+            ->add('name', ChoiceType::class, array(
+                'label' => 'Projekt',
+                'choices' => $options['projects'],
+                'placeholder' => 'Choose a project...'
+                ))
+            ->add('save', InputTypeSubmitType::class, array('label' => 'mit meinem Projekt verknüpfen'));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'project_name';
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver
+            ->setDefaults(array(
             'data_class' => 'Vitoop\InfomgmtBundle\Entity\Project',
             'projects' => array()
-            ));
+        ));
     }
 }

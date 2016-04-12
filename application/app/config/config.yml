@@ -1,8 +1,8 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
-    - { resource: @VitoopInfomgmtBundle/Resources/config/services.yml }
-    
+    - { resource: services.yml }
+
 framework:
     #esi: ~
     translator:      { fallback: de }
@@ -13,7 +13,7 @@ framework:
     form:   ~
     csrf_protection:
         enabled: true
-        field_name: _geheim
+        #field_name: _geheim
     validation:
         enabled: true
         enable_annotations: true
@@ -22,16 +22,17 @@ framework:
     default_locale:  de
     trusted_proxies: ~
     session:
-        handler_id: ~
+        # http://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+        handler_id:  session.handler.native_file
+        save_path:   "/tmp"
     fragments:       ~
 
 # Twig Configuration
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
-    form:
-        resources:
-            - 'VitoopInfomgmtBundle:Form:fields.html.twig'
+    form_themes:
+        - 'VitoopInfomgmtBundle:Form:fields.html.twig'
     globals:
         vsec: '@vitoop.vitoop_security'
         vsettings: '@vitoop.settings'

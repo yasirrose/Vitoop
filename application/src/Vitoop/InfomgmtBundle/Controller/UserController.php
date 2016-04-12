@@ -1,8 +1,10 @@
 <?php
 namespace Vitoop\InfomgmtBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormError;
@@ -13,10 +15,8 @@ use Vitoop\InfomgmtBundle\Entity\Project;
 use Vitoop\InfomgmtBundle\Entity\User;
 use Vitoop\InfomgmtBundle\Entity\UserAgreement;
 use Vitoop\InfomgmtBundle\Form\Type\UserType;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
+use Vitoop\InfomgmtBundle\Form\Type\InvitationType;
 use JMS\Serializer\DeserializationContext;
-use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\Form\Exception;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -40,7 +40,7 @@ class UserController extends Controller
         $user->deactivate();
         $this->getDoctrine()->getManager()->flush();
 
-        $this->get('security.context')->setToken(null);
+        $this->get('security.token_storage')->setToken(null);
         $serializer = $this->get('jms_serializer');
         $response = $serializer->serialize(array('success' => true, 'url' => $this->generateUrl('_base_url')), 'json');
 
@@ -51,13 +51,12 @@ class UserController extends Controller
      * @Route("api/project/{projectID}/user/find", name="user_names")
      * @ParamConverter("project", class="Vitoop\InfomgmtBundle\Entity\Project", options={"id" = "projectID"})
      */
-    public function getUserNamesAction(Project $project)
+    public function getUserNamesAction(Project $project, Request $request)
     {
-        $letter = $this->getRequest()->query->get('s');
-        $user = $this->get('security.context')
-            ->getToken()
-            ->getUser();
-        $names = $this->getDoctrine()->getRepository('VitoopInfomgmtBundle:User')->getNames($letter, $user->getId(), $project->getUser());
+        $letter = $request->query->get('s');
+        $user = $this->getUser();
+        $names = $this->getDoctrine()->getRepository('VitoopInfomgmtBundle:User')
+            ->getNames($letter, $user->getId(), $project->getUser());
         $serializer = $this->get('jms_serializer');
         $response = $serializer->serialize($names, 'json');
 
@@ -107,7 +106,7 @@ class UserController extends Controller
      * @Route("/register/{secret}", name="_register")
      * @Template()
      */
-    public function registerAction($secret)
+    public function registerAction(Request $request, $secret)
     {
         $invitation = $this->getDoctrine()
             ->getManager()
@@ -125,12 +124,10 @@ class UserController extends Controller
             );
         }
 
-        $request = $this->getRequest();
-
         $user = new User();
         $user->setIsAgreedWithTerms(true);
         $user->setEmail(($invitation->getEmail()));
-        $form = $this->createForm(new UserType(), $user, array(
+        $form = $this->createForm(UserType::class, $user, array(
             'action' => $this->generateUrl('_register', array('secret' => $secret)),
             'method' => 'POST'
         ));
@@ -154,8 +151,8 @@ class UserController extends Controller
                     return $this->redirect($this->generateUrl('_home'));
                 } catch (\Exception $e) {
                     $users = $this->getDoctrine()
-                                  ->getRepository('VitoopInfomgmtBundle:User')
-                                  ->usernameExistsOrEmailExists($user->getUsername(), $user->getEmail());
+                            ->getRepository('VitoopInfomgmtBundle:User')
+                            ->usernameExistsOrEmailExists($user->getUsername(), $user->getEmail());
                     foreach ($users as $_user) {
                         if ($_user->getUsername() === $user->getUsername()) {
                             $form_error = new FormError(sprintf('Der Username %s existiert schon. Bitte wähle einen anderen.', $user->getUsername()));
@@ -183,7 +180,7 @@ class UserController extends Controller
      * @Route("/invite", name="_invite")
      * @Template()
      */
-    public function inviteAction()
+    public function inviteAction(Request $request)
     {
         $link = '';
         $info = '';
@@ -203,12 +200,11 @@ EOT;
         $invitation = new Invitation();
         $invitation->setSubject('Einladung zum Informationsportal VitooP');
         $invitation->setMail($mail);
-        $form = $this->createForm('invitation', $invitation, array(
+        $form = $this->createForm(InvitationType::class, $invitation, array(
             'action' => $this->generateUrl('_invite'),
             'method' => 'POST'
         ));
 
-        $request = $this->getRequest();
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
             if ($form->isValid()) {
@@ -219,9 +215,7 @@ EOT;
                                             ->getRepository('VitoopInfomgmtBundle:Invitation')
                                             ->findOneBy(array('email' => $invitation->getEmail()));
                 if (null === $existing_invitation) {
-                    $user = $this->get('security.context')
-                                 ->getToken()
-                                 ->getUser();
+                    $user = $this->getUser();
                     $invitation->setUser($user);
 
                     $days = $form->get('days')
@@ -274,31 +268,24 @@ EOT;
      * @Route("/login", name="_login")
      * @Template()
      */
-    public function loginAction()
+    public function loginAction(Request $request)
     {
-        $request = $this->getRequest();
-        $session = $request->getSession();
+        $authenticationUtils = $this->get('security.authentication_utils');
 
         // get the login error if there is one
-        if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
-            $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
-        } else {
-            $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
-            $session->remove(SecurityContext::AUTHENTICATION_ERROR);
-        }
-        // $container->getParameter('security.role_hierarchy.roles')
-        $all_roles = $this->container->getParameter('security.role_hierarchy.roles');
+        $error = $authenticationUtils->getLastAuthenticationError();
 
-        $tpl_vars = array( // last username entered by the user
-                           'last_username' => $session->get(SecurityContext::LAST_USERNAME),
-                           'error' => $error
-        );
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        $tpl_vars = [
+            'last_username' => $lastUsername,
+            'error' => $error
+        ];
 
         $content_tpl = 'VitoopInfomgmtBundle:User:login.html.twig';
 
-        if ($this->getRequest()
-                 ->isXmlHttpRequest()
-        ) {
+        if ($request->isXmlHttpRequest()) {
             $tpl = $content_tpl;
         } else {
             $tpl = 'VitoopInfomgmtBundle:Resource:home.html.twig';
@@ -321,26 +308,20 @@ EOT;
     {
         $providerKey = 'secured_infomgmt'; // your firewall name
         $token = new UsernamePasswordToken($user, null, $providerKey, $user->getRoles());
-
-        $this->container->get('security.context')
-                        ->setToken($token);
+        $this->get('security.token_storage')->setToken($token);
     }
     
     /**
      * @Route("/password/forgotPassword", name="forgot_password")
      * @Template()
      */
-    public function forgotPasswordAction()
+    public function forgotPasswordAction(Request $request)
     {
-        $request = $this->getRequest();
-        
         if ($request->getMethod() == 'POST') {
-            
             $user = $this->getDoctrine()
-            ->getRepository('VitoopInfomgmtBundle:User')
-            ->findOneByEmail($request->get('email'));
-            if($user)
-            {
+                ->getRepository('VitoopInfomgmtBundle:User')
+                ->findOneByEmail($request->get('email'));
+            if($user) {
                 $token = base64_encode($user->getId());
                // $mail = "<a href='/password/new/$token'>Change Password </a>"; 
                 
@@ -354,16 +335,13 @@ EOT;
                         array('token' => $token, 'usernname' => $user->getusername())
                     ));
                 
-               $mail = $this->get('mailer')
-                         ->send($message);
+               $mail = $this->get('mailer')->send($message);
                
                 $this->get('session')->getFlashBag()->add(
                     'sucess',
                     'your message was sent successfully.'
                 );
-            }
-            else
-            {
+            } else {
                 $this->get('session')->getFlashBag()->add(
                     'notice',
                     'your email address is not valid'
@@ -377,18 +355,16 @@ EOT;
      * @Route("/password/new/{token}", name="password_new")
      * @Template()
      */
-    public function passwordnewAction()
+    public function passwordnewAction(Request $request)
     {
-        $request = $this->getRequest();
-        
         if ($request->getMethod() == 'POST') {
             
             $token = urldecode($request->get('token'));
             $id = base64_decode($token);
             
             $user = $this->getDoctrine()
-            ->getRepository('VitoopInfomgmtBundle:User')
-            ->find($id);
+                ->getRepository('VitoopInfomgmtBundle:User')
+                ->find($id);
 
             $factory = $this->get('security.encoder_factory');
             $encoder = $factory->getEncoder($user);

@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Vitoop\InfomgmtBundle\Entity\Tag;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Exception;
 
@@ -29,13 +30,13 @@ class ResourceXhrController extends Controller
     /**
      * @Route("/resource/letter", name="_resource_letter")
      */
-    public function resourceLetterAction()
+    public function resourceLetterAction(Request $request)
     {
-        $letter = $this->getRequest()->query->get('term');
+        $letter = $request->query->get('term');
 
         $resources = $this->getDoctrine()
-                          ->getRepository('VitoopInfomgmtBundle:Resource')
-                          ->getAllResourcesByFirstLetter($letter);
+            ->getRepository('VitoopInfomgmtBundle:Resource')
+            ->getAllResourcesByFirstLetter($letter);
 
         return new Response($resources);
     }
@@ -43,10 +44,10 @@ class ResourceXhrController extends Controller
     /**
      * @Route("/tag/suggest", name="_tag_suggest")
      */
-    public function tagSuggestAction()
+    public function tagSuggestAction(Request $request)
     {
-        $letter = $this->getRequest()->query->get('term');
-        $id = $this->getRequest()->query->get('id');
+        $letter = $request->query->get('term');
+        $id = $request->query->get('id');
 
         $tags = $this->getDoctrine()
                      ->getRepository('VitoopInfomgmtBundle:Tag')
@@ -57,16 +58,15 @@ class ResourceXhrController extends Controller
             // @TODO security check anononymus token->getUser() is a string not instance of UserInterface
 
             // Filter the tags the current User hast tagged
-            $user = $this->get('security.context')
-                         ->getToken()
-                         ->getUser();
+            $user = $this->getUser();
 
             $resource_tags = $this->getDoctrine()
-                                  ->getRepository('VitoopInfomgmtBundle:Tag')
-                                  ->getAllTagsFromResourceById($id, $user, true);
+                ->getRepository('VitoopInfomgmtBundle:Tag')
+                ->getAllTagsFromResourceById($id, $user, true);
 
             $tags = array_diff($tags, $resource_tags);
         }
+        // @TODO: Change this
         // Convert to JSON
         $tags = implode('","', $tags);
         $tags = '["' . $tags . '"]';
@@ -77,15 +77,15 @@ class ResourceXhrController extends Controller
     /**
      * @Route("/prj/suggest", name="_prj_suggest")
      */
-    public function projectSuggestAction()
+    public function projectSuggestAction(Request $request)
     {
-        $term = $this->getRequest()->query->get('term');
+        $term = $request->query->get('term');
 
         $projects = $this->getDoctrine()
-                         ->getRepository('VitoopInfomgmtBundle:Project')
-                         ->getAllProjectsByTermOrAllIfLessThanTen($term, $this->get('security.context')
-                                                                              ->getToken()
-                                                                              ->getUser());
+            ->getRepository('VitoopInfomgmtBundle:Project')
+            ->getAllProjectsByTermOrAllIfLessThanTen(
+                $term, $this->getUser()
+            );
         $arr_flattened_result = array_map(function ($arr_element) {
             return $arr_element['name'];
         }, $projects);

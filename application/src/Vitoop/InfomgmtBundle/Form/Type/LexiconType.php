@@ -15,10 +15,10 @@ class LexiconType extends AbstractType
 
     public function getParent()
     {
-        return 'res';
+        return ResourceType::class;
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'lex';
     }

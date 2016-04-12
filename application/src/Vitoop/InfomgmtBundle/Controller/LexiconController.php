@@ -2,10 +2,14 @@
 
 namespace Vitoop\InfomgmtBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Buzz\Browser;
 
+/**
+ * @TODO: Need refactoring - change correct content-type
+ */
 class LexiconController extends Controller
 {
     /**
@@ -41,9 +45,9 @@ class LexiconController extends Controller
     /**
      * @Route("/lex/suggest", name="_lex_suggest")
      */
-    public function suggestAction()
+    public function suggestAction(Request $request)
     {
-        $term = $this->getRequest()->query->get('lexterm');
+        $term = $request->query->get('lexterm');
         $browser = $this->get('buzz.browser');
 
         $response = $browser->get('http://de.wikipedia.org/w/api.php?format=json&action=opensearch&search=api&namespace=0&suggest=', array(

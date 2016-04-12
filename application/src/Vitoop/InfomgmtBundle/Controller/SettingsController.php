@@ -36,7 +36,7 @@ class SettingsController extends ApiController
         if (!$this->get('vitoop.vitoop_security')->isAdmin()) {
             throw new AccessDeniedHttpException;
         }
-        $terms = $this->getDTOFromRequest();
+        $terms = $this->getDTOFromRequest($request);
         $this->get('vitoop.settings')->setTerms($terms->text, (bool) $terms->allUsers);
 
         return $this->getApiResponse(array('success' => true));
@@ -54,7 +54,7 @@ class SettingsController extends ApiController
             throw new AccessDeniedHttpException;
         }
 
-        $data = $this->getDTOFromRequest();
+        $data = $this->getDTOFromRequest($request);
         $this->get('vitoop.settings')->setDataP($data->text);
 
         return $this->getApiResponse(array('success' => true));
