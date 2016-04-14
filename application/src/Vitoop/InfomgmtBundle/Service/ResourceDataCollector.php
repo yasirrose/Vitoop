@@ -23,6 +23,7 @@ use Vitoop\InfomgmtBundle\Form\Type\ProjectNameType;
 use Vitoop\InfomgmtBundle\Form\Type\RatingType;
 use Vitoop\InfomgmtBundle\Form\Type\RemarkType;
 use Vitoop\InfomgmtBundle\Form\Type\RemarkPrivateType;
+use Vitoop\InfomgmtBundle\Service\FormCreator;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,6 +42,8 @@ class ResourceDataCollector
 
     protected $router;
 
+    protected $formCreator;
+    
     /* @var $res \Vitoop\InfomgmtBundle\Entity\Resource */
     protected $res;
 
@@ -55,7 +58,13 @@ class ResourceDataCollector
     protected $handleData;
 
     public function __construct(
-        ResourceManager $rm, VitoopSecurity $vsec, LexiconQueryManager $lqm, FormFactoryInterface $ff, \Twig_Environment $twig, UrlGeneratorInterface $router
+        ResourceManager $rm,
+        VitoopSecurity $vsec,
+        LexiconQueryManager $lqm,
+        FormFactoryInterface $ff,
+        \Twig_Environment $twig,
+        UrlGeneratorInterface $router,
+        FormCreator $formCreator
     ) {
         $this->rm = $rm;
         $this->vsec = $vsec;
@@ -63,6 +72,7 @@ class ResourceDataCollector
         $this->ff = $ff;
         $this->twig = $twig;
         $this->router = $router;
+        $this->formCreator = $formCreator;
 
         $this->initialized = false;
     }
@@ -257,10 +267,7 @@ class ResourceDataCollector
         ));
         $template = 'VitoopInfomgmtBundle:Resource:xhr.resource.tag.html.twig';
 
-        $form_tag = $this->ff->create(TagType::class, $tag, [
-            'action' => $action,
-            'method' => 'POST'
-        ]);
+        $form_tag = $this->formCreator->createTagForm($tag, $action);
         $form_tag = $this->addPermissionsToTagForm($form_tag);
 
 
@@ -272,45 +279,35 @@ class ResourceDataCollector
                     try {
                         $tag_text = $this->rm->setTag($tag, $this->res);
                         $info_tag = 'Tag "' . $tag_text . '" successfully added!';
-                        $form_tag = $this->ff->create('tag', new Tag(), array(
-                            'action' => $action,
-                            'method' => 'POST'
-                        ));
+                        $form_tag = $this->formCreator->createTagForm(new Tag(), $action);
                         $form_tag = $this->addPermissionsToTagForm($form_tag);
-                        $form_tag->get('showown')
-                            ->setData($tag_showown);
+                        $form_tag->get('showown')->setData($tag_showown);
                     } catch (\Exception $e) {
                         $form_error = new FormError($e->getMessage());
-                        $form_tag->get('text')
-                            ->addError($form_error);
+                        $form_tag->get('text')->addError($form_error);
                     }
                 } else {
                     try {
                         $tag_text = $this->rm->removeTag($tag, $this->res);
                         $info_tag = 'Tag "' . $tag_text . '" successfully removed!';
-                        $form_tag = $this->ff->create('tag', new Tag(), array(
-                            'action' => $action,
-                            'method' => 'POST'
-                        ));
+                        $form_tag = $this->formCreator->createTagForm(new Tag(), $action);
                         $form_tag = $this->addPermissionsToTagForm($form_tag);
-                        $form_tag->get('showown')
-                            ->setData($tag_showown);
+                        $form_tag->get('showown')->setData($tag_showown);
                     } catch (\Exception $e) {
                         $form_error = new FormError($e->getMessage());
-                        $form_tag->get('text')
-                            ->addError($form_error);
+                        $form_tag->get('text')->addError($form_error);
                     }
                 }
             }
         }
 
         $tags = $this->rm->getEntityManager()
-                         ->getRepository('VitoopInfomgmtBundle:Tag')
-                         ->countAllTagsFromResource($this->res);
+            ->getRepository('VitoopInfomgmtBundle:Tag')
+            ->countAllTagsFromResource($this->res);
 
         $tag_id_list_by_user = $this->rm->getEntityManager()
-                                        ->getRepository('VitoopInfomgmtBundle:Tag')
-                                        ->getTagIdListByUserFromResource($this->res, $this->vsec->getUser());
+            ->getRepository('VitoopInfomgmtBundle:Tag')
+            ->getTagIdListByUserFromResource($this->res, $this->vsec->getUser());
 
         // Mark every "own" Tag setting the "is_own"-key to '1'
         array_walk($tags, function (&$val_tags, $key_tags, $_tag_id_list_by_user) {

@@ -25,7 +25,11 @@ services:
 
     vitoop.resource_data_collector:
         class:          '%vitoop.resource_data_collector.class%'
-        arguments:      ['@vitoop.resource_manager', '@vitoop.vitoop_security', '@vitoop.lexicon_query_manager', '@form.factory', '@twig', '@router']
+        arguments:      ['@vitoop.resource_manager', '@vitoop.vitoop_security', '@vitoop.lexicon_query_manager', '@form.factory', '@twig', '@router', '@vitoop.form_creator']
+
+    vitoop.form_creator:
+        class: Vitoop\InfomgmtBundle\Service\FormCreator
+        arguments: ['@form.factory']
 
     vitoop.vitoop_security:
         class:          '%vitoop.vitoop_security.class%'
