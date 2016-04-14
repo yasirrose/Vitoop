@@ -3,7 +3,7 @@ namespace Vitoop\InfomgmtBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vitoop\InfomgmtBundle\Form\DataTransformer\EmptyStringToNullTransformer;
@@ -20,7 +20,7 @@ class PdfType extends AbstractType
                 ->add('publisher', null, array('label' => 'Hrsg.:'))
                 ->add('url', UrlType::class, array('label' => 'URL:'))
                 ->add('tnop', null, array('label' => 'Seiten:'))
-                ->add('pdf_date', TextareaType::class, array('label' => 'Erschienen:'));
+                ->add('pdf_date', TextType::class, array('label' => 'Erschienen:'));
         $builder->get('publisher')
                 ->addModelTransformer(new EmptyStringToNullTransformer());
     }
