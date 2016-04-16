@@ -179,7 +179,7 @@ class ResourceDataCollector
         $res_type = $this->getResourceType();
         $new_res = $this->rm->createResource($res_type);
 
-        $form_data = $this->ff->create($res_type, $new_res, array(
+        $form_data = $this->ff->create($this->rm->getResourceFormTypeClassname($res_type), $new_res, array(
             'action' => $this->router->generate('_xhr_resource_new', array('res_type' => $res_type)),
             'method' => 'POST'
         ));

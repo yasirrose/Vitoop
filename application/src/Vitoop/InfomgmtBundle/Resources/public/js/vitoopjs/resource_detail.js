@@ -20,7 +20,7 @@ resourceDetail = (function () {
 
         uifyContainer = function (container_name) {
             var action_icon_map;
-
+            
             if ('resource-buttons' == container_name) {
                 // jQueryUI-ify the received buttons
                 action_icon_map = {
@@ -194,8 +194,9 @@ resourceDetail = (function () {
                         $(this).trigger('slide', ui);
                     }// attention: the following on is chained after the slider()-call
                 }).on("slide", function (event, ui) {
-                    $('#rating_mark').val(ui.value);
+                    //$('#rating_mark').val(ui.value);
                     $(ui.handle).text(ui.value);
+                    $('#rating_mark option:contains('+ui.value+')').prop('selected', true);
                 });
                 // connect the #rating_mark-dropdown with slider and trigger it to init
                 // the slider
@@ -686,9 +687,9 @@ resourceDetail = (function () {
             }
             url = vitoop.baseUrl + ([res_type, res_id, tab_name[tab_nr]].join('/'));
             // if the tab is already loaded then return without any action
-            if (1 == tab_loaded[tab_nr]) {
+            /*if (1 == tab_loaded[tab_nr]) {
                 return;
-            }
+            }*/
 
             if ('new' == res_id) {
                 url = vitoop.baseUrl + ([res_type, 'new'].join('/'));
@@ -741,11 +742,7 @@ resourceDetail = (function () {
                 }
             }
             $.each(responseJSON, function (container_name, html) {
-                if ('resource-metadata' !== container_name) {
-                    $('#' + container_name).empty().append(html);
-                    // Initializing special UI-Gimmicks are done in uifyContainer()
-                    uifyContainer(container_name);
-                }
+                replaceContainer(container_name, html);
             });
             $('#vtp-res-dialog select').selectmenu({
                 select: function( event, ui ) {
@@ -1022,6 +1019,15 @@ resourceDetail = (function () {
             if (refresh_list) {
                 resourceList.loadResourceListPage();
                 refresh_list = false;
+            }
+        },
+
+        replaceContainer = function (containerName, html) {
+            if ('resource-metadata' !== containerName) {
+                $('#' + containerName).empty().append(html);
+                clearTabsClasses();
+                // Initializing special UI-Gimmicks are done in uifyContainer()
+                uifyContainer(containerName);
             }
         },
 
