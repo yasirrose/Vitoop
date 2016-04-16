@@ -130,6 +130,9 @@
             language: dtLanguageObject(),
             serverSide: true,
             ajax: "{{ ajaxUrl |raw }}",
+            search: {
+                search: localStorage.getItem('dt-search')
+            },
             order: [],
             dom: domPrefix,
             columns: getColumns('{{ restype}}', {% if is_granted('ROLE_ADMIN') %}1{% else %}0{% endif %}, {% if isEdit is defined and isEdit %}1{% else %}0{% endif %}, {% if  isCoef is defined and isCoef %}1{% else %}0{% endif %}),
