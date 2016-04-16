@@ -91,13 +91,13 @@ resourceList = (function () {
 
         maintainResLinks = function (obj_partial_query) {
             if (typeof obj_partial_query === 'undefined') {
-                return
+                return;
             }
 
             $('.vtp-resmenu-reslink').each(function () {
                 var href = $(this).attr('href');
                 href = $.param.querystring(href, obj_partial_query, 0);
-                $(this).attr('href', href)
+                $(this).attr('href', href);
             });
         },
 

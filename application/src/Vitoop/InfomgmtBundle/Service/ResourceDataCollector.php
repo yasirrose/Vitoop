@@ -18,6 +18,7 @@ use Vitoop\InfomgmtBundle\Entity\Flag;
 use Vitoop\InfomgmtBundle\Form\Adapter\ResourceFormAdapter;
 use Vitoop\InfomgmtBundle\Form\Type\TagType;
 use Vitoop\InfomgmtBundle\Form\Type\CommentType;
+use Vitoop\InfomgmtBundle\Form\Type\FlagInfoType;
 use Vitoop\InfomgmtBundle\Form\Type\LexiconNameType;
 use Vitoop\InfomgmtBundle\Form\Type\ProjectNameType;
 use Vitoop\InfomgmtBundle\Form\Type\RatingType;
@@ -726,7 +727,7 @@ class ResourceDataCollector
         /* @var $flag \Vitoop\InfomgmtBundle\Entity\Flag */
         $flag = $flags[0];
 
-        $form_flag_info = $this->ff->create('flaginfo', $flag, array(
+        $form_flag_info = $this->ff->create(FlagInfoType::class, $flag, array(
             'action' => $this->router->generate('_xhr_resource_flaginfo', array('res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId())),
             'method' => 'POST'
         ));

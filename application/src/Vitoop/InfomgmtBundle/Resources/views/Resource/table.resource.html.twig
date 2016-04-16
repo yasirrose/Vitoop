@@ -131,7 +131,7 @@
             serverSide: true,
             ajax: "{{ ajaxUrl |raw }}",
             search: {
-                search: localStorage.getItem('dt-search')
+                search: getCurrentSearch()
             },
             order: [],
             dom: domPrefix,
@@ -151,7 +151,7 @@
 
         $('div.paging_full_numbers > span').removeClass();
         var api = $('table#list-{{ restype }}').dataTable().api();
-        api.search(localStorage.getItem('dt-search')?localStorage.getItem('dt-search'):'');
+        api.search(getCurrentSearch());
         api.page.len(getPageLength());
         $('.dataTables_length select').selectmenu({
             appendTo: ".dataTables_length",
@@ -172,11 +172,15 @@
             $('.dataTables_filter input').val('');
             api.search('');
             api.draw();
-            localStorage.removeItem('dt-search')
+            localStorage.setItem('dt-search', '')
         });
         
         function getPageLength() {
             return localStorage.getItem('dt-page-length')?localStorage.getItem('dt-page-length'):7;
+        }
+        
+        function getCurrentSearch() {
+            return localStorage.getItem('dt-search')?localStorage.getItem('dt-search'):'';
         }
     });
     

@@ -17,7 +17,7 @@ resourceDetail = (function () {
         arr_tr_res_attr_id = {},
 
         refresh_list = false,
-
+        
         uifyContainer = function (container_name) {
             var action_icon_map;
             
@@ -1017,7 +1017,7 @@ resourceDetail = (function () {
             // "last seen" is maintained through arr_res_tr_attr_id[]
             arr_tr_res_attr_id[res_type] = res_type + '-' + res_id;
             if (refresh_list) {
-                resourceList.loadResourceListPage();
+                //resourceList.loadResourceListPage();
                 refresh_list = false;
             }
         },

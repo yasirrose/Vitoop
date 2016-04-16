@@ -51,9 +51,9 @@ function dtRowCallback(row, data, index) {
 }
 
 function dtDrawCallback() {
-	if (this.api().page.info().recordsTotal == 0) {
-		return;
-	}
+    if (this.api().page.info().recordsTotal == 0) {
+        return;
+    }
 	var projectElem = $('#projectID');
 	if ((typeof(projectElem) != 'undefined') && projectElem.val() > -1) {
 		$('input.divider').off();
