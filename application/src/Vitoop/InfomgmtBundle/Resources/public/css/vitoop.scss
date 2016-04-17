@@ -926,7 +926,8 @@ input#vtp-search-bytags-taglist {
     width: 720px;
 }
 
-#vtp-projectdata-sheet-view, #vtp-projectdata-sheet-info {
+#vtp-projectdata-sheet-view, #vtp-projectdata-sheet-info,
+#vtp-lexicondata-sheet-view, #vtp-lexicondata-sheet-info {
     overflow: auto;
     margin: 5px;
     padding: 1em;
@@ -934,11 +935,11 @@ input#vtp-search-bytags-taglist {
     vertical-align: top;
 }
 
-#vtp-projectdata-sheet-info {
+#vtp-projectdata-sheet-info, #vtp-lexicondata-sheet-info {
     float: right;
 }
 
-#vtp-projectdata-sheet-view {
+#vtp-projectdata-sheet-view, #vtp-lexicondata-sheet-view  {
     width: 72%;
 }
 
@@ -960,13 +961,13 @@ span.vtp-icon-active {
     cursor: default !important;
 }
 
-#vtp-projectdata-sheet-info > p {
+#vtp-projectdata-sheet-info > p, #vtp-lexicondata-sheet-info > p {
     color: #2779aa;
     margin-bottom: 5px;
     margin-top: 5px;
 }
 
-#vtp-projectdata-sheet-info > p > span {
+#vtp-projectdata-sheet-info > p > span, #vtp-lexicondata-sheet-info  > p > span {
     float: right;
 }
 

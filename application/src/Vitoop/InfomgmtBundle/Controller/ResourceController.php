@@ -2,6 +2,7 @@
 namespace Vitoop\InfomgmtBundle\Controller;
 
 use Symfony\Component\HttpKernel\KernelEvents;
+use Vitoop\InfomgmtBundle\DTO\HomeDTO;
 use Vitoop\InfomgmtBundle\Entity\Comment;
 use Vitoop\InfomgmtBundle\Entity\Flag;
 use Vitoop\InfomgmtBundle\Entity\UserConfig;
@@ -37,43 +38,35 @@ class ResourceController extends ApiController
         $em = $this->getDoctrine()->getManager();
         $tpl_vars = array();
 
-        $is_user_home = false;
+        $dto = new HomeDTO(
+            $request->query->get('project', $project_id),
+            $request->query->get('lexicon', $lexicon_id),
+            $request->query->get('edit', false)
+        );
+        
         $is_project_home = false;
         $is_lexicon_home = false;
         $isEditMode = false;
-
-        /* Project Home */
-        if ($request->query->has('project')) {
-            $project_id = $request->query->get('project');
-        }
-
-        if (($request->query->has('edit')) && ($request->query->get('edit') == 1)) {
-            $isEditMode = true;
-        }
-
-        /* Lexicon Home */
-        if ($request->query->has('lexicon')) {
-            $lexicon_id = $request->query->get('lexicon');
-        }
 
         /* flagged */
         $flagged = $request->query->get('flagged');
 
         // Decide which home
-        if (0 != $project_id) {
-            $project = $rm->getProjectWithData($project_id);
+        $is_user_home = true;
+        if ($dto->isNotEmptyProject()) {
+            $project = $rm->getProjectWithData($dto->project);
             if (null !== $project) {
                 $is_project_home = true;
+                $is_user_home = false;
             }
-        } elseif (0 != $lexicon_id) {
+        } elseif ($dto->isNotEmptyLexicon()) {
             $lexicon = $this->getDoctrine()
-                            ->getRepository('VitoopInfomgmtBundle:Lexicon')
-                            ->getLexiconWithWikiRedirects($lexicon_id);
+                ->getRepository('VitoopInfomgmtBundle:Lexicon')
+                ->getLexiconWithWikiRedirects($dto->lexicon);
             if (null !== $lexicon) {
                 $is_lexicon_home = true;
+                $is_user_home = false;
             }
-        } else {
-            $is_user_home = true;
         }
 
         if ($is_user_home) {
