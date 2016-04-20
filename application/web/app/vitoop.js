@@ -4,6 +4,20 @@ var app = angular.module('vitoop', ['ui.tinymce', 'angucomplete', 'validation.ma
 
 app.controller('MainController', function ($scope, $http, $compile) {
     $scope.content = '';
+    $scope.nav = {
+        resourceInfo: '',
+        nocontent: {}
+    };
+    $scope.$watch('nav.resourceInfo', function (resourceInfo, oldval) {
+        $scope.nav.nocontent = {};
+        angular.forEach(resourceInfo, function(value, resType) {
+            if (value == 0) {
+                $scope.nav.nocontent[resType] = true;
+            } else {
+                $scope.nav.nocontent[resType] = false;
+            }
+        });
+    }, true);
     $scope.click = function(text) {
         //IE fix - before it user can't focus on inputs after TinyMCE was clicked
         setTimeout(function() {

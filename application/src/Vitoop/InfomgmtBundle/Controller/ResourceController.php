@@ -252,7 +252,10 @@ class ResourceController extends ApiController
 
             $tag_cnt = intval($tag_cnt);
             $tpl_vars = array_merge($tpl_vars, array(
-                'tagcnt' => $tag_cnt
+                'tagcnt' => $tag_cnt,
+                'resourceInfo' => $this->getDoctrine()->getManager()
+                    ->getRepository('VitoopInfomgmtBundle:Resource')
+                    ->getCountByTags($tpl_vars['taglist'])
             ));
         } elseif ($mode_filter_by_project_id) {
             $url .= '?resource='.$project_id;

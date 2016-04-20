@@ -182,6 +182,18 @@
         function getCurrentSearch() {
             return localStorage.getItem('dt-search')?localStorage.getItem('dt-search'):'';
         }
+        
+        var resourceInfo = {};
+        {% if resourceInfo is defined %}
+            {% for resType, count in resourceInfo %}
+                resourceInfo.{{resType}} = {{count}};
+            {% endfor %}
+        {% endif %}
+            
+        var scope = angular.element($("#resourceInfo")).scope();
+        scope.$apply(function(){
+            scope.nav.resourceInfo = resourceInfo;
+        });
     });
     
    

@@ -75,6 +75,7 @@
             <div class="vtp-logo"><span class="beta-status">beta</span><a href="{{ path('_base_url') }}">vitoop<span>.org</span></a></div>
             {% if (not app.user) or (app.user.getIsAgreedWithTerms()) %}
                 <div id="vtp-nav" class="vtp-menu ui-helper-clearfix ui-corner-all">
+                    <input id="resourceInfo" type="hidden" ng-model="nav.resourceInfo" />
                     <ul>
                         {% set ang = "click('')" %}
                         {% if restype is not defined %}
@@ -128,12 +129,12 @@
                         } %}
                             {% set respath = respath|merge({'res_type': every_restype}) %}
                             {% if resourceInfo is defined %}
-                            {% set count = resourceInfo[every_restype ~ 'c'] %}
+                                {% set count = resourceInfo[every_restype ~ 'c'] %}
                             {% else %}
-                            {% set count = 1 %}
+                                {% set count = 1 %}
                             {% endif %}
                             <li>
-                                <a class="vtp-resmenu-reslink {{ (every_restype == restype) ? 'vtp-nav-active ui-state-active ' }}ui-state-default ui-corner-all {{ (count == 0) ? 'ui-state-no-content' }}" href="{{ path('_resource_list', respath) }}" ng-click="click({{ every_resfullname }})">{{ every_resfullname }}</a>
+                                <a class="vtp-resmenu-reslink {{ (every_restype == restype) ? 'vtp-nav-active ui-state-active ' }}ui-state-default ui-corner-all {{ (count == 0) ? 'ui-state-no-content' }}" href="{{ path('_resource_list', respath) }}" ng-class="{'ui-state-no-content': nav.nocontent.{{every_restype}}c}" ng-click="click({{ every_resfullname }})" id="vtp-link-{{every_restype}}s">{{ every_resfullname }}</a>
                             </li>
                         {% endfor %}
                     </ul>

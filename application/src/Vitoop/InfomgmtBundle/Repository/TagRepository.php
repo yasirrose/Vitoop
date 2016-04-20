@@ -3,10 +3,8 @@
 namespace Vitoop\InfomgmtBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-
-use Vitoop\InfomgmtBundle\Entity\Resource;
 use Symfony\Component\Security\Core\User\UserInterface;
-
+use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\Repository\Helper;
 
 /**
@@ -17,14 +15,16 @@ class TagRepository extends EntityRepository
     public function countAllTagsFromResource(Resource $resource)
     {
         return $this->getEntityManager()
-                    ->createQuery('SELECT t.id, t.text, COUNT(t.id) AS cnt_tag, 0 AS is_own
-                                    FROM VitoopInfomgmtBundle:Tag t
-                                    JOIN t.rel_resources rr
-                                    WHERE rr.resource=:arg_resource and rr.deletedByUser is null
-                                    GROUP BY t.text
-                                    ORDER BY t.text ASC')
-                    ->setParameter('arg_resource', $resource)
-                    ->getResult();
+            ->createQuery(
+                'SELECT t.id, t.text, COUNT(t.id) AS cnt_tag, 0 AS is_own
+                FROM VitoopInfomgmtBundle:Tag t
+                JOIN t.rel_resources rr
+                WHERE rr.resource=:arg_resource and rr.deletedByUser is null
+                GROUP BY t.text
+                ORDER BY t.text ASC'
+            )
+            ->setParameter('arg_resource', $resource)
+            ->getResult();
     }
 
     // AllTags means implicit DISTINCT tags, because (an array of) Tag-Objects is returned.

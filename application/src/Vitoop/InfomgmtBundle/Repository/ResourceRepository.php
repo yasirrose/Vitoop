@@ -445,6 +445,33 @@ class ResourceRepository extends EntityRepository
             ->getOneOrNullResult();
     }
 
+    public function getCountByTags($tags)
+    {
+        return $this->getEntityManager()->createQueryBuilder()
+            ->select('count(prj.id) as prjc')
+            ->addSelect('count(lex.id) as lexc')
+            ->addSelect('count(pdf.id) as pdfc')
+            ->addSelect('count(teli.id) as telic')
+            ->addSelect('count(link.id) as linkc')
+            ->addSelect('count(adr.id) as adrc')
+            ->addSelect('count(book.id) as bookc')
+            ->from('VitoopInfomgmtBundle:Resource', 'r')
+            ->leftJoin('VitoopInfomgmtBundle:Project', 'prj', 'WITH', 'r.id = prj.id')
+            ->leftJoin('VitoopInfomgmtBundle:Lexicon', 'lex', 'WITH', 'r.id = lex.id')
+            ->leftJoin('VitoopInfomgmtBundle:Pdf', 'pdf', 'WITH', 'r.id = pdf.id')
+            ->leftJoin('VitoopInfomgmtBundle:Teli', 'teli', 'WITH', 'r.id = teli.id')
+            ->leftJoin('VitoopInfomgmtBundle:Link', 'link', 'WITH', 'r.id = link.id')
+            ->leftJoin('VitoopInfomgmtBundle:Address', 'adr', 'WITH', 'r.id = adr.id')
+            ->leftJoin('VitoopInfomgmtBundle:Book', 'book', 'WITH', 'r.id = book.id')
+            ->join('r.rel_tags', 'rt')
+            ->join('rt.tag', 't')
+            ->andWhere('t.text IN (:tags)')
+            ->andWhere('rt.deletedByUser is null')
+            ->setParameter('tags', $tags)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     public function getResources(SearchResource $search)
     {
         return $this->getResourcesQuery($search)

@@ -294,7 +294,6 @@ resourceSearch = (function () {
                 + tag + '<span class="ui-icon ui-icon-lightbulb tag-icons-to-hide vtp-icon-bulb" style="display: none" onclick="highlightTag(event)"></span><span class="ui-icon ui-icon-cancel tag-icons-to-hide vtp-icon-cancel" style="display: none" onclick="ignoreTag(event)"></span><span class="vtp-icon-close vtp-uiaction-search-bytags-removetag ui-icon ui-icon-close"></span></span>');
         },
 
-
         /****************************************************************************
          * INIT
          ***************************************************************************/
@@ -390,5 +389,4 @@ resourceSearch = (function () {
         ignoreTag: ignoreTag,
         highlightTag: highlightTag
     };
-})
-    ();
+})();
