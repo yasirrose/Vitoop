@@ -30,13 +30,23 @@ div#vtp-res-list table tr:first-of-type th:first-of-type {
     border-left-width: 1px;
 }
 
+div#vtp-res-tags table tr:first-of-type th:first-of-type {
+    border-left-width: 1px;
+}
+
 div#vtp-res-list table tr:first-of-type th {
     color: #2779aa !important;
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 12px !important;
 }
 
-div#vtp-res-list td {
+div#vtp-res-tags table tr:first-of-type th {
+    color: #2779aa !important;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px !important;
+}
+
+div#vtp-res-list td, div#vtp-res-tags td {
     &:first-of-type {
         border-top-left-radius: 6px;
         border-bottom-left-radius: 6px;

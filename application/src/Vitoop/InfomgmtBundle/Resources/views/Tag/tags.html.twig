@@ -1,69 +1,33 @@
 {% extends "VitoopInfomgmtBundle:Tag:layout.html.twig" %}
 {% block content %}
-    <fieldset class="ui-corner-all margin-top-3">
-        <table id="tags-list" style="border-collapse: collapse">
-            <thead>
-            <tr style="background: none; border-bottom: 2px solid gray">
-                <td style="width: 29%">
-                    Tag:
-                </td>
-                <td>
-                    X
-                </td>
-                <td>
-                    Projekt:
-                </td>
-                <td>
-                    Lexicon:
-                </td>
-                <td>
-                    Pdf:
-                </td>
-                <td>
-                    Textlink:
-                </td>
-                <td>
-                    Link:
-                </td>
-                <td>
-                    Buch:
-                </td>
-                <td>
-                    Adresse:
-                </td>
+<div id="vtp-res-tags">
+    <table id="tags-list" class="dataTable table-datatables">
+        <thead>
+        <tr style="">
+            <th style="width: 29%" class="ui-state-default">Tag:</th>
+            <th class="ui-state-default">X</th>
+            <th class="ui-state-default">Projekt:</th>
+            <th class="ui-state-default">Lexicon:</th>
+            <th class="ui-state-default">Pdf:</th>
+            <th class="ui-state-default">Textlink:</th>
+            <th class="ui-state-default">Link:</th>
+            <th class="ui-state-default">Buch:</th>
+            <th class="ui-state-default">Adresse:</th>
+        </tr>
+        </thead>
+        {% for tag in tags %}
+            <tr class="{% if loop.index is even %}even{% else %}odd{% endif %} ui-corner-all">
+                <td>{{ tag['text'] }}:</td>
+                <td>{{ tag['cnt'] }}</td>
+                <td>{{ tag['prjc'] }}</td>
+                <td>{{ tag['lexc'] }}</td>
+                <td>{{ tag['pdfc'] }}</td>
+                <td>{{ tag['telic'] }}</td>
+                <td>{{ tag['linkc'] }}</td>
+                <td>{{ tag['bookc'] }}</td>
+                <td>{{ tag['adrc'] }}</td>
             </tr>
-            </thead>
-            {% for tag in tags %}
-                <tr>
-                    <td>
-                        {{ tag['text'] }}:
-                    </td>
-                    <td>
-                        {{ tag['cnt'] }}
-                    </td>
-                    <td>
-                        {{ tag['prjc'] }}
-                    </td>
-                    <td>
-                        {{ tag['lexc'] }}
-                    </td>
-                    <td>
-                        {{ tag['pdfc'] }}
-                    </td>
-                    <td>
-                        {{ tag['telic'] }}
-                    </td>
-                    <td>
-                        {{ tag['linkc'] }}
-                    </td>
-                    <td>
-                        {{ tag['bookc'] }}
-                    </td>
-                    <td>
-                        {{ tag['adrc'] }}
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-    </fieldset>
+        {% endfor %}
+    </table>
+</div>
 {% endblock %}
