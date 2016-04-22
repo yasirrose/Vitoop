@@ -40,6 +40,7 @@ searchToggler = (function() {
         } else {
             icon = 'ui-icon-arrowthick-1-n';
         }
+        $('#vtp-search-toggle').css('border-width', state?'1px':'2px');
         $('#vtp-search-toggle').button({
             icons: {
                 primary: icon
