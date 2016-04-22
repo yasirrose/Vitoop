@@ -287,7 +287,7 @@ function getIsHpColumn() {
 }
 
 function getMapsLinkValue(data, type, row, meta) {
-	return '<a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="https://nominatim.openstreetmap.org/search.php?polygon=1&q='+row.street+', '+row.zip+', '+row.city+', '+row.country+'" target="_blank">-></a>';
+	return '<a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="https://nominatim.openstreetmap.org/search.php?polygon=1&q='+row.street+', '+row.zip+', '+row.city+', '+row.code+'" target="_blank">-></a>';
 }
 
 function getMapsLinkColumn(isEdit) {

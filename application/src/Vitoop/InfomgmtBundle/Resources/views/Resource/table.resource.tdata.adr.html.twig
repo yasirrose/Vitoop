@@ -36,7 +36,7 @@
             {% if editMode is defined and editMode %}
                 <span class="vtp-projectdata-unlink ui-icon ui-icon-close ui-corner-all" onclick="unlinkRes({{ adr.id }})"></span>
             {% else %}
-                <a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="http://mapof.it/g/{{ [adr.street, adr.zip, adr.city, adr.country.code]|join(', ') }}" target="_blank">-></a>
+                <a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="http://mapof.it/g/{{ [adr.street, adr.zip, adr.city, adr.code]|join(', ') }}" target="_blank">-></a>
             {% endif %}
         </td>
     </tr>
