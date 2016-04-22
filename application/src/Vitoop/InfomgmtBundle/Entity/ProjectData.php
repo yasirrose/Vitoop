@@ -173,9 +173,10 @@ class ProjectData
 
     public function availableForReading(User $user)
     {
-        if (!$this->isPrivate) {
+        if (!$this->isPrivate || $user->isAdmin()) {
             return true;
         }
+        
         if ($user->getId() == $this->getProject()->getUser()->getId()) {
             return true;
         }

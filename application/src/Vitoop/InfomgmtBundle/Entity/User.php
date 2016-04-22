@@ -185,6 +185,11 @@ class User implements EquatableInterface, AdvancedUserInterface, \Serializable
         return $roles;
     }
 
+    public function isAdmin()
+    {
+        return in_array('ROLE_ADMIN', $this->getRoles());
+    }
+
     public function isEqualTo(UserInterface $user)
     {
 
