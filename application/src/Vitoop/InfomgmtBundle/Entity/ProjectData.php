@@ -191,7 +191,7 @@ class ProjectData
 
     public function availableForWriting(User $user)
     {
-        if ($user->getId() == $this->getProject()->getUser()->getId()) {
+        if (($user->getId() == $this->getProject()->getUser()->getId()) || $user->isAdmin()) {
             return true;
         }
         foreach ($this->relUsers as $rel) {
