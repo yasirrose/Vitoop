@@ -1016,7 +1016,9 @@ resourceDetail = (function () {
             $('#vtp-res-list table').DataTable().off('draw.dt');
             // "last seen" is maintained through arr_res_tr_attr_id[]
             arr_tr_res_attr_id[res_type] = res_type + '-' + res_id;
+            var api = $('#vtp-res-list table').dataTable().api();
             if (refresh_list) {
+                api.ajax.reload(null, false);
                 //resourceList.loadResourceListPage();
                 refresh_list = false;
             }
