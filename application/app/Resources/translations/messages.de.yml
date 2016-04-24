@@ -1,0 +1,24 @@
+label:
+    username: Benutzername
+    password: Passwort
+    signin: anmelden
+    download:
+        size: Downloads size
+        mb: Mb
+    flags:
+        edit: Flags bearbeiten
+    terms: Terms
+    datap: data-P
+    checkbox:
+        off: Off
+        on: On
+logout:
+    label: logout
+    message: Bei VitooP abmelden
+invitations:
+    label: Invitations
+    send: Einladung verschicken
+homepage:
+    edit: Landingpage editieren
+'User account is disabled.': 'gelöscht'
+'Bad credentials.': 'Falsche Eingabe'
