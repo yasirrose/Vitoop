@@ -29,18 +29,16 @@ class ProjectApiController extends Controller
      */
     public function getProject(Project $project)
     {
-        if ($project->getProjectData()->availableForWriting($this->getUser())) {
-            $serializer = $this->get('jms_serializer');
-            $serializerContext = SerializationContext::create()
-                ->setGroups(array('get_project'));
-            $response = $serializer->serialize(
-                array('project' => $project, 'isOwner' => ($project->getUser() == $this->getUser())),
-                'json',
-                $serializerContext
-            );
-        } else {
-            throw new AccessDeniedHttpException;
-        }
+        $this->checkAccess($project);
+
+        $serializer = $this->get('jms_serializer');
+        $serializerContext = SerializationContext::create()
+            ->setGroups(array('get_project'));
+        $response = $serializer->serialize(
+            array('project' => $project, 'isOwner' => ($project->getUser() == $this->getUser())),
+            'json',
+            $serializerContext
+        );
 
         return new Response($response);
     }
@@ -53,26 +51,25 @@ class ProjectApiController extends Controller
      */
     public function deleteProjectAction(Project $project)
     {
-        if ($project->getUser() == $this->getUser()) {
-            $em = $this->getDoctrine()->getManager();
-            $rels = $em->getRepository('VitoopInfomgmtBundle:RelResourceResource')->findBy(array('resource1' => $project));
-            foreach ($rels as $rel) {
-                $em->remove($rel);
-            }
-            $rels = $em->getRepository('VitoopInfomgmtBundle:RelResourceResource')->findBy(array('resource2' => $project));
-            foreach ($rels as $rel) {
-                $em->remove($rel);
-            }
-            $em->remove($project);
-            $em->flush();
-            $serializer = $this->get('jms_serializer');
-            $response = $serializer->serialize(
-                array('success' => true),
-                'json'
-            );
-        } else {
-            throw new AccessDeniedHttpException;
+        $this->checkAccess($project);
+ 
+        $em = $this->getDoctrine()->getManager();
+        $rels = $em->getRepository('VitoopInfomgmtBundle:RelResourceResource')->findBy(array('resource1' => $project));
+        foreach ($rels as $rel) {
+            $em->remove($rel);
         }
+        $rels = $em->getRepository('VitoopInfomgmtBundle:RelResourceResource')->findBy(array('resource2' => $project));
+        foreach ($rels as $rel) {
+            $em->remove($rel);
+        }
+        $em->remove($project);
+        $em->flush();
+
+        $serializer = $this->get('jms_serializer');
+        $response = $serializer->serialize(
+            array('success' => true),
+            'json'
+        );
 
         return new Response($response);
     }
@@ -85,29 +82,28 @@ class ProjectApiController extends Controller
      */
     public function saveProject(Project $project, Request $request)
     {
-        if ($project->getProjectData()->availableForWriting($this->getUser())) {
-            $serializer = $this->get('jms_serializer');
-            $em = $this->getDoctrine()->getManager();
-            $serializerContext = DeserializationContext::create()
-                ->setGroups(array('get_project'));
-            $updatedProject = $serializer->deserialize(
-                $request->getContent(),
-                'Vitoop\InfomgmtBundle\Entity\Project',
-                'json',
-                $serializerContext
-            );
-            $project = $em->getRepository('VitoopInfomgmtBundle:Project')->find($updatedProject->getId());
-            if (is_null($project)) {
-                $response = array('status' => 'error', 'message' => 'Project is not found');
-            } else {
-                $project->setProjectData($updatedProject->getProjectData());
-                $em->merge($project);
-                $em->flush();
-                $response = array('status' => 'success', 'message' => 'Project saved!');
-            }
+        $this->checkAccess($project);
+ 
+        $serializer = $this->get('jms_serializer');
+        $em = $this->getDoctrine()->getManager();
+        $serializerContext = DeserializationContext::create()
+            ->setGroups(array('get_project'));
+        $updatedProject = $serializer->deserialize(
+            $request->getContent(),
+            'Vitoop\InfomgmtBundle\Entity\Project',
+            'json',
+            $serializerContext
+        );
+        $project = $em->getRepository('VitoopInfomgmtBundle:Project')->find($updatedProject->getId());
+        if (is_null($project)) {
+            $response = array('status' => 'error', 'message' => 'Project is not found');
         } else {
-            throw new AccessDeniedHttpException;
+            $project->setProjectData($updatedProject->getProjectData());
+            $em->merge($project);
+            $em->flush();
+            $response = array('status' => 'success', 'message' => 'Project saved!');
         }
+
         $response = $serializer->serialize($response, 'json');
 
         return new Response($response);
@@ -122,9 +118,8 @@ class ProjectApiController extends Controller
     public function addUserToProject(Project $project, Request $request)
     {
         $currentUser = $this->get('vitoop.vitoop_security')->getUser();
-        if (!$project->getProjectData()->availableForWriting($currentUser)) {
-            throw new AccessDeniedHttpException;
-        }
+        $this->checkAccess($project);
+
         $response = null;
         $serializer = $this->get('jms_serializer');
         $em = $this->getDoctrine()->getManager();
@@ -175,9 +170,8 @@ class ProjectApiController extends Controller
     public function removeUserFromProject(Project $project, User $user)
     {
         $currentUser = $this->get('vitoop.vitoop_security')->getUser();
-        if (!$project->getProjectData()->availableForWriting($currentUser)) {
-            throw new AccessDeniedHttpException;
-        }
+        $this->checkAccess($project);
+
         $response = null;
         $serializer = $this->get('jms_serializer');
         $em = $this->getDoctrine()->getManager();
@@ -211,10 +205,8 @@ class ProjectApiController extends Controller
      */
     public function removeResourceFromProject(Project $project, Resource $resource)
     {
-        $currentUser = $this->get('vitoop.vitoop_security')->getUser();
-        if (!$project->getProjectData()->availableForWriting($currentUser)) {
-            throw new AccessDeniedHttpException;
-        }
+        $this->checkAccess($project);
+        
         $em = $this->getDoctrine()->getManager();
         $rel = $em->getRepository('VitoopInfomgmtBundle:RelResourceResource')->findOneBy(array(
             'resource1' => $project,
@@ -233,5 +225,12 @@ class ProjectApiController extends Controller
         $response = $serializer->serialize($response, 'json');
 
         return new Response($response);
+    }
+
+    private function checkAccess(Project $project)
+    {
+        if (!$project->getProjectData()->availableForWriting($this->getUser())) {
+            throw new AccessDeniedHttpException;
+        }
     }
 }

@@ -35,6 +35,7 @@ class ResourceController extends ApiController
     {
         //@TODO: Fat controller - need refactoring
         $rm = $this->get('vitoop.resource_manager');
+        $vsec = $this->get('vitoop.vitoop_security');
         $em = $this->getDoctrine()->getManager();
         $tpl_vars = array();
 
@@ -46,7 +47,6 @@ class ResourceController extends ApiController
         
         $is_project_home = false;
         $is_lexicon_home = false;
-        $isEditMode = false;
 
         /* flagged */
         $flagged = $request->query->get('flagged');
@@ -70,7 +70,6 @@ class ResourceController extends ApiController
         }
 
         if ($is_user_home) {
-            $vsec = $this->get('vitoop.vitoop_security');
             if ($vsec->isUser()) {
                 $user = $vsec->getUser();
                 $user_data = $user->getUserData();
@@ -115,16 +114,15 @@ class ResourceController extends ApiController
             }
             $home_content_tpl = 'VitoopInfomgmtBundle:Resource:home.user.html.twig';
         } elseif ($is_project_home) {
-            $vsec = $this->get('vitoop.vitoop_security');
             if (!$project->getProjectData()->availableForReading($vsec->getUser())) {
                 throw new AccessDeniedHttpException;
             }
             $resourceInfo = $this->getDoctrine()->getManager()->getRepository('VitoopInfomgmtBundle:Resource')->getCountOfRelatedResources($project);
             $show_as_projectowner = $project->getProjectData()->availableForWriting($vsec->getUser());
             if (!$show_as_projectowner) {
-                $isEditMode = false;
+                $dto->isEditMode = false;
             }
-            if ($isEditMode && $show_as_projectowner) {
+            if ($dto->isEditMode && $show_as_projectowner) {
                 $project_data = $project->getProjectData();
                 $info_project_data = '';
                 $form_project_data = $this->createForm(ProjectDataType::class, $project_data, array(
@@ -149,10 +147,10 @@ class ResourceController extends ApiController
             $tpl_vars = array_merge($tpl_vars, array(
                 'project' => $project,
                 'resourceInfo' => $resourceInfo,
-                'editMode' => $isEditMode,
+                'editMode' => $dto->isEditMode,
                 'showasprojectowner' => $show_as_projectowner
             ));
-            if (!$isEditMode) {
+            if (!$dto->isEditMode) {
                 $home_content_tpl = 'VitoopInfomgmtBundle:Resource:home.project.html.twig';
             } else {
                 $home_content_tpl = 'VitoopInfomgmtBundle:Resource:home.project.edit.html.twig';
