@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+. ~/.bashrc
 
 git pull origin master
 
