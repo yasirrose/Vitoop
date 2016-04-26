@@ -1,6 +1,7 @@
 <?php
 namespace Vitoop\InfomgmtBundle\Entity;
 
+use Vitoop\InfomgmtBundle\DTO\GetDTOInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
@@ -9,7 +10,7 @@ use JMS\Serializer\Annotation as Serializer;
  * @ORM\Table(name="project_data")
  * @ORM\Entity(repositoryClass="Vitoop\InfomgmtBundle\Repository\ProjectDataRepository")
  */
-class ProjectData
+class ProjectData implements GetDTOInterface
 {
     /**
      * @ORM\Column(name="id", type="integer")
@@ -203,6 +204,16 @@ class ProjectData
         return false;
     }
 
+    public function availableForDelete(User $user)
+    {
+        if ($user->isAdmin() || $user == $this->project->getUser()) {
+            return true;
+        }
+
+        return false;
+    }
+
+
     /**
      * Add dividers
      *
@@ -234,5 +245,17 @@ class ProjectData
     public function getDividers()
     {
         return $this->dividers;
+    }
+
+    public function getDTO()
+    {
+        return [
+            'id' => $this->id,
+            'sheet' => $this->sheet,
+            'is_private' => $this->isPrivate,
+            'rel_users' => $this->relUsers->map(function (RelProjectUser $user) {
+                return $user->getDTO();
+            })->toArray()
+        ];
     }
 }

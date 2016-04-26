@@ -1,6 +1,7 @@
 <?php
 namespace Vitoop\InfomgmtBundle\Entity;
 
+use Vitoop\InfomgmtBundle\DTO\GetDTOInterface;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
@@ -10,7 +11,7 @@ use JMS\Serializer\Annotation as Serializer;
  * columns={"id_project_data", "id_user"})})
  * @ORM\Entity(repositoryClass="Vitoop\InfomgmtBundle\Repository\RelProjectUserRepository")
  */
-class RelProjectUser
+class RelProjectUser implements GetDTOInterface
 {
     /**
      * @ORM\Column(name="id", type="integer")
@@ -122,5 +123,14 @@ class RelProjectUser
     public function getUser()
     {
         return $this->user;
+    }
+
+    public function getDTO()
+    {
+        return [
+            'id'=> $this->id,
+            'user' => $this->user->getDTO(),
+            'read_only' => $this->readOnly
+        ];
     }
 }

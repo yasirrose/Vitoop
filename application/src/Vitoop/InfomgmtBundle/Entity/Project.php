@@ -1,6 +1,7 @@
 <?php
 namespace Vitoop\InfomgmtBundle\Entity;
 
+use Vitoop\InfomgmtBundle\DTO\GetDTOInterface;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
@@ -8,7 +9,7 @@ use JMS\Serializer\Annotation as Serializer;
  * @ORM\Table(name="project")
  * @ORM\Entity(repositoryClass="Vitoop\InfomgmtBundle\Repository\ProjectRepository")
  */
-class Project extends Resource
+class Project extends Resource implements GetDTOInterface
 {
     /**
      * @ORM\Column(name="id", type="integer")
@@ -119,5 +120,13 @@ class Project extends Resource
     public function getProjectData()
     {
         return $this->project_data;
+    }
+
+    public function getDTO()
+    {
+        return [
+            'id' => $this->id,
+            'project_data' => $this->project_data->getDTO()
+        ];
     }
 }

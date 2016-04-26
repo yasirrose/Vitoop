@@ -56,16 +56,16 @@
                         <form id="vtp-header-login" action="{{ path('_login_check') }}" method="post" enctype="application/x-www-form-urlencoded">
                             <div class="login-container">
                                 <div class="vtp-fh-w5">
-                                    <button id="vtp-user-loginform-login" class="vtp-button" value="login" tabindex="3" type="submit">login</button>
+                                    <button id="vtp-user-loginform-login" class="vtp-button" value="login" tabindex="3" type="submit">{{'label.signin'|trans}}</button>
                                 </div>
                                 <div class="vtp-fh-w16 forgotPass" style="width: 167px">
-                                    <input id="password" name="_password" type="password" tabindex="2" placeholder="Passwort" style="width: 94%">
-                                    <a href="{{ path('forgot_password') }}">Passwort vergessen</a>
+                                    <input id="password" name="_password" type="password" tabindex="2" placeholder="{{'label.password'|trans}}" style="width: 94%">
+                                    <a href="{{ path('forgot_password') }}">{{'label.forgot.password'|trans}}</a>
                                 </div>
                                 <div class="vtp-fh-w16" style="width: 167px">
-                                    <input id="username" style="width: 94%" name="_username" tabindex="1" type="text" {% if last_username is defined %}value="{{ last_username }}" {% else %}placeholder="Benutzername"{% endif %}>
+                                    <input id="username" style="width: 94%" name="_username" tabindex="1" type="text" placeholder="{{'label.username'|trans}}" {% if last_username is defined %}value="{{ last_username }}" {% endif %}>
                                     {% if (vsettings.getInvitation().getValue() == true) %}
-                                        <a href="{{ path('new_invitation') }}">Registrieren</a>
+                                        <a href="{{ path('new_invitation') }}">{{'label.signup'|trans}}</a>
                                     {% endif %}
                                 </div>
                             </div>
@@ -84,14 +84,14 @@
                         {% set homeclass='' %}
                         {% if project is defined %}
                             {% if editMode is defined and editMode %}
-                                {% set href , home = path('_home_project', {'project_id': project.id, 'edit': 1 }), 'Projekt-Hauptseite' %}
+                                {% set href , home = path('_home_project', {'project_id': project.id, 'edit': 1 }), 'page.project'|trans %}
                                 {% set ang = "click('prjhome')" %}
                             {% else %}
-                                {% set href , home = path('_home_project', {'project_id': project.id }), 'Projekt-Hauptseite' %}
+                                {% set href , home = path('_home_project', {'project_id': project.id }), 'page.project'|trans %}
                                 {% set ang = "click('prj')" %}
                             {% endif %}
                         {% elseif lexicon is defined %}
-                            {% set href , home = path('_home_lexicon', {'lexicon_id': lexicon.id }), 'Lexikon-Hauptseite' %}
+                            {% set href , home = path('_home_lexicon', {'lexicon_id': lexicon.id }), 'page.lexicon'|trans %}
                         {% else %}
                             {% set ang = "click('home')" %}
                             {% set href, home = path('_home'), 'Benutzer-Hauptseite' %}

@@ -1,7 +1,9 @@
 label:
     username: Benutzername
     password: Passwort
+    forgot.password: Passwort vergessen
     signin: anmelden
+    signup: Registrieren
     download:
         size: Downloads size
         mb: Mb
@@ -20,5 +22,8 @@ invitations:
     send: Einladung verschicken
 homepage:
     edit: Landingpage editieren
+page:
+    project: Projekt-Hauptseite
+    lexicon: Lexikon-Hauptseite
 'User account is disabled.': 'gelöscht'
 'Bad credentials.': 'Falsche Eingabe'

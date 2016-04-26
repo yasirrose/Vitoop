@@ -4,7 +4,7 @@ namespace Vitoop\InfomgmtBundle\Entity;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Vitoop\InfomgmtBundle\Entity\UserConfig;
 use Vitoop\InfomgmtBundle\Entity\UserData;
-
+use Vitoop\InfomgmtBundle\DTO\GetDTOInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 
@@ -16,7 +16,7 @@ use JMS\Serializer\Annotation as Serializer;
  * @ORM\Table(name="vitoop_user")
  * @ORM\Entity(repositoryClass="Vitoop\InfomgmtBundle\Repository\UserRepository")
  */
-class User implements EquatableInterface, AdvancedUserInterface, \Serializable
+class User implements EquatableInterface, AdvancedUserInterface, \Serializable, GetDTOInterface
 {
     const USER_DISABLED_USERNAME = "gel-";
 
@@ -828,5 +828,13 @@ class User implements EquatableInterface, AdvancedUserInterface, \Serializable
             $this->salt,
             $this->active
         ) = unserialize($serialized);
+    }
+
+    public function getDTO()
+    {
+        return [
+            'id' => $this->id,
+            'username' => $this->username
+        ];
     }
 }

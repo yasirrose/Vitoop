@@ -1,7 +1,6 @@
 <?php
 namespace Vitoop\InfomgmtBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +18,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  * @Route("api/project/{projectID}")
  * @ParamConverter("project", class="Vitoop\InfomgmtBundle\Entity\Project", options={"id" = "projectID"})
  */
-class ProjectApiController extends Controller
+class ProjectApiController extends ApiController
 {
     /**
      * @Route("", name="get_project_api")
@@ -31,16 +30,10 @@ class ProjectApiController extends Controller
     {
         $this->checkAccess($project);
 
-        $serializer = $this->get('jms_serializer');
-        $serializerContext = SerializationContext::create()
-            ->setGroups(array('get_project'));
-        $response = $serializer->serialize(
-            array('project' => $project, 'isOwner' => ($project->getUser() == $this->getUser())),
-            'json',
-            $serializerContext
-        );
-
-        return new Response($response);
+        return $this->getApiResponse([
+            'project' => $project->getDTO(),
+            'isOwner' => $project->getProjectData()->availableForDelete($this->getUser())
+        ]);
     }
 
     /**
@@ -65,13 +58,7 @@ class ProjectApiController extends Controller
         $em->remove($project);
         $em->flush();
 
-        $serializer = $this->get('jms_serializer');
-        $response = $serializer->serialize(
-            array('success' => true),
-            'json'
-        );
-
-        return new Response($response);
+        return $this->getApiResponse(['success' => true]);
     }
 
     /**
