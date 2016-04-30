@@ -29,7 +29,8 @@ resourceDetail = (function () {
                     "save": "ui-icon-disk",
                     "delete": "ui-icon-trash",
                     "new": "ui-icon-document",
-                    "blame": "ui-icon-alert"
+                    "blame": "ui-icon-alert",
+                    'help': 'ui-icon-help'
                 };
                 $.each(action_icon_map, function (action, icon) {
                     $('button.vtp-uiaction-detail-' + action).button({
@@ -57,6 +58,8 @@ resourceDetail = (function () {
                 $('.vtp-uiaction-detail-delete').on('click', deleteResource);
                 $('.vtp-uiaction-detail-new').on('click', newResource);
                 $('.vtp-uiaction-detail-blame').on('click', blameResource);
+                $('.vtp-uiaction-detail-help').on('click', helpWindow);
+                
             }
             /*************************************************************************
              * UIfy: data
@@ -731,7 +734,9 @@ resourceDetail = (function () {
         },
 
         loadTabSuccess = function (responseJSON, textStatus, jqXHR, form) {
+            var isNewResource = false;
             if ('new' == res_id) {
+                isNewResource = true;
                 // Leave the "NEW-State" when the new form-id is present in responseJSON['resource-title']
                 res_id = responseJSON['resource-metadata'].id;
                 if (res_id !== 'new') {
@@ -750,6 +755,9 @@ resourceDetail = (function () {
                 }
             });
             $('span.ui-selectmenu-button').removeAttr('tabIndex');
+            if (vitoop.isShowHelp == true && isNewResource) {
+                $('#vtp-detail-help').click();
+            }
         },
 
         showDialog = function (e) {
@@ -809,6 +817,29 @@ resourceDetail = (function () {
             hardResetTabs();
             $('#vtp-res-dialog-tabs').tabs('option', 'disabled', [ 1, 2, 3 ]);
             loadTab(undefined, 0);
+        },
+
+        helpWindow = function () {
+            if ($('#resource-help').css('display') == 'none') {
+                showHelpWindow();
+            } else {
+                hideHelpWindow();
+            }
+        },
+        
+        showHelpWindow = function () {
+            $('#resource-quickview').hide();
+            $('#resource-help').show();
+            //$(this).removeClass("ui-state-focus ui-state-hover");
+            $('#vtp-detail-help').removeClass('ui-state-default');
+            $('#vtp-detail-help').addClass('vtp-active');
+           
+        },
+        hideHelpWindow = function () {
+            $('#resource-help').hide();
+            $('#resource-quickview').show();
+            $('#vtp-detail-help').addClass('ui-state-default');
+            $('#vtp-detail-help').removeClass('vtp-active');
         },
 
         tgl = function () {
@@ -1013,6 +1044,7 @@ resourceDetail = (function () {
 
         closeDialog = function () {
             hardResetTabs();
+            hideHelpWindow();
             $('#vtp-res-list table').DataTable().off('draw.dt');
             // "last seen" is maintained through arr_res_tr_attr_id[]
             arr_tr_res_attr_id[res_type] = res_type + '-' + res_id;

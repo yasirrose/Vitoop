@@ -3,7 +3,6 @@ namespace Vitoop\InfomgmtBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -23,7 +22,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
-class UserController extends Controller
+class UserController extends ApiController
 {
     /**
      * @Route("api/user/{userID}", name="user_delete")
@@ -41,10 +40,11 @@ class UserController extends Controller
         $this->getDoctrine()->getManager()->flush();
 
         $this->get('security.token_storage')->setToken(null);
-        $serializer = $this->get('jms_serializer');
-        $response = $serializer->serialize(array('success' => true, 'url' => $this->generateUrl('_base_url')), 'json');
 
-        return new Response($response);
+        return $this->getApiResponse([
+            'success' => true,
+            'url' => $this->generateUrl('_base_url')
+        ]);
     }
 
     /**
@@ -384,13 +384,13 @@ EOT;
         
     }
 
-
     /**
      * @Method("GET")
      * @Route("user/settings", name="user_settings")
      * @Template("@VitoopInfomgmt/User/credentials.html.twig")
      */
-    public function userDataAction() {
+    public function userDataAction()
+    {
         $user = $this->get('vitoop.vitoop_security')->getUser();
 
         return array('user' => $user);
@@ -453,5 +453,22 @@ EOT;
         }
 
         return new Response($serializer->serialize($response, 'json'));
+    }
+
+    /**
+     * @Route("api/user/me", name="user_profile_patch")
+     * @Method({"PATCH"})
+     */
+    public function patchUserProfileAction(Request $request)
+    {
+        $user = $this->getUser();
+        $dto = $this->getDTOFromRequest($request);
+
+        if (isset($dto->is_show_help)) {
+            $user->setIsShowHelp((bool)$dto->is_show_help);
+        }
+        $this->getDoctrine()->getEntityManager()->flush();
+
+        return $this->getApiResponse($user->getDTO());
     }
 }

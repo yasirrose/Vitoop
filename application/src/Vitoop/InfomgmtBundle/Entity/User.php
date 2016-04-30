@@ -65,6 +65,11 @@ class User implements EquatableInterface, AdvancedUserInterface, \Serializable, 
     protected $isAgreedWithTerms;
 
     /**
+     * @ORM\Column(name="is_show_help", type="boolean", options={"default" = true})
+     */
+    protected $isShowHelp;
+    
+    /**
      * @ORM\OneToMany(targetEntity="Resource", mappedBy="user")
      */
     protected $resources;
@@ -261,6 +266,18 @@ class User implements EquatableInterface, AdvancedUserInterface, \Serializable, 
         $this->isAgreedWithTerms = $agreed;
     }
 
+    public function setIsShowHelp($isShowHelp)
+    {
+        $this->isShowHelp = $isShowHelp;
+        return $this;
+    }
+
+        
+    public function getIsShowHelp()
+    {
+        return $this->isShowHelp;
+    }
+        
     /**
      * Add resources
      *
@@ -834,7 +851,8 @@ class User implements EquatableInterface, AdvancedUserInterface, \Serializable, 
     {
         return [
             'id' => $this->id,
-            'username' => $this->username
+            'username' => $this->username,
+            'is_show_help' => $this->isShowHelp
         ];
     }
 }

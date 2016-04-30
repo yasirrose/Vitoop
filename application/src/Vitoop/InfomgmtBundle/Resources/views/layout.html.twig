@@ -12,12 +12,14 @@
     <script type="text/javascript">
         vitoop = (function () {
             var baseUrl = '{{ path('_base_url') }}',
-                    maxperpage = (document.cookie.match('(^|; )' + 'maxperpage' + '=([^;]*)') || 0)[2];
+                maxperpage = (document.cookie.match('(^|; )' + 'maxperpage' + '=([^;]*)') || 0)[2];  
             if (typeof maxperpage === 'undefined') {
                 maxperpage = '10';
             }
-            return {baseUrl: baseUrl,
-                maxperpage: maxperpage
+            return {
+                baseUrl: baseUrl,
+                maxperpage: maxperpage,
+                isShowHelp: {%if app.user and app.user.getIsShowHelp()%}{{app.user.getIsShowHelp}}{%else%}true{%endif%}
             };
         }());
     </script>
@@ -190,6 +192,18 @@
                             <div id="resource-tag">
                                 <p>Tag</p>
                             </div>
+                        </div>
+                        <div id="resource-help" style="display:none">
+                            <fieldset class="ui-corner-all">
+                                <legend>Wo wird welcher Datensatz eingetragen</legend>
+                                <div>Text Text Text Text Text Text Text Text Text Text</div>
+                                <div style="text-align: right; color: #2779aa; margin: 15px 5px 5px;">
+                                    <p>
+                                        <input type="checkbox" name="user_show_help" {%if app.user and app.user.getIsShowHelp()%}checked{%endif%} id="user_show_help" style="-webkit-appearance: checkbox;">
+                                        <label for="user_show_help">Hinweis nicht automatisch anzeigen</label>
+                                    </p>
+                                </div>
+                            </fieldset>
                         </div>
                     </div>
                     <div id="tabs-remark">

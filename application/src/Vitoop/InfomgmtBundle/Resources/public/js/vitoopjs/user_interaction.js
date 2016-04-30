@@ -68,6 +68,20 @@ userInteraction = (function () {
             }
         });
 
+        $('#user_show_help').on('change', function () {
+            $.ajax({
+                method: "PATCH",
+                url: vitoop.baseUrl + "api/user/me",
+                data:JSON.stringify({
+                    is_show_help: $('#user_show_help').prop('checked')
+                }),
+                dataType: 'json',
+                success: function(data){
+                    vitoop.isShowHelp = data.is_show_help;
+                }
+            });
+        });
+
         tinymce.init({
             selector: 'textarea#vitoop_blog_sheet',
             width: 615,
