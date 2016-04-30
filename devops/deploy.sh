@@ -3,6 +3,7 @@
 
 git pull origin master
 
+cd application
 composer install
 
 php bin/console doc:migr:migr
