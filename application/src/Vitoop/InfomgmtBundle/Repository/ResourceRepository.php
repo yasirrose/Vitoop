@@ -150,9 +150,7 @@ class ResourceRepository extends EntityRepository
            ->andWhere('t.text IN (:tags)')
            ->andWhere('rt.deletedByUser is null')
            ->groupBy('r.id')
-           ->setParameters(array(
-                'tags' => $search->tags
-           ));
+           ->setParameter('tags', $search->tags);
 
         if ($search->countTags != 0) {
             $qb->having('COUNT(DISTINCT t.text) = :tag_cnt');
@@ -160,13 +158,16 @@ class ResourceRepository extends EntityRepository
         }
 
         if (!empty($search->ignoredTags)) {
-            $qb->innerJoin('rt.tag', 't', 'WITH', 't.text NOT IN (:tags_ignore)')
-                ->setParameter('tags_ignore', $search->ignoredTags);
             $queryExist = $this->getEntityManager()->createQueryBuilder()
                 ->select('rrt')
                 ->from('VitoopInfomgmtBundle:RelResourceTag', 'rrt')
                 ->innerJoin('rrt.tag', 't2', 'WITH', 't2.text IN (:tags_ignore)')
-                ->where('rrt.resource = r.id');
+                ->where('rrt.resource = r.id')
+                ->setParameter('tags_ignore', $search->ignoredTags);;
+            
+            $qb->innerJoin('rt.tag', 't', 'WITH', 't.text NOT IN (:tags_ignore)')
+                ->setParameter('tags_ignore', $search->ignoredTags);
+
             $qb->andWhere($qb->expr()->not($qb->expr()->exists($queryExist->getDQL())));
         } else {
             $qb->innerJoin('rt.tag', 't');
@@ -181,7 +182,7 @@ class ResourceRepository extends EntityRepository
             if ($search->countTags == 0) {
                 $qb->addOrderBy('count_different', 'DESC');
             }
-                $qb->addOrderBy('quantity_all', 'DESC')
+            $qb->addOrderBy('quantity_all', 'DESC')
                 ->setParameter('tags_highlight', $search->highlightTags);
         } else {
             $qb->orderBy('count_different', 'DESC');
