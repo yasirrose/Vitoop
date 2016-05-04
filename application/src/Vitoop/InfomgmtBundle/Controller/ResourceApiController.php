@@ -92,33 +92,21 @@ class ResourceApiController extends ApiController
      */
     public function checkUniqueUrlAction($resource_type, Request $request)
     {
-        $serializer = $this->get('jms_serializer');
-        $url = $serializer->deserialize(
-            $request->getContent(),
-            'array',
-            'json'
-        );
-        $url = $url['url'];
-        if ((strpos($url, 'http://') === false)&&(strpos($url, 'ftp://') === false)) {
-            $url = 'http://'.$url;
+        $dto = $this->getDTOFromRequest($request);
+        if ((strpos($dto->url, 'http://') === false)&&(strpos($dto->url, 'ftp://') === false)) {
+            $dto->url = 'http://'.$dto->url;
         }
+
         $result = $this->getDoctrine()
             ->getManager()
             ->getRepository('VitoopInfomgmtBundle:'.ucfirst($resource_type))
-            ->findOneBy(
-                array(
-                    'url' => $url
-                )
-            );
-        $response = $serializer->serialize(
-            array('success' => true,
-                'unique' => (is_null($result)),
-                'id' => ((is_null($result))?(null):($result->getId())),
-                'title' => ((is_null($result))?(null):($result->getName()))
-            ),
-            'json'
-        );
+            ->findOneBy(['url' => $dto->url]);
 
-        return new Response($response);
+        return $this->getApiResponse([
+            'success' => true,
+            'unique' => is_null($result),
+            'id' => is_null($result)?null:$result->getId(),
+            'title' => is_null($result)?null:$result->getName()
+        ]);
     }
 }
