@@ -1,7 +1,6 @@
 <?php
 namespace Vitoop\InfomgmtBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +15,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  * @Route("api/project/{projectID}/divider")
  * @ParamConverter("project", class="Vitoop\InfomgmtBundle\Entity\Project", options={"id" = "projectID"})
  */
-class ProjectRelsDividerController extends Controller
+class ProjectRelsDividerController extends ApiController
 {
     /**
      * @Route("", name="get_dividers")
@@ -29,15 +28,19 @@ class ProjectRelsDividerController extends Controller
         if (!$project->getProjectData()->availableForReading($this->get('vitoop.vitoop_security')->getUser())) {
             throw new AccessDeniedHttpException;
         }
-        $serializer = $this->get('jms_serializer');
-        $dividers = $this->getDoctrine()->getManager()->getRepository('VitoopInfomgmtBundle:ProjectRelsDivider')->findBy(array('projectData' => $project->getProjectData()));
+        $dividers = $this->getDoctrine()->getManager()
+            ->getRepository('VitoopInfomgmtBundle:ProjectRelsDivider')
+            ->findBy(array('projectData' => $project->getProjectData()));
+        
         $divResult = array();
         foreach ($dividers as $divider) {
-            $divResult["'".$divider->getCoefficient()."'"] = array('id' => $divider->getId(), 'text' => $divider->getText());
+            $divResult[(string)$divider->getCoefficient()] = array(
+                'id' => $divider->getId(),
+                'text' => $divider->getText()
+            );
         }
-        $response = $serializer->serialize($divResult, 'json');
 
-        return new Response($response);
+        return $this->getApiResponse($divResult);
     }
 
     /**

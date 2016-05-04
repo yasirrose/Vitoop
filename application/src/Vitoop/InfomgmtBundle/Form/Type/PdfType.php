@@ -19,7 +19,7 @@ class PdfType extends AbstractType
                 ->add('author', null, array('label' => 'Autor:'))
                 ->add('publisher', null, array('label' => 'Hrsg.:'))
                 ->add('url', UrlType::class, array('label' => 'URL:'))
-                ->add('tnop', null, array('label' => 'Seiten:'))
+                ->add('tnop', TextType::class, array('label' => 'Seiten:'))
                 ->add('pdf_date', TextType::class, array('label' => 'Erschienen:'));
         $builder->get('publisher')
                 ->addModelTransformer(new EmptyStringToNullTransformer());

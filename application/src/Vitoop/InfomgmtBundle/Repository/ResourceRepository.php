@@ -324,8 +324,9 @@ class ResourceRepository extends EntityRepository
         }
 
         if ($search->searchString) {
-            $searchString = implode('OR ', array_map(function ($field) {
-                $alias = 'username'==$field?'u.':'r.';
+            $searchString = implode('OR ', array_map(function ($field) use ($rootEntity) {
+                $alias =  $this->getResourceFieldAlias($field, $rootEntity);
+                
                 return $alias.$field . ' LIKE :searchString ';
             }, $search->columns->searchable));
 
@@ -366,7 +367,7 @@ class ResourceRepository extends EntityRepository
             ->addSelect('rr2.coefficient as coef')
             ->addSelect('rr2.id as coefId')
             ->andWhere('rr2.resource1 = :resource')
-            ->orderBy('rr2.coefficient', 'ASC')
+            ->addOrderBy('rr2.coefficient', 'ASC')
             ->addOrderBy('r.created_at', 'DESC')
             ->setParameter('resource', $resource);
     }
@@ -496,6 +497,7 @@ class ResourceRepository extends EntityRepository
                 return 'u.';
             case 'avgmark':
             case 'res12count':
+            case 'coef':
                 return '';
             case 'url':
                 if ($rootEntity == 'Vitoop\InfomgmtBundle\Entity\Lexicon') {

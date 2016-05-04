@@ -12,25 +12,25 @@
                         <textarea ui-tinymce="tinymceOptions" ng-model="to_do_item.text" name="todoText" id="toDoArea"></textarea>
                     </div>
                     <div class="vtp-fh-w100" style="margin-top: 20px; width: 550px">
-                        <button ng-click="newItem()" ng-show="!isDeleting" class="ui-corner-all vtp-fh-w20" style="background-color: #ffffff; color: #2779aa; border: 1px solid #aed0ea; padding-bottom: 5px; padding-top: 5px">neu</button>
-                        <button ng-click="isDeleting = true" ng-disabled="isDeleting" class="ui-corner-all vtp-fh-w20 vtp-button-light">löschen</button>
-                        <button ng-click="delete()" ng-show="isDeleting" class="ui-corner-all vtp-fh-w20 vtp-button-light">ja</button>
-                        <button ng-click="isDeleting = false" ng-show="isDeleting" class="ui-corner-all vtp-fh-w20 vtp-button-light">abbrechen</button>
-                        <button ng-click="save()" ng-show="!isDeleting" ng-class="{'ui-corner-all vtp-fh-w30': toDoForm.todoText.$pristine && toDoForm.todoTitle.$pristine, 'ui-corner-all vtp-fh-w30 ui-state-need-to-save': toDoForm.todoTitle.$dirty || toDoForm.todoText.$dirty}" style="background-color: #ffffff; color: #2779aa; border: 1px solid #aed0ea; float: right; padding-bottom: 5px; padding-top: 5px">speichern</button>
+                        <button ng-click="newItem()" ng-show="!isDeleting" class="ui-corner-all vtp-fh-w20" style="background-color: #ffffff; color: #2779aa; border: 1px solid #aed0ea; padding-bottom: 5px; padding-top: 5px">{{ 'label.new'|trans }}</button>
+                        <button ng-click="isDeleting = true" ng-disabled="isDeleting" class="ui-corner-all vtp-fh-w20 vtp-button-light">{{'label.delete'|trans}}</button>
+                        <button ng-click="delete()" ng-show="isDeleting" class="ui-corner-all vtp-fh-w20 vtp-button-light">{{'label.yes'|trans}}</button>
+                        <button ng-click="isDeleting = false" ng-show="isDeleting" class="ui-corner-all vtp-fh-w20 vtp-button-light">{{'label.cancel'|trans}}</button>
+                        <button ng-click="save()" ng-show="!isDeleting" ng-class="{'ui-corner-all vtp-fh-w30': toDoForm.todoText.$pristine && toDoForm.todoTitle.$pristine, 'ui-corner-all vtp-fh-w30 ui-state-need-to-save': toDoForm.todoTitle.$dirty || toDoForm.todoText.$dirty}" style="background-color: #ffffff; color: #2779aa; border: 1px solid #aed0ea; float: right; padding-bottom: 5px; padding-top: 5px">{{'label.save'|trans}}</button>
                     </div>
                 </div>
                 <div class="vtp-fh-w50" style="float: right">
                     <div class="vtp-fh-w100">
                         <div class="vtp-fh-top">
-                            <input type="text" id="todo-title" name="todoTitle" class="vtp-fh-w100" style="font-size: 20px; color: #2779aa" ng-model="to_do_item.title">
+                            <input type="text" id="todo-title" name="todoTitle" class="vtp-fh-w70" style="font-size: 20px; color: #2779aa" ng-model="to_do_item.title">
                         </div>
-                        <div style="float: right; color: #2779aa">
-                            erstellt: <span ng-bind="to_do_item.created_at"></span> / geändert: <span ng-bind="to_do_item.updated_at"></span>
+                        <div style="color: #2779aa">
+                            {{'label.created'|trans}}: <span ng-bind="to_do_item.created_at"></span> / {{'label.changed'|trans}}: <span ng-bind="to_do_item.updated_at"></span>
                         </div>
                     </div>
-                    <div class="vtp-fh-w100" id="noscroll-container" style="overflow: hidden">
-                        <div class="vtp-fh-w100 vtp-menu vtp-noscrollbar" id="noscroll-element" style="margin-top: 50px; max-height: 500px; overflow: auto; width: 104%; padding-top: 0px">
-                            <ul style="float: right" class="vtp-fh-w90" as-sortable="sortableOptions" ng-model="to_do_items">
+                    <div class="vtp-fh-w70" id="noscroll-container" style="overflow: hidden">
+                        <div class="vtp-fh-w100 vtp-menu vtp-noscrollbar" id="noscroll-element" style="margin-top: 50px; max-height: 500px; overflow: auto; padding: 0px">
+                            <ul class="vtp-fh-w100" as-sortable="sortableOptions" ng-model="to_do_items">
                                 {% verbatim %}
                                 <li class="vtp-fh-w100" as-sortable-item ng-repeat="item in to_do_items" style="margin-top: 3px; margin-bottom: 3px;">
                                     <button as-sortable-item-handle ng-click="edit(item.id)" ng-class="{'ui-state-default ui-state-active ui-corner-all vtp-fh-w100': to_do_item.id==item.id, 'ui-state-default ui-corner-all vtp-fh-w100': to_do_item.id!=item.id}" style="height: 27px; padding-bottom: 4px; padding-top: 4px;  text-align: left; padding-left: 55px; padding-right: 55px">{{ item.title }}</button>

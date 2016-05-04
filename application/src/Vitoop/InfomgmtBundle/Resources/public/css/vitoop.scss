@@ -186,7 +186,8 @@ input[type="submit"], .vtp-button {
 }
 
 .vtp-even .ui-state-active .vtp-extlink,
-.vtp-odd .ui-state-active .vtp-extlink {
+.vtp-odd .ui-state-active .vtp-extlink,
+table input[disabled="disabled"].vtp-uiaction-coefficient {
     background-color: transparent;
 }
 
@@ -1149,7 +1150,7 @@ input.ng-invalid{
 
 div#vtp-res-list table input[disabled="disabled"] {
     border: none;
-    background-color: inherit;
+   // background-color: inherit;
     margin-left: 15px;
 }
 

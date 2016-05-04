@@ -667,14 +667,22 @@ resourceDetail = (function () {
         },
 
         clearTabsClasses = function() {
-                $('#tab-title-comments').removeClass('ui-state-no-content');
-                $('#tab-title-remark').removeClass('ui-state-no-content');
-                $('#tab-title-remark-private').removeClass('ui-state-no-content');
-                $('#tab-title-rels').removeClass('ui-state-no-content');
+                clearTabsNoContent();
 
                 //reset tinymce
-                tinymce.execCommand('mceRemoveEditor', true, "remark_text");
-                tinymce.execCommand('mceRemoveEditor', true, "remark_private_text");
+                resetTinyMce();
+        },
+
+        clearTabsNoContent = function () {
+            $('#tab-title-comments').removeClass('ui-state-no-content');
+            $('#tab-title-remark').removeClass('ui-state-no-content');
+            $('#tab-title-remark-private').removeClass('ui-state-no-content');
+            $('#tab-title-rels').removeClass('ui-state-no-content');
+        },
+        
+        resetTinyMce = function () {
+            tinymce.execCommand('mceRemoveEditor', true, "remark_text");
+            tinymce.execCommand('mceRemoveEditor', true, "remark_private_text");
         },
 
         loadTab = function (event, ui) {
@@ -815,7 +823,7 @@ resourceDetail = (function () {
         newResource = function () {
             res_id = 'new';
             hardResetTabs();
-            $('#vtp-res-dialog-tabs').tabs('option', 'disabled', [ 1, 2, 3 ]);
+            $('#vtp-res-dialog-tabs').tabs('option', 'disabled', [ 1, 2, 3, 4 ]);
             loadTab(undefined, 0);
         },
 
@@ -1059,7 +1067,8 @@ resourceDetail = (function () {
         replaceContainer = function (containerName, html) {
             if ('resource-metadata' !== containerName) {
                 $('#' + containerName).empty().append(html);
-                clearTabsClasses();
+                //clearTabsClasses();
+                resetTinyMce();
                 // Initializing special UI-Gimmicks are done in uifyContainer()
                 uifyContainer(containerName);
             }

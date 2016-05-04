@@ -90,7 +90,7 @@ function dtDrawCallback() {
 			url: vitoop.baseUrl +'api/project/' + projectElem.val() + '/divider',
 			method: 'GET',
 			success: function(data) {
-				dividers = JSON.parse(data);
+				dividers = data;
 				var divider = "";
 				$('.vtp-uiaction-coefficient.divider-wrapper').remove();
 				$('table > tbody > tr > td > input.vtp-uiaction-coefficient').each(function() {
@@ -103,7 +103,7 @@ function dtDrawCallback() {
 							divider = divider.text;
 						}
 						if ((typeof(editMode) != "undefined") && (editMode)) {
-							$(this).parent().parent().before($('<div class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 5%; padding-top: 4px"><span>'+ ~~ currentCoefficient+'</span></div><div style="width: 94.4%"><input class="divider" type="text" data-coef="'+(~~currentCoefficient)+'" value="'+divider+'" data-original="'+divider+'"></div></div>'));
+							$(this).parent().parent().before($('<div class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 7%; padding-top: 4px"><span>'+ ~~ currentCoefficient+'</span></div><div style="width: 92.4%"><input class="divider" type="text" data-coef="'+(~~currentCoefficient)+'" value="'+divider+'" data-original="'+divider+'"></div></div>'));
 							$('input.divider').on('focusout', function() {
 								if ($(this).val() != $(this).data('original')) {
 									$('.vtp-uiaction-coefficient, input.divider').attr('disabled', true);
@@ -130,7 +130,7 @@ function dtDrawCallback() {
 								}
 							});
 						} else {
-							$(this).parent().parent().before($('<div style="height: 18px; padding-top: 2px;" class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 5%"><span>'+ ~~ currentCoefficient+'</span></div><div style="width: 94.4%"><span class="divider">'+divider+'</span></span></div></div>'));
+							$(this).parent().parent().before($('<div style="height: 18px; padding-top: 2px;" class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 7%; padding-left: 8px"><span>'+ ~~ currentCoefficient+'</span></div><div style="width: 92.4%"><span class="divider">'+divider+'</span></span></div></div>'));
 						}
 					}
 					upperCoefficient = currentCoefficient;
