@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b91404df8c2dcfe7637902b86bb59284",
-    "content-hash": "c01d0b8854b3915e48301295a8ead090",
+    "hash": "e819094a93ffb80910a367f92bcdd886",
+    "content-hash": "812fb156815cfc3a3b36c7a08be363fe",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1524,16 +1524,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.18.2",
+            "version": "1.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "064b38c16790249488e7a8b987acf1c9d7383c09"
+                "reference": "5f56ed5212dc509c8dc8caeba2715732abb32dbf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/064b38c16790249488e7a8b987acf1c9d7383c09",
-                "reference": "064b38c16790249488e7a8b987acf1c9d7383c09",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/5f56ed5212dc509c8dc8caeba2715732abb32dbf",
+                "reference": "5f56ed5212dc509c8dc8caeba2715732abb32dbf",
                 "shasum": ""
             },
             "require": {
@@ -1598,20 +1598,20 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2016-04-02 13:12:58"
+            "time": "2016-04-12 18:29:35"
         },
         {
             "name": "ocramius/package-versions",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Ocramius/PackageVersions.git",
-                "reference": "a108adf44c4663bfb72858ea2fcd174acddd317e"
+                "reference": "7e9aa662b8405d6ee09844f66d7f32596902b538"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ocramius/PackageVersions/zipball/a108adf44c4663bfb72858ea2fcd174acddd317e",
-                "reference": "a108adf44c4663bfb72858ea2fcd174acddd317e",
+                "url": "https://api.github.com/repos/Ocramius/PackageVersions/zipball/7e9aa662b8405d6ee09844f66d7f32596902b538",
+                "reference": "7e9aa662b8405d6ee09844f66d7f32596902b538",
                 "shasum": ""
             },
             "require": {
@@ -1645,7 +1645,7 @@
                 }
             ],
             "description": "Composer plugin that provides efficient querying for installed package versions (no runtime IO)",
-            "time": "2016-02-26 14:00:23"
+            "time": "2016-04-23 17:52:40"
         },
         {
             "name": "ocramius/proxy-manager",
@@ -1899,16 +1899,16 @@
         },
         {
             "name": "sensio/distribution-bundle",
-            "version": "v5.0.5",
+            "version": "v5.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioDistributionBundle.git",
-                "reference": "3a160355bb1364da55ed9e415c1aa1fa8d457b6f"
+                "reference": "ffe306d09c1f2bad721237f63b2169d1b78253d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/3a160355bb1364da55ed9e415c1aa1fa8d457b6f",
-                "reference": "3a160355bb1364da55ed9e415c1aa1fa8d457b6f",
+                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/ffe306d09c1f2bad721237f63b2169d1b78253d0",
+                "reference": "ffe306d09c1f2bad721237f63b2169d1b78253d0",
                 "shasum": ""
             },
             "require": {
@@ -1947,7 +1947,7 @@
                 "configuration",
                 "distribution"
             ],
-            "time": "2016-03-15 16:21:41"
+            "time": "2016-04-25 20:50:31"
         },
         {
             "name": "sensio/framework-extra-bundle",
@@ -2057,16 +2057,16 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v5.4.1",
+            "version": "v5.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "0697e6aa65c83edf97bb0f23d8763f94e3f11421"
+                "reference": "d8db871a54619458a805229a057ea2af33c753e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/0697e6aa65c83edf97bb0f23d8763f94e3f11421",
-                "reference": "0697e6aa65c83edf97bb0f23d8763f94e3f11421",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/d8db871a54619458a805229a057ea2af33c753e8",
+                "reference": "d8db871a54619458a805229a057ea2af33c753e8",
                 "shasum": ""
             },
             "require": {
@@ -2106,7 +2106,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2015-06-06 14:19:39"
+            "time": "2016-05-01 08:45:47"
         },
         {
             "name": "symfony/assetic-bundle",
@@ -2820,20 +2820,20 @@
         },
         {
             "name": "zendframework/zend-code",
-            "version": "3.0.1",
+            "version": "3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-code.git",
-                "reference": "09405eb04b7199733219cbf1f0803883a7bab842"
+                "reference": "57cfbcf794a79985278d6308325bc86060af588c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-code/zipball/09405eb04b7199733219cbf1f0803883a7bab842",
-                "reference": "09405eb04b7199733219cbf1f0803883a7bab842",
+                "url": "https://api.github.com/repos/zendframework/zend-code/zipball/57cfbcf794a79985278d6308325bc86060af588c",
+                "reference": "57cfbcf794a79985278d6308325bc86060af588c",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.5 || ^7.0",
+                "php": "^5.5 || 7.0.0 - 7.0.4 || ^7.0.6",
                 "zendframework/zend-eventmanager": "^2.6 || ^3.0"
             },
             "require-dev": {
@@ -2841,7 +2841,7 @@
                 "ext-phar": "*",
                 "phpunit/phpunit": "^4.8.21",
                 "squizlabs/php_codesniffer": "^2.5",
-                "zendframework/zend-stdlib": "~2.7"
+                "zendframework/zend-stdlib": "^2.7 || ^3.0"
             },
             "suggest": {
                 "doctrine/annotations": "Doctrine\\Common\\Annotations >=1.0 for annotation features",
@@ -2869,7 +2869,7 @@
                 "code",
                 "zf2"
             ],
-            "time": "2016-01-26 17:57:25"
+            "time": "2016-04-20 17:34:49"
         },
         {
             "name": "zendframework/zend-eventmanager",
@@ -2981,16 +2981,16 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v3.0.4",
+            "version": "v3.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "b097218e4ab7724e7ec0c420e96dfd70518c2354"
+                "reference": "3231629ff97abccd60f93ff900accfb5b39c8200"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/b097218e4ab7724e7ec0c420e96dfd70518c2354",
-                "reference": "b097218e4ab7724e7ec0c420e96dfd70518c2354",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/3231629ff97abccd60f93ff900accfb5b39c8200",
+                "reference": "3231629ff97abccd60f93ff900accfb5b39c8200",
                 "shasum": ""
             },
             "require": {
@@ -3032,7 +3032,7 @@
             ],
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
-            "time": "2016-03-23 13:46:08"
+            "time": "2016-04-12 18:09:53"
         }
     ],
     "aliases": [],

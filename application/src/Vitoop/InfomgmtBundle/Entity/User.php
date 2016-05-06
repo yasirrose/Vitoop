@@ -832,7 +832,9 @@ class User implements EquatableInterface, AdvancedUserInterface, \Serializable, 
             $this->username,
             $this->password,
             $this->salt,
-            $this->active
+            $this->active,
+            $this->isShowHelp,
+            $this->isAgreedWithTerms
         ));
     }
 
@@ -843,7 +845,9 @@ class User implements EquatableInterface, AdvancedUserInterface, \Serializable, 
             $this->username,
             $this->password,
             $this->salt,
-            $this->active
+            $this->active,
+            $this->isShowHelp,
+            $this->isAgreedWithTerms
         ) = unserialize($serialized);
     }
 

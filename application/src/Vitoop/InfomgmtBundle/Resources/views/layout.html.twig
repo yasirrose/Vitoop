@@ -12,14 +12,14 @@
     <script type="text/javascript">
         vitoop = (function () {
             var baseUrl = '{{ path('_base_url') }}',
-                maxperpage = (document.cookie.match('(^|; )' + 'maxperpage' + '=([^;]*)') || 0)[2];  
+                maxperpage = (document.cookie.match('(^|; )' + 'maxperpage' + '=([^;]*)') || 0)[2]; 
             if (typeof maxperpage === 'undefined') {
                 maxperpage = '10';
             }
             return {
                 baseUrl: baseUrl,
                 maxperpage: maxperpage,
-                isShowHelp: {%if app.user and app.user.getIsShowHelp()%}{{app.user.getIsShowHelp}}{%else%}true{%endif%}
+                isShowHelp: {%if app.user and not app.user.getIsShowHelp() %}false{% else %}true{% endif %}
             };
         }());
     </script>
@@ -196,6 +196,9 @@
                         <div id="resource-help" style="display:none">
                             <fieldset class="ui-corner-all">
                                 <legend>Wo wird welcher Datensatz eingetragen</legend>
+                                <div style="float:right">
+                                    <input type="button" style="{%if app.user and app.user.getIsShowHelp()%}display:none{%endif%}" class="ui-button ui-widget ui-corner-all ui-state-default" id="vtp-bigclosehelp" value="Datensatz eingeben"/>
+                                </div>
                                 <div>Text Text Text Text Text Text Text Text Text Text</div>
                                 <div style="text-align: right; color: #2779aa; margin: 15px 5px 5px;">
                                     <p>

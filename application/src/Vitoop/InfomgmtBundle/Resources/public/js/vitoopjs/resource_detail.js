@@ -59,6 +59,7 @@ resourceDetail = (function () {
                 $('.vtp-uiaction-detail-new').on('click', newResource);
                 $('.vtp-uiaction-detail-blame').on('click', blameResource);
                 $('.vtp-uiaction-detail-help').on('click', helpWindow);
+                $('#vtp-bigclosehelp').on('click', hideHelpWindow);
                 
             }
             /*************************************************************************

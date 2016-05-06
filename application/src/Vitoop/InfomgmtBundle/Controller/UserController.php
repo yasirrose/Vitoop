@@ -471,4 +471,13 @@ EOT;
 
         return $this->getApiResponse($user->getDTO());
     }
+
+     /**
+     * @Route("api/user/me", name="user_profile_get")
+     * @Method({"GET"})
+     */
+    public function getUserProfileAction(Request $request)
+    {
+        return $this->getApiResponse($this->getUser()->getDTO());
+    }
 }

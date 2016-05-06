@@ -78,6 +78,11 @@ userInteraction = (function () {
                 dataType: 'json',
                 success: function(data){
                     vitoop.isShowHelp = data.is_show_help;
+                    if (data.is_show_help == false) {
+                        $('#vtp-bigclosehelp').show();
+                    } else {
+                        $('#vtp-bigclosehelp').hide();
+                    }
                 }
             });
         });
