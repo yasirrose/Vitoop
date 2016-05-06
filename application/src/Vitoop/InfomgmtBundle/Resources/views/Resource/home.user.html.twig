@@ -19,7 +19,7 @@
                         <button ng-click="save()" ng-show="!isDeleting" ng-class="{'ui-corner-all vtp-fh-w30': toDoForm.todoText.$pristine && toDoForm.todoTitle.$pristine, 'ui-corner-all vtp-fh-w30 ui-state-need-to-save': toDoForm.todoTitle.$dirty || toDoForm.todoText.$dirty}" style="background-color: #ffffff; color: #2779aa; border: 1px solid #aed0ea; float: right; padding-bottom: 5px; padding-top: 5px">{{'label.save'|trans}}</button>
                     </div>
                 </div>
-                <div class="vtp-fh-w50" style="float: right">
+                <div class="vtp-fh-w50" style="float: right; padding-left: 30px">
                     <div class="vtp-fh-w100">
                         <div class="vtp-fh-top">
                             <input type="text" id="todo-title" name="todoTitle" class="vtp-fh-w70" style="font-size: 20px; color: #2779aa" ng-model="to_do_item.title">

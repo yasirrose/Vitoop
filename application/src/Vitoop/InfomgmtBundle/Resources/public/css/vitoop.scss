@@ -221,20 +221,23 @@ table input[disabled="disabled"].vtp-uiaction-coefficient {
     padding: 0.3em 1em 0.3em 0.3em;
 }
 
-span.vtp-icon-clear-taglistbox {
+#vtp-icon-clear-taglistbox {
     display: inline-block;
     position: absolute;
     border: 1px solid #aed0ea;
-    top: 0.2em;
+    top: 0.1em;
     right: 0.2em;
     margin: 0.2em;
     background-color: #f2f5f7;
+    width: 2.4em;
+    height: 23px;
     cursor: pointer;
 }
 
 #vtp-search-clear {
-    width: 1.7em;
+    width: 2.4em;
     margin-left: 5px;
+    margin-right: 7px;
     height: 23px;
 }
 
@@ -624,13 +627,20 @@ span.vtp-icon {
     display: inline;
 }
 
-#vtp-login {
+#vtp-login-container {
     width: 22em;
     margin: 5em auto 5em;
+}
+
+#vtp-login {
     border: 1px solid #aed0ea;
     background-color: #deedf7;
     color: #222222;
     padding: 0.5em 0.5em;
+}
+
+#vtp-login-error{
+    margin-bottom: 5px;
 }
 
 #vtp-login label, #vtp-login input[type="text"], #vtp-login input[type="password"] {
@@ -840,9 +850,11 @@ span.vtp-icon {
     border: 1px solid #aed0ea;
     top: 50%;
     right: 0.4em;
-    margin: -9px 0 0 0;
+    margin: -9px -5px 0 0;
     background-color: #f2f5f7;
     cursor: pointer;
+    width: 2.4em;
+    height: 19px;
 }
 
 .vtp-projectdata-unlink {
@@ -881,7 +893,7 @@ input.divider {
 }
 
 div.divider-wrapper {
-    background-color: #95ceee;
+    background-color: #deedf7;
     width: 1122px;
     padding-left: 20px;
     font-size: 12px;

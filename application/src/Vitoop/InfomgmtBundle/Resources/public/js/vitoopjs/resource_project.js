@@ -37,6 +37,12 @@ resourceProject = (function () {
         });
 
 
+        $('#vtp-projectdata-project-close').button({
+            icons: {
+                primary: "ui-icon-close"
+            }
+        });
+
 
         $('#vtp-projectdata-project-close').on('click', function () {
             location.href = vitoop.baseUrl + 'prj/';
@@ -71,6 +77,13 @@ resourceProject = (function () {
                 location.href = location.href + '?edit=1';
             });
         }
+
+        
+        $('#vtp-lexicondata-lexicon-close').button({
+            icons: {
+                primary: "ui-icon-close"
+            }
+        });
 
         $('#vtp-lexicondata-lexicon-close').on('click', function () {
             location.href = vitoop.baseUrl + 'lex/';

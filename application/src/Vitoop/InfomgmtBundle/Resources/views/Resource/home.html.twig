@@ -7,12 +7,13 @@
                 <span id="vtp-projectdata-project-live" class="ui-icon ui-icon-clipboard ui-corner-all"></span>
                 <span id="vtp-projectdata-project-edit" class="ui-icon ui-icon-wrench ui-corner-all"></span>
             {% endif %}
-            <span id="vtp-projectdata-project-close" class="ui-icon ui-icon-close ui-corner-all"></span>
+            <button id="vtp-projectdata-project-close" class=""></button>
         </div>
     {% endif %}
     {% if lexicon is defined %}
         <div id="vtp-lexicondata-title" class="ui-corner-all">
-            <span>Lexikon: {{ lexicon.name }}</span><span id="vtp-lexicondata-lexicon-close" class="ui-icon ui-icon-close ui-corner-all"></span>
+            <span>Lexikon: {{ lexicon.name }}</span> 
+            <button id="vtp-lexicondata-lexicon-close" class=""></button>
         </div>
     {% endif %}
 {% endblock %}

@@ -330,9 +330,17 @@ resourceSearch = (function () {
                     }
                 }});
 
+            $('#vtp-icon-clear-taglistbox').button({
+                icons: {
+                    primary: 'ui-icon-close'
+                },
+                text: false
+            });
+            $('#vtp-icon-clear-taglistbox').on('click', removeAllTags);
+
             $('#vtp-search-bytags-taglistbox')
-                .on('click', '.vtp-uiaction-search-bytags-removetag', removeTag)
-                .on('click', '.vtp-uiaction-search-bytags-clear-taglistbox', removeAllTags);
+                .on('click', '.vtp-uiaction-search-bytags-removetag', removeTag);
+                //.on('click', '.vtp-uiaction-search-bytags-clear-taglistbox', removeAllTags);
 
             $('#vtp-search-bytags-tagcnt').on('selectmenuchange', function () {
                     tagcnt = +$(this).val();
