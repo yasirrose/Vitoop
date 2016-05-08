@@ -175,6 +175,7 @@ input[type="submit"], .vtp-button {
     display: inline-block !important;
     border: 1px solid #aed0ea;
     border-radius: 6px;
+    margin-left: 0.2em !important;
 }
 
 .vtp-odd .vtp-extlink {
@@ -864,6 +865,8 @@ span.vtp-icon {
     margin: -8px 0 0 0;
     background-color: #f2f5f7;
     cursor: pointer;
+    width: 2.4em;
+    height: 19px;
 }
 
 div.login-container > div a {

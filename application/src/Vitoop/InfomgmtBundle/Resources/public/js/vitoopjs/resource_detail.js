@@ -783,7 +783,7 @@ resourceDetail = (function () {
             tr_res = current_tr_res;
             tgl();
 
-            if ($(e.target).hasClass('vtp-uiaction-open-extlink') || $(e.target).hasClass('vtp-projectdata-unlink') || $(e.target).hasClass('vtp-projectdata-unlink-coefficient') || $(e.target).hasClass('vtp-uiaction-coefficient')) {
+            if ($(e.target).hasClass('vtp-uiaction-open-extlink') || $(e.target).parent().hasClass('vtp-uiaction-open-extlink') || $(e.target).hasClass('vtp-projectdata-unlink') || $(e.target).hasClass('vtp-projectdata-unlink-coefficient') || $(e.target).hasClass('vtp-uiaction-coefficient')) {
                 return;
             }
 

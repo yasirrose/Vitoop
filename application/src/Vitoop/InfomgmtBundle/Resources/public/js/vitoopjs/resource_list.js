@@ -175,7 +175,7 @@ resourceList = (function () {
                 },
                 text: false
             });
-
+            
             // Highlight Tablerows onmousover
             $('#vtp-content').on('mouseenter', 'tr', function (e) {
                 $(this).addClass('vtp-hilight');

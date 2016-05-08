@@ -54,8 +54,8 @@ function dtDrawCallback() {
     if (this.api().page.info().recordsTotal == 0) {
         return;
     }
-	var projectElem = $('#projectID');
-	if ((typeof(projectElem) != 'undefined') && projectElem.val() > -1) {
+    var projectElem = $('#projectID');
+    if ((typeof(projectElem) != 'undefined') && projectElem.val() > -1) {
 		$('input.divider').off();
 		var query = $.deparam.querystring(),
 			editMode = query.edit;
@@ -197,32 +197,25 @@ function getRatingValue(data, type, row, meta) {
 }
 
 function getRatingColumn() {
-	return {"data": "avgmark", "render": getRatingValue, orderSequence: [ "desc", "asc"]};
+    return {"data": "avgmark", "render": getRatingValue, orderSequence: [ "desc", "asc"]};
 }
 
 function getOwnerColumn() {
-	return {"data": "username"};
+    return {"data": "username"};
 }
 
 function getIsDownloadedValue(data, type, row, meta) {
-	if (type == "display") {
-
-		if (data == 0) {
-			return 'Soon';
-		} else if (data == 1) {
-			return '<span style="color: green;">Yes</span>';
-		} else {
-			return '<span style="color: red;">Err</span>';
-		}
-
-	} else {
-		var temp = -1;
-		if (data < 2) {
-			temp = data;
-		}
-
-		return temp;
-	}
+    if (type == "display") {
+        if (data == 0) {
+            return 'Soon';
+        }
+        if (data == 1) {
+            return '<span style="color: green;">Yes</span>';
+        }
+        return '<span style="color: red;">Err</span>';
+    } 
+    
+    return (data < 2)?data:-1;
 }
 
 function getIsDownloadedColumn()
@@ -230,72 +223,68 @@ function getIsDownloadedColumn()
 	return {"data": "isDownloaded", "render": getIsDownloadedValue};
 }
 
-function getUrlValue(data, type, row, meta)
-{
-
-	return '<a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="'+data+'" target="_blank">-></a>';
+function getUrlValue(url, type, row, meta) {
+    return '<a class="vtp-extlink vtp-uiaction-open-extlink vtp-button ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" href="'+url+'" target="_blank"><span class="ui-button-icon-primary ui-icon ui-icon-extlink"></span><span class="ui-button-text"></span></a>';
 }
 
-function getProjectUrlValue(data, type, row, meta)
-{
-	if (row.canRead) {
-		return '<a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="'+vitoop.baseUrl+'project/'+data+'">-></a>';
-	} else {
-		return '<span class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink"  style="background-color: #DDDDDD">-></span>';
-	}
+function getProjectUrlValue(data, type, row, meta) {
+    if (row.canRead) {
+        return getUrlValue(vitoop.baseUrl+'project/'+data, type, row, meta);
+    }
+
+    return '<span class="vtp-extlink vtp-uiaction-open-extlink vtp-button ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"  style="background-color: #DDDDDD"><span class="ui-button-icon-primary ui-icon ui-icon-extlink"></span><span class="ui-button-text"></span></span>';
 }
 
-function getLexiconUrlValue(data, type, row, meta)
-{
-	return '<a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="'+vitoop.baseUrl+'lexicon/'+data+'">-></a>';
+function getLexiconUrlValue(data, type, row, meta) {
+    return getUrlValue(vitoop.baseUrl+'lexicon/'+data, type, row, meta);
 }
 
 function getUrlColumn(isEdit) {
-	if (isEdit) {
-		return getUnlinkColumn();
-	} else {
-		return {"data": "url", "render": getUrlValue};
-	}
+    if (isEdit) {
+        return getUnlinkColumn();
+    }
+
+    return {"data": "url", "render": getUrlValue};
 }
 
 function getLexiconUrlColumn(isEdit) {
-	if (isEdit) {
-		return getUnlinkColumn();
-	} else {
-		return {"data": "id", "render": getLexiconUrlValue};
-	}
+    if (isEdit) {
+        return getUnlinkColumn();
+    }
+
+    return {"data": "id", "render": getLexiconUrlValue};
 }
 
 function getProjectUrlColumn() {
-	return {"data": "id", "render": getProjectUrlValue};
+    return {"data": "id", "render": getProjectUrlValue};
 }
 
 function getUrlTextColumn() {
-	return {"data": "url", "render": getWrapperForTextValue};
+    return {"data": "url", "render": getWrapperForTextValue};
 }
 
 function getIsHpValue(data, type, row, meta) {
-	if (data) {
-		return 'ja';
-	} else {
-		return 'nein';
-	}
+    if (data) {
+        return 'ja';
+    }
+
+    return 'nein';
 }
 
 function getIsHpColumn() {
-	return {"data": "is_hp", "render": getIsHpValue};
+    return {"data": "is_hp", "render": getIsHpValue};
 }
 
 function getMapsLinkValue(data, type, row, meta) {
-	return '<a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="https://nominatim.openstreetmap.org/search.php?polygon=1&q='+row.street+', '+row.zip+', '+row.city+', '+row.code+'" target="_blank">-></a>';
+    return '<a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="https://nominatim.openstreetmap.org/search.php?polygon=1&q='+row.street+', '+row.zip+', '+row.city+', '+row.code+'" target="_blank">-></a>';
 }
 
 function getMapsLinkColumn(isEdit) {
-	if (isEdit) {
-		return getUnlinkColumn();
-	} else {
-		return {"data": "id", "render": getMapsLinkValue};
-	}
+    if (isEdit) {
+        return getUnlinkColumn();
+    }
+
+    return {"data": "id", "render": getMapsLinkValue};
 }
 
 function getCityColumn() {
@@ -307,19 +296,19 @@ function getZipColumn() {
 }
 
 function getUnlinkValue(data, type, row, meta) {
-	return '<span class="vtp-projectdata-unlink ui-icon ui-icon-close ui-corner-all" onclick="unlinkRes('+data+')"></span>';
+    return '<button class="vtp-projectdata-unlink ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" onclick="unlinkRes('+data+')"><span class="ui-button-icon-primary ui-icon ui-icon-close"></span><span class="ui-button-text"></span></button>';
 }
 
 function getUnlinkColumn() {
-	return {"data": "id", "render": getUnlinkValue};
+    return {"data": "id", "render": getUnlinkValue};
 }
 
 function getCoefValue(data, type, row, meta) {
-	return '<input type="text" id="coef-'+row.coefId+'" data-rel_id="'+row.coefId+'" value="'+data+'" class="vtp-uiaction-coefficient vtp-fh-w85" disabled="disabled"/>';
+    return '<input type="text" id="coef-'+row.coefId+'" data-rel_id="'+row.coefId+'" value="'+data+'" class="vtp-uiaction-coefficient vtp-fh-w85" disabled="disabled"/>';
 }
 
 function getCoefEditValue(data, type, row, meta) {
-	return '<input type="text" id="coef-'+row.coefId+'" data-rel_id="'+row.coefId+'" data-original="'+data+'" value="'+data+'" class="vtp-uiaction-coefficient vtp-fh-w85"/>';
+    return '<input type="text" id="coef-'+row.coefId+'" data-rel_id="'+row.coefId+'" data-original="'+data+'" value="'+data+'" class="vtp-uiaction-coefficient vtp-fh-w85"/>';
 }
 
 function getCoefColumn(isEdit) {
