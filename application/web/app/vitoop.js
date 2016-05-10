@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('vitoop', ['ui.tinymce', 'angucomplete', 'validation.match', 'as.sortable']);
+var app = angular.module('vitoop', ['ui.tinymce', 'angucomplete', 'validation.match', 'as.sortable', 'jQueryScrollbar']);
 
 app.controller('MainController', function ($scope, $http, $compile) {
     $scope.content = '';
@@ -207,6 +207,10 @@ app.controller('ToDoController', function ($scope, $http, $filter) {
     $scope.to_do_item = {};
     $scope.isNew = false;
     $scope.isDeleting = false;
+    $scope.jqueryScrollbarOptions = {
+        
+    };
+    
     $scope.tinymceOptions = {
         width: 550, //574 for new one button
         height: 550,

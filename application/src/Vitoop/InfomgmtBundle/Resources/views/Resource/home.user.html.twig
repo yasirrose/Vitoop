@@ -7,11 +7,11 @@
             <input type="text" style="display: none" ng-init="user.height_of_todo_list={{ user.getUserConfig.getHeightOfTodoList }}" ng-model="user.height_of_todo_list">
 
             <div>
-                <div class="vtp-fh-w50" style="float: left">
+                <div class="vtp-fh-w50" style="float: left; min-width: 550px;">
                     <div class="vtp-fh-w100">
                         <textarea ui-tinymce="tinymceOptions" ng-model="to_do_item.text" name="todoText" id="toDoArea"></textarea>
                     </div>
-                    <div class="vtp-fh-w100" style="margin-top: 20px; width: 550px">
+                    <div class="vtp-fh-w100" style="margin-top: 20px;">
                         <button ng-click="newItem()" ng-show="!isDeleting" class="ui-corner-all vtp-fh-w20" style="background-color: #ffffff; color: #2779aa; border: 1px solid #aed0ea; padding-bottom: 5px; padding-top: 5px">{{ 'label.new'|trans }}</button>
                         <button ng-click="isDeleting = true" ng-disabled="isDeleting" class="ui-corner-all vtp-fh-w20 vtp-button-light">{{'label.delete'|trans}}</button>
                         <button ng-click="delete()" ng-show="isDeleting" class="ui-corner-all vtp-fh-w20 vtp-button-light">{{'label.yes'|trans}}</button>
@@ -19,7 +19,7 @@
                         <button ng-click="save()" ng-show="!isDeleting" ng-class="{'ui-corner-all vtp-fh-w30': toDoForm.todoText.$pristine && toDoForm.todoTitle.$pristine, 'ui-corner-all vtp-fh-w30 ui-state-need-to-save': toDoForm.todoTitle.$dirty || toDoForm.todoText.$dirty}" style="background-color: #ffffff; color: #2779aa; border: 1px solid #aed0ea; float: right; padding-bottom: 5px; padding-top: 5px">{{'label.save'|trans}}</button>
                     </div>
                 </div>
-                <div class="vtp-fh-w50" style="float: right; padding-left: 30px">
+                <div class="vtp-fh-w40" style="padding-left: 60px">
                     <div class="vtp-fh-w100">
                         <div class="vtp-fh-top">
                             <input type="text" id="todo-title" name="todoTitle" class="vtp-fh-w70" style="font-size: 20px; color: #2779aa" ng-model="to_do_item.title">
@@ -28,9 +28,9 @@
                             {{'label.created'|trans}}: <span ng-bind="to_do_item.created_at"></span> / {{'label.changed'|trans}}: <span ng-bind="to_do_item.updated_at"></span>
                         </div>
                     </div>
-                    <div class="vtp-fh-w70" id="noscroll-container" style="overflow: hidden">
-                        <div class="vtp-fh-w100 vtp-menu vtp-noscrollbar" id="noscroll-element" style="margin-top: 50px; max-height: 500px; overflow: auto; padding: 0px">
-                            <ul class="vtp-fh-w100" as-sortable="sortableOptions" ng-model="to_do_items">
+                    <div class="vtp-fh-w70 "  id="noscroll-container">
+                        <div class="vtp-fh-w100 vtp-menu " id="noscroll-element" style="margin-top: 50px;  padding: 0px">
+                            <ul class="vtp-fh-w100 scrollbar-macosx" id="vtp-todo-list" as-sortable="sortableOptions" data-jquery-scrollbar="jqueryScrollbarOptions" ng-model="to_do_items" style="max-height: 500px; overflow: auto;">
                                 {% verbatim %}
                                 <li class="vtp-fh-w100" as-sortable-item ng-repeat="item in to_do_items" style="margin-top: 3px; margin-bottom: 3px;">
                                     <button as-sortable-item-handle ng-click="edit(item.id)" ng-class="{'ui-state-default ui-state-active ui-corner-all vtp-fh-w100': to_do_item.id==item.id, 'ui-state-default ui-corner-all vtp-fh-w100': to_do_item.id!=item.id}" style="height: 27px; padding-bottom: 4px; padding-top: 4px;  text-align: left; padding-left: 55px; padding-right: 55px">{{ item.title }}</button>

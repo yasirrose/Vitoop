@@ -213,7 +213,7 @@ table input[disabled="disabled"].vtp-uiaction-coefficient {
 }
 
 #vtp-search-bytags-taglist {
-    width: 230px;
+    width: 220px;
 }
 
 #vtp-search-bytags-taglistbox {
@@ -810,6 +810,10 @@ span.vtp-icon {
     overflow: -moz-scrollbars-none;
 }
 */
+
+#noscroll-element > .scroll-wrapper {
+    max-height: 500px;
+}
 
 #vtp-lexicondata-box a {
     color: #2779aa;

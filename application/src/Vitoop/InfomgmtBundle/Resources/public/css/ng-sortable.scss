@@ -9,10 +9,14 @@
 .as-sortable-item {
     -ms-touch-action: none;
     touch-action: none;
+    /* to disable context menu on iOS devices */
+    -webkit-touch-callout: none;
 }
 
 .as-sortable-item-handle {
     cursor: move;
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
 }
 
 .as-sortable-placeholder {
@@ -35,23 +39,4 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-}
-
-.as-sortable-item, .as-sortable-placeholder {
-    min-height: 20px;
-    margin: 1px 2px 5px 1px;
-    border-radius: 6px;
-}
-
-.as-sortable-item-handle {
-}
-
-.as-sortable-placeholder {
-    border: 1px dashed darkgrey;
-    box-sizing: border-box;
-    background-color: #dbdbdb;
-}
-
-.as-sortable-drag {
-    opacity: .8;
 }
