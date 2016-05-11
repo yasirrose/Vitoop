@@ -855,11 +855,16 @@ span.vtp-icon {
     border: 1px solid #aed0ea;
     top: 50%;
     right: 0.4em;
-    margin: -9px -5px 0 0;
+    margin: -9px 1px 0 0;
     background-color: #f2f5f7;
     cursor: pointer;
-    width: 2.4em;
+    width: 1.8em;
     height: 19px;
+}
+
+#vtp-projectdata-project-close > .ui-button-icon-primary,
+#vtp-lexicondata-lexicon-close > .ui-button-icon-primary {
+    left: .3em;
 }
 
 .vtp-projectdata-unlink {
