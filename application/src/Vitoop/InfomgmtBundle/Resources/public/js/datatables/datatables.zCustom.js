@@ -224,7 +224,7 @@ function getIsDownloadedColumn()
 }
 
 function getUrlValue(url, type, row, meta) {
-    return '<a class="vtp-extlink vtp-uiaction-open-extlink vtp-button ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" href="'+url+'" target="_blank"><span class="ui-button-icon-primary ui-icon ui-icon-extlink"></span><span class="ui-button-text"></span></a>';
+    return '<a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="'+url+'" target="_blank">-></a>';
 }
 
 function getProjectUrlValue(data, type, row, meta) {
@@ -232,7 +232,7 @@ function getProjectUrlValue(data, type, row, meta) {
         return getUrlValue(vitoop.baseUrl+'project/'+data, type, row, meta);
     }
 
-    return '<span class="vtp-extlink vtp-uiaction-open-extlink vtp-button ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"  style="background-color: #DDDDDD"><span class="ui-button-icon-primary ui-icon ui-icon-extlink"></span><span class="ui-button-text"></span></span>';
+    return '<span class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink"  style="background-color: #DDDDDD">-></span>';
 }
 
 function getLexiconUrlValue(data, type, row, meta) {
@@ -296,7 +296,7 @@ function getZipColumn() {
 }
 
 function getUnlinkValue(data, type, row, meta) {
-    return '<button class="vtp-projectdata-unlink ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" onclick="unlinkRes('+data+')"><span class="ui-button-icon-primary ui-icon ui-icon-close"></span><span class="ui-button-text"></span></button>';
+    return '<span class="vtp-projectdata-unlink ui-icon ui-icon-close ui-corner-all" onclick="unlinkRes('+data+')"></span>';
 }
 
 function getUnlinkColumn() {
