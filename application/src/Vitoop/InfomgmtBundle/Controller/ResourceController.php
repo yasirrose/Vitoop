@@ -3,6 +3,9 @@ namespace Vitoop\InfomgmtBundle\Controller;
 
 use Symfony\Component\HttpKernel\KernelEvents;
 use Vitoop\InfomgmtBundle\DTO\HomeDTO;
+use Vitoop\InfomgmtBundle\DTO\Paging;
+use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
+use Vitoop\InfomgmtBundle\DTO\Resource\SearchColumns;
 use Vitoop\InfomgmtBundle\Entity\Comment;
 use Vitoop\InfomgmtBundle\Entity\Flag;
 use Vitoop\InfomgmtBundle\Entity\UserConfig;
@@ -201,6 +204,17 @@ class ResourceController extends ApiController
 
         $url = $this->generateUrl('api_resource_list', array('resType' => $res_type));
 
+        $search = new SearchResource(
+            new Paging(1, 1),
+            new SearchColumns([]),
+            $request->query->get('flagged'),
+            null,
+            $request->query->get('taglist', []),
+            $request->query->get('taglist_i', []),
+            $request->query->get('taglist_h', []),
+            $request->query->get('tagcnt', 0)
+        );
+        
         $mode_search_by_tags = false;
         $mode_filter_by_project_id = false;
         $mode_filter_by_lexicon_id = false;
@@ -209,20 +223,12 @@ class ResourceController extends ApiController
 
         $project_id = $request->query->get('project');
         $lexicon_id = $request->query->get('lexicon');
-        $flagged = $request->query->get('flagged');
-        $tag_list = $request->query->get('taglist');
-        $tag_list_ignore = $request->query->get('taglist_i');
-        $tag_list_highlight = $request->query->get('taglist_h');
-        $tag_cnt = $request->query->get('tagcnt');
-
-        $tag_list_ignore = (is_null($tag_list_ignore))?(array()):($tag_list_ignore);
-        $tag_list_highlight = (is_null($tag_list_highlight))?(array()):($tag_list_highlight);
-
+        
         if (($request->query->has('edit')) && ($request->query->get('edit') == 1)) {
             $isEditMode = true;
         }
 
-        if (!empty($tag_list) && is_array($tag_list)) {
+        if (!empty($search->tags) && is_array($search->tags)) {
             $mode_search_by_tags = true;
         } elseif (null !== $project_id) {
             $mode_filter_by_project_id = true;
@@ -242,18 +248,17 @@ class ResourceController extends ApiController
             $url .= '?'.htmlspecialchars_decode($request->server->get('QUERY_STRING'));
 
             $tpl_vars = array_merge($tpl_vars, array(
-                'taglist' => array_diff($tag_list, $tag_list_highlight),
-                'taglist_for_links' => $tag_list,
-                'taglist_h' => $tag_list_highlight,
-                'taglist_i' => $tag_list_ignore
+                'taglist' => array_diff($search->tags, $search->highlightTags),
+                'taglist_for_links' => $search->tags,
+                'taglist_h' => $search->highlightTags,
+                'taglist_i' => $search->ignoredTags
             ));
 
-            $tag_cnt = intval($tag_cnt);
             $tpl_vars = array_merge($tpl_vars, array(
-                'tagcnt' => $tag_cnt,
+                'tagcnt' => $search->countTags,
                 'resourceInfo' => $this->getDoctrine()->getManager()
                     ->getRepository('VitoopInfomgmtBundle:Resource')
-                    ->getCountByTags($tpl_vars['taglist'])
+                    ->getCountByTags($search)
             ));
         } elseif ($mode_filter_by_project_id) {
             $url .= '?resource='.$project_id;
@@ -261,7 +266,7 @@ class ResourceController extends ApiController
         } elseif ($mode_filter_by_lexicon_id) {
             $url .= '?resource='.$lexicon_id;
         } elseif ($mode_normal) {
-            if ($flagged) {
+            if ($search->flagged) {
                 $url .= '?flagged=1';
                 $tpl_vars = array_merge($tpl_vars, array(
                     'flagged' => 1

@@ -2,6 +2,13 @@
 namespace Vitoop\InfomgmtBundle\Repository;
 
 use Vitoop\InfomgmtBundle\Entity\Resource;
+use Vitoop\InfomgmtBundle\Entity\Project;
+use Vitoop\InfomgmtBundle\Entity\Lexicon;
+use Vitoop\InfomgmtBundle\Entity\Link;
+use Vitoop\InfomgmtBundle\Entity\Book;
+use Vitoop\InfomgmtBundle\Entity\Pdf;
+use Vitoop\InfomgmtBundle\Entity\Teli;
+use Vitoop\InfomgmtBundle\Entity\Address;
 use Vitoop\InfomgmtBundle\Entity\User;
 use Vitoop\InfomgmtBundle\Pagination\ResourceListWithTagCountAdapter;
 use Vitoop\InfomgmtBundle\Pagination\ResourceListAdapter;
@@ -447,31 +454,17 @@ class ResourceRepository extends EntityRepository
             ->getOneOrNullResult();
     }
 
-    public function getCountByTags($tags)
+    public function getCountByTags(SearchResource $search)
     {
-        return $this->getEntityManager()->createQueryBuilder()
-            ->select('count(prj.id) as prjc')
-            ->addSelect('count(lex.id) as lexc')
-            ->addSelect('count(pdf.id) as pdfc')
-            ->addSelect('count(teli.id) as telic')
-            ->addSelect('count(link.id) as linkc')
-            ->addSelect('count(adr.id) as adrc')
-            ->addSelect('count(book.id) as bookc')
-            ->from('VitoopInfomgmtBundle:Resource', 'r')
-            ->leftJoin('VitoopInfomgmtBundle:Project', 'prj', 'WITH', 'r.id = prj.id')
-            ->leftJoin('VitoopInfomgmtBundle:Lexicon', 'lex', 'WITH', 'r.id = lex.id')
-            ->leftJoin('VitoopInfomgmtBundle:Pdf', 'pdf', 'WITH', 'r.id = pdf.id')
-            ->leftJoin('VitoopInfomgmtBundle:Teli', 'teli', 'WITH', 'r.id = teli.id')
-            ->leftJoin('VitoopInfomgmtBundle:Link', 'link', 'WITH', 'r.id = link.id')
-            ->leftJoin('VitoopInfomgmtBundle:Address', 'adr', 'WITH', 'r.id = adr.id')
-            ->leftJoin('VitoopInfomgmtBundle:Book', 'book', 'WITH', 'r.id = book.id')
-            ->join('r.rel_tags', 'rt')
-            ->join('rt.tag', 't')
-            ->andWhere('t.text IN (:tags)')
-            ->andWhere('rt.deletedByUser is null')
-            ->setParameter('tags', $tags)
-            ->getQuery()
-            ->getOneOrNullResult();
+        return [
+            'prjc' => $this->getSearchTotal($search, Project::class),
+            'lexc' => $this->getSearchTotal($search, Lexicon::class),
+            'pdfc' => $this->getSearchTotal($search, Pdf::class),
+            'telic' => $this->getSearchTotal($search, Teli::class),
+            'linkc' => $this->getSearchTotal($search, Link::class),
+            'adrc' => $this->getSearchTotal($search, Address::class),
+            'bookc' => $this->getSearchTotal($search, Book::class)
+        ];
     }
 
     public function getResources(SearchResource $search)
@@ -490,6 +483,14 @@ class ResourceRepository extends EntityRepository
         return $this->_em->getConnection()->query('SELECT FOUND_ROWS()')->fetchColumn(0);
     }
 
+    private function getSearchTotal(SearchResource $search, $class)
+    {
+        $this->_em->getRepository($class)->getResources($search);
+
+        return $this->_em->getRepository($class)
+            ->getResourcesTotal($search);
+    }
+    
     private function getResourceFieldAlias($field, $rootEntity)
     {
         switch ($field){
