@@ -89,6 +89,17 @@ class Pdf extends Resource implements DownloadableInterface
         return 'pdf';
     }
 
+    static public function getSearcheableColumns()
+    {
+        return [
+            'name',
+            'author',
+            'tnop',
+            'username'
+        ];
+    }
+
+
     /**
      * {@inheritdoc}
      */

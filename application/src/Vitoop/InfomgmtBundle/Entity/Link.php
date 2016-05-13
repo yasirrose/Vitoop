@@ -57,6 +57,16 @@ class Link extends Resource
         return 'link';
     }
 
+    static public function getSearcheableColumns()
+    {
+        return [
+            'name',
+            'url',
+            'username',
+            'is_hp'
+        ];
+    }
+    
     /**
      * {@inheritdoc}
      */

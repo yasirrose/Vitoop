@@ -61,6 +61,14 @@ class Project extends Resource implements GetDTOInterface
         return 'prj';
     }
 
+    static public function getSearcheableColumns()
+    {
+        return [
+            'name',
+            'username'
+        ];
+    }
+    
     /**
      * Set id
      *

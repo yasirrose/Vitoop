@@ -84,6 +84,16 @@ class Book extends Resource
         return 'book';
     }
 
+    static public function getSearcheableColumns()
+    {
+        return [
+            'name',
+            'author',
+            'tnop',
+            'username'
+        ];
+    }
+    
     /**
      * Set author
      *

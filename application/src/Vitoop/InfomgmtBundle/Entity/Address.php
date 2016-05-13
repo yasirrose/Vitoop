@@ -99,6 +99,15 @@ class Address extends Resource
         return 'adr';
     }
 
+    static public function getSearcheableColumns()
+    {
+        return [
+            'name',
+            'zip',
+            'city',
+        ];
+    }
+    
     /**
      * {@inheritdoc}
      *

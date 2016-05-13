@@ -64,6 +64,9 @@ class ResourceApiController extends ApiController
             'recordsTotal' => $total,
             'recordsFiltered' => $total,
             'data'=> $resources,
+            'resourceInfo' => $this->getDoctrine()
+                ->getRepository('VitoopInfomgmtBundle:Resource')
+                ->getCountByTags($search)
         ));
     }
 

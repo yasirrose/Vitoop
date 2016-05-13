@@ -66,6 +66,15 @@ class Teli extends Resource
         return 'teli';
     }
 
+    static public function getSearcheableColumns()
+    {
+        return [
+            'name',
+            'author',
+            'username'
+        ];
+    }
+    
     /**
      * {@inheritdoc}
      */

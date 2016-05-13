@@ -23,8 +23,18 @@ function dtDomObject() {
 
 function dtAjaxCallback(e, settings, json, xhr) {
     if (json.length == 0) {
-            $('.table-datatables').hide();
-            $('.empty-datatables').show();
+        $('.table-datatables').hide();
+        $('.empty-datatables').show();
+        
+        return;
+    }
+    
+    if (json && json.resourceInfo) {
+        resourceInfo = json.resourceInfo;
+        var scope = angular.element($("#resourceInfo")).scope();
+        scope.$apply(function(){
+            scope.nav.resourceInfo = resourceInfo;
+        });
     }
 }
 

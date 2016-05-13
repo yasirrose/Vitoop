@@ -457,13 +457,13 @@ class ResourceRepository extends EntityRepository
     public function getCountByTags(SearchResource $search)
     {
         return [
-            'prjc' => $this->getSearchTotal($search, Project::class),
-            'lexc' => $this->getSearchTotal($search, Lexicon::class),
-            'pdfc' => $this->getSearchTotal($search, Pdf::class),
-            'telic' => $this->getSearchTotal($search, Teli::class),
-            'linkc' => $this->getSearchTotal($search, Link::class),
-            'adrc' => $this->getSearchTotal($search, Address::class),
-            'bookc' => $this->getSearchTotal($search, Book::class)
+            'prjc' => $this->getSearchTotal($search, Project::class, Project::getSearcheableColumns()),
+            'lexc' => $this->getSearchTotal($search, Lexicon::class, Lexicon::getSearcheableColumns()),
+            'pdfc' => $this->getSearchTotal($search, Pdf::class, Pdf::getSearcheableColumns()),
+            'telic' => $this->getSearchTotal($search, Teli::class, Teli::getSearcheableColumns()),
+            'linkc' => $this->getSearchTotal($search, Link::class, Link::getSearcheableColumns()),
+            'adrc' => $this->getSearchTotal($search, Address::class, Address::getSearcheableColumns()),
+            'bookc' => $this->getSearchTotal($search, Book::class, Book::getSearcheableColumns())
         ];
     }
 
@@ -483,8 +483,12 @@ class ResourceRepository extends EntityRepository
         return $this->_em->getConnection()->query('SELECT FOUND_ROWS()')->fetchColumn(0);
     }
 
-    private function getSearchTotal(SearchResource $search, $class)
+    private function getSearchTotal(SearchResource $search, $class, $columns = null)
     {
+        if ($columns) {
+            $search->columns->searchable = $columns;
+        }
+        
         $this->_em->getRepository($class)->getResources($search);
 
         return $this->_em->getRepository($class)

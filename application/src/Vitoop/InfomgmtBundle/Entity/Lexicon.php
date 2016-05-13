@@ -75,6 +75,14 @@ class Lexicon extends Resource
         return 'lex';
     }
 
+    static public function getSearcheableColumns()
+    {
+        return [
+            'name',
+            'username'
+        ];
+    }
+    
     /**
      * {@inheritdoc}
      */
