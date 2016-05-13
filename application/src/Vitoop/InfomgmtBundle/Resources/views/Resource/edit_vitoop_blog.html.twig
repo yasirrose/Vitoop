@@ -2,7 +2,7 @@
 {% block content %}
     {{ form_start(fvvitoopblog, {'attr': {'id': 'vtp-form-vitoop-blog', 'novalidate': 'novalidate' }}) }}
     <fieldset class="ui-corner-all">
-        <legend>Neuigkeiten</legend>
+        <legend>{{'label.news'|trans}}</legend>
         <div id="vtp-vitoopblog-box">
             {% if infovitoopblog is defined and infovitoopblog is not empty %}
                 <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all">

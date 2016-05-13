@@ -14,30 +14,14 @@
                     Erstellt am: <span>{{ project.getCreatedAt|date('d.m.Y') }}</span>
                 </p>
                 <br/>
-                <p>
-                    Verknüpfte Datensätze:
-                </p>
-                <p>
-                    Projekt: <span>{{ resourceInfo.prjc }}</span>
-                </p>
-                <p>
-                    Lexicon: <span>{{ resourceInfo.lexc }}</span>
-                </p>
-                <p>
-                    Pdf: <span>{{ resourceInfo.pdfc }}</span>
-                </p>
-                <p>
-                    Textlink: <span>{{ resourceInfo.telic }}</span>
-                </p>
-                <p>
-                    Link: <span>{{ resourceInfo.linkc }}</span>
-                </p>
-                <p>
-                    Buch: <span>{{ resourceInfo.bookc }}</span>
-                </p>
-                <p>
-                    Adresse: <span>{{ resourceInfo.adrc }}</span>
-                </p>
+                <p>{{'Linked Records'|trans}}:</p>
+                <p>{{'label.project'|trans}}: <span>{{ resourceInfo.prjc }}</span></p>
+                <p>{{'label.lexicon'|trans}}: <span>{{ resourceInfo.lexc }}</span></p>
+                <p>{{'label.pdf'|trans}}: <span>{{ resourceInfo.pdfc }}</span></p>
+                <p>{{'label.textlink'|trans}}: <span>{{ resourceInfo.telic }}</span></p>
+                <p>{{'label.link'|trans}}: <span>{{ resourceInfo.linkc }}</span></p>
+                <p>{{'label.book'|trans}}: <span>{{ resourceInfo.bookc }}</span></p>
+                <p>{{'label.address'|trans}}: <span>{{ resourceInfo.adrc }}</span></p>
             </div>
     </div>
 </fieldset>

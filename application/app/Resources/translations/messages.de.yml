@@ -21,6 +21,14 @@ label:
     cancel: abbrechen
     save: speichern
     yes: ja
+    project: Projekt
+    lexicon: Lexicon
+    pdf: Pdf
+    textlink: Textlink
+    link: Link
+    book: Buch
+    address: Adresse
+    news: Neuigkeiten
 logout:
     label: logout
     message: Bei VitooP abmelden
@@ -32,5 +40,18 @@ homepage:
 page:
     project: Projekt-Hauptseite
     lexicon: Lexikon-Hauptseite
+word:
+    and: und
+    available: verfügbar
 'User account is disabled.': 'gelöscht'
 'Bad credentials.': 'Falsche Eingabe'
+'Linked Records': Verknüpfte Datensätze
+'This article based on the article': 'Dieser Artikel basiert auf dem Artikel'
+'from the free encyclopedia': 'aus der freien Enzyklopädie'
+'and is available under the license': 'und steht unter der Doppellizenz'
+'GNU Free Documentation License': 'GNU-Lizenz für freie Dokumentation'
+'Creative Commons CC-BY-SA 3.0 Unported': 'Creative Commons CC-BY-SA 3.0 Unported'
+'Summary (de)': 'Kurzfassung (de)'
+'In the Wikipedia is a': 'In der Wikipedia ist eine'
+'List of Authors': Liste der Autoren
+'The following terms have been linked in Vitoop and forwarded in Wikipedia on this Encyclopedia Article': 'Folgende Begriffe wurden in VitooP verknüpft und werden in Wikipedia auf diesen Lexikonartikel weitergeleitet'

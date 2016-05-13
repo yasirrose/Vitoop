@@ -4,15 +4,16 @@
             {{ lexicon.getDescription|raw}}
             <hr/>
             <div id="lexicon-rights">
-                Dieser Artikel basiert auf dem Artikel <a rel="nofollow" href="{{ lexicon.wikifullurl }}" target="_blank">{{ lexicon.name }}</a> aus der freien Enzyklopädie
-                <a rel="nofollow" href="http://de.wikipedia.org/wiki/Wikipedia:Hauptseite" target="_blank">Wikipedia</a> und steht unter der Doppellizenz
-                <a rel="nofollow" href="http://www.hier-ihre-webseite-eintragen.de/lokale-fdl.txt" target="_blank">GNU-Lizenz für freie Dokumentation</a> und
-                <a rel="nofollow" href="http://creativecommons.org/licenses/by-sa/3.0/de/" target="_blank">Creative Commons CC-BY-SA 3.0 Unported</a> (<a rel="nofollow" href="http://creativecommons.org/licenses/by-sa/3.0/de/legalcode" target="_blank">Kurzfassung (de)</a>). In der Wikipedia ist eine
-                <a rel="nofollow" href="{{ lexicon.wikifullurl }}?action=history" target="_blank">Liste der Autoren</a> verfügbar.
+                {{'This article based on the article'|trans}} <a rel="nofollow" href="{{ lexicon.wikifullurl }}" target="_blank">{{ lexicon.name }}</a> {{'from the free encyclopedia'|trans}}
+                <a rel="nofollow" href="http://de.wikipedia.org/wiki/Wikipedia:Hauptseite" target="_blank">Wikipedia</a> {{'and is available under the license'|trans}}
+                <a rel="nofollow" href="http://www.hier-ihre-webseite-eintragen.de/lokale-fdl.txt" target="_blank">{{'GNU Free Documentation License'|trans}}</a> {{'word.und'|trans}}
+                <a rel="nofollow" href="http://creativecommons.org/licenses/by-sa/3.0/de/" target="_blank">{{'Creative Commons CC-BY-SA 3.0 Unported'|trans}}</a>
+                (<a rel="nofollow" href="http://creativecommons.org/licenses/by-sa/3.0/de/legalcode" target="_blank">{{'Summary (de)'|trans}}</a>). {{'In the Wikipedia is a'|trans}}
+                <a rel="nofollow" href="{{ lexicon.wikifullurl }}?action=history" target="_blank">{{'List of Authors'|trans}}</a> {{'word.available'|trans}}.
             </div>
             {% if lexicon.wikiredirects is not empty %}
             <div>
-                <p>Folgende Begriffe wurden in VitooP verknüpft und werden in Wikipedia auf diesen Lexikonartikel weitergeleitet:</p>
+                <p>{{'The following terms have been linked in Vitoop and forwarded in Wikipedia on this Encyclopedia Article'|trans}}:</p>
                 <ul>
                     {% for wikiredirect in lexicon.wikiredirects %}
                         <li>{{ wikiredirect.wikititle }}</li>
@@ -22,31 +23,15 @@
                 {% endif %}
         </div>
         <div id="vtp-lexicondata-sheet-info" class="ui-corner-all vtp-fh-w25">
-                <p>
-                    Verknüpfte Datensätze:
-                </p>
-                <p>
-                    Projekt: <span>{{ resourceInfo.prjc }}</span>
-                </p>
-                <p>
-                    Lexicon: <span>{{ resourceInfo.lexc }}</span>
-                </p>
-                <p>
-                    Pdf: <span>{{ resourceInfo.pdfc }}</span>
-                </p>
-                <p>
-                    Textlink: <span>{{ resourceInfo.telic }}</span>
-                </p>
-                <p>
-                    Link: <span>{{ resourceInfo.linkc }}</span>
-                </p>
-                <p>
-                    Buch: <span>{{ resourceInfo.bookc }}</span>
-                </p>
-                <p>
-                    Adresse: <span>{{ resourceInfo.adrc }}</span>
-                </p>
-            </div>
+            <p>{{'Linked Records'|trans}}:</p>
+            <p>{{'label.project'|trans}}: <span>{{ resourceInfo.prjc }}</span></p>
+            <p>{{'label.lexicon'|trans}}: <span>{{ resourceInfo.lexc }}</span></p>
+            <p>{{'label.pdf'|trans}}: <span>{{ resourceInfo.pdfc }}</span></p>
+            <p>{{'label.textlink'|trans}}: <span>{{ resourceInfo.telic }}</span></p>
+            <p>{{'label.link'|trans}}: <span>{{ resourceInfo.linkc }}</span></p>
+            <p>{{'label.book'|trans}}: <span>{{ resourceInfo.bookc }}</span></p>
+            <p>{{'label.address'|trans}}: <span>{{ resourceInfo.adrc }}</span></p>
+        </div>
     </div>
     <div id="lexicon-tags">
         {{ lexicons|raw }}
