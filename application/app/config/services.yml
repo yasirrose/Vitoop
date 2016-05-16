@@ -209,4 +209,5 @@ services:
         class:     Buzz\Browser
         arguments: ['@buzz.client.curl']
 
-   
+    vitoop.url_checker:
+        class: Vitoop\InfomgmtBundle\Service\UrlChecker

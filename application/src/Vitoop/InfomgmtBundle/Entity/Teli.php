@@ -11,6 +11,8 @@ use Vitoop\InfomgmtBundle\Validator\Constraints\DateFormat as DateFormatAssert;
  */
 class Teli extends Resource
 {
+    use \Vitoop\InfomgmtBundle\Entity\UrlCheck\UrlCheckTrait;
+
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id()

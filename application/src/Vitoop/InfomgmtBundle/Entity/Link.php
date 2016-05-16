@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Link extends Resource
 {
+    use \Vitoop\InfomgmtBundle\Entity\UrlCheck\UrlCheckTrait;
+
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id()

@@ -24,6 +24,7 @@
         "sensio/framework-extra-bundle": "^3.0.4",
         "incenteev/composer-parameter-handler": "2.1.2",
         "kriswallsmith/buzz": "v0.15",
+        "guzzlehttp/guzzle": "6.2.0",
         "doctrine/migrations": "v1.4.1",
         "doctrine/doctrine-migrations-bundle": "1.1.1",
         "jms/di-extra-bundle": "1.7.0",

@@ -69,7 +69,7 @@ class Resource
     protected $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="Flag", mappedBy="resource")
+     * @ORM\OneToMany(targetEntity="Flag", mappedBy="resource", cascade={"persist"})
      */
     protected $flags;
 
@@ -536,5 +536,16 @@ class Resource
     public function getRes12count()
     {
         return $this->res12count;
+    }
+
+    public function blame($info, User $user = null)
+    {
+        $flag = new Flag();
+        $flag->setType(Flag::FLAG_BLAME);
+        $flag->setResource($this);
+        $flag->setUser($user?$user:$this->user);
+        $flag->setInfo($info);
+
+        $this->addFlag($flag);
     }
 }

@@ -483,6 +483,19 @@ class ResourceRepository extends EntityRepository
         return $this->_em->getConnection()->query('SELECT FOUND_ROWS()')->fetchColumn(0);
     }
 
+    public function findResourcesForCheckUrl($limit = 10)
+    {
+        return $this->createQueryBuilder('r')
+            ->innerJoin('r.user', 'u')
+            ->leftJoin('r.flags', 'f')
+            ->where('f.id IS NULL')
+            ->orderBy('r.lastCheckAt', 'ASC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     private function getSearchTotal(SearchResource $search, $class, $columns = null)
     {
         if ($columns) {

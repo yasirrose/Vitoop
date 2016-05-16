@@ -5,13 +5,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vitoop\InfomgmtBundle\Validator\Constraints\DateFormat as DateFormatAssert;
 
-
 /**
  * @ORM\Table(name="pdf")
  * @ORM\Entity(repositoryClass="Vitoop\InfomgmtBundle\Repository\PdfRepository")
  */
 class Pdf extends Resource implements DownloadableInterface
 {
+    use \Vitoop\InfomgmtBundle\Entity\UrlCheck\UrlCheckTrait;
+    
     /**
      * @ORM\Column(name="author", type="string", length=128)
      */
