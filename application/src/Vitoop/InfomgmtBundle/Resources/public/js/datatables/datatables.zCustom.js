@@ -66,71 +66,71 @@ function dtDrawCallback() {
     }
     var projectElem = $('#projectID');
     if ((typeof(projectElem) != 'undefined') && projectElem.val() > -1) {
-		$('input.divider').off();
-		var query = $.deparam.querystring(),
-			editMode = query.edit;
-		var self = this;
-		if (typeof(editMode) != 'undefined' && editMode == 1) {
-			$('.vtp-uiaction-coefficient').on('focusout', function() {
-				if ((isNaN($(this).val())) || ($(this).val() < 0)) {
-					$(this).val($(this).data('original'));
-					return false;
-				}
-				if ($(this).val() != $(this).data('original')) {
-					$('.vtp-uiaction-coefficient').attr('disabled', true);
-					$.ajax({
-						dataType: 'json',
-						delegate: true,
-						data: JSON.stringify({'value': $(this).val()}),
-						method: 'POST',
-						url: '../api/rrr/' + $(this).data('rel_id') + '/coefficient',
-						success: function (jqXHR) {
-							self.api().clear();
-							self.api().ajax.reload();
-							$('.vtp-uiaction-coefficient').attr('disabled', false);
-						}
-					});
-				}
-			});
-		}
-		var upperCoefficient = -1000;
-		var currentCoefficient = 0;
-		var dividers = [];
+        $('input.divider').off();
+        var query = $.deparam.querystring(),
+                editMode = query.edit;
+        var self = this;
+        if (typeof(editMode) != 'undefined' && editMode == 1) {
+            $('.vtp-uiaction-coefficient').on('focusout', function() {
+                if ((isNaN($(this).val())) || ($(this).val() < 0)) {
+                    $(this).val($(this).data('original'));
+                    return false;
+                }
+                if ($(this).val() != $(this).data('original')) {
+                        $('.vtp-uiaction-coefficient').attr('disabled', true);
+                        $.ajax({
+                                dataType: 'json',
+                                delegate: true,
+                                data: JSON.stringify({'value': $(this).val()}),
+                                method: 'POST',
+                                url: '../api/rrr/' + $(this).data('rel_id') + '/coefficient',
+                                success: function (jqXHR) {
+                                        self.api().clear();
+                                        self.api().ajax.reload();
+                                        $('.vtp-uiaction-coefficient').attr('disabled', false);
+                                }
+                        });
+                }
+            });
+        }
+        var upperCoefficient = -1000;
+        var currentCoefficient = 0;
+        var dividers = [];
 		$.ajax({
 			url: vitoop.baseUrl +'api/project/' + projectElem.val() + '/divider',
 			method: 'GET',
 			success: function(data) {
-				dividers = data;
-				var divider = "";
-				$('.vtp-uiaction-coefficient.divider-wrapper').remove();
-				$('table > tbody > tr > td > input.vtp-uiaction-coefficient').each(function() {
-					currentCoefficient = $(this).val();
-					if ((~~upperCoefficient)-(~~currentCoefficient) <= -1) {
-						divider = dividers["'"+~~currentCoefficient+"'"];
-						if (typeof(divider) == "undefined") {
-							divider = "";
-						} else {
-							divider = divider.text;
-						}
-						if ((typeof(editMode) != "undefined") && (editMode)) {
-							$(this).parent().parent().before($('<div class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 7%; padding-top: 4px"><span>'+ ~~ currentCoefficient+'</span></div><div style="width: 92.4%"><input class="divider" type="text" data-coef="'+(~~currentCoefficient)+'" value="'+divider+'" data-original="'+divider+'"></div></div>'));
-							$('input.divider').on('focusout', function() {
-								if ($(this).val() != $(this).data('original')) {
-									$('.vtp-uiaction-coefficient, input.divider').attr('disabled', true);
-									$.ajax({
-										dataType: 'json',
-										delegate: true,
-										context: this,
-										data: JSON.stringify({'text': $(this).val(), 'coefficient': $(this).data('coef')}),
-										method: 'POST',
-										url: vitoop.baseUrl + 'api/project/' + projectElem.val() + '/divider',
-										success: function () {
-											$('.vtp-uiaction-coefficient, input.divider').attr('disabled', false);
-											$(this).data('original', $(this).val());
-											$('#vtp-projectdata-project-live').show(600);
-										}
-									});
-								}
+                            dividers = data;
+                            var divider = "";
+                            $('.vtp-uiaction-coefficient.divider-wrapper').remove();
+                            $('table > tbody > tr > td > input.vtp-uiaction-coefficient').each(function() {
+                                currentCoefficient = $(this).val();
+                                    if ((~~upperCoefficient)-(~~currentCoefficient) <= -1) {
+                                        divider = dividers["'"+~~currentCoefficient+"'"];
+                                        if (typeof(divider) == "undefined") {
+                                                divider = "";
+                                        } else {
+                                                divider = divider.text;
+                                        }
+                                        if ((typeof(editMode) != "undefined") && (editMode)) {
+                                            $(this).parent().parent().before($('<div class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 7%; padding-top: 4px"><span>'+ ~~ currentCoefficient+'</span></div><div style="width: 92.4%"><input class="divider" type="text" data-coef="'+(~~currentCoefficient)+'" value="'+divider+'" data-original="'+divider+'"></div></div>'));
+                                                $('input.divider').on('focusout', function() {
+                                                    if ($(this).val() != $(this).data('original')) {
+                                                        $('.vtp-uiaction-coefficient, input.divider').attr('disabled', true);
+                                                            $.ajax({
+                                                                dataType: 'json',
+                                                                delegate: true,
+                                                                context: this,
+                                                                data: JSON.stringify({'text': $(this).val(), 'coefficient': $(this).data('coef')}),
+                                                                method: 'POST',
+                                                                url: vitoop.baseUrl + 'api/project/' + projectElem.val() + '/divider',
+                                                                success: function () {
+                                                                        $('.vtp-uiaction-coefficient, input.divider').attr('disabled', false);
+                                                                        $(this).data('original', $(this).val());
+                                                                        $('#vtp-projectdata-project-live').show(600);
+                                                                }
+                                                            });
+                                                    }
 							});
 							$('input.divider').on('change keyup', function() {
 								if ($(this).val() != $(this).data('original')) {
@@ -140,7 +140,7 @@ function dtDrawCallback() {
 								}
 							});
 						} else {
-							$(this).parent().parent().before($('<div style="height: 18px; padding-top: 2px;" class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 7%; padding-left: 8px"><span>'+ ~~ currentCoefficient+'</span></div><div style="width: 92.4%"><span class="divider">'+divider+'</span></span></div></div>'));
+							$(this).parent().parent().before($('<div style="height: 18px; padding-top: 2px;" class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 7%; padding-left: 12px"><span>'+ ~~ currentCoefficient+'</span></div><div style="width: 92.4%"><span class="divider">'+divider+'</span></span></div></div>'));
 						}
 					}
 					upperCoefficient = currentCoefficient;
