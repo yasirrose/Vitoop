@@ -543,7 +543,7 @@ input[type=number].vtp-uiaction-coefficient::-webkit-inner-spin-button, input[ty
 }
 
 #vtp-res-dialog-tabs form {
-/ / / / / / / / osition : relative;
+    position : relative;
 }
 
 #vtp-application .ui-widget {
@@ -890,7 +890,8 @@ input.divider {
 }
 
 div.divider-wrapper {
-    background-color: #62bbe9;
+    background: #3baae3 url("../img/ui-bg_glass_50_3baae3_1x400.png") 50% 50% repeat-x;
+    color: #ffffff !important;
     width: 1122px;
     padding-left: 20px;
     font-size: 14px;
