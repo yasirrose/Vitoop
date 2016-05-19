@@ -343,8 +343,14 @@ resourceSearch = (function () {
                 //.on('click', '.vtp-uiaction-search-bytags-clear-taglistbox', removeAllTags);
 
             $('#vtp-search-bytags-tagcnt').on('selectmenuchange', function () {
-                    tagcnt = +$(this).val();
-                    resourceList.maintainResLinks({'tagcnt': tagcnt});
+                tagcnt = +$(this).val();
+                if (tagcnt > 0) {
+                    $('#vtp-search-bytags-tagcnt-button').addClass('ui-state-active');
+                } else {
+                    $('#vtp-search-bytags-tagcnt-button').removeClass('ui-state-active');
+                }
+
+                resourceList.maintainResLinks({'tagcnt': tagcnt});
                 }
             );
 

@@ -237,16 +237,20 @@ function getUrlValue(url, type, row, meta) {
     return '<a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="'+url+'" target="_blank">-></a>';
 }
 
+function getInternalUrlValue(url, type, row, meta) {
+    return '<a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="'+url+'">-></a>';
+}
+
 function getProjectUrlValue(data, type, row, meta) {
     if (row.canRead) {
-        return getUrlValue(vitoop.baseUrl+'project/'+data, type, row, meta);
+        return getInternalUrlValue(vitoop.baseUrl+'project/'+data, type, row, meta);
     }
 
     return '<span class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink"  style="background-color: #DDDDDD">-></span>';
 }
 
 function getLexiconUrlValue(data, type, row, meta) {
-    return getUrlValue(vitoop.baseUrl+'lexicon/'+data, type, row, meta);
+    return getInternalUrlValue(vitoop.baseUrl+'lexicon/'+data, type, row, meta);
 }
 
 function getUrlColumn(isEdit) {
@@ -322,19 +326,17 @@ function getCoefEditValue(data, type, row, meta) {
 }
 
 function getCoefColumn(isEdit) {
-	if (isEdit) {
-		return {"data": "coef", "render": getCoefEditValue};
-	} else {
-		return {"data": "coef", "render": getCoefValue};
-	}
+    if (isEdit) {
+        return {"data": "coef", "render": getCoefEditValue};
+    }
+    return {"data": "coef", "render": getCoefValue};
 }
 
 function getFirstColumn(isCoef, isEdit) {
-	if (isCoef) {
-		return getCoefColumn(isEdit);
-	} else {
-		return getDateColumn();
-	}
+    if (isCoef) {
+        return getCoefColumn(isEdit);
+    }
+    return getDateColumn();
 }
 
 function getColumns(type, isAdmin, isEdit, isCoef) {
