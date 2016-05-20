@@ -6,7 +6,7 @@ git pull origin master
 cd application
 composer install
 
-php bin/console doc:migr:migr
+php bin/console doc:migr:migr --no-interaction
 php bin/console cache:clear --env=prod
 
 gulp prod
