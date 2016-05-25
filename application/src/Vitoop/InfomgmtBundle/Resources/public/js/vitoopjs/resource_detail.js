@@ -752,7 +752,7 @@ resourceDetail = (function () {
                     $('#vtp-res-dialog-tabs').tabs('enable');
                     // Disable the Navigation Buttons (uifyContainer() will grey it out). New resource has no prev/next
                     prev_id = next_id = -1;
-
+                    
                 }
             }
             $.each(responseJSON, function (container_name, html) {
@@ -1059,7 +1059,9 @@ resourceDetail = (function () {
             arr_tr_res_attr_id[res_type] = res_type + '-' + res_id;
             var api = $('#vtp-res-list table').dataTable().api();
             if (refresh_list) {
-                api.ajax.reload(null, false);
+                api.ajax.reload(function (json) {
+                    tgl_ls();
+                });
                 //resourceList.loadResourceListPage();
                 refresh_list = false;
             }
