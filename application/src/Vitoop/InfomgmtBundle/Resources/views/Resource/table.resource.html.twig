@@ -124,7 +124,7 @@
         domPrefix += dtDomObject();
         var datatable = $('table#list-{{ restype }}').DataTable({
             autoWidth: false,
-            stateSave: true,
+            stateSave: false,
             lengthMenu: [ 7, 8, 9, 10, 11, 12, 13, 14, 15, 20, 50, 100 ],
             pageLength: getPageLength(),
             language: dtLanguageObject(),
@@ -144,21 +144,23 @@
             {% endif %}
         });
         datatable
+            .on('init.dt', function () {
+                datatable.search(getCurrentSearch());
+                datatable.page.len(getPageLength());
+            })
             .on('xhr.dt', dtAjaxCallback)
             .on('search.dt', function (e) {
                 localStorage.setItem('dt-search', datatable.search());
             });
 
         $('div.paging_full_numbers > span').removeClass();
-        var api = $('table#list-{{ restype }}').dataTable().api();
-        api.search(getCurrentSearch());
-        api.page.len(getPageLength());
+        
         $('.dataTables_length select').selectmenu({
             appendTo: ".dataTables_length",
             change: function( event, ui ) {
                 localStorage.setItem('dt-page-length', ui.item.value);
-                api.page.len(ui.item.value);
-                api.draw();
+                datatable.page.len(ui.item.value);
+                datatable.draw();
             }
         });
         $('.dataTables_filter input').after($('<button id="vtp-search-clear" class="vtp-button"></button>'));
@@ -170,9 +172,8 @@
         });
         $('#vtp-search-clear').on('click', function() {
             $('.dataTables_filter input').val('');
-            api.search('');
-            api.draw();
-            localStorage.setItem('dt-search', '')
+            localStorage.setItem('dt-search', '');
+            datatable.search('').draw();
         });
         
         function getPageLength() {
