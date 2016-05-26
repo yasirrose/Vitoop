@@ -343,7 +343,7 @@ function getFirstColumn(isCoef, isEdit) {
 function getColumns(type, isAdmin, isEdit, isCoef) {
     var columns = [];
     if (type == 'prj') {
-        columns = [
+        return [
             getFirstColumn(isCoef, isEdit),
             getNameColumn(),
             getOwnerColumn(),
@@ -351,8 +351,9 @@ function getColumns(type, isAdmin, isEdit, isCoef) {
             getRes12Column(),
             getProjectUrlColumn()
         ];
-    } else if (type == 'lex') {
-        columns = [
+    }
+    if (type == 'lex') {
+        return [
             getFirstColumn(isCoef, isEdit),
             getNameColumn(),
             getUrlTextColumn(),
@@ -360,7 +361,8 @@ function getColumns(type, isAdmin, isEdit, isCoef) {
             getOwnerColumn(),
             getLexiconUrlColumn(isEdit)
         ];
-    } else if (type == 'pdf') {
+    }
+    if (type == 'pdf') {
         columns = [
             getFirstColumn(isCoef, isEdit),
             getNameColumn(),
@@ -374,8 +376,11 @@ function getColumns(type, isAdmin, isEdit, isCoef) {
             columns.push(getIsDownloadedColumn());
         }
         columns.push(getUrlColumn(isEdit));
-    } else if (type == 'teli') {
-        columns = [
+        
+        return columns;
+    }
+    if (type == 'teli') {
+        return [
             getFirstColumn(isCoef, isEdit),
             getNameColumn(),
             getAuthorColumn(),
@@ -384,8 +389,9 @@ function getColumns(type, isAdmin, isEdit, isCoef) {
             getOwnerColumn(),
             getUrlColumn(isEdit)
         ];
-    } else if (type == 'link') {
-        columns = [
+    }
+    if (type == 'link') {
+        return [
             getFirstColumn(isCoef, isEdit),
             getNameColumn(),
             getUrlTextColumn(),
@@ -395,7 +401,8 @@ function getColumns(type, isAdmin, isEdit, isCoef) {
             getOwnerColumn(),
             getUrlColumn(isEdit)
         ];
-    } else if (type == 'book') {
+    } 
+    if (type == 'book') {
         columns = [
             getFirstColumn(isCoef, isEdit),
             getNameColumn(),
@@ -408,8 +415,10 @@ function getColumns(type, isAdmin, isEdit, isCoef) {
         if (isEdit) {
             columns.push(getUnlinkColumn());
         }
-    } else if (type == 'adr') {
-        columns = [
+        return columns;
+    }
+    if (type == 'adr') {
+        return [
             getFirstColumn(isCoef, isEdit),
             getNameColumn(),
             getZipColumn(),
@@ -420,6 +429,4 @@ function getColumns(type, isAdmin, isEdit, isCoef) {
             getMapsLinkColumn()
         ];
     }
-
-    return columns;
 }

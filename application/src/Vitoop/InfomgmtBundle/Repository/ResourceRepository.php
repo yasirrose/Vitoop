@@ -25,8 +25,6 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
  */
 class ResourceRepository extends EntityRepository
 {
-    //\Doctrine\Common\Util\Debug::dump($result);die();
-
     /**
      * @param SearchResource $search
      * @return QueryBuilder
@@ -498,14 +496,19 @@ class ResourceRepository extends EntityRepository
 
     private function getSearchTotal(SearchResource $search, $class, $columns = null)
     {
+        //remove order
+        $totalSearch = clone $search;
+        $totalSearch->columns->sortableColumn = null;
+        $totalSearch->columns->sortableOrder = null;
+
         if ($columns) {
-            $search->columns->searchable = $columns;
+            $totalSearch->columns->searchable = $columns;
         }
         
-        $this->_em->getRepository($class)->getResources($search);
+        $this->_em->getRepository($class)->getResources($totalSearch);
 
         return $this->_em->getRepository($class)
-            ->getResourcesTotal($search);
+            ->getResourcesTotal($totalSearch);
     }
     
     private function getResourceFieldAlias($field, $rootEntity)
