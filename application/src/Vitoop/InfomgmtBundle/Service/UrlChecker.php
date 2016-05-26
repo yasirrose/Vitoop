@@ -31,7 +31,7 @@ class UrlChecker
     {
         try {
             return 404 !== $client->head($url)->getStatusCode();
-        } catch (\GuzzleHttp\Exception\ClientException $ex) {
+        } catch (\Exception $ex) {
             return false;
         }
     }
