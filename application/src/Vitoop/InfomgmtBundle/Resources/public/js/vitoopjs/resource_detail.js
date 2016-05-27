@@ -1061,7 +1061,7 @@ resourceDetail = (function () {
             if (refresh_list) {
                 api.ajax.reload(function (json) {
                     tgl_ls();
-                });
+                }, false);
                 //resourceList.loadResourceListPage();
                 refresh_list = false;
             }
