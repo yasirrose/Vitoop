@@ -397,7 +397,7 @@ class ResourceController extends ApiController
         }
         $content['resource-metadata'] = $rdc->getMetadata();
 
-        return new Response(json_encode($content));
+        return $this->getApiResponse($content);
     }
 
     /**
