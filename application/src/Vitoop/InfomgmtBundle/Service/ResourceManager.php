@@ -548,10 +548,8 @@ class ResourceManager
      */
     public function getLexicon($id)
     {
-        $lexicon = $this->em->getRepository('VitoopInfomgmtBundle:Lexicon')
-                            ->find($id);
-
-        return $lexicon;
+        return $this->em->getRepository('VitoopInfomgmtBundle:Lexicon')
+            ->find($id);
     }
 
     public function watchResource(Resource $res)

@@ -545,7 +545,7 @@ class ResourceController extends ApiController
 
         $content['resource-lexicon'] = $rdc->getLexicon($isLexiconHome);
 
-        return new Response(json_encode($content));
+        return $this->getApiResponse($content);
     }
 
     /**

@@ -585,7 +585,6 @@ resourceDetail = (function () {
              * UIfy: lexicon
              ************************************************************************/
             if ('resource-lexicon' == container_name) {
-
                 $('#lexicon_name_save').on('click', function() {
                     $('#tab-title-rels').removeClass('ui-state-no-content');
                 });

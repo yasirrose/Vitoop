@@ -614,35 +614,36 @@ class ResourceDataCollector
             if ($form_lex->isValid()) {
                 try {
                     if ($form_lex->get('remove')->isEmpty()) {
-                            $lexicon = $this->rm->getRepository('lex')->findOneBy(array('name' => $lex->getName()));
-                            if (is_null($lexicon)) {
-                                $lexicon = $this->lqm->getLexiconFromSuggestTerm($lex->getName());
-                                // @TODO SaveLexicon and setResource1 should be combined for
-                                // atomic DB <Transaction. Otherwise a Lexicon is created but
-                                // there could occure an error in assigning it to a resource!
+                        $lexicon = $this->rm->getRepository('lex')
+                                ->findOneBy(array('name' => $lex->getName()));
+                        if (is_null($lexicon) || ($lexicon && strlen($lexicon->getDescription()<5))) {
+                            $lexicon = $this->lqm->getLexiconFromSuggestTerm($lex->getName());
+                            // @TODO SaveLexicon and setResource1 should be combined for
+                            // atomic DB <Transaction. Otherwise a Lexicon is created but
+                            // there could occure an error in assigning it to a resource!
 
-                                $this->rm->saveLexicon($lexicon);
-                            }
-                            $lex_name = $this->rm->setResource1($lexicon, $this->res);
+                            $this->rm->saveLexicon($lexicon);
+                        }
+                        $lex_name = $this->rm->setResource1($lexicon, $this->res);
 
-                            $info_lex = 'Lexicon "' . $lex_name . '" successfully added!';
-                            $form_lex = $this->ff->create(LexiconNameType::class, new Lexicon(), array(
-                                'action' => $action,
-                                'method' => 'POST'
-                            ));
-                            $form_lex = $this->addPermissionsToLexiconForm($form_lex);
+                        $info_lex = 'Lexicon "' . $lex_name . '" successfully added!';
+                        $form_lex = $this->ff->create(LexiconNameType::class, new Lexicon(), array(
+                            'action' => $action,
+                            'method' => 'POST'
+                        ));
+                        $form_lex = $this->addPermissionsToLexiconForm($form_lex);
                     } else {
-                            $lexicon = $this->rm->getRepository('lex')->findOneBy(array('name' => $lex->getName()));
-                            if (is_null($lexicon)) {
-                                throw new \Exception("Lexicon is not found!");
-                            }
-                            $lex_name = $this->rm->removeLexicon($lexicon, $this->res);
-                            $info_lex = 'Lexicon "' . $lex_name . '" successfully removed!';
-                            $form_lex = $this->ff->create(LexiconNameType::class, new Lexicon(), array(
-                                'action' => $action,
-                                'method' => 'POST'
-                            ));
-                            $form_lex = $this->addPermissionsToLexiconForm($form_lex);
+                        $lexicon = $this->rm->getRepository('lex')->findOneBy(array('name' => $lex->getName()));
+                        if (is_null($lexicon)) {
+                            throw new \Exception("Lexicon is not found!");
+                        }
+                        $lex_name = $this->rm->removeLexicon($lexicon, $this->res);
+                        $info_lex = 'Lexicon "' . $lex_name . '" successfully removed!';
+                        $form_lex = $this->ff->create(LexiconNameType::class, new Lexicon(), array(
+                            'action' => $action,
+                            'method' => 'POST'
+                        ));
+                        $form_lex = $this->addPermissionsToLexiconForm($form_lex);
                     }
                 } catch (\Exception $e) {
                     $form_error = new FormError($e->getMessage());
