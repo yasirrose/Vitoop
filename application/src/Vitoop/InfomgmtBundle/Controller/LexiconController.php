@@ -25,7 +25,7 @@ class LexiconController extends Controller
         ));
 
         // echo "<br>" . $browser->getLastRequest() . "<br>";
-
+ 
         $xml_data = $response->getContent();
         $json = '[';
         if ($xml_data) {

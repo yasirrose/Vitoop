@@ -349,7 +349,7 @@ class ResourceRepository extends EntityRepository
         if ($search->columns->sortableColumn) {
             $sortAlias = $this->getResourceFieldAlias($search->columns->sortableColumn, $rootEntity);
             $query
-                ->orderBy(
+                ->addOrderBy(
                     $sortAlias.$search->columns->sortableColumn,
                     $search->columns->sortableOrder
                 );

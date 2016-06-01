@@ -2,9 +2,7 @@
 namespace Vitoop\InfomgmtBundle\Service;
 
 use Vitoop\InfomgmtBundle\Entity\WikiRedirect;
-
 use Vitoop\InfomgmtBundle\Entity\Lexicon;
-
 use Buzz\Browser;
 use Buzz\Client\Curl;
 
