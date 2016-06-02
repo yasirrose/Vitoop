@@ -312,8 +312,7 @@ class ResourceRepository extends EntityRepository
             ->innerJoin('r.user', 'u')
             ->leftJoin('r.flags', 'f')
             ->leftJoin('r.ratings', 'ra')
-            ->groupBy('r.id')
-            ->addOrderBy('r.created_at', 'DESC');
+            ->groupBy('r.id');
         $rootEntity = $query->getRootEntities();
         $rootEntity = $rootEntity[0];
         if (($rootEntity == 'Vitoop\InfomgmtBundle\Entity\Lexicon') || ($rootEntity == 'Vitoop\InfomgmtBundle\Entity\Project')) {
@@ -356,6 +355,7 @@ class ResourceRepository extends EntityRepository
         }
         
         $query
+            ->addOrderBy('r.created_at', 'DESC')
             ->setFirstResult($search->paging->offset)
             ->setMaxResults($search->paging->limit);
 
