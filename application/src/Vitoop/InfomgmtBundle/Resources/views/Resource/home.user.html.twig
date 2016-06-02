@@ -22,13 +22,13 @@
                 <div class="vtp-fh-w40" style="padding-left: 60px">
                     <div class="vtp-fh-w100">
                         <div class="vtp-fh-top">
-                            <input type="text" id="todo-title" name="todoTitle" class="vtp-fh-w70" style="font-size: 20px; color: #2779aa" ng-model="to_do_item.title">
+                            <input type="text" id="todo-title" name="todoTitle" class="vtp-fh-w90" style="font-size: 20px; color: #2779aa" ng-model="to_do_item.title">
                         </div>
                         <div style="color: #2779aa">
                             {{'label.created'|trans}}: <span ng-bind="to_do_item.created_at"></span> / {{'label.changed'|trans}}: <span ng-bind="to_do_item.updated_at"></span>
                         </div>
                     </div>
-                    <div class="vtp-fh-w70 "  id="noscroll-container">
+                    <div class="vtp-fh-w90 "  id="noscroll-container">
                         <div class="vtp-fh-w100 vtp-menu " id="noscroll-element" style="margin-top: 50px;  padding: 0px">
                             <ul class="vtp-fh-w100 scrollbar-macosx" id="vtp-todo-list" as-sortable="sortableOptions" data-jquery-scrollbar="jqueryScrollbarOptions" ng-model="to_do_items" style="max-height: 500px; overflow: auto;">
                                 {% verbatim %}
