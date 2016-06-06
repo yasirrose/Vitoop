@@ -361,7 +361,7 @@ resourceDetail = (function () {
                 var buttonSave = $('#remark_save');
                 var remarkForm = $('#form-remark');
                 var changeClassOfButton = function() {
-                  if (tinyMCE.activeEditor.isDirty() && (($('#remark-accepted').length == 0) || ($('#remark-accepted').prop('checked')))) {
+                  if (tinyMCE.activeEditor && tinyMCE.activeEditor.isDirty() && (($('#remark-accepted').length == 0) || ($('#remark-accepted').prop('checked')))) {
                       buttonSave.addClass('ui-state-need-to-save');
                   } else {
                       buttonSave.removeClass('ui-state-need-to-save');
