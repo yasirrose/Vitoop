@@ -31,11 +31,4 @@ class TeliType extends AbstractType
     {
         return 'teli';
     }
-
-    public function getDefaultOptions(array $options)
-    {
-        return array(
-            'data_class' => 'Vitoop\InfomgmtBundle\Entity\Teli'
-        );
-    }
 }

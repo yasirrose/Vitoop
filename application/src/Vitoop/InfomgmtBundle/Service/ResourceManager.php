@@ -14,6 +14,7 @@ use Vitoop\InfomgmtBundle\Entity\RelResourceTag;
 use Vitoop\InfomgmtBundle\Entity\RelResourceResource;
 use Vitoop\InfomgmtBundle\Entity\Watchlist;
 use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
+use Vitoop\InfomgmtBundle\DTO\Resource\ResourceDTO;
 use Doctrine\Common\Persistence\ObjectManager;
 
 class ResourceManager
@@ -107,13 +108,6 @@ class ResourceManager
         return $this->arr_resource_type_to_entityname[$resource_type];
     }
 
-    public function createResource($resource_type)
-    {
-        $resource_class = 'Vitoop\\InfomgmtBundle\\Entity\\' . $this->arr_resource_type_to_entityname[$resource_type];
-
-        return new $resource_class();
-    }
-
     public function getResourceFormTypeClassname($resource_type)
     {
 
@@ -144,39 +138,8 @@ class ResourceManager
         return $this->getRepository($res_type)->getResources(new SearchResource());
     }
 
-    public function saveResource(Resource $resource, $new = false)
+    public function save(Resource $resource)
     {
-        if (!$new && (!$this->vsec->isOwner() && !$this->vsec->isAdmin())) {
-            throw new \Exception('Sicherheitsfehler!');
-        }
-
-        if ($new && !$this->vsec->isUser()) {
-            throw new \Exception('Sicherheitsfehler!');
-        }
-
-        if (5 == $resource->getResourceTypeIdx()) {
-            throw new \Exception('Please use saveLexicon() for saving Lexicon.');
-        }
-        $repo = $this->getRepository($this->arr_resource_type_idx_to_resource_type[$resource->getResourceTypeIdx()]);
-        $arr_resources = $repo->getResourceByName($resource->getName());
-
-        if (count($arr_resources) > 1) {
-            throw new \Exception('Database Integrity Fail: Resourcenames must be unique. (Id#' . $arr_resources[0]->getId() . ', Id#' . $arr_resources[1]->getId() . ' [...])');
-        }
-        if ($new) {
-            $resource->setUser($this->vsec->getUser());
-            $resource->setCreatedAt(new \DateTime());
-            if (6 == $resource->getResourceTypeIdx()) {
-                $resource->setProjectData(new ProjectData());
-            }
-        } else {
-            $resource->setUpdatedAt(new \DateTime());
-        }
-       /* if ($arr_resources) {            
-            if ($arr_resources[0]->getId() != $resource->getId()) {
-                throw new \Exception(sprintf('Dieser Name existiert schon. (Id#%s). Füge einen Zusatz hinzu.', $arr_resources[0]->getId()));
-            }
-        }*/
         try {
             $this->em->persist($resource);
             $this->em->flush();
@@ -184,7 +147,8 @@ class ResourceManager
             if (!method_exists($resource, 'getUrl')) {
                 throw $e;
             }
-            $existing_resource = $repo->findOneBy(array('url' => $resource->getUrl()));
+            $repo = $this->getRepository(Resource\ResourceFactory::getTypeByIndex($resource->getResourceTypeIdx()));
+            $existing_resource = $repo->findOneBy(['url' => $resource->getUrl()]);
             if (null === $existing_resource) {
                 throw new \Exception('EIn Fehler ist aufgetreten, sorry!');
             }
@@ -510,7 +474,8 @@ class ResourceManager
 
         if (null === $project) {
             return null;
-        } elseif (null === $project->getProjectData()) {
+        }
+        if (null === $project->getProjectData()) {
             // Project creation is done without project data, so it's created here on the fly
             $project_data = new ProjectData();
             $this->em->persist($project_data);
@@ -562,5 +527,15 @@ class ResourceManager
         $this->em->flush();
 
         return;
+    }
+
+    public function checkUniqueResourceName(ResourceDTO $dto, $typeInd)
+    {
+        $repo = $this->getRepository($this->arr_resource_type_idx_to_resource_type[$typeInd]);
+        $arr_resources = $repo->getResourceByName($dto->name);
+
+        if (count($arr_resources) > 1) {
+            throw new \Exception('Database Integrity Fail: Resourcenames must be unique. (Id#' . $arr_resources[0]->getId() . ', Id#' . $arr_resources[1]->getId() . ' [...])');
+        }
     }
 }

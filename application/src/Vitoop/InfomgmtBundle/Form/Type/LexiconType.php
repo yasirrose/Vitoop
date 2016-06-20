@@ -22,11 +22,4 @@ class LexiconType extends AbstractType
     {
         return 'lex';
     }
-
-    public function getDefaultOptions(array $options)
-    {
-        return array(
-            'data_class' => 'Vitoop\InfomgmtBundle\Entity\Lexicon'
-        );
-    }
 }

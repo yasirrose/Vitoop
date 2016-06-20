@@ -42,9 +42,4 @@ class BookType extends AbstractType
     {
         return 'book';
     }
-
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(array('data_class' => 'Vitoop\InfomgmtBundle\Entity\Book'));
-    }
 }

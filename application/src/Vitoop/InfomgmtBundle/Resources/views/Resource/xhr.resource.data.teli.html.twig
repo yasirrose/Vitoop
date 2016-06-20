@@ -40,7 +40,8 @@
     </div>
     <div class="vtp-fh-bottom created-info">
         <div class="vtp-fh-infosave-box vtp-fh-w70">
-            Eingetragen am: {{ res.createdat|date('d.m.Y') }}{% if res.getUser is not null %} / von: {{ res.getUser.getUsername }}{% endif %} / ID: {{ res.getId }}
+            {{ form_widget(fvdata.isUserHook) }}
+           {{ form_label(fvdata.isUserHook)}} / Eingetragen am: {{ res.createdat|date('d.m.Y') }}{% if res.getUser is not null %} / von: {{ res.getUser.getUsername }}{% endif %} / ID: {{ res.getId }}
         </div>
         <div class="vtp-fh-right vtp-fh-w30">
             {{ form_widget(fvdata.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}

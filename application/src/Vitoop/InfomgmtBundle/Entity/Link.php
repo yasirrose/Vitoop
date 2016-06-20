@@ -2,6 +2,7 @@
 namespace Vitoop\InfomgmtBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Vitoop\InfomgmtBundle\DTO\Resource\ResourceDTO;
 
 /**
  * @ORM\Table(name="link")
@@ -135,5 +136,29 @@ class Link extends Resource
     public function getIsHp()
     {
         return $this->is_hp;
+    }
+
+    public function toResourceDTO(User $user) : ResourceDTO
+    {
+        $dto = parent::toResourceDTO($user);
+        $dto->url = $this->url;
+        $dto->is_hp = $this->is_hp;
+
+        return $dto;
+    }
+
+    public static function createFromResourceDTO(ResourceDTO $dto) : Link
+    {
+        $resource = new self();
+        $resource->updateFromResourceDTO($dto);
+
+        return $resource;
+    }
+
+    public function updateFromResourceDTO(ResourceDTO $dto)
+    {
+        parent::updateFromResourceDTO($dto);
+        $this->url = $dto->url;
+        $this->is_hp = $dto->is_hp;
     }
 }

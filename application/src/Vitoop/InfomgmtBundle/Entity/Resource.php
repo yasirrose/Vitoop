@@ -3,6 +3,8 @@ namespace Vitoop\InfomgmtBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
+use Vitoop\InfomgmtBundle\DTO\Resource\ResourceDTO;
 
 /**
  * @ORM\Entity(repositoryClass="Vitoop\InfomgmtBundle\Repository\ResourceRepository")
@@ -104,6 +106,14 @@ class Resource
 
     protected $res12count;
 
+    /**
+     * @ORM\OneToMany(
+     *      targetEntity="UserHookResource", mappedBy="resource", 
+     *      cascade={"persist", "remove"}, orphanRemoval=true
+     * )
+     */
+    protected $userHooks;
+
     public function __construct()
     {
         $this->created_at = new \DateTime();
@@ -120,6 +130,7 @@ class Resource
         $this->rel_resources1 = new ArrayCollection();
         $this->rel_resources2 = new ArrayCollection();
         $this->watchlist_entries = new ArrayCollection();
+        $this->userHooks = new ArrayCollection();
 
         $this->avgmark = 'not rated';
         $this->res12count = '-';
@@ -128,6 +139,14 @@ class Resource
     public function __toString()
     {
         return $this->name;
+    }
+
+    public static function createFromResourceDTO(ResourceDTO $dto)
+    {
+        $resource = new static();
+        $resource->updateFromResourceDTO($dto);
+
+        return $resource;
     }
 
     /**
@@ -547,5 +566,70 @@ class Resource
         $flag->setInfo($info);
 
         $this->addFlag($flag);
+    }
+
+    public function hook(User $user)
+    {
+        $userHooks = $this->findUserHook($user);
+        if (0 === $userHooks->count()) { 
+            $this->userHooks->add(new UserHookResource($user, $this));
+        }
+    }
+
+    public function unhook(User $user)
+    {
+        $userHooks = $this->findUserHook($user);
+        if (0 < $userHooks->count()) {
+            $this->userHooks->removeElement($userHooks->first());
+        }
+    }
+
+    public function isBlueByUser(User $user) : bool
+    {
+        return 0 < $this->findUserHook($user)->count();
+    }
+
+    public function updateFromResourceDTO(ResourceDTO $dto)
+    {
+        if (!$this->user) {
+            $this->user = $dto->user;
+        }
+        $this->name = $dto->name;
+        $this->lang = $dto->lang;
+        $this->country = $dto->country;
+
+        $this->updateUserHook($dto);
+        $this->updated_at = new \DateTime();
+    }
+
+    public function updateUserHook(ResourceDTO $dto)
+    {
+        if ($dto->isUserHook) {
+            $this->hook($dto->user);
+            return;
+        }
+        $this->unhook($dto->user);
+    }
+
+    public function toResourceDTO(User $user) : ResourceDTO
+    {
+        $dto = new ResourceDTO();
+        $dto->user = $user;
+        $dto->name = $this->name;
+        $dto->lang = $this->lang;
+        $dto->country = $this->country;
+        $dto->isUserHook = $this->isBlueByUser($user);
+
+        return $dto;
+    }
+    
+    protected function findUserHook(User $user) : ArrayCollection
+    {
+        $expr = Criteria::expr();
+        $userCriteria = Criteria::create();
+        $userCriteria
+            ->where($expr->eq('user', $user));
+
+        return $this->userHooks->matching($userCriteria);
     }
 }

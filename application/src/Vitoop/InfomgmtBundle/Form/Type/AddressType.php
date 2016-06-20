@@ -46,9 +46,4 @@ class AddressType extends AbstractType
     {
         return 'adr';
     }
-
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(array('data_class' => 'Vitoop\InfomgmtBundle\Entity\Address'));
-    }
 }

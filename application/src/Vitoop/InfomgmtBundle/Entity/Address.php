@@ -2,6 +2,7 @@
 namespace Vitoop\InfomgmtBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Vitoop\InfomgmtBundle\DTO\Resource\ResourceDTO;
 
 /**
  * @ORM\Table(name="address")
@@ -337,5 +338,41 @@ class Address extends Resource
     public function getContactKey()
     {
         return $this->contact_key;
+    }
+
+    public function toResourceDTO(User $user) : ResourceDTO
+    {
+        $dto = parent::toResourceDTO($user);
+        $dto->name2 = $this->name2;
+        $dto->street = $this->street;
+        $dto->zip = $this->zip;
+        $dto->city = $this->city;
+        $dto->contact1 = $this->contact1;
+        $dto->contact3 = $this->contact3;
+        $dto->contact4 = $this->contact4;
+        $dto->contact5 = $this->contact5;
+
+        return $dto;
+    }
+
+    public static function createFromResourceDTO(ResourceDTO $dto) : Address
+    {
+        $resource = new static();
+        $resource->updateFromResourceDTO($dto);
+
+        return $resource;
+    }
+
+    public function updateFromResourceDTO(ResourceDTO $dto)
+    {
+        parent::updateFromResourceDTO($dto);
+        $this->name2 = $dto->name2;
+        $this->street = $dto->street;
+        $this->zip = $dto->zip;
+        $this->city = $dto->city;
+        $this->contact1 = $dto->contact1;
+        $this->contact3 = $dto->contact3;
+        $this->contact4 = $dto->contact4;
+        $this->contact5 = $dto->contact5;
     }
 }

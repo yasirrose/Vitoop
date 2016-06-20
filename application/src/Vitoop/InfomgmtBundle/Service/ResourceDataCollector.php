@@ -6,7 +6,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Vitoop\InfomgmtBundle\DTO\Resource\ResourceDTO;
 use Vitoop\InfomgmtBundle\Entity\Resource;
+use Vitoop\InfomgmtBundle\Entity\Resource\ResourceFactory;
 use Vitoop\InfomgmtBundle\Entity\Tag;
 use Vitoop\InfomgmtBundle\Entity\Rating;
 use Vitoop\InfomgmtBundle\Entity\Remark;
@@ -134,7 +136,7 @@ class ResourceDataCollector
     {
         return $this->ff->create(
             ResourceFormAdapter::getFormType($this->res->getResourceType()),
-            $this->res,
+            $this->res->toResourceDTO($this->vsec->getUser()),
             [
                 'action' => $this->router->generate(
                     '_xhr_resource_data',
@@ -150,25 +152,30 @@ class ResourceDataCollector
     public function getData()
     {
         $info_data = '';
-        $form_data = $this->getFormData();
+        $formData = $this->getFormData();
         if ($this->handleData) {
-            $form_data->handleRequest($this->request);
-            if ($form_data->isValid()) {
+            $formData->handleRequest($this->request);
+            if ($formData->isValid()) {
+                $dto = $formData->getData();
                 try {
-                    $this->rm->saveResource($this->res, false);
+                    $this->rm->checkUniqueResourceName($dto, $this->res->getResourceTypeIdx());
+                    if ((!$this->vsec->isOwner() && !$this->vsec->isAdmin())) {
+                        $this->res->updateUserHook($dto);
+                    } else {
+                        $this->res->updateFromResourceDTO($dto);
+                    }
+                    $this->rm->save($this->res);
                     $info_data = $this->res->getResourceName() . ' # ' . $this->res->getId() . ' successfully saved!';
                 } catch (\Exception $e) {
                     $form_error = new FormError($e->getMessage());
-                    $form_data->addError($form_error);
+                    $formData->addError($form_error);
                 }
             }
         }
 
-        $fv_data = $form_data->createView();
-
         return $this->twig->render('VitoopInfomgmtBundle:Resource:xhr.resource.data.' . $this->res->getResourceType() . '.html.twig', array(
             'res' => $this->res,
-            'fvdata' => $fv_data,
+            'fvdata' => $formData->createView(),
             'infodata' => $info_data
         ));
     }
@@ -178,37 +185,41 @@ class ResourceDataCollector
         $info_data = '';
 
         $res_type = $this->getResourceType();
-        $new_res = $this->rm->createResource($res_type);
-
-        $form_data = $this->ff->create($this->rm->getResourceFormTypeClassname($res_type), $new_res, array(
+        $newResource = ResourceFactory::create($res_type);
+        $dto = new ResourceDTO();
+        $dto->user = $this->vsec->getUser();
+        
+        $formData = $this->ff->create($this->rm->getResourceFormTypeClassname($res_type), $dto, array(
             'action' => $this->router->generate('_xhr_resource_new', array('res_type' => $res_type)),
             'method' => 'POST'
         ));
         if ($this->handleData) {
-            $form_data->handleRequest($this->request);
-            if ($form_data->isValid()) {
+            $formData->handleRequest($this->request);
+            if ($formData->isValid()) {
                 try {
-                    $new_id = $this->rm->saveResource($new_res, true);
-                    $info_data = $new_res->getResourceName() . ' # ' . $new_id . ' erfolgreich neu angelegt!';
+                    $class = ResourceFactory::getClassByType($res_type);
+                    $newResource = $class::createFromResourceDTO($dto);
+                    $this->rm->checkUniqueResourceName($dto, $newResource->getResourceTypeIdx());
+                    $new_id = $this->rm->save($newResource);
+                    
+                    $info_data = $newResource->getResourceName() . ' # ' . $new_id . ' erfolgreich neu angelegt!';
                     // Hmmm. No redirect after POS..... what to do?
                     // Here is the trick: Initialize the RDC with the new Resource
-                    $this->init($new_res);
+                    $this->init($newResource);
                     // Set the handleData flag to false. The latter calls will be treated as GETs
                     $this->handleData = false;
                     // Show the Form for Data with correct route in action attribute
-                    $form_data = $this->getFormData();
+                    $formData = $this->getFormData();
                 } catch (\Exception $e) {
                     $form_error = new FormError($e->getMessage());
-                    $form_data->addError($form_error);
+                    $formData->addError($form_error);
                 }
             }
         }
 
-        $fv_data = $form_data->createView();
-
         return $this->twig->render('VitoopInfomgmtBundle:Resource:xhr.resource.data.' . $res_type . '.html.twig', array(
-            'res' => $new_res,
-            'fvdata' => $fv_data,
+            'res' => $newResource,
+            'fvdata' => $formData->createView(),
             'infodata' => $info_data
         ));
     }
@@ -225,14 +236,13 @@ class ResourceDataCollector
     {
         if ($this->initialized) {
             return $this->twig->render('VitoopInfomgmtBundle:Resource:xhr.resource.title.html.twig', array('res' => $this->res));
-        } else {
-            $type = $this->getResourceManager()
-                ->getResourceName($this->res_type);
-            if ($type == "Book") {
-                $type = "Buch";
-            }
-            return $type.' anlegen';
         }
+        $type = $this->getResourceManager()
+            ->getResourceName($this->res_type);
+        if ($type == "Book") {
+            $type = "Buch";
+        }
+        return $type.' anlegen';
     }
 
     public function getButtons()
@@ -604,10 +614,7 @@ class ResourceDataCollector
         $info_lex = '';
         $lex_name = '';
         $lex = new Lexicon();
-        $form_lex = $this->ff->create(LexiconNameType::class, $lex, array(
-            'action' => $action,
-            'method' => 'POST'
-        ));
+        $form_lex = $this->formCreator->createLexiconNameForm($lex, $action);
         $form_lex = $this->addPermissionsToLexiconForm($form_lex);
         if ($this->handleData) {
             $form_lex->handleRequest($this->request);
@@ -627,10 +634,7 @@ class ResourceDataCollector
                         $lex_name = $this->rm->setResource1($lexicon, $this->res);
 
                         $info_lex = 'Lexicon "' . $lex_name . '" successfully added!';
-                        $form_lex = $this->ff->create(LexiconNameType::class, new Lexicon(), array(
-                            'action' => $action,
-                            'method' => 'POST'
-                        ));
+                        $form_lex = $this->formCreator->createLexiconNameForm(new Lexicon(), $action);
                         $form_lex = $this->addPermissionsToLexiconForm($form_lex);
                     } else {
                         $lexicon = $this->rm->getRepository('lex')->findOneBy(array('name' => $lex->getName()));
@@ -639,10 +643,7 @@ class ResourceDataCollector
                         }
                         $lex_name = $this->rm->removeLexicon($lexicon, $this->res);
                         $info_lex = 'Lexicon "' . $lex_name . '" successfully removed!';
-                        $form_lex = $this->ff->create(LexiconNameType::class, new Lexicon(), array(
-                            'action' => $action,
-                            'method' => 'POST'
-                        ));
+                        $form_lex = $this->formCreator->createLexiconNameForm(new Lexicon(), $action);
                         $form_lex = $this->addPermissionsToLexiconForm($form_lex);
                     }
                 } catch (\Exception $e) {
@@ -672,7 +673,6 @@ class ResourceDataCollector
 
     public function getProject()
     {
-
         $info_prj = '';
         $prj_name = '';
         $prj = new Project();
@@ -681,32 +681,22 @@ class ResourceDataCollector
         foreach ($projectsCollection as $project) {
             $projects[$project['name']] = $project['name'];
         }
-        $form_prj = $this->ff->create(ProjectNameType::class, $prj, array(
-            'action' => $this->router->generate('_xhr_resource_projects', array('res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId())),
-            'method' => 'POST',
-            'projects' => $projects
-        ));
+        $action = $this->router->generate('_xhr_resource_projects', ['res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId()]);
+        $form_prj = $this->formCreator->createProjectNameForm($prj, $action, $projects);
         if ($this->handleData) {
             $form_prj->handleRequest($this->request);
             if ($form_prj->isValid()) {
                 try {
                     $prj_name = $this->rm->setResource1($prj, $this->res);
                     $info_prj = 'Project "' . $prj_name . '" successfully added!';
-                    $form_prj = $this->ff->create(ProjectNameType::class, new Project(), array(
-                        'action' => $this->router->generate('_xhr_resource_projects', array('res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId())),
-                        'method' => 'POST',
-                        'projects' => $projects
-                    ));
+                    $form_prj = $this->formCreator->createProjectNameForm(new Project(), $action, $projects);
                 } catch (\Exception $e) {
-
                     $form_error = new FormError($e->getMessage());
-                    $form_prj->get('name')
-                             ->addError($form_error);
+                    $form_prj->get('name')->addError($form_error);
                 }
             }
         }
-        $projects = $this->rm->getRepository('prj')
-                             ->getAllNamesOfResources1($this->res);
+        $projects = $this->rm->getRepository('prj')->getAllNamesOfResources1($this->res);
         $fv_prj = $form_prj->createView();
 
         return $this->twig->render('VitoopInfomgmtBundle:Resource:xhr.resource.project.html.twig', array('prjname' => $prj_name, 'projects' => $projects, 'fvassignproject' => $fv_prj, 'infoassignproject' => $info_prj));

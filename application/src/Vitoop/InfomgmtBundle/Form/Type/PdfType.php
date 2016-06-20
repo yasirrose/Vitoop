@@ -34,9 +34,4 @@ class PdfType extends AbstractType
     {
         return 'pdf';
     }
-
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(array('data_class' => 'Vitoop\InfomgmtBundle\Entity\Pdf'));
-    }
 }

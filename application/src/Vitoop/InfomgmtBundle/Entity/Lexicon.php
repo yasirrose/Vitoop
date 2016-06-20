@@ -3,6 +3,7 @@ namespace Vitoop\InfomgmtBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Vitoop\InfomgmtBundle\DTO\Resource\ResourceDTO;
 
 /**
  * @ORM\Table(name="lexicon")
@@ -238,5 +239,29 @@ class Lexicon extends Resource
     public function removeWikiRedirect(\Vitoop\InfomgmtBundle\Entity\WikiRedirect $wikiRedirects)
     {
         $this->wiki_redirects->removeElement($wikiRedirects);
+    }
+
+    
+    public function toResourceDTO(User $user) : ResourceDTO
+    {
+        $dto = parent::toResourceDTO($user);
+        $dto->wikifullurl = $this->wiki_fullurl;
+        
+        return $dto;
+    }
+
+    public static function createFromResourceDTO(ResourceDTO $dto) : Lexicon
+    {
+        $resource = new static();
+        $resource->updateFromResourceDTO($dto);
+
+        return $resource;
+    }
+
+    public function updateFromResourceDTO(ResourceDTO $dto)
+    {
+        parent::updateFromResourceDTO($dto);
+        $this->wiki_fullurl = $dto->wikifullurl;
+        
     }
 }

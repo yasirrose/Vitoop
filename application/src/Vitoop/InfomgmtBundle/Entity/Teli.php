@@ -4,6 +4,7 @@ namespace Vitoop\InfomgmtBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vitoop\InfomgmtBundle\Validator\Constraints\DateFormat as DateFormatAssert;
+use Vitoop\InfomgmtBundle\DTO\Resource\ResourceDTO;
 
 /**
  * @ORM\Table(name="teli")
@@ -163,5 +164,31 @@ class Teli extends Resource
     public function getReleaseDate()
     {
         return $this->release_date;
+    }
+
+    public function toResourceDTO(User $user) : ResourceDTO
+    {
+        $dto = parent::toResourceDTO($user);
+        $dto->author = $this->author;
+        $dto->url = $this->url;
+        $dto->release_date = $this->release_date;
+
+        return $dto;
+    }
+
+    public static function createFromResourceDTO(ResourceDTO $dto) : Teli
+    {
+        $resource = new static();
+        $resource->updateFromResourceDTO($dto);
+
+        return $resource;
+    }
+
+    public function updateFromResourceDTO(ResourceDTO $dto)
+    {
+        parent::updateFromResourceDTO($dto);
+        $this->author = $dto->author;
+        $this->url = $dto->url;
+        $this->release_date = $dto->release_date;
     }
 }

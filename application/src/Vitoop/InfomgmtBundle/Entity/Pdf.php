@@ -4,6 +4,7 @@ namespace Vitoop\InfomgmtBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vitoop\InfomgmtBundle\Validator\Constraints\DateFormat as DateFormatAssert;
+use Vitoop\InfomgmtBundle\DTO\Resource\ResourceDTO;
 
 /**
  * @ORM\Table(name="pdf")
@@ -273,5 +274,35 @@ class Pdf extends Resource implements DownloadableInterface
     public function getDownloadedAt()
     {
         return $this->downloadedAt;
+    }
+
+    public function toResourceDTO(User $user) : ResourceDTO
+    {
+        $dto = parent::toResourceDTO($user);
+        $dto->author = $this->author;
+        $dto->publisher = $this->publisher;
+        $dto->url = $this->url;
+        $dto->tnop = $this->tnop;
+        $dto->pdf_date = $this->pdf_date;
+
+        return $dto;
+    }
+
+    public static function createFromResourceDTO(ResourceDTO $dto) : Pdf
+    {
+        $resource = new static();
+        $resource->updateFromResourceDTO($dto);
+
+        return $resource;
+    }
+
+    public function updateFromResourceDTO(ResourceDTO $dto)
+    {
+        parent::updateFromResourceDTO($dto);
+        $this->author = $dto->author;
+        $this->publisher = $dto->publisher;
+        $this->url = $dto->url;
+        $this->tnop = $dto->tnop;
+        $this->pdf_date = $dto->pdf_date;
     }
 }

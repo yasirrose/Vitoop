@@ -71,7 +71,7 @@ class VitoopSecurity
             return false;
         }
         if (!isset ($this->decisions['is_owner'])) {
-            if ($this->getUser() instanceof UserInterface) {
+            if ($this->getUser() instanceof UserInterface  && $this->res->getUser()) {
                 $this->decisions['is_owner'] = $this->res->getUser()
                                                          ->isEqualTo($this->getUser());
             } else {

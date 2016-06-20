@@ -4,7 +4,7 @@ namespace Vitoop\InfomgmtBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vitoop\InfomgmtBundle\Validator\Constraints\DateFormat as DateFormatAssert;
-
+use Vitoop\InfomgmtBundle\DTO\Resource\ResourceDTO;
 
 /**
  * @ORM\Table(name="book")
@@ -276,5 +276,41 @@ class Book extends Resource
     public function getYear()
     {
         return $this->year;
+    }
+    
+    public function toResourceDTO(User $user) : ResourceDTO
+    {
+        $dto = parent::toResourceDTO($user);
+        $dto->author = $this->author;
+        $dto->issuer = $this->issuer;
+        $dto->isbn13 = $this->isbn13;
+        $dto->isbn10 = $this->isbn10;
+        $dto->publisher = $this->publisher;
+        $dto->kind = $this->kind;
+        $dto->tnop = $this->tnop;
+        $dto->year = $this->year;
+
+        return $dto;
+    }
+
+    public static function createFromResourceDTO(ResourceDTO $dto) : Book
+    {
+        $resource = new static();
+        $resource->updateFromResourceDTO($dto);
+
+        return $resource;
+    }
+
+    public function updateFromResourceDTO(ResourceDTO $dto)
+    {
+        parent::updateFromResourceDTO($dto);
+        $this->author = $dto->author;
+        $this->issuer = $dto->issuer;
+        $this->isbn13 = $dto->isbn13;
+        $this->isbn10 = $dto->isbn10;
+        $this->publisher = $dto->publisher;
+        $this->kind = $dto->kind;
+        $this->tnop = $dto->tnop;
+        $this->year = $dto->year;
     }
 }

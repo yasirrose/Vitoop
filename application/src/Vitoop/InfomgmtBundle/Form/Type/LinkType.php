@@ -25,11 +25,4 @@ class LinkType extends AbstractType
     {
         return 'link';
     }
-
-    public function getDefaultOptions(array $options)
-    {
-        return array(
-            'data_class' => 'Vitoop\InfomgmtBundle\Entity\Link'
-        );
-    }
 }

@@ -26,9 +26,4 @@ class ProjectType extends AbstractType
     {
         return 'prj';
     }
-
-    public function getDefaultOptions(array $options)
-    {
-        return array('data_class' => 'Vitoop\InfomgmtBundle\Entity\Project');
-    }
 }

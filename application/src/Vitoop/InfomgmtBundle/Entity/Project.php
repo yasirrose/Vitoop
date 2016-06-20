@@ -4,6 +4,7 @@ namespace Vitoop\InfomgmtBundle\Entity;
 use Vitoop\InfomgmtBundle\DTO\GetDTOInterface;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Vitoop\InfomgmtBundle\DTO\Resource\ResourceDTO;
 
 /**
  * @ORM\Table(name="project")
@@ -32,6 +33,7 @@ class Project extends Resource implements GetDTOInterface
     public function __construct()
     {
         parent::__construct();
+        $this->project_data = new ProjectData();
     }
 
     /**
@@ -137,4 +139,27 @@ class Project extends Resource implements GetDTOInterface
             'project_data' => $this->project_data->getDTO()
         ];
     }
+
+    public function toResourceDTO(User $user) : ResourceDTO
+    {
+        $dto = parent::toResourceDTO($user);
+        $dto->description = $this->description;
+
+        return $dto;
+    }
+
+    public static function createFromResourceDTO(ResourceDTO $dto) : Project
+    {
+        $resource = new self();
+        $resource->updateFromResourceDTO($dto);
+
+        return $resource;
+    }
+
+    public function updateFromResourceDTO(ResourceDTO $dto)
+    {
+        parent::updateFromResourceDTO($dto);
+        $this->description = $dto->description;
+    }
 }
+
