@@ -308,11 +308,13 @@ class ResourceRepository extends EntityRepository
     protected function prepareListQueryBuilder(QueryBuilder $query, SearchResource $search)
     {
         $query
-            ->addSelect('r.id, r.name, CONCAT(r.created_at,\'\') AS created_at, u.username, AVG(ra.mark) as avgmark, COUNT(DISTINCT rrr.id) as res12count')
+            ->addSelect('r.id, r.name, CONCAT(r.created_at,\'\') AS created_at, u.username, AVG(ra.mark) as avgmark, COUNT(DISTINCT rrr.id) as res12count, COUNT(uh.id) as isUserHook')
             ->innerJoin('r.user', 'u')
             ->leftJoin('r.flags', 'f')
             ->leftJoin('r.ratings', 'ra')
-            ->groupBy('r.id');
+            ->leftJoin('r.userHooks', 'uh', 'WITH', 'uh.user = :currentUser')
+            ->groupBy('r.id')
+            ->setParameter('currentUser', $search->user);
         $rootEntity = $query->getRootEntities();
         $rootEntity = $rootEntity[0];
         if (($rootEntity == 'Vitoop\InfomgmtBundle\Entity\Lexicon') || ($rootEntity == 'Vitoop\InfomgmtBundle\Entity\Project')) {

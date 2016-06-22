@@ -207,6 +207,7 @@ class ResourceController extends ApiController
         $search = new SearchResource(
             new Paging(1, 1),
             new SearchColumns([]),
+            $this->getUser(),
             $request->query->get('flagged'),
             null,
             $request->query->get('taglist', []),

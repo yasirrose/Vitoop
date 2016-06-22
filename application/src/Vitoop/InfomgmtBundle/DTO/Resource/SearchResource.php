@@ -3,6 +3,7 @@
 namespace Vitoop\InfomgmtBundle\DTO\Resource;
 
 use Vitoop\InfomgmtBundle\DTO\Paging;
+use Vitoop\InfomgmtBundle\Entity\User;
 
 class SearchResource
 {
@@ -48,9 +49,16 @@ class SearchResource
      */
     public $columns;
 
+    /**
+     *
+     * @var User
+     */
+    public $user;
+
     public function __construct(
         Paging $paging,
         SearchColumns $columns,
+        User $user,
         $flagged = false,
         $resource = null,
         $tags = array(),
@@ -59,6 +67,7 @@ class SearchResource
         $countTags = array(),
         $search = null
     ) {
+        $this->user = $user;
         $this->flagged = $flagged;
         $this->resource = $resource;
         $this->tags = $tags;

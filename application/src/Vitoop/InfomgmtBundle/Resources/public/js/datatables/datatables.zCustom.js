@@ -39,25 +39,30 @@ function dtAjaxCallback(e, settings, json, xhr) {
 }
 
 function dtRowCallback(row, data, index) {
-	var apiPage = this.api().page;
-	var resType = $(this.api().table().node()).data('restype');
-	$(row).removeClass('vtp-list-first vtp-list-end vtp-list-last vtp-list-start');
-	$(row).addClass('ui-corner-all vtp-uiaction-list-showdetail');
-	$(row).attr('id', resType+'-'+data.id);
-	if (index == 0) {
-		row.className += " vtp-list-first";
-		if (apiPage.info().page == 0) {
-			row.className += " vtp-list-start";
-		}
-	}
-	if ((index == (apiPage.len()-1)) || ((apiPage.info().page == (apiPage.info().pages - 1)) && (index == (apiPage.info().recordsDisplay % apiPage.len() - 1)))) {
-		row.className += " vtp-list-last";
-		if (apiPage.info().page == (apiPage.info().pages - 1)) {
-			row.className += " vtp-list-end";
-		}
-	}
+    var apiPage = this.api().page;
+    var resType = $(this.api().table().node()).data('restype');
+    $(row).removeClass('vtp-list-first vtp-list-end vtp-list-last vtp-list-start');
+    $(row).addClass('ui-corner-all vtp-uiaction-list-showdetail');
+    $(row).attr('id', resType+'-'+data.id);
+    
+    if (data.isUserHook == 1) {
+        $(row).find('td:first').addClass('vtp-blue');
+    }
+    
+    if (index == 0) {
+        row.className += " vtp-list-first";
+        if (apiPage.info().page == 0) {
+                row.className += " vtp-list-start";
+        }
+    }
+    if ((index == (apiPage.len()-1)) || ((apiPage.info().page == (apiPage.info().pages - 1)) && (index == (apiPage.info().recordsDisplay % apiPage.len() - 1)))) {
+        row.className += " vtp-list-last";
+        if (apiPage.info().page == (apiPage.info().pages - 1)) {
+                row.className += " vtp-list-end";
+        }
+    }
 
-	return row;
+    return row;
 }
 
 function dtDrawCallback() {
@@ -153,7 +158,7 @@ function dtDrawCallback() {
 
 
 function getDateValue(data, type, row, meta) {
-	return moment(data).format('DD.MM.YY');
+    return moment(data).format('DD.MM.YY');
 }
 
 function getDateColumn() {

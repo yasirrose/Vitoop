@@ -135,7 +135,7 @@ class ResourceManager
             return $this->getRepository($res_type)->getFlaggedResources();
         }
 
-        return $this->getRepository($res_type)->getResources(new SearchResource());
+        return $this->getRepository($res_type)->getResources(new SearchResource(null, null, $this->vsec->getUser()));
     }
 
     public function save(Resource $resource)

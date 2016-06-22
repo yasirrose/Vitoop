@@ -35,6 +35,7 @@ class ResourceApiController extends ApiController
                 $request->query->get('columns', array()),
                 $request->query->get('order', array())
             ),
+            $this->getUser(),
             $request->query->has('flagged'),
             $request->query->has('resource')?$request->query->getDigits('resource'):null,
             $request->query->get('taglist', array()),
