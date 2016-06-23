@@ -14,9 +14,11 @@
             {{ form_widget(fvremark.text, {'attr': {'placeholder': 'Hier steht im Moment noch nicht wirklich was drin. Wenn Du Lust hast, schreib einen kurzen Text, der den Inhalt des Datensatz wiedergibt, sodass andere sich daran orientieren können. Alles was Du hier reinschreibst steht unter der Creative Commons Lizenz (BY-SA). Solange niemand den Text abschließt, können alle die gemachte Anmerkungen ändern.'} }) }}
         </div>
     {% else %}
+        <fieldset class="ui-corner-all">
         <div id="vtp-remark-sheet-view">
             {{ remark.text|raw }}
         </div>
+        </fieldset>
     {% endif %}
     {% if (needToAccept)%}
         <div style="text-align: right; color: #2779aa; margin: 15px 0; display: none" class="remark-agreement">
