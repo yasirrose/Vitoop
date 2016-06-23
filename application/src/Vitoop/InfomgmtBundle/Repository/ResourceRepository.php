@@ -356,6 +356,10 @@ class ResourceRepository extends EntityRepository
                 );
         }
         
+        if (1 === $search->isUserHook) {
+            $query->having('isUserHook > 0');
+        }
+        
         $query
             ->addOrderBy('r.created_at', 'DESC')
             ->setFirstResult($search->paging->offset)

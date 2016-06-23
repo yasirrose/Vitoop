@@ -42,7 +42,8 @@ class ResourceApiController extends ApiController
             $request->query->get('taglist_i', array()),
             $request->query->get('taglist_h', array()),
             $request->query->get('tagcnt', 0),
-            $request->query->get('search', null)
+            $request->query->get('search', null),
+            $request->query->get('isUserHook', null)
         );
 
         $resources = $this->get('vitoop.resource_manager')

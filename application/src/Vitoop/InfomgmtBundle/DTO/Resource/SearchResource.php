@@ -55,6 +55,8 @@ class SearchResource
      */
     public $user;
 
+    public $isUserHook;
+
     public function __construct(
         Paging $paging,
         SearchColumns $columns,
@@ -65,7 +67,8 @@ class SearchResource
         $ignoredTags = array(),
         $highlightTags = array(),
         $countTags = array(),
-        $search = null
+        $search = null,
+        $isUserHook = null
     ) {
         $this->user = $user;
         $this->flagged = $flagged;
@@ -79,5 +82,6 @@ class SearchResource
         }
         $this->paging = $paging;
         $this->columns = $columns;
+        $this->isUserHook = (int)$isUserHook;
     }
 }

@@ -129,7 +129,12 @@
             pageLength: getPageLength(),
             language: dtLanguageObject(),
             serverSide: true,
-            ajax: "{{ ajaxUrl |raw }}",
+            ajax: {
+                url: "{{ ajaxUrl |raw }}",
+                data: function (d) {
+                    d.isUserHook = getCurrentIsBlue();
+                }
+            },
             search: {
                 search: getCurrentSearch()
             },
@@ -143,8 +148,19 @@
             ordering: false,
             {% endif %}
         });
+        $("div.top-toolbar").append('<input id="search_blue" type="checkbox" value="1" name="search_blue"/> blau');
+        $("#search_blue").change(function() {
+            localStorage.setItem('dt-search-blue', this.checked?1:0);
+            datatable.draw();
+        });
+        
         datatable
             .on('init.dt', function () {
+                console.log('init');
+        console.log($("#search_blue"));
+                if (getCurrentIsBlue()) {
+                    $("#search_blue").prop('checked', true);
+                }
                 datatable.search(getCurrentSearch());
                 datatable.page.len(getPageLength());
             })
@@ -172,7 +188,9 @@
         });
         $('#vtp-search-clear').on('click', function() {
             $('.dataTables_filter input').val('');
+            $("#search_blue").removeProp('checked');
             localStorage.setItem('dt-search', '');
+            localStorage.setItem('dt-search-blue', 0);
             datatable.search('').draw();
         });
         
@@ -184,6 +202,10 @@
             return localStorage.getItem('dt-search')?localStorage.getItem('dt-search'):'';
         }
         
+        function getCurrentIsBlue() {
+            return localStorage.getItem('dt-search-blue')?localStorage.getItem('dt-search-blue'):0;
+        }
+
         var resourceInfo = {};
         {% if resourceInfo is defined %}
             {% for resType, count in resourceInfo %}
