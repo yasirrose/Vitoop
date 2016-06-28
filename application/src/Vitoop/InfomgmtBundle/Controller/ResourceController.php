@@ -290,7 +290,7 @@ class ResourceController extends ApiController
     /**
      * @Route("/edit-vitoop-blog", name="_edit_vitoop_blog")
      */
-    public function  editVitoopBlogAction(Request $request)
+    public function editVitoopBlogAction(Request $request)
     {
         $vsec = $this->get('vitoop.vitoop_security');
         if (!$vsec->isAdmin()) {
@@ -653,5 +653,31 @@ class ResourceController extends ApiController
         $content['resource-flags'] = $rdc->getFlags();
 
         return new Response(json_encode($content));
+    }
+
+    /**
+     * @Method("POST")
+     * @Route("/{resType}/{resId}/user-hooks", name="_xhr_resource_user_hook", requirements={"resId": "\d+", "resYype": "pdf|adr|link|teli|lex|prj|book"})
+     */
+    public function userHookAction(Request $request, $resType, $resId)
+    {
+        $entityManager = $this->getDoctrine()->getEntityManager();
+        $resource = $entityManager->getRepository(
+                Resource\ResourceFactory::getClassByType($resType)
+            )->find($resId);
+        if (!$resource) {
+            $this->createNotFoundException();
+        }
+        
+        $dto = $this->getDTOFromRequest($request);
+        $resourceDTO = new \Vitoop\InfomgmtBundle\DTO\Resource\ResourceDTO();
+        $resourceDTO->user = $this->getUser();
+        $resourceDTO->isUserHook = $dto->isUserHook;
+        
+        $resource->updateUserHook($resourceDTO);
+        $entityManager->persist($resource);
+        $entityManager->flush();
+
+        return $this->getApiResponse([]);
     }
 }

@@ -23,9 +23,13 @@
            {{ form_widget(fvdata.isUserHook) }}
            {{ form_label(fvdata.isUserHook)}} / Eingetragen am: {{ res.createdat|date('d.m.Y') }}{% if res.getUser is not null %} / von: {{ res.getUser.getUsername }}{% endif %} / ID: {{ res.getId }}
         </div>
+        {% if isShowSave %}
         <div class="vtp-fh-right vtp-fh-w25">
             {{ form_widget(fvdata.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}
         </div>
+        {% else %}
+            {% do fvdata.save.setRendered %}
+        {%endif%}
     </div>
 </fieldset>
 {{ form_end(fvdata) }}

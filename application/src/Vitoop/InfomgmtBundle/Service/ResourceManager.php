@@ -83,10 +83,7 @@ class ResourceManager
     public function getResource($res_type, $res_id)
     {
         /* @var $res \Vitoop\InfomgmtBundle\Entity\Resource */
-        $res = $this->getRepository($res_type)
-                    ->find($res_id);
-
-        return $res;
+        return $this->getRepository($res_type)->find($res_id);
     }
 
     public function getUsernameByUserId($id)
@@ -501,10 +498,9 @@ class ResourceManager
      */
     public function getProject($id)
     {
-        $project = $this->em->getRepository('VitoopInfomgmtBundle:Project')
-                            ->find($id);
-
-        return $project;
+        return $this->em
+            ->getRepository('VitoopInfomgmtBundle:Project')
+            ->find($id);
     }
 
     /**

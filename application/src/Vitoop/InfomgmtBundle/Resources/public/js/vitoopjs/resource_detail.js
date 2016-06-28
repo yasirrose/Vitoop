@@ -99,6 +99,21 @@ resourceDetail = (function () {
                     collision: 'none'
                 }).hide("fade", 3000);
 
+                $('#'+res_type+'_isUserHook').change(function () {
+                    console.log(this.checked);
+                    $.ajax({
+                        method: 'POST',
+                        url: vitoop.baseUrl + ([res_type, res_id, 'user-hooks'].join('/')),
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            isUserHook: this.checked?1:0
+                        }),
+                        success: function () {
+                            refresh_list = true;
+                        }
+                    });
+                });
 
                 if (res_type == "prj") {
                     var nameOrigin = $('#prj_name').val();

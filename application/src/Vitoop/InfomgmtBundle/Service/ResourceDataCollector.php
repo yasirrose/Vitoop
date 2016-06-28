@@ -176,7 +176,8 @@ class ResourceDataCollector
         return $this->twig->render('VitoopInfomgmtBundle:Resource:xhr.resource.data.' . $this->res->getResourceType() . '.html.twig', array(
             'res' => $this->res,
             'fvdata' => $formData->createView(),
-            'infodata' => $info_data
+            'infodata' => $info_data,
+            'isShowSave' => ($this->vsec->isOwner() || $this->vsec->isAdmin())
         ));
     }
 
@@ -220,7 +221,8 @@ class ResourceDataCollector
         return $this->twig->render('VitoopInfomgmtBundle:Resource:xhr.resource.data.' . $res_type . '.html.twig', array(
             'res' => $newResource,
             'fvdata' => $formData->createView(),
-            'infodata' => $info_data
+            'infodata' => $info_data,
+            'isShowSave' => true
         ));
     }
 

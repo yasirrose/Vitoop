@@ -156,8 +156,10 @@
         
         datatable
             .on('init.dt', function () {
-                if (getCurrentIsBlue()) {
+                if (1 == getCurrentIsBlue()) {
                     $("#search_blue").prop('checked', true);
+                } else {
+                    $("#search_blue").removeProp('checked', false);
                 }
                 datatable.search(getCurrentSearch());
                 datatable.page.len(getPageLength());

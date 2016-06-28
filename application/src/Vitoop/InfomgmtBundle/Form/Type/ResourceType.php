@@ -35,7 +35,7 @@ class ResourceType extends AbstractType
                     },
                 )
             )
-            ->add('isUserHook', CheckboxType::class, ['label' => 'blau'])
+            ->add('isUserHook', CheckboxType::class, ['label' => 'blau', 'attr' => ['class' => 'valid-checkbox']])
             ->add('save', InputTypeSubmitType::class, ['label' => 'speichern']);
     }
 

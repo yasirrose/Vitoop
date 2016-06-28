@@ -1207,6 +1207,14 @@ div#vtp-res-list table input[disabled="disabled"] {
     color: rgb(39, 121, 170);
 }
 
-.vtp-blue {
-    background-color: #7bc0f6 !important;
+td.vtp-blue {
+    background: #7bc0f6;
+}
+td.vtp-blue.ui-state-active {
+    background: #3baae3 url("../img/ui-bg_glass_50_3baae3_1x400.png") 50% 50% repeat-x;
+
+}
+
+#search_blue, .valid-checkbox {
+    -webkit-appearance: checkbox;
 }
