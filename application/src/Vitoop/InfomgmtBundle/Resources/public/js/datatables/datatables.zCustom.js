@@ -115,8 +115,8 @@ function dtDrawCallback() {
                 var divider = "";
                 $('.vtp-uiaction-coefficient.divider-wrapper').remove();
                 $('table > tbody > tr > td > input.vtp-uiaction-coefficient').each(function() {
-                    currentCoefficient = $(this).val();
-                    if ((~~upperCoefficient)-(~~currentCoefficient) <= -1) {
+                    currentCoefficient = Math.floor($(this).val());
+                    if (Math.floor(upperCoefficient)-currentCoefficient <= -1) {
                         divider = dividers[currentCoefficient];
                         if (typeof(divider) == "undefined") {
                             divider = "";
@@ -154,8 +154,8 @@ function dtDrawCallback() {
                                 } else {
                                         $(this).parent().parent().before($('<div style="height: 18px; padding-top: 2px;" class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 7%; padding-left: 12px"><span>'+ ~~ currentCoefficient+'</span></div><div style="width: 92.4%"><span class="divider">'+divider+'</span></span></div></div>'));
                                 }
-                        }
-                        upperCoefficient = currentCoefficient;
+                    }
+                    upperCoefficient = currentCoefficient;
                 });
             }
         });
