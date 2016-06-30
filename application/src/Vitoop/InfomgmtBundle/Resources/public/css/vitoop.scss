@@ -1207,9 +1207,24 @@ div#vtp-res-list table input[disabled="disabled"] {
     color: rgb(39, 121, 170);
 }
 
-td.vtp-blue {
-    background: #7bc0f6;
+.even > td.vtp-blue {
+    background: #7bc0f6; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left, #7bc0f6 , #deedf7); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #7bc0f6 , #deedf7); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #7bc0f6 , #deedf7); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #7bc0f6 , #deedf7); /* Standard syntax */
+    
 }
+
+.odd > td.vtp-blue {
+    background: #7bc0f6; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left, #7bc0f6 , #f2f5f7); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #7bc0f6 , #f2f5f7); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #7bc0f6 , #f2f5f7); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #7bc0f6 , #f2f5f7); /* Standard syntax */
+    
+}
+
 td.vtp-blue.ui-state-active {
     background: #3baae3 url("../img/ui-bg_glass_50_3baae3_1x400.png") 50% 50% repeat-x;
 
