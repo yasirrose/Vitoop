@@ -509,10 +509,10 @@ table.dataTable tfoot th.ui-state-default:last-child {
   &.top-toolbar {
     margin-bottom: 2px;
     margin-top: 0;
-    background: linear-gradient(to right, #7bc0f6 , #f2f5f7);
-    background: -webkit-linear-gradient(left, #7bc0f6 , #f2f5f7); /* For Safari 5.1 to 6.0 */
+    background: -webkit-linear-gradient(left, #f2f5f7, #7bc0f6); /* For Safari 5.1 to 6.0 */
     background: -o-linear-gradient(right, #7bc0f6 , #f2f5f7); /* For Opera 11.1 to 12.0 */
     background: -moz-linear-gradient(right, #7bc0f6 , #f2f5f7); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #7bc0f6 , #f2f5f7);
     background-size: 7% auto;
     background-repeat: no-repeat;
   }
