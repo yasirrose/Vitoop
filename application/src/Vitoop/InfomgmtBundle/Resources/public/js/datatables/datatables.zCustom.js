@@ -51,7 +51,7 @@ function dtRowCallback(row, data, index) {
     $(row).addClass('ui-corner-all vtp-uiaction-list-showdetail');
     $(row).attr('id', resType+'-'+data.id);
     
-    if (data.isUserHook == 1) {
+    if (data.isUserHook != 0) {
         $(row).find('td:first').addClass('vtp-blue');
     }
     

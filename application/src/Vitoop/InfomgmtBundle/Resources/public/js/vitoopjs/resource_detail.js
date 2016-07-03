@@ -100,7 +100,6 @@ resourceDetail = (function () {
                 }).hide("fade", 3000);
 
                 $('#'+res_type+'_isUserHook').change(function () {
-                    console.log(this.checked);
                     $.ajax({
                         method: 'POST',
                         url: vitoop.baseUrl + ([res_type, res_id, 'user-hooks'].join('/')),
