@@ -341,12 +341,6 @@ class ResourceRepository extends EntityRepository
                 ->setParameter('searchString', '%'.$search->searchString.'%');
         }
 
-        if (!is_null($search->resource)) {
-            $this->prepareListByResourceQueryBuilder($query, $search->resource);
-        } elseif (!empty($search->tags)) {
-            $this->prepareListByTagsQueryBuilder($query, $search);
-        }
-
         if ($search->columns->sortableColumn) {
             $sortAlias = $this->getResourceFieldAlias($search->columns->sortableColumn, $rootEntity);
             $query
@@ -355,6 +349,13 @@ class ResourceRepository extends EntityRepository
                     $search->columns->sortableOrder
                 );
         }
+        
+        if (!is_null($search->resource)) {
+            $this->prepareListByResourceQueryBuilder($query, $search->resource);
+        } elseif (!empty($search->tags)) {
+            $this->prepareListByTagsQueryBuilder($query, $search);
+        }
+
         
         if (1 === $search->isUserHook) {
             $query->andHaving('isUserHook > 0');
