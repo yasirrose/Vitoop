@@ -443,7 +443,7 @@ function getColumns(type, isAdmin, isEdit, isCoef) {
 }
 
 function getDefaultOrder(type, isAdmin, isEdit, isCoef) {
-    if (!$('vtp-lexicondata-title')) {
+    if (!$('#vtp-lexicondata-title').length) {
         return [];
     }
 
