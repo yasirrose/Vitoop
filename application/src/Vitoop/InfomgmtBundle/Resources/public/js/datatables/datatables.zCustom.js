@@ -441,3 +441,22 @@ function getColumns(type, isAdmin, isEdit, isCoef) {
         ];
     }
 }
+
+function getDefaultOrder(type, isAdmin, isEdit, isCoef) {
+    if (!$('vtp-lexicondata-title')) {
+        return [];
+    }
+
+    var columns = getColumns(type, isAdmin, isEdit, isCoef);
+    var columnIndex = -1;
+    for (i=0; i< columns.length; i++) {
+        if (columns[i].data === 'res12count') {
+            columnIndex = i;
+        }
+    }
+    if (columnIndex<0) {
+        return [];
+    }
+
+    return [[columnIndex, 'desc']];
+}

@@ -138,7 +138,7 @@
             search: {
                 search: getCurrentSearch()
             },
-            order: [],
+            order: getDefaultOrder('{{ restype}}', {% if is_granted('ROLE_ADMIN') %}1{% else %}0{% endif %}, {% if isEdit is defined and isEdit %}1{% else %}0{% endif %}, {% if  isCoef is defined and isCoef %}1{% else %}0{% endif %}),
             dom: domPrefix,
             columns: getColumns('{{ restype}}', {% if is_granted('ROLE_ADMIN') %}1{% else %}0{% endif %}, {% if isEdit is defined and isEdit %}1{% else %}0{% endif %}, {% if  isCoef is defined and isCoef %}1{% else %}0{% endif %}),
             pagingType: "full_numbers",
