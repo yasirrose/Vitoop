@@ -1,7 +1,7 @@
 <?php
 namespace Vitoop\InfomgmtBundle\Repository;
-
 /**
+ * @TODO Remove this helper
  * Helper - contains static Helper functions
  */
 class Helper
@@ -14,9 +14,7 @@ class Helper
      */
     public static function flatten_array($arr, $key)
     {
-        return array_map(function ($_arr) use ($key) {
-            return $_arr[$key];
-        }, $arr);
+        return array_column($arr, $key);
     }
 
     /**

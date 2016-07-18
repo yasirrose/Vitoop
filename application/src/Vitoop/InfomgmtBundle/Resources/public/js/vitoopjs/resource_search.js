@@ -140,12 +140,11 @@ resourceSearch = (function () {
         },
 
         addTag = function (event, ui) {
-
             // check if tag is selected by autocomplete (ui will be defined) or
             // entered without autocomplete by hiting enter
             //@TODO you cannot select a tag without autocomplete by hitting enter. sort it out!
             if (typeof ui != "undefined") {
-                pushTag(ui.item.value);
+                pushTag(ui.item.text);
                 // prevents writing back the value after it is already cleared by
                 // .val('')
                 event.preventDefault();
@@ -316,7 +315,7 @@ resourceSearch = (function () {
             });
 
             $('#vtp-search-bytags-taglist').autocomplete({
-                source: vitoop.baseUrl + (['tag', 'suggest'].join('/')),
+                source: vitoop.baseUrl + (['tag', 'suggest'].join('/')) + '?extended=1',
                 minLength: 2,
                 autoFocus: true,
                 select: addTag,
@@ -328,7 +327,12 @@ resourceSearch = (function () {
                             i -= 1;
                         }
                     }
-                }});
+                }}).data("ui-autocomplete")._renderItem = function(ul, item) {
+                    item.label = item.text;
+    
+                    var span = "<div class='vtp-search-bytags-item'>"+item.text + "</div><span>"+item.cnt+"</span>";
+                    return $("<li></li>").append(span).appendTo(ul);
+                };;
 
             $('#vtp-icon-clear-taglistbox').button({
                 icons: {

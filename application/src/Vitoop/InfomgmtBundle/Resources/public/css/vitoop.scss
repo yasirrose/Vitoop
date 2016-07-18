@@ -213,7 +213,12 @@ table input[disabled="disabled"].vtp-uiaction-coefficient {
 }
 
 #vtp-search-bytags-taglist {
-    width: 220px;
+    width: 230px;
+}
+
+.vtp-search-bytags-item {
+    width: 190px;
+    float: left;
 }
 
 #vtp-search-bytags-taglistbox {

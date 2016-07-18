@@ -2,7 +2,6 @@
 namespace Vitoop\InfomgmtBundle\Controller;
 
 use Vitoop\InfomgmtBundle\Entity\Resource;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Vitoop\InfomgmtBundle\Entity\Tag;
@@ -10,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Exception;
 
-class ResourceXhrController extends Controller
+class ResourceXhrController extends ApiController
 {
     // @TODO REVIEW this Action!
     /**
@@ -48,10 +47,20 @@ class ResourceXhrController extends Controller
     {
         $letter = $request->query->get('term');
         $id = $request->query->get('id');
+        $isExtended = $request->query->get('extended');
+
+        if ($isExtended) {
+            $tags = $this->getDoctrine()
+                ->getRepository('VitoopInfomgmtBundle:Tag')
+                ->getAllTagsWithCountByFirstLetter($letter);
+
+            return $this->getApiResponse($tags);
+        }
 
         $tags = $this->getDoctrine()
-                     ->getRepository('VitoopInfomgmtBundle:Tag')
-                     ->getAllTagsByFirstLetter($letter);
+            ->getRepository('VitoopInfomgmtBundle:Tag')
+            ->getAllTagsByFirstLetter($letter);
+        
 
         // $id is not set when this function is used by 'resource_search.js', so this must be skipped
         if (isset($id)) {
@@ -66,12 +75,8 @@ class ResourceXhrController extends Controller
 
             $tags = array_diff($tags, $resource_tags);
         }
-        // @TODO: Change this
-        // Convert to JSON
-        $tags = implode('","', $tags);
-        $tags = '["' . $tags . '"]';
 
-        return new Response($tags);
+        return $this->getApiResponse($tags);
     }
 
     /**
