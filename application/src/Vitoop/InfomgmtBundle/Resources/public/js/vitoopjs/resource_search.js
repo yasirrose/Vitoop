@@ -314,11 +314,16 @@ resourceSearch = (function () {
 
             });
 
-            $('#vtp-search-bytags-taglist').autocomplete({
-                source: vitoop.baseUrl + (['tag', 'suggest'].join('/')) + '?extended=1',
+            var seacrhByTag = $('#vtp-search-bytags-taglist');
+            seacrhByTag.autocomplete({
+                source: vitoop.baseUrl + (['tag', 'suggest'].join('/')) + '?extended=1&ignore='+arr_taglist_ignore.join(),
                 minLength: 2,
                 autoFocus: true,
-                select: addTag,
+                select: function (event, ui) {
+                    addTag(event, ui);
+                    seacrhByTag.autocomplete('option', 'source',vitoop.baseUrl + (['tag', 'suggest'].join('/')) + '?extended=1&ignore='+arr_taglist.join());
+                    
+                },
                 response: function (e, ui) {
                     // filter already selected tag ui.content
                     for (var i = 0; i < ui.content.length; i += 1) {
@@ -329,7 +334,6 @@ resourceSearch = (function () {
                     }
                 }}).data("ui-autocomplete")._renderItem = function(ul, item) {
                     item.label = item.text;
-    
                     var span = "<div class='vtp-search-bytags-item'>"+item.text + "</div><span>"+item.cnt+"</span>";
                     return $("<li></li>").append(span).appendTo(ul);
                 };;

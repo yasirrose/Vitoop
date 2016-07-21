@@ -48,11 +48,12 @@ class ResourceXhrController extends ApiController
         $letter = $request->query->get('term');
         $id = $request->query->get('id');
         $isExtended = $request->query->get('extended');
+        $ignoreTags = explode(',', $request->query->get('ignore'));
 
         if ($isExtended) {
             $tags = $this->getDoctrine()
                 ->getRepository('VitoopInfomgmtBundle:Tag')
-                ->getAllTagsWithCountByFirstLetter($letter);
+                ->getAllTagsWithCountByFirstLetter($letter, $ignoreTags);
 
             return $this->getApiResponse($tags);
         }

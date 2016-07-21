@@ -98,7 +98,7 @@ class TagRepository extends EntityRepository
             ->getArrayResult(), 'text');
     }
 
-    public function getAllTagsWithCountByFirstLetter($letter)
+    public function getAllTagsWithCountByFirstLetter($letter, $ignoreTags)
     {   
         return $this->getEntityManager()->createQueryBuilder()
             ->select('t.text, COUNT (DISTINCT r.id) as cnt')
@@ -110,8 +110,10 @@ class TagRepository extends EntityRepository
             ->where('t.text LIKE :letter')
             ->andWhere('rrt.deletedByUser IS NULL')
             ->andWhere('f.id IS NULL')
+            ->andWhere('t.text NOT IN (:ignore)')
             ->setMaxResults(10)
             ->setParameter('letter', $letter . "%")
+            ->setParameter('ignore', $ignoreTags?$ignoreTags:false)
             ->orderBy('t.text')
             ->groupBy('t.text')
             ->getQuery()
