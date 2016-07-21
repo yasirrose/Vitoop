@@ -213,7 +213,13 @@ table input[disabled="disabled"].vtp-uiaction-coefficient {
 }
 
 #vtp-search-bytags-taglist {
-    width: 230px;
+    width: 235px;
+}
+
+.vtp-search-bytags-item {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .vtp-search-bytags-item {
@@ -837,12 +843,14 @@ span.vtp-icon {
 }
 
 #vtp-projectdata-title, #vtp-lexicondata-title {
+    height: 20px;
     position: relative;
     margin: auto;
     border: 1px solid #aed0ea;
     padding: 0.3em 2em 0.3em 1em;
     color: #222222;
     font-weight: bold;
+    font-size: 1.1em;
     background: #deedf7;
     background: -moz-linear-gradient(left,  #deedf7 0%, #cbebff 47%, #3999ca 100%);
     background: -webkit-gradient(linear, left top, right top, color-stop(0%,#deedf7), color-stop(47%,#cbebff), color-stop(100%,#3999ca));
