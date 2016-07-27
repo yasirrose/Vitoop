@@ -875,8 +875,19 @@ span.vtp-icon {
 }
 
 #vtp-projectdata-project-close > .ui-button-icon-primary,
+#vtp-projectdata-project-edit > .ui-button-icon-primary,
+#vtp-projectdata-project-live > .ui-button-icon-primary,
 #vtp-lexicondata-lexicon-close > .ui-button-icon-primary {
     left: .3em;
+}
+
+.vtp-new-user-search > button {
+    font-weight: normal;
+}
+
+.vtp-new-user-info > p {
+    font-size: 10px;
+    color: #2779aa;
 }
 
 .vtp-projectdata-unlink {
@@ -947,17 +958,16 @@ input#vtp-search-bytags-taglist {
     position: absolute;
     border: 1px solid #aed0ea;
     top: 50%;
-    margin: -8px 0 0 0;
+    margin: -9px 2px 0 0;
     background-color: #f2f5f7;
     cursor: pointer;
-}
-
-#vtp-projectdata-project-edit {
+    width: 1.8em;
+    height: 19px;
     right: 2.6em;
 }
 
 #vtp-projectdata-project-live {
-    right: 4.0em;
+    right: 4.8em;
 }
 
 
@@ -981,6 +991,16 @@ input#vtp-search-bytags-taglist {
     padding: 1em;
     border: 1px solid #aed0ea;
     vertical-align: top;
+}
+
+#vtp-projectdata-sheet-info-edit {
+    overflow: auto;
+    margin: 0px;
+    padding: 0 1em;
+    border: 1px solid #aed0ea;
+    vertical-align: top;
+    float: right;
+    width: 26%
 }
 
 #vtp-projectdata-sheet-info, #vtp-lexicondata-sheet-info {

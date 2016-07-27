@@ -14,13 +14,13 @@
                 <textarea ui-tinymce="tinymceOptions" ng-model="project.project_data.sheet" name="projectText"></textarea>
                 </form>
             </div>
-            <div class="vtp-fh-w25" style="vertical-align: top; float: right; width: 26%" ng-show="isLoaded">
+            <div id="vtp-projectdata-sheet-info-edit" class="vtp-fh-w25 ui-corner-all" ng-show="isLoaded">
                 <form name="projectDataForm">
-                <div class="vtp-fh-w100" style="vertical-align: top; text-align: center">
+                <div class="vtp-fh-w100" style="vertical-align: top; text-align: center; margin-top: 5px">
                     <div style="float: left;">
                         <button ng-click="save()" ng-cloak ng-class="{'ui-corner-all ui-state-default': projectDataForm.$pristine && projectSheetForm.projectText.$pristine, 'ui-corner-all ui-state-need-to-save': projectDataForm.$dirty || projectSheetForm.projectText.$dirty}" style="padding-bottom: 5px; padding-top: 5px; float: right">speichern</button>
                     </div>
-                    <div style="vertical-align: top; float: right; text-align: center; color: #2779aa; font-size: 14px">
+                    <div style="vertical-align: bottom; float: right; text-align: center; color: #2779aa; font-size: 14px; padding-top: 10px;">
                         <div class="vtp-fh-w60">
                             <label for="projectIsPrivate" style="margin-right: 20px">verstecken</label>
                         </div>
@@ -29,7 +29,7 @@
                         </div>
                     </div>
                 </div>
-
+                {% if (showasprojectowner is not null) and (showasprojectowner) %}
                 <div class="vtp-fh-w100" style="vertical-align: top; margin-top: 20px; color: #2779aa; font-size: 14px">
                     <div style="margin-bottom: 15px">
                         <div class="vtp-fh-w60">
@@ -38,9 +38,7 @@
                             </span>
                         </div>
                         <div class="vtp-fh-w35">
-                            <span>
-                                schreiben & verknüpfen
-                            </span>
+                            <span>Rechte</span>
                         </div>
                     </div>
                     {% verbatim %}
@@ -54,23 +52,25 @@
                     </div>
                     {% endverbatim %}
                 </div>
+                {%endif%}
                 </form>
+                {% if (showasprojectowner is not null) and (showasprojectowner) %}
                 <div class="vtp-fh-w100" style="vertical-align: top; margin-top: 20px; color: #2779aa; font-size: 14px">
                     <div class="vtp-fh-w100" style="vertical-align: top; margin-bottom: 5px">
                         <label for="newUser">Neuer Benutzer:</label>
                     </div>
-                        <div class="vtp-fh-w100">
-                            <div angucomplete id="usernames-autocomplete"
-                                 placeholder="Search users"
-                                 pause="300"
-                                 selectedobject="user"
-                                 url="../api/project/{{ project.getId }}/user/find?s="
-                                 titlefield="username"
-                                 inputclass="vtp-fh-w97"
-                                 style="margin-bottom: 5px"></div>
-                            <button ng-click="addUser()" class="ui-corner-all vtp-fh-w60 ui-state-default" style="font-size: 14px">verknüpfen</button>
-                            <button ng-click="removeUser()" class="ui-corner-all vtp-fh-w40 ui-state-default" style="font-size: 14px; float: right">löschen</button>
-                        </div>
+                    <div class="vtp-fh-w100 vtp-new-user-search">
+                        <div angucomplete id="usernames-autocomplete"
+                             placeholder="Search users"
+                             pause="300"
+                             selectedobject="user"
+                             url="../api/project/{{ project.getId }}/user/find?s="
+                             titlefield="username"
+                             inputclass="vtp-fh-w97"
+                             style="margin-bottom: 5px"></div>
+                        <button ng-click="addUser()" class="ui-corner-all vtp-fh-w60 ui-state-default" style="font-size: 14px">verknüpfen</button>
+                        <button ng-click="removeUser()" class="ui-corner-all vtp-fh-w40 ui-state-default" style="font-size: 14px; float: right">löschen</button>
+                    </div>
                     <span ng-show="isError" id="error-span" class="form-error">Vitoooops!: <span ng-bind="message"></span></span>
                     <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all" ng-show="isSuccess" style="transition: 0s linear all;"><span class="vtp-icon ui-icon ui-icon-info"></span><span ng-bind="message"></span></div>
                 </div>
@@ -82,6 +82,10 @@
                     <button ng-click="delete()" ng-show="isDeleting" class="ui-corner-all vtp-fh-w30 vtp-button-light">Ja</button>
                     <button ng-click="isDeleting = false" ng-show="isDeleting" class="ui-corner-all vtp-fh-w30 vtp-button-light">Nein</button>
                 </div>
+                <div class="vtp-fh-w100 vtp-new-user-info">
+                    <p>Wenn Du unter "verstecken" den Haken setzt, können andere Nutzer nur die Überschrift und das Popup Deines Projekts sehen - den Rest nicht. Unter "Neuer Benutzer" kannst Du andere Nutzer mit Deinem Projekt verknüpfen. Verknüpfte Nutzer können das Projekt auch sehen, wenn es versteckt ist. Mit dem Haken bei "Rechte" erlaubst Du den verknüpften Nutzern das Projekt zu ändern (editieren des Textes & verknüpfen und löschen von Datensätzen). Gelöscht werden kann das Projekt nur von dem, der es angelegt hat, das selbe gilt für das Verknüpfen von anderen Nutzern. Mehr Infos gibt es in der "Hilfe"</p>
+                </div>
+                {%endif%}
             </div>
         </div>
         {% endif %}

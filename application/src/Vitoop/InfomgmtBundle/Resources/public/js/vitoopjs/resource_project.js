@@ -43,6 +43,17 @@ resourceProject = (function () {
             }
         });
 
+        $('#vtp-projectdata-project-edit').button({
+            icons: {
+                primary: "ui-icon-wrench"
+            }
+        });
+
+        $('#vtp-projectdata-project-live').button({
+            icons: {
+                primary: "ui-icon-clipboard"
+            }
+        });
 
         $('#vtp-projectdata-project-close').on('click', function () {
             location.href = vitoop.baseUrl + 'prj/';
@@ -52,8 +63,8 @@ resourceProject = (function () {
         var liveButton = $('#vtp-projectdata-project-live');
 
         if ((typeof queryEditMode != 'undefined') && (queryEditMode == 1)) {
-            editButton.addClass('vtp-icon-active');
-            liveButton.removeClass('vtp-icon-active');
+            editButton.addClass('ui-state-active');
+            liveButton.removeClass('ui-state-active');
             liveButton.on('click', function () {
                 location.href = location.href.replace('?edit=1', '');
             });
@@ -71,8 +82,8 @@ resourceProject = (function () {
                 of: '#vtp-projectdata-box .vtp-uiinfo-anchor',
                 collision: 'none'
             }).hide("fade", 3000);
-            liveButton.addClass('vtp-icon-active');
-            editButton.removeClass('vtp-icon-active');
+            liveButton.addClass('ui-state-active');
+            editButton.removeClass('ui-state-active');
             editButton.on('click', function () {
                 location.href = location.href + '?edit=1';
             });

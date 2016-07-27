@@ -4,8 +4,8 @@
         <div id="vtp-projectdata-title" class="ui-corner-all">
             <span>{{'label.project'|trans}}: {{ project.name }}</span><input type="hidden" id="projectID" value="{{ project.id }}"/>
             {% if (showasprojectowner is not null) and (showasprojectowner) %}
-                <span id="vtp-projectdata-project-live" class="ui-icon ui-icon-clipboard ui-corner-all"></span>
-                <span id="vtp-projectdata-project-edit" class="ui-icon ui-icon-wrench ui-corner-all"></span>
+                <button id="vtp-projectdata-project-live"></button>
+                <button id="vtp-projectdata-project-edit" class=""></button>
             {% endif %}
             <button id="vtp-projectdata-project-close" class=""></button>
         </div>
