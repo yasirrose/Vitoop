@@ -106,7 +106,7 @@ app.controller('PrjController', function ($scope, $http, $filter, $timeout) {
     $scope.tinymceOptions = {
         width: 800,
         height: 550,
-        plugins: 'textcolor link media',
+        plugins: 'textcolor link media resourceurl',
         menubar: false,
         skin : "vitoop",
         style_formats: [
@@ -118,7 +118,7 @@ app.controller('PrjController', function ($scope, $http, $filter, $timeout) {
             {title: 'h5', block: 'h5'},
             {title: 'h6', block: 'h6'}
         ],
-        toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink '
+        toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink resourceurl'
     };
     $scope.$watch("projectId", function(){
         $http.get(vitoop.baseUrl + 'api/project/'+$scope.projectId).success(function (data) {
@@ -214,7 +214,7 @@ app.controller('ToDoController', function ($scope, $http, $filter) {
     $scope.tinymceOptions = {
         width: 550, //574 for new one button
         height: 550,
-        plugins: 'textcolor link media',
+        plugins: 'textcolor link media resourceurl',
         menubar: false,
         skin : "vitoop",
         style_formats: [
@@ -226,7 +226,7 @@ app.controller('ToDoController', function ($scope, $http, $filter) {
             {title: 'h5', block: 'h5'},
             {title: 'h6', block: 'h6'}
         ],
-        toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink '
+        toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink resourceurl'
     };
 
     $scope.sortableOptions = {

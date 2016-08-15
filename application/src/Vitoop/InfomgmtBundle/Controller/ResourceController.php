@@ -288,6 +288,26 @@ class ResourceController extends ApiController
     }
 
     /**
+     * @Route("/resources/{resource}", name="_resource_edit")
+     */
+    public function editAction(Request $request, Resource $resource)
+    {
+        return $this->render(
+            'VitoopInfomgmtBundle:Resource:list.html.twig',
+            [
+                'restype' => $resource->getResourceType(),
+                'resname' => $resource->getResourceName(),
+                'user' => $this->getUser(),
+                'blockcontenttpl' => 'VitoopInfomgmtBundle:Resource:table.resource.html.twig',
+                'ajaxUrl' => $this->generateUrl(
+                    'api_resource_list', ['resType' => $resource->getResourceType()]
+                ),
+                'resourceId' => $resource->getId()
+            ]
+        );
+    }
+
+    /**
      * @Route("/edit-vitoop-blog", name="_edit_vitoop_blog")
      */
     public function editVitoopBlogAction(Request $request)

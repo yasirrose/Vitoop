@@ -133,6 +133,7 @@
                 url: "{{ ajaxUrl |raw }}",
                 data: function (d) {
                     d.isUserHook = getCurrentIsBlue();
+                    d.resourceId = vitoop.resourceId;
                 }
             },
             search: {
@@ -168,6 +169,12 @@
             .on('search.dt', function (e) {
                 localStorage.setItem('dt-search', datatable.search());
             });
+            {%if resourceId is defined %}
+            datatable.on('draw.dt', function () {
+                $('#{{ restype }}-{{ resourceId }} > td:first').trigger('click');
+            });
+            {%endif%}
+            
 
         $('div.paging_full_numbers > span').removeClass();
         

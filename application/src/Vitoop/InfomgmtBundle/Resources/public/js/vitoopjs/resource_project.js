@@ -14,7 +14,7 @@ resourceProject = (function () {
             selector: 'textarea#project_data_sheet',
             width: 560,
             height: 600,
-            plugins: 'textcolor link',
+            plugins: 'textcolor link projecturl',
             menubar: false,
             skin : "vitoop",
             style_formats: [
@@ -27,7 +27,7 @@ resourceProject = (function () {
                 {title: 'h6', block: 'h6'}
             ],
 
-            toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink'
+            toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink projecturl'
         });
 
         $('#project_data_save').button({
@@ -104,7 +104,7 @@ resourceProject = (function () {
             selector: 'textarea#user_data_sheet',
             width: 560,
             height: 600,
-            plugins: 'textcolor link',
+            plugins: 'textcolor link projecturl',
             skin : "vitoop",
             menubar: false,
             style_formats: [
@@ -117,7 +117,7 @@ resourceProject = (function () {
                 {title: 'h6', block: 'h6'}
             ],
 
-            toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink'
+            toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink projecturl'
         });
 
         $('#user_data_save').button({

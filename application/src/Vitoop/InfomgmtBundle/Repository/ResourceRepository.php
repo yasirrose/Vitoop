@@ -361,6 +361,11 @@ class ResourceRepository extends EntityRepository
             $query->andHaving('isUserHook > 0');
         }
 
+        if ($search->resourceId) {
+            $query->andWhere('r.id = :resourceId')
+                  ->setParameter('resourceId', $search->resourceId);
+        }
+
         $query
             ->addOrderBy('r.created_at', 'DESC')
             ->setFirstResult($search->paging->offset)

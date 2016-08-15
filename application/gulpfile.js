@@ -21,7 +21,9 @@ gulp.task('lexicon-js', function () {
 });
 
 gulp.task('tinymce-js', function () {
-    return gulp.src(['src/Vitoop/InfomgmtBundle/Resources/public/js/tinymce/**/*.*'])
+    return gulp.src([
+        'src/Vitoop/InfomgmtBundle/Resources/public/js/tinymce/**/*.*',
+        ])
         .pipe(gulp.dest('web/js/tinymce'));
 });
 

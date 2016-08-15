@@ -16,9 +16,12 @@
             if (typeof maxperpage === 'undefined') {
                 maxperpage = '10';
             }
+            var resourceId = {%if resourceId is defined %}{{resourceId}}{%else%}null{%endif%}
+            
             return {
                 baseUrl: baseUrl,
                 maxperpage: maxperpage,
+                resourceId: resourceId,
                 isShowHelp: {%if app.user and not app.user.getIsShowHelp() %}false{% else %}true{% endif %}
             };
         }());
