@@ -711,7 +711,7 @@ class ResourceDataCollector
             return '';
         }
 
-        $flag_map_for_verbose_names = array(Flag::FLAG_DELETE => 'zu löschende Resource', Flag::FLAG_BLAME => 'gemeldete Resource');
+        
 
         $flags = $this->rm->getFlags($this->res);
         if (null === $flags) {
@@ -734,9 +734,7 @@ class ResourceDataCollector
                 $this->rm->saveFlag($flag);
                 $info_delete = 'Die Resource wurde erfolgreich gelöscht!';
             } else {
-                if ($form_flag_info->get('delete_flag')
-                                   ->isClicked()
-                ) {
+                if ($form_flag_info->get('delete_flag')->isClicked()) {
                     $this->rm->deleteFlag($flag);
                     $info_delete = 'Die Flag wurde entfernt. Die Resource ist jetzt wieder allgemein sichtbar!';
                 }
@@ -746,6 +744,28 @@ class ResourceDataCollector
         }
         $fv_flag_info = $form_flag_info->createView();
 
-        return $this->twig->render('VitoopInfomgmtBundle:Resource:xhr.resource.flags.html.twig', array('flag' => $flag, 'fvflaginfo' => $fv_flag_info, 'flagverbosenames' => $flag_map_for_verbose_names));
+        return $this->twig->render(
+            'VitoopInfomgmtBundle:Resource:xhr.resource.flags.html.twig',
+            array(
+                'flag' => $flag,
+                'fvflaginfo' => $fv_flag_info,
+                'flagverbosename' => $this->getFlagVerboseName($flag->getType())
+            )
+        );
+    }
+
+    private function getFlagVerboseName($flagType)
+    {
+        $flagMap = [
+            Flag::FLAG_DELETE => 'zu löschende Resource',
+            Flag::FLAG_BLAME => 'gemeldete Resource'
+        ];
+
+        if (array_key_exists($flagType, $flagMap)) {
+            return $flagMap[$flagType];
+        }
+
+        return '';
     }
 }
+
