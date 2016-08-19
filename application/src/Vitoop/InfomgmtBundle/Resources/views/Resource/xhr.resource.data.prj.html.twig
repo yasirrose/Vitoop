@@ -21,7 +21,7 @@
     <div class="vtp-fh-bottom created-info-project">
         <div class="vtp-fh-infosave-box vtp-fh-w75">
            {{ form_widget(fvdata.isUserHook) }}
-           {{ form_label(fvdata.isUserHook)}} / Eingetragen am: {{ res.createdat|date('d.m.Y') }}{% if res.getUser is not null %} / von: {{ res.getUser.getUsername }}{% endif %} / ID: {{ res.getId }}
+           <span class="blau">blau</span> / Eingetragen am: {{ res.createdat|date('d.m.Y') }}{% if res.getUser is not null %} / von: {{ res.getUser.getUsername }}{% endif %} / ID: {{ res.getId }}
         </div>
         {% if isShowSave %}
         <div class="vtp-fh-right vtp-fh-w25">

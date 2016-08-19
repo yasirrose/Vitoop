@@ -38,13 +38,17 @@ div#vtp-res-tags table tr:first-of-type th:first-of-type {
 div#vtp-res-list table tr:first-of-type th {
     color: #2779aa !important;
     font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 12px !important;
+    font-size: 0.9em !important;
 }
 
 div#vtp-res-tags table tr:first-of-type th {
     color: #2779aa !important;
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 12px !important;
+}
+
+.blau {
+    color: #2779aa;
 }
 
 div#vtp-res-list td, div#vtp-res-tags td {
@@ -176,6 +180,13 @@ input[type="submit"], .vtp-button {
     border: 1px solid #aed0ea;
     border-radius: 6px;
     margin-left: 0.2em !important;
+}
+
+.vtp-extlink-list {
+    width: 32px;
+}
+.vtp-extlink-list > span {
+    margin-left: 8px;
 }
 
 .vtp-odd .vtp-extlink {
@@ -1064,7 +1075,7 @@ span.vtp-icon-active {
 /*----------------------------------------------------------------*/
 
 #vtp-res-list tr.vtp-uiaction-list-showdetail {
-    height: 40px;
+    height: 38px;
 }
 
 #vtp-footer {

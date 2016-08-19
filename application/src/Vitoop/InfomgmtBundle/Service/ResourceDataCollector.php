@@ -177,7 +177,8 @@ class ResourceDataCollector
             'res' => $this->res,
             'fvdata' => $formData->createView(),
             'infodata' => $info_data,
-            'isShowSave' => ($this->vsec->isOwner() || $this->vsec->isAdmin())
+            'isShowSave' => ($this->vsec->isOwner() || $this->vsec->isAdmin()),
+            'isNew' => false,
         ));
     }
 
@@ -222,7 +223,8 @@ class ResourceDataCollector
             'res' => $newResource,
             'fvdata' => $formData->createView(),
             'infodata' => $info_data,
-            'isShowSave' => true
+            'isShowSave' => true,
+            'isNew' => true,
         ));
     }
 

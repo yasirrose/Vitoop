@@ -250,11 +250,11 @@ function getIsDownloadedColumn()
 }
 
 function getUrlValue(url, type, row, meta) {
-    return '<a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="'+url+'" target="_blank">-></a>';
+    return '<a class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink" href="'+url+'" target="_blank"><span class="ui-icon ui-icon-extlink">-></span></a>';
 }
 
 function getInternalUrlValue(url, type, row, meta) {
-    return '<a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="'+url+'">-></a>';
+    return '<a class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink" href="'+url+'"><span class="ui-icon ui-icon-extlink">-></span></a>';
 }
 
 function getProjectUrlValue(data, type, row, meta) {
@@ -306,7 +306,7 @@ function getIsHpColumn() {
 }
 
 function getMapsLinkValue(data, type, row, meta) {
-    return '<a class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink" href="https://nominatim.openstreetmap.org/search.php?polygon=1&q='+row.street+', '+row.zip+', '+row.city+', '+row.code+'" target="_blank">-></a>';
+    return '<a class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink " href="https://nominatim.openstreetmap.org/search.php?polygon=1&q='+row.street+', '+row.zip+', '+row.city+', '+row.code+'" target="_blank"><span class="ui-icon ui-icon-extlink">-></span></a>';
 }
 
 function getMapsLinkColumn(isEdit) {

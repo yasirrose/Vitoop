@@ -23,8 +23,12 @@
     </div>
     <div class="vtp-fh-middle">
         {{ form_label(fvdata.url, null, {'label_attr': {'class': 'vtp-fh-w15' }}) }}
-        {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w75', 'onblur': 'checkUniqueUrl("teli", event);', 'style': 'width: 77.7%' }}) }}
-        <div class="vtp-fh-right vtp-fh-w0"><a href="{{ res.url }}" target="_blank" class="vtp-uiaction-open-url vtp-button">URL öffnen</a></div>
+        {% if isNew %}
+            {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w85', 'onblur': 'checkUniqueUrl("teli", event);' }}) }}
+        {% else %}
+            {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w75', 'onblur': 'checkUniqueUrl("teli", event);', 'style': 'width: 77.7%' }}) }}
+            <div class="vtp-fh-right vtp-fh-w0"><a href="{{ res.url }}" target="_blank" class="vtp-uiaction-open-url vtp-button">URL öffnen</a></div>
+        {% endif %}
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.url) }}</div>
     </div>
     <div class="vtp-fh-middle">
@@ -41,7 +45,7 @@
     <div class="vtp-fh-bottom created-info">
         <div class="vtp-fh-infosave-box vtp-fh-w70">
             {{ form_widget(fvdata.isUserHook) }}
-           {{ form_label(fvdata.isUserHook)}} / Eingetragen am: {{ res.createdat|date('d.m.Y') }}{% if res.getUser is not null %} / von: {{ res.getUser.getUsername }}{% endif %} / ID: {{ res.getId }}
+           <span class="blau">blau</span> / Eingetragen am: {{ res.createdat|date('d.m.Y') }}{% if res.getUser is not null %} / von: {{ res.getUser.getUsername }}{% endif %} / ID: {{ res.getId }}
         </div>
         {% if isShowSave %}
         <div class="vtp-fh-right vtp-fh-w30">
