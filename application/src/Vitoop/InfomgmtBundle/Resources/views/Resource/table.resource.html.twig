@@ -30,7 +30,7 @@
                 <th style="width:8%;"><span class="table-head">{{ dateTitle }}</span></th>
                 <th style="width:34%;"><span class="table-head">Titel</span></th>
                 <th style="width:17%;"><span class="table-head">Autor</span></th>
-                <th style="width:7%;"><span class="table-head">Seiten</span></th>
+                <th style="width:8%;"><span class="table-head">Seiten</span></th>
                 <th style="width:10%;" data-b-searchable="false"><span class="table-head">Bewertung</span></th>
                 <th style="width:5%;" data-b-searchable="false"><span class="table-head">RR</span></th>
                 <th style="width:12%;"><span class="table-head">von</span></th>
@@ -45,12 +45,12 @@
             {% endif %}
         {% if restype == 'book' %}
             {% set colspan = colsBook %}
-            <th style="width:7%;"><span class="table-head">{{ dateTitle }}</span></th>
-            <th style="width:41%;"><span class="table-head">Titel</span></th>
+            <th style="width:8%;"><span class="table-head">{{ dateTitle }}</span></th>
+            <th style="width:39%;"><span class="table-head">Titel</span></th>
             <th style="width:21%;"><span class="table-head">Autor</span></th>
             <th style="width:7%;"><span class="table-head">Seiten</span></th>
             <th style="width:10%;" data-b-searchable="false"><span class="table-head">Bewertung</span></th>
-            <th style="width:4%;" data-b-searchable="false"><span class="table-head">RR</span></th>
+            <th style="width:5%;" data-b-searchable="false"><span class="table-head">RR</span></th>
             <th style="width:14%;"><span class="table-head">von</span></th>
             {% if isEdit is defined and isEdit %}
             <th style="width:{{ linkWidth }};" data-b-sortable="false" data-b-searchable="false"><span class="table-head">{{ linkTitle }}</span></th>
@@ -59,56 +59,56 @@
         {% endif %}
             {% if restype == 'teli' %}
             {% set colspan=7 %}
-            <th style="width:7%;"><span class="table-head">{{ dateTitle }}</span></th>
-            <th style="width:37%;"><span class="table-head">Bezeichnung</span></th>
+            <th style="width:8%;"><span class="table-head">{{ dateTitle }}</span></th>
+            <th style="width:36%;"><span class="table-head">Bezeichnung</span></th>
             <th style="width:25%;"><span class="table-head">Autor</span></th>
             <th style="width:10%;" data-b-searchable="false"><span class="table-head">Bewertung</span></th>
-            <th style="width:4%;" data-b-searchable="false"><span class="table-head">RR</span></th>
+            <th style="width:5%;" data-b-searchable="false"><span class="table-head">RR</span></th>
             <th style="width:14%;"><span class="table-head">von</span></th>
             <th style="width:{{ linkWidth }};" data-b-sortable="false" data-b-searchable="false"><span class="table-head">{{ linkTitle }}</span></th>
             </tr>
         {% endif %}
         {% if restype == 'link' %}
             {% set colspan=8 %}
-            <th style="width:7%;"><span class="table-head">{{ dateTitle }}</span></th>
+            <th style="width:8%;"><span class="table-head">{{ dateTitle }}</span></th>
             <th style="width:36%;"><span class="table-head">Bezeichnung</span></th>
             <th style="width:22%;"><span class="table-head">URL</span></th>
-            <th style="width:4%;" data-b-searchable="false"><span class="table-head">HP</span></th>
+            <th style="width:5%;" data-b-searchable="false"><span class="table-head">HP</span></th>
             <th style="width:10%;" data-b-searchable="false"><span class="table-head">Bewertung</span></th>
-            <th style="width:4%;" data-b-searchable="false"><span class="table-head">RR</span></th>
+            <th style="width:5%;" data-b-searchable="false"><span class="table-head">RR</span></th>
             <th style="width:14%;" data-b-searchable="false"><span class="table-head">von</span></th>
             <th style="width:{{ linkWidth }};" data-b-sortable="false" data-b-searchable="false"><span class="table-head">{{ linkTitle }}</span></th>
             </tr>
         {% endif %}
         {% if restype == 'adr' %}
             {% set colspan=8 %}
-            <th style="width:7%;"><span class="table-head">{{ dateTitle }}</span></th>
-            <th style="width:37%;"><span class="table-head">Institution</span></th>
+            <th style="width:8%;"><span class="table-head">{{ dateTitle }}</span></th>
+            <th style="width:35%;"><span class="table-head">Institution</span></th>
             <th style="width:5%;"><span class="table-head">PLZ</span></th>
             <th style="width:20%;"><span class="table-head">Ort</span></th>
             <th style="width:10%;" data-b-searchable="false"><span class="table-head">Bewertung</span></th>
-            <th style="width:4%;" data-b-searchable="false"><span class="table-head">RR</span></th>
+            <th style="width:5%;" data-b-searchable="false"><span class="table-head">RR</span></th>
             <th style="width:14%;"><span class="table-head">von</span></th>
             <th style="width:{{ linkWidth }};" data-b-sortable="false" data-b-searchable="false"><span class="table-head">{{ linkTitle }}</span></th>
             </tr>
         {% endif %}
         {% if restype == 'lex' %}
             {% set colspan=6 %}
-            <th style="width:7%;"><span class="table-head">{{ dateTitle }}</span></th>
-            <th style="width:40%;"><span class="table-head">Lexikonbegriff</span></th>
+            <th style="width:8%;"><span class="table-head">{{ dateTitle }}</span></th>
+            <th style="width:38%;"><span class="table-head">Lexikonbegriff</span></th>
             <th style="width:33%;" data-b-searchable="false"><span class="table-head">Wiki-URL</span></th>
-            <th style="width:4%;" data-b-searchable="false"><span class="table-head">RR</span></th>
+            <th style="width:5%;" data-b-searchable="false"><span class="table-head">RR</span></th>
             <th style="width:14%;"><span class="table-head">von</span></th>
             <th style="width:{{ linkWidth }};" data-b-sortable="false" data-b-searchable="false"><span class="table-head">{{ linkTitle }}</span></th>
             </tr>
         {% endif %}
         {% if restype == 'prj' %}
             {% set colspan=6 %}
-            <th style="width:7%;"><span class="table-head">{{ dateTitle }}</span></th>
-            <th style="width:63%;"><span class="table-head">Projektname</span></th>
+            <th style="width:8%;"><span class="table-head">{{ dateTitle }}</span></th>
+            <th style="width:60%;"><span class="table-head">Projektname</span></th>
             <th style="width:14%;"><span class="table-head">Projektmeister</span></th>
             <th style="width:10%;" data-b-searchable="false"><span class="table-head">Bewertung</span></th>
-            <th style="width:4%;" data-b-searchable="false"><span class="table-head">RR</span></th>
+            <th style="width:5%;" data-b-searchable="false"><span class="table-head">RR</span></th>
             <th style="width:{{ linkWidth }};" data-b-searchable="false" data-b-sortable="false"><span class="table-head">{{ linkTitle }}</span></th>
             </tr>
         {% endif %}
