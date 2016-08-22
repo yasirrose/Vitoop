@@ -29,11 +29,11 @@
             {% if restype == 'pdf' %}
                 <th style="width:8%;"><span class="table-head">{{ dateTitle }}</span></th>
                 <th style="width:34%;"><span class="table-head">Titel</span></th>
-                <th style="width:19%;"><span class="table-head">Autor</span></th>
+                <th style="width:17%;"><span class="table-head">Autor</span></th>
                 <th style="width:7%;"><span class="table-head">Seiten</span></th>
                 <th style="width:10%;" data-b-searchable="false"><span class="table-head">Bewertung</span></th>
                 <th style="width:5%;" data-b-searchable="false"><span class="table-head">RR</span></th>
-                <th style="width:13%;"><span class="table-head">von</span></th>
+                <th style="width:12%;"><span class="table-head">von</span></th>
                 {% if is_granted('ROLE_ADMIN') %}
                     {% set colspan=10 %}
                     <th style="width:7%;" data-b-searchable="false"><span class="table-head">Stored</span></th>
@@ -47,8 +47,8 @@
             {% set colspan = colsBook %}
             <th style="width:7%;"><span class="table-head">{{ dateTitle }}</span></th>
             <th style="width:41%;"><span class="table-head">Titel</span></th>
-            <th style="width:22%;"><span class="table-head">Autor</span></th>
-            <th style="width:6%;"><span class="table-head">Seiten</span></th>
+            <th style="width:21%;"><span class="table-head">Autor</span></th>
+            <th style="width:7%;"><span class="table-head">Seiten</span></th>
             <th style="width:10%;" data-b-searchable="false"><span class="table-head">Bewertung</span></th>
             <th style="width:4%;" data-b-searchable="false"><span class="table-head">RR</span></th>
             <th style="width:14%;"><span class="table-head">von</span></th>

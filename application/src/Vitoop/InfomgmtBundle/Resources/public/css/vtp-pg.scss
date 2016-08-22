@@ -26,8 +26,13 @@
 .vtp-pg-inner {
     display: inline-block !important;
     min-width: 16px;
-    height: 16px;
+    /*height: 16px;*/
+    height: 1em;
     font-weight: normal;
+}
+
+.vtp-pg-inner.ui-icon {
+    height: 1em;
 }
 
 .vtp-pg-start {
