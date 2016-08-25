@@ -243,7 +243,7 @@ app.controller('ToDoController', function ($scope, $http, $filter) {
             $scope.tinymceOptions.height = $scope.user.height_of_todo_list;
             console.log($scope.tinymceOptions);
             $scope.noscrollContainer.maxHeight = 33 * $scope.user.number_of_todo_elements;
-            //$scope.$emit('$tinymce:refresh');
+            $scope.$broadcast('$tinymce:destroy');
             $scope.$broadcast('$tinymce:refresh');
             
             //jQuery('#noscroll-element').css('max-height', 33 * $scope.user.number_of_todo_elements+'px');
