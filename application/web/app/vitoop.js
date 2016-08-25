@@ -205,6 +205,7 @@ app.controller('PrjController', function ($scope, $http, $filter, $timeout) {
 app.controller('ToDoController', function ($scope, $http, $filter) {
     $scope.to_do_items = [];
     $scope.to_do_item = {};
+    $scope.noscrollContainer = {};
     $scope.isNew = false;
     $scope.isDeleting = false;
     $scope.jqueryScrollbarOptions = {
@@ -239,8 +240,13 @@ app.controller('ToDoController', function ($scope, $http, $filter) {
 
     $scope.$watch("user", function(){
         $http.get(vitoop.baseUrl + 'api/user/'+$scope.user.id+'/todo').success(function (data) {
-            jQuery('#toDoArea_ifr').css('height', $scope.user.height_of_todo_list+'px');
-            jQuery('#noscroll-element').css('max-height', 33 * $scope.user.number_of_todo_elements+'px');
+            $scope.tinymceOptions.height = $scope.user.height_of_todo_list;
+            console.log($scope.tinymceOptions);
+            $scope.noscrollContainer.maxHeight = 33 * $scope.user.number_of_todo_elements;
+            //$scope.$emit('$tinymce:refresh');
+            $scope.$broadcast('$tinymce:refresh');
+            
+            //jQuery('#noscroll-element').css('max-height', 33 * $scope.user.number_of_todo_elements+'px');
             $scope.to_do_items = data;
             $scope.loadItem();
         });
