@@ -202,7 +202,7 @@ app.controller('PrjController', function ($scope, $http, $filter, $timeout) {
 
 });
 
-app.controller('ToDoController', function ($scope, $http, $filter) {
+app.controller('ToDoController', function ($scope, $http, $filter, $timeout) {
     $scope.to_do_items = [];
     $scope.to_do_item = {};
     $scope.noscrollContainer = {};
@@ -240,10 +240,12 @@ app.controller('ToDoController', function ($scope, $http, $filter) {
 
     $scope.$watch("user", function(){
         $http.get(vitoop.baseUrl + 'api/user/'+$scope.user.id+'/todo').success(function (data) {
-            $scope.tinymceOptions.height = $scope.user.height_of_todo_list;
-            console.log($scope.tinymceOptions);
             $scope.noscrollContainer.maxHeight = 33 * $scope.user.number_of_todo_elements;
-            $scope.$broadcast('$tinymce:refresh');
+            
+            $timeout(function () {
+               $scope.tinymceOptions.height = $scope.user.height_of_todo_list;
+               $scope.$broadcast('$tinymce:refresh');
+            }, 500);
             
             //jQuery('#noscroll-element').css('max-height', 33 * $scope.user.number_of_todo_elements+'px');
             $scope.to_do_items = data;
