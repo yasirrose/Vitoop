@@ -227,7 +227,7 @@ app.controller('ToDoController', function ($scope, $http, $filter, $timeout) {
             {title: 'h5', block: 'h5'},
             {title: 'h6', block: 'h6'}
         ],
-        toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink resourceurl'
+        toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor'
     };
 
     $scope.sortableOptions = {
