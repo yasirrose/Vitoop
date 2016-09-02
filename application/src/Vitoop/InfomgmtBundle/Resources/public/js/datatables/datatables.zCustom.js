@@ -262,7 +262,7 @@ function getProjectUrlValue(data, type, row, meta) {
         return getInternalUrlValue(vitoop.baseUrl+'project/'+data, type, row, meta);
     }
 
-    return '<span class="vtp-extlink vtp-uiaction-open-extlink ui-icon ui-icon-extlink"  style="background-color: #DDDDDD">-></span>';
+    return '<span class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink"  style="background-color: #DDDDDD"><span class="ui-icon ui-icon-extlink">-></span></span>';
 }
 
 function getLexiconUrlValue(data, type, row, meta) {
