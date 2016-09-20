@@ -18,6 +18,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Vitoop\InfomgmtBundle\Entity\Lexicon;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Exception;
 use Vitoop\InfomgmtBundle\Form\Type\UserDataType;
@@ -99,19 +100,14 @@ class ResourceController extends ApiController
                 }
 
                 if ($flagged) {
-                    $tpl_vars = array_merge($tpl_vars, array(
-                        'flagged' => 1
-                    ));
+                    $tpl_vars['flagged'] = 1;
                 }
 
                 $fv_user_data = $form_user_data->createView();
 
                 $tpl_vars = array_merge($tpl_vars, array(
                     'fvuserdata' => $fv_user_data,
-                    'infouserdata' => $info_user_data
-                ));
-
-                $tpl_vars = array_merge($tpl_vars, array(
+                    'infouserdata' => $info_user_data,
                     'user' => $user
                 ));
             }
@@ -153,10 +149,9 @@ class ResourceController extends ApiController
                 'editMode' => $dto->isEditMode,
                 'showasprojectowner' => $show_as_projectowner
             ));
+            $home_content_tpl = 'VitoopInfomgmtBundle:Resource:home.project.edit.html.twig';
             if (!$dto->isEditMode) {
                 $home_content_tpl = 'VitoopInfomgmtBundle:Resource:home.project.html.twig';
-            } else {
-                $home_content_tpl = 'VitoopInfomgmtBundle:Resource:home.project.edit.html.twig';
             }
         } elseif ($is_lexicon_home) {
             $diff = date_diff(new \DateTime(), $lexicon->getUpdated());
@@ -178,16 +173,15 @@ class ResourceController extends ApiController
             $rdc->prepare('lex', $request);
             $rdc->init($lexicon);
             $lexiconsPart = $rdc->getLexicon(true);
-            $tpl_vars = array_merge($tpl_vars, array('lexicons' => $lexiconsPart));
+            $tpl_vars['lexicons'] = $lexiconsPart;
 
             $home_content_tpl = 'VitoopInfomgmtBundle:Resource:home.lexicon.html.twig';
         }
 
-        if ($request->isXmlHttpRequest()) {
-            $home_tpl = $home_content_tpl;
-        } else {
+        $home_tpl = $home_content_tpl;
+        if (!$request->isXmlHttpRequest()) {
             $home_tpl = 'VitoopInfomgmtBundle:Resource:home.html.twig';
-            $tpl_vars = array_merge($tpl_vars, array('homecontenttpl' => $home_content_tpl));
+            $tpl_vars['homecontenttpl'] = $home_content_tpl;
         }
 
         return $this->render($home_tpl, $tpl_vars);
@@ -476,7 +470,7 @@ class ResourceController extends ApiController
             unset($content['resource-flags']);
         }
 
-        return new Response(json_encode($content));
+        return new JsonResponse($content);
     }
 
     /**

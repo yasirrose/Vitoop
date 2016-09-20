@@ -320,6 +320,16 @@ class ResourceDataCollector
             ->getRepository('VitoopInfomgmtBundle:Tag')
             ->countAllTagsFromResource($this->res);
 
+        $tagsAddedCount = $this->rm->getEntityManager()
+            ->getRepository('VitoopInfomgmtBundle:RelResourceTag')
+            ->getCountOfAddedTags($this->vsec->getUser()->getId(), $this->res->getId());
+        $tagsRestAddedCount = (ResourceManager::RESOURCE_MAX_ALLOWED_ADDING - $tagsAddedCount);
+
+        $tagsRemovedCount = $this->rm->getEntityManager()
+            ->getRepository('VitoopInfomgmtBundle:RelResourceTag')
+            ->getCountOfRemovedTags($this->vsec->getUser()->getId(), $this->res->getId());
+        $tagsRestRemovedCount = (ResourceManager::RESOURCE_MAX_ALLOWED_REMOVING - $tagsRemovedCount);
+
         $tag_id_list_by_user = $this->rm->getEntityManager()
             ->getRepository('VitoopInfomgmtBundle:Tag')
             ->getTagIdListByUserFromResource($this->res, $this->vsec->getUser());
@@ -338,7 +348,9 @@ class ResourceDataCollector
             'fvtag' => $fv_tag,
             'infotag' => $info_tag,
             'tagtext' => $tag_text,
-            'tags' => $tags
+            'tags' => $tags,
+            'tagsRestAddedCount' => !empty($tagsRestAddedCount)?$tagsRestAddedCount:'',
+            'tagsRestRemovedCount' => !empty($tagsRestRemovedCount)?$tagsRestRemovedCount:''
         ));
     }
 
@@ -359,8 +371,8 @@ class ResourceDataCollector
 
         // @TODO Error occurs if database has more than one Mark for this user per Resource (DB-integrity.worstcase)
         $mark = $this->rm->getEntityManager()
-                         ->getRepository('VitoopInfomgmtBundle:Rating')
-                         ->getMarkFromResourceByUser($this->res, $this->vsec->getUser());
+                ->getRepository('VitoopInfomgmtBundle:Rating')
+                ->getMarkFromResourceByUser($this->res, $this->vsec->getUser());
         // Form will be shown and processed when 1.) User hasn't rated AND 2.) User is a logged in User
         if (null === $mark && !$this->vsec->isViewer()) {
             $rating = new Rating();
@@ -396,17 +408,15 @@ class ResourceDataCollector
         // sprintf('%+03d', (intval(($avg_mark * 10) ) + (intval(($avg_mark * 10) ) % 2))) . "<br>";
         // }
         // die();
+        $avg_img = '';
         if (!($avg_mark === null)) {
             $avg_mark = round($avg_mark, 2, PHP_ROUND_HALF_EVEN);
             $avg_img = 'rating_' . str_replace(array('+', '-'), array('p', 'm'), sprintf('%+03d', (intval(($avg_mark * 10)) + (intval(($avg_mark * 10)) % 2)))) . '.png';
-        } else {
-            $avg_img = '';
         }
 
+        $own_img = '';
         if (!(null === $mark)) {
             $own_img = 'rating_' . str_replace(array('+', '-'), array('p', 'm'), sprintf('%+02d', $mark) . '0.png');
-        } else {
-            $own_img = '';
         }
 
         return $this->twig->render('VitoopInfomgmtBundle:Resource:xhr.resource.rating.html.twig', array(
@@ -712,8 +722,6 @@ class ResourceDataCollector
         if (!$this->vsec->isAdmin()) {
             return '';
         }
-
-        
 
         $flags = $this->rm->getFlags($this->res);
         if (null === $flags) {
