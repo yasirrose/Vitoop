@@ -123,8 +123,7 @@ class TagRepository extends EntityRepository
     public function getAllTagsWithRelResourceTagCount()
     {
         $query = $this->createQueryBuilder('t')
-            ->select('t.id')
-            ->addSelect('t.text')
+            ->select('t.id, t.text')
             ->addSelect('count(rrt.id) as cnt')
             ->addSelect('count(prj.id) as prjc')
             ->addSelect('count(lex.id) as lexc')
@@ -133,7 +132,7 @@ class TagRepository extends EntityRepository
             ->addSelect('count(link.id) as linkc')
             ->addSelect('count(book.id) as bookc')
             ->addSelect('count(adr.id) as adrc')
-            ->innerJoin('VitoopInfomgmtBundle:RelResourceTag', 'rrt', 'WITH', 'rrt.tag = t.id')
+            ->innerJoin('VitoopInfomgmtBundle:RelResourceTag', 'rrt', 'WITH', 'rrt.tag = t.id and rrt.id = (SELECT MAX(rrt2.id) FROM Vitoop\InfomgmtBundle\Entity\RelResourceTag as rrt2 WHERE rrt2.resource = rrt.resource AND rrt2.tag = t.id and rrt2.deletedByUser IS NULL)')
             ->leftJoin('VitoopInfomgmtBundle:Project', 'prj', 'WITH', 'rrt.resource = prj.id')
             ->leftJoin('VitoopInfomgmtBundle:Lexicon', 'lex', 'WITH', 'rrt.resource = lex.id')
             ->leftJoin('VitoopInfomgmtBundle:Pdf', 'pdf', 'WITH', 'rrt.resource = pdf.id')
@@ -141,6 +140,9 @@ class TagRepository extends EntityRepository
             ->leftJoin('VitoopInfomgmtBundle:Link', 'link', 'WITH', 'rrt.resource = link.id')
             ->leftJoin('VitoopInfomgmtBundle:Address', 'adr', 'WITH', 'rrt.resource = adr.id')
             ->leftJoin('VitoopInfomgmtBundle:Book', 'book', 'WITH', 'rrt.resource = book.id')
+            ->leftJoin(Resource::class, 'r', 'WITH', 'rrt.resource = r.id')
+            ->leftJoin('r.flags', 'f')
+            ->where('f.id IS NULL')
             ->groupBy('t.id')
             ->orderBy('cnt', 'DESC')
             ->addOrderBy('t.text', 'ASC');

@@ -51,6 +51,18 @@ div#vtp-res-tags table tr:first-of-type th {
     color: #2779aa;
 }
 
+div#vtp-res-tags {
+    border-radius: 6px;
+    border: 1px solid #aed0ea;
+    padding: 5px;
+}
+
+table#vtp-res-tags tbody {
+    height: 100px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 div#vtp-res-list td, div#vtp-res-tags td {
     &:first-of-type {
         border-top-left-radius: 6px;
