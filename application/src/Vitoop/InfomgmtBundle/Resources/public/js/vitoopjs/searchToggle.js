@@ -40,7 +40,6 @@ searchToggler = (function() {
         } else {
             icon = 'ui-icon-arrowthick-1-n';
         }
-        $('#vtp-search-toggle').css('border-width', state?'1px':'2px');
         $('#vtp-search-toggle').button({
             icons: {
                 primary: icon
@@ -57,6 +56,27 @@ searchToggler = (function() {
         $('#vtp-search-toggle').off().button("destroy");
         createButton();
         showHideSearch();
+        checkButtonState();
+    }
+
+    function activateButton() {
+        if (!$("#vtp-search-toggle").hasClass('vtp-toggler-active')) {
+            $("#vtp-search-toggle").addClass('vtp-toggler-active');
+        }
+    }
+
+    function deactivateButton() {
+        if ($("#vtp-search-toggle").hasClass('vtp-toggler-active')) {
+            $("#vtp-search-toggle").removeClass('vtp-toggler-active');
+        }
+    }
+
+    function checkButtonState() {
+        if (!state || 1 == localStorage.getItem('dt-search-blue') || '' != localStorage.getItem('dt-search')) {
+            activateButton();
+            return;
+        }
+        deactivateButton();
     }
 
     function init() {
@@ -65,9 +85,9 @@ searchToggler = (function() {
         showHideSearch();
     }
 
-
     return {
         init: init,
-        getState: getState
+        getState: getState,
+        checkButtonState: checkButtonState
     };
 }) ();

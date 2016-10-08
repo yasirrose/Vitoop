@@ -122,6 +122,7 @@
         $.fn.dataTable.moment('DD.MM.YY');
         var domPrefix = (!searchToggler.getState())?('<"'):('<"ui-helper-hidden ');
         domPrefix += dtDomObject();
+        searchToggler.checkButtonState();
         var datatable = $('table#list-{{ restype }}').DataTable({
             autoWidth: false,
             stateSave: false,
@@ -152,6 +153,7 @@
         $("div.top-toolbar").append('<input id="search_blue" type="checkbox" value="1" name="search_blue"/> blau');
         $("#search_blue").change(function() {
             localStorage.setItem('dt-search-blue', this.checked?1:0);
+            searchToggler.checkButtonState();
             datatable.draw();
         });
         
@@ -164,10 +166,12 @@
                 }
                 datatable.search(getCurrentSearch());
                 datatable.page.len(getPageLength());
+                searchToggler.checkButtonState();
             })
             .on('xhr.dt', dtAjaxCallback)
             .on('search.dt', function (e) {
                 localStorage.setItem('dt-search', datatable.search());
+                searchToggler.checkButtonState();
             });
             {%if resourceId is defined %}
             datatable.on('draw.dt', function () {
@@ -198,6 +202,7 @@
             $("#search_blue").removeProp('checked');
             localStorage.setItem('dt-search', '');
             localStorage.setItem('dt-search-blue', 0);
+            searchToggler.checkButtonState();
             datatable.search('').draw();
         });
         
