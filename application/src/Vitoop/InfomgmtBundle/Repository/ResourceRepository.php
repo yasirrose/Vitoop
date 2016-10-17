@@ -182,7 +182,7 @@ class ResourceRepository extends EntityRepository
             $qb->leftJoin('rt.tag', 'th', 'WITH', 'th.text IN (:tags_highlight)')
                 ->addSelect('COUNT(DISTINCT th.text) AS HIDDEN sort_order')
                 ->addSelect('COUNT(th.text) AS HIDDEN quantity_highlight')
-                ->orderBy('sort_order', 'DESC')
+                ->addOrderBy('sort_order', 'DESC')
                 ->addOrderBy('quantity_highlight', 'DESC');
             if ($search->countTags == 0) {
                 $qb->addOrderBy('count_different', 'DESC');
@@ -190,7 +190,7 @@ class ResourceRepository extends EntityRepository
             $qb->addOrderBy('quantity_all', 'DESC')
                 ->setParameter('tags_highlight', $search->highlightTags);
         } else {
-            $qb->orderBy('count_different', 'DESC');
+            $qb->addOrderBy('count_different', 'DESC');
             $qb->addOrderBy('quantity_all', 'DESC');
         }
         $qb->addOrderBy('r.name', 'ASC');

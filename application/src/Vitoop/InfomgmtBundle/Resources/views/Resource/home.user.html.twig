@@ -16,7 +16,7 @@
                         <button ng-click="isDeleting = true" ng-disabled="isDeleting" class="ui-corner-all vtp-fh-w20 vtp-button-light">{{'label.delete'|trans}}</button>
                         <button ng-click="delete()" ng-show="isDeleting" class="ui-corner-all vtp-fh-w20 vtp-button-light">{{'label.yes'|trans}}</button>
                         <button ng-click="isDeleting = false" ng-show="isDeleting" class="ui-corner-all vtp-fh-w20 vtp-button-light">{{'label.cancel'|trans}}</button>
-                        <button ng-click="save()" ng-show="!isDeleting" ng-class="{'ui-corner-all vtp-fh-w30': toDoForm.todoText.$pristine && toDoForm.todoTitle.$pristine, 'ui-corner-all vtp-fh-w30 ui-state-need-to-save': toDoForm.todoTitle.$dirty || toDoForm.todoText.$dirty}" style="background-color: #ffffff; color: #2779aa; border: 1px solid #aed0ea; float: right; padding-bottom: 5px; padding-top: 5px">{{'label.save'|trans}}</button>
+                        <button ng-click="save()" ng-show="!isDeleting" ng-class="{'ui-corner-all vtp-fh-w30': toDoForm.$pristine, 'ui-corner-all vtp-fh-w30 ui-state-need-to-save': toDoForm.$dirty}" style="background-color: #ffffff; color: #2779aa; border: 1px solid #aed0ea; float: right; padding-bottom: 5px; padding-top: 5px">{{'label.save'|trans}}</button>
                     </div>
                 </div>
                 <div class="vtp-fh-w40" style="padding-left: 60px">
