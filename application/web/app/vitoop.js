@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('vitoop', ['ui.tinymce', 'angucomplete', 'validation.match', 'as.sortable', 'jQueryScrollbar']);
+var app = angular.module('vitoop', ['ui.tinymce', 'angucomplete', 'validation.match', 'as.sortable', 'ngScrollbars']);
 
 app.controller('MainController', function ($scope, $http, $compile) {
     $scope.content = '';
@@ -208,8 +208,14 @@ app.controller('ToDoController', function ($scope, $http, $filter, $timeout) {
     $scope.noscrollContainer = {};
     $scope.isNew = false;
     $scope.isDeleting = false;
-    $scope.jqueryScrollbarOptions = {
-        
+    $scope.config = {
+        autoHideScrollbar: false,
+        theme: 'minimal-dark',
+        advanced:{
+            updateOnContentResize: true
+        },
+        setHeight: 400,
+        scrollInertia: 0
     };
     
     $scope.tinymceOptions = {
@@ -241,8 +247,8 @@ app.controller('ToDoController', function ($scope, $http, $filter, $timeout) {
 
     $scope.$watch("user", function(){
         $http.get(vitoop.baseUrl + 'api/user/'+$scope.user.id+'/todo').success(function (data) {
-            $scope.noscrollContainer.maxHeight = 33 * $scope.user.number_of_todo_elements;
-            
+            $scope.noscrollContainer.height = 33 * $scope.user.number_of_todo_elements;
+            //$scope.updateScrollbar('setHeight', 33 * $scope.user.number_of_todo_elements);
             $timeout(function () {
                $scope.tinymceOptions.height = $scope.user.height_of_todo_list;
                $scope.$broadcast('$tinymce:refresh');

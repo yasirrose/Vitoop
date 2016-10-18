@@ -28,9 +28,9 @@
                             {{'label.created'|trans}}: <span ng-bind="to_do_item.created_at"></span> / {{'label.changed'|trans}}: <span ng-bind="to_do_item.updated_at"></span>
                         </div>
                     </div>
-                    <div class="vtp-fh-w90" id="noscroll-container" ng-style="{'max-height': noscrollContainer.maxHeight}">
-                        <div class="vtp-fh-w100 vtp-menu " id="noscroll-element" style="margin-top: 50px;  padding: 0px">
-                            <ul class="vtp-fh-w100 scrollbar-macosx" id="vtp-todo-list" as-sortable="sortableOptions" data-jquery-scrollbar="jqueryScrollbarOptions" ng-model="to_do_items" ng-style="{'max-height': noscrollContainer.maxHeight, 'overflow':'auto'}">
+                    <div class="vtp-fh-w90" id="noscroll-container" ng-scrollbars ng-scrollbars-config="config" ng-style="{'height':noscrollContainer.height}">
+                        <div class="vtp-fh-w100 vtp-menu " id="noscroll-element" style="padding: 0px">
+                            <ul class="vtp-fh-w100" id="vtp-todo-list" as-sortable="sortableOptions" ng-model="to_do_items">
                                 {% verbatim %}
                                 <li class="vtp-fh-w100" as-sortable-item ng-repeat="item in to_do_items" style="margin-top: 3px; margin-bottom: 3px;">
                                     <button as-sortable-item-handle ng-click="edit(item.id)" ng-class="{'ui-state-default ui-state-active ui-corner-all vtp-fh-w100': to_do_item.id==item.id, 'ui-state-default ui-corner-all vtp-fh-w100': to_do_item.id!=item.id}" style="height: 27px; padding-bottom: 4px; padding-top: 4px;  text-align: left; padding-left: 55px; padding-right: 55px">{{ item.title }}</button>
