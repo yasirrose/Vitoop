@@ -5,21 +5,21 @@ angular.module('ui.tinymce', [])
   .value('uiTinymceConfig', {})
   .directive('uiTinymce', ['$rootScope', '$compile', '$timeout', '$window', '$sce', 'uiTinymceConfig', function($rootScope, $compile, $timeout, $window, $sce, uiTinymceConfig) {
     uiTinymceConfig = uiTinymceConfig || {};
-    var generatedIds = 0;
     var ID_ATTR = 'ui-tinymce';
     if (uiTinymceConfig.baseUrl) {
       tinymce.baseURL = uiTinymceConfig.baseUrl;
     }
 
     return {
-      require: ['ngModel'],
+      require: ['ngModel', '^?form'],
       priority: 599,
       link: function(scope, element, attrs, ctrls) {
         if (!$window.tinymce) {
           return;
         }
 
-        var ngModel = ctrls[0];
+        var ngModel = ctrls[0],
+          form = ctrls[1] || null;
 
         var expression, options = {
           debounce: true
@@ -44,14 +44,14 @@ angular.module('ui.tinymce', [])
           } else {
             ensureInstance();
 
-            if (tinyInstance && !tinyInstance.settings.readonly) {
+            if (tinyInstance && !tinyInstance.settings.readonly && tinyInstance.getDoc()) {
               tinyInstance.getBody().setAttribute('contenteditable', true);
             }
           }
         }
 
         // generate an ID
-        attrs.$set('id', ID_ATTR + '-' + generatedIds++);
+        attrs.$set('id', ID_ATTR + '-' + (new Date().valueOf()));
 
         expression = {};
 
@@ -80,7 +80,10 @@ angular.module('ui.tinymce', [])
             ed.on('init', function() {
               ngModel.$render();
               ngModel.$setPristine();
-              ngModel.$setUntouched();
+                ngModel.$setUntouched();
+              if (form) {
+                form.$setPristine();
+              }
             });
 
             // Update model when:
@@ -134,8 +137,14 @@ angular.module('ui.tinymce', [])
           if (options.baseURL){
             tinymce.baseURL = options.baseURL;
           }
-          tinymce.init(options);
-          toggleDisable(scope.$eval(attrs.ngDisabled));
+          var maybeInitPromise = tinymce.init(options);
+          if(maybeInitPromise && typeof maybeInitPromise.then === 'function') {
+            maybeInitPromise.then(function() {
+              toggleDisable(scope.$eval(attrs.ngDisabled));
+            });
+          } else {
+            toggleDisable(scope.$eval(attrs.ngDisabled));
+          }
         });
 
         ngModel.$formatters.unshift(function(modelValue) {

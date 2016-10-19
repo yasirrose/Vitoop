@@ -205,6 +205,7 @@ app.controller('PrjController', function ($scope, $http, $filter, $timeout) {
 app.controller('ToDoController', function ($scope, $http, $filter, $timeout) {
     $scope.to_do_items = [];
     $scope.to_do_item = {};
+    $scope.etalonItem = {};
     $scope.noscrollContainer = {};
     $scope.isNew = false;
     $scope.isDeleting = false;
@@ -223,6 +224,7 @@ app.controller('ToDoController', function ($scope, $http, $filter, $timeout) {
         height: 550,
         plugins: 'textcolor link media resourceurl',
         menubar: false,
+        debounce: false,
         skin : "vitoop",
         style_formats: [
             {title: 'p', block: 'p'},
@@ -234,7 +236,17 @@ app.controller('ToDoController', function ($scope, $http, $filter, $timeout) {
             {title: 'h6', block: 'h6'}
         ],
         toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor',
-        
+        setup: function(e) {
+            e.on('Change', function () {
+                if (($scope.etalonItem && !$scope.etalonItem.id) || 
+                 ($scope.etalonItem && $scope.etalonItem.id &&  $scope.etalonItem.id != $scope.to_do_item.id)) {
+                    angular.copy($scope.to_do_item, $scope.etalonItem);
+                }
+                if (($scope.etalonItem.id == $scope.to_do_item.id) && $scope.to_do_item.text != $scope.etalonItem.text) {
+                    $scope.toDoForm.$setDirty();
+                }
+            });
+        }
     };
 
     $scope.sortableOptions = {
@@ -248,7 +260,7 @@ app.controller('ToDoController', function ($scope, $http, $filter, $timeout) {
     $scope.$watch("user", function(){
         $http.get(vitoop.baseUrl + 'api/user/'+$scope.user.id+'/todo').success(function (data) {
             $scope.noscrollContainer.height = 33 * $scope.user.number_of_todo_elements;
-            //$scope.updateScrollbar('setHeight', 33 * $scope.user.number_of_todo_elements);
+            
             $timeout(function () {
                $scope.tinymceOptions.height = $scope.user.height_of_todo_list;
                $scope.$broadcast('$tinymce:refresh');
@@ -281,7 +293,7 @@ app.controller('ToDoController', function ($scope, $http, $filter, $timeout) {
         if ($scope.to_do_items.length == 0) {
             $scope.newItem();
         } else {
-            angular.copy($scope.to_do_items[0], $scope.to_do_item);
+            angular.copy($scope.to_do_items[0], $scope.to_do_item);           
             $scope.isDeleting = false;
         }
     };
@@ -314,5 +326,5 @@ app.controller('ToDoController', function ($scope, $http, $filter, $timeout) {
             });
         }
         $scope.toDoForm.$setPristine();
-    }
+    };
 });
