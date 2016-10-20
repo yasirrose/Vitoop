@@ -237,10 +237,14 @@ app.controller('ToDoController', function ($scope, $http, $filter, $timeout) {
         ],
         toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor',
         setup: function(e) {
+            e.on('init', function () {
+                $scope.toDoForm.$setPristine();
+            }),
             e.on('Change', function () {
                 if (($scope.etalonItem && !$scope.etalonItem.id) || 
                  ($scope.etalonItem && $scope.etalonItem.id &&  $scope.etalonItem.id != $scope.to_do_item.id)) {
                     angular.copy($scope.to_do_item, $scope.etalonItem);
+                    return;
                 }
                 if (($scope.etalonItem.id == $scope.to_do_item.id) && $scope.to_do_item.text != $scope.etalonItem.text) {
                     $scope.toDoForm.$setDirty();
