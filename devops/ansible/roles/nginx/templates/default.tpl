@@ -6,6 +6,9 @@ server {
 
     server_name {{ nginx.servername }};
 
+    fastcgi_buffers 16 32k;
+    fastcgi_buffer_size 32k;
+    
     location / {
         # try to serve file directly, fallback to app.php
         try_files $uri /app.php$is_args$args;

@@ -2,16 +2,28 @@
 
 namespace Vitoop\InfomgmtBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
-use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
+use Doctrine\ORM\EntityManagerInterface;
+use Vitoop\InfomgmtBundle\Entity\Invitation;
 
 /**
  * InvitationRepository
  */
-class InvitationRepository extends ResourceRepository
+class InvitationRepository
 {
-    public function getResourcesQuery(SearchResource $search)
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        
+        $this->entityManager = $entityManager;
+    }
+
+    public function add(Invitation $invitation)
+    {
+        $this->entityManager->persist($invitation);
+    }
+
+    public function findOneByEmail($email)
+    {
+        return $this->entityManager->getRepository(Invitation::class)->findOneByEmail($email);
     }
 }

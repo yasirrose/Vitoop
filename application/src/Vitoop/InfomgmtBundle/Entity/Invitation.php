@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="vitoop_user_invitation")
- * @ORM\Entity(repositoryClass="Vitoop\InfomgmtBundle\Repository\InvitationRepository")
+ * @ORM\Entity()
  */
 class Invitation
 {
@@ -49,7 +49,9 @@ class Invitation
 
     public function __construct()
     {
+        $this->subject = 'Einladung zum Informationsportal VitooP';
         $this->secret = md5(bin2hex(mcrypt_create_iv(22, MCRYPT_DEV_URANDOM)));
+        $this->updateUntil();
     }
 
     public function __toString()
@@ -132,5 +134,11 @@ class Invitation
     public function getUntil()
     {
         return $this->until;
+    }
+
+    public function updateUntil()
+    {
+        $this->until = new \DateTime();
+        $this->until->add(new \DateInterval('P3D'));
     }
 }

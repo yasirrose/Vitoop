@@ -315,28 +315,30 @@ resourceSearch = (function () {
             });
 
             var seacrhByTag = $('#vtp-search-bytags-taglist');
-            seacrhByTag.autocomplete({
-                source: vitoop.baseUrl + (['tag', 'suggest'].join('/')) + '?extended=1&ignore='+arr_taglist_ignore.join(),
-                minLength: 2,
-                autoFocus: true,
-                select: function (event, ui) {
-                    addTag(event, ui);
-                    seacrhByTag.autocomplete('option', 'source',vitoop.baseUrl + (['tag', 'suggest'].join('/')) + '?extended=1&ignore='+arr_taglist.join());
-                    
-                },
-                response: function (e, ui) {
-                    // filter already selected tag ui.content
-                    for (var i = 0; i < ui.content.length; i += 1) {
-                        if ((arr_taglist.indexOf(ui.content[i].value) > -1)||(arr_taglist_ignore.indexOf(ui.content[i].value) > -1)) {
-                            ui.content.splice(i, 1);
-                            i -= 1;
+            if (seacrhByTag) {
+                seacrhByTag.autocomplete({
+                    source: vitoop.baseUrl + (['tag', 'suggest'].join('/')) + '?extended=1&ignore='+arr_taglist_ignore.join(),
+                    minLength: 2,
+                    autoFocus: true,
+                    select: function (event, ui) {
+                        addTag(event, ui);
+                        seacrhByTag.autocomplete('option', 'source',vitoop.baseUrl + (['tag', 'suggest'].join('/')) + '?extended=1&ignore='+arr_taglist.join());
+
+                    },
+                    response: function (e, ui) {
+                        // filter already selected tag ui.content
+                        for (var i = 0; i < ui.content.length; i += 1) {
+                            if ((arr_taglist.indexOf(ui.content[i].value) > -1)||(arr_taglist_ignore.indexOf(ui.content[i].value) > -1)) {
+                                ui.content.splice(i, 1);
+                                i -= 1;
+                            }
                         }
-                    }
-                }}).data("ui-autocomplete")._renderItem = function(ul, item) {
-                    item.label = item.text;
-                    var span = "<div class='vtp-search-bytags-item'>"+item.text + "</div><span>"+item.cnt+"</span>";
-                    return $("<li></li>").append(span).appendTo(ul);
-                };;
+                    }}).data("ui-autocomplete")._renderItem = function(ul, item) {
+                        item.label = item.text;
+                        var span = "<div class='vtp-search-bytags-item'>"+item.text + "</div><span>"+item.cnt+"</span>";
+                        return $("<li></li>").append(span).appendTo(ul);
+                    };
+            }
 
             $('#vtp-icon-clear-taglistbox').button({
                 icons: {

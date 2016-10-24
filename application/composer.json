@@ -9,9 +9,9 @@
     },
     "require": {
         "php": ">=7.0",
-        "symfony/symfony": "3.0.4",
-        "symfony/console": "3.0.4",
-        "symfony/intl": "3.0.4",
+        "symfony/symfony": "3.0.9",
+        "symfony/console": "3.0.9",
+        "symfony/intl": "3.0.9",
         "symfony/assetic-bundle": "2.8.*",
         "symfony/swiftmailer-bundle": "2.3.*",
         "symfony/monolog-bundle": "2.10.*",

@@ -46,20 +46,7 @@ class InvitationController extends ApiController
         }
         $link = '';
         $info = '';
-        $mail = <<<'EOT'
-Hallo!
-
-Hiermit bist Du herzlich zu vitoop eingeladen.
-
-Du kannst Dich registrieren unter: {LINK}
-(Beachte bitte, dass dieser Link nur gilt bis zum {UNTIL})
-
-.. ich w?nsche Dir viel Spa? beim St?bern, Zusammenstellen und Eintragen von neuen Datens?tzen.
-
-Gru?
-David Rogalski
-EOT;
-
+    
         $invitation = new Invitation();
         $form = $this->createForm(InvitationNewType::class, $invitation, array(
             'action' => $this->generateUrl('new_invitation'),
@@ -69,41 +56,41 @@ EOT;
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
             if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $existing_invitation = $this->getDoctrine()
-                    ->getManager()
-                    ->getRepository('VitoopInfomgmtBundle:Invitation')
-                    ->findOneBy(array('email' => $invitation->getEmail()));
-                if (is_null($existing_invitation)) {
-                    $invitation->setSubject('Einladung zum Informationsportal VitooP');
-                } else {
+                $existing_invitation = $this->get('vitoop.repository.invitation')
+                    ->findOneByEmail($invitation->getEmail());
+                if ($existing_invitation) {
                     $invitation = $existing_invitation;
+                    $invitation->updateUntil();
                 }
-                $until = new \DateTime();
-                $until = $until->add(new \DateInterval('P3D'));
-                $invitation->setUntil($until);
+                $invitation->updateUntil();
 
-                $link = $this->generateUrl('_register', array('secret' => $invitation->getSecret()), UrlGeneratorInterface::ABSOLUTE_URL);
+                $link = $this->generateUrl(
+                                '_register',
+                                ['secret' => $invitation->getSecret()],
+                                UrlGeneratorInterface::ABSOLUTE_URL
+                            );
+                $mailBody = $this->renderView(
+                    'email/invitation.html.twig',
+                    [
+                        'link' => $link,
+                        'until' => $invitation->getUntil()
+                    ]
+                );
+                $invitation->setMail($mailBody);
 
-                $mail = str_replace('{LINK}', $link, $mail);
-                $mail = str_replace('{UNTIL}', sprintf('%s um %s Uhr', $until->format('d.m.Y'), $until->format('H:i:s')), $mail);
-                $invitation->setMail($mail);
+                $this->get('vitoop.repository.invitation')->add($invitation);
+                $this->get('doctrine.orm.entity_manager')->flush();
 
-
-                $em->merge($invitation);
-                $em->flush();
-
-                $message = \Swift_Message::newInstance()
-                    ->setSubject($invitation->getSubject())
-                    ->setFrom(array('einladung@vitoop.org' => 'David Rogalski'))
-                    ->setTo($invitation->getEmail())
-                    ->setBody($mail);
-                $this->get('mailer')->send($message);
+                $this->get('vitoop.email_sender')->sendInvite($invitation);
+                
                 $info = 'Dir wurde ein Einladungslink geschickt mit dem Du Dich registrieren kannst.';
             }
         }
-        $fv = $form->createView();
 
-        return array('fv' => $fv, 'link' => $link, 'info' => $info);
+        return [
+            'fv' => $form->createView(),
+            'link' => $link,
+            'info' => $info
+        ];
     }
 }

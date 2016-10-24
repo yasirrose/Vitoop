@@ -4,6 +4,7 @@
     {{ form_start(fv, {'attr': {'id': 'vtp-form-invite', 'novalidate': 'novalidate' }}) }}
     <fieldset class="ui-corner-all">
         <legend>Einladung</legend>
+        {{ form_errors(fv) }}
         {% if info is defined and info is not empty %}
             <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all">
                 <span class="vtp-icon ui-icon ui-icon-info"></span>

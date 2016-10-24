@@ -23,6 +23,8 @@ class InvitationNewType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array('data_class' => 'Vitoop\InfomgmtBundle\Entity\Invitation'));
+        $resolver->setDefaults(array(
+            'data_class' => 'Vitoop\InfomgmtBundle\Entity\Invitation',
+        ));
     }
 }

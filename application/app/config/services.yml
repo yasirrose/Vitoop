@@ -211,3 +211,11 @@ services:
 
     vitoop.url_checker:
         class: Vitoop\InfomgmtBundle\Service\UrlChecker
+    
+    vitoop.email_sender:
+        class: Vitoop\InfomgmtBundle\Service\EmailSender
+        arguments: ["@mailer", "@templating"]
+
+    vitoop.repository.invitation:
+        class: Vitoop\InfomgmtBundle\Repository\InvitationRepository
+        arguments: ["@doctrine.orm.entity_manager"]
