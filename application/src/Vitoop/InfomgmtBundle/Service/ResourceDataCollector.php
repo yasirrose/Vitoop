@@ -435,8 +435,7 @@ class ResourceDataCollector
         $info_remark = '';
         $fv_remark = null;
         $tpl_vars = array();
-        $needToAccept = false;
-
+        
         $remarkLast = $this->rm->getEntityManager()
             ->getRepository('VitoopInfomgmtBundle:Remark')
             ->getLatestRemark($this->res);
@@ -444,12 +443,6 @@ class ResourceDataCollector
         if (!is_null($remarkLast)) {
             $remark->setText($remarkLast->getText());
             $remark->setLocked($remarkLast->getLocked());
-        }
-
-        if (is_null($this->rm->getEntityManager()
-            ->getRepository('VitoopInfomgmtBundle:Remark')
-            ->getRemarkByUser($this->res, $this->vsec->getUser()))) {
-            $needToAccept = true;
         }
 
         $show_form = false;
@@ -501,7 +494,7 @@ class ResourceDataCollector
         $tpl_vars = array_merge($tpl_vars, array(
             'fvremark' => $fv_remark,
             'inforemark' => $info_remark,
-            'needToAccept' => $needToAccept
+            'needToAccept' => true
         ));
 
         $remarks = $this->rm->getEntityManager()

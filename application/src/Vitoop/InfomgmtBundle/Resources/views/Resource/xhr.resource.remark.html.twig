@@ -11,7 +11,7 @@
     {% if showform %}
         <div id="vtp-remark-sheet-edit">
             {{ form_errors(fvremark.text) }}
-            {{ form_widget(fvremark.text, {'attr': {'placeholder': 'Hier steht im Moment noch nicht wirklich was drin. Wenn Du Lust hast, schreib einen kurzen Text, der den Inhalt des Datensatz wiedergibt, sodass andere sich daran orientieren können. Alles was Du hier reinschreibst steht unter der Creative Commons Lizenz (BY-SA). Solange niemand den Text abschließt, können alle die gemachte Anmerkungen ändern.'} }) }}
+            {{ form_widget(fvremark.text, {'attr': {'placeholder': 'Hier steht im Moment noch nicht wirklich was drin. Wenn Du Lust hast, schreib einen kurzen Text, der den Inhalt des Datensatzes wiedergibt, sodass andere sich daran orientieren können. Texte Dritter dürfen nicht reinkopiert werden! Alles was Du hier reinschreibst, gibst du für alle frei. Dein Text steht unter der Creative Commons Lizenz BY-SA. Solange niemand den Text abschließt, können alle die gemachten Anmerkungen ändern.'} }) }}
         </div>
     {% else %}
         <fieldset class="ui-corner-all">
@@ -24,7 +24,7 @@
         <div style="text-align: right; color: #2779aa; margin: 15px 0; display: none" class="remark-agreement">
             <p>
             <input type="checkbox" id="remark-accepted" style="-webkit-appearance: checkbox">
-            Ich stelle den von mir eingegebenen Text zu diesem Datensatz unter die <a href="https://creativecommons.org/licenses/by-sa/3.0/de/" target="_blank">Creative Commons Lizenz (BY-SA)</a>.
+            Ich stelle den von mir eingegebenen Text zu diesem Datensatz unter die <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.de" target="_blank">Creative Commons Lizenz (BY-SA)</a>.
             </p>  
         </div>
     {% endif %}
