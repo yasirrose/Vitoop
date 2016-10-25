@@ -199,16 +199,20 @@
                         <div id="resource-help" style="display:none">
                             <fieldset class="ui-corner-all">
                                 <legend>Wo wird welcher Datensatz eingetragen</legend>
-                                <div style="float:right">
-                                    <input type="button" style="{%if app.user and app.user.getIsShowHelp()%}display:none{%endif%}" class="ui-button ui-widget ui-corner-all ui-state-default" id="vtp-bigclosehelp" value="Datensatz eingeben"/>
-                                </div>
-                                <div>Text Text Text Text Text Text Text Text Text Text</div>
                                 <div style="text-align: right; color: #2779aa; margin: 15px 5px 5px;">
                                     <p>
                                         <input type="checkbox" name="user_show_help" {%if app.user and app.user.getIsShowHelp()%}checked{%endif%} id="user_show_help" style="-webkit-appearance: checkbox;">
                                         <label for="user_show_help">Hinweis automatisch anzeigen</label>
                                     </p>
                                 </div>
+                                <div style="color: #3d80b3">
+                                    <p><strong>Hier kannst Du einen neuen Datensatz eintragen (Klick auf den oberen Knopf). Damit die Aufteilung zwischen Pdf, Textlink usw. Sinn macht, ist es wichtig, dass die Datensätze in der richtigen Kategorie eingetragen werden:</strong></p>
+                                    <p><strong>Pdf:</strong> Hier kommen nur Pdfs rein mit der URL-Endung ".pdf"</p>
+                                    <p><strong>Texlink:</strong> Alle Seiten bei denen es hauptsächlich was zum Lesen gibt, außer Pdfs.</p>
+                                    <p><strong>Link:</strong> Startseiten einer Internetpräsenz und Seiten, die den eigentlichen Inhalt nicht selbst anzeigen, sondern eine große Anzahl von Links enthalten kommen hier rein.</p>
+                                    <p>Projekt, Lexikon und Buch ist selbsterklärend. Wenn ein Datensatz falsch eingetragen ist, wird er möglicherweise gelöscht.</p>
+                                </div>
+                                
                             </fieldset>
                         </div>
                     </div>
