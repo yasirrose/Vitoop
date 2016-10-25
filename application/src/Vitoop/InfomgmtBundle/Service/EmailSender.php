@@ -42,6 +42,6 @@ class EmailSender
             ->setSubject($subject)
             ->setFrom(array('einladung@vitoop.org' => 'David Rogalski'))
             ->setTo($emailTo)
-            ->setBody($body);
+            ->setBody($body, 'text/html');
     }
 }
