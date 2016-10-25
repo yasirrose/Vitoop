@@ -30,7 +30,7 @@ class EmailSender
         $message = $this->createMessage(
             $invitation->getSubject(),
             $invitation->getEmail(),
-            $invitation->getEmail()
+            $invitation->getMail()
         );
 
         return $this->mailer->send($message);
