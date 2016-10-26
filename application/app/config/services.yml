@@ -216,6 +216,22 @@ services:
         class: Vitoop\InfomgmtBundle\Service\EmailSender
         arguments: ["@mailer", "@templating"]
 
+    vitoop.repository.user:
+        class: Vitoop\InfomgmtBundle\Repository\UserRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - Vitoop\InfomgmtBundle\Entity\User
+
     vitoop.repository.invitation:
         class: Vitoop\InfomgmtBundle\Repository\InvitationRepository
         arguments: ["@doctrine.orm.entity_manager"]
+
+    vitooop.validator.user_unique:
+        class: Vitoop\InfomgmtBundle\Validator\Constraints\User\UserUniqueValidator
+        arguments: ["@vitoop.repository.user"]
+        tags:
+            - { name: validator.constraint_validator }
+
+    vitoop.password_encoder.user:
+        class: Vitoop\InfomgmtBundle\Service\User\UserPasswordEncoder
+        arguments: ["@security.encoder_factory"]

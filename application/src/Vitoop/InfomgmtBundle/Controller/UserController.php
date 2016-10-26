@@ -15,6 +15,7 @@ use Vitoop\InfomgmtBundle\Entity\User;
 use Vitoop\InfomgmtBundle\Entity\UserAgreement;
 use Vitoop\InfomgmtBundle\Form\Type\UserType;
 use Vitoop\InfomgmtBundle\Form\Type\InvitationType;
+use Vitoop\InfomgmtBundle\DTO\User\NewUserDTO;
 use JMS\Serializer\DeserializationContext;
 use Symfony\Component\Form\Exception;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -117,17 +118,13 @@ class UserController extends ApiController
             throw new AccessDeniedException();
         }
 
-        $now = new \DateTime();
-        if ($now > $invitation->getUntil()) {
+        if (!$invitation->isActual()){
             return array(
                 'fv' => null
             );
         }
 
-        $user = new User();
-        $user->setIsAgreedWithTerms(true);
-        $user->setEmail(($invitation->getEmail()));
-        $form = $this->createForm(UserType::class, $user, array(
+        $form = $this->createForm(UserType::class, new NewUserDTO($invitation->getEmail()), array(
             'action' => $this->generateUrl('_register', array('secret' => $secret)),
             'method' => 'POST'
         ));
@@ -136,43 +133,20 @@ class UserController extends ApiController
             $form->handleRequest($request);
 
             if ($form->isValid()) {
-                try {
-                    $factory = $this->get('security.encoder_factory');
-                    $encoder = $factory->getEncoder($user);
-                    $password = $encoder->encodePassword($user->getPassword(), $user->getSalt());
-                    $user->setPassword($password);
-                    $em = $this->getDoctrine()
-                               ->getManager();
-                    $em->persist($user);
-                    $em->remove($invitation);
-                    $em->flush();
-                    $this->authenticateUser($user);
+                $user = User::create($form->getData(), $this->get('vitoop.password_encoder.user'));
+                $this->get('vitoop.repository.user')->add($user);
+                $this->get('vitoop.repository.invitation')->remove($invitation);
+                $this->get('doctrine.orm.entity_manager')->flush();
+                
+                $this->authenticateUser($user);
+                
+                return $this->redirect($this->generateUrl('_home'));
 
-                    return $this->redirect($this->generateUrl('_home'));
-                } catch (\Exception $e) {
-                    $users = $this->getDoctrine()
-                            ->getRepository('VitoopInfomgmtBundle:User')
-                            ->usernameExistsOrEmailExists($user->getUsername(), $user->getEmail());
-                    foreach ($users as $_user) {
-                        if ($_user->getUsername() === $user->getUsername()) {
-                            $form_error = new FormError(sprintf('Der Username %s existiert schon. Bitte wähle einen anderen.', $user->getUsername()));
-                            $form->get('username')
-                                 ->addError($form_error);
-                        }
-                        if ($_user->getEmail() === $user->getEmail()) {
-                            $form_error = new FormError(sprintf('Die eMail %s wird schon verwendet. Bist Du schon angemeldet?', $user->getEmail()));
-                            $form->get('email')
-                                 ->addError($form_error);
-                        }
-                   }
-                }
             }
         }
 
-        $fv = $form->createView();
-
         return array(
-            'fv' => $fv
+            'fv' => $form->createView()
         );
     }
 

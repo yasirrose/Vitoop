@@ -3,15 +3,28 @@
 namespace Vitoop\InfomgmtBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Vitoop\InfomgmtBundle\Entity\User;
 
 class UserRepository extends EntityRepository
 {
-    public function usernameExistsOrEmailExists($username, $email)
+    /**
+     * @param User $user
+     */
+    public function add(User $user)
     {
-        return $this->getEntityManager()
-                    ->createQuery('SELECT u FROM VitoopInfomgmtBundle:User u WHERE u.username=:arg_username OR u.email=:arg_email')
-                    ->setparameters(array('arg_username' => $username, 'arg_email' => $email))
-                    ->getResult();
+        $this->getEntityManager()->persist($user);
+    }
+
+    public function findOneByUsernameOrEmail($username, $email)
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.username=:username OR u.email=:email')
+            ->setParameters([
+                'username' => $username,
+                'email' => $email
+            ])
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     public function getNames($like, $currentUserID, $ownerID)

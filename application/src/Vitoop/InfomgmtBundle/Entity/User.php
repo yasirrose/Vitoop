@@ -4,10 +4,11 @@ namespace Vitoop\InfomgmtBundle\Entity;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Vitoop\InfomgmtBundle\Entity\UserConfig;
 use Vitoop\InfomgmtBundle\Entity\UserData;
+use Vitoop\InfomgmtBundle\Entity\User\PasswordEncoderInterface;
 use Vitoop\InfomgmtBundle\DTO\GetDTOInterface;
+use Vitoop\InfomgmtBundle\DTO\User\NewUserDTO;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
-
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation as Serializer;
@@ -172,6 +173,19 @@ class User implements EquatableInterface, AdvancedUserInterface, \Serializable, 
         $this->deleted_rel_resource_resources = new ArrayCollection();
         $this->rel_resource_resources = new ArrayCollection();
     }
+
+    public static function create(NewUserDTO $dto, PasswordEncoderInterface $encoder)
+    {
+        $user = new static();
+        $user->email = $dto->email;
+        $user->username = $dto->username;
+        $user->password = $encoder->encode($dto->password, $user->salt);
+        $user->isAgreedWithTerms = true;
+        $user->isShowHelp = true;
+
+        return $user;
+    }
+
 
     public function __toString()
     {

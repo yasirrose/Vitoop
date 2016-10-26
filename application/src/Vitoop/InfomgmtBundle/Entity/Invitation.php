@@ -141,4 +141,9 @@ class Invitation
         $this->until = new \DateTime();
         $this->until->add(new \DateInterval('P3D'));
     }
+
+    public function isActual()
+    {
+        return (new \DateTime() <= $this->until);
+    }
 }

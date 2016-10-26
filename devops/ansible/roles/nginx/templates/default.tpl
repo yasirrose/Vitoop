@@ -6,8 +6,13 @@ server {
 
     server_name {{ nginx.servername }};
 
-    fastcgi_buffers 16 32k;
-    fastcgi_buffer_size 32k;
+    fastcgi_buffers 16 512k; 
+    fastcgi_buffer_size 512k;
+    
+    proxy_buffering on;
+    proxy_buffer_size 128k;
+    proxy_buffers 4 256k;
+    proxy_busy_buffers_size 256k;
     
     location / {
         # try to serve file directly, fallback to app.php

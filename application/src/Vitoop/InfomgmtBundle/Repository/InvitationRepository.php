@@ -22,6 +22,11 @@ class InvitationRepository
         $this->entityManager->persist($invitation);
     }
 
+    public function remove(Invitation $invitation)
+    {
+        $this->entityManager->remove($invitation);
+    }
+
     public function findOneByEmail($email)
     {
         return $this->entityManager->getRepository(Invitation::class)->findOneByEmail($email);
