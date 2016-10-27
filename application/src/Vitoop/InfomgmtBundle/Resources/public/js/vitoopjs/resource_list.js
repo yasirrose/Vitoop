@@ -46,10 +46,10 @@ resourceList = (function () {
                     succ = [insertResourceList];
                 } else if ($(e.target).hasClass('vtp-resmenu-homelink')) {
                     if ($(e.target).hasClass('vtp-resmenu-homelink-home') && $('#vtp-nav .vtp-nav-active').hasClass('vtp-resmenu-reslink')) {
-                        $('#vtp-search-bytags-form, #vtp-search-toggle').hide('explode', 'slow');
+                        $('#vtp-search-bytags-form, #vtp-search-toggle').hide('fade', 'slow');
                         resourceSearch.maintainTaglistbox(true);
                     } else if ($(e.target).hasClass('vtp-resmenu-homelink') && $('#vtp-nav .vtp-nav-active').hasClass('vtp-resmenu-reslink')) {
-                        $('#vtp-search-toggle').hide('explode', 'slow');
+                        $('#vtp-search-toggle').hide('fade', 'slow');
                     }
                     $('#vtp-nav .vtp-nav-active').removeClass('vtp-nav-active ui-state-active');
                     $(e.target).addClass('vtp-nav-active ui-state-active');

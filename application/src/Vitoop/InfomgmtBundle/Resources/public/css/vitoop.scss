@@ -160,7 +160,8 @@ textarea[disabled='disabled'] {
 }
 
 input, select, textarea {
-    border: 2px solid #aed0ea;
+    border: 1px solid #aed0ea;
+    height: 24px;
     border-radius: 6px;
     padding: 1px 1px 1px 2px;
     background: #ffffff;
@@ -425,7 +426,7 @@ span.vtp-lexiconbox-cntres {
 }
 
 .vtp-fh-middle {
-    padding-top: 2px;
+    padding-top: 3px;
     padding-bottom: 2px;
 }
 
@@ -1123,7 +1124,7 @@ span.vtp-icon-active {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfe7f7', endColorstr='#E5F1FA',GradientType=0 ); /* IE6-9 */
     color: #2779aa;
     margin-top: 2px;
-    padding: 7px;
+    padding: 7px 18px 7px 7px;
 }
 
 a.vtp-homelink {
@@ -1307,4 +1308,8 @@ td.vtp-blue.ui-state-active {
 
 #search_blue, .valid-checkbox {
     -webkit-appearance: checkbox;
+}
+
+#div-confirm-tagging {
+    color: #3d80b3;
 }
