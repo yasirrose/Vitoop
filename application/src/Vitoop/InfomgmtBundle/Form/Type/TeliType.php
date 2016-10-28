@@ -5,6 +5,7 @@ use Vitoop\InfomgmtBundle\Form\DataTransformer\EmptyStringToNullTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TeliType extends AbstractType
 {
@@ -30,5 +31,15 @@ class TeliType extends AbstractType
     public function getBlockPrefix()
     {
         return 'teli';
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'validation_groups' => [
+                'Default',
+                'teli'
+            ]
+        ]);
     }
 }

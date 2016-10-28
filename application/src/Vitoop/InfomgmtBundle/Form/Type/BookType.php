@@ -42,4 +42,14 @@ class BookType extends AbstractType
     {
         return 'book';
     }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'validation_groups' => [
+                'Default',
+                'book'
+            ]
+        ]);
+    }
 }

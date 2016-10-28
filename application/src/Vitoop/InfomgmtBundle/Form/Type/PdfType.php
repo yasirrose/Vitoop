@@ -34,4 +34,14 @@ class PdfType extends AbstractType
     {
         return 'pdf';
     }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'validation_groups' => [
+                'Default',
+                'pdf'
+            ]
+        ]);
+    }
 }

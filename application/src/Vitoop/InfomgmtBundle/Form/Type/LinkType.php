@@ -5,6 +5,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class LinkType extends AbstractType
 {
@@ -24,5 +25,15 @@ class LinkType extends AbstractType
     public function getBlockPrefix()
     {
         return 'link';
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'validation_groups' => [
+                'Default',
+                'link'
+            ]
+        ]);
     }
 }
