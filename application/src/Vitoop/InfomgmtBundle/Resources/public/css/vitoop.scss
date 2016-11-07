@@ -683,6 +683,10 @@ span.vtp-icon {
     margin: 5em auto 5em;
 }
 
+.login-container input {
+    height: 20px;
+}
+
 #vtp-login {
     border: 1px solid #aed0ea;
     background-color: #deedf7;
@@ -1186,7 +1190,7 @@ form#form-tag {
 }
 
 .created-info-book {
-    padding-left: 64px;
+    padding-left: 65px;
 }
 
 .created-info-project {
@@ -1312,4 +1316,8 @@ td.vtp-blue.ui-state-active {
 
 #div-confirm-tagging {
     color: #3d80b3;
+}
+
+#prj_description {
+    height: 115px;
 }

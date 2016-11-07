@@ -53,6 +53,7 @@ class ResourceDataCollector
     protected $res_type;
 
     protected $initialized;
+    protected $isValid;
 
     protected $method;
 
@@ -78,6 +79,7 @@ class ResourceDataCollector
         $this->formCreator = $formCreator;
 
         $this->initialized = false;
+        $this->isNewValid = true;
     }
 
     public function prepare($res_type, Request $request)
@@ -197,7 +199,8 @@ class ResourceDataCollector
         ));
         if ($this->handleData) {
             $formData->handleRequest($this->request);
-            if ($formData->isValid()) {
+            $this->isNewValid = $formData->isValid();
+            if ($this->isNewValid) {
                 try {
                     $class = ResourceFactory::getClassByType($res_type);
                     $newResource = $class::createFromResourceDTO($dto);
@@ -356,7 +359,11 @@ class ResourceDataCollector
 
     public function getMetadata()
     {
-        return array('id' => $this->initialized ? $this->res->getId() : 'new', 'type' => $this->res_type);
+        return [
+            'id' => $this->initialized ? $this->res->getId() : 'new',
+            'type' => $this->res_type,
+            'isNewValid' => $this->isNewValid
+        ];
     }
 
     public function getRating()

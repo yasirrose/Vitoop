@@ -17,7 +17,9 @@ resourceDetail = (function () {
         arr_tr_res_attr_id = {},
 
         refresh_list = false,
-        
+
+        isShowRating = false,
+
         uifyContainer = function (container_name) {
             var action_icon_map;
             
@@ -229,8 +231,8 @@ resourceDetail = (function () {
                     if (0 === $('#vtp-res-dialog-tabs').tabs('option', 'active')) {
                         $('#vtp-rating-panel').toggle('blind', 'slow');
                     } else {
+                        isShowRating = true;
                         $('#vtp-res-dialog-tabs').tabs('option', 'active', 0);
-                        $('#vtp-rating-panel').show('blind', 'slow');
                     }
                 });
                 // and finally the toggle button for slider or dropdown
@@ -374,6 +376,7 @@ resourceDetail = (function () {
                 // TinyMCE
                 var buttonSave = $('#remark_save');
                 var remarkForm = $('#form-remark');
+                var remarkBox = $('#vtp-remark-box');
                 var changeClassOfButton = function() {
                   if (tinyMCE.activeEditor && tinyMCE.activeEditor.isDirty() && (($('#remark-accepted').length == 0) || ($('#remark-accepted').prop('checked')))) {
                       buttonSave.addClass('ui-state-need-to-save');
@@ -381,7 +384,7 @@ resourceDetail = (function () {
                       buttonSave.removeClass('ui-state-need-to-save');
                   }
                 };
-
+                
                 if ($('#remark-accepted').length) {
                     $('#remark-accepted').on('change', changeClassOfButton);
                 }
@@ -421,6 +424,9 @@ resourceDetail = (function () {
                     ],
                     toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink',
                     setup: function (editor) {
+                        editor.on('init', function (e) {
+                            remarkBox.show();
+                        }),
                         editor.on('change', function (e) {
                             $('.remark-agreement').show();
                         });
@@ -480,6 +486,7 @@ resourceDetail = (function () {
             if ('resource-remark_private' == container_name) {
                 // TinyMCE
                 var buttonSave = $('#remark_private_save');
+                var remarkBox = $('#vtp-remark-private-box');
                 var changeClassOfButton = function() {
                     if (!tinyMCE.activeEditor.isDirty()) {
                         buttonSave.removeClass('ui-state-need-to-save');
@@ -512,7 +519,12 @@ resourceDetail = (function () {
                         {title: 'h5', block: 'h5'},
                         {title: 'h6', block: 'h6'}
                     ],
-                    toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink'
+                    toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink',
+                    setup: function (editor) {
+                        editor.on('init', function (e) {
+                            remarkBox.show();
+                        });
+                    }
                 });
 
                 setTimeout(setIntervalForText, 2000);
@@ -697,6 +709,9 @@ resourceDetail = (function () {
         resetTinyMce = function () {
             tinymce.execCommand('mceRemoveEditor', true, "remark_text");
             tinymce.execCommand('mceRemoveEditor', true, "remark_private_text");
+
+            $('#vtp-remark-box').hide();
+            $('#vtp-remark-private-box').hide();
         },
 
         loadTab = function (event, ui) {
@@ -759,6 +774,9 @@ resourceDetail = (function () {
             var isNewResource = false;
             if ('new' == res_id) {
                 isNewResource = true;
+                if (responseJSON['resource-metadata'] && !responseJSON['resource-metadata'].isNewValid) {
+                    isNewResource = false;
+                }
                 // Leave the "NEW-State" when the new form-id is present in responseJSON['resource-title']
                 res_id = responseJSON['resource-metadata'].id;
                 if (res_id !== 'new') {
@@ -779,6 +797,12 @@ resourceDetail = (function () {
             $('span.ui-selectmenu-button').removeAttr('tabIndex');
             if (vitoop.isShowHelp == true && isNewResource) {
                 $('#vtp-detail-help').click();
+            }
+            
+            //show rating tabs if need
+            if (isShowRating) {
+                isShowRating = false;
+                $('#vtp-rating-panel').show('blind', 'slow');
             }
         },
 

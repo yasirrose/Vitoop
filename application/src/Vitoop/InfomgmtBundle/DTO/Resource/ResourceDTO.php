@@ -25,7 +25,7 @@ class ResourceDTO
 
     /**
      * @Assert\NotBlank(
-     *      message = "Bitte gebe eine Url für das ein.",
+     *      message = "Bitte gebe eine URL für die Resource ein.",
      *      groups={"pdf", "link", "teli"}
      * )
      * @Assert\Length(
@@ -56,7 +56,7 @@ class ResourceDTO
 
     /**
      * @Assert\NotBlank(
-     *      message = "Bitte gebe einen Autor ein. Wenn der Autor unbekannt ist, gebe ein.",
+     *      message = "Bitte gebe den/die AutorIn(nen) ein - wenn nicht bekannt, trage '??' ein.",
      *      groups={"book"}
      * )
      * @Assert\Length(
@@ -142,8 +142,30 @@ class ResourceDTO
      */
     public $year;
 
+    /**
+     * @Assert\NotBlank(
+     *      message = "Bitte trage das Datum ein, folgende Formate sind akzeptiert: tt.mm.jjjj oder mm.jjjj oder jjjj.",
+     *      groups={"teli"}
+     * )
+     * @Assert\Regex(
+     *     message = "Bitte trage das Datum ein, folgende Formate sind akzeptiert: tt.mm.jjjj oder mm.jjjj oder jjjj.",
+     *     pattern = "~(^(0?[1-9]|1[0-9]|2[0-9]|3[01]).(0?[1-9]|1[012])\.\d{4}$)|^((0?[1-9]|1[012])\.\d{4})$|^(\d{4})$~",
+     *     groups={"teli"}
+     * )
+     */
     public $release_date;
-    
+
+    /**
+     * @Assert\NotBlank(
+     *      message = "Bitte trage das Datum ein, folgende Formate sind akzeptiert: tt.mm.jjjj oder mm.jjjj oder jjjj.",
+     *      groups={"pdf"}
+     * )
+     * @Assert\Regex(
+     *     message = "Bitte trage das Datum ein, folgende Formate sind akzeptiert: tt.mm.jjjj oder mm.jjjj oder jjjj",
+     *     pattern = "~(^(0?[1-9]|1[0-9]|2[0-9]|3[01]).(0?[1-9]|1[012])\.\d{4}$)|^((0?[1-9]|1[012])\.\d{4})$|^(\d{4})$~",
+     *     groups={"pdf"}
+     * )
+     */
     public $pdf_date;
 
     public $wikifullurl;
