@@ -13,16 +13,16 @@ class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('username', TextType::class, array('label' => 'Username:'))
-                ->add('email', TextType::class, array('label' => 'eMail:'))
+        $builder->add('username', TextType::class, array('label' => 'label.login'))
+                ->add('email', TextType::class, array('label' => 'label.email'))
                 ->add('password', RepeatedType::class, array(
                     'type' => PasswordType::class,
-                    'invalid_message' => 'Die eingegebenen Passworte stimmen nicht überein.',
+                    'invalid_message' => 'Die Passworte stimmen nicht überein.',
                     'required' => true,
-                    'first_options' => array('label' => 'Passwort:'),
-                    'second_options' => array('label' => 'Passwort wiederholen:'),
+                    'first_options' => array('label' => 'label.password'),
+                    'second_options' => array('label' => 'label.repeat.password'),
                 ))
-                ->add('save', InputTypeSubmitType::class, array('label' => 'registrieren'));;
+                ->add('save', InputTypeSubmitType::class, ['label' => 'Registrieren']);
     }
 
     public function getBlockPrefix()

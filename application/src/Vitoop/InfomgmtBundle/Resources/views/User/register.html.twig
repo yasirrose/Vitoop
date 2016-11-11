@@ -3,6 +3,7 @@
 {% block content %}
     <fieldset class="ui-corner-all">
         <legend>Registrierung</legend>
+        <div id="vtp-register">
         {% if fv is not null %}
             {{ form_start(fv, {'attr': {'id': 'vtp-form-register', 'novalidate': 'novalidate' }}) }}
             <div class="vtp-uiinfo-form-error">{{ form_errors(fv) }}</div>
@@ -25,8 +26,12 @@
                 {{ form_label(fv.password.second, null, {'label_attr': {'class': 'vtp-fh-w20' }}) }}
                 {{ form_widget(fv.password.second, {'attr': {'class': 'vtp-fh-w30' }}) }}
             </div>
-            <div class="right">
-                {{ form_widget(fv.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}
+            <div class="vtp-fh-middle">
+                <input type="checkbox" value="1" name="user_registration_approve" id="user_registration_approve" tabindex="20" style="-webkit-appearance: checkbox; margin-left: 0px">
+                <label for="user_registration_approve">Ich habe die  <a href="{{ path('user_agreement')}}" target="_blank">Nutzungsbedienungen</a> und die <a href="{{ path('user_datap')}}" target="_blank">Datenschutzbedienungen</a> gelesen und akzeptiere sie.</label>
+                <div class="right">
+                    {{ form_widget(fv.save, {'attr': {'class': 'ui-button ui-widget ui-state-default' }}) }}
+                </div>
             </div>
             <div>
                 <h1>So klappt's mit der Registrierung:</h1>
@@ -47,5 +52,6 @@
         {% else %}
             <div>Deine Einladung ist leider abgelaufen. Sende ein Antwort auf Deine Einladungsmail um eine neue zu erhalten.</div>
         {% endif %}
+        </div>
     </fieldset>
 {% endblock %}

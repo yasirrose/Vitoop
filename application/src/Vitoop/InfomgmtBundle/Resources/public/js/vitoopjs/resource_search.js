@@ -315,7 +315,7 @@ resourceSearch = (function () {
             });
 
             var seacrhByTag = $('#vtp-search-bytags-taglist');
-            if (seacrhByTag) {
+            if (seacrhByTag.css('display') == 'block') {
                 seacrhByTag.autocomplete({
                     source: vitoop.baseUrl + (['tag', 'suggest'].join('/')) + '?extended=1&ignore='+arr_taglist_ignore.join(),
                     minLength: 2,
@@ -334,10 +334,10 @@ resourceSearch = (function () {
                             }
                         }
                     }}).data("ui-autocomplete")._renderItem = function(ul, item) {
-                        item.label = item.text;
-                        var span = "<div class='vtp-search-bytags-item'>"+item.text + "</div><span>"+item.cnt+"</span>";
-                        return $("<li></li>").append(span).appendTo(ul);
-                    };
+                    item.label = item.text;
+                    var span = "<div class='vtp-search-bytags-item'>"+item.text + "</div><span>"+item.cnt+"</span>";
+                    return $("<li></li>").append(span).appendTo(ul);
+                };
             }
 
             $('#vtp-icon-clear-taglistbox').button({

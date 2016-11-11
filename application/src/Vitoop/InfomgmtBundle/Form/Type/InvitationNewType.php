@@ -12,7 +12,7 @@ class InvitationNewType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email', TextType::class, array('label' => 'eMail:'))
+            ->add('email', TextType::class, array('label' => 'label.signup.free'))
             ->add('save', InputTypeSubmitType::class, array('label' => 'Senden'));
     }
 

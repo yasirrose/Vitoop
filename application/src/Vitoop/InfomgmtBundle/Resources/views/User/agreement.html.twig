@@ -4,7 +4,7 @@
     <fieldset class="ui-corner-all margin-top-3">
         <div id="vtp-terms-user" class="ui-corner-all">
             {{ terms|raw }}
-            {% if not app.user.getIsAgreedWithTerms() %}
+            {% if app.user and not app.user.getIsAgreedWithTerms() %}
                 <div class="vtp-fh-w100">
                     <form action="{{ path('user_agreement') }}" method="post" id="user_agreement_form">
                         <input type="checkbox" name="user_agreed_datap" id="user_agreed_datap" style="-webkit-appearance: checkbox;">

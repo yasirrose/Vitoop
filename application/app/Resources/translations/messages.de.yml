@@ -1,9 +1,13 @@
 label:
     username: Benutzername
+    login: Username
+    email: eMail
     password: Passwort
     forgot.password: Passwort vergessen
+    repeat.password: Passwort wiederholen
     signin: anmelden
     signup: Registrieren
+    signup.free: Kostenlos registrieren
     download:
         size: Downloads size
         mb: Mb
@@ -19,6 +23,7 @@ label:
     new: neu
     delete: löschen
     cancel: abbrechen
+    send: Senden
     save: speichern
     yes: ja
     project: Projekt

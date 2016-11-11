@@ -13,7 +13,6 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 /**
  * @Route("/api/help")
  */
-
 class HelpController extends Controller
 {
 

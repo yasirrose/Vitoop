@@ -73,9 +73,9 @@ class UserController extends ApiController
      */
     public function getUserAgreement(Request $request)
     {
-        if ($request->getMethod() === 'POST') {
+        $user = $this->get('vitoop.vitoop_security')->getUser();
+        if ($user && ($request->getMethod() === 'POST')) {
             $em = $this->getDoctrine()->getManager();
-            $user = $this->get('vitoop.vitoop_security')->getUser();
             $user->setIsAgreedWithTerms((bool) $request->get('user_agreed'));
             if ($request->get('user_agreed')) {
                 $history = new UserAgreement($user, $request->getClientIp());

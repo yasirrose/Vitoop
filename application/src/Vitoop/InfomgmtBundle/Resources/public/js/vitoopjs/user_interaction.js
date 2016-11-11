@@ -68,6 +68,17 @@ userInteraction = (function () {
             }
         });
 
+        $('#user_save').attr('disabled','disabled');
+        $('#user_registration_approve').on('change', function () {
+            if ($('#user_registration_approve').prop('checked') == false) {
+                $('#user_save').attr('disabled','disabled');
+                $('#user_save').addClass('ui-button-disabled ui-state-disabled');
+            } else {
+                $('#user_save').removeAttr('disabled');
+                $('#user_save').removeClass('ui-button-disabled ui-state-disabled');
+            }
+        });
+
         $('#user_show_help').on('change', function () {
             $.ajax({
                 method: "PATCH",
