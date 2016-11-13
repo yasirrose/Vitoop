@@ -15,13 +15,15 @@ class PublishedToDateStringTransformer implements DataTransformerInterface
     public function transform($date_string)
     {
         if ('' === $date_string || null === $date_string) {
-
             return '';
+        }
+        if (0 === $date_string) {
+            return 0;
         }
 
         $published = date_create_from_format('Y-m-d', $date_string);
         if ($published) {
-            return $published->format('j.n.Y');
+            return $published->format('d.m.Y');
         }
 
         $published = date_create_from_format('Y-m', $date_string);
@@ -46,11 +48,13 @@ class PublishedToDateStringTransformer implements DataTransformerInterface
          * @return string $date_string
          */
         if ('' === $published || null === $published) {
-
             return null;
         }
-
-        $date_string = date_create_from_format('j.n.Y', $published);
+        if (0 === $date_string) {
+            return 0;
+        }
+        
+        $date_string = date_create_from_format('d.m.Y', $published);
         if ($date_string) {
             return $date_string->format('Y-m-d');
         }
