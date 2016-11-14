@@ -60,15 +60,14 @@ class InvitationController extends ApiController
                     ->findOneByEmail($invitation->getEmail());
                 if ($existing_invitation) {
                     $invitation = $existing_invitation;
-                    $invitation->updateUntil();
                 }
                 $invitation->updateUntil();
 
                 $link = $this->generateUrl(
-                                '_register',
-                                ['secret' => $invitation->getSecret()],
-                                UrlGeneratorInterface::ABSOLUTE_URL
-                            );
+                    '_register',
+                    ['secret' => $invitation->getSecret()],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                );
                 $mailBody = $this->renderView(
                     'email/invitation.html.twig',
                     [
@@ -83,7 +82,7 @@ class InvitationController extends ApiController
 
                 $this->get('vitoop.email_sender')->sendInvite($invitation);
                 
-                $info = 'Dir wurde ein Einladungslink geschickt mit dem Du Dich registrieren kannst.';
+                $info = 'Es wurde eine Einladungsmail an die eingetragene Adresse geschickt.';
             }
         }
 

@@ -69,6 +69,7 @@ userInteraction = (function () {
         });
 
         $('#user_save').attr('disabled','disabled');
+        $('#user_save').addClass('ui-button-disabled ui-state-disabled');
         $('#user_registration_approve').on('change', function () {
             if ($('#user_registration_approve').prop('checked') == false) {
                 $('#user_save').attr('disabled','disabled');

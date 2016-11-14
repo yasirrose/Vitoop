@@ -6,12 +6,6 @@
         <legend>Einladung</legend>
         <div id="vtp-invite-container">
             {{ form_errors(fv) }}
-            {% if info is defined and info is not empty %}
-                <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all">
-                    <span class="vtp-icon ui-icon ui-icon-info"></span>
-                    {{ info }}
-                </div>
-            {% endif %}
             <div class="vtp-fh-middle">
                 {{ form_label(fv.email, null, {'label_attr': {'class': 'vtp-fh-w90'}}) }}
             </div>
@@ -20,8 +14,17 @@
                 <div class="vtp-uiinfo-form-error">{{ form_errors(fv.email) }}</div>
             </div>
             <div class="vtp-fh-right">
-                {{ form_widget(fv.save, {'attr': {'class': 'vtp-uiinfo-anchor ui-button ui-widget ui-button-disabled ui-state-disabled' }}) }}
+                {{ form_widget(fv.save, {'attr': {'class': 'vtp-uiinfo-anchor ui-button ui-widget ui-state-default' }}) }}
             </div>
+            <div class="vtp-fh-middle">
+                {{ form_widget(fv.email, {'attr': {'class': 'vtp-fh-w100' }}) }}
+                <div class="vtp-uiinfo-form-error">{{ form_errors(fv.email) }}</div>
+            </div>
+            {% if info is defined and info is not empty %}
+                <div class="vtp-fh-bottom">
+                    {{ info }}
+                </div>
+            {% endif %}
         </div>
     </fieldset>
     {{ form_end(fv) }}
