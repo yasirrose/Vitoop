@@ -150,7 +150,7 @@
             ordering: false,
             {% endif %}
         });
-        $("div.top-toolbar").append('<input id="search_blue" type="checkbox" value="1" name="search_blue"/> blau');
+        $("div.top-toolbar").append('<div id="search_blue_box"><input id="search_blue" type="checkbox" value="1" name="search_blue"/> blau</div>');
         $("#search_blue").change(function() {
             localStorage.setItem('dt-search-blue', this.checked?1:0);
             searchToggler.checkButtonState();
