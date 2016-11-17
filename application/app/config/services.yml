@@ -13,7 +13,7 @@ services:
 
     vitoop.downloads:
         class:          Vitoop\InfomgmtBundle\Service\DownloadsService
-        arguments:      ['@doctrine.orm.entity_manager', '@service_container', '@vitoop.settings']
+        arguments:      ['@doctrine.orm.entity_manager', '@vitoop.settings', '%download_folder%']
 
     vitoop.resource_manager:
         class:          '%vitoop.resource_manager.class%'

@@ -4,7 +4,6 @@ namespace Vitoop\InfomgmtBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Vitoop\InfomgmtBundle\Entity\DownloadableInterface;
 use Vitoop\InfomgmtBundle\Entity\Option;
 use Vitoop\InfomgmtBundle\Repository\OptionRepository;
@@ -18,25 +17,28 @@ class DownloadsService
     const WARNING_FOLDER_SIZE = 1700;
     const ERROR_FOLDER_SIZE = 3000;
 
-    public function __construct(EntityManager $entityManager, ContainerInterface $container, SettingsService $settingsService)
+    public function __construct(EntityManager $entityManager, SettingsService $settingsService, $downloadFolder)
     {
         $this->em = $entityManager;
-        $this->downloadsDir = join(DIRECTORY_SEPARATOR, array(
-            $container->getParameter('kernel.root_dir'),
-            '..',
-            'downloads'
-        ));
+        $this->downloadsDir = $downloadFolder;
         $this->folderSize = $this->getFolderSize($this->downloadsDir);
         $settingsService->setCurrentDownloadsSize($this->folderSize);
     }
 
     public function getPath(DownloadableInterface $resource)
     {
-        return join(DIRECTORY_SEPARATOR, array(
+        $path = join(DIRECTORY_SEPARATOR, array(
             $this->downloadsDir,
             $resource->getResourceType(),
             $resource->getId().'.'.$resource->getResourceType()
         ));
+        $directory = dirname($path);
+        
+        if (!file_exists($directory)) {
+            mkdir($directory, 0777, true);
+        }
+
+        return $path;
     }
 
     private function getFolderSize($dir)
