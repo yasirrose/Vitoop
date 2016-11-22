@@ -315,7 +315,7 @@ resourceSearch = (function () {
             });
 
             var seacrhByTag = $('#vtp-search-bytags-taglist');
-            if (seacrhByTag.css('display') == 'block') {
+            if (seacrhByTag.length > 0) {
                 seacrhByTag.autocomplete({
                     source: vitoop.baseUrl + (['tag', 'suggest'].join('/')) + '?extended=1&ignore='+arr_taglist_ignore.join(),
                     minLength: 2,
