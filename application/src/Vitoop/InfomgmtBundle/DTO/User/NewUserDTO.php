@@ -22,6 +22,11 @@ class NewUserDTO
      *      pattern = "/^[\x20-\x7FäöüÄÖÜß]+$/",
      *      message = "Dein Username enthält nicht erlaubte Zeichen."
      * )
+     * @Assert\Regex(
+     *      pattern = "/[vitoop|admin]+/i",
+     *      match = false,
+     *      message = "Dieser Benutzername ist leider nicht erlaubt."
+     * )
      */
     public $username;
 
