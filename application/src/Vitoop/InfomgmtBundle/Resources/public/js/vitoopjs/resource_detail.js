@@ -20,6 +20,30 @@ resourceDetail = (function () {
 
         isShowRating = false,
 
+        addDateModificator = function (elementId) {
+            if ($(elementId).length>0) {
+                $(elementId).change(function () {
+                    var dateString = $(elementId).val().toString();
+                    var dateParts = dateString.split('.');
+                    if (dateParts.length == 3) {
+                        if (dateParts[0] < 10) {
+                            dateParts[0] = '0' + parseInt(dateParts[0]);
+                        }
+                        if (dateParts[1] < 10) {
+                            dateParts[1] = '0' + parseInt(dateParts[1]);
+                        }
+                    }
+                    if (dateParts.length == 2) {
+                        if (dateParts[0] < 10) {
+                            dateParts[0] = '0' + parseInt(dateParts[0]);
+                        }
+                        ;
+                    }
+                    $(elementId).val(dateParts.join('.'));
+                });
+            }
+        },
+
         uifyContainer = function (container_name) {
             var action_icon_map;
             
@@ -115,7 +139,11 @@ resourceDetail = (function () {
                         }
                     });
                 });
-
+               
+                   
+                addDateModificator('#teli_release_date');
+                addDateModificator('#pdf_pdf_date');
+               
                 if (res_type == "prj") {
                     var nameOrigin = $('#prj_name').val();
                     var textOrigin = $('#prj_description').val();
