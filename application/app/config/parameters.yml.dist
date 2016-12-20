@@ -15,3 +15,4 @@ parameters:
     secret:            ThisTokenIsNotSoSecretChangeIt
 
     download_folder:   ~
+    wkhtmltopdf_bin:   ~

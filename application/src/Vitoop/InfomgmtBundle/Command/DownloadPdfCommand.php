@@ -46,5 +46,6 @@ class DownloadPdfCommand extends ContainerAwareCommand
             $missing = true;
         }
         $downloadService->downloadPDF($count, $missing, $output);
+        $downloadService->downloadHtml($count, $missing, $output);
     }
 }

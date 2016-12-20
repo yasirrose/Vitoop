@@ -395,15 +395,21 @@ function getColumns(type, isAdmin, isEdit, isCoef) {
         return columns;
     }
     if (type == 'teli') {
-        return [
+        columns = [
             getFirstColumn(isCoef, isEdit),
             getNameColumn(),
             getAuthorColumn(),
             getRatingColumn(),
             getRes12Column(),
-            getOwnerColumn(),
-            getUrlColumn(isEdit)
-        ];
+            getOwnerColumn()
+        ];   
+        if (isAdmin) {
+            columns.push(getIsDownloadedColumn());
+        }    
+            
+        columns.push(getUrlColumn(isEdit));
+
+        return columns;
     }
     if (type == 'link') {
         return [

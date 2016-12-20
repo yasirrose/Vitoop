@@ -5,14 +5,16 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vitoop\InfomgmtBundle\Validator\Constraints\DateFormat as DateFormatAssert;
 use Vitoop\InfomgmtBundle\DTO\Resource\ResourceDTO;
+use Vitoop\InfomgmtBundle\Entity\Downloadable\DownloadableInterface;
 
 /**
  * @ORM\Table(name="teli")
  * @ORM\Entity(repositoryClass="Vitoop\InfomgmtBundle\Repository\TeliRepository")
  */
-class Teli extends Resource
+class Teli extends Resource implements DownloadableInterface
 {
     use \Vitoop\InfomgmtBundle\Entity\UrlCheck\UrlCheckTrait;
+    use \Vitoop\InfomgmtBundle\Entity\Downloadable\DownloadableTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -33,6 +35,7 @@ class Teli extends Resource
     public function __construct()
     {
         parent::__construct();
+        $this->markAsNotDownloaded();
     }
 
     /**
@@ -69,6 +72,11 @@ class Teli extends Resource
         return 'teli';
     }
 
+    public function getResourceExtension()
+    {
+        return 'pdf';
+    }
+    
     static public function getSearcheableColumns()
     {
         return [

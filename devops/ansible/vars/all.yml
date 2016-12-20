@@ -1,7 +1,7 @@
 ---
 server:
     install: '1'
-    packages: [vim, git, htop, nodejs]
+    packages: [vim, git, htop, nodejs, xvfb, zlib1g-dev, fontconfig-config, libx11-dev, libfreetype6, libxext6, libxrender1, openssl, build-essential, xorg, libssl-dev]
     timezone: UTC
     locale: ru_RU.UTF-8
 vagrant_local:

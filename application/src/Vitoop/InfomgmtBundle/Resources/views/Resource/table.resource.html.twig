@@ -65,6 +65,10 @@
             <th style="width:10%;" data-b-searchable="false"><span class="table-head">Bewertung</span></th>
             <th style="width:5%;" data-b-searchable="false"><span class="table-head">RR</span></th>
             <th style="width:14%;"><span class="table-head">von</span></th>
+            {% if is_granted('ROLE_ADMIN') %}
+                {% set colspan=8 %}
+                <th style="width:8%;" data-b-searchable="false"><span class="table-head">Stored</span></th>
+            {% endif %}
             <th style="width:{{ linkWidth }};" data-b-sortable="false" data-b-searchable="false"><span class="table-head">{{ linkTitle }}</span></th>
             </tr>
         {% endif %}
