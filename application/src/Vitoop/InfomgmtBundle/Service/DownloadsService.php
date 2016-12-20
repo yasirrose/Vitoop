@@ -146,7 +146,7 @@ class DownloadsService
 
     private function getInfoFromUrl($url)
     {
-        $curl = curl_init($url->getUrl());
+        $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($curl, CURLOPT_NOBODY, true);
         curl_exec($curl);
