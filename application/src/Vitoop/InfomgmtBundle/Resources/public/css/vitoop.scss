@@ -261,9 +261,9 @@ table input[disabled="disabled"].vtp-uiaction-coefficient {
     display: inline-block;
     position: absolute;
     border: 1px solid #aed0ea;
-    top: 0.1em;
+    top: 0px;
     right: 0.2em;
-    margin: 0.2em;
+    margin: 4px;
     background-color: #f2f5f7;
     width: 2.4em;
     height: 23px;
@@ -273,7 +273,7 @@ table input[disabled="disabled"].vtp-uiaction-coefficient {
 #vtp-search-clear {
     width: 2.4em;
     margin-left: 5px;
-    margin-right: 7px;
+    margin-right: 8px;
     height: 27px;
     background: -webkit-linear-gradient(bottom, #e8f3fa, #7cc0f6); /* For Safari 5.1 to 6.0 */
     background: -o-linear-gradient(top, #7cc0f6 , #e8f3fa); /* For Opera 11.1 to 12.0 */
@@ -1159,6 +1159,15 @@ a.vtp-homelink span {
     text-decoration: none;
 }
 
+#vtp-imprint button:hover,
+#vtp-imprint a:hover,
+a.ui-button:hover{
+    border: 1px solid #74b2e2;
+    background: #e4f1fb url("../img/ui-bg_glass_100_e4f1fb_1x400.png") 50% 50% repeat-x;
+    font-weight: bold;
+    color: #0070a3;
+}
+
 #open_lexicon_link {
     font-weight: 400;
     padding: 1px 9px 2px 9px;
@@ -1343,4 +1352,8 @@ td.vtp-blue.ui-state-active {
 #search_blue_box {
     height: 25px;
     padding-top: 2px;
+}
+
+#comment_text {
+    height: 55px;
 }

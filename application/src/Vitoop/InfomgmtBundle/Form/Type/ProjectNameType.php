@@ -14,7 +14,7 @@ class ProjectNameType extends AbstractType
             ->add('name', ChoiceType::class, array(
                 'label' => 'Projekt',
                 'choices' => $options['projects'],
-                'placeholder' => 'Choose a project...'
+                'placeholder' => 'Wähle ein Projekt...'
                 ))
             ->add('save', InputTypeSubmitType::class, array('label' => 'mit meinem Projekt verknüpfen'));
     }

@@ -51,12 +51,9 @@
                     <form id="vtp-header-login" action="{{ path('_logout') }}" method="get" enctype="application/x-www-form-urlencoded">
                         <button id="vtp-user-loginform-logout" class="vtp-button" title="{{'logout.message'|trans}}" value="{{'logout.label'|trans}}" type="submit">{{ app.user.username }}</button>
                     </form>
-                    <div style="float: right">
-                        <a href="{{ path('user_settings') }}" id="vtp-user-userdata" class="vtp-button ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only">
-                            <span class="ui-button-icon-primary ui-icon ui-icon-newwin">
-                            </span>
+                        <a href="{{ path('user_settings') }}" id="vtp-user-userdata" class="vtp-button">
+                            settings
                         </a>
-                    </div>
                 {% else %}
                         <form id="vtp-header-login" action="{{ path('_login_check') }}" method="post" enctype="application/x-www-form-urlencoded">
                             <div class="login-container">

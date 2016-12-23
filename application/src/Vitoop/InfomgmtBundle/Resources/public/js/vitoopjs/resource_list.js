@@ -176,6 +176,13 @@ resourceList = (function () {
                 text: false
             });
             
+            $('#vtp-user-userdata').button({
+                icons: {
+                    primary: "ui-icon-newwin",
+                },
+                text: false
+            });
+            
             // Highlight Tablerows onmousover
             $('#vtp-content').on('mouseenter', 'tr', function (e) {
                 if ($(this).parent().parent().hasClass('st-container')) {
