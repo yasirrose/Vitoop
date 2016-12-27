@@ -89,7 +89,14 @@ class DownloadsService
                 $resource->markAsWrongUrl();
                 continue;
             }
-            $this->pdfGenerator->generate($resource->getUrl(), $this->getPath($resource), [], true);
+            if (false !== strpos($info["content_type"], 'pdf')) {
+                $curl = curl_init($resource->getUrl());
+                $this->downloadFromCurl($curl, $this->getPath($resource));
+                curl_close($curl);
+            } else {
+                $this->pdfGenerator->generate($resource->getUrl(), $this->getPath($resource), [], true);
+            }
+            
             $resource->markAsSuccess();
         }
         $this->em->flush();
@@ -124,11 +131,7 @@ class DownloadsService
             $resource->markAsSuccess();
             $output->writeln('PDF found. Start downloading...');
             $path = $this->getPath($resource);
-            $file = fopen($path, 'w+');
-            curl_setopt($curl, CURLOPT_NOBODY, false);
-            curl_setopt($curl, CURLOPT_FILE, $file);
-            curl_exec($curl);
-            fclose($file);
+            $this->downloadFromCurl($curl, $path);
             $output->writeln('PDF saved on server');
         }
         curl_close($curl);
@@ -142,6 +145,15 @@ class DownloadsService
             $size += is_file($each) ? filesize($each)/1024/1024 : $this->getFolderSize($each);
         }
         return $size;
+    }
+
+    private function downloadFromCurl(&$curl, $path)
+    {
+        $file = fopen($path, 'w+');
+        curl_setopt($curl, CURLOPT_NOBODY, false);
+        curl_setopt($curl, CURLOPT_FILE, $file);
+        curl_exec($curl);
+        fclose($file);
     }
 
     private function getInfoFromUrl($url)
