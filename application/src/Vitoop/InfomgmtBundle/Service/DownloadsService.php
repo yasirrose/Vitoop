@@ -89,7 +89,7 @@ class DownloadsService
                 $resource->markAsWrongUrl();
                 continue;
             }
-            $this->pdfGenerator->generate($resource->getUrl(), $this->getPath($resource));
+            $this->pdfGenerator->generate($resource->getUrl(), $this->getPath($resource), [], true);
             $resource->markAsSuccess();
         }
         $this->em->flush();
