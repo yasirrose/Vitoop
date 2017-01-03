@@ -426,6 +426,11 @@ span.vtp-lexiconbox-cntres {
     padding-bottom: 2px;
 }
 
+.vtp-fh-top-center {
+    padding-bottom: 2px;
+    text-align: center;
+}
+
 .vtp-fh-middle {
     padding-top: 3px;
     padding-bottom: 2px;
@@ -689,7 +694,13 @@ span.vtp-icon {
     height: 20px;
 }
 
-#vtp-login {
+#vtp-forgot input[type="text"], 
+#vtp-forgot input[type="email"],
+#vtp-forgot input[type="password"] {
+    width: 300px;
+}
+
+#vtp-login, #vtp-forgot {
     border: 1px solid #aed0ea;
     background-color: #deedf7;
     color: #222222;
@@ -1153,7 +1164,11 @@ a.vtp-homelink span {
     float: right;
 }
 
-#vtp-footer #vtp-imprint a, #vtp-footer #vtp-imprint button, div#vtp-login form div.vtp-submit-wrapper input[type=submit] {
+#vtp-footer #vtp-imprint a,
+#vtp-footer #vtp-imprint button,
+div#vtp-login form div.vtp-submit-wrapper input[type=submit], 
+div#vtp-forgot form input[type=submit]
+ {
     padding-left: 4px;
     padding-right: 4px;
     padding-top: 5px;
@@ -1162,6 +1177,7 @@ a.vtp-homelink span {
     text-decoration: none;
 }
 
+#vtp-forgot input[type=submit]:hover,
 #vtp-imprint button:hover,
 #vtp-imprint a:hover,
 a.ui-button:hover {
@@ -1171,6 +1187,7 @@ a.ui-button:hover {
     color: #0070a3;
 }
 
+#vtp-forgot input[type=submit]:active,
 #vtp-imprint button:active,
 #vtp-imprint a:active,
 a.ui-button:active{
@@ -1343,7 +1360,8 @@ td.vtp-blue.ui-state-active {
     height: 115px;
 }
 
-#vtp-invite-container {
+#vtp-invite-container,
+.vtp-center-container {
     width: 30em;
     margin: 5em auto 5em;
     padding: 1em;
