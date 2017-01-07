@@ -474,6 +474,17 @@ class ResourceController extends ApiController
     }
 
     /**
+     * @Route("/resources/{id}/quickview", name="_xhr_resource_proxy_quickview", requirements={"id": "\d+"})
+     */
+    public function resourceQuickView(Resource $resource)
+    {
+        return $this->forward(
+            'VitoopInfomgmtBundle:Resource:quickview',
+            ['res_type' => $resource->getResourceType(), 'res_id' => $resource->getId()]
+        );
+    }
+
+    /**
      * @Route("/{res_type}/{res_id}/remark", name="_xhr_resource_remark", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
      */
     public function remarkAction($res_type, $res_id)

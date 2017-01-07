@@ -20,6 +20,9 @@ resourceDetail = (function () {
 
         isShowRating = false,
 
+        setResId = function (resId) {
+            res_id = resId;
+        },
         addDateModificator = function (elementId) {
             if ($(elementId).length>0) {
                 $(elementId).change(function () {
@@ -753,7 +756,8 @@ resourceDetail = (function () {
             } else {
                 console.log('No TabIndex provided!');
             }
-            url = vitoop.baseUrl + ([res_type, res_id, tab_name[tab_nr]].join('/'));
+            var urlResourceType = res_type?res_type:'resources';
+            url = vitoop.baseUrl + ([urlResourceType, res_id, tab_name[tab_nr]].join('/'));
             // if the tab is already loaded then return without any action
             /*if (1 == tab_loaded[tab_nr]) {
                 return;
@@ -770,6 +774,10 @@ resourceDetail = (function () {
                     dataType: 'json',
                     success: function(responseJSON) {
                         var info = responseJSON;
+                        
+                        if (!res_type) {
+                            res_type = info.res_type;
+                        }
                         if (info.comments == 0) {
                             $('#tab-title-comments').addClass('ui-state-no-content');
                         }
@@ -859,6 +867,10 @@ resourceDetail = (function () {
 
             setNextId();
             setPrevId();
+            openDialog();
+        },
+
+        openDialog = function () {
             // check for init: call a widget-method before initialization throws an
             // error
             try {
@@ -1119,21 +1131,24 @@ resourceDetail = (function () {
         closeDialog = function () {
             hardResetTabs();
             hideHelpWindow();
-            $('#vtp-res-list table').DataTable().off('draw.dt');
-            // "last seen" is maintained through arr_res_tr_attr_id[]
-            arr_tr_res_attr_id[res_type] = res_type + '-' + res_id;
-            var api = $('#vtp-res-list table').dataTable().api();
-            var params = api.ajax.params();
-            if (params.resourceId) {
-                vitoop.resourceId = null;
-                notifyRefresh();
-            }
+            
+            if ($('#vtp-res-list').length != 0) { 
+                $('#vtp-res-list table').DataTable().off('draw.dt');
+                // "last seen" is maintained through arr_res_tr_attr_id[]
+                arr_tr_res_attr_id[res_type] = res_type + '-' + res_id;
+                var api = $('#vtp-res-list table').dataTable().api();
+                var params = api.ajax.params();
+                if (params.resourceId) {
+                    vitoop.resourceId = null;
+                    notifyRefresh();
+                }
 
-            api.ajax.reload(function (json) {
-                tgl_ls();
-            }, false);
-            //resourceList.loadResourceListPage();
-            refresh_list = false;
+                api.ajax.reload(function (json) {
+                    tgl_ls();
+                }, false);
+                //resourceList.loadResourceListPage();
+                refresh_list = false;
+            }
         },
 
         replaceContainer = function (containerName, html) {
@@ -1282,7 +1297,8 @@ resourceDetail = (function () {
         // call init() on Document ready. DOM must be fully loaded.
         init: init,
         tgl_ls: tgl_ls,
-        showDialog: showDialog
-
+        showDialog: showDialog,
+        openDialog: openDialog,
+        setResId: setResId
     };
 }());

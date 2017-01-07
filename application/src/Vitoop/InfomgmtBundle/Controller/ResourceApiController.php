@@ -84,6 +84,7 @@ class ResourceApiController extends ApiController
     {
         $info = $this->getDoctrine()->getRepository('VitoopInfomgmtBundle:Resource')
             ->getResourceTabsInfo($resource, $this->getUser());
+        $info['res_type'] = $resource->getResourceType();
 
         return $this->getApiResponse($info);
     }
