@@ -775,6 +775,13 @@ resourceDetail = (function () {
                     success: function(responseJSON) {
                         var info = responseJSON;
                         res_type = info.res_type;
+                        url = vitoop.baseUrl + ([res_type, res_id, tab_name[tab_nr]].join('/'));
+                        
+                        $.ajax({
+                            url: url,
+                            success: loadTabSuccess,
+                            dataType: 'json'
+                        });
                         
                         if (info.comments == 0) {
                             $('#tab-title-comments').addClass('ui-state-no-content');
@@ -796,12 +803,13 @@ resourceDetail = (function () {
                         }
                     }
                 });
+            } else {
+                $.ajax({
+                    url: url,
+                    success: loadTabSuccess,
+                    dataType: 'json'
+                });
             }
-            $.ajax({
-                url: url,
-                success: loadTabSuccess,
-                dataType: 'json'
-            });
         },
 
         loadTabSuccess = function (responseJSON, textStatus, jqXHR, form) {
