@@ -774,10 +774,8 @@ resourceDetail = (function () {
                     dataType: 'json',
                     success: function(responseJSON) {
                         var info = responseJSON;
+                        res_type = info.res_type;
                         
-                        if (!res_type) {
-                            res_type = info.res_type;
-                        }
                         if (info.comments == 0) {
                             $('#tab-title-comments').addClass('ui-state-no-content');
                         }
