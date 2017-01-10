@@ -23,7 +23,7 @@ class NewUserDTO
      *      message = "Dein Username enthält nicht erlaubte Zeichen."
      * )
      * @Assert\Regex(
-     *      pattern = "/[vitoop|admin]+/i",
+     *      pattern = "/(vitoop|admin)+/i",
      *      match = false,
      *      message = "Dieser Benutzername ist leider nicht erlaubt."
      * )

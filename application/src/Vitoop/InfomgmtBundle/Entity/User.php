@@ -182,6 +182,7 @@ class User implements EquatableInterface, AdvancedUserInterface, \Serializable, 
         $user->password = $encoder->encode($dto->password, $user->salt);
         $user->isAgreedWithTerms = true;
         $user->isShowHelp = true;
+        $user->user_config = new UserConfig($user);
 
         return $user;
     }
