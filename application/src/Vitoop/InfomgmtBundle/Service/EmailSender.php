@@ -5,6 +5,7 @@ namespace Vitoop\InfomgmtBundle\Service;
 use Swift_Mailer;
 use Symfony\Bundle\TwigBundle\TwigEngine;
 use Vitoop\InfomgmtBundle\Entity\Invitation;
+use Vitoop\InfomgmtBundle\Entity\User;
 
 class EmailSender
 {
@@ -33,6 +34,13 @@ class EmailSender
             $invitation->getMail()
         );
 
+        return $this->mailer->send($message);
+    }
+
+    public function sendRegisterNotification(User $user)
+    {
+        $message = $this->createMessage('New user', 'info@vitoop.org', '');
+        
         return $this->mailer->send($message);
     }
 

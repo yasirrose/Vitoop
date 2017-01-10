@@ -138,6 +138,8 @@ class UserController extends ApiController
                 $this->get('vitoop.repository.invitation')->remove($invitation);
                 $this->get('doctrine.orm.entity_manager')->flush();
 
+                $this->get('vitoop.email_sender')->sendRegisterNotification($user);
+
                 $this->authenticateUser($user);
 
                 return $this->redirect($this->generateUrl('_resource_list', ['res_type' => 'link']));
