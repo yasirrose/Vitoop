@@ -60,11 +60,14 @@ userInteraction = (function () {
         }).hide("fade", 5000);
 
         $('#button-user-agreed').attr('disabled','disabled');
+        $('#button-user-agreed').addClass('ui-button-disabled ui-state-disabled');
         $('#user_agreed_datap').on('change', function () {
             if ($('#user_agreed_datap').prop('checked') == false) {
                 $('#button-user-agreed').attr('disabled','disabled');
+                $('#button-user-agreed').addClass('ui-button-disabled ui-state-disabled');
             } else {
                 $('#button-user-agreed').removeAttr('disabled');
+                $('#button-user-agreed').removeClass('ui-button-disabled ui-state-disabled');
             }
         });
 
