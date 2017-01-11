@@ -162,7 +162,7 @@ class UserController extends ApiController
         $mail = <<<'EOT'
 Hallo!
 
-Hiermit bist Du herzlich zum neuen Informationsportal VitooP eingeladen.
+Hiermit bist Du herzlich zum neuen Informationsportal vitoop eingeladen.
 
 Du kannst Dich registrieren unter: {LINK}
 (Beachte bitte, dass dieser Link bis zum {UNTIL} gültig ist.)
@@ -173,7 +173,7 @@ David Rogalski
 EOT;
 
         $invitation = new Invitation();
-        $invitation->setSubject('Einladung zum Informationsportal VitooP');
+        $invitation->setSubject('Einladung zum Informationsportal vitoop');
         $invitation->setMail($mail);
         $form = $this->createForm(InvitationType::class, $invitation, array(
             'action' => $this->generateUrl('_invite'),
