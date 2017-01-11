@@ -80,7 +80,7 @@ app.controller('UserController', function ($scope, $http, $filter, $timeout) {
                 $scope.isSuccess = true;
                 $timeout(function() {
                     $scope.isSuccess = false;
-                    window.location = '../userhome';
+                    //window.location = '../userhome';
                 }, 3000);
                 $scope.user_email.$setPristine();
                 $scope.user_password.$setPristine();

@@ -2,9 +2,11 @@ label:
     username: Benutzername
     login: Username
     email: eMail
+    change.email: Email-Adresse ändern
     password: Passwort
     forgot.password: Passwort vergessen
     repeat.password: Passwort wiederholen
+    change.password: Passwort ändern
     signin: anmelden
     signup: Registrieren
     signup.free: Kostenlos registrieren
@@ -34,6 +36,9 @@ label:
     book: Buch
     address: Adresse
     news: Neuigkeiten
+    account:
+        data: Account-Daten
+    credentials: Credentials
 logout:
     label: logout
     message: Bei VitooP abmelden
