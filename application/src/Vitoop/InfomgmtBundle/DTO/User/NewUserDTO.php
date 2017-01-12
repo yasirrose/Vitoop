@@ -13,9 +13,9 @@ class NewUserDTO
     /**
      * @Assert\NotBlank()
      * @Assert\Length(
-     *      min = 6,
+     *      min = 5,
      *      minMessage = "Dein Username sollte mindestens {{ limit }} Zeichen haben.",
-     *      max = 16,
+     *      max = 14,
      *      maxMessage = "Dein Username sollte nicht mehr als {{ limit }} Zeichen haben."
      * )
      * @Assert\Regex(

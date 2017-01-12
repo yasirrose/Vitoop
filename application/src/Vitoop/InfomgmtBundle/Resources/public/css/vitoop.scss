@@ -163,7 +163,7 @@ input, select, textarea {
     border: 1px solid #aed0ea;
     height: 24px;
     border-radius: 6px;
-    padding: 1px 1px 1px 2px;
+    padding: 1px 1px 1px 3px;
     background: #ffffff;
     -webkit-appearance: none;
 }
@@ -912,10 +912,10 @@ span.vtp-icon {
     position: relative;
     margin: auto;
     border: 1px solid #aed0ea;
-    padding: 0.3em 2em 0.3em 1em;
+    padding: 4px 30px 2px 15px;
     color: #222222;
     font-weight: bold;
-    font-size: 1.1em;
+    font-size: 15px;
     background: #deedf7;
     background: -moz-linear-gradient(left,  #deedf7 0%, #cbebff 47%, #3999ca 100%);
     background: -webkit-gradient(linear, left top, right top, color-stop(0%,#deedf7), color-stop(47%,#cbebff), color-stop(100%,#3999ca));
@@ -1184,7 +1184,8 @@ div#vtp-forgot form input[type=submit]
 #vtp-forgot input[type=submit]:hover,
 #vtp-imprint button:hover,
 #vtp-imprint a:hover,
-a.ui-button:hover {
+a.ui-button:hover,
+a.vtp-extlink:hover {
     border: 1px solid #74b2e2;
     background: #e4f1fb url("../img/ui-bg_glass_100_e4f1fb_1x400.png") 50% 50% repeat-x;
     font-weight: bold;
@@ -1194,7 +1195,8 @@ a.ui-button:hover {
 #vtp-forgot input[type=submit]:active,
 #vtp-imprint button:active,
 #vtp-imprint a:active,
-a.ui-button:active{
+a.ui-button:active,
+a.vtp-extlink:active {
     border: 1px solid #2694e8;
     background: #3baae3 url("../img/ui-bg_glass_50_3baae3_1x400.png") 50% 50% repeat-x;
     font-weight: bold;

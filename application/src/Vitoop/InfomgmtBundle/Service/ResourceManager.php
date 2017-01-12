@@ -274,7 +274,7 @@ class ResourceManager
                                        ->exists($relation))
         ) {
             if (is_null($tempRel->getDeletedByUser())) {
-                throw new \Exception('Diese Resource wurde von Dir bereits mit ":' . $tag . '" getaggt!');
+                throw new \Exception('Diese Resource wurde von Dir bereits mit "' . $tag . '" getaggt.');
             }
             throw new \Exception('You had already added this tag, but it was removed by another user.');
         }

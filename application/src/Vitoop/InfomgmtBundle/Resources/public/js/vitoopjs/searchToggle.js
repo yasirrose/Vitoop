@@ -63,11 +63,17 @@ searchToggler = (function() {
         if (!$("#vtp-search-toggle").hasClass('vtp-toggler-active')) {
             $("#vtp-search-toggle").addClass('vtp-toggler-active');
         }
+        if ($("#vtp-search-toggle").hasClass('ui-state-focus')) {
+            $("#vtp-search-toggle").removeClass('ui-state-focus');
+        }
     }
 
     function deactivateButton() {
         if ($("#vtp-search-toggle").hasClass('vtp-toggler-active')) {
             $("#vtp-search-toggle").removeClass('vtp-toggler-active');
+        }
+        if ($("#vtp-search-toggle").hasClass('ui-state-focus')) {
+            $("#vtp-search-toggle").removeClass('ui-state-focus');
         }
     }
 
