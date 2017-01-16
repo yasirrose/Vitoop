@@ -10,7 +10,13 @@ class ResourceDTO
      * @Assert\NotBlank(message="Bitte gebe einen Namen für die Resource ein.")
      * @Assert\Length(
      *      max=128,
-     *      maxMessage= "Der Name der Resource darf nicht mehr als {{ limit }} Zeichen haben."
+     *      maxMessage= "Der Name der Resource darf nicht mehr als {{ limit }} Zeichen haben.",
+     *      groups={"Default"}
+     * )
+     * @Assert\Length(
+     *      max=110,
+     *      maxMessage= "Der Name der Resource darf nicht mehr als {{ limit }} Zeichen haben.",
+     *      groups={"prj"}
      * )
      */
     public $name;

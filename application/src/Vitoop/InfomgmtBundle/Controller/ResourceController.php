@@ -388,7 +388,7 @@ class ResourceController extends ApiController
         $content['resource-buttons'] = $rdc->getButtons();
         $content['resource-metadata'] = $rdc->getMetadata();
 
-        return new Response(json_encode($content));
+        return new JsonResponse($content);
     }
 
     /**

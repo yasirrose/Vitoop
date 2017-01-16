@@ -163,7 +163,7 @@ input, select, textarea {
     border: 1px solid #aed0ea;
     height: 24px;
     border-radius: 6px;
-    padding: 1px 1px 1px 3px;
+    padding: 1px 1px 1px 5px;
     background: #ffffff;
     -webkit-appearance: none;
 }
@@ -256,6 +256,7 @@ table input[disabled="disabled"].vtp-uiaction-coefficient {
     border: 2px solid #f2f5f7;
     height: 23px;
     padding: 4px;
+    margin-left: 0.5em;
 }
 
 #vtp-icon-clear-taglistbox {

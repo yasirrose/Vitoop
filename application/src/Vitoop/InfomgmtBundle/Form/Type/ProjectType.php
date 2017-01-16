@@ -4,6 +4,7 @@ namespace Vitoop\InfomgmtBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vitoop\InfomgmtBundle\Form\DataTransformer\EmptyStringToNullTransformer;
 
 class ProjectType extends AbstractType
@@ -25,5 +26,15 @@ class ProjectType extends AbstractType
     public function getBlockPrefix()
     {
         return 'prj';
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'validation_groups' => [
+                'Default',
+                'prj'
+            ]
+        ]);
     }
 }
