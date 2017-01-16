@@ -444,15 +444,16 @@ resourceDetail = (function () {
                     plugins: ['textcolor', 'link', 'placeholder'],
                     menubar: false,
                     skin : "vitoop",
-                    style_formats: [
-                        {title: 'p', block: 'p'},
-                        {title: 'h1', block: 'h1'},
-                        {title: 'h2', block: 'h2'},
-                        {title: 'h3', block: 'h3'},
-                        {title: 'h4', block: 'h4'},
-                        {title: 'h5', block: 'h5'},
-                        {title: 'h6', block: 'h6'}
-                    ],
+                    formats: {
+                        alignleft: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'left' },
+                        aligncenter: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'center' },
+                        alignright: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'right' },
+                        alignfull: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'full' },
+                        bold: { inline: 'span', 'classes': 'bold' },
+                        italic: { inline: 'span', 'classes': 'italic' },
+                        underline: { inline: 'span', 'classes': 'underline', exact: true },
+                        strikethrough: { inline: 'del' },
+                    },
                     toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink',
                     setup: function (editor) {
                         editor.on('init', function (e) {
@@ -541,15 +542,16 @@ resourceDetail = (function () {
                     plugins: ['textcolor', 'link', 'placeholder'],
                     menubar: false,
                     skin : "vitoop",
-                    style_formats: [
-                        {title: 'p', block: 'p'},
-                        {title: 'h1', block: 'h1'},
-                        {title: 'h2', block: 'h2'},
-                        {title: 'h3', block: 'h3'},
-                        {title: 'h4', block: 'h4'},
-                        {title: 'h5', block: 'h5'},
-                        {title: 'h6', block: 'h6'}
-                    ],
+                    formats: {
+                        alignleft: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'left' },
+                        aligncenter: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'center' },
+                        alignright: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'right' },
+                        alignfull: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'full' },
+                        bold: { inline: 'span', 'classes': 'bold' },
+                        italic: { inline: 'span', 'classes': 'italic' },
+                        underline: { inline: 'span', 'classes': 'underline', exact: true },
+                        strikethrough: { inline: 'del' },
+                    },
                     toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink',
                     setup: function (editor) {
                         editor.on('init', function (e) {
@@ -1203,15 +1205,16 @@ resourceDetail = (function () {
                                 remove_script_host : false,
                                 convert_urls : true,
                                 menubar: false,
-                                style_formats: [
-                                    {title: 'p', block: 'p'},
-                                    {title: 'h1', block: 'h1'},
-                                    {title: 'h2', block: 'h2'},
-                                    {title: 'h3', block: 'h3'},
-                                    {title: 'h4', block: 'h4'},
-                                    {title: 'h5', block: 'h5'},
-                                    {title: 'h6', block: 'h6'}
-                                ],
+                                formats: {
+                                    alignleft: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'left' },
+                                    aligncenter: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'center' },
+                                    alignright: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'right' },
+                                    alignfull: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'full' },
+                                    bold: { inline: 'span', 'classes': 'bold' },
+                                    italic: { inline: 'span', 'classes': 'italic' },
+                                    underline: { inline: 'span', 'classes': 'underline', exact: true },
+                                    strikethrough: { inline: 'del' },
+                                },
                                 toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink | code'
                             });
                         }, 2000);
