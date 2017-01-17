@@ -171,12 +171,9 @@ resourceSearch = (function () {
             var parent = $(this).parent();
             var tagtext = parent.text().trim();
             var index;
-            if (parent.hasClass('vtp-search-bytags-tag-ignore')) {
-                index = arr_taglist_ignore.indexOf(tagtext);
-                if (index > -1) {
-                    arr_taglist_ignore.splice(index, 1);
-                }
-            } else {
+            ignoreTag(tagtext, false);
+            updateAutocomplete($('#vtp-search-bytags-taglist'));
+            if (!parent.hasClass('vtp-search-bytags-tag-ignore')) {
                 index = arr_taglist_highlight.indexOf(tagtext);
                 if (index > -1) {
                     arr_taglist_highlight.splice(index, 1);
@@ -293,6 +290,10 @@ resourceSearch = (function () {
                 + tag + '<span class="ui-icon ui-icon-lightbulb tag-icons-to-hide vtp-icon-bulb" style="display: none" onclick="highlightTag(event)"></span><span class="ui-icon ui-icon-cancel tag-icons-to-hide vtp-icon-cancel" style="display: none" onclick="ignoreTag(event)"></span><span class="vtp-icon-close vtp-uiaction-search-bytags-removetag ui-icon ui-icon-close"></span></span>');
         },
 
+        updateAutocomplete = function (seacrhByTag) {
+            seacrhByTag.autocomplete('option', 'source',vitoop.baseUrl + (['tag', 'suggest'].join('/')) + '?extended=1&ignore='+arr_taglist.join());
+        },
+        
         /****************************************************************************
          * INIT
          ***************************************************************************/
@@ -322,8 +323,7 @@ resourceSearch = (function () {
                     autoFocus: true,
                     select: function (event, ui) {
                         addTag(event, ui);
-                        seacrhByTag.autocomplete('option', 'source',vitoop.baseUrl + (['tag', 'suggest'].join('/')) + '?extended=1&ignore='+arr_taglist.join());
-
+                        updateAutocomplete(seacrhByTag);
                     },
                     response: function (e, ui) {
                         // filter already selected tag ui.content
