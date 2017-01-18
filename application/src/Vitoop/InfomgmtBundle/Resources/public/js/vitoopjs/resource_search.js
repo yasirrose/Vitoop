@@ -195,6 +195,7 @@ resourceSearch = (function () {
             arr_taglist_ignore = [];
             cnt_tags = 0;
             tagcnt = 0;
+            updateAutocomplete($('#vtp-search-bytags-taglist'));
             maintainCntTags();
             $('#vtp-search-bytags-form-submit').removeClass('act').blur();
             is_changed = false;
