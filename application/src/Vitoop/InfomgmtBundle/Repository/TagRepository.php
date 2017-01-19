@@ -77,7 +77,7 @@ class TagRepository extends EntityRepository
                                ->getResult();
         }
         if ($flatten) {
-            $arr_result = Helper::flatten_array($arr_result, 'text');
+            $arr_result = array_column($arr_result, 'text');
         }
 
         return $arr_result;

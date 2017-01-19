@@ -10,6 +10,9 @@
     <ul id="unique-url-error" style="display: none">
         <li>Diese Url existiert schon. (Id# <span id="unique-url-error-id"></span> "<span id="unique-url-error-name"></span>")</li>
     </ul>
+    <ul id="unique-book-error" style="display: none">
+        <li>Diese Buch existiert schon. (Id# <span id="unique-book-error-id"></span> "<span id="unique-book-error-name"></span>")</li>
+    </ul>
     {{ form_errors(fvdata) }}
     <div class="vtp-fh-top">
         {{ form_label(fvdata.name, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
@@ -34,11 +37,11 @@
     <div class="vtp-fh-middle">
         <div class="vtp-fh-w35">
             {{ form_label(fvdata.isbn13, null, {'label_attr': {'class': 'vtp-fh-w31', 'style': 'width: 26%' }}) }}
-            {{ form_widget(fvdata.isbn13, {'attr': {'class': 'vtp-fh-w60' }}) }}
+            {{ form_widget(fvdata.isbn13, {'attr': {'class': 'vtp-fh-w60', 'onblur': 'checkUniqueBook(\'isbn13\', event);' }}) }}
         </div>
         <div class="vtp-fh-w35">
             {{ form_label(fvdata.isbn10, null, {'label_attr': {'class': 'vtp-fh-w35' }}) }}
-            {{ form_widget(fvdata.isbn10, {'attr': {'class': 'vtp-fh-w60' }}) }}
+            {{ form_widget(fvdata.isbn10, {'attr': {'class': 'vtp-fh-w60', 'onblur': 'checkUniqueBook(\'isbn10\', event);' }}) }}
         </div>
         <div class="vtp-fh-w31">
             {{ form_label(fvdata.tnop, null, {'label_attr': {'class': 'vtp-fh-w31' }}) }}

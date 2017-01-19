@@ -222,20 +222,18 @@ class ResourceRepository extends EntityRepository
     public function getResource1IdListByUser(Resource $resource2, $user)
     {
         $arr_result = $this->getEntityManager()
-                           ->createQuery('SELECT r.id
-                                    FROM ' . $this->getEntityName() . ' r
-                                    JOIN r.rel_resources1 rr
-                                    LEFT JOIN r.flags f
-                                    WHERE rr.resource2=:arg_resource2
-                                    AND rr.user =:arg_user
-                                    AND f.id IS NULL
-                                    ORDER BY r.name ASC')
-                           ->setParameters(array('arg_resource2' => $resource2, 'arg_user' => $user))
-                           ->getResult();
+            ->createQuery('SELECT r.id
+                FROM ' . $this->getEntityName() . ' r
+                JOIN r.rel_resources1 rr
+                LEFT JOIN r.flags f
+                WHERE rr.resource2=:arg_resource2
+                AND rr.user =:arg_user
+                AND f.id IS NULL
+                ORDER BY r.name ASC')
+            ->setParameters(array('arg_resource2' => $resource2, 'arg_user' => $user))
+            ->getResult();
 
-        $arr_result = Helper::flatten_array($arr_result, 'id');
-
-        return $arr_result;
+        return array_column($arr_result, 'id');
     }
 
     /**

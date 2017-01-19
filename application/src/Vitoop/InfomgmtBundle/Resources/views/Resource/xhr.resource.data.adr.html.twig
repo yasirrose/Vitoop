@@ -8,9 +8,12 @@
         </div>
     {% endif %}
     {{ form_errors(fvdata) }}
+    <ul id="unique-address-error" style="display: none">
+        <li>Diese Adresse existiert schon. (Id# <span id="unique-address-error-id"></span> "<span id="unique-address-error-name"></span>")</li>
+    </ul>
     <div class="vtp-fh-top">
         {{ form_label(fvdata.name, null, {'label_attr': {'class': 'vtp-fh-w15' }}) }}
-        {{ form_widget(fvdata.name, {'attr': {'class': 'vtp-fh-w85' }}) }}
+        {{ form_widget(fvdata.name, {'attr': {'class': 'vtp-fh-w85', 'onblur': 'checkUniqueAddress(event);' }}) }}
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.name) }}</div>
     </div>
     <div class="vtp-fh-middle">

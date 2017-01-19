@@ -116,4 +116,56 @@ class ResourceApiController extends ApiController
             'title' => is_null($result)?null:$result->getName()
         ]);
     }
+
+    /**
+     * @Route("book/isbn/check", name="check_unique_book__url")
+     * @Method({"POST"})
+     *
+     * @return array
+     */
+    public function checkBookUniqueIsdnAction(Request $request)
+    {
+        $dto = $this->getDTOFromRequest($request);
+        $findByCriteria = [];
+        if (isset($dto->isbn13) && !empty($dto->isbn13) ) {
+            $findByCriteria['isbn13'] = $dto->isbn13;
+        }
+        if (isset($dto->isbn10) && !empty($dto->isbn10) ) {
+            $findByCriteria['isbn10'] = $dto->isbn10;
+        }
+        $result = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('VitoopInfomgmtBundle:Book')
+            ->findOneBy($findByCriteria);
+        
+        return $this->getApiResponse([
+            'success' => true,
+            'unique' => is_null($result),
+            'id' => is_null($result)?null:$result->getId(),
+            'title' => is_null($result)?null:$result->getName()
+        ]);
+    }
+
+    /**
+     * @Route("address/institution/check", name="check_unique_address__url")
+     * @Method({"POST"})
+     *
+     * @return array
+     */
+    public function checkAddressUniqueInstAction(Request $request)
+    {
+        $dto = $this->getDTOFromRequest($request);
+
+        $result = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('VitoopInfomgmtBundle:Address')
+            ->findOneBy(['name' => $dto->institution]);
+        
+        return $this->getApiResponse([
+            'success' => true,
+            'unique' => is_null($result),
+            'id' => is_null($result)?null:$result->getId(),
+            'title' => is_null($result)?null:$result->getName()
+        ]);
+    }
 }
