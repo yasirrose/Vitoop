@@ -98,6 +98,7 @@ class DownloadsService
             }
             
             $resource->markAsSuccess();
+            $this->em->flush($resource);
         }
         $this->em->flush();
     }    
