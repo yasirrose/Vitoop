@@ -100,10 +100,9 @@ class ResourceDTO
      *      message = "Bitte gebe einen ISBN-13 ein. Wenn der ISBN-13 unbekannt ist, gebe '0' ein.",
      *      groups={"book"}
      * )
-     * @Assert\Length(
-     *      min = 13,
-     *      max = 17,
-     *      maxMessage = "Dieses Feld darf nicht mehr als {{ limit }} Zeichen haben.",
+     * @Assert\Expression(
+     *      "value == '0' or (this.getIsbn13Length() >= 13 and this.getIsbn13Length() <= 17 )",
+     *      message = "Dieses Feld darf nicht mehr als 17 Zeichen haben.",
      *      groups={"book"}
      * )
      */
@@ -114,10 +113,9 @@ class ResourceDTO
      *      message = "Bitte gebe einen ISBN-10 ein. Wenn der ISBN-10 unbekannt ist, gebe '0' ein.",
      *      groups={"book"}
      * )
-     * @Assert\Length(
-     *      min = 10,
-     *      max = 17,
-     *      maxMessage = "Dieses Feld darf nicht mehr als {{ limit }} Zeichen haben.",
+     * @Assert\Expression(
+     *      "value == '0' or (this.getIsbn10Length() >= 10 and this.getIsbn10Length() <= 17 )",
+     *      message = "Dieses Feld darf nicht mehr als 17 Zeichen haben.",
      *      groups={"book"}
      * )
      */
@@ -177,4 +175,14 @@ class ResourceDTO
     public $wikifullurl;
 
     public $description;
+
+    public function getIsbn10Length()
+    {
+        return mb_strlen($this->isbn10);
+    }
+
+    public function getIsbn13Length()
+    {
+        return mb_strlen($this->isbn13);
+    }
 }

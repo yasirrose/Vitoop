@@ -26,23 +26,25 @@ function checkUniqueBook(field, event)
 {
     var dto = {};
     dto[field] = event.target.value;
-    $.ajax({
-        url: vitoop.baseUrl + 'api/book/isbn/check',
-        method: 'POST',
-        data: JSON.stringify(dto),
-        success: function(data) {
-            var answer = data;
-            if (answer.unique) {
-                $('#unique-book-error').hide();
-                $('#book_save').prop('disabled', false);
-            } else {
-                $('#book_save').prop('disabled', true);
-                $('#unique-book-error-id').text(answer.id);
-                $('#unique-book-error-name').text(answer.title);
-                $('#unique-book-error').show();
+    if ('0' != dto[field] && event.target.getAttribute('old') != dto[field]) {
+        $.ajax({
+            url: vitoop.baseUrl + 'api/book/isbn/check',
+            method: 'POST',
+            data: JSON.stringify(dto),
+            success: function(data) {
+                var answer = data;
+                if (answer.unique) {
+                    $('#unique-book-error').hide();
+                    $('#book_save').prop('disabled', false);
+                } else {
+                    $('#book_save').prop('disabled', true);
+                    $('#unique-book-error-id').text(answer.id);
+                    $('#unique-book-error-name').text(answer.title);
+                    $('#unique-book-error').show();
+                }
             }
-        }
-    });
+        });
+    }
 }
 
 function checkUniqueAddress(event)
