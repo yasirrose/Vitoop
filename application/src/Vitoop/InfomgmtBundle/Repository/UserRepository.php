@@ -42,4 +42,18 @@ class UserRepository extends EntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findByResetToken($resetToken)
+    {
+        if (empty($resetToken)) {
+            return null;
+        }
+
+        return $this->createQueryBuilder('u')
+            ->where('u.resetPasswordToken IS NOT NULL')
+            ->andWhere("u.resetPasswordToken = :token")
+            ->setParameter('token', $resetToken)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

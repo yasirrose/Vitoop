@@ -7,6 +7,7 @@ use Vitoop\InfomgmtBundle\Entity\UserData;
 use Vitoop\InfomgmtBundle\Entity\User\PasswordEncoderInterface;
 use Vitoop\InfomgmtBundle\DTO\GetDTOInterface;
 use Vitoop\InfomgmtBundle\DTO\User\NewUserDTO;
+use Vitoop\InfomgmtBundle\Utils\Token\TokenGeneratorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Doctrine\ORM\Mapping as ORM;
@@ -49,6 +50,11 @@ class User implements EquatableInterface, AdvancedUserInterface, \Serializable, 
      * @Serializer\Type("string")
      */
     protected $password;
+
+    /**
+     * @ORM\Column(name="reset_password_token", type="string", length=255, nullable = true) 
+     */
+    protected $resetPasswordToken;
 
     /**
      * @ORM\Column(name="salt", type="string", length=40)
@@ -808,6 +814,22 @@ class User implements EquatableInterface, AdvancedUserInterface, \Serializable, 
     public function getRelProject()
     {
         return $this->relProject;
+    }
+
+    public function getResetPasswordToken()
+    {
+        return $this->resetPasswordToken;
+    }
+
+    public function generateForgotPasswordToken(TokenGeneratorInterface $generator)
+    {
+        $this->resetPasswordToken = $generator->generateToken();
+    }
+
+    public function changePassword($newPassword, PasswordEncoderInterface $encoder)
+    {
+        $this->password = $encoder->encode($newPassword, $this->salt);
+        $this->resetPasswordToken = null;
     }
 
     /**

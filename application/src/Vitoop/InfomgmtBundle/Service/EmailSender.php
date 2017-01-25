@@ -15,7 +15,6 @@ class EmailSender
     private $mailer;
 
     /**
-     *
      * @var TwigEngine 
      */
     private $templater;
@@ -43,6 +42,24 @@ class EmailSender
         
         return $this->mailer->send($message);
     }
+
+    public function sendUserForgotPassword(User $user)
+    {
+        $message = $this->createMessage(
+            'Forgot Password',
+            $user->getEmail(),
+            $this->templater->render(
+                'email/forgot.html.twig',
+                [
+                    'token' => $user->getResetPasswordToken(),
+                    'username' => $user->getUsername()
+                ]
+            )
+        );
+
+        return $this->mailer->send($message);
+    }
+
 
     private function createMessage($subject, $emailTo, $body)
     {

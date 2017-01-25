@@ -235,3 +235,6 @@ services:
     vitoop.password_encoder.user:
         class: Vitoop\InfomgmtBundle\Service\User\UserPasswordEncoder
         arguments: ["@security.encoder_factory"]
+ 
+    vitoop.generator.common_token:
+        class: Vitoop\InfomgmtBundle\Utils\Token\CommonGeneratorStrategy

@@ -297,31 +297,16 @@ EOT;
                 ->getRepository('VitoopInfomgmtBundle:User')
                 ->findOneByEmail($request->get('email'));
             if($user) {
-                $token = base64_encode($user->getId());
-               // $mail = "<a href='/password/new/$token'>Change Password </a>"; 
-                
-                $message = \Swift_Message::newInstance()
-                ->setSubject('Forgot Password')
-                ->setContentType("text/html")
-                ->setFrom(array('einladung@vitoop.org' => 'David Rogalski'))
-                ->setTo($user->getEmail())
-                ->setBody($this->renderView(
-                        'VitoopInfomgmtBundle:User:email.html.twig',
-                        array('token' => $token, 'usernname' => $user->getusername())
-                    ));
-                
-               $mail = $this->get('mailer')->send($message);
-               
-                $this->get('session')->getFlashBag()->add(
+                $user->generateForgotPasswordToken($this->get('vitoop.generator.common_token'));
+                $this->get('doctrine.orm.entity_manager')->flush();
+
+                $this->get('vitoop.email_sender')->sendUserForgotPassword($user);
+            }
+   
+            $this->get('session')->getFlashBag()->add(
                     'sucess',
                     'your message was sent successfully.'
                 );
-            } else {
-                $this->get('session')->getFlashBag()->add(
-                    'notice',
-                    'your email address is not valid'
-                ); 
-            }
         }
         return $this->render('VitoopInfomgmtBundle:User:forgotPassword.html.twig');
     }
@@ -332,31 +317,29 @@ EOT;
      */
     public function passwordnewAction(Request $request)
     {
-        if ($request->getMethod() == 'POST') {
-            
-            $token = urldecode($request->get('token'));
-            $id = base64_decode($token);
-            
-            $user = $this->getDoctrine()
-                ->getRepository('VitoopInfomgmtBundle:User')
-                ->find($id);
-
-            $factory = $this->get('security.encoder_factory');
-            $encoder = $factory->getEncoder($user);
-            $password = $encoder->encodePassword($request->get('password'), $user->getSalt());
-            $user->setPassword($password);
-            $em = $this->getDoctrine()
-                       ->getManager();
-            $em->persist($user);
-            $em->flush();
-            
-            $this->get('session')->getFlashBag()->add(
-                    'sucess',
-                    'your password was changed'
-                );
+        $user = $this->getDoctrine()
+            ->getRepository('VitoopInfomgmtBundle:User')
+            ->findByResetToken($request->get('token'));
+        if (!$user) {
+            throw $this->createNotFoundException();
         }
-        return $this->render('VitoopInfomgmtBundle:User:changePassword.html.twig',array('token' => $request->get('token')));
         
+        if ($request->getMethod() == 'POST') {
+            $user->changePassword(
+                $request->get('password'),
+                $this->get('vitoop.password_encoder.user')
+            ); 
+            $this->get('doctrine.orm.entity_manager')->flush();
+
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'your password was changed'
+            );
+            
+            return $this->redirect($this->generateUrl('_home'));
+        }
+
+        return $this->render('VitoopInfomgmtBundle:User:changePassword.html.twig',array('token' => $request->get('token')));
     }
 
     /**
