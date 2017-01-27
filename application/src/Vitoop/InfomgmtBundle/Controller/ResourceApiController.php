@@ -100,7 +100,10 @@ class ResourceApiController extends ApiController
     public function checkUniqueUrlAction($resource_type, Request $request)
     {
         $dto = $this->getDTOFromRequest($request);
-        if ((strpos($dto->url, 'http://') === false)&&(strpos($dto->url, 'ftp://') === false)) {
+        if ((strpos($dto->url, 'http://') === false) && 
+            (strpos($dto->url, 'https://') === false) && 
+            (strpos($dto->url, 'ftp://') === false)
+        ) {
             $dto->url = 'http://'.$dto->url;
         }
 
