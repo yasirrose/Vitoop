@@ -690,9 +690,20 @@ span.vtp-icon {
     display: inline;
 }
 
+#vtp-login-main-container {
+    border: 1px solid #aed0ea;
+    background-color: #deedf7;
+    height: 398px;
+}
+
 #vtp-login-container {
     width: 22em;
-    margin: 5em auto 5em;
+    margin: 150px auto 150px;
+}
+
+#vtp-change-pass-container {
+    width: 500px;
+    margin: 150px auto 150px;
 }
 
 .login-container input {
@@ -705,15 +716,15 @@ span.vtp-icon {
     width: 300px;
 }
 
-#vtp-login, #vtp-forgot {
-    border: 1px solid #aed0ea;
-    background-color: #deedf7;
+#vtp-forgot {
     color: #222222;
     padding: 0.5em 0.5em;
+    margin: 150px auto 150px;
 }
 
 #vtp-login-error{
     margin-bottom: 5px;
+    margin-right: 2px;
 }
 
 #vtp-login label, #vtp-login input[type="text"], #vtp-login input[type="password"] {
@@ -723,10 +734,11 @@ span.vtp-icon {
 
 #vtp-login label {
     width: 35%;
+    text-align: right;
 }
 
 #vtp-login div.vtp-submit-wrapper {
-    padding: 0.5em 9px 0.5em 0.5em;
+    padding: 0.5em 2px 0.5em 0.5em;
     text-align: right;
 }
 
@@ -793,6 +805,8 @@ span.vtp-icon {
 #vtp-rating-slider-container, #vtp-rating-dropdown-form {
     display: inline-block;
     width: 50%;
+    padding-left: 120px;
+    vertical-align: middle;
 }
 
 #vtp-rating-slider-slider {
@@ -1167,6 +1181,10 @@ a.vtp-homelink span {
 
 #vtp-imprint {
     float: right;
+}
+
+#vtp-footer #vtp-imprint a {
+    display: block;
 }
 
 #vtp-footer #vtp-imprint a,
