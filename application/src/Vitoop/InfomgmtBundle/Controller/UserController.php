@@ -226,7 +226,6 @@ EOT;
         }
         $fv = $form->createView();
 
-        //return $this->renderView()
         return array('fv' => $fv, 'link' => $link, 'info' => $info);
     }
 
@@ -305,7 +304,7 @@ EOT;
    
             $this->get('session')->getFlashBag()->add(
                     'sucess',
-                    'your message was sent successfully.'
+                    'When you are registered with the address you inserted in the field, you got am mail with link so you can change your password'
                 );
         }
         return $this->render('VitoopInfomgmtBundle:User:forgotPassword.html.twig');
