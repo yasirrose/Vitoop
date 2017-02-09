@@ -769,43 +769,7 @@ resourceDetail = (function () {
                 url = vitoop.baseUrl + ([res_type, 'new'].join('/'));
             }
             tab_loaded[tab_nr] = 1;
-            if (tab_nr == 0 && res_id != 'new') {
-                $.ajax({
-                    url: vitoop.baseUrl + 'api/resource/' + res_id + '/tabs_info',
-                    method: 'GET',
-                    dataType: 'json',
-                    success: function(responseJSON) {
-                        var info = responseJSON;
-                        res_type = info.res_type;
-                        url = vitoop.baseUrl + ([res_type, res_id, tab_name[tab_nr]].join('/'));
-                        
-                        $.ajax({
-                            url: url,
-                            success: loadTabSuccess,
-                            dataType: 'json'
-                        });
-                        
-                        if (info.comments == 0) {
-                            $('#tab-title-comments').addClass('ui-state-no-content');
-                        }
-                        if (res_type == 'prj' || res_type == 'lex') {
-                            $('#tab-title-remark').hide();
-                        } else {
-                            $('#tab-title-remark').show();
-                        }
-                        
-                        if (info.remarks == 0) {
-                            $('#tab-title-remark').addClass('ui-state-no-content');
-                        }
-                        if (info.remarks_private == 0) {
-                            $('#tab-title-remark-private').addClass('ui-state-no-content');
-                        }
-                        if (info.rels == 0) {
-                            $('#tab-title-rels').addClass('ui-state-no-content');
-                        }
-                    }
-                });
-            } else {
+            if ( res_id != 'new') {
                 $.ajax({
                     url: url,
                     success: loadTabSuccess,
@@ -830,8 +794,32 @@ resourceDetail = (function () {
                     
                 }
             }
+            if (responseJSON['tabs-info']) {
+                var info = responseJSON['tabs-info'];
+                if (info.comments == 0) {
+                    $('#tab-title-comments').addClass('ui-state-no-content');
+                }
+                if (res_type == 'prj' || res_type == 'lex') {
+                    $('#tab-title-remark').hide();
+                } else {
+                    $('#tab-title-remark').show();
+                }
+
+                if (info.remarks == 0) {
+                    $('#tab-title-remark').addClass('ui-state-no-content');
+                }
+                if (info.remarks_private == 0) {
+                    $('#tab-title-remark-private').addClass('ui-state-no-content');
+                }
+                if (info.rels == 0) {
+                    $('#tab-title-rels').addClass('ui-state-no-content');
+                }
+            }
+
             $.each(responseJSON, function (container_name, html) {
-                replaceContainer(container_name, html);
+                if ('resource-metadata' !== container_name && 'tabs-info' !== container_name) {
+                    replaceContainer(container_name, html);
+                }
             });
             $('#vtp-res-dialog select').selectmenu({
                 select: function( event, ui ) {
@@ -1160,13 +1148,11 @@ resourceDetail = (function () {
         },
 
         replaceContainer = function (containerName, html) {
-            if ('resource-metadata' !== containerName) {
-                $('#' + containerName).empty().append(html);
-                //clearTabsClasses();
-                resetTinyMce();
-                // Initializing special UI-Gimmicks are done in uifyContainer()
-                uifyContainer(containerName);
-            }
+            $('#' + containerName).empty().append(html);
+            //clearTabsClasses();
+            resetTinyMce();
+            // Initializing special UI-Gimmicks are done in uifyContainer()
+            uifyContainer(containerName);
         },
 
         notifyRefresh = function () {

@@ -465,7 +465,9 @@ class ResourceController extends ApiController
         $content['resource-rating'] = $rdc->getRating();
         $content['resource-flags'] = $rdc->getFlags();
         $content['resource-metadata'] = $rdc->getMetadata();
-
+        $content['tabs-info'] = $this->getDoctrine()->getRepository('VitoopInfomgmtBundle:Resource')
+            ->getResourceTabsInfo($res, $this->getUser());
+        
         if ('' === $content['resource-flags']) {
             unset($content['resource-flags']);
         }

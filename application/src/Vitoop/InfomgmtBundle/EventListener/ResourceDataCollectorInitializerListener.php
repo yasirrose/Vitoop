@@ -10,10 +10,8 @@ namespace Vitoop\InfomgmtBundle\EventListener;
 
 use Vitoop\InfomgmtBundle\Service\ResourceDataCollector;
 use Vitoop\InfomgmtBundle\Service\ResourceManager;
-
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 class ResourceDataCollectorInitializerListener
@@ -30,6 +28,10 @@ class ResourceDataCollectorInitializerListener
 
     public function onKernelController(FilterControllerEvent $event)
     {
+        if (!$event->isMasterRequest()) {
+            return;
+        }
+
         /* @var $bag Parameterbag */
         $bag = $event->getRequest()->attributes;
 

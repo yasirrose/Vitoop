@@ -30,6 +30,7 @@ use Vitoop\InfomgmtBundle\Service\FormCreator;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Vitoop\InfomgmtBundle\Utils\Title\PopupTitle;
 
 class ResourceDataCollector
 {
@@ -242,7 +243,7 @@ class ResourceDataCollector
     public function getTitle()
     {
         if ($this->initialized) {
-            return $this->twig->render('VitoopInfomgmtBundle:Resource:xhr.resource.title.html.twig', array('res' => $this->res));
+            return (new PopupTitle($this->res->getName()))->getTitle();
         }
         $type = $this->getResourceManager()
             ->getResourceName($this->res_type);

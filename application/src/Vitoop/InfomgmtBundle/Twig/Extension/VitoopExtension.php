@@ -12,7 +12,6 @@ class VitoopExtension extends \Twig_Extension
     {
         return array(
             new \Twig_SimpleFilter('teaseTitle', array($this, 'teaseTitle')),
-            new \Twig_SimpleFilter('teaseTitleForDetailPopup', array($this, 'teaseTitleForDetailPopup')),
             new \Twig_SimpleFilter('teaseUrl', array($this, 'teaseUrl')),
             new \Twig_SimpleFilter('teaseAuthor', array($this, 'teaseAuthor')),
             new \Twig_SimpleFilter('avgmarkhint', array($this, 'avgmarkhint'))
@@ -49,11 +48,6 @@ class VitoopExtension extends \Twig_Extension
     public function teaseTitle($title)
     {
         return $this->teaseText($title, 40);
-    }
-
-    public function teaseTitleForDetailPopup($title)
-    {
-        return $this->teaseText($title, 60);
     }
 
     public function teaseUrl($url)

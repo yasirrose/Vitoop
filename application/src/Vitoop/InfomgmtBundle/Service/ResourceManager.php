@@ -452,8 +452,7 @@ class ResourceManager
 
     public function getFlags(Resource $res)
     {
-        $flags = $this->em->getRepository('VitoopInfomgmtBundle:Flag')
-                          ->getFlags($res);
+        $flags = $this->em->getRepository('VitoopInfomgmtBundle:Flag')->getFlags($res);
         if (empty($flags)) {
             return null;
         }

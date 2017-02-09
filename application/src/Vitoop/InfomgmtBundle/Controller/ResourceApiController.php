@@ -74,22 +74,6 @@ class ResourceApiController extends ApiController
     }
 
     /**
-     * @Route("resource/{resourceID}/tabs_info", name="get_resource_tabs_info")
-     * @Method({"GET"})
-     * @ParamConverter("resource", class="Vitoop\InfomgmtBundle\Entity\Resource", options={"id" = "resourceID"})
-     *
-     * @return array
-     */
-    public function getTabsInfo(Resource $resource)
-    {
-        $info = $this->getDoctrine()->getRepository('VitoopInfomgmtBundle:Resource')
-            ->getResourceTabsInfo($resource, $this->getUser());
-        $info['res_type'] = $resource->getResourceType();
-
-        return $this->getApiResponse($info);
-    }
-
-    /**
      * @Route("{resource_type}/url/check",
      * requirements={"resource_type"="pdf|link|teli"},
      * name="check_unique_url")
