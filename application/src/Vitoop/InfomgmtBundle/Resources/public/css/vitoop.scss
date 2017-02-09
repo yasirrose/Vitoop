@@ -615,6 +615,10 @@ div.vtp-uiinfo-info {
     display: inline-block;
 }
 
+.vtp-uiinfo {
+    padding-top: 10px;
+}
+
 span.vtp-icon {
     display: inline-block;
     position: absolute;
@@ -697,7 +701,7 @@ span.vtp-icon {
 }
 
 #vtp-login-container {
-    width: 22em;
+    width: 290px;
     margin: 150px auto 150px;
 }
 
