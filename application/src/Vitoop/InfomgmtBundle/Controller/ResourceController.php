@@ -1,7 +1,6 @@
 <?php
 namespace Vitoop\InfomgmtBundle\Controller;
 
-use Symfony\Component\HttpKernel\KernelEvents;
 use Vitoop\InfomgmtBundle\DTO\HomeDTO;
 use Vitoop\InfomgmtBundle\DTO\Paging;
 use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
@@ -20,7 +19,6 @@ use Vitoop\InfomgmtBundle\Entity\Lexicon;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Exception;
 use Vitoop\InfomgmtBundle\Form\Type\UserDataType;
 use Vitoop\InfomgmtBundle\Form\Type\ProjectDataType;
 use Vitoop\InfomgmtBundle\Form\Type\VitoopBlogType;
@@ -688,7 +686,7 @@ class ResourceController extends ApiController
      */
     public function userHookAction(Request $request, $resType, $resId)
     {
-        $entityManager = $this->getDoctrine()->getEntityManager();
+        $entityManager = $this->getDoctrine()->getManager();
         $resource = $entityManager->getRepository(
                 Resource\ResourceFactory::getClassByType($resType)
             )->find($resId);

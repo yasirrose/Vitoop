@@ -769,13 +769,11 @@ resourceDetail = (function () {
                 url = vitoop.baseUrl + ([res_type, 'new'].join('/'));
             }
             tab_loaded[tab_nr] = 1;
-            if ( res_id != 'new') {
-                $.ajax({
-                    url: url,
-                    success: loadTabSuccess,
-                    dataType: 'json'
-                });
-            }
+            $.ajax({
+                url: url,
+                success: loadTabSuccess,
+                dataType: 'json'
+            });
         },
 
         loadTabSuccess = function (responseJSON, textStatus, jqXHR, form) {

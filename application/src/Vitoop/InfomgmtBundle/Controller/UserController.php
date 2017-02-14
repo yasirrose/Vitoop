@@ -6,7 +6,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Vitoop\InfomgmtBundle\Entity\Invitation;
@@ -17,7 +16,6 @@ use Vitoop\InfomgmtBundle\Form\Type\UserType;
 use Vitoop\InfomgmtBundle\Form\Type\InvitationType;
 use Vitoop\InfomgmtBundle\DTO\User\NewUserDTO;
 use JMS\Serializer\DeserializationContext;
-use Symfony\Component\Form\Exception;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -424,7 +422,7 @@ EOT;
         if (isset($dto->is_show_help)) {
             $user->setIsShowHelp((bool)$dto->is_show_help);
         }
-        $this->getDoctrine()->getEntityManager()->flush();
+        $this->getDoctrine()->getManager()->flush();
 
         return $this->getApiResponse($user->getDTO());
     }
