@@ -196,10 +196,10 @@ input[type="submit"], .vtp-button {
 }
 
 .vtp-extlink-list {
-    width: 32px;
+    width: 36px;
 }
 .vtp-extlink-list > span {
-    margin-left: 8px;
+    margin-left: 10px;
 }
 
 .vtp-odd .vtp-extlink {
@@ -1014,7 +1014,15 @@ input.divider {
 }
 
 div.divider-wrapper {
-    background-color: #95ceee;
+    background: #deedf7;
+    background: -moz-linear-gradient(right,  #deedf7 0%, #cbebff 47%, #3999ca 100%);
+    background: -webkit-gradient(linear, right top, left top, color-stop(0%,#deedf7), color-stop(47%,#cbebff), color-stop(100%,#3999ca));
+    background: -webkit-linear-gradient(right,  #deedf7 0%,#cbebff 47%,#3999ca 100%);
+    background: -o-linear-gradient(right,  #deedf7 0%,#cbebff 47%,#3999ca 100%);
+    background: -ms-linear-gradient(right,  #deedf7 0%,#cbebff 47%,#3999ca 100%);
+    background: linear-gradient(to left,  #deedf7 0%,#cbebff 47%,#3999ca 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3999ca', endColorstr='#deedf7',GradientType=1 );
+    border: 1px solid #aed0ea;
     width: 1125px;
     padding-left: 14px;
     font-size: 12px;
@@ -1150,7 +1158,7 @@ span.vtp-icon-active {
 /*----------------------------------------------------------------*/
 
 #vtp-res-list tr.vtp-uiaction-list-showdetail {
-    height: 38px;
+    height: 36px;
 }
 
 #vtp-footer {
@@ -1417,4 +1425,10 @@ td.vtp-blue.ui-state-active {
 
 #comment_text {
     height: 55px;
+}
+
+a.vtp-uiaction-open-url:focus,
+a.vtp-uiaction-open-url:active,
+a.vtp-uiaction-open-url:visited {
+    outline: none;
 }

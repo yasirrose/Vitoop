@@ -13,7 +13,12 @@
     </ul>
     <div class="vtp-fh-top">
         {{ form_label(fvdata.name, null, {'label_attr': {'class': 'vtp-fh-w15' }}) }}
-        {{ form_widget(fvdata.name, {'attr': {'class': 'vtp-fh-w85', 'onblur': 'checkUniqueAddress(event);' }}) }}
+        {% if isNew %}
+            {{ form_widget(fvdata.name, {'attr': {'class': 'vtp-fh-w85', 'onblur': 'checkUniqueAddress(event);' }}) }}
+        {%else%}
+            {{ form_widget(fvdata.name, {'attr': {'class': 'vtp-fh-w75','onblur': 'checkUniqueAddress(event);', 'style': 'width: 77.7%' }}) }}
+        <div class="vtp-fh-right vtp-fh-w0"><a href="https://nominatim.openstreetmap.org/search.php?polygon=1&q={{ res.street }}, {{ res.zip }}, {{ res.city }}, {{ res.country.code }}" target="_blank" class="vtp-uiaction-open-url vtp-button">Adresse</a></div>
+        {%endif%}
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.name) }}</div>
     </div>
     <div class="vtp-fh-middle">
