@@ -28,10 +28,6 @@ class ResourceDataCollectorInitializerListener
 
     public function onKernelController(FilterControllerEvent $event)
     {
-        if (!$event->isMasterRequest()) {
-            return;
-        }
-
         /* @var $bag Parameterbag */
         $bag = $event->getRequest()->attributes;
 

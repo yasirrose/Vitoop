@@ -792,6 +792,9 @@ resourceDetail = (function () {
                     
                 }
             }
+            if (responseJSON['resource-metadata']) {
+                res_type = responseJSON['resource-metadata'].type;
+            }
             if (responseJSON['tabs-info']) {
                 var info = responseJSON['tabs-info'];
                 if (info.comments == 0) {
