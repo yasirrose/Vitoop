@@ -758,7 +758,7 @@ resourceDetail = (function () {
             } else {
                 console.log('No TabIndex provided!');
             }
-            var urlResourceType = res_type?res_type:'resources';
+            var urlResourceType = (res_type && 0 !==tab_nr) ?res_type:'resources';
             url = vitoop.baseUrl + ([urlResourceType, res_id, tab_name[tab_nr]].join('/'));
             // if the tab is already loaded then return without any action
             /*if (1 == tab_loaded[tab_nr]) {
