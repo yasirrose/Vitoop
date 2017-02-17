@@ -1015,13 +1015,13 @@ input.divider {
 
 div.divider-wrapper {
     background: #deedf7;
-    background: -moz-linear-gradient(right,  #deedf7 0%, #cbebff 47%, #7abde1 100%);
-    background: -webkit-gradient(linear, right top, left top, color-stop(0%,#deedf7), color-stop(47%,#cbebff), color-stop(100%,#7abde1));
-    background: -webkit-linear-gradient(right,  #deedf7 0%,#cbebff 47%,#7abde1 100%);
-    background: -o-linear-gradient(right,  #deedf7 0%,#cbebff 47%,#7abde1 100%);
-    background: -ms-linear-gradient(right,  #deedf7 0%,#cbebff 47%,#7abde1 100%);
-    background: linear-gradient(to left,  #deedf7 0%,#cbebff 47%,#7abde1 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7abde1', endColorstr='#deedf7',GradientType=1 );
+    background: -moz-linear-gradient(right,  #deedf7 0%, #cbebff 47%, #a3d4f0 100%);
+    background: -webkit-gradient(linear, right top, left top, color-stop(0%,#deedf7), color-stop(47%,#cbebff), color-stop(100%,#a3d4f0));
+    background: -webkit-linear-gradient(right,  #deedf7 0%,#cbebff 47%,#a3d4f0 100%);
+    background: -o-linear-gradient(right,  #deedf7 0%,#cbebff 47%,#a3d4f0 100%);
+    background: -ms-linear-gradient(right,  #deedf7 0%,#cbebff 47%,#a3d4f0 100%);
+    background: linear-gradient(to left,  #deedf7 0%,#cbebff 47%,#a3d4f0 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a3d4f0', endColorstr='#deedf7',GradientType=1 );
     border: 1px solid #aed0ea;
     width: 1125px;
     padding-left: 14px;
