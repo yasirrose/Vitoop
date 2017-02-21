@@ -275,7 +275,7 @@ table.dataTable td {
     width: 73%;
   }
   float: left;
-  padding-top: 0.355em;
+  padding-top: 2px;
 }
 .dataTables_wrapper .dataTables_filter {
   float: right;
@@ -288,7 +288,7 @@ table.dataTable td {
 .dataTables_wrapper .dataTables_info {
   margin-left: 10px;
   float: left;
-  padding-top: 0.555em;
+  padding-top: 5px;
 }
 .dataTables_wrapper .dataTables_paginate {
   > a {
@@ -301,7 +301,6 @@ table.dataTable td {
   }
   float: right;
   text-align: right;
-  padding-top: 0.25em;
 }
 .dataTables_wrapper .dataTables_paginate .paginate_button {
   box-sizing: border-box;

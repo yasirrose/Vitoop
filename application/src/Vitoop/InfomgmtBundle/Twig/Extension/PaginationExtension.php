@@ -192,6 +192,6 @@ class PaginationExtension extends \Twig_Extension
         $template = $this->environment->loadTemplate($template_name);
         $context = array_merge($context, array('pg' => $pg, 'pg_block' => 'pg_' . $block));
 
-        return $template->render($context);;
+        return $template->render($context);
     }
 }

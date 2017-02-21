@@ -196,10 +196,10 @@ input[type="submit"], .vtp-button {
 }
 
 .vtp-extlink-list {
-    width: 36px;
+    width: 39px;
 }
 .vtp-extlink-list > span {
-    margin-left: 10px;
+    margin-left: 12px;
 }
 
 .vtp-odd .vtp-extlink {
@@ -304,13 +304,13 @@ span.vtp-projectbox-project {
     background-color: #deedf7;
     color: #222222;
     padding: 0 0.2em 0 1.3em;
-    margin: 2px 0.2em 2px 0;
+    margin: 1px 0.2em 1px 0;
 }
 
 span.vtp-search-bytags-tag {
     background-color: #f2f5f7;
     color: #362b36;
-    padding: 0 2em 0 1.3em;
+    padding: 1px 2em 1px 1.3em;
     transition: padding 0.4s ease 0s;
 }
 
@@ -925,7 +925,7 @@ span.vtp-icon {
  * vtp-project-data & vtp-lexicon-data  vtp-user-data vtp-vitoop-blog                                  *
  ************************************************************/
 #vtp-cmstitle {
-    padding: 0 0.5em;
+    padding: 0px 0px 0px 0.5em;
 }
 
 #vtp-projectdata-title, #vtp-lexicondata-title {
@@ -956,15 +956,8 @@ span.vtp-icon {
     margin: -9px 2px 0 0;
     background-color: #f2f5f7;
     cursor: pointer;
-    width: 1.8em;
+    width: 34px;
     height: 19px;
-}
-
-#vtp-projectdata-project-close > .ui-button-icon-primary,
-#vtp-projectdata-project-edit > .ui-button-icon-primary,
-#vtp-projectdata-project-live > .ui-button-icon-primary,
-#vtp-lexicondata-lexicon-close > .ui-button-icon-primary {
-    left: .3em;
 }
 
 .vtp-new-user-search > button {
@@ -1052,19 +1045,17 @@ input#vtp-search-bytags-taglist {
     position: absolute;
     border: 1px solid #aed0ea;
     top: 50%;
-    margin: -9px 2px 0 0;
+    margin: -9px 9px 0 0;
     background-color: #f2f5f7;
     cursor: pointer;
-    width: 1.8em;
+    width: 34px;
     height: 19px;
     right: 2.6em;
 }
 
 #vtp-projectdata-project-live {
-    right: 4.8em;
+    right: 80px;
 }
-
-
 
 #vtp-projectdata-box, #vtp-lexicondata-box {
 }
@@ -1081,8 +1072,8 @@ input#vtp-search-bytags-taglist {
 #vtp-projectdata-sheet-view, #vtp-projectdata-sheet-info,
 #vtp-lexicondata-sheet-view, #vtp-lexicondata-sheet-info {
     overflow: auto;
-    margin: 5px;
-    padding: 1em;
+    margin: 8px;
+    padding:1em;
     border: 1px solid #aed0ea;
     vertical-align: top;
 }
@@ -1102,7 +1093,7 @@ input#vtp-search-bytags-taglist {
 }
 
 #vtp-projectdata-sheet-view, #vtp-lexicondata-sheet-view  {
-    width: 72%;
+    width: 77%;
 }
 
 .ui-state-no-content {

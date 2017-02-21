@@ -158,6 +158,10 @@ class User implements EquatableInterface, AdvancedUserInterface, \Serializable, 
      */
     protected $relProject;
 
+    /**
+     * @ORM\Column(name="last_logined_at", type="datetime", nullable=true)
+     */
+    protected $lastLoginedAt;
 
     public function __construct()
     {
@@ -895,5 +899,10 @@ class User implements EquatableInterface, AdvancedUserInterface, \Serializable, 
             'username' => $this->username,
             'is_show_help' => $this->isShowHelp
         ];
+    }
+
+    public function login()
+    {
+        $this->lastLoginedAt = new \DateTime();
     }
 }

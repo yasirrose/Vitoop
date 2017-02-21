@@ -24,9 +24,7 @@ class UserConfigManager
     public function getUserConfig()
     {
 
-        $user = $this->tokenStorage->getToken()
-                         ->getUser();
-
+        $user = $this->tokenStorage->getToken()->getUser();
         $user_config = $user->getUserConfig();
 
         // If UserConfig doesn't exist, create it on the fly
