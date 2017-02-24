@@ -160,4 +160,10 @@ class UserConfig
     {
         return $this->heightOfTodoList;
     }
+
+    public function updateTodoParameters($numberElements, $heightList)
+    {
+        $this->numberOfTodoElements = $numberElements;
+        $this->heightOfTodoList = $heightList;
+    }
 }

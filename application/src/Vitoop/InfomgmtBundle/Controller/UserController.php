@@ -2,6 +2,7 @@
 namespace Vitoop\InfomgmtBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -15,6 +16,7 @@ use Vitoop\InfomgmtBundle\Entity\UserAgreement;
 use Vitoop\InfomgmtBundle\Form\Type\UserType;
 use Vitoop\InfomgmtBundle\Form\Type\InvitationType;
 use Vitoop\InfomgmtBundle\DTO\User\NewUserDTO;
+use Vitoop\InfomgmtBundle\DTO\User\CredentialsDTO;
 use JMS\Serializer\DeserializationContext;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -363,51 +365,27 @@ EOT;
         if (!$this->get('vitoop.vitoop_security')->isEqualToCurrentUser($user)) {
             throw new AccessDeniedHttpException;
         }
-        $response = array('success' => true, 'message' => "");
-        $serializer = $this->get('jms_serializer');
-        $em = $this->getDoctrine()->getManager();
-        $serializerContext = DeserializationContext::create()
-            ->setGroups(array('edit'));
-        $credentials = $serializer->deserialize(
-            $request->getContent(),
-            'Vitoop\InfomgmtBundle\Entity\User',
-            'json',
-            $serializerContext
-        );
-        $validator = $this->get('validator');
-        $errors = $validator->validate($credentials->getUserConfig());
+        $response = ['success' => true, 'message' => ""];
+        $dto = $this->getDTOFromRequest($request, CredentialsDTO::class);
 
+        $errors = $this->get('validator')->validate($dto);
         if (count($errors) > 0) {
             $response['success'] = false;
             $response['message'] = "";
             foreach ($errors as $error){
                 $response['message'] .= $error->getMessage().". ";
             }
-        } else {
-            $user->getUserConfig()->setHeightOfTodoList($credentials->getUserConfig()->getHeightOfTodoList());
-            $user->getUserConfig()->setNumberOfTodoElements($credentials->getUserConfig()->getNumberOfTodoElements());
-        }
-        if ($credentials->getEmail() != "" && $response['success']) {
-            if (is_null($em->getRepository('VitoopInfomgmtBundle:User')->findOneBy(array('email' => $credentials->getEmail())))) {
-                $user->setEmail($credentials->getEmail());
-                $response = array('success' => true, 'message' => "Email successfully changed!");
-            } else {
-                $response = array('success' => false, 'message' => "This email is already used!");
-            }
-        }
-        if ($credentials->getPassword() != "" && $response['success']) {
-            $factory = $this->get('security.encoder_factory');
-            $encoder = $factory->getEncoder($user);
-            $password = $encoder->encodePassword($credentials->getPassword(), $user->getSalt());
-            $user->setPassword($password);
-        }
-        if ($response['success']) {
-            $em->merge($user);
-            $em->flush();
-            $response['message'] = "Settings successfully changed!";
+
+            return new JsonResponse($response);
         }
 
-        return new Response($serializer->serialize($response, 'json'));
+        $user->updateCredentials($dto, $this->get('vitoop.password_encoder.user'));
+        $this->get('doctrine.orm.entity_manager')->flush();
+
+        return new JsonResponse([
+            'success' => true,
+            'message' => 'Settings successfully changed!'
+        ]);
     }
 
     /**

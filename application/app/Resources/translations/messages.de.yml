@@ -3,6 +3,7 @@ label:
     login: Username
     email: eMail
     change.email: Email-Adresse ändern
+    change.username: Nutzername ändern
     password: Passwort
     forgot.password: Passwort vergessen
     repeat.password: Passwort wiederholen

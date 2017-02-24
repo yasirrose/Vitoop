@@ -262,6 +262,5 @@ class Lexicon extends Resource
     {
         parent::updateFromResourceDTO($dto);
         $this->wiki_fullurl = $dto->wikifullurl;
-        
     }
 }

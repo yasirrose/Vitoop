@@ -42,11 +42,14 @@ app.controller('MainController', function ($scope, $http, $compile) {
 });
 
 app.controller('UserController', function ($scope, $http, $filter, $timeout) {
-    $scope.user = {};
-    $scope.user.password = "";
-    $scope.user.email = "";
+    $scope.user = {
+        password: "",
+        email: "",
+        username: ""
+    };
     $scope.message = "";
     $scope.email1 = "";
+    $scope.username1 = "";
     $scope.pass1 = "";
     $scope.isError = false;
     $scope.isSuccess = false;
@@ -65,8 +68,7 @@ app.controller('UserController', function ($scope, $http, $filter, $timeout) {
     };
 
     $scope.save = function() {
-        console.log($scope.user.email);
-        if ($scope.user_email.email2.$error.match || $scope.user_password.pass2.$error.match || !$scope.userTodo.$valid || !$scope.userTodo1.$valid) {
+        if ($scope.user_email.email2.$error.match || $scope.user_name.username2.$error.match || $scope.user_password.pass2.$error.match || !$scope.userTodo.$valid || !$scope.userTodo1.$valid) {
             return false;
         }
         $http.post(vitoop.baseUrl + 'api/user/'+$scope.user.id+'/credentials', angular.toJson($scope.user)).success(function(data) {
@@ -74,6 +76,7 @@ app.controller('UserController', function ($scope, $http, $filter, $timeout) {
             if (data.success) {
                 $scope.user.email = "";
                 $scope.user.password = "";
+                $scope.user.username = "";
                 $scope.email1 = "";
                 $scope.pass1 = "";
                 $scope.isError = false;
@@ -84,6 +87,7 @@ app.controller('UserController', function ($scope, $http, $filter, $timeout) {
                 }, 3000);
                 $scope.user_email.$setPristine();
                 $scope.user_password.$setPristine();
+                $scope.user_name.$setPristine();
             } else {
                 $scope.isError = true;
             }

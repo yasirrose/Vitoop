@@ -226,9 +226,21 @@ services:
         class: Vitoop\InfomgmtBundle\Repository\InvitationRepository
         arguments: ["@doctrine.orm.entity_manager"]
 
-    vitooop.validator.user_unique:
+    vitoop.validator.user_unique:
         class: Vitoop\InfomgmtBundle\Validator\Constraints\User\UserUniqueValidator
         arguments: ["@vitoop.repository.user"]
+        tags:
+            - { name: validator.constraint_validator }
+
+    vitoop.validator.username:
+        class: Vitoop\InfomgmtBundle\Validator\Constraints\User\UsernameValidator
+        arguments: ["@vitoop.repository.user", "@vitoop.vitoop_security"]
+        tags:
+            - { name: validator.constraint_validator }
+
+    vitoop.validator.user_email:
+        class: Vitoop\InfomgmtBundle\Validator\Constraints\User\UserEmailValidator
+        arguments: ["@vitoop.repository.user", "@vitoop.vitoop_security"]
         tags:
             - { name: validator.constraint_validator }
 

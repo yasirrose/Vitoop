@@ -210,6 +210,12 @@ input[type="submit"], .vtp-button {
     background-color: #f2f5f7;
 }
 
+.vtp-extlink-lexicon {
+    float: right;
+    margin-right: 10px;
+    margin-top: 6px;
+}
+
 .vtp-even .ui-state-active .vtp-extlink,
 .vtp-odd .ui-state-active .vtp-extlink,
 table input[disabled="disabled"].vtp-uiaction-coefficient {

@@ -7,6 +7,7 @@ use Vitoop\InfomgmtBundle\Entity\UserData;
 use Vitoop\InfomgmtBundle\Entity\User\PasswordEncoderInterface;
 use Vitoop\InfomgmtBundle\DTO\GetDTOInterface;
 use Vitoop\InfomgmtBundle\DTO\User\NewUserDTO;
+use Vitoop\InfomgmtBundle\DTO\User\CredentialsDTO;
 use Vitoop\InfomgmtBundle\Utils\Token\TokenGeneratorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
@@ -834,6 +835,25 @@ class User implements EquatableInterface, AdvancedUserInterface, \Serializable, 
     {
         $this->password = $encoder->encode($newPassword, $this->salt);
         $this->resetPasswordToken = null;
+    }
+
+    public function updateCredentials(CredentialsDTO $credentials, PasswordEncoderInterface $encoder)
+    {
+        if ($credentials->password) {
+            $this->changePassword($credentials->password, $encoder);
+        }
+        if ($credentials->email) {
+            $this->email = $credentials->email;
+        }
+        if ($credentials->username) {
+            $this->username = $credentials->username;
+        }
+
+        $this->user_config
+            ->updateTodoParameters(
+                $credentials->numberOfTodoElements,
+                $credentials->heightOfTodoList
+            );
     }
 
     /**

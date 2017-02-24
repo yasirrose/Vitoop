@@ -20,6 +20,8 @@ resourceDetail = (function () {
 
         isShowRating = false,
 
+        viewUrl = '',
+
         setResId = function (resId) {
             res_id = resId;
         },
@@ -794,6 +796,7 @@ resourceDetail = (function () {
             }
             if (responseJSON['resource-metadata']) {
                 res_type = responseJSON['resource-metadata'].type;
+                viewUrl = responseJSON['resource-metadata'].link;
             }
             if (responseJSON['tabs-info']) {
                 var info = responseJSON['tabs-info'];
@@ -836,6 +839,12 @@ resourceDetail = (function () {
             if (isShowRating) {
                 isShowRating = false;
                 $('#vtp-rating-panel').show('blind', 'slow');
+            }
+            
+            //show lexicon button
+            $('.vtp-extlink-lexicon').remove();
+            if ('lex' === res_type ) {
+                $('.ui-tabs-nav').append('<a class="vtp-extlink vtp-extlink-list vtp-extlink-lexicon vtp-uiaction-open-extlink" href="'+viewUrl+'" target="_blank"><span class="ui-icon ui-icon-extlink">-></span></a>');
             }
         },
 
@@ -1053,6 +1062,7 @@ resourceDetail = (function () {
             $('#resource-title').empty();
             $('#resource-buttons').empty();
             $('#resource-flags').empty();
+            $('.vtp-extlink-lexicon').remove();
             // pay attention. this triggers tab to load, if the array
             // tab_loaded is [0,.,.,.,.]
             $('#vtp-res-dialog-tabs').tabs('option', 'active', 0);

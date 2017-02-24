@@ -363,7 +363,8 @@ class ResourceDataCollector
         return [
             'id' => $this->initialized ? $this->res->getId() : 'new',
             'type' => $this->res_type,
-            'isNewValid' => $this->isNewValid
+            'isNewValid' => $this->isNewValid,
+            'link' => ('lex' === $this->res_type)? $this->res->getViewLink(): ''
         ];
     }
 
@@ -520,7 +521,6 @@ class ResourceDataCollector
     public function getRemarkPrivate()
     {
         $info_remark = '';
-        $fv_remark = null;
         $tpl_vars = array();
         $remarkPrivate = $this->rm->getEntityManager()
             ->getRepository('VitoopInfomgmtBundle:RemarkPrivate')
