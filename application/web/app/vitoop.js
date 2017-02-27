@@ -79,6 +79,7 @@ app.controller('UserController', function ($scope, $http, $filter, $timeout) {
                 $scope.user.username = "";
                 $scope.email1 = "";
                 $scope.pass1 = "";
+                $scope.username1 = "";
                 $scope.isError = false;
                 $scope.isSuccess = true;
                 $timeout(function() {

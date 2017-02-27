@@ -796,7 +796,10 @@ resourceDetail = (function () {
             }
             if (responseJSON['resource-metadata']) {
                 res_type = responseJSON['resource-metadata'].type;
-                viewUrl = responseJSON['resource-metadata'].link;
+                viewUrl = '';
+                if ('lex' === res_type) {
+                    viewUrl = vitoop.baseUrl + 'lexicon/' +res_id;
+                }
             }
             if (responseJSON['tabs-info']) {
                 var info = responseJSON['tabs-info'];
