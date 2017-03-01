@@ -1429,3 +1429,8 @@ a.vtp-uiaction-open-url:active,
 a.vtp-uiaction-open-url:visited {
     outline: none;
 }
+
+#vtp-res-list td.dataTables_empty {
+    margin-top: 2px;
+    border: 1px solid #aed0ea !important;
+}

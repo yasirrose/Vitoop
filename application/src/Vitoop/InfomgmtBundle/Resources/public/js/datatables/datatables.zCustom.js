@@ -6,6 +6,7 @@ function dtLanguageObject() {
         "searchPlaceholder": "ergebnisliste durchsuchen",
         "info": "_START_ - _END_ aus _TOTAL_ Datensätzen",
         "infoEmpty": "0 - 0 aus 0 Datensätzen",
+        "emptyTable": "Hier gibt es leider keinen Treffen - wenn du willst, kannst du Datensätze zu diesem Thema in die Datenbank eintragen.",
         "paginate": {
             "first": "<span class='vtp-pg-inner ui-icon ui-icon-seek-start'>|&lt;&lt;</span>",
             "last": "<span class='vtp-pg-inner ui-icon ui-icon-seek-end'>&gt;&gt;|</span>",
@@ -76,6 +77,16 @@ function dtRowCallback(row, data, index) {
 }
 
 function dtDrawCallback() {
+    var isBlau = localStorage.getItem('dt-search-blue')?localStorage.getItem('dt-search-blue'):0;
+    if (this.api().page.info().recordsTotal === 0 && 0 != isBlau) {
+        $('td.dataTables_empty').html('In dem Bereich hast du im Popup keinen Datensatz markiert.');
+    } else {
+        $('td.dataTables_empty').html('Hier gibt es leider keinen Treffen - wenn du willst, kannst du Datensätze zu diesem Thema in die Datenbank eintragen.');
+    }
+}
+
+function dtDrawCallbackCoef() {
+    dtDrawCallback();
     if (this.api().page.info().recordsTotal == 0) {
         return;
     }

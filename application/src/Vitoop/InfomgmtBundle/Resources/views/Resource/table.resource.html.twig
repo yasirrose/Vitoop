@@ -150,8 +150,10 @@
             pagingType: "full_numbers",
             rowCallback: dtRowCallback,
             {% if (isCoef is defined and isCoef) %}
-            drawCallback: dtDrawCallback,
+            drawCallback: dtDrawCallbackCoef,
             ordering: false,
+            {% else %}
+            drawCallback: dtDrawCallback,
             {% endif %}
         });
         $("div.top-toolbar").append('<div id="search_blue_box"><input id="search_blue" type="checkbox" value="1" name="search_blue"/> blau</div>');
