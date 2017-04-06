@@ -28,6 +28,7 @@
             <tr id="{{ restype }}-table" class="vtp-res-dialog-onclick">
             {% if restype == 'pdf' %}
                 <th style="width:8%;"><span class="table-head">{{ dateTitle }}</span></th>
+                <th></th>
                 <th style="width:30%;"><span class="table-head">Titel</span></th>
                 <th style="width:17%;"><span class="table-head">Autor</span></th>
                 <th style="width:8%;"><span class="table-head">Seiten</span></th>
@@ -46,6 +47,7 @@
         {% if restype == 'book' %}
             {% set colspan = colsBook %}
             <th style="width:8%;"><span class="table-head">{{ dateTitle }}</span></th>
+            <th></th>
             <th style="width:39%;"><span class="table-head">Titel</span></th>
             <th style="width:21%;"><span class="table-head">Autor</span></th>
             <th style="width:7%;"><span class="table-head">Seiten</span></th>
@@ -60,6 +62,7 @@
             {% if restype == 'teli' %}
             {% set colspan=7 %}
             <th style="width:8%;"><span class="table-head">{{ dateTitle }}</span></th>
+            <th></th>
             <th style="width:36%;"><span class="table-head">Bezeichnung</span></th>
             <th style="width:23%;"><span class="table-head">Autor</span></th>
             <th style="width:11%;" data-b-searchable="false"><span class="table-head">Bewertung</span></th>
@@ -75,6 +78,7 @@
         {% if restype == 'link' %}
             {% set colspan=8 %}
             <th style="width:8%;"><span class="table-head">{{ dateTitle }}</span></th>
+            <th></th>
             <th style="width:34%;"><span class="table-head">Bezeichnung</span></th>
             <th style="width:22%;"><span class="table-head">URL</span></th>
             <th style="width:5%;" data-b-searchable="false"><span class="table-head">HP</span></th>
@@ -87,6 +91,7 @@
         {% if restype == 'adr' %}
             {% set colspan=8 %}
             <th style="width:8%;"><span class="table-head">{{ dateTitle }}</span></th>
+            <th></th>
             <th style="width:35%;"><span class="table-head">Institution</span></th>
             <th style="width:5%;"><span class="table-head">PLZ</span></th>
             <th style="width:15%;"><span class="table-head">Ort</span></th>
@@ -99,6 +104,7 @@
         {% if restype == 'lex' %}
             {% set colspan=6 %}
             <th style="width:8%;"><span class="table-head">{{ dateTitle }}</span></th>
+            <th></th>
             <th style="width:38%;"><span class="table-head">Lexikonbegriff</span></th>
             <th style="width:33%;" data-b-searchable="false"><span class="table-head">Wiki-URL</span></th>
             <th style="width:5%;" data-b-searchable="false"><span class="table-head">RR</span></th>
@@ -109,6 +115,7 @@
         {% if restype == 'prj' %}
             {% set colspan=6 %}
             <th style="width:8%;"><span class="table-head">{{ dateTitle }}</span></th>
+            <th></th>
             <th style="width:60%;"><span class="table-head">Projektname</span></th>
             <th style="width:14%;"><span class="table-head">Projektmeister</span></th>
             <th style="width:10%;" data-b-searchable="false"><span class="table-head">Bewertung</span></th>
@@ -124,9 +131,11 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $.fn.dataTable.moment('DD.MM.YY');
+        var dataStorage = new DataStorage();
         var domPrefix = (!searchToggler.getState())?('<"'):('<"ui-helper-hidden ');
         domPrefix += dtDomObject();
         searchToggler.checkButtonState();
+        checkOpenButtonState('{{ restype }}');
         var datatable = $('table#list-{{ restype }}').DataTable({
             autoWidth: false,
             stateSave: false,
@@ -211,17 +220,17 @@
             searchToggler.checkButtonState();
             datatable.search('').draw();
         });
-        
+
         function getPageLength() {
-            return localStorage.getItem('dt-page-length')?localStorage.getItem('dt-page-length'):7;
+            return dataStorage.getAlphaNumValue('dt-page-lengt', 7);
         }
         
         function getCurrentSearch() {
-            return localStorage.getItem('dt-search')?localStorage.getItem('dt-search'):'';
+            return dataStorage.getAlphaNumValue('dt-search');
         }
-        
+
         function getCurrentIsBlue() {
-            return localStorage.getItem('dt-search-blue')?localStorage.getItem('dt-search-blue'):0;
+            return dataStorage.getAlphaNumValue('dt-search-blue', 0);
         }
 
         var resourceInfo = {};
@@ -235,7 +244,32 @@
         scope.$apply(function(){
             scope.nav.resourceInfo = resourceInfo;
         });
-    });
-    
-   
+
+        // Handle click on checkbox
+        $('table#list-{{ restype }}').on('click', 'input[type="checkbox"]', function(e) {
+            var resourceChecked = dataStorage.getObject('{{ restype }}-checked');
+            var $row = $(this).closest('tr');
+            // Get row data
+            var data = datatable.row($row).data();
+            var storageKey = data.id + '';
+            if(this.checked) {
+                resourceChecked[storageKey] = data;
+            } else {
+                delete resourceChecked[storageKey];
+            }
+            dataStorage.setObject('{{ restype }}-checked', resourceChecked);
+            checkOpenButtonState('{{ restype }}');
+
+            e.stopPropagation();
+        });
+        
+        $('#button-checking-links').on('click', function () {
+            var resourceChecked = dataStorage.getObject('{{ restype }}-checked');
+            for (var property in resourceChecked) {
+                if ('url' in resourceChecked[property]) {
+                    window.open(resourceChecked[property].url);  
+                }
+            }
+        });
+    });   
 </script>

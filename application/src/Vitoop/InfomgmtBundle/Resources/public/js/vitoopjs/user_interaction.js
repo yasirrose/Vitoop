@@ -26,6 +26,7 @@ userInteraction = (function () {
 
         });
         
+        $('#button-checking-links').button({});
         $('#button-data-p').button({});
 
         $('#invitations-toggle').click(function() {

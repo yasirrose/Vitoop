@@ -802,6 +802,15 @@ resourceDetail = (function () {
             }
             if (responseJSON['tabs-info']) {
                 var info = responseJSON['tabs-info'];
+                var storage = new DataStorage();
+                var checkedResources = storage.getObject(res_type +'-checked');
+             
+                if (res_id in checkedResources) {
+                    $('#resource-check').prop("checked", "checked");
+                } else {
+                    $('#resource-check').removeProp("checked");
+                }
+                
                 if (info.comments == 0) {
                     $('#tab-title-comments').addClass('ui-state-no-content');
                 }
@@ -1142,7 +1151,7 @@ resourceDetail = (function () {
             hideHelpWindow();
             
             if ($('#vtp-res-list').length != 0) { 
-                $('#vtp-res-list table').DataTable().off('draw.dt');
+                //$('#vtp-res-list table').DataTable().off('draw.dt');
                 // "last seen" is maintained through arr_res_tr_attr_id[]
                 arr_tr_res_attr_id[res_type] = res_type + '-' + res_id;
                 var api = $('#vtp-res-list table').dataTable().api();
@@ -1249,10 +1258,27 @@ resourceDetail = (function () {
                 }
             });
 
+            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').append('<input type="checkbox" id="resource-check">');
             $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').append('<span id="resource-title"></span>');
             $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').after('<span id="resource-buttons"></span>');
 
             $('#vtp-res-dialog').before('<div id="resource-flags" style="display: none;"></div>');
+
+            $('#resource-check').on('click', function(e) {
+                var storage = new DataStorage();
+                var checkedResources = storage.getObject(res_type +'-checked');
+                var storageKey = res_id+'';
+                var rowId = '#'+res_type+'-'+res_id;
+                var data = $('#vtp-res-list table').DataTable().row(rowId).data();
+                if(this.checked) {
+                    checkedResources[storageKey] = data;
+                } else {
+                    delete checkedResources[storageKey];
+                }
+                storage.setObject(res_type+'-checked', checkedResources);
+
+                e.stopPropagation();
+        });
 
             $('#vtp-res-dialog-tabs form:not(#form-tag)').ajaxForm({
                 delegation: true,

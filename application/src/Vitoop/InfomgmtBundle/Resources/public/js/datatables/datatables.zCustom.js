@@ -370,11 +370,25 @@ function getFirstColumn(isCoef, isEdit) {
     return getDateColumn();
 }
 
+function getCheckboxColumn(resourceType) {
+    return {
+        'searchable':false,
+        'orderable':false,
+        'width':'1%',
+        'render': function (data, type, full, meta) {
+            var storage = new DataStorage();
+            var checkedResources = storage.getObject(resourceType +'-checked');
+            return '<input type="checkbox"' + (full.id in checkedResources?' checked="checked"':'') + '>';
+        }
+    };
+}
+
 function getColumns(type, isAdmin, isEdit, isCoef) {
     var columns = [];
     if (type == 'prj') {
         return [
             getFirstColumn(isCoef, isEdit),
+            getCheckboxColumn(type),
             getNameColumn(),
             getOwnerColumn(),
             getRatingColumn(),
@@ -385,6 +399,7 @@ function getColumns(type, isAdmin, isEdit, isCoef) {
     if (type == 'lex') {
         return [
             getFirstColumn(isCoef, isEdit),
+            getCheckboxColumn(type),
             getNameColumn(),
             getUrlTextColumn(),
             getRes12Column(),
@@ -395,6 +410,7 @@ function getColumns(type, isAdmin, isEdit, isCoef) {
     if (type == 'pdf') {
         columns = [
             getFirstColumn(isCoef, isEdit),
+            getCheckboxColumn(type),
             getNameColumn(),
             getAuthorColumn(),
             getTnopColumn(),
@@ -412,6 +428,7 @@ function getColumns(type, isAdmin, isEdit, isCoef) {
     if (type == 'teli') {
         columns = [
             getFirstColumn(isCoef, isEdit),
+            getCheckboxColumn(type),
             getNameColumn(),
             getAuthorColumn(),
             getRatingColumn(),
@@ -429,6 +446,7 @@ function getColumns(type, isAdmin, isEdit, isCoef) {
     if (type == 'link') {
         return [
             getFirstColumn(isCoef, isEdit),
+            getCheckboxColumn(type),
             getNameColumn(),
             getUrlTextColumn(),
             getIsHpColumn(),
@@ -441,6 +459,7 @@ function getColumns(type, isAdmin, isEdit, isCoef) {
     if (type == 'book') {
         columns = [
             getFirstColumn(isCoef, isEdit),
+            getCheckboxColumn(type),
             getNameColumn(),
             getAuthorColumn(),
             getTnopColumn(),
@@ -456,6 +475,7 @@ function getColumns(type, isAdmin, isEdit, isCoef) {
     if (type == 'adr') {
         return [
             getFirstColumn(isCoef, isEdit),
+            getCheckboxColumn(type),
             getNameColumn(),
             getZipColumn(),
             getCityColumn(),
@@ -484,4 +504,15 @@ function getDefaultOrder(type, isAdmin, isEdit, isCoef) {
     }
 
     return [[columnIndex, 'desc']];
+}
+
+function checkOpenButtonState(resType) {
+    var dataStorage = new DataStorage();
+    var resourceChecked = dataStorage.getObject(resType+'-checked')
+    
+    if ($.isEmptyObject(resourceChecked)) {
+        $('#button-checking-links').hide();
+    } else {
+        $('#button-checking-links').show();
+    }
 }
