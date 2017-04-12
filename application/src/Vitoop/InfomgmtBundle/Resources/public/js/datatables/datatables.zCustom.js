@@ -374,11 +374,11 @@ function getCheckboxColumn(resourceType) {
     return {
         'searchable':false,
         'orderable':false,
-        'width':'1%',
+        'width':'2%',
         'render': function (data, type, full, meta) {
             var storage = new DataStorage();
             var checkedResources = storage.getObject(resourceType +'-checked');
-            return '<input type="checkbox"' + (full.id in checkedResources?' checked="checked"':'') + '>';
+            return '<input class="valid-checkbox" type="checkbox"' + (full.id in checkedResources?' checked="checked"':'') + '>';
         }
     };
 }
@@ -507,12 +507,21 @@ function getDefaultOrder(type, isAdmin, isEdit, isCoef) {
 }
 
 function checkOpenButtonState(resType) {
-    var dataStorage = new DataStorage();
-    var resourceChecked = dataStorage.getObject(resType+'-checked')
-    
-    if ($.isEmptyObject(resourceChecked)) {
+    if (!isHasCheckedResource()) {
         $('#button-checking-links').hide();
     } else {
         $('#button-checking-links').show();
     }
+}
+
+function isHasCheckedResource() {
+    var datastorage = new DataStorage();
+    var resTypes = ['pdf', 'book', 'teli', 'link', 'adr', 'lex', 'prj'];
+    for (var i = 0; i < resTypes.length; i++) {
+        if (!$.isEmptyObject(datastorage.getObject(resTypes[i]+'-checked'))) {
+            return true;
+        }
+    }
+
+    return false;
 }
