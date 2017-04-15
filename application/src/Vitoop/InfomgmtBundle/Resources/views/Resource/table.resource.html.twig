@@ -263,13 +263,15 @@
             e.stopPropagation();
         });
         
-        $('#button-checking-links').on('click', function () {
+        $('#button-checking-links').off().on('click', function (e) {
             var resourceChecked = dataStorage.getObject('{{ restype }}-checked');
             for (var property in resourceChecked) {
-                if ('url' in resourceChecked[property]) {
-                    window.open(resourceChecked[property].url);  
+                if (resourceChecked.hasOwnProperty(property) && 'url' in resourceChecked[property]) {
+                    window.open(resourceChecked[property].url);
                 }
             }
+            e.stopPropagation();
+            return false;
         });
     });   
 </script>
