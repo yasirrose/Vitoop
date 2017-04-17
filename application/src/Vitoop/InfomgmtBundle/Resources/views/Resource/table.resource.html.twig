@@ -132,6 +132,7 @@
     $(document).ready(function() {
         $.fn.dataTable.moment('DD.MM.YY');
         var dataStorage = new DataStorage();
+        var linkStorage = new LinkStorage();
         var domPrefix = (!searchToggler.getState())?('<"'):('<"ui-helper-hidden ');
         domPrefix += dtDomObject();
         searchToggler.checkButtonState();
@@ -264,10 +265,12 @@
         });
         
         $('#button-checking-links').off().on('click', function (e) {
-            var resourceChecked = dataStorage.getObject('{{ restype }}-checked');
-            for (var property in resourceChecked) {
-                if (resourceChecked.hasOwnProperty(property) && 'url' in resourceChecked[property]) {
-                    window.open(resourceChecked[property].url);
+            var resources = linkStorage.getAllResorces();
+            for (var i = 0; i < resources.length; i++) {
+                for (var property in resources[i]) {
+                    if (resources[i].hasOwnProperty(property) && 'url' in resources[i][property]) {
+                        window.open(resources[i][property].url);
+                    }
                 }
             }
             e.stopPropagation();

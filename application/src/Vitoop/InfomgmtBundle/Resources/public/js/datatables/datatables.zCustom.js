@@ -507,21 +507,10 @@ function getDefaultOrder(type, isAdmin, isEdit, isCoef) {
 }
 
 function checkOpenButtonState(resType) {
-    if (!isHasCheckedResource()) {
+    var linkStorage = new LinkStorage();
+    if (!linkStorage.isNotEmpty()) {
         $('#button-checking-links').hide();
     } else {
         $('#button-checking-links').show();
     }
-}
-
-function isHasCheckedResource() {
-    var datastorage = new DataStorage();
-    var resTypes = ['pdf', 'book', 'teli', 'link', 'adr', 'lex', 'prj'];
-    for (var i = 0; i < resTypes.length; i++) {
-        if (!$.isEmptyObject(datastorage.getObject(resTypes[i]+'-checked'))) {
-            return true;
-        }
-    }
-
-    return false;
 }
