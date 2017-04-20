@@ -16,12 +16,20 @@ class InvitationType extends AbstractType
         $builder->add('email', TextType::class, array('label' => 'eMail:'))
                 ->add('days', ChoiceType::class, array(
                     'label' => 'Gültigkeit:',
-                    'choices' => array('1' => '1 Tag', '2' => '2 Tage', '3' => '3 Tage'),
+                    'choices' => [
+                        '1 Tag' => 1, 
+                        '2 Tage' => 2, 
+                        '3 Tage' => 3,
+                        '5 Tage' => 5,
+                        '7 Tage' => 7,
+                        '10 Tage' => 10,
+                        '15 Tage' => 15,
+                    ],
                     'constraints' => new Assert\Range(array(
                             'min' => 1,
-                            'max' => 3,
+                            'max' => 15,
                             'minMessage' => 'Die Einladung muss mindestens 1 Tag gültig sein.',
-                            'maxMessage' => 'Die EInladung darf höchstens 3 Tage gültig sein.',
+                            'maxMessage' => 'Die EInladung darf höchstens 15 Tage gültig sein.',
                         )),
                     'mapped' => false
                 ))

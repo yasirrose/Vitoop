@@ -396,6 +396,11 @@ span.vtp-owntag-hilight {
     overflow: auto;
 }
 
+.vtp-tagbox-info {
+    padding-top:10px;
+    border: 0.2em solid #aed0ea;
+}
+
 #lexicon-main {
     border: 1px solid #aed0ea;
     margin: 0.5em 0 0.5em 0;
@@ -1437,4 +1442,12 @@ a.vtp-uiaction-open-url:visited {
 
 #resource-check {
     margin-right: 5px;
+}
+
+#vtp-application .ui-dialog .ui-dialog-titlebar {
+    padding: 3px 14px;
+}
+
+#vtp-application .ui-dialog .ui-dialog-title {
+    margin: 0px;
 }
