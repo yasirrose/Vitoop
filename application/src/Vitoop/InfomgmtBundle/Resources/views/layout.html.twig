@@ -48,6 +48,7 @@
                     <a class="vtp-button vtp-uiaction-goto-edithome" href="{{ path('_edit_vitoop_blog') }}">{{'homepage.edit'|trans}}</a>
                 {% endif %}
                 {% if app.user %}
+                    <button class="vtp-button" id="button-checking-links-remove" style="display:none">x</button>
                     <button class="vtp-button" id="button-checking-links" style="display:none">{{'label.open'|trans}}</button>
                     <form id="vtp-header-login" action="{{ path('_logout') }}" method="get" enctype="application/x-www-form-urlencoded">
                         <button id="vtp-user-loginform-logout" class="vtp-button" title="{{'logout.message'|trans}}" value="{{'logout.label'|trans}}" type="submit">{{ app.user.username }}</button>

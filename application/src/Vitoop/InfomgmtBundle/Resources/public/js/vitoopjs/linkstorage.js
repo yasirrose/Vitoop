@@ -22,3 +22,8 @@ LinkStorage.prototype.getAllResorces = function () {
     return resources;
 };
 
+LinkStorage.prototype.clearAllResources = function () {
+    for (var i = 0; i < this.resourceTypes.length; i++) {
+        this.storage.setObject(this.resourceTypes[i]+'-checked', {});
+    }
+};

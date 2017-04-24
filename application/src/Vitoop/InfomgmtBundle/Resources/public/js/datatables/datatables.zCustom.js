@@ -378,7 +378,7 @@ function getCheckboxColumn(resourceType) {
         'render': function (data, type, full, meta) {
             var storage = new DataStorage();
             var checkedResources = storage.getObject(resourceType +'-checked');
-            return '<input class="valid-checkbox" type="checkbox"' + (full.id in checkedResources?' checked="checked"':'') + '>';
+            return '<input class="valid-checkbox open-checkbox-link" type="checkbox"' + (full.id in checkedResources?' checked="checked"':'') + '>';
         }
     };
 }
@@ -510,7 +510,9 @@ function checkOpenButtonState(resType) {
     var linkStorage = new LinkStorage();
     if (!linkStorage.isNotEmpty()) {
         $('#button-checking-links').hide();
+        $('#button-checking-links-remove').hide();
     } else {
         $('#button-checking-links').show();
+        $('#button-checking-links-remove').show();
     }
 }

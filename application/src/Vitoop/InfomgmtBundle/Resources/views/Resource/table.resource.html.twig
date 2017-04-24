@@ -276,5 +276,12 @@
             e.stopPropagation();
             return false;
         });
-    });   
+        $('#button-checking-links-remove').off().on('click', function (e) {
+            linkStorage.clearAllResources();
+            checkOpenButtonState();
+            $('.open-checkbox-link').prop('checked', false);
+            e.stopPropagation('{{ restype }}');
+            return false;
+        });
+    });
 </script>

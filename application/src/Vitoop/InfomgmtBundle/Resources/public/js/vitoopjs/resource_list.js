@@ -151,11 +151,8 @@ resourceList = (function () {
             $('#vtp-user-loginform-logout').on('click', function () {
                 $('#vtp-search-clear').click();
                 //clear localstorage
-                var datastorage = new DataStorage();
-                var resTypes = ['pdf', 'book', 'teli', 'link', 'adr', 'lex', 'prj'];
-                for (var i = 0; i < resTypes.length; i++) {
-                    datastorage.setObject(resTypes[i]+'-checked', {});
-                }
+                var datastorage = new LinkStorage();
+                datastorage.clearAllResources();
             });
 
             $('#vtp-header-toggle-flag input[type=checkbox]').button({

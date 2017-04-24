@@ -27,6 +27,12 @@ userInteraction = (function () {
         });
         
         $('#button-checking-links').button({});
+        $('#button-checking-links-remove').button({
+            icons: {
+                    primary: "ui-icon-close"
+                },
+            text: false,
+        });
         $('#button-data-p').button({});
 
         $('#invitations-toggle').click(function() {
