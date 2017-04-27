@@ -22,7 +22,7 @@ $.fn.dataTable.ext.search.push(
     }
 );
 
-$.fn.DataTable.ext.pager.numbers_length = 9;
+$.fn.DataTable.ext.pager.numbers_length = 13;
 
 function dtDomObject() {
 	var toolbar_prefix = 'fg-toolbar ui-toolbar vtp-pg-pane ui-state-defaultgulp ui-helper-clearfix ui-corner-';

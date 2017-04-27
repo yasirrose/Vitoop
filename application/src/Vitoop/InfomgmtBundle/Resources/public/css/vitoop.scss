@@ -1177,7 +1177,7 @@ span.vtp-icon-active {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfe7f7', endColorstr='#E5F1FA',GradientType=0 ); /* IE6-9 */
     color: #2779aa;
     margin-top: 2px;
-    padding: 1px 18px 1px 7px;
+    padding: 15px 18px 15px 7px;
 }
 
 a.vtp-homelink {
@@ -1451,8 +1451,13 @@ a.vtp-uiaction-open-url:visited {
 
 #vtp-application .ui-dialog .ui-dialog-title {
     margin: 0px;
+    vertical-align: middle;
 }
 
 #vtp-application .dataTables_wrapper .ui-toolbar {
     padding: 2px 8px;
+}
+
+#resource-title {
+    vertical-align: middle;
 }
