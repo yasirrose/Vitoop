@@ -75,7 +75,7 @@
     $(document).ready(function () {
         var resourceId = {{resource.id}};
         var resourceType = '{{resource.getResourceType()}}';
-        var baseUrl = {{ path('_base_url') }};
+        var baseUrl = '{{ path('_base_url') }}';
         var pdfView = PDFObject.embed(
             baseUrl + 'resource-files/'+resourceId+'.pdf',
             "#pdf-view",
