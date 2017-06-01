@@ -46,6 +46,10 @@ _rel_resource_resource_api:
     resource: "@VitoopInfomgmtBundle/Controller/RelResourceResourceApiController.php"
     type:     annotation
 
+_pdf_viewer:
+    resource: "@VitoopInfomgmtBundle/Controller/PdfViewerController.php"
+    type:     annotation
+
 _login_check:
     path: /login_check
    

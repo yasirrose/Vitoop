@@ -6,6 +6,7 @@ use Vitoop\InfomgmtBundle\DTO\Paging;
 use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
 use Vitoop\InfomgmtBundle\DTO\Resource\SearchColumns;
 use Vitoop\InfomgmtBundle\Entity\Comment;
+use Vitoop\InfomgmtBundle\Entity\Pdf;
 use Vitoop\InfomgmtBundle\Entity\Flag;
 use Vitoop\InfomgmtBundle\Entity\UserConfig;
 use Vitoop\InfomgmtBundle\Entity\UserData;
@@ -18,6 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Vitoop\InfomgmtBundle\Entity\Lexicon;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Vitoop\InfomgmtBundle\Form\Type\UserDataType;
 use Vitoop\InfomgmtBundle\Form\Type\ProjectDataType;
@@ -25,6 +27,8 @@ use Vitoop\InfomgmtBundle\Form\Type\VitoopBlogType;
 use Vitoop\InfomgmtBundle\Form\Type\FlagType;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Vitoop\InfomgmtBundle\Entity\Downloadable\DownloadableInterface;
 
 class ResourceController extends ApiController
 {
@@ -704,5 +708,31 @@ class ResourceController extends ApiController
         $entityManager->flush();
 
         return $this->getApiResponse([]);
+    }
+
+    /**
+     * @Route("resources/{id}/meta")
+     * @Method("GET")
+     */
+    public function metaAction(Pdf $resource)
+    {
+        return new JsonResponse([
+            'id' => $resource->getId(),
+            'url' => $resource->getUrl()
+        ]);
+    }
+
+    /**
+     * @Route("resource-files/{id}.pdf")
+     * @Method("GET")
+     */
+    public function pdfAction(Pdf $resource)
+    {
+        $response = new \Vitoop\InfomgmtBundle\Response\PDFResponse(
+            $resource->getId() . '.pdf',
+            file_get_contents($resource->getUrl())
+        );
+        
+        return $response;
     }
 }

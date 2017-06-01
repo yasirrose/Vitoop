@@ -58,12 +58,17 @@ resourceDetail = (function () {
                     "previous": "ui-icon-circle-triangle-w",
                     "next": "ui-icon-circle-triangle-e",
                     "save": "ui-icon-disk",
+                    "popup": "ui-icon-newwin",
                     "delete": "ui-icon-trash",
                     "new": "ui-icon-document",
                     "blame": "ui-icon-alert",
-                    'help': 'ui-icon-help'
+                    'help': 'ui-icon-help',
+                    
                 };
                 $.each(action_icon_map, function (action, icon) {
+                    if (('popup' === action) && ('pdf' !== res_type)) {
+                        return;
+                    }
                     $('button.vtp-uiaction-detail-' + action).button({
                         icons: {
                             primary: icon
@@ -85,6 +90,11 @@ resourceDetail = (function () {
                 }
                 $('.vtp-uiaction-detail-save').on('click', function () {
                     $('#resource-data input[type=submit]').trigger('submit');
+                });
+                $('.vtp-uiaction-detail-popup').on('click', function () {
+                    openAsResourceView(res_id);
+                    $('#vtp-res-dialog').dialog('close');
+                    return false;
                 });
                 $('.vtp-uiaction-detail-delete').on('click', deleteResource);
                 $('.vtp-uiaction-detail-new').on('click', newResource);
@@ -299,417 +309,51 @@ resourceDetail = (function () {
              * UIfy: tag
              ************************************************************************/
             if ('resource-tag' == container_name) {
-                $('#tag_text').autocomplete({
-                    source: vitoop.baseUrl + (['tag', 'suggest'].join('/')) + '?id=' + res_id,
-                    minLength: 2,
-                    appendTo: 'body'
-                });
-                $('#tag_text').keypress(function(e) {
-                    if(e.keyCode == 13) {
-                        e.preventDefault();
-                        $(this).autocomplete('close');
-                        $('#tag_confirm_save').click();
-                    }
-                });
-                
-                $('.vtp-uiaction-tag-showown').button({
-                    icons: {
-                        primary: "ui-icon-lightbulb"
-                    },
-                    text: false
-                });
-                $('.vtp-uiaction-tag-showown').on('change', function () {
-                    $('#vtp-tagbox .vtp-owntag').toggleClass('vtp-owntag-hilight');
-                });
-                $('.vtp-uiaction-tag-showown:checked').triggerHandler('change');
-                $('#' + container_name + ' input[type=submit]').button({
-                    icons: {
-                        primary: "ui-icon-tag"
-                    }
-                });
-                !$('#' + container_name + ' .vtp-uiinfo-info').length || $('#' + container_name + ' .vtp-uiinfo-info').position({
-                    my: 'left bottom',
-                    at: 'right top',
-                    of: '#' + container_name + ' .vtp-uiinfo-anchor',
-                    collision: 'none'
-                }).hide("fade", 3000);
-                $('.vtp-tagbox-tag').click(function() {
-                    var text = $(this).text().trim();
-                    var pos = text.search(new RegExp('\\(\\d+\\)'));
-                    if (pos > -1) {
-                        text = text.substring(0, pos).trim();
-                    }
-                    $('#tag_text').val(text);
-                });
-
-                $('#tag_confirm_save').on('click', function() {
-                    if ($('#tag_text').val() == "") {
-                        return false;
-                    }
-                    var tagExist = false;
-                    $('ul.ui-autocomplete > li').each(function(index) {
-                        if ($(this).text().toLowerCase() == $('#tag_text').val().toLowerCase()) {
-                            tagExist = true;
-                            return false;
-                        }
-                    });
-                    if (!tagExist) {
-                        $('div#vtp-tagbox > span').each(function(index) {
-                            var text = $(this).text().trim();
-                            var pos = text.search(new RegExp('\\(\\d+\\)'));
-                            if (pos > -1) {
-                                text = text.substring(0, pos).trim();
-                            }
-                            if (text.toLowerCase() == $('#tag_text').val().toLowerCase()) {
-                                tagExist = true;
-                                return false;
-                            }
-                        });
-                    }
-                    if (tagExist) {
-                        $('#tag_save').trigger('click');
-                    } else {
-                        $('#tag_confirm_save').hide();
-                        $('#tag_remove').hide();
-                        $('#div-confirm-tagging').show();
-                    }
-                });
-
-                $('#tag_cancel_save').on('click', function() {
-                    $('#tag_confirm_save').show();
-                    $('#tag_remove').show();
-                    $('#div-confirm-tagging').hide();
-                    $('#tag_text').val('');
-                });
-
-                $('.vtp-tag-submit').click(function(event) {
-                    var input = $('#tag_text');
-                    var text = input.val();
-                    if (text == "") {
-                        input.focus();
-                        event.preventDefault();
-                        return false;
-                    }
-                });
-
-                if ($('#tag_can_add').val() != "1") {
-                    $('#tag_save').button('disable');
-                    $('#tag_confirm_save').prop('disabled', true);
-                    $('#tag_confirm_save').addClass('ui-button-disabled ui-state-disabled');
-                }
-                if ($('#tag_can_remove').val() != "1") {
-                    $('#tag_remove').button('disable');
-                }
+               var tagWidget = new TagWidget(res_id, vitoop.baseUrl);
+               tagWidget.init();
             }
 
             /*************************************************************************
              * UIfy: remark
              ************************************************************************/
             if ('resource-remark' == container_name) {
-                // TinyMCE
-                var buttonSave = $('#remark_save');
-                var remarkForm = $('#form-remark');
-                var remarkBox = $('#vtp-remark-box');
-                var changeClassOfButton = function() {
-                  if (tinyMCE.activeEditor && tinyMCE.activeEditor.isDirty() && (($('#remark-accepted').length == 0) || ($('#remark-accepted').prop('checked')))) {
-                      buttonSave.addClass('ui-state-need-to-save');
-                  } else {
-                      buttonSave.removeClass('ui-state-need-to-save');
-                  }
-                };
-                
-                if ($('#remark-accepted').length) {
-                    $('#remark-accepted').on('change', changeClassOfButton);
-                }
-
-                var setIntervalForText = function() {
-                  return setInterval(changeClassOfButton, 2000);
-                };
-
-                remarkForm.on('submit', function(event) {
-                    if (($('#remark-accepted').length > 0) && ($('#remark-accepted').prop('checked') == false)) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    $('#tab-title-remark').removeClass('ui-state-no-content');
-
-                    return;
-                });
-
-                $('.remarks-button').on('click', function () {
-                    tinyMCE.activeEditor.setContent($(this).attr('data-text'));
-                });
-
-                tinyMCE.init({
-                    selector: 'textarea#remark_text',
-                    height: 300,
-                    plugins: ['textcolor', 'link', 'placeholder'],
-                    menubar: false,
-                    skin : "vitoop",
-                    formats: {
-                        alignleft: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'left' },
-                        aligncenter: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'center' },
-                        alignright: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'right' },
-                        alignfull: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'full' },
-                        bold: { inline: 'strong' },
-                        italic: { inline: 'i' },
-                        underline: { inline: 'u' },
-                        strikethrough: { inline: 'del' },
-                    },
-                    toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink',
-                    setup: function (editor) {
-                        editor.on('init', function (e) {
-                            remarkBox.show();
-                        }),
-                        editor.on('change', function (e) {
-                            $('.remark-agreement').show();
-                        });
-                    }
-                });
-
-                setTimeout(setIntervalForText, 2000);
-                // Toggle lock/unlock-button initialization
-                var $btn_lock_remark = $('#' + container_name + ' input#remark_locked:checkbox');
-
-                $btn_lock_remark.filter(':not(:checked)').button({
-                    icons: {
-                        primary: "ui-icon-unlocked"
-                    },
-                    text: false,
-                    label: "unlocked"
-                });
-                $btn_lock_remark.filter(':checked').button({
-                    icons: {
-                        primary: "ui-icon-locked"
-                    },
-                    text: false,
-                    label: "locked"
-                });
-                // Toggle lock/unlock-button eventhandler
-                $btn_lock_remark.on('click', function () {
-                    $(this).filter(':checked').button("option", {
-                        icons: {
-                            primary: "ui-icon-locked"
-                        },
-                        label: 'locked'
-                    }).addClass('vtp-button');
-                    $(this).filter(':not(:checked)').button("option", {
-                        icons: {
-                            primary: "ui-icon-unlocked"
-                        },
-                        label: 'unlocked'
-                    });
-                });
-                // submitbutton and fadein info
-                $('#' + container_name + ' input[type=submit]').button({
-                    icons: {
-                        primary: "ui-icon-pencil"
-                    }
-                });
-                !$('#' + container_name + ' .vtp-uiinfo-info').length || $('#' + container_name + ' .vtp-uiinfo-info').position({
-                    my: 'right bottom',
-                    at: 'left top',
-                    of: '#' + container_name + ' .vtp-uiinfo-anchor',
-                    collision: 'none'
-                }).hide("fade", 3000);
+                var remarkWidget = new RemarkWidget(res_id, vitoop.baseUrl);
+                remarkWidget.init();
             }
 
             /*************************************************************************
              * UIfy: remarkPrivate
              ************************************************************************/
             if ('resource-remark_private' == container_name) {
-                // TinyMCE
-                var buttonSave = $('#remark_private_save');
-                var remarkBox = $('#vtp-remark-private-box');
-                var changeClassOfButton = function() {
-                    if (!tinyMCE.activeEditor.isDirty()) {
-                        buttonSave.removeClass('ui-state-need-to-save');
-                    } else {
-                        buttonSave.addClass('ui-state-need-to-save');
-                    }
-                };
-
-                buttonSave.on('click', function() {
-                    $('#tab-title-remark-private').removeClass('ui-state-no-content');
-                });
-
-
-                var setIntervalForText = function() {
-                    return setInterval(changeClassOfButton, 2000);
-                };
-
-                tinyMCE.init({
-                    selector: 'textarea#remark_private_text',
-                    height: 300,
-                    plugins: ['textcolor', 'link', 'placeholder'],
-                    menubar: false,
-                    skin : "vitoop",
-                    formats: {
-                        alignleft: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'left' },
-                        aligncenter: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'center' },
-                        alignright: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'right' },
-                        bold: { inline: 'strong' },
-                        italic: { inline: 'i' },
-                        underline: { inline: 'u' },
-                        strikethrough: { inline: 'del' },
-                    },
-                    toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink',
-                    setup: function (editor) {
-                        editor.on('init', function (e) {
-                            remarkBox.show();
-                        });
-                    }
-                });
-
-                setTimeout(setIntervalForText, 2000);
-
-                // submitbutton and fadein info
-                $('#' + container_name + ' input[type=submit]').button({
-                    icons: {
-                        primary: "ui-icon-pencil"
-                    }
-                });
-                !$('#' + container_name + ' .vtp-uiinfo-info').length || $('#' + container_name + ' .vtp-uiinfo-info').position({
-                    my: 'right bottom',
-                    at: 'left top',
-                    of: '#' + container_name + ' .vtp-uiinfo-anchor',
-                    collision: 'none'
-                }).hide("fade", 3000);
+                var privateRemarkWidget = new PrivateRemarkWidget(res_id, vitoop.baseUrl);
+                privateRemarkWidget.init();
             }
-
 
             /*************************************************************************
              * UIfy: comments
              ************************************************************************/
             if ('resource-comments' == container_name) {
-                $('#' + container_name + ' input[type=submit]').button({
-                    icons: {
-                        primary: "ui-icon-pencil"
-                    }
-                });
-                $('#comment_save').on('click', function() {
-                    $('#tab-title-comments').removeClass('ui-state-no-content');
-                });
-                !$('#' + container_name + ' .vtp-uiinfo-info').length || $('#' + container_name + ' .vtp-uiinfo-info').position({
-                    my: 'right top',
-                    at: 'left bottom',
-                    of: '#' + container_name + ' .vtp-uiinfo-anchor',
-                    collision: 'none'
-                }).hide("fade", 3000);
-                
-                $('.vtp-verstecken').on('click', function () {
-                    var showHideButton =  $(this);
-                    $.ajax({
-                        method: 'PATCH',
-                        url: vitoop.baseUrl + ([res_type, res_id, 'comments', showHideButton.attr('data-id')].join('/')),
-                        dataType: 'json',
-                        contentType: 'application/json',
-                        data: JSON.stringify({
-                            isVisible: showHideButton.hasClass('ui-state-active')
-                        }),
-                        success: function (data) {
-                            if (data.isVisible) {
-                                showHideButton.removeClass('ui-state-active');
-                            } else {
-                                showHideButton.addClass('ui-state-active');
-                            }
-                        }
-                    });
-                });
+                var commentWidget = new CommentWidget(res_id, res_type, vitoop.baseUrl);
+                commentWidget.init();
             }
             /*************************************************************************
              * UIfy: project
              *****************************************************************/
             if ('resource-project' == container_name) {
-                $('#project_name_save').on('click', function() {
-                    $('#tab-title-rels').removeClass('ui-state-no-content');
-                });
-                $('#project_name_name').autocomplete({
-                    source: vitoop.baseUrl + (['prj', 'suggest'].join('/')),
-                    minLength: 2,
-                    appendTo: 'body'
-                });
-                $('#' + container_name + ' input[type=submit]').button({
-                    icons: {
-                        primary: "ui-icon-disk"
-                    }
-                });
-                !$('#' + container_name + ' .vtp-uiinfo-info').length || $('#' + container_name + ' .vtp-uiinfo-info').position({
-                    my: 'right top',
-                    at: 'right bottom',
-                    of: '#' + container_name + ' .vtp-uiinfo-anchor',
-                    collision: 'none'
-                }).hide("fade", 3000);
+                var projectWidget = new ProjectWidget(res_id, vitoop.baseUrl);
+                projectWidget.init();
             }
             /*************************************************************************
              * UIfy: lexicon
              ************************************************************************/
             if ('resource-lexicon' == container_name) {
-                $('#lexicon_name_save').on('click', function() {
-                    $('#tab-title-rels').removeClass('ui-state-no-content');
-                });
-                $('#lexicon_name_name').autocomplete({
-                    source: function (request, response) {
-                        $.ajax({
-                            url: 'https://de.wikipedia.org/w/api.php',
-                            data: {
-                                format: 'json',
-                                action: 'opensearch',
-                                continue: '',
-                                limit: 10,
-                                namespace: 0,
-                                search: request.term
-                            },
-                            dataType: 'jsonp',
-                            cache: true,
-                            context: $('#lexicon'),
-                            success: function (data) {
-                                response(data[1]);
-                            }
-                        });
-                    },
-                    minLength: 2,
-                    appendTo: 'body'
-                });
-                $('#' + container_name + ' input[type=submit]').button({
-                    icons: {
-                        primary: "ui-icon-disk"
-                    }
-                });
-                !$('#' + container_name + ' .vtp-uiinfo-info').length || $('#' + container_name + ' .vtp-uiinfo-info').position({
-                    my: 'right top',
-                    at: 'right bottom',
-                    of: '#' + container_name + ' .vtp-uiinfo-anchor',
-                    collision: 'none'
-                }).hide("fade", 3000);
-
-                $('.vtp-lexiconbox-item').click(function() {
-                    var text = $(this).text().trim();
-                    var pos = text.search(new RegExp('\\(\\d+\\)'));
-                    if (pos > -1) {
-                        text = text.substring(0, pos).trim();
-                    }
-                    $('#lexicon_name_name').val(text);
-                });
-                $('.vtp-lexicon-submit').click(function(event) {
-                    var input = $('#lexicon_name_name');
-                    if (input.val() == "") {
-                        input.focus();
-                        event.preventDefault();
-                    }
-                });
-                if ($('#lexicon_name_can_add').val() != "1") {
-                    $('#lexicon_name_save').button('disable');
-                }
-                if ($('#lexicon_name_can_remove').val() != "1") {
-                    $('#lexicon_name_remove').button('disable');
-                }
+                var lexiconWidget = new LexiconWidget(res_id, vitoop.baseUrl);
+                lexiconWidget.init();
             }
             /*************************************************************************
              * UIfy: flaginfo
              ************************************************************************/
             if ('resource-flags' == container_name) {
-
 
                 if ($('#vtp-res-flag-info').length) {
 
@@ -1278,7 +922,7 @@ resourceDetail = (function () {
                 storage.setObject(res_type+'-checked', checkedResources);
 
                 e.stopPropagation();
-        });
+            });
 
             $('#vtp-res-dialog-tabs form:not(#form-tag)').ajaxForm({
                 delegation: true,

@@ -189,11 +189,11 @@ function getDateValue(data, type, row, meta) {
 }
 
 function getDateColumn() {
-	return {"data": "created_at", "render": getDateValue};
+    return {"data": "created_at", "render": getDateValue};
 }
 
 function getWrapperForTextValue(data, type, row, meta) {
-	return '<div class="vtp-teasefader-wrapper">'+data+'<div class="vtp-teasefader"></div></div>';
+    return '<div class="vtp-teasefader-wrapper">'+data+'<div class="vtp-teasefader"></div></div>';
 }
 
 function getNameColumn() {
@@ -201,15 +201,15 @@ function getNameColumn() {
 }
 
 function getAuthorColumn() {
-	return {"data": "author", "render": getWrapperForTextValue};
+    return {"data": "author", "render": getWrapperForTextValue};
 }
 
 function getTnopColumn() {
-	return {"data": "tnop"};
+    return {"data": "tnop"};
 }
 
 function getRes12Column() {
-	return {"data": "res12count", orderSequence: [ "desc", "asc"]};
+    return {"data": "res12count", orderSequence: [ "desc", "asc"]};
 }
 
 function getRatingValue(data, type, row, meta) {
@@ -270,6 +270,15 @@ function getUrlValue(url, type, row, meta) {
     return '<a class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink" href="'+url+'" target="_blank"><span class="ui-icon ui-icon-extlink">-></span></a>';
 }
 
+function getResourceViewValue(id, type, row, meta) {
+    return '<a class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink" onclick="return openAsResourceView('+id+');" href="#" target="_blank"><span class="ui-icon ui-icon-extlink">-></span></a>';
+}
+
+function openAsResourceView(id) {
+    window.open(vitoop.baseUrl + 'views/'+id, '_blank');
+    return false;
+}
+
 function getInternalUrlValue(url, type, row, meta) {
     return '<a class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink" href="'+url+'"><span class="ui-icon ui-icon-extlink">-></span></a>';
 }
@@ -284,6 +293,14 @@ function getProjectUrlValue(data, type, row, meta) {
 
 function getLexiconUrlValue(data, type, row, meta) {
     return getInternalUrlValue(vitoop.baseUrl+'lexicon/'+data, type, row, meta);
+}
+
+function getPdfUrlValue(isEdit) {
+    if (isEdit) {
+        return getUnlinkColumn();
+    }
+
+    return {"data": "id", "render": getResourceViewValue};
 }
 
 function getUrlColumn(isEdit) {
@@ -423,7 +440,7 @@ function getColumns(type, isAdmin, isEdit, isCoef) {
         if (isAdmin) {
             columns.push(getIsDownloadedColumn());
         }
-        columns.push(getUrlColumn(isEdit));
+        columns.push(getPdfUrlValue(isEdit));
         
         return columns;
     }

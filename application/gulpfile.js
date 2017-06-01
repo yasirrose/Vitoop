@@ -35,8 +35,17 @@ gulp.task('datatables-js', function () {
         .pipe(gulp.dest('web/js/datatables'));
 });
 
-gulp.task('js', ['angular-js', 'lexicon-js', 'tinymce-js', 'datatables-js'], function () {
+gulp.task('utils-js', function () {
+    return gulp.src(['src/Vitoop/InfomgmtBundle/Resources/public/js/utils/**/*.*'])
+        .pipe(sourcemaps.init())
+        .pipe(concat('utils.js'))
+        .pipe(gulpif(env === 'prod', uglify()))
+        .pipe(gulp.dest('web/js/utils'));
+});
+
+gulp.task('js', ['angular-js', 'lexicon-js', 'tinymce-js', 'datatables-js', 'utils-js'], function () {
     return gulp.src(['src/Vitoop/InfomgmtBundle/Resources/public/js/jquery/*.js',
+        'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/widgets/*.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/*.js'])
         .pipe(sourcemaps.init())
         .pipe(concat('vitoop.js'))

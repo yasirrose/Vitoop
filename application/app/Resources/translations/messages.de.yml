@@ -41,6 +41,16 @@ label:
         data: Account-Daten
     credentials: Credentials
     open: öffnen
+    title: Titel
+    url: URL
+    author: Author
+    tnop: Seiten
+    pdf_date: Erschienen
+    lang: Sprache
+    remarks: Anmerkungen
+    privat_remarks: Privat
+    comments: Kommentare
+    assignments: Verknüfpungen
 logout:
     label: logout
     message: Bei VitooP abmelden

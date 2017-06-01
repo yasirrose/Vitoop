@@ -1,0 +1,71 @@
+.pdfobject-container {
+    /*width: 100%;*/
+    /*max-width: 800px;*/
+    height: 600px;
+    margin: 0;
+}
+
+.pdfobject { border: solid 1px #666; }
+.hidden { display: none; }
+
+#vtp-view-container {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+}
+
+#vtp-view-container #resource-tag {
+    width: 380px;
+}
+
+#vtp-view-meta {
+    position: absolute;
+    top: 0px;
+    width: 400px;
+    height: 100%;
+    float:left;
+    z-index: 20;
+    padding: 10px;
+}
+
+#pdf-view{
+    position: absolute;
+    top: 0px;
+    left: 400px;
+    right: 0;
+    bottom: 0px;
+    height: 100%;
+    float:right;
+}
+
+#vtp-pdf-view-toggle {
+    position: absolute;
+    left: 400px;
+    bottom: 10px;
+    width: 36px;
+    
+    z-index: 30;
+}
+
+#vtp-pdf-view-toggle-button {
+    height: 50px;
+    width: 32px;
+    border: 1px solid #aed0ea;
+}
+
+.vtp-view-textarea {
+    height: 55px;
+    width: 365px;
+}
+
+.vtp-view-button-container {
+    padding: 20px 26px 20px 0px;
+    float: right;
+    text-align: right;
+}
+
+.vtp-view-button-container button {
+    width: 200px;
+    margin-top: 5px;
+}
+

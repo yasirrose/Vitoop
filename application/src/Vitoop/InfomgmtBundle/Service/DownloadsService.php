@@ -7,8 +7,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Knp\Bundle\SnappyBundle\Snappy\LoggableGenerator;
 use Vitoop\InfomgmtBundle\Entity\Downloadable\DownloadableInterface;
 use Vitoop\InfomgmtBundle\Entity\Teli;
-use Vitoop\InfomgmtBundle\Entity\Option;
-use Vitoop\InfomgmtBundle\Repository\OptionRepository;
 
 class DownloadsService
 {

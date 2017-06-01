@@ -5,7 +5,6 @@ namespace Vitoop\InfomgmtBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Buzz\Browser;
 
 /**
  * @TODO: Need refactoring - change correct content-type

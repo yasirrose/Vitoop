@@ -289,7 +289,6 @@ class ResourceDataCollector
         $form_tag = $this->formCreator->createTagForm($tag, $action);
         $form_tag = $this->addPermissionsToTagForm($form_tag);
 
-
         if ($this->handleData) {
             $form_tag->handleRequest($this->request);
             $tag_showown = $form_tag->get('showown')->getData();
@@ -357,7 +356,7 @@ class ResourceDataCollector
             'tagsRestRemovedCount' => !empty($tagsRestRemovedCount)?$tagsRestRemovedCount:''
         ));
     }
-
+    
     public function getMetadata()
     {
         return [
