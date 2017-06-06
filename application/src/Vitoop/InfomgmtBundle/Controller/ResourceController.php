@@ -728,11 +728,9 @@ class ResourceController extends ApiController
      */
     public function pdfAction(Pdf $resource)
     {
-        $response = new \Vitoop\InfomgmtBundle\Response\PDFResponse(
+        return new \Vitoop\InfomgmtBundle\Response\PDFResponse(
             $resource->getId() . '.pdf',
-            file_get_contents($resource->getUrl())
+            $this->get('vitoop.url_getter')->getBinaryContentFromUrl($resource->getUrl())
         );
-        
-        return $response;
     }
 }

@@ -39,6 +39,10 @@ services:
         class:          '%vitoop.user_config_manager.class%'
         arguments:      ['@doctrine.orm.entity_manager', '@security.token_storage']
 
+    vitoop.url_getter:
+        class: Vitoop\InfomgmtBundle\Service\UrlGetter
+
+
     #KernelListeners
     kernel.listener.resource_data_collector_initializer_listener:
         class:          Vitoop\InfomgmtBundle\EventListener\ResourceDataCollectorInitializerListener

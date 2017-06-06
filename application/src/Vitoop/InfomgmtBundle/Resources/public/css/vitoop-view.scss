@@ -16,6 +16,7 @@
 
 #vtp-view-container #resource-tag {
     width: 380px;
+    padding-top: 20px;
 }
 
 #vtp-view-meta {
@@ -41,9 +42,8 @@
 #vtp-pdf-view-toggle {
     position: absolute;
     left: 400px;
-    bottom: 10px;
+    bottom: 30px;
     width: 36px;
-    
     z-index: 30;
 }
 
@@ -54,7 +54,7 @@
 }
 
 .vtp-view-textarea {
-    height: 55px;
+    height: 25px;
     width: 365px;
 }
 
@@ -69,3 +69,11 @@
     margin-top: 5px;
 }
 
+#vtp-view-meta #tag_text {
+    width: 200px;
+    height: 26px;
+}
+
+#vtp-view-meta #form-tag button {
+    height: 26px;
+}

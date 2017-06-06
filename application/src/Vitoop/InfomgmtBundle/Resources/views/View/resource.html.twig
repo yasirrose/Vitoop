@@ -10,7 +10,7 @@
     <script src="{{ asset('js/vitoop.js') }}"></script>
     <script src="{{ asset('js/utils/utils.js') }}"></script>
 </head>
-<body>
+<body id="vtp-application">
     <div id="vtp-view-container">
         <div id="vtp-view-meta">
             <div class="vtp-fh-top">
@@ -106,52 +106,28 @@
         tagWidget.init();
 
         $('#vtp-remark-dialog').on('click', function () {
-            $('#resource-remark').dialog({
-                autoOpen: false,
-                width: 720,
-                position: { my: 'center top', at: 'center top' },
-                modal: true,
-            });
-            $('#resource-remark').dialog('open');
-
+            openDialog('#resource-remark');
+            
             var remarkWidget = new RemarkWidget(resourceId, baseUrl);
             remarkWidget.init();
         });
         
         $('#vtp-remark-private-dialog').on('click', function () {
-            $('#resource-remark_private').dialog({
-                autoOpen: false,
-                width: 720,
-                position: { my: 'center top', at: 'center top' },
-                modal: true,
-            });
-            $('#resource-remark_private').dialog('open');
+            openDialog('#resource-remark_private');
 
             var privateRemarkWidget = new PrivateRemarkWidget(resourceId, baseUrl);
             privateRemarkWidget.init();
         });
         
         $('#vtp-comments-dialog').on('click', function () {
-            $('#resource-comments').dialog({
-                autoOpen: false,
-                width: 720,
-                position: { my: 'center top', at: 'center top' },
-                modal: true,
-            });
-            $('#resource-comments').dialog('open');
-
+            openDialog('#resource-comments');
+            
             var commentWidget = new CommentWidget(resourceId, resourceType, baseUrl);
             commentWidget.init();
         });
         
         $('#vtp-assignments-dialog').on('click', function () {
-            $('#resource-assignments').dialog({
-                autoOpen: false,
-                width: 720,
-                position: { my: 'center top', at: 'center top' },
-                modal: true,
-            });
-            $('#resource-assignments').dialog('open');
+            openDialog('#resource-assignments');
             
             var projectWidget = new ProjectWidget(resourceId, baseUrl);
             projectWidget.init();
@@ -159,6 +135,21 @@
             var lexiconWidget = new LexiconWidget(resourceId, baseUrl);
             lexiconWidget.init();
         });
+        
+        function openDialog(containerId) {
+            $(containerId).dialog({
+                autoOpen: false,
+                width: 720,
+                modal: true,
+                position: {
+                    my: 'left top',
+                    at: 'right top',
+                    of: '#vtp-remark-dialog',
+                    collision: 'flip flip'
+                }
+            });
+            $(containerId).dialog('open');
+        }
     });
     </script>
 </body>
