@@ -230,6 +230,12 @@ services:
         class: Vitoop\InfomgmtBundle\Repository\InvitationRepository
         arguments: ["@doctrine.orm.entity_manager"]
 
+    vitoop.repository.resource:
+        class: Vitoop\InfomgmtBundle\Repository\ResourceRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - Vitoop\InfomgmtBundle\Entity\Resource
+
     vitoop.validator.user_unique:
         class: Vitoop\InfomgmtBundle\Validator\Constraints\User\UserUniqueValidator
         arguments: ["@vitoop.repository.user"]

@@ -11,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 class Country
 {
     /**
+     * @var string
+     *
      * @ORM\Id()
      * @ORM\Column(name="code", type="string", length=2)
      * @ORM\GeneratedValue(strategy="NONE")
@@ -18,11 +20,15 @@ class Country
     protected $code;
 
     /**
+     * @var string
+     *
      * @ORM\Column(name="name", type="string", length=255)
      */
     protected $name;
 
     /**
+     * @var int
+     *
      * @ORM\Column(name="sort_order", type="integer", nullable=true)
      */
     protected $sortOrder;
@@ -34,6 +40,9 @@ class Country
         $this->sortOrder = $order;
     }
 
+    /**
+     * @return string
+     */
     public function getCode()
     {
         return $this->code;
@@ -47,5 +56,10 @@ class Country
     public function getSortOrder()
     {
         return $this->sortOrder;
+    }
+
+    public function __toString()
+    {
+        return $this->code;
     }
 }

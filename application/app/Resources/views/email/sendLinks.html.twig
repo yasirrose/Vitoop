@@ -1,0 +1,19 @@
+<html>
+<head></head>
+<body>
+    <p>{{ body }}</p>
+    {% for resource in resources%}
+        <p><strong>{{ resource.getResourceName() }}</strong> <strong>{{ resource.name }}</strong><p>
+
+        <p><strong>URL</strong> <a href="{{ resource.getViewLink() }}">{{ resource.getViewLink() }}</a></p>
+
+        <p>{{ 'label.remarks'|trans }}
+            {% set remark = resource.getLastRemark() %}
+            {% if remark is not empty %}
+                {{ remark.text|raw }}
+            {% endif %}
+        </p>
+        <p> </p>
+    {% endfor %}
+</body>
+</html>

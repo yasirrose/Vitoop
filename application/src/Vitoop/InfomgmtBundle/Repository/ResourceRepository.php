@@ -486,6 +486,7 @@ class ResourceRepository extends EntityRepository
             ->setHint("mysqlWalker.sqlCalcFoundRows", true)
             ->getResult();
     }
+
     public function getResourcesTotal(SearchResource $search)
     { 
         return $this->_em->getConnection()->query('SELECT FOUND_ROWS()')->fetchColumn(0);
@@ -502,6 +503,22 @@ class ResourceRepository extends EntityRepository
             ->getQuery()
             ->getResult()
         ;
+    }
+
+    /**
+     * @param array $resourceIds
+     * @return array
+     */
+    public function findSendLinkViewsByResourceIds(array $resourceIds)
+    {
+        return $this->createQueryBuilder('r')
+            ->select('DISTINCT r, rem')
+            ->leftJoin('r.remarks', 'rem')
+            ->where('r.id IN (:ids)')
+            ->setParameter('ids', $resourceIds)
+            ->orderBy('rem.created_at', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
     private function getSearchTotal(SearchResource $search, $class, $columns = null)

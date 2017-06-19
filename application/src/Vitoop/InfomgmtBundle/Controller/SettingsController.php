@@ -2,7 +2,6 @@
 namespace Vitoop\InfomgmtBundle\Controller;
 
 use JMS\Serializer\DeserializationContext;
-use JMS\Serializer\SerializationContext;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;

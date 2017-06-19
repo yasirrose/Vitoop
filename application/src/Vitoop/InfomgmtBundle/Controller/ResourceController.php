@@ -692,7 +692,7 @@ class ResourceController extends ApiController
     {
         $entityManager = $this->getDoctrine()->getManager();
         $resource = $entityManager->getRepository(
-                Resource\ResourceFactory::getClassByType($resType)
+                Resource\ResourceType::getClassByResourceType($resType)
             )->find($resId);
         if (!$resource) {
             $this->createNotFoundException();

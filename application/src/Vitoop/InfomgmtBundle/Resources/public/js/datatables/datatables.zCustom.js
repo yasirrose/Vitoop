@@ -530,8 +530,10 @@ function checkOpenButtonState(resType) {
     if (!linkStorage.isNotEmpty()) {
         $('#button-checking-links').hide();
         $('#button-checking-links-remove').hide();
+        $('#button-checking-links-send').hide();
     } else {
         $('#button-checking-links').show();
         $('#button-checking-links-remove').show();
+        $('#button-checking-links-send').show();
     }
 }

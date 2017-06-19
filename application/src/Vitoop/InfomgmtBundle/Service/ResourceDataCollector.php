@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Vitoop\InfomgmtBundle\DTO\Resource\ResourceDTO;
 use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\Entity\Resource\ResourceFactory;
+use Vitoop\InfomgmtBundle\Entity\Resource\ResourceType;
 use Vitoop\InfomgmtBundle\Entity\Tag;
 use Vitoop\InfomgmtBundle\Entity\Rating;
 use Vitoop\InfomgmtBundle\Entity\Remark;
@@ -203,7 +204,7 @@ class ResourceDataCollector
             $this->isNewValid = $formData->isValid();
             if ($this->isNewValid) {
                 try {
-                    $class = ResourceFactory::getClassByType($res_type);
+                    $class = ResourceType::getClassByResourceType($res_type);
                     $newResource = $class::createFromResourceDTO($dto);
                     $this->rm->checkUniqueResourceName($dto, $newResource->getResourceTypeIdx());
                     $new_id = $this->rm->save($newResource);

@@ -6,8 +6,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Vitoop\InfomgmtBundle\Form\DataTransformer\EmptyStringToNullTransformer;
-use Vitoop\InfomgmtBundle\Form\DataTransformer\PublishedToDateStringTransformer;
 
 class BookType extends AbstractType
 {

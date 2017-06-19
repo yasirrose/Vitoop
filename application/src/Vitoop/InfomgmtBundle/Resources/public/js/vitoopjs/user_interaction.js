@@ -27,6 +27,7 @@ userInteraction = (function () {
         });
         
         $('#button-checking-links').button({});
+        $('#button-checking-links-send').button({});
         $('#button-checking-links-remove').button({
             icons: {
                     primary: "ui-icon-close"

@@ -65,9 +65,10 @@ page:
 word:
     and: und
     available: verfügbar
+'The mail was sent successfully': 'Die Email wurde erfolgreich verschickt'
 'User account is disabled.': 'gelöscht'
 'Bad credentials.': 'Falsche Eingabe'
-'Linked Records': Verknüpfte Datensätze
+'Linked Records': 'Verknüpfte Datensätze'
 'This article based on the article': 'Dieser Artikel basiert auf dem Artikel'
 'from the free encyclopedia': 'aus der freien Enzyklopädie'
 'and is available under the license': 'und steht unter der Doppellizenz'

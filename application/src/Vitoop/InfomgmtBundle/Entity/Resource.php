@@ -5,6 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Vitoop\InfomgmtBundle\DTO\Resource\ResourceDTO;
+use Vitoop\InfomgmtBundle\Entity\Resource\ResourceType;
 
 /**
  * @ORM\Entity(repositoryClass="Vitoop\InfomgmtBundle\Repository\ResourceRepository")
@@ -57,6 +58,7 @@ class Resource
 
     /**
      * @ORM\OneToMany(targetEntity="Remark", mappedBy="resource")
+     * @ORM\OrderBy({"created_at" = "DESC"})
      */
     protected $remarks;
 
@@ -176,18 +178,7 @@ class Resource
      */
     public function getResourceName()
     {
-        $arr_resourcenames = array(
-            "0" => "Resource",
-            "1" => "Pdf",
-            "2" => "Adresse",
-            "3" => "Link",
-            "4" => "Textlink",
-            "5" => "Lexikon",
-            "6" => "Projekt",
-            "7" => "Buch"
-        );
-
-        return $arr_resourcenames[$this->getResourceTypeIdx()];
+        return ResourceType::getResourceNameByIndex($this->getResourceTypeIdx());
     }
 
     /**
@@ -363,6 +354,14 @@ class Resource
     public function getRemarks()
     {
         return $this->remarks;
+    }
+
+    /**
+     * @return Remark
+     */
+    public function getLastRemark()
+    {
+        return $this->remarks->first();
     }
 
     /**

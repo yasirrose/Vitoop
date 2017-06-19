@@ -13,6 +13,8 @@ use Vitoop\InfomgmtBundle\Entity\Comment;
 use Vitoop\InfomgmtBundle\Entity\RelResourceTag;
 use Vitoop\InfomgmtBundle\Entity\RelResourceResource;
 use Vitoop\InfomgmtBundle\Entity\Watchlist;
+use Vitoop\InfomgmtBundle\Entity\User;
+use Vitoop\InfomgmtBundle\Entity\Resource\ResourceType;
 use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
 use Vitoop\InfomgmtBundle\DTO\Resource\ResourceDTO;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -88,10 +90,7 @@ class ResourceManager
 
     public function getUsernameByUserId($id)
     {
-        $repo = $this->em->getRepository('Vitoop\\InfomgmtBundle\\Entity\\User');
-
-        return $repo->findOneById($id)
-                    ->getUsername();
+        return $this->em->getRepository(User::class)->findOneById($id)->getUsername();
     }
 
     public function getEntityManager()
@@ -114,7 +113,7 @@ class ResourceManager
     public function getRepository($resource_type)
     {
         try {
-            $repo = $this->em->getRepository('Vitoop\\InfomgmtBundle\\Entity\\' . $this->arr_resource_type_to_entityname[$resource_type]);
+            $repo = $this->em->getRepository(ResourceType::getClassByResourceType($resource_type));
         } catch (\Exception $e) {
             throw new \Exception('unknown $resource_type:' . $resource_type);
         }
@@ -144,7 +143,7 @@ class ResourceManager
             if (!method_exists($resource, 'getUrl')) {
                 throw $e;
             }
-            $repo = $this->getRepository(Resource\ResourceFactory::getTypeByIndex($resource->getResourceTypeIdx()));
+            $repo = $this->getRepository(ResourceType::getTypeByIndex($resource->getResourceTypeIdx()));
             $existing_resource = $repo->findOneBy(['url' => $resource->getUrl()]);
             if (null === $existing_resource) {
                 throw new \Exception('EIn Fehler ist aufgetreten, sorry!');

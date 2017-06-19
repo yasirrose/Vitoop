@@ -50,6 +50,7 @@
                 {% if app.user %}
                     <button class="vtp-button" id="button-checking-links-remove" style="display:none">x</button>
                     <button class="vtp-button" id="button-checking-links" style="display:none">{{'label.open'|trans}}</button>
+                    <button class="vtp-button" id="button-checking-links-send" style="display:none">{{'label.send'|trans}}</button>
                     <form id="vtp-header-login" action="{{ path('_logout') }}" method="get" enctype="application/x-www-form-urlencoded">
                         <button id="vtp-user-loginform-logout" class="vtp-button" title="{{'logout.message'|trans}}" value="{{'logout.label'|trans}}" type="submit">{{ app.user.username }}</button>
                     </form>
@@ -244,6 +245,9 @@
 
             <div id="vtp-res-dialog-help" title="Hilfe">
 
+            </div>
+            <div id="vtp-res-dialog-links" style="display:none">
+                {# render(controller('VitoopInfomgmtBundle:UserLink:userLinks')) #}
             </div>
             {% if is_granted('ROLE_ADMIN') %}
                 {% include 'VitoopInfomgmtBundle:User:termsTinyMce.html.twig' %}

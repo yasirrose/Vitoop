@@ -1278,7 +1278,8 @@ form#form-tag {
 }
 
 #resource-quickview form#vtp-form-data label,
-#vtp-view-meta label{
+#vtp-view-meta label,
+#form-user-links label{
     color: #2779aa;
     font-size: 0.85em;
 }
@@ -1461,4 +1462,31 @@ a.vtp-uiaction-open-url:visited {
 
 #resource-title {
     vertical-align: middle;
+}
+
+#send_links_textBody {
+    height: 100px;
+}
+
+#form-user-links-info {
+    border: 1px solid #aed0ea;
+    margin-top: 10px;
+}
+
+.vtp-send-type {
+    width: 10%;
+    float: left;
+    padding: 5px 0px 0px 5px;
+    text-transform: capitalize;
+}
+
+.vtp-send-name {
+    width: 87%;
+    overflow: hidden;
+    float: left;
+    padding: 5px 0px 0px 5px;
+}
+
+.vtp-clear {
+    clear: both;
 }

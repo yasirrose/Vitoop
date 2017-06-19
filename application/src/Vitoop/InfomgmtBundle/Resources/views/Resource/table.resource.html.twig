@@ -280,7 +280,22 @@
             linkStorage.clearAllResources();
             checkOpenButtonState();
             $('.open-checkbox-link').prop('checked', false);
-            e.stopPropagation('{{ restype }}');
+            e.stopPropagation();
+            return false;
+        });
+        $('#button-checking-links-send').off().on('click', function (e) {
+            $('#vtp-res-dialog-links').dialog({
+                autoOpen: false,
+                width: 720,
+                modal: true,
+                position: { my: 'center top', at: 'center top', of: '#vtp-nav' },
+            });
+            $('#vtp-res-dialog-links').dialog('open');
+
+            var linkWidget = new SendLinkWidget();
+            linkWidget.getFormFromServer('{{ path('vitoop_infomgmt_userlink_userlinks') }}');
+
+            e.stopPropagation();
             return false;
         });
     });

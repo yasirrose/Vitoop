@@ -50,6 +50,10 @@ _pdf_viewer:
     resource: "@VitoopInfomgmtBundle/Controller/PdfViewerController.php"
     type:     annotation
 
+_user_links:
+    resource: "@VitoopInfomgmtBundle/Controller/UserLinkController.php"
+    type:     annotation
+
 _login_check:
     path: /login_check
    

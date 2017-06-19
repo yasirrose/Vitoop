@@ -4,6 +4,7 @@ namespace Vitoop\InfomgmtBundle\Service;
 
 use Swift_Mailer;
 use Symfony\Bundle\TwigBundle\TwigEngine;
+use Vitoop\InfomgmtBundle\DTO\Links\SendLinksDTO;
 use Vitoop\InfomgmtBundle\Entity\Invitation;
 use Vitoop\InfomgmtBundle\Entity\User;
 
@@ -60,7 +61,34 @@ class EmailSender
         return $this->mailer->send($message);
     }
 
+    /**
+     * @param SendLinksDTO $dto
+     * @param array $resources
+     * @return int
+     */
+    public function sendLinks(SendLinksDTO $dto, array $resources)
+    {
+        $message = $this->createMessage(
+            $dto->emailSubject,
+            $dto->email,
+            $this->templater->render(
+                'email/sendLinks.html.twig',
+                [
+                    'body'  => $dto->textBody,
+                    'resources' => $resources
+                ]
+            )
+        );
 
+        return $this->mailer->send($message);
+    }
+
+    /**
+     * @param $subject
+     * @param $emailTo
+     * @param $body
+     * @return \Swift_Mime_MimePart
+     */
     private function createMessage($subject, $emailTo, $body)
     {
         return \Swift_Message::newInstance()

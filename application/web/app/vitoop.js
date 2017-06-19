@@ -203,9 +203,6 @@ app.controller('PrjController', function ($scope, $http, $filter, $timeout) {
             }
         });
     };
-
-
-
 });
 
 app.controller('ToDoController', function ($scope, $http, $filter, $timeout) {
