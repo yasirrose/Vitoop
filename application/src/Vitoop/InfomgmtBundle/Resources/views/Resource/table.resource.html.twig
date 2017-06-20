@@ -248,10 +248,12 @@
 
         // Handle click on checkbox
         $('table#list-{{ restype }}').on('click', 'input[type="checkbox"]', function(e) {
+            var resType = '{{ restype }}';
             var resourceChecked = dataStorage.getObject('{{ restype }}-checked');
             var $row = $(this).closest('tr');
             // Get row data
             var data = datatable.row($row).data();
+            data.resType = resType;
             var storageKey = data.id + '';
             if(this.checked) {
                 resourceChecked[storageKey] = data;
@@ -269,7 +271,11 @@
             for (var i = 0; i < resources.length; i++) {
                 for (var property in resources[i]) {
                     if (resources[i].hasOwnProperty(property) && 'url' in resources[i][property]) {
-                        window.open(resources[i][property].url);
+                        if ('pdf' === resources[i][property]['resType']) {
+                            openAsResourceView(resources[i][property].id);
+                        } else {
+                            window.open(resources[i][property].url);
+                        }
                     }
                 }
             }
