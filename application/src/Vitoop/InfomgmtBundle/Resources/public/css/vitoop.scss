@@ -1479,13 +1479,14 @@ a.vtp-uiaction-open-url:visited {
     float: left;
     padding: 5px 0px 0px 5px;
     text-transform: capitalize;
+    font-weight: bold;
 }
 
 .vtp-send-name {
     width: 87%;
     overflow: hidden;
     float: left;
-    padding: 5px 0px 0px 5px;
+    padding: 5px 0px 5px 5px;
 }
 
 .vtp-clear {

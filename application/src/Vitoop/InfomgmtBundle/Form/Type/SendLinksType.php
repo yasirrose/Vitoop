@@ -30,10 +30,15 @@ class SendLinksType extends AbstractType
             ->add('emailSubject', TextType::class, [
                 'label' => false, 
                 'attr' => [
-                    'placeholder' => 'Subject'
+                    'placeholder' => 'label.subject'
                 ]])
             ->add('resourceIds', HiddenType::class)
-            ->add('textBody', TextareaType::class, ['label' => false])
+            ->add('textBody', TextareaType::class, [
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'Hier kannst Du eine Email verschicken, in der die angehakten Datensätze mit aufgeführt sind. Als Absender wird die Email-Adresse verwendet, die Du bei der Anmeldung angegeben hast. Sie kann im Benutzermanagement (Button oben im Header rechts) geändert werden.'
+                ]
+            ])
             ->add('save', InputTypeSubmitType::class, ['label' => 'Senden']);
     }
 

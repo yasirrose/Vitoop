@@ -121,6 +121,15 @@ class Address extends Resource
     }
 
     /**
+     * @return string
+     */
+    public function getSendLink()
+    {
+        return $this->contact5;
+    }
+
+
+    /**
      * Set id
      *
      * @param integer $id

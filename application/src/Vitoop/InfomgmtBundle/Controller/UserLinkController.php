@@ -25,7 +25,7 @@ class UserLinkController extends Controller
             $resourceData = $this->get('vitoop.repository.resource')
                 ->findSendLinkViewsByResourceIds($dto->getResourceIds());
 
-            $this->get('vitoop.email_sender')->sendLinks($dto, $resourceData);
+            $this->get('vitoop.email_sender')->sendLinks($dto, $resourceData, $this->getUser());
 
             $this->get('session')->getFlashBag()->add(
                 'success',

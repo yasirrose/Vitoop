@@ -14,7 +14,7 @@ SendLinkWidget.prototype.init = function () {
     for (var resourceType in resources) {
         for (var resourceId in resources[resourceType]) {
             $('#form-user-links-info').append(
-                '<div class="vtp-send-type">'+this.getResourceTypeName(resourceType)+'</div>' +
+                '<div class="vtp-send-type">'+this.getResourceTypeName(resourceType)+':</div>' +
                 '<div class="vtp-send-name">'+resources[resourceType][resourceId].name+'</div>' +
                 '<div class="vtp-clear"></div>'
             );

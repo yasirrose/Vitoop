@@ -66,7 +66,7 @@ class EmailSender
      * @param array $resources
      * @return int
      */
-    public function sendLinks(SendLinksDTO $dto, array $resources)
+    public function sendLinks(SendLinksDTO $dto, array $resources, User $user)
     {
         $message = $this->createMessage(
             $dto->emailSubject,
@@ -79,6 +79,7 @@ class EmailSender
                 ]
             )
         );
+        $message->setFrom($user->getEmail());
 
         return $this->mailer->send($message);
     }
@@ -87,13 +88,13 @@ class EmailSender
      * @param $subject
      * @param $emailTo
      * @param $body
-     * @return \Swift_Mime_MimePart
+     * @return \Swift_Message
      */
     private function createMessage($subject, $emailTo, $body)
     {
         return \Swift_Message::newInstance()
             ->setSubject($subject)
-            ->setFrom(array('einladung@vitoop.org' => 'David Rogalski'))
+            ->setFrom(['einladung@vitoop.org' => 'David Rogalski'])
             ->setTo($emailTo)
             ->setBody($body, 'text/html');
     }

@@ -51,6 +51,7 @@ label:
     privat_remarks: Privat
     comments: Kommentare
     assignments: Verknüfpungen
+    subject: Betreff
 logout:
     label: logout
     message: Bei VitooP abmelden

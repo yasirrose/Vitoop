@@ -516,7 +516,7 @@ class ResourceRepository extends EntityRepository
             ->leftJoin('r.remarks', 'rem')
             ->where('r.id IN (:ids)')
             ->setParameter('ids', $resourceIds)
-            ->orderBy('rem.created_at', 'DESC')
+            ->orderBy('field(r.id, '.implode(',', $resourceIds).')')
             ->getQuery()
             ->getResult();
     }

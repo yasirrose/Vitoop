@@ -3,17 +3,14 @@
 <body>
     <p>{{ body }}</p>
     {% for resource in resources%}
-        <p><strong>{{ resource.getResourceName() }}</strong> <strong>{{ resource.name }}</strong><p>
-
-        <p><strong>URL</strong> <a href="{{ resource.getViewLink() }}">{{ resource.getViewLink() }}</a></p>
-
-        <p>{{ 'label.remarks'|trans }}
+        <p style="font-size: .9em;"><strong>{{ resource.getResourceName() }}:</strong> <strong>{{ resource.name }}</strong><br/>
+        <strong>URL:</strong> <a href="{{ resource.getSendLink() }}">{{ resource.getSendLink() }}</a><br/>
+        <strong>{{ 'label.remarks'|trans }}:</strong>
             {% set remark = resource.getLastRemark() %}
             {% if remark is not empty %}
                 {{ remark.text|raw }}
             {% endif %}
         </p>
-        <p> </p>
     {% endfor %}
 </body>
 </html>

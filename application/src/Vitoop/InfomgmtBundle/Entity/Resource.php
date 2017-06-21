@@ -206,6 +206,16 @@ class Resource
     }
 
     /**
+     * Return url for email sending link
+     *
+     * @return string
+     */
+    public function getSendLink()
+    {
+        return $this->getViewLink();
+    }
+
+    /**
      * Get id
      *
      * @return integer
