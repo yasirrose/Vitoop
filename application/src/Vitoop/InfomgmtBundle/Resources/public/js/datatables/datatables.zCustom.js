@@ -4,8 +4,8 @@ function dtLanguageObject() {
         "search": "",
         "loadingRecords": '<div id="ballsWaveG"><div id="ballsWaveG_1" class="ballsWaveG"></div><div id="ballsWaveG_2" class="ballsWaveG"></div><div id="ballsWaveG_3" class="ballsWaveG"></div><div id="ballsWaveG_4" class="ballsWaveG"></div><div id="ballsWaveG_5" class="ballsWaveG"></div><div id="ballsWaveG_6" class="ballsWaveG"></div><div id="ballsWaveG_7" class="ballsWaveG"></div><div id="ballsWaveG_8" class="ballsWaveG"></div></div>',
         "searchPlaceholder": "ergebnisliste durchsuchen",
-        "info": "_START_ - _END_ aus _TOTAL_ Datensätzen",
-        "infoEmpty": "0 - 0 aus 0 Datensätzen",
+        "info": "_START_ - _END_ aus _TOTAL_",
+        "infoEmpty": "0 - 0 aus 0",
         "emptyTable": "Hier gibt es leider keinen Treffen - wenn du willst, kannst du Datensätze zu diesem Thema in die Datenbank eintragen.",
         "paginate": {
             "first": "<span class='vtp-pg-inner ui-icon ui-icon-seek-start'>|&lt;&lt;</span>",
@@ -22,7 +22,7 @@ $.fn.dataTable.ext.search.push(
     }
 );
 
-$.fn.DataTable.ext.pager.numbers_length = 13;
+$.fn.DataTable.ext.pager.numbers_length = 17;
 
 function dtDomObject() {
 	var toolbar_prefix = 'fg-toolbar ui-toolbar vtp-pg-pane ui-state-defaultgulp ui-helper-clearfix ui-corner-';
