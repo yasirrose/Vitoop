@@ -25,7 +25,7 @@ userInteraction = (function () {
         $('#button-terms-admin').button({
 
         });
-        
+
         $('#button-checking-links').button({});
         $('#button-checking-links-send').button({});
         $('#button-checking-links-remove').button({

@@ -1,5 +1,7 @@
 {% if isCoef is defined and isCoef %}
     {% set dateTitle = 'Koeff.' %}
+{% elseif restype == 'pdf' or restype == 'teli'  %}
+    {% set dateTitle = 'Erschienen' %}
 {% else %}
     {% set dateTitle = 'Erstellt' %}
 {% endif %}
@@ -27,10 +29,10 @@
             <thead>
             <tr id="{{ restype }}-table" class="vtp-res-dialog-onclick">
             {% if restype == 'pdf' %}
-                <th style="width:8%;"><span class="table-head">{{ dateTitle }}</span></th>
+                <th style="width:10%;"><span class="table-head">{{ dateTitle }}</span></th>
                 <th style="width:2%"></th>
                 <th style="width:28%;"><span class="table-head">Titel</span></th>
-                <th style="width:17%;"><span class="table-head">Autor</span></th>
+                <th style="width:15%;"><span class="table-head">Autor</span></th>
                 <th style="width:8%;"><span class="table-head">Seiten</span></th>
                 <th style="width:11%;" data-b-searchable="false"><span class="table-head">Bewertung</span></th>
                 <th style="width:5%;" data-b-searchable="false"><span class="table-head">RR</span></th>
@@ -61,10 +63,10 @@
         {% endif %}
             {% if restype == 'teli' %}
             {% set colspan=7 %}
-            <th style="width:8%;"><span class="table-head">{{ dateTitle }}</span></th>
+            <th style="width:10%;"><span class="table-head">{{ dateTitle }}</span></th>
             <th style="width:2%"></th>
             <th style="width:34%;"><span class="table-head">Bezeichnung</span></th>
-            <th style="width:23%;"><span class="table-head">Autor</span></th>
+            <th style="width:21%;"><span class="table-head">Autor</span></th>
             <th style="width:11%;" data-b-searchable="false"><span class="table-head">Bewertung</span></th>
             <th style="width:5%;" data-b-searchable="false"><span class="table-head">RR</span></th>
             <th style="width:14%;"><span class="table-head">von</span></th>
@@ -134,9 +136,10 @@
         var dataStorage = new DataStorage();
         var linkStorage = new LinkStorage();
         var domPrefix = (!searchToggler.getState())?('<"'):('<"ui-helper-hidden ');
+        var resType = '{{ restype }}';
         domPrefix += dtDomObject();
         searchToggler.checkButtonState();
-        checkOpenButtonState('{{ restype }}');
+        checkOpenButtonState(resType);
         var datatable = $('table#list-{{ restype }}').DataTable({
             autoWidth: false,
             stateSave: false,
@@ -149,14 +152,16 @@
                 data: function (d) {
                     d.isUserHook = getCurrentIsBlue();
                     d.resourceId = vitoop.resourceId;
+                    d.dateFrom = getDateFilterFrom();
+                    d.dateTo = getDateFilterTo();
                 }
             },
             search: {
                 search: getCurrentSearch()
             },
-            order: getDefaultOrder('{{ restype}}', {% if is_granted('ROLE_ADMIN') %}1{% else %}0{% endif %}, {% if isEdit is defined and isEdit %}1{% else %}0{% endif %}, {% if  isCoef is defined and isCoef %}1{% else %}0{% endif %}),
+            order: getDefaultOrder(resType, {% if is_granted('ROLE_ADMIN') %}1{% else %}0{% endif %}, {% if isEdit is defined and isEdit %}1{% else %}0{% endif %}, {% if  isCoef is defined and isCoef %}1{% else %}0{% endif %}),
             dom: domPrefix,
-            columns: getColumns('{{ restype}}', {% if is_granted('ROLE_ADMIN') %}1{% else %}0{% endif %}, {% if isEdit is defined and isEdit %}1{% else %}0{% endif %}, {% if  isCoef is defined and isCoef %}1{% else %}0{% endif %}),
+            columns: getColumns(resType, {% if is_granted('ROLE_ADMIN') %}1{% else %}0{% endif %}, {% if isEdit is defined and isEdit %}1{% else %}0{% endif %}, {% if  isCoef is defined and isCoef %}1{% else %}0{% endif %}),
             pagingType: "full_numbers",
             rowCallback: dtRowCallback,
             {% if (isCoef is defined and isCoef) %}
@@ -172,7 +177,25 @@
             searchToggler.checkButtonState();
             datatable.draw();
         });
-        
+
+        if (resType == 'pdf' || resType == 'teli') {
+            $("div.top-toolbar").append(''+
+                '<div id="search_date_range">' +
+                '<input id="search_date_from"  type="text" value="" name="search_date_from" placeholder="Datum von"/>' +
+                '<input id="search_date_to" type="text" value="" name="search_date_to" placeholder="Datum bis"/>' +
+                '<button class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only" id="vtp_search_date"><span class="ui-icon ui-icon-search"></span><span class="ui-button-text"></span></button>'+
+                '</div>'
+            );
+            $('#search_date_from').val(getDateFilterFrom());
+            $('#search_date_to').val(getDateFilterTo());
+
+            $('#vtp_search_date').off().on('click', function () {
+                localStorage.setItem('dt-search-date_from_'+resType, $('#search_date_from').val());
+                localStorage.setItem('dt-search-date_to_'+resType, $('#search_date_to').val());
+                datatable.draw();
+            });
+        }
+
         datatable
             .on('init.dt', function () {
                 if (1 == getCurrentIsBlue()) {
@@ -232,6 +255,14 @@
 
         function getCurrentIsBlue() {
             return dataStorage.getAlphaNumValue('dt-search-blue', 0);
+        }
+        
+        function getDateFilterFrom() {
+            return dataStorage.getAlphaNumValue('dt-search-date_from_'+resType);
+        }
+
+        function getDateFilterTo() {
+            return dataStorage.getAlphaNumValue('dt-search-date_to_'+resType);
         }
 
         var resourceInfo = {};

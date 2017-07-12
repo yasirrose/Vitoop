@@ -3,6 +3,7 @@ namespace Vitoop\InfomgmtBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vitoop\InfomgmtBundle\Entity\ValueObject\PublishedDate;
 use Vitoop\InfomgmtBundle\Validator\Constraints\DateFormat as DateFormatAssert;
 use Vitoop\InfomgmtBundle\DTO\Resource\ResourceDTO;
 use Vitoop\InfomgmtBundle\Entity\Downloadable\DownloadableInterface;
@@ -39,11 +40,11 @@ class Teli extends Resource implements DownloadableInterface
     }
 
     /**
-     * @ORM\Column(name="release_date", type="string", length=10)
+     * @ORM\Embedded(class="Vitoop\InfomgmtBundle\Entity\ValueObject\PublishedDate", columnPrefix="release_")
      * @Assert\NotBlank
      * @DateFormatAssert
      */
-    protected $release_date;
+    protected $releaseDate;
 
     /**
      * Get ResourceTypeIdx
@@ -155,23 +156,23 @@ class Teli extends Resource implements DownloadableInterface
     }
 
     /**
-     * Set release_date
+     * Set releaseDate
      *
-     * @param string $release_date
+     * @param string $releaseDate
      */
-    public function setReleaseDate($release_date)
+    public function setReleaseDate($releaseDate)
     {
-        $this->release_date = $release_date;
+        $this->releaseDate = $releaseDate;
     }
 
     /**
-     * Get release_date
+     * Get releaseDate
      *
      * @return string
      */
     public function getReleaseDate()
     {
-        return $this->release_date;
+        return $this->releaseDate;
     }
 
     public function toResourceDTO(User $user) : ResourceDTO
@@ -179,7 +180,7 @@ class Teli extends Resource implements DownloadableInterface
         $dto = parent::toResourceDTO($user);
         $dto->author = $this->author;
         $dto->url = $this->url;
-        $dto->release_date = $this->release_date;
+        $dto->releaseDate = $this->releaseDate;
 
         return $dto;
     }
@@ -197,6 +198,6 @@ class Teli extends Resource implements DownloadableInterface
         parent::updateFromResourceDTO($dto);
         $this->author = $dto->author;
         $this->url = $dto->url;
-        $this->release_date = $dto->release_date;
+        $this->releaseDate = PublishedDate::createFromString($dto->releaseDate);
     }
 }

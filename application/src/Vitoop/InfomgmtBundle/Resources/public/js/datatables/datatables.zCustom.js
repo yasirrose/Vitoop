@@ -185,7 +185,7 @@ function dtDrawCallbackCoef() {
 
 
 function getDateValue(data, type, row, meta) {
-    return moment(data).format('DD.MM.YY');
+    return moment(data).format('DD.MM.YYYY');
 }
 
 function getDateColumn() {
@@ -382,9 +382,15 @@ function getCoefColumn(isEdit) {
     return {"data": "coef", "render": getCoefValue};
 }
 
-function getFirstColumn(isCoef, isEdit) {
+function getFirstColumn(isCoef, isEdit, type) {
     if (isCoef) {
         return getCoefColumn(isEdit);
+    }
+    if (type == 'pdf') {
+        return {"data": "pdfDate"};
+    }
+    if (type == 'teli') {
+        return {"data": "releaseDate"};
     }
     return getDateColumn();
 }
@@ -406,7 +412,7 @@ function getColumns(type, isAdmin, isEdit, isCoef) {
     var columns = [];
     if (type == 'prj') {
         return [
-            getFirstColumn(isCoef, isEdit),
+            getFirstColumn(isCoef, isEdit, type),
             getCheckboxColumn(type),
             getNameColumn(),
             getOwnerColumn(),
@@ -417,7 +423,7 @@ function getColumns(type, isAdmin, isEdit, isCoef) {
     }
     if (type == 'lex') {
         return [
-            getFirstColumn(isCoef, isEdit),
+            getFirstColumn(isCoef, isEdit, type),
             getCheckboxColumn(type),
             getNameColumn(),
             getUrlTextColumn(),
@@ -428,7 +434,7 @@ function getColumns(type, isAdmin, isEdit, isCoef) {
     }
     if (type == 'pdf') {
         columns = [
-            getFirstColumn(isCoef, isEdit),
+            getFirstColumn(isCoef, isEdit, type),
             getCheckboxColumn(type),
             getNameColumn(),
             getAuthorColumn(),
@@ -446,7 +452,7 @@ function getColumns(type, isAdmin, isEdit, isCoef) {
     }
     if (type == 'teli') {
         columns = [
-            getFirstColumn(isCoef, isEdit),
+            getFirstColumn(isCoef, isEdit, type),
             getCheckboxColumn(type),
             getNameColumn(),
             getAuthorColumn(),
@@ -464,7 +470,7 @@ function getColumns(type, isAdmin, isEdit, isCoef) {
     }
     if (type == 'link') {
         return [
-            getFirstColumn(isCoef, isEdit),
+            getFirstColumn(isCoef, isEdit, type),
             getCheckboxColumn(type),
             getNameColumn(),
             getUrlTextColumn(),
@@ -477,7 +483,7 @@ function getColumns(type, isAdmin, isEdit, isCoef) {
     } 
     if (type == 'book') {
         columns = [
-            getFirstColumn(isCoef, isEdit),
+            getFirstColumn(isCoef, isEdit, type),
             getCheckboxColumn(type),
             getNameColumn(),
             getAuthorColumn(),
@@ -493,7 +499,7 @@ function getColumns(type, isAdmin, isEdit, isCoef) {
     }
     if (type == 'adr') {
         return [
-            getFirstColumn(isCoef, isEdit),
+            getFirstColumn(isCoef, isEdit, type),
             getCheckboxColumn(type),
             getNameColumn(),
             getZipColumn(),

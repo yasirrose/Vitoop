@@ -25,8 +25,21 @@ class SearchColumns
         }
         $order = reset($order);
         if (false !== $order['column']) {
-            $this->sortableColumn = $columns[$order['column']]['data'];
+            $this->sortableColumn = $this->getColumnName($columns[$order['column']]['data']);
             $this->sortableOrder = $order['dir'];
         }
+    }
+
+    /**
+     * @param $columnName
+     * @return string
+     */
+    private function getColumnName($columnName) : string
+    {
+        if (in_array($columnName,['pdfDate', 'releaseDate'])) {
+            return $columnName.'.order';
+        }
+
+        return $columnName;
     }
 }

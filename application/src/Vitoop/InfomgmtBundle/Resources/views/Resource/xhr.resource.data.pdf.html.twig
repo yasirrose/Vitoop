@@ -41,15 +41,15 @@
         {{ form_label(fvdata.tnop, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
         {{ form_widget(fvdata.tnop, {'attr': {'class': 'vtp-fh-w15' }}) }}
         <div class="vtp-fh-w05"></div>
-        {{ form_label(fvdata.pdf_date, null, {'label_attr': {'class': 'vtp-fh-w15' }}) }}
-        {{ form_widget(fvdata.pdf_date, {'attr': {'class': 'vtp-fh-w20' }}) }}
+        {{ form_label(fvdata.pdfDate, null, {'label_attr': {'class': 'vtp-fh-w15' }}) }}
+        {{ form_widget(fvdata.pdfDate, {'attr': {'class': 'vtp-fh-w20' }}) }}
         <div class="vtp-fh-w05"></div>
         {{ form_label(fvdata.lang, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
         {{ form_widget(fvdata.lang, {'attr': {'class': 'vtp-fh-w0', 'style': 'width: 20%' }}) }}
     </div>
     <div>
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.tnop) }}</div>
-        <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.pdf_date) }}</div>
+        <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.pdfDate) }}</div>
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.lang) }}</div>
     </div>
     <div class="vtp-fh-bottom created-info-book">

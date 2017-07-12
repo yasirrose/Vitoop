@@ -1227,6 +1227,7 @@ div#vtp-forgot form input[type=submit]
 
 #vtp-forgot input[type=submit]:hover,
 #vtp-imprint button:hover,
+#vtp_search_date:hover,
 #vtp-imprint a:hover,
 a.ui-button:hover,
 a.vtp-extlink:hover {
@@ -1239,6 +1240,7 @@ a.vtp-extlink:hover {
 #vtp-forgot input[type=submit]:active,
 #vtp-imprint button:active,
 #vtp-imprint a:active,
+#vtp_search_date:active,
 a.ui-button:active,
 a.vtp-extlink:active {
     border: 1px solid #2694e8;
@@ -1434,6 +1436,8 @@ td.vtp-blue.ui-state-active {
 #search_blue_box {
     height: 25px;
     padding-top: 2px;
+    float: left;
+    padding-right: 20px;
 }
 
 #comment_text {
@@ -1508,4 +1512,12 @@ a.vtp-uiaction-open-url:visited {
 
 .vtp-clear {
     clear: both;
+}
+
+#search_date_range input {
+    margin-right: 10px;
+}
+
+#vtp_search_date {
+    height: 28px;
 }

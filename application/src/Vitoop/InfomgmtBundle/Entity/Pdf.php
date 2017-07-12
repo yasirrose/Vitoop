@@ -6,6 +6,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Vitoop\InfomgmtBundle\Validator\Constraints\DateFormat as DateFormatAssert;
 use Vitoop\InfomgmtBundle\DTO\Resource\ResourceDTO;
 use Vitoop\InfomgmtBundle\Entity\Downloadable\DownloadableInterface;
+use Vitoop\InfomgmtBundle\Entity\ValueObject\PublishedDate;
 
 /**
  * @ORM\Table(name="pdf")
@@ -37,12 +38,11 @@ class Pdf extends Resource implements DownloadableInterface
     protected $tnop;
 
     /**
-     * @ORM\Column(name="pdf_date", type="string", length=10)
+     * @ORM\Embedded(class="Vitoop\InfomgmtBundle\Entity\ValueObject\PublishedDate", columnPrefix="pdf_")
      * @Assert\NotBlank
      * @DateFormatAssert
      */
-    protected $pdf_date;
-
+    protected $pdfDate;
 
     public function __construct()
     {
@@ -202,23 +202,23 @@ class Pdf extends Resource implements DownloadableInterface
     }
 
     /**
-     * Set pdf_date
+     * Set pdfDate
      *
-     * @param string $pdf_date
+     * @param string $pdfDate
      */
-    public function setPdfDate($pdf_date)
+    public function setPdfDate($pdfDate)
     {
-        $this->pdf_date = $pdf_date;
+        $this->pdfDate = $pdfDate;
     }
 
     /**
-     * Get pdf_date
+     * Get pdfDate
      *
      * @return string
      */
     public function getPdfDate()
     {
-        return $this->pdf_date;
+        return $this->pdfDate;
     }
 
     public function toResourceDTO(User $user) : ResourceDTO
@@ -228,7 +228,7 @@ class Pdf extends Resource implements DownloadableInterface
         $dto->publisher = $this->publisher;
         $dto->url = $this->url;
         $dto->tnop = $this->tnop;
-        $dto->pdf_date = $this->pdf_date;
+        $dto->pdfDate = $this->pdfDate;
 
         return $dto;
     }
@@ -248,6 +248,6 @@ class Pdf extends Resource implements DownloadableInterface
         $this->publisher = $dto->publisher;
         $this->url = $dto->url;
         $this->tnop = $dto->tnop;
-        $this->pdf_date = $dto->pdf_date;
+        $this->pdfDate = PublishedDate::createFromString($dto->pdfDate);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Vitoop\InfomgmtBundle\Repository;
 
+use Vitoop\InfomgmtBundle\Entity\ValueObject\PublishedDate;
 use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
 
 /**
@@ -15,6 +16,11 @@ use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
  */
 class PdfRepository extends ResourceRepository
 {
+    /**
+     * @param $count
+     * @param $missing
+     * @return array
+     */
     public function getPDFForDownloading($count, $missing)
     {
         $query = $this->createQueryBuilder('r')
@@ -30,11 +36,26 @@ class PdfRepository extends ResourceRepository
         return $query->getQuery()->getResult();
     }
 
+    /**
+     * @param SearchResource $search
+     * @return \Doctrine\ORM\QueryBuilder
+     */
     public function getResourcesQuery(SearchResource $search)
     {
         $qb = $this->createQueryBuilder('r')
-            ->select('r.author, r.url, r.tnop, r.isDownloaded');
+            ->select('r.author, r.url, r.tnop, r.isDownloaded, r.pdfDate.date as pdfDate');
         $this->prepareListQueryBuilder($qb, $search);
+
+        if ($search->dateFrom) {
+            $qb
+                ->andWhere('r.pdfDate.order >= :dateFrom')
+                ->setParameter('dateFrom', PublishedDate::generateOrderValue(PublishedDate::convertStringGreedy($search->dateFrom)));
+        }
+        if ($search->dateTo) {
+            $qb
+                ->andWhere('r.pdfDate.order <= :dateTo')
+                ->setParameter('dateTo', (PublishedDate::createFromString($search->dateTo))->getOrder());
+        }
 
         return $qb;
     }

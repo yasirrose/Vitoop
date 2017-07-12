@@ -59,6 +59,9 @@ class SearchResource
 
     public $resourceId;
 
+    public $dateFrom;
+    public $dateTo;
+
     public function __construct(
         Paging $paging,
         SearchColumns $columns,
@@ -71,7 +74,9 @@ class SearchResource
         $countTags = array(),
         $search = null,
         $isUserHook = null,
-        $resourceId = null
+        $resourceId = null,
+        $dateFrom = null,
+        $dateTo = null
     ) {
         $this->user = $user;
         $this->flagged = $flagged;
@@ -87,5 +92,7 @@ class SearchResource
         $this->columns = $columns;
         $this->isUserHook = (int)$isUserHook;
         $this->resourceId = $resourceId;
+        $this->dateFrom = $dateFrom;
+        $this->dateTo = $dateTo;
     }
 }

@@ -157,7 +157,7 @@ class ResourceDTO
      *     groups={"teli"}
      * )
      */
-    public $release_date;
+    public $releaseDate;
 
     /**
      * @Assert\NotBlank(
@@ -170,7 +170,7 @@ class ResourceDTO
      *     groups={"pdf"}
      * )
      */
-    public $pdf_date;
+    public $pdfDate;
 
     public $wikifullurl;
 

@@ -157,7 +157,7 @@ resourceDetail = (function () {
                
                    
                 addDateModificator('#teli_release_date');
-                addDateModificator('#pdf_pdf_date');
+                //addDateModificator('#pdf_pdf_date');
                
                 if (res_type == "prj") {
                     var nameOrigin = $('#prj_name').val();

@@ -7,7 +7,7 @@
                 {% if coefficients is defined %}
                     <input type="text" id="coef-{{ attribute(coefficients, teli.id).rel_id }}" data-rel_id="{{ attribute(coefficients, teli.id).rel_id }}" value="{{ attribute(coefficients, teli.id).coefficient }}" class="vtp-uiaction-coefficient vtp-fh-w85" disabled="disabled"/>
                 {% else %}
-                    {{ teli.created_at|date("d.m.y") }}
+                    {{ teli.created_at|date("d.m.Y") }}
                 {% endif %}
             {% endif %}
         </td>

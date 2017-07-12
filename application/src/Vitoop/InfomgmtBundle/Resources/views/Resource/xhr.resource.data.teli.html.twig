@@ -32,14 +32,14 @@
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.url) }}</div>
     </div>
     <div class="vtp-fh-middle">
-        {{ form_label(fvdata.release_date, null, {'label_attr': {'class': 'vtp-fh-w15' }}) }}
-        {{ form_widget(fvdata.release_date, {'attr': {'class': 'vtp-fh-w20' }}) }}
+        {{ form_label(fvdata.releaseDate, null, {'label_attr': {'class': 'vtp-fh-w15' }}) }}
+        {{ form_widget(fvdata.releaseDate, {'attr': {'class': 'vtp-fh-w20' }}) }}
         <div class="vtp-fh-w35"></div>
         {{ form_label(fvdata.lang, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
         {{ form_widget(fvdata.lang, {'attr': {'class': 'vtp-fh-w20' }}) }}
     </div>
     <div>
-        <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.release_date) }}</div>
+        <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.releaseDate) }}</div>
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.lang) }}</div>
     </div>
     <div class="vtp-fh-bottom created-info">
