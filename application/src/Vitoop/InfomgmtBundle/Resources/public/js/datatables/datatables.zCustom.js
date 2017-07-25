@@ -513,6 +513,12 @@ function getColumns(type, isAdmin, isEdit, isCoef) {
 }
 
 function getDefaultOrder(type, isAdmin, isEdit, isCoef) {
+    if (type == 'pdf' || type == 'teli') {
+        var dateRangeFilter = new DateRangeFilter();
+        if (!dateRangeFilter.isEmpty()) {
+            return [0, 'asc'];
+        }
+    }
     if (!$('#vtp-lexicondata-title').length) {
         return [];
     }
@@ -524,11 +530,11 @@ function getDefaultOrder(type, isAdmin, isEdit, isCoef) {
             columnIndex = i;
         }
     }
-    if (columnIndex<0) {
-        return [];
+    if (columnIndex>=0) {
+        return [[columnIndex, 'desc']];
     }
 
-    return [[columnIndex, 'desc']];
+    return [];
 }
 
 function checkOpenButtonState(resType) {

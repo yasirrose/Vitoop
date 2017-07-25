@@ -17,7 +17,7 @@ class SearchColumns
                 continue;
             }
             if ('true' === $column['searchable']) {
-                $this->searchable[] = $column['data'];
+                $this->searchable[] = $this->getSearchableColumnnName($column['data']);
             }
         }
         if (!$order) {
@@ -38,6 +38,19 @@ class SearchColumns
     {
         if (in_array($columnName,['pdfDate', 'releaseDate'])) {
             return $columnName.'.order';
+        }
+
+        return $columnName;
+    }
+
+    /**
+     * @param $columnName
+     * @return string
+     */
+    private function getSearchableColumnnName($columnName) : string
+    {
+        if (in_array($columnName,['pdfDate', 'releaseDate'])) {
+            return $columnName.'.date';
         }
 
         return $columnName;

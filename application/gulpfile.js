@@ -45,6 +45,7 @@ gulp.task('utils-js', function () {
 
 gulp.task('js', ['angular-js', 'lexicon-js', 'tinymce-js', 'datatables-js', 'utils-js'], function () {
     return gulp.src(['src/Vitoop/InfomgmtBundle/Resources/public/js/jquery/*.js',
+        'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/components/*.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/widgets/*.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/*.js'])
         .pipe(sourcemaps.init())

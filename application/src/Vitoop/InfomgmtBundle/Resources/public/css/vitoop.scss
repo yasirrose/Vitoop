@@ -1514,10 +1514,16 @@ a.vtp-uiaction-open-url:visited {
     clear: both;
 }
 
+#search_date_range {
+    margin-left: 105px;
+}
+
 #search_date_range input {
-    margin-right: 10px;
+    margin-right: 6px;
+    width: 130px;
+    height: 23px;
 }
 
 #vtp_search_date {
-    height: 28px;
+    height: 27px;
 }

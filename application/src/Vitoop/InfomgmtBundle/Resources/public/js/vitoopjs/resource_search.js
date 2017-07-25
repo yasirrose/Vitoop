@@ -310,10 +310,10 @@ resourceSearch = (function () {
 
             // #APR# tag bytags SUBMIT
             $('#vtp-search-bytags-form').on('submit', function(e, secondSuccessFunc) {
+
                 resourceList.loadResourceListPage(e, secondSuccessFunc);
                 $('#vtp-search-bytags-form-submit').removeClass('act').blur();
                 is_changed = false;
-
             });
 
             var seacrhByTag = $('#vtp-search-bytags-taglist');

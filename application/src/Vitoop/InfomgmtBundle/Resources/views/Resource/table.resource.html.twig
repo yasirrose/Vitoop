@@ -137,6 +137,10 @@
         var linkStorage = new LinkStorage();
         var domPrefix = (!searchToggler.getState())?('<"'):('<"ui-helper-hidden ');
         var resType = '{{ restype }}';
+        var isAdmin = {% if is_granted('ROLE_ADMIN') %}1{% else %}0{% endif %};
+        var isEdit = {% if isEdit is defined and isEdit %}1{% else %}0{% endif %};
+        var isCoef = {% if  isCoef is defined and isCoef %}1{% else %}0{% endif %};
+        var dateRange = new DateRangeFilter();
         domPrefix += dtDomObject();
         searchToggler.checkButtonState();
         checkOpenButtonState(resType);
@@ -152,16 +156,18 @@
                 data: function (d) {
                     d.isUserHook = getCurrentIsBlue();
                     d.resourceId = vitoop.resourceId;
-                    d.dateFrom = getDateFilterFrom();
-                    d.dateTo = getDateFilterTo();
+                    if (resType == 'pdf' || resType == 'teli') {
+                        d.dateFrom = dateRange.getDateFilterFrom();
+                        d.dateTo = dateRange.getDateFilterTo();
+                    }
                 }
             },
             search: {
                 search: getCurrentSearch()
             },
-            order: getDefaultOrder(resType, {% if is_granted('ROLE_ADMIN') %}1{% else %}0{% endif %}, {% if isEdit is defined and isEdit %}1{% else %}0{% endif %}, {% if  isCoef is defined and isCoef %}1{% else %}0{% endif %}),
+            order: getDefaultOrder(resType, isAdmin, isEdit, isCoef),
             dom: domPrefix,
-            columns: getColumns(resType, {% if is_granted('ROLE_ADMIN') %}1{% else %}0{% endif %}, {% if isEdit is defined and isEdit %}1{% else %}0{% endif %}, {% if  isCoef is defined and isCoef %}1{% else %}0{% endif %}),
+            columns: getColumns(resType, isAdmin, isEdit, isCoef),
             pagingType: "full_numbers",
             rowCallback: dtRowCallback,
             {% if (isCoef is defined and isCoef) %}
@@ -175,25 +181,26 @@
         $("#search_blue").change(function() {
             localStorage.setItem('dt-search-blue', this.checked?1:0);
             searchToggler.checkButtonState();
-            datatable.draw();
+            refreshTable();
         });
 
         if (resType == 'pdf' || resType == 'teli') {
             $("div.top-toolbar").append(''+
                 '<div id="search_date_range">' +
-                '<input id="search_date_from"  type="text" value="" name="search_date_from" placeholder="Datum von"/>' +
-                '<input id="search_date_to" type="text" value="" name="search_date_to" placeholder="Datum bis"/>' +
+                '<input id="search_date_from" class="range-filter" type="text" value="" name="search_date_from" placeholder="Datum von"/>' +
+                '<input id="search_date_to" class="range-filter" type="text" value="" name="search_date_to" placeholder="Datum bis"/>' +
                 '<button class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only" id="vtp_search_date"><span class="ui-icon ui-icon-search"></span><span class="ui-button-text"></span></button>'+
                 '</div>'
             );
-            $('#search_date_from').val(getDateFilterFrom());
-            $('#search_date_to').val(getDateFilterTo());
-
             $('#vtp_search_date').off().on('click', function () {
-                localStorage.setItem('dt-search-date_from_'+resType, $('#search_date_from').val());
-                localStorage.setItem('dt-search-date_to_'+resType, $('#search_date_to').val());
-                datatable.draw();
+                dateRange.updateRangeFromDOM();
+                refreshTable();
             });
+            $('.range-filter').off().on('change', function () {
+                dateRange.updateRangeFromDOM();
+            });
+
+            dateRange.updateDOMFromRange();
         }
 
         datatable
@@ -226,7 +233,7 @@
             change: function( event, ui ) {
                 localStorage.setItem('dt-page-length', ui.item.value);
                 datatable.page.len(ui.item.value);
-                datatable.draw();
+                refreshTable();
             }
         });
         $('.dataTables_filter input').after($('<button id="vtp-search-clear" class="vtp-button"></button>'));
@@ -242,6 +249,7 @@
             localStorage.setItem('dt-search', '');
             localStorage.setItem('dt-search-blue', 0);
             searchToggler.checkButtonState();
+            dateRange.clearWithDOM();
             datatable.search('').draw();
         });
 
@@ -256,13 +264,12 @@
         function getCurrentIsBlue() {
             return dataStorage.getAlphaNumValue('dt-search-blue', 0);
         }
-        
-        function getDateFilterFrom() {
-            return dataStorage.getAlphaNumValue('dt-search-date_from_'+resType);
-        }
 
-        function getDateFilterTo() {
-            return dataStorage.getAlphaNumValue('dt-search-date_to_'+resType);
+        function refreshTable() {
+            datatable
+                .search(getCurrentSearch())
+                .order(getDefaultOrder(resType, isAdmin, isEdit, isCoef))
+                .draw();
         }
 
         var resourceInfo = {};

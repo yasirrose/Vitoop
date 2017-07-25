@@ -26,3 +26,7 @@ DataStorage.prototype.getAlphaNumValue = function (key, defaultValue) {
 
     return localStorage.getItem(key)?localStorage.getItem(key):defaultValue;
 };
+
+DataStorage.prototype.setItem = function (key, value) {
+    localStorage.setItem(key, value);
+};
