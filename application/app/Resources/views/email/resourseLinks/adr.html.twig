@@ -1,0 +1,7 @@
+<strong>URL:</strong> <a href="{{ resource.getSendLink() }}">{{ resource.getSendLink() }}</a><br/>
+{% if resource.getName2() %}
+{{ resource.getName2()}}<br>
+{% endif %}
+<strong>Straße:</strong> {{ resource.getStreet()}}<br>
+<strong>PLZ/Ort:</strong> {{ resource.getZip()}} {{ resource.getCity()}}<br>
+<strong>Telefon:</strong> {{ resource.getContact1()}}<br>

@@ -4,13 +4,7 @@
     <p>{{ body }}</p>
     {% for resource in resources%}
         <p style="font-size: .9em;"><strong>{{ resource.getResourceName() }}:</strong> <strong>{{ resource.name }}</strong><br/>
-        <strong>URL:</strong> <a href="{{ resource.getSendLink() }}">{{ resource.getSendLink() }}</a><br/>
-        {% if resource.getResourceType() == 'adr' %}
-            {{ resource.getName2()}}<br>
-            Straße {{ resource.getStreet()}}<br>
-            PLZ {{ resource.getZip()}} {{ resource.getCity()}}<br>
-            Telefon {{ resource.getContact1()}}<br>
-        {% endif %}
+        {% include "email/resourseLinks/"~resource.getResourceType()~".html.twig" %}
         <strong>{{ 'label.remarks'|trans }}:</strong>
             {% set remark = resource.getLastRemark() %}
             {% if remark is not empty %}
