@@ -141,6 +141,7 @@
         var isEdit = {% if isEdit is defined and isEdit %}1{% else %}0{% endif %};
         var isCoef = {% if  isCoef is defined and isCoef %}1{% else %}0{% endif %};
         var dateRange = new DateRangeFilter();
+        var isBlueFilter = new IsBlueFilter();
         domPrefix += dtDomObject();
         searchToggler.checkButtonState();
         checkOpenButtonState(resType);
@@ -154,7 +155,7 @@
             ajax: {
                 url: "{{ ajaxUrl |raw }}",
                 data: function (d) {
-                    d.isUserHook = getCurrentIsBlue();
+                    d.isUserHook = isBlueFilter.getIsBlueValue();
                     d.resourceId = vitoop.resourceId;
                     if (resType == 'pdf' || resType == 'teli') {
                         d.dateFrom = dateRange.getDateFilterFrom();
@@ -179,7 +180,7 @@
         });
         $("div.top-toolbar").append('<div id="search_blue_box"><input id="search_blue" type="checkbox" value="1" name="search_blue"/> blau</div>');
         $("#search_blue").change(function() {
-            localStorage.setItem('dt-search-blue', this.checked?1:0);
+            isBlueFilter.setFilterValue(this.checked?1:0);
             searchToggler.checkButtonState();
             refreshTable();
         });
@@ -205,7 +206,7 @@
 
         datatable
             .on('init.dt', function () {
-                if (1 == getCurrentIsBlue()) {
+                if (isBlueFilter.isBlue()) {
                     $("#search_blue").prop('checked', true);
                 } else {
                     $("#search_blue").removeProp('checked', false);
@@ -247,7 +248,7 @@
             $('.dataTables_filter input').val('');
             $("#search_blue").removeProp('checked');
             localStorage.setItem('dt-search', '');
-            localStorage.setItem('dt-search-blue', 0);
+            isBlueFilter.clear();
             searchToggler.checkButtonState();
             dateRange.clearWithDOM();
             datatable.search('').draw();
@@ -258,17 +259,12 @@
         }
         
         function getCurrentSearch() {
-            return dataStorage.getAlphaNumValue('dt-search');
-        }
-
-        function getCurrentIsBlue() {
-            return dataStorage.getAlphaNumValue('dt-search-blue', 0);
+            return dataStorage.getAlphaNumValue('dt-search', '');
         }
 
         function refreshTable() {
             datatable
                 .search(getCurrentSearch())
-                .order(getDefaultOrder(resType, isAdmin, isEdit, isCoef))
                 .draw();
         }
 

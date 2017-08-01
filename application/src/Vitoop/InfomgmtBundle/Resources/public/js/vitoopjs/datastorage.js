@@ -20,7 +20,7 @@ DataStorage.prototype.setObject = function(key, value) {
 };
 
 DataStorage.prototype.getAlphaNumValue = function (key, defaultValue) {
-    if (defaultValue === undefined) {
+    if (typeof defaultValue === 'undefined') {
         defaultValue = '';
     }
 

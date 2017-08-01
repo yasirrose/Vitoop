@@ -83,8 +83,8 @@ function dtDrawCallback() {
 }
 
 function setTotalMessage(totalRecords) {
-    var isBlau = localStorage.getItem('dt-search-blue')?localStorage.getItem('dt-search-blue'):0;
-    if (totalRecords === 0 && 0 != isBlau) {
+    var isBlueFilter = new IsBlueFilter();
+    if (totalRecords === 0 && !isBlueFilter.isBlue()) {
         $('td.dataTables_empty').html('In dem Bereich hast du im Popup keinen Datensatz markiert.');
     } else {
         $('td.dataTables_empty').html('Hier gibt es leider keinen Treffen - wenn du willst, kannst du Datensätze zu diesem Thema in die Datenbank eintragen.');
@@ -519,7 +519,8 @@ function getDefaultOrder(type, isAdmin, isEdit, isCoef) {
             return [0, 'asc'];
         }
     }
-    if (!$('#vtp-lexicondata-title').length) {
+
+    if (!($('#vtp-lexicondata-title').length)) {
         return [];
     }
 
