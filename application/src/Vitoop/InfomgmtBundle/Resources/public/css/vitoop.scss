@@ -782,10 +782,10 @@ span.vtp-icon {
 
 #vtp-search-toggle {
     float: right;
-    height: 27px;
+    height: 25px;
     width: 34px;
     margin-left: 4px;
-    margin-top: 1px;
+    margin-bottom: 1px;
 }
 /************************************************************
  * vtp-rating                                               *
@@ -827,15 +827,19 @@ span.vtp-icon {
     cursor: pointer;
 }
 
+#vtp-rating-slider {
+    width:98%;
+    text-align: right;
+}
+
 #vtp-rating-slider-container, #vtp-rating-dropdown-form {
     display: inline-block;
     width: 50%;
-    padding-left: 120px;
+    padding-right: 100px;
     vertical-align: middle;
 }
 
 #vtp-rating-slider-slider {
-    width: 80%;
     margin: auto;
 }
 
@@ -1044,15 +1048,15 @@ div.divider-wrapper {
 }
 
 input#vtp-search-bytags-taglist {
-    height: 23px;
+    height: 21px;
 }
 #vtp-search-bytags-tagcnt-button {
-    height: 25px !important;
-    margin-bottom: -10px !important;
+    height: 23px !important;
 }
-
+#vtp-search-bytags-form
 #vtp-search-bytags-form-submit {
-    height: 27px;
+    height: 25px;
+    margin-bottom: 1px;
 }
 
 #vtp-header-login > #username, #vtp-header-login > #password {
@@ -1212,6 +1216,7 @@ a.vtp-homelink span {
     display: inline-block;
 }
 
+#remark_save,
 #vtp-footer #vtp-imprint a,
 #vtp-footer #vtp-imprint button,
 div#vtp-login form div.vtp-submit-wrapper input[type=submit], 
@@ -1225,6 +1230,12 @@ div#vtp-forgot form input[type=submit]
     text-decoration: none;
 }
 
+#tag_confirm_save {
+    padding-left: 14px;
+    padding-right: 14px;
+}
+
+#remark_save:hover, #tag_confirm_save:hover,
 #vtp-forgot input[type=submit]:hover,
 #vtp-imprint button:hover,
 #vtp_search_date:hover,
@@ -1237,6 +1248,7 @@ a.vtp-extlink:hover {
     color: #0070a3;
 }
 
+#remark_save:active, #tag_confirm_save:active,
 #vtp-forgot input[type=submit]:active,
 #vtp-imprint button:active,
 #vtp-imprint a:active,
@@ -1526,4 +1538,12 @@ a.vtp-uiaction-open-url:visited {
 
 #vtp_search_date {
     height: 25px;
+}
+
+#remark_locked {
+    margin-left: 5px;
+}
+
+#vtp-filterbox, #vtp-cmstitle {
+    margin-top: 2px;
 }
