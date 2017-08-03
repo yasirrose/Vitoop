@@ -6,7 +6,7 @@ IsBlueFilter.prototype.constructor = IsBlueFilter;
 IsBlueFilter.prototype.searchBlueStorageKey = 'dt-search-blue';
 
 IsBlueFilter.prototype.isBlue = function () {
-    return (0 !== this.getIsBlueValue());
+    return (0 != this.getIsBlueValue());
 };
 
 IsBlueFilter.prototype.getIsBlueValue = function () {

@@ -41,7 +41,6 @@ var init = function() {
         collision: 'none'
     }).hide("fade", 3000);
     $('.vtp-tagbox-lexicon-tag-lexicon').click(function() {
-        console.log('clicked');
         var text = $(this).text().trim();
         var pos = text.search(new RegExp('\\(\\d+\\)'));
         if (pos > -1) {
@@ -51,7 +50,6 @@ var init = function() {
     });
 
     $('#tag_lexicon_confirm_save').on('click', function() {
-        console.log('clicked');
         if ($('#tag_lexicon_text').val() == "") {
             return false;
         }

@@ -263,6 +263,16 @@
         }
 
         function refreshTable() {
+            var orderArray = getDefaultOrder(resType, isAdmin, isEdit, isCoef);
+            if (orderArray.length > 0) {
+                datatable
+                    .search(getCurrentSearch())
+                    .order(orderArray)
+                    .draw();
+
+                return;
+            }
+
             datatable
                 .search(getCurrentSearch())
                 .draw();
