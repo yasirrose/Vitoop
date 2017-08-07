@@ -98,7 +98,7 @@ class PublishedDate
         if ('0000' === $dateParts[2]) {
             $dateParts[2] = self::getMaxYear();
             $dateParts[1] = '00';
-            $offset[] = ' +3 second ';
+            $offset[] = ' +1 second ';
         }
 
         if ('00' === $dateParts[1]) {
