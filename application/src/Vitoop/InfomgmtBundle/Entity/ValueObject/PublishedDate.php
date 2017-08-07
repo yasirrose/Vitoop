@@ -73,6 +73,10 @@ class PublishedDate
         return self::parseDateString($date);
     }
 
+    /**
+     * @param $date
+     * @return string
+     */
     public static function convertStringGreedy($date) : string
     {
         return self::parseDateString($date, ['1970', '01', '01']);
@@ -84,7 +88,7 @@ class PublishedDate
      */
     public static function generateOrderValue($date) : string
     {
-        $offset = '';
+        $offset = [];
         $dateParts = explode('.', $date);
 
         if ((int)$dateParts[2]<1000 || (int)$dateParts[2]>(self::getMaxYear()+1)) {
@@ -94,30 +98,38 @@ class PublishedDate
         if ('0000' === $dateParts[2]) {
             $dateParts[2] = self::getMaxYear();
             $dateParts[1] = '00';
-            $offset = ' +1 second ';
+            $offset[] = ' +3 second ';
         }
 
         if ('00' === $dateParts[1]) {
             $dateParts[0] = '31';
             $dateParts[1] = '12';
-            $offset = ' +1 second ';
+            $offset[] = ' +2 second ';
         }
 
         if ('00' === $dateParts[0]) {
             $monthDate = new \DateTime(implode('.', ['01', $dateParts[1], $dateParts[2]]));
             $dayInMonth = date('t', $monthDate->getTimestamp());
             $dateParts[0] = $dayInMonth;
-            $offset = ' +1 second ';
+            $offset[] = ' +1 second ';
         }
 
-        return (new \DateTime(implode('.', $dateParts).$offset))->getTimestamp();
+        return (new \DateTime(implode('.', $dateParts). implode('',$offset)))->getTimestamp();
     }
 
+    /**
+     * @return string
+     */
     private static function getMaxYear()
     {
         return (4 === PHP_INT_SIZE)? '2037': '2999';
     }
 
+    /**
+     * @param $date
+     * @param array $dateParts
+     * @return string
+     */
     private static function parseDateString($date, $dateParts = ['0000','00','00'])
     {
         $maxValues = [2 => 31, 1 => 12];
