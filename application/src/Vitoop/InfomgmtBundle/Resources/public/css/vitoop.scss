@@ -830,6 +830,7 @@ span.vtp-icon {
 #vtp-rating-slider {
     width:98%;
     text-align: right;
+    margin-top: -6px;
 }
 
 #vtp-rating-slider-container, #vtp-rating-dropdown-form {
@@ -844,6 +845,10 @@ span.vtp-icon {
 }
 
 #vtp-rating-slider, #vtp-rating-dropdown {
+}
+
+#vtp-rating-slider-slider > .ui-slider-handle {
+    top: -.4em;
 }
 
 /************************************************************
@@ -1546,4 +1551,9 @@ a.vtp-uiaction-open-url:visited {
 
 #vtp-filterbox, #vtp-cmstitle {
     margin-top: 2px;
+}
+
+#vtp-form-rating > fieldset {
+    height: 40px;
+    padding: 0px;
 }

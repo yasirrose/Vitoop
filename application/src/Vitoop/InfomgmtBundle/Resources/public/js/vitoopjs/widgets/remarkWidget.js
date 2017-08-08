@@ -5,8 +5,8 @@ function RemarkWidget(resourceId, baseUrl) {
 
 RemarkWidget.prototype = Object.create(Widget.prototype);
 RemarkWidget.prototype.containerName = 'resource-remark';
-RemarkWidget.prototype.containerId = '#'+ TagWidget.prototype.containerName;
-RemarkWidget.prototype.constructor = TagWidget;
+RemarkWidget.prototype.containerId = '#'+ RemarkWidget.prototype.containerName;
+RemarkWidget.prototype.constructor = RemarkWidget;
 RemarkWidget.prototype.buttonSaveId = '#remark_save';
 RemarkWidget.prototype.remarkFormId = '#form-remark';
 RemarkWidget.prototype.remarkBoxId = '#vtp-remark-box';
