@@ -501,7 +501,7 @@ class ResourceController extends ApiController
 
         $content['resource-remark'] = $rdc->getRemark();
 
-        return new Response(json_encode($content));
+        return new JsonResponse($content);
     }
 
     /**

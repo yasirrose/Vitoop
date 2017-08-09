@@ -1554,6 +1554,9 @@ a.vtp-uiaction-open-url:visited {
 }
 
 #vtp-form-rating > fieldset {
-    height: 40px;
+    height: 42px;
     padding: 0px;
+}
+#vtp-form-rating > fieldset > legend {
+    margin-left: 4px;
 }

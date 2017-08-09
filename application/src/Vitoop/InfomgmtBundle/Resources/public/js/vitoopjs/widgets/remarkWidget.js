@@ -10,6 +10,7 @@ RemarkWidget.prototype.constructor = RemarkWidget;
 RemarkWidget.prototype.buttonSaveId = '#remark_save';
 RemarkWidget.prototype.remarkFormId = '#form-remark';
 RemarkWidget.prototype.remarkBoxId = '#vtp-remark-box';
+RemarkWidget.prototype.remarkSheetViewId = '#vtp-remark-sheet-view';
 RemarkWidget.prototype.remarkAcceptedId = '#remark-accepted';
 RemarkWidget.prototype.init = function () {
     var self = this;
@@ -74,6 +75,10 @@ RemarkWidget.prototype.changeClassOfButton = function() {
 
 RemarkWidget.prototype.initTinyMCE = function () {
     var self = this;
+    if ($(self.remarkSheetViewId).length !== 0) {
+        $(self.remarkBoxId).show();
+        return;
+    }
     tinyMCE.init({
         selector: 'textarea#remark_text',
         height: 300,
