@@ -399,7 +399,7 @@ function getCheckboxColumn(resourceType) {
     return {
         'searchable':false,
         'orderable':false,
-        'width':'2%',
+        'width':'20px',
         'render': function (data, type, full, meta) {
             var storage = new DataStorage();
             var checkedResources = storage.getObject(resourceType +'-checked');
