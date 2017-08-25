@@ -1,5 +1,4 @@
 parameters:
-    vitoop.resource_manager.class:              Vitoop\InfomgmtBundle\Service\ResourceManager
     vitoop.lexicon_query_manager.class:         Vitoop\InfomgmtBundle\Service\LexiconQueryManager
     vitoop.resource_data_collector.class:       Vitoop\InfomgmtBundle\Service\ResourceDataCollector
     vitoop.vitoop_security.class:               Vitoop\InfomgmtBundle\Service\VitoopSecurity
@@ -16,8 +15,12 @@ services:
         arguments:      ['@doctrine.orm.entity_manager', '@vitoop.settings', '@knp_snappy.pdf','%download_folder%']
 
     vitoop.resource_manager:
-        class:          '%vitoop.resource_manager.class%'
-        arguments:      ['@doctrine.orm.entity_manager', '@vitoop.vitoop_security']
+        class: Vitoop\InfomgmtBundle\Service\ResourceManager
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@vitoop.vitoop_security'
+            - '@vitoop.resource_tag.linker'
+            - '@vitoop.rel_resource.linker'
       
     vitoop.lexicon_query_manager:
         class:          '%vitoop.lexicon_query_manager.class%'
@@ -29,7 +32,10 @@ services:
 
     vitoop.form_creator:
         class: Vitoop\InfomgmtBundle\Service\FormCreator
-        arguments: ['@form.factory']
+        arguments:
+            - '@form.factory'
+            - '@vitoop.resource_tag.linker'
+            - '@vitoop.rel_resource.linker'
 
     vitoop.vitoop_security:
         class:          '%vitoop.vitoop_security.class%'
@@ -236,6 +242,30 @@ services:
         arguments:
             - Vitoop\InfomgmtBundle\Entity\Resource
 
+    vitoop.repository.tag:
+        class: Vitoop\InfomgmtBundle\Repository\TagRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - Vitoop\InfomgmtBundle\Entity\Tag
+
+    vitoop.repository.rel_resource:
+        class: Vitoop\InfomgmtBundle\Repository\RelResourceResourceRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - Vitoop\InfomgmtBundle\Entity\RelResourceResource
+
+    vitoop.repository.rel_tag_resource:
+        class: Vitoop\InfomgmtBundle\Repository\RelResourceTagRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - Vitoop\InfomgmtBundle\Entity\RelResourceTag
+
+    vitoop.repository.lexicon:
+        class: Vitoop\InfomgmtBundle\Repository\LexiconRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - Vitoop\InfomgmtBundle\Entity\Lexicon
+
     vitoop.validator.user_unique:
         class: Vitoop\InfomgmtBundle\Validator\Constraints\User\UserUniqueValidator
         arguments: ["@vitoop.repository.user"]
@@ -260,3 +290,23 @@ services:
  
     vitoop.generator.common_token:
         class: Vitoop\InfomgmtBundle\Utils\Token\CommonGeneratorStrategy
+
+    vitoop.tag.factory:
+        class: Vitoop\InfomgmtBundle\Service\Tag\TagCreator
+        arguments:
+            - "@vitoop.repository.tag"
+
+    vitoop.resource_tag.linker:
+        class: Vitoop\InfomgmtBundle\Service\Tag\ResourceTagLinker
+        arguments:
+            - '@vitoop.repository.rel_tag_resource'
+            - '@vitoop.tag.factory'
+            - '@vitoop.vitoop_security'
+
+    vitoop.rel_resource.linker:
+        class: Vitoop\InfomgmtBundle\Service\RelResource\RelResourceLinker
+        arguments:
+            - '@vitoop.repository.rel_resource'
+            - '@vitoop.repository.lexicon'
+            - '@vitoop.resource_tag.linker'
+            - '@vitoop.vitoop_security'

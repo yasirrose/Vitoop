@@ -48,6 +48,20 @@ class RelResourceResource
     protected $deletedByUser;
 
     /**
+     * RelResourceResource constructor.
+     * @param $resource1
+     * @param $resource2
+     * @param $user
+     */
+    public function __construct(Resource $resource1, Resource $resource2, User $user)
+    {
+        $this->resource1 = $resource1;
+        $this->resource2 = $resource2;
+        $this->user = $user;
+        $this->coefficient = 0;
+    }
+
+    /**
      * Get id
      *
      * @return integer
@@ -141,11 +155,6 @@ class RelResourceResource
     public function getCoefficient()
     {
         return $this->coefficient;
-    }
-
-    public function __construct()
-    {
-        $this->coefficient = 0;
     }
 
     /**

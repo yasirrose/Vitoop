@@ -16,6 +16,14 @@ use Vitoop\InfomgmtBundle\Entity\Tag;
  */
 class RelResourceTagRepository extends EntityRepository
 {
+    /**
+     * @param RelResourceTag $relation
+     */
+    public function add(RelResourceTag $relation)
+    {
+        $this->_em->persist($relation);
+    }
+
     public function getOneFirstRel(Tag $tag, Resource $resource)
     {
         return $this->createQueryBuilder('r')

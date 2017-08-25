@@ -31,6 +31,7 @@ use Vitoop\InfomgmtBundle\Service\FormCreator;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Vitoop\InfomgmtBundle\Service\RelResource\RelResourceLinker;
 use Vitoop\InfomgmtBundle\Utils\Title\PopupTitle;
 
 class ResourceDataCollector
@@ -259,22 +260,6 @@ class ResourceDataCollector
         return ($this->initialized) ? $this->twig->render('VitoopInfomgmtBundle:Resource:xhr.resource.security.buttons.html.twig', array('res_type' => $this->res_type)) : $this->twig->render('VitoopInfomgmtBundle:Resource:xhr.resource.security.buttons.new.html.twig');;
     }
 
-    private function addPermissionsToTagForm(FormInterface $form)
-    {
-        $form->get('can_add')->setData($this->rm->isTagsAddingAvailable($this->res));
-        $form->get('can_remove')->setData($this->rm->isTagsRemovingAvailable($this->res));
-
-        return $form;
-    }
-
-    private function addPermissionsToLexiconForm(FormInterface $form)
-    {
-        $form->get('can_add')->setData($this->rm->isResourcesAddingAvailable($this->res));
-        $form->get('can_remove')->setData($this->rm->isResourcesRemovingAvailable($this->res));
-
-        return $form;
-    }
-
     public function getTag($forFullLexiconPage = false)
     {
         $info_tag = '';
@@ -287,8 +272,7 @@ class ResourceDataCollector
         ));
         $template = 'VitoopInfomgmtBundle:Resource:xhr.resource.tag.html.twig';
 
-        $form_tag = $this->formCreator->createTagForm($tag, $action);
-        $form_tag = $this->addPermissionsToTagForm($form_tag);
+        $form_tag = $this->formCreator->createTagForm($tag, $this->res, $action);
 
         if ($this->handleData) {
             $form_tag->handleRequest($this->request);
@@ -298,8 +282,7 @@ class ResourceDataCollector
                     try {
                         $tag_text = $this->rm->setTag($tag, $this->res);
                         $info_tag = 'Tag "' . $tag_text . '" successfully added!';
-                        $form_tag = $this->formCreator->createTagForm(new Tag(), $action);
-                        $form_tag = $this->addPermissionsToTagForm($form_tag);
+                        $form_tag = $this->formCreator->createTagForm(new Tag(), $this->res, $action);
                         $form_tag->get('showown')->setData($tag_showown);
                     } catch (\Exception $e) {
                         $form_error = new FormError($e->getMessage());
@@ -309,8 +292,7 @@ class ResourceDataCollector
                     try {
                         $tag_text = $this->rm->removeTag($tag, $this->res);
                         $info_tag = 'Tag "' . $tag_text . '" successfully removed!';
-                        $form_tag = $this->formCreator->createTagForm(new Tag(), $action);
-                        $form_tag = $this->addPermissionsToTagForm($form_tag);
+                        $form_tag = $this->formCreator->createTagForm(new Tag(), $this->res, $action);
                         $form_tag->get('showown')->setData($tag_showown);
                     } catch (\Exception $e) {
                         $form_error = new FormError($e->getMessage());
@@ -327,12 +309,12 @@ class ResourceDataCollector
         $tagsAddedCount = $this->rm->getEntityManager()
             ->getRepository('VitoopInfomgmtBundle:RelResourceTag')
             ->getCountOfAddedTags($this->vsec->getUser()->getId(), $this->res->getId());
-        $tagsRestAddedCount = (ResourceManager::RESOURCE_MAX_ALLOWED_ADDING - $tagsAddedCount);
+        $tagsRestAddedCount = (RelResourceLinker::RESOURCE_MAX_ALLOWED_ADDING - $tagsAddedCount);
 
         $tagsRemovedCount = $this->rm->getEntityManager()
             ->getRepository('VitoopInfomgmtBundle:RelResourceTag')
             ->getCountOfRemovedTags($this->vsec->getUser()->getId(), $this->res->getId());
-        $tagsRestRemovedCount = (ResourceManager::RESOURCE_MAX_ALLOWED_REMOVING - $tagsRemovedCount);
+        $tagsRestRemovedCount = (RelResourceLinker::RESOURCE_MAX_ALLOWED_REMOVING - $tagsRemovedCount);
 
         $tag_id_list_by_user = $this->rm->getEntityManager()
             ->getRepository('VitoopInfomgmtBundle:Tag')
@@ -629,15 +611,13 @@ class ResourceDataCollector
         $info_lex = '';
         $lex_name = '';
         $lex = new Lexicon();
-        $form_lex = $this->formCreator->createLexiconNameForm($lex, $action);
-        $form_lex = $this->addPermissionsToLexiconForm($form_lex);
+        $form_lex = $this->formCreator->createLexiconNameForm($lex, $this->res, $action);
         if ($this->handleData) {
             $form_lex->handleRequest($this->request);
             if ($form_lex->isValid()) {
                 try {
+                    $lexicon = $this->rm->getRepository('lex')->findOneBy(array('name' => $lex->getName()));
                     if ($form_lex->get('remove')->isEmpty()) {
-                        $lexicon = $this->rm->getRepository('lex')
-                                ->findOneBy(array('name' => $lex->getName()));
                         if (is_null($lexicon) || ($lexicon && strlen($lexicon->getDescription()<5))) {
                             $lexicon = $this->lqm->getLexiconFromSuggestTerm($lex->getName());
                             // @TODO SaveLexicon and setResource1 should be combined for
@@ -646,31 +626,28 @@ class ResourceDataCollector
 
                             $this->rm->saveLexicon($lexicon);
                         }
-                        $lex_name = $this->rm->setResource1($lexicon, $this->res);
+
+
+                        $lex_name = $this->rm->linkLexiconToResource($lexicon, $this->res);
 
                         $info_lex = 'Lexicon "' . $lex_name . '" successfully added!';
-                        $form_lex = $this->formCreator->createLexiconNameForm(new Lexicon(), $action);
-                        $form_lex = $this->addPermissionsToLexiconForm($form_lex);
+                        $form_lex = $this->formCreator->createLexiconNameForm(new Lexicon(), $this->res, $action);
                     } else {
-                        $lexicon = $this->rm->getRepository('lex')->findOneBy(array('name' => $lex->getName()));
                         if (is_null($lexicon)) {
                             throw new \Exception("Lexicon is not found!");
                         }
                         $lex_name = $this->rm->removeLexicon($lexicon, $this->res);
                         $info_lex = 'Lexicon "' . $lex_name . '" successfully removed!';
-                        $form_lex = $this->formCreator->createLexiconNameForm(new Lexicon(), $action);
-                        $form_lex = $this->addPermissionsToLexiconForm($form_lex);
+                        $form_lex = $this->formCreator->createLexiconNameForm(new Lexicon(), $this->res, $action);
                     }
                 } catch (\Exception $e) {
                     $form_error = new FormError($e->getMessage());
-                    $form_lex->get('name')
-                        ->addError($form_error);
+                    $form_lex->get('name')->addError($form_error);
                 }
             }
         }
 
-        $lexicons = $this->rm->getRepository('lex')
-                             ->countAllResources1($this->res);
+        $lexicons = $this->rm->getRepository('lex')->countAllResources1($this->res);
         $lex_id_list_by_user = $this->rm->getRepository('lex')
                                         ->getResource1IdListByUser($this->res, $this->vsec->getUser());
         //print_r( $lex_id_list_by_user);die();

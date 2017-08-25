@@ -17,6 +17,14 @@ use Vitoop\InfomgmtBundle\Entity\User;
  */
 class RelResourceResourceRepository extends EntityRepository
 {
+    /**
+     * @param RelResourceResource $relation
+     */
+    public function add(RelResourceResource $relation)
+    {
+        $this->_em->persist($relation);
+    }
+
     public function getOneFirstRel(Resource $resource1, Resource $resource2)
     {
         return $this->createQueryBuilder('r')
@@ -79,6 +87,6 @@ class RelResourceResourceRepository extends EntityRepository
                 'arg_resource2' => $rrr->getResource2(),
                 'arg_user' => $rrr->getUser()
             ))
-                    ->getResult();
+            ->getResult();
     }
 }

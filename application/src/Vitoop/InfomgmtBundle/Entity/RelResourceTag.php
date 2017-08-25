@@ -43,6 +43,19 @@ class RelResourceTag
     protected $deletedByUser;
 
     /**
+     * RelResourceTag constructor.
+     * @param Resource $resource
+     * @param Tag $tag
+     * @param User $user
+     */
+    public function __construct(Resource $resource, Tag $tag, User $user)
+    {
+        $this->resource = $resource;
+        $this->tag = $tag;
+        $this->user = $user;
+    }
+
+    /**
      * Get id
      *
      * @return integer
@@ -136,5 +149,13 @@ class RelResourceTag
     public function getDeletedByUser()
     {
         return $this->deletedByUser;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function unlinkTag(User $user)
+    {
+        $this->deletedByUser = $user;
     }
 }

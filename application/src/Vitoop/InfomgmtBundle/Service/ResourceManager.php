@@ -1,7 +1,6 @@
 <?php
 namespace Vitoop\InfomgmtBundle\Service;
 
-use Doctrine\ORM\NoResultException;
 use Vitoop\InfomgmtBundle\Entity\Flag;
 use Vitoop\InfomgmtBundle\Entity\ProjectData;
 use Vitoop\InfomgmtBundle\Entity\Tag;
@@ -10,7 +9,6 @@ use Vitoop\InfomgmtBundle\Entity\Lexicon;
 use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\Entity\Rating;
 use Vitoop\InfomgmtBundle\Entity\Comment;
-use Vitoop\InfomgmtBundle\Entity\RelResourceTag;
 use Vitoop\InfomgmtBundle\Entity\RelResourceResource;
 use Vitoop\InfomgmtBundle\Entity\Watchlist;
 use Vitoop\InfomgmtBundle\Entity\User;
@@ -18,12 +16,11 @@ use Vitoop\InfomgmtBundle\Entity\Resource\ResourceType;
 use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
 use Vitoop\InfomgmtBundle\DTO\Resource\ResourceDTO;
 use Doctrine\Common\Persistence\ObjectManager;
+use Vitoop\InfomgmtBundle\Service\RelResource\RelResourceLinker;
+use Vitoop\InfomgmtBundle\Service\Tag\ResourceTagLinker;
 
 class ResourceManager
 {
-    const TAG_MAX_ALLOWED_ADDING = 5;
-    const TAG_MAX_ALLOWED_REMOVING = 2;
-    const RESOURCE_MAX_ALLOWED_ADDING = 5;
     const RESOURCE_MAX_ALLOWED_REMOVING = 2;
 
     protected $arr_resource_type_to_entityname = array(
@@ -66,10 +63,20 @@ class ResourceManager
 
     protected $vsec;
 
-    public function __construct(ObjectManager $em, VitoopSecurity $vsec)
-    {
+    protected $resourceTagLinker;
+
+    protected $relResourceLinker;
+
+    public function __construct(
+        ObjectManager $em,
+        VitoopSecurity $vsec,
+        ResourceTagLinker $tagLinker,
+        RelResourceLinker $relResourceLinker
+    ) {
         $this->em = $em;
         $this->vsec = $vsec;
+        $this->resourceTagLinker = $tagLinker;
+        $this->relResourceLinker = $relResourceLinker;
     }
 
     protected function getUser()
@@ -90,7 +97,7 @@ class ResourceManager
 
     public function getUsernameByUserId($id)
     {
-        return $this->em->getRepository(User::class)->findOneById($id)->getUsername();
+        return $this->em->getRepository(User::class)->find($id)->getUsername();
     }
 
     public function getEntityManager()
@@ -212,33 +219,6 @@ class ResourceManager
         return $lexicon->getId();
     }
 
-    public function isTagsAddingAvailable($resource)
-    {
-        $user = $this->vsec->getUser();
-
-        return ($this->em
-                ->getRepository('VitoopInfomgmtBundle:RelResourceTag')
-                ->getCountOfAddedTags($user->getId(), $resource->getId()) < self::TAG_MAX_ALLOWED_ADDING);
-    }
-
-    public function isTagsRemovingAvailable($resource)
-    {
-        $user = $this->vsec->getUser();
-
-        return ($this->em
-                ->getRepository('VitoopInfomgmtBundle:RelResourceTag')
-                ->getCountOfRemovedTags($user->getId(), $resource->getId()) < self::TAG_MAX_ALLOWED_REMOVING);
-    }
-
-    public function isResourcesAddingAvailable($resource)
-    {
-        $user = $this->vsec->getUser();
-
-        return ($this->em
-                ->getRepository('VitoopInfomgmtBundle:RelResourceResource')
-                ->getCountOfAddedResources($user->getId(), $resource->getId()) < self::RESOURCE_MAX_ALLOWED_ADDING);
-    }
-
     public function isResourcesRemovingAvailable($resource)
     {
         $user = $this->vsec->getUser();
@@ -250,33 +230,7 @@ class ResourceManager
 
     public function setTag(Tag $tag, Resource $res)
     {
-        if (!$this->isTagsAddingAvailable($res)) {
-            throw new \Exception('Sie können nur fünf Schlagwörter zuweisen');
-        }
-        $repo = $this->em->getRepository('VitoopInfomgmtBundle:Tag');
-        $tag_exists = $repo->findOneByText($tag->getText());
-
-        if (!$tag_exists) {
-            $this->em->persist($tag);
-        } else {
-            $tag = $tag_exists;
-        }
-
-        $relation = new RelResourceTag();
-        $relation->setResource($res);
-        $relation->setTag($tag);
-        $relation->setUser($this->vsec->getUser());
-        $this->em->persist($relation);
-
-        // $relation can't exist in DB when the tag doesn't exist.
-        if (($tag_exists) && ($tempRel = $this->em->getRepository('VitoopInfomgmtBundle:RelResourceTag')
-                                       ->exists($relation))
-        ) {
-            if (is_null($tempRel->getDeletedByUser())) {
-                throw new \Exception('Diese Resource wurde von Dir bereits mit "' . $tag . '" getaggt.');
-            }
-            throw new \Exception('You had already added this tag, but it was removed by another user.');
-        }
+        $this->resourceTagLinker->linkTagToResource($res, $tag->getText());
         $this->em->flush();
 
         return $tag->getText();
@@ -284,27 +238,10 @@ class ResourceManager
 
     public function removeTag(Tag $tag, Resource $res)
     {
-        if (!$this->isTagsRemovingAvailable($res)) {
-            throw new \Exception('Es können pro Datensatz nur zwei Tags gelöscht werden.');
-        }
-        $tag_exists = $this->em
-            ->getRepository('VitoopInfomgmtBundle:Tag')
-            ->findOneBy(array('text' => $tag->getText()));
+        $this->resourceTagLinker->unlinkTagFromResource($res, $tag->getText());
+        $this->em->flush();
 
-        if (is_null($tag_exists)) {
-            throw new \Exception('There is not such tag');
-        } else {
-            $rel = $this->em->getRepository('VitoopInfomgmtBundle:RelResourceTag')->getOneFirstRel($tag_exists, $res);
-            if (is_null($rel)) {
-                throw new \Exception('There is not such tag on this resource');
-            } else {
-                $rel->setDeletedByUser($this->vsec->getUser());
-                $this->em->merge($rel);
-                $this->em->flush();
-            }
-        }
-
-        return $tag_exists->getText();
+        return $tag->getText();
     }
 
     public function setRating(Rating $rating, Resource $res)
@@ -360,9 +297,8 @@ class ResourceManager
      *
      * Assign the Resource $resource to a Resource $resource1 (a Project or a Lexicon)
      *
-     * @param Resource $resource1 ,
-     *           Resource $resource
-     *
+     * @param Resource $resource1,  Resource $resource
+     * @deprecated
      * @return string The Name of the resource1
      */
 
@@ -371,12 +307,10 @@ class ResourceManager
         $repo = $this->em->getRepository('VitoopInfomgmtBundle:' . $this->arr_resource_type_to_entityname[$resource1->getResourceType()]);
 
         // The resource1 must already exist in the DB, it CANNOT be created on the fly
-        $res1_exists = $repo->getResourceWithUsernameByName($resource1->getName());
-        if (!$res1_exists) {
+        $resource1 = $repo->getResourceWithUsernameByName($resource1->getName());
+        if (!$resource1) {
             throw new \Exception('Die zugewiesene Resource (z.B. ein Projekt oder Lexikonartikel) existiert nicht.');
         }
-
-        $resource1 = $res1_exists;
 
         if ($resource1->getId() === $resource->getId()) {
             throw new \Exception('Eine Resource kann sich nicht selber zugewiesen werden.');
@@ -394,14 +328,9 @@ class ResourceManager
         }*/
         // Create new Relation RelResourceResource
 
-        $relation = new RelResourceResource();
-        $relation->setResource1($resource1);
-        $relation->setResource2($resource);
-        $relation->setUser($this->vsec->getUser());
+        $relation = new RelResourceResource($resource1, $resource, $this->vsec->getUser());
         // Relation must be unique (due to the user)
-        if ($this->em->getRepository('VitoopInfomgmtBundle:RelResourceResource')
-                     ->exists($relation)
-        ) {
+        if ($this->em->getRepository('VitoopInfomgmtBundle:RelResourceResource')->exists($relation)) {
             // TODO wikiredirects shown only on user input. Here they are retrieved
             // from DB :-(
             // $arr_wiki_redirects = $resource1->getWikiRedirects();
@@ -417,16 +346,20 @@ class ResourceManager
         $this->em->persist($relation);
         $this->em->flush();
 
-        // If (5 == $resource1->getResourceTypeIdx()) {
-        // $lexicon = $resource1;
-        // $arr_wiki_redirects = $lexicon->getWikiRedirects();
-        // if ( ! $arr_wiki_redirects->isEmpty()) {
-        // return $resource1->getName() . '(' .
-        // $arr_wiki_redirects[0]->getWikiTitle() . ')';
-        // }
-        // }
-
         return $resource1->getName();
+    }
+
+    /**
+     * @param Lexicon $lexicon
+     * @param Resource $resource
+     * @return string
+     */
+    public function linkLexiconToResource(Lexicon $lexicon, Resource $resource)
+    {
+        $this->relResourceLinker->linkLexiconToResource($lexicon, $resource);
+        $this->em->flush();
+
+        return $lexicon->getName();
     }
 
     public function saveFlag(Flag $flag, Resource $res = null)
@@ -507,8 +440,7 @@ class ResourceManager
      */
     public function getLexicon($id)
     {
-        return $this->em->getRepository('VitoopInfomgmtBundle:Lexicon')
-            ->find($id);
+        return $this->em->getRepository('VitoopInfomgmtBundle:Lexicon')->find($id);
     }
 
     public function watchResource(Resource $res)

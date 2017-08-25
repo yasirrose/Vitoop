@@ -1,6 +1,6 @@
 {{ form_start(linksForm, {'attr': {'id': 'form-user-links', 'novalidate': 'novalidate', 'action': path('vitoop_infomgmt_userlink_userlinks') }}) }}
     <fieldset class="ui-corner-all">
-        <legend>Senden</legend>
+        <legend>Mailen</legend>
         {% for flashMessage in app.session.flashbag.get('success') %}
             <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all">
                 <span class="vtp-icon ui-icon ui-icon-info"></span>{{ flashMessage|trans }}

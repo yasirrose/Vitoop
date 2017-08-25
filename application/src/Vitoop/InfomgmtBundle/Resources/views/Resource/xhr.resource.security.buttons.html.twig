@@ -7,5 +7,7 @@
 {% if not (res_type == "lex" or res_type == "prj") %}
 <button class="vtp-uistyle-iconbutton vtp-uiaction-detail-delete"></button>
 {% endif %}
+{% if not (res_type == "lex") %}
 <button class="vtp-uistyle-iconbutton vtp-uiaction-detail-new"></button>
+{% endif %}
 <button class="vtp-uistyle-iconbutton vtp-uiaction-detail-blame"></button>

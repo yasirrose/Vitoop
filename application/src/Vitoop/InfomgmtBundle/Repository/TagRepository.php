@@ -7,12 +7,30 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\Entity\RelResourceTag;
 use Vitoop\InfomgmtBundle\Repository\Helper;
+use Vitoop\InfomgmtBundle\Entity\Tag;
 
 /**
  * TagRepository
  */
 class TagRepository extends EntityRepository
 {
+    /**
+     * @param Tag $tag
+     */
+    public function add(Tag $tag)
+    {
+        $this->_em->persist($tag);
+    }
+
+    /**
+     * @param Tag $tag
+     */
+    public function addAndSave(Tag $tag)
+    {
+        $this->add($tag);
+        $this->_em->flush($tag);
+    }
+
     public function countAllTagsFromResource(Resource $resource)
     {
         return $this->getEntityManager()

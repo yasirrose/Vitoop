@@ -33,7 +33,7 @@ class DownloadsService
 
     public function getPath(DownloadableInterface $resource)
     {
-        $path = join(DIRECTORY_SEPARATOR, array(
+        $path = implode(DIRECTORY_SEPARATOR, array(
             $this->downloadsDir,
             $resource->getResourceType(),
             $resource->getId().'.'.$resource->getResourceExtension()

@@ -219,7 +219,14 @@ td > a.vtp-extlink-list {
 .vtp-extlink-lexicon {
     float: right;
     margin-right: 10px;
-    margin-top: 6px;
+    margin-top: 1px;
+    padding: 5px;
+    text-decoration: none;
+
+}
+
+.ui-widget-header a.vtp-extlink-lexicon {
+    color: #0070a3;
 }
 
 .vtp-even .ui-state-active .vtp-extlink,
@@ -711,6 +718,8 @@ span.vtp-icon {
 
 #vtp-header-status form {
     display: inline;
+    z-index: 100;
+    position: relative;
 }
 
 #vtp-login-main-container {
@@ -1194,7 +1203,7 @@ span.vtp-icon-active {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfe7f7', endColorstr='#E5F1FA',GradientType=0 ); /* IE6-9 */
     color: #2779aa;
     margin-top: 2px;
-    padding: 10px 18px 10px 7px;
+    padding: 8px 18px 8px 7px;
 }
 
 a.vtp-homelink {
@@ -1499,17 +1508,18 @@ a.vtp-uiaction-open-url:visited {
 }
 
 #resource-title {
-    vertical-align: middle;
+  vertical-align: middle;
+  padding-top: 1px;
 }
 
 #send_links_textBody {
-    height: 100px;
+  height: 100px;
 }
 
 #form-user-links-info {
-    border: 1px solid #aed0ea;
-    margin-top: 10px;
-    padding: 3px;
+  border: 1px solid #aed0ea;
+  margin-top: 10px;
+  padding: 3px;
 }
 
 .vtp-send-type {
@@ -1559,4 +1569,13 @@ a.vtp-uiaction-open-url:visited {
 }
 #vtp-form-rating > fieldset > legend {
     margin-left: 4px;
+}
+
+table.dataTable thead th.sorting_asc div.DataTables_sort_wrapper,
+table.dataTable thead th.sorting_desc div.DataTables_sort_wrapper {
+    font-weight: bold;
+}
+
+#resource-data p {
+    margin-top: 0px;
 }

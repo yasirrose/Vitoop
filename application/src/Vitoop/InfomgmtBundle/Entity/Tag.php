@@ -19,6 +19,7 @@ class Tag
     protected $id;
 
     /**
+     * @var string
      * @ORM\Column(name="text", type="string", length=48, unique=true)
      * @Serializer\Groups({"new"})
      * @Serializer\Type("string")
@@ -35,6 +36,21 @@ class Tag
         $this->rel_resources = new ArrayCollection();
     }
 
+    /**
+     * @param $tagName
+     * @return static
+     */
+    public static function create($tagName)
+    {
+        $tag = new static();
+        $tag->text = $tagName;
+
+        return $tag;
+    }
+
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->text;

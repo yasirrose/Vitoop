@@ -63,7 +63,6 @@ resourceDetail = (function () {
                     "new": "ui-icon-document",
                     "blame": "ui-icon-alert",
                     'help': 'ui-icon-help',
-                    
                 };
                 $.each(action_icon_map, function (action, icon) {
                     if (('popup' === action) && ('pdf' !== res_type)) {
@@ -499,7 +498,7 @@ resourceDetail = (function () {
             //show lexicon button
             $('.vtp-extlink-lexicon').remove();
             if ('lex' === res_type ) {
-                $('.ui-tabs-nav').append('<a class="vtp-extlink vtp-extlink-list vtp-extlink-lexicon vtp-uiaction-open-extlink" href="'+viewUrl+'" target="_blank"><span class="ui-icon ui-icon-extlink">-></span></a>');
+                $('.ui-tabs-nav').append('<a class="vtp-extlink vtp-extlink-lexicon vtp-uiaction-open-extlink" href="'+viewUrl+'" target="_blank">Lexikon gross</a>');
             }
         },
 
