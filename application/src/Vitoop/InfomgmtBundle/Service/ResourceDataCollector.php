@@ -19,11 +19,8 @@ use Vitoop\InfomgmtBundle\Entity\Lexicon;
 use Vitoop\InfomgmtBundle\Entity\Project;
 use Vitoop\InfomgmtBundle\Entity\Flag;
 use Vitoop\InfomgmtBundle\Form\Adapter\ResourceFormAdapter;
-use Vitoop\InfomgmtBundle\Form\Type\TagType;
 use Vitoop\InfomgmtBundle\Form\Type\CommentType;
 use Vitoop\InfomgmtBundle\Form\Type\FlagInfoType;
-use Vitoop\InfomgmtBundle\Form\Type\LexiconNameType;
-use Vitoop\InfomgmtBundle\Form\Type\ProjectNameType;
 use Vitoop\InfomgmtBundle\Form\Type\RatingType;
 use Vitoop\InfomgmtBundle\Form\Type\RemarkType;
 use Vitoop\InfomgmtBundle\Form\Type\RemarkPrivateType;
@@ -624,7 +621,7 @@ class ResourceDataCollector
                             // atomic DB <Transaction. Otherwise a Lexicon is created but
                             // there could occure an error in assigning it to a resource!
 
-                            $this->rm->saveLexicon($lexicon);
+                            $lexicon = $this->rm->saveLexicon($lexicon);
                         }
 
 

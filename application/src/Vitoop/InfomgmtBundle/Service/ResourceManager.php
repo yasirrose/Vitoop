@@ -216,7 +216,7 @@ class ResourceManager
             $this->em->flush();
         }
 
-        return $lexicon->getId();
+        return $lexicon;
     }
 
     public function isResourcesRemovingAvailable($resource)
@@ -356,7 +356,11 @@ class ResourceManager
      */
     public function linkLexiconToResource(Lexicon $lexicon, Resource $resource)
     {
-        $this->relResourceLinker->linkLexiconToResource($lexicon, $resource);
+        try {
+            $this->relResourceLinker->linkLexiconToResource($lexicon, $resource);
+        } catch (\Exception $ex) {
+
+        }
         $this->em->flush();
 
         return $lexicon->getName();

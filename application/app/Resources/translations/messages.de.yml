@@ -26,7 +26,7 @@ label:
     new: neu
     delete: löschen
     cancel: abbrechen
-    send: Mailen
+    send: mailen
     save: speichern
     yes: ja
     project: Projekt

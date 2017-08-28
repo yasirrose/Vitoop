@@ -103,6 +103,8 @@ class RelResourceLinker
 
         //Ignore max tags check
         $this->tagLinker->addTagToResource($resource, $lexicon->getName());
+        //add tag to lexicon if not exists
+        $this->tagLinker->addTagToResource($lexicon, $lexicon->getName());
 
         return $relation;
     }
