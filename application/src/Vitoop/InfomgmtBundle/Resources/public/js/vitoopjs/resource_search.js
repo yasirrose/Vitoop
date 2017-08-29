@@ -327,6 +327,11 @@ resourceSearch = (function () {
                         updateAutocomplete(seacrhByTag);
                     },
                     response: function (e, ui) {
+                        if (0 === ui.content.length) {
+                            console.log('empty');
+                            ui.content.push({ cnt:"",text:".. das tag existiert nicht." });
+                            return;
+                        }
                         // filter already selected tag ui.content
                         for (var i = 0; i < ui.content.length; i += 1) {
                             if ((arr_taglist.indexOf(ui.content[i].value) > -1)||(arr_taglist_ignore.indexOf(ui.content[i].value) > -1)) {
