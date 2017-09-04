@@ -68,9 +68,11 @@ class ResourceTagLinker
     {
         $tag = $this->tagCreator->createTag($tagName);
         $relation = new RelResourceTag($resource, $tag, $this->vitoopSecurity->getUser());
-        $this->relResourceRepository->add($relation);
 
         $linkedRelation = $this->relResourceRepository->exists($relation);
+        if (!$linkedRelation) {
+            $this->relResourceRepository->add($relation);
+        }
         if ($linkedRelation && $linkedRelation->getDeletedByUser()) {
             throw new \Exception('You had already added this tag, but it was removed by another user.');
         }
