@@ -3,12 +3,13 @@ namespace Vitoop\InfomgmtBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Vitoop\InfomgmtBundle\DTO\Resource\ResourceDTO;
+use Vitoop\InfomgmtBundle\Entity\UrlCheck\UrlCheckInterface;
 
 /**
  * @ORM\Table(name="link")
  * @ORM\Entity(repositoryClass="Vitoop\InfomgmtBundle\Repository\LinkRepository")
  */
-class Link extends Resource
+class Link extends Resource implements UrlCheckInterface
 {
     use \Vitoop\InfomgmtBundle\Entity\UrlCheck\UrlCheckTrait;
 
@@ -31,6 +32,7 @@ class Link extends Resource
     public function __construct()
     {
         parent::__construct();
+        $this->unskip();
     }
 
     /**

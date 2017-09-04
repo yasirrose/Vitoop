@@ -498,8 +498,10 @@ class ResourceRepository extends EntityRepository
             ->innerJoin('r.user', 'u')
             ->leftJoin('r.flags', 'f')
             ->where('f.id IS NULL')
+            ->andWhere('r.isSkip = :isSkip')
             ->orderBy('r.lastCheckAt', 'ASC')
             ->setMaxResults($limit)
+            ->setParameter('isSkip', false)
             ->getQuery()
             ->getResult()
         ;

@@ -2,6 +2,7 @@
 namespace Vitoop\InfomgmtBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Vitoop\InfomgmtBundle\Entity\UrlCheck\UrlCheckInterface;
 
 /**
  * @ORM\Table(name="flag")
@@ -174,6 +175,18 @@ class Flag
     public function getResource()
     {
         return $this->resource;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSkip()
+    {
+        if ($this->resource instanceof UrlCheckInterface) {
+            return $this->resource->isSkip();
+        }
+
+        return false;
     }
 }
    

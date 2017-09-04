@@ -3,6 +3,7 @@ namespace Vitoop\InfomgmtBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vitoop\InfomgmtBundle\Entity\UrlCheck\UrlCheckInterface;
 use Vitoop\InfomgmtBundle\Entity\ValueObject\PublishedDate;
 use Vitoop\InfomgmtBundle\Validator\Constraints\DateFormat as DateFormatAssert;
 use Vitoop\InfomgmtBundle\DTO\Resource\ResourceDTO;
@@ -12,7 +13,7 @@ use Vitoop\InfomgmtBundle\Entity\Downloadable\DownloadableInterface;
  * @ORM\Table(name="teli")
  * @ORM\Entity(repositoryClass="Vitoop\InfomgmtBundle\Repository\TeliRepository")
  */
-class Teli extends Resource implements DownloadableInterface
+class Teli extends Resource implements DownloadableInterface, UrlCheckInterface
 {
     use \Vitoop\InfomgmtBundle\Entity\UrlCheck\UrlCheckTrait;
     use \Vitoop\InfomgmtBundle\Entity\Downloadable\DownloadableTrait;
@@ -37,6 +38,7 @@ class Teli extends Resource implements DownloadableInterface
     {
         parent::__construct();
         $this->markAsNotDownloaded();
+        $this->unskip();
     }
 
     /**

@@ -7,6 +7,8 @@
             <div class="vtp-res-flag-info-sheet">{{ flag.info }}</div>
             <div id="vtp-res-flag-buttons" class="right">
                 {{ form_start(fvflaginfo, {'attr': {'id': 'form-flaginfo', 'novalidate': 'novalidate' }}) }}
+                {{ form_widget(fvflaginfo.isSkip) }}
+                {{ form_label(fvflaginfo.isSkip) }}
                 {{ form_widget(fvflaginfo.delete_resource, {'attr': {'class': 'vtp-button' }}) }}
                 {{ form_widget(fvflaginfo.delete_flag, {'attr': {'class': 'vtp-button' }}) }}
                 {{ form_end(fvflaginfo) }}

@@ -681,7 +681,7 @@ class ResourceController extends ApiController
 
         $content['resource-flags'] = $rdc->getFlags();
 
-        return new Response(json_encode($content));
+        return new JsonResponse($content);
     }
 
     /**

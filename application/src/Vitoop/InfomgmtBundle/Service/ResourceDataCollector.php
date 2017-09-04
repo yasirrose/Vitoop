@@ -712,17 +712,20 @@ class ResourceDataCollector
         if ($this->handleData) {
             $form_flag_info->handleRequest($this->request);
             $info_delete = 'Vitoooops! Irgendwas ist schief gelaufen!';
-            if ($form_flag_info->get('delete_resource')
-                               ->isClicked()
-            ) {
+            if (method_exists($this->res, 'skip')) {
+                if ($form_flag_info->get('isSkip')->getData()) {
+                    $this->res->skip();
+                } else {
+                    $this->res->unskip();
+                }
+            }
+            if ($form_flag_info->get('delete_resource')->isClicked()) {
                 $flag->setType(Flag::FLAG_GONE);
                 $this->rm->saveFlag($flag);
                 $info_delete = 'Die Resource wurde erfolgreich gelöscht!';
-            } else {
-                if ($form_flag_info->get('delete_flag')->isClicked()) {
-                    $this->rm->deleteFlag($flag);
-                    $info_delete = 'Die Flag wurde entfernt. Die Resource ist jetzt wieder allgemein sichtbar!';
-                }
+            } elseif ($form_flag_info->get('delete_flag')->isClicked()) {
+                $this->rm->deleteFlag($flag);
+                $info_delete = 'Die Flag wurde entfernt. Die Resource ist jetzt wieder allgemein sichtbar!';
             }
 
             return $this->twig->render('VitoopInfomgmtBundle:Resource:xhr.resource.flags.infobox.html.twig', array('infodelete' => $info_delete));
