@@ -287,8 +287,8 @@ resourceSearch = (function () {
             var ignoredClass = (ignored)?(' vtp-search-bytags-tag-ignore'):('');
             var highlightedClass = (highlighted)?(' vtp-search-bytags-tag-bulb'):('');
 
-            return $('<span class="vtp-search-bytags-tag ui-corner-all'+ignoredClass+highlightedClass+'"><span class="vtp-icon-tag ui-icon ui-icon-tag" onclick="extendTag(event);"></span>'
-                + tag + '<span class="ui-icon ui-icon-lightbulb tag-icons-to-hide vtp-icon-bulb" style="display: none" onclick="highlightTag(event)"></span><span class="ui-icon ui-icon-cancel tag-icons-to-hide vtp-icon-cancel" style="display: none" onclick="ignoreTag(event)"></span><span class="vtp-icon-close vtp-uiaction-search-bytags-removetag ui-icon ui-icon-close"></span></span>');
+            return $('<span class="vtp-search-bytags-tag ui-corner-all'+ignoredClass+highlightedClass+'"><span class="vtp-icon-tag ui-icon ui-icon-tag" onclick="extendTag(event);"></span><span class="vtp-search-bytags-content" onclick="extendTag(event);">'
+                + tag + '</span><span class="ui-icon ui-icon-lightbulb tag-icons-to-hide vtp-icon-bulb" style="display: none" onclick="highlightTag(event)"></span><span class="ui-icon ui-icon-cancel tag-icons-to-hide vtp-icon-cancel" style="display: none" onclick="ignoreTag(event)"></span><span class="vtp-icon-close vtp-uiaction-search-bytags-removetag ui-icon ui-icon-close"></span></span>');
         },
 
         updateAutocomplete = function (seacrhByTag) {
@@ -321,15 +321,14 @@ resourceSearch = (function () {
                 seacrhByTag.autocomplete({
                     source: vitoop.baseUrl + (['tag', 'suggest'].join('/')) + '?extended=1&ignore='+arr_taglist_ignore.join(),
                     minLength: 2,
-                    autoFocus: true,
+                    autoFocus: false,
                     select: function (event, ui) {
                         addTag(event, ui);
                         updateAutocomplete(seacrhByTag);
                     },
                     response: function (e, ui) {
                         if (0 === ui.content.length) {
-                            console.log('empty');
-                            ui.content.push({ cnt:"",text:".. das tag existiert nicht." });
+                            ui.content.push({cnt:"",text:".. das tag existiert nicht."});
                             return;
                         }
                         // filter already selected tag ui.content
@@ -342,6 +341,9 @@ resourceSearch = (function () {
                     }}).data("ui-autocomplete")._renderItem = function(ul, item) {
                     item.label = item.text;
                     var span = "<div class='vtp-search-bytags-item'>"+item.text + "</div><span>"+item.cnt+"</span>";
+                    if (item.cnt == "") {
+                        return $("<li class='ui-state-disabled' style='margin: 0px'></li>").append(span).appendTo(ul);
+                    }
                     return $("<li></li>").append(span).appendTo(ul);
                 };
             }

@@ -16,8 +16,23 @@ TagWidget.prototype.init = function () {
     $('#tag_text').autocomplete({
         source: self.baseUrl + (['tag', 'suggest'].join('/')) + '?id=' + self.resourceId,
         minLength: 2,
-        appendTo: 'body'
-    });
+        appendTo: 'body',
+        response: function (e, ui) {
+            if (0 === ui.content.length) {
+                ui.content.push({label:".. das tag existiert nicht - neu anlegen?", value:""});
+                return;
+            }
+        }
+    }).data("ui-autocomplete")._renderItem = function (ul, item) {
+        var dropdownItem = $("<li>").attr("data-value", item.value);
+        if (item.value == '') {
+            dropdownItem = $("<li class='ui-state-disabled' style='margin: 0px'>").attr("data-value", item.value);
+        }
+
+        return dropdownItem
+            .append(item.label)
+            .appendTo(ul);
+    };
 
     $('#tag_text').keypress(function(e) {
         if(e.keyCode === 13) {

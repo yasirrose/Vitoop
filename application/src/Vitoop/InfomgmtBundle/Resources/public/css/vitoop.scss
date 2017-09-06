@@ -258,7 +258,7 @@ table input[disabled="disabled"].vtp-uiaction-coefficient {
 
 #vtp-search-bytags-taglist {
     width: 235px;
-    margin-right: 2px;
+    margin-right: 4px;
 }
 
 .vtp-search-bytags-item {
@@ -276,7 +276,7 @@ table input[disabled="disabled"].vtp-uiaction-coefficient {
     position: relative;
     border: 2px solid #f2f5f7;
     height: 23px;
-    padding: 3px 4px;
+    padding: 2px 4px;
     margin-left: 0.5em;
 }
 
@@ -286,7 +286,7 @@ table input[disabled="disabled"].vtp-uiaction-coefficient {
     border: 1px solid #aed0ea;
     top: 0px;
     right: 0.2em;
-    margin: 4px;
+    margin: 2px 4px 4px 4px;
     background-color: #f2f5f7;
     width: 34px;
     height: 23px;
@@ -349,7 +349,11 @@ span.vtp-search-bytags-tag.vtp-search-bytags-tag-ignore {
 }
 
 span.vtp-search-bytags-tag.vtp-search-bytags-tag-active {
-    padding: 0 4em 0 1.3em !important;
+    padding: 1px 4em 1px 1.3em !important;
+}
+
+.vtp-search-bytags-content {
+    cursor: pointer;
 }
 
 span.vtp-tagbox-cnttag,
@@ -1206,7 +1210,7 @@ span.vtp-icon-active {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfe7f7', endColorstr='#E5F1FA',GradientType=0 ); /* IE6-9 */
     color: #2779aa;
     margin-top: 2px;
-    padding: 8px 18px 8px 7px;
+    padding: 6px 18px 6px 7px;
 }
 
 a.vtp-homelink {
@@ -1489,7 +1493,7 @@ a.vtp-uiaction-open-url:visited {
 }
 
 #vtp-res-list tbody td {
-    padding: 2px 8px;
+    padding: 1px 8px;
 }
 
 #resource-check {
