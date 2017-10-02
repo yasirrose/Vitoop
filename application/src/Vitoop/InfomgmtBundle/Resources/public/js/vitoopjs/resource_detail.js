@@ -919,6 +919,7 @@ resourceDetail = (function () {
                     delete checkedResources[storageKey];
                 }
                 storage.setObject(res_type+'-checked', checkedResources);
+                checkOpenButtonState(res_id);
 
                 e.stopPropagation();
             });
