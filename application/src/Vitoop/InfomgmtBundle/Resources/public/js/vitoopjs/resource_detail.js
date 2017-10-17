@@ -845,29 +845,19 @@ resourceDetail = (function () {
                         $('#help-text', element).val(answer.help.text);
                         $('#vtp-res-dialog-help').append(element);
                         setTimeout(function() {
-                            tinyMCE.init({
-                                mode: 'exact',
-                                selector: 'textarea#help-text',
-                                id: 'tiny-help',
-                                height: 430,
-                                skin : "vitoop",
-                                plugins: 'textcolor link code',
-                                relative_urls : false,
-                                remove_script_host : false,
-                                convert_urls : true,
-                                menubar: false,
-                                formats: {
-                                    alignleft: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'left' },
-                                    aligncenter: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'center' },
-                                    alignright: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'right' },
-                                    alignfull: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'full' },
-                                    bold: { inline: 'strong' },
-                                    italic: { inline: 'i' },
-                                    underline: { inline: 'u' },
-                                    strikethrough: { inline: 'del' },
-                                },
-                                toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink | code'
-                            });
+                            var tinyInit = new TinyMCEInitializer();
+                            var options = tinyInit.getCommonOptions();
+                            options.mode = 'exact';
+                            options.selector = 'textarea#help-text';
+                            options.id = 'tiny-help';
+                            options.height = 430;
+                            options.plugins.push('code');
+                            options.relative_urls = false;
+                            options.remove_script_host = false;
+                            options.convert_urls = true;
+                            options.toolbar = 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink | code';
+
+                            tinyMCE.init(options);
                         }, 2000);
 
                         $('#button-help-save').on('click', function() {

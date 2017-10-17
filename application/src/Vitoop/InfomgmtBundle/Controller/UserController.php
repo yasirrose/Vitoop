@@ -400,6 +400,9 @@ EOT;
         if (isset($dto->is_show_help)) {
             $user->setIsShowHelp((bool)$dto->is_show_help);
         }
+        if (isset($dto->is_check_max_link)) {
+            $this->get('vitoop.user_config_manager')->setIsCheckMaxLinkForOpen((bool)$dto->is_check_max_link);
+        }
         $this->getDoctrine()->getManager()->flush();
 
         return $this->getApiResponse($user->getDTO());

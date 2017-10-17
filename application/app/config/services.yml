@@ -2,7 +2,6 @@ parameters:
     vitoop.lexicon_query_manager.class:         Vitoop\InfomgmtBundle\Service\LexiconQueryManager
     vitoop.resource_data_collector.class:       Vitoop\InfomgmtBundle\Service\ResourceDataCollector
     vitoop.vitoop_security.class:               Vitoop\InfomgmtBundle\Service\VitoopSecurity
-    vitoop.user_config_manager.class:           Vitoop\InfomgmtBundle\Service\UserConfigManager
     vitoop.options_repository.class:            Vitoop\InfomgmtBundle\Repository\OptionRepository
 
 services:
@@ -42,8 +41,10 @@ services:
         arguments:      ['@security.token_storage','@security.authorization_checker']
 
     vitoop.user_config_manager:
-        class:          '%vitoop.user_config_manager.class%'
-        arguments:      ['@doctrine.orm.entity_manager', '@security.token_storage']
+        class: Vitoop\InfomgmtBundle\Service\UserConfigManager
+        arguments:
+          - '@vitoop.repository.user_config'
+          - '@security.token_storage'
 
     vitoop.url_getter:
         class: Vitoop\InfomgmtBundle\Service\UrlGetter
@@ -231,6 +232,12 @@ services:
         factory: ["@doctrine.orm.entity_manager", getRepository]
         arguments:
             - Vitoop\InfomgmtBundle\Entity\User
+
+    vitoop.repository.user_config:
+            class: Vitoop\InfomgmtBundle\Repository\UserConfigRepository
+            factory: ["@doctrine.orm.entity_manager", getRepository]
+            arguments:
+                - Vitoop\InfomgmtBundle\Entity\UserConfig
 
     vitoop.repository.invitation:
         class: Vitoop\InfomgmtBundle\Repository\InvitationRepository

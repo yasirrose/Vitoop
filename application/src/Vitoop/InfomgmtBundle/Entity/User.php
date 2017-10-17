@@ -198,7 +198,6 @@ class User implements EquatableInterface, AdvancedUserInterface, \Serializable, 
         return $user;
     }
 
-
     public function __toString()
     {
         return $this->username;
@@ -223,7 +222,6 @@ class User implements EquatableInterface, AdvancedUserInterface, \Serializable, 
 
     public function isEqualTo(UserInterface $user)
     {
-
         return ($user->getUsername() === $this->username && $user->isActive() === $this->isActive());
     }
 
@@ -917,7 +915,8 @@ class User implements EquatableInterface, AdvancedUserInterface, \Serializable, 
         return [
             'id' => $this->id,
             'username' => $this->username,
-            'is_show_help' => $this->isShowHelp
+            'is_show_help' => $this->isShowHelp,
+            'is_check_max_link' => $this->user_config->getIsCheckMaxLink()
         ];
     }
 

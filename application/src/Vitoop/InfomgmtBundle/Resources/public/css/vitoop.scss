@@ -2,15 +2,43 @@
  * GENERAL                                               *
  ************************************************************/
 
+$blue-frame-border: 1px solid #aed0ea;
+$vitoop-font-family: Verdana, Arial, Helvetica, sans-serif;
+$vitoop-body-color: #362b36;
+$vitoop-blue-color: #2779aa;
+$vitoop-body-background-color: #f2f5f7;
+
+@mixin border-radius($radius) {
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    -ms-border-radius: $radius;
+    border-radius: $radius;
+}
+
+@mixin blue-border-radius() {
+    @include border-radius(6px);
+    border: $blue-frame-border;
+}
+
+@mixin box-sizing($box-sizing) {
+    box-sizing: $box-sizing;
+    -moz-box-sizing: $box-sizing;
+}
+
+.vtp-ui-corner-all {
+    @include blue-border-radius();
+    padding: 10px;
+}
+
 html, body {
     height: 100%;
 }
 
 body {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-family: $vitoop-font-family;
     font-size: 90%;
-    background-color: #f2f5f7;
-    color: #362b36;
+    background-color: $vitoop-body-background-color;
+    color: $vitoop-body-color;
     width: 100%;
 }
 
@@ -24,36 +52,32 @@ table {
     border-collapse: separate;
     border-spacing: 0;
     table-layout: fixed;
-    background-color: #f2f5f7;
+    background-color: $vitoop-body-background-color;
 }
 
-div#vtp-res-list table tr:first-of-type th:first-of-type {
-    border-left-width: 1px;
-}
-
+div#vtp-res-list table tr:first-of-type th:first-of-type,
 div#vtp-res-tags table tr:first-of-type th:first-of-type {
     border-left-width: 1px;
 }
 
 div#vtp-res-list table tr:first-of-type th {
-    color: #2779aa !important;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
+    color: $vitoop-blue-color !important;
+    font-family: $vitoop-font-family;
     font-size: 0.9em !important;
 }
 
 div#vtp-res-tags table tr:first-of-type th {
-    color: #2779aa !important;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
+    color: $vitoop-blue-color !important;
+    font-family: $vitoop-font-family;
     font-size: 12px !important;
 }
 
 .blau {
-    color: #2779aa;
+    color: $vitoop-blue-color;
 }
 
 div#vtp-res-tags {
-    border-radius: 6px;
-    border: 1px solid #aed0ea;
+    @include blue-border-radius();
     padding: 5px;
 }
 
@@ -88,12 +112,12 @@ th {
 
 .tanz {
     background-color: hsla(216, 100%, 59%, 0.5);
-    border-radius: 30px;
+    @include border-radius(30px);
 }
 
 .odd > td {
-    background-color: #f2f5f7;
-    color: #362b36;
+    background-color: $vitoop-body-background-color;
+    color: $vitoop-body-color;
 }
 
 .even > td, th {
@@ -116,7 +140,7 @@ div.vtp-teasefader {
 }
 
 tr.odd div.vtp-teasefader {
-    /* #f2f5f7 */
+    /* #f2f5f7 ($vitoop-body-background-color) */
     background-image: linear-gradient(to right, rgba(242, 245, 247, 0), rgba(242, 245, 247, 1) 90%);
 }
 
@@ -127,7 +151,7 @@ tr.even div.vtp-teasefader {
 
 tr.vtp-hilight td {
     background-color: #ffffff;
-    color: #2779aa;
+    color: $vitoop-blue-color;
 }
 
 tr.vtp-hilight div.vtp-teasefader {
@@ -146,7 +170,7 @@ td.ui-state-active div.vtp-teasefader {
 }
 
 tr.vtp-state-active td {
-    color: #2779aa;
+    color: $vitoop-blue-color;
     font-weight: bold;
 }
 
@@ -160,9 +184,8 @@ textarea[disabled='disabled'] {
 }
 
 input, select, textarea {
-    border: 1px solid #aed0ea;
     height: 24px;
-    border-radius: 6px;
+    @include blue-border-radius();
     padding: 1px 1px 1px 5px;
     background: #ffffff;
     -webkit-appearance: none;
@@ -173,8 +196,7 @@ input, select, label {
 }
 
 input[type="submit"], .vtp-button {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
+    @include box-sizing(border-box);
     font-weight: normal !important;
     height: 24px;
     padding-top: 0 !important;
@@ -190,8 +212,7 @@ input[type="submit"], .vtp-button {
 
 .vtp-extlink {
     display: inline-block !important;
-    border: 1px solid #aed0ea;
-    border-radius: 6px;
+    @include blue-border-radius();
     /*margin-left: 0.2em !important;*/
 }
 
@@ -214,7 +235,7 @@ td > span.vtp-extlink-list {
 }
 
 .vtp-even .vtp-extlink {
-    background-color: #f2f5f7;
+    background-color: $vitoop-body-background-color;
 }
 
 .vtp-extlink-lexicon {
@@ -274,7 +295,7 @@ table input[disabled="disabled"].vtp-uiaction-coefficient {
 
 #vtp-search-bytags-taglistbox {
     position: relative;
-    border: 2px solid #f2f5f7;
+    border: 2px solid $vitoop-body-background-color;
     padding: 0px 4px;
     margin-left: 0.5em;
 }
@@ -282,11 +303,11 @@ table input[disabled="disabled"].vtp-uiaction-coefficient {
 #vtp-icon-clear-taglistbox {
     display: inline-block;
     position: absolute;
-    border: 1px solid #aed0ea;
+    border: $blue-frame-border;
     top: 0px;
     right: 0.2em;
     margin: 2px 4px 4px 4px;
-    background-color: #f2f5f7;
+    background-color: $vitoop-body-background-color;
     width: 34px;
     height: 23px;
     cursor: pointer;
@@ -325,24 +346,21 @@ span.vtp-projectbox-project {
     color: #222222;
     padding: 1px 0.2em 1px 1.3em;
     margin: 1px 0.2em 1px 1px;
-    border: 1px solid #aed0ea;
+    border: $blue-frame-border;
 }
 
-.vtp-tagbox-tag:hover {
+.vtp-tagbox-tag:hover, span.vtp-search-bytags-tag:hover {
     border: 1px solid #2694e8;
 }
 
 span.vtp-search-bytags-tag {
-    background-color: #f2f5f7;
-    color: #362b36;
+    background-color: $vitoop-body-background-color;
+    color: $vitoop-body-color;
     padding: 3px 2em 3px 1.3em;
     transition: padding 0.4s ease 0s;
-    border: 1px solid #aed0ea;
+    border: $blue-frame-border;
 }
 
-span.vtp-search-bytags-tag:hover {
-    border: 1px solid #2694e8;
-}
 
 span.vtp-search-bytags-tag.vtp-search-bytags-tag-bulb {
     background-color: #3baae3;
@@ -431,7 +449,7 @@ span.vtp-owntag-hilight {
 }
 
 #lexicon-main {
-    border: 1px solid #aed0ea;
+    border: $blue-frame-border;
     margin: 0.5em 0 0.5em 0;
     padding: 0.5em;
     min-height: 1.5em;
@@ -453,6 +471,8 @@ span.vtp-lexiconbox-cntres {
 
 #lexicon-tags {
     margin-top: 40px;
+    padding: 8px;
+    width: 77%;
 }
 
 /************************************************************
@@ -487,8 +507,7 @@ span.vtp-lexiconbox-cntres {
   vertical-align: bottom;
   padding-left: 8px;
   padding-right: 3px;
-  border-radius: 6px;
-  border: 1px solid #aed0ea;
+  @include blue-border-radius();
 }
 
 .vtp-fh-right {
@@ -500,8 +519,7 @@ span.vtp-lexiconbox-cntres {
 .vtp-fh-w60, .vtp-fh-w70, .vtp-fh-w80, .vtp-fh-w90,
 .vtp-fh-w05, .vtp-fh-w15, .vtp-fh-w16, .vtp-fh-w25, .vtp-fh-w29, .vtp-fh-w35, .vtp-fh-w75, .vtp-fh-w85 {
     display: inline-block;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
+    @include box-sizing(border-box);
 }
 
 .vtp-fh-w05 {
@@ -609,8 +627,8 @@ span.beta-status {
     display: block;
     font-size: 14px;
     font-weight: 400;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    color: #2779aa !important;
+    font-family: $vitoop-font-family;
+    color: $vitoop-blue-color !important;
     padding-left: 63px;
     margin-bottom: -11px;
 }
@@ -672,7 +690,7 @@ span.vtp-icon {
 }
 
 #vtp-header {
-    border: 1px solid #aed0ea;
+    border: $blue-frame-border;
     /*background-color: #deedf7;*/
     background: #f2f8fc; /* Old browsers */
     background: -moz-linear-gradient(top, #f2f8fc 0%, #cfe7f7 100%); /* FF3.6+ */
@@ -702,7 +720,7 @@ span.vtp-icon {
 }
 
 .vtp-logo a {
-    color: #2779aa;
+    color: $vitoop-blue-color;
     text-decoration: none;
 }
 
@@ -743,7 +761,7 @@ span.vtp-icon {
 }
 
 #vtp-login-main-container {
-    border: 1px solid #aed0ea;
+    border: $blue-frame-border;
     background-color: #deedf7;
     height: 398px;
 }
@@ -762,7 +780,7 @@ span.vtp-icon {
     height: 20px;
 }
 
-#vtp-forgot input[type="text"], 
+#vtp-forgot input[type="text"],
 #vtp-forgot input[type="email"],
 #vtp-forgot input[type="password"] {
     width: 300px;
@@ -969,7 +987,7 @@ span.vtp-icon {
 }
 
 #vtp-lexicondata-box a {
-    color: #2779aa;
+    color: $vitoop-blue-color;
     text-decoration: none;
 }
 
@@ -989,7 +1007,7 @@ span.vtp-icon {
     height: 20px;
     position: relative;
     margin: auto;
-    border: 1px solid #aed0ea;
+    border: $blue-frame-border;
     padding: 4px 30px 2px 15px;
     color: #222222;
     font-weight: bold;
@@ -1007,11 +1025,11 @@ span.vtp-icon {
 #vtp-projectdata-project-close, #vtp-lexicondata-lexicon-close {
     display: inline-block;
     position: absolute;
-    border: 1px solid #aed0ea;
+    border: $blue-frame-border;
     top: 50%;
     right: 0.4em;
     margin: -9px 2px 0 0;
-    background-color: #f2f5f7;
+    background-color: $vitoop-body-background-color;
     cursor: pointer;
     width: 34px;
     height: 19px;
@@ -1023,15 +1041,15 @@ span.vtp-icon {
 
 .vtp-new-user-info > p {
     font-size: 10px;
-    color: #2779aa;
+    color: $vitoop-blue-color;
 }
 
 .vtp-projectdata-unlink {
     display: inline-block;
     position: absolute;
-    border: 1px solid #aed0ea;
+    border: $blue-frame-border;
     margin: -8px 0 0 0;
-    background-color: #f2f5f7;
+    background-color: $vitoop-body-background-color;
     cursor: pointer;
     width: 2.4em;
     height: 19px;
@@ -1061,6 +1079,8 @@ span.divider {
 
 input.divider {
     width: 100%;
+    height: 17px;
+    padding-left: 35px;
 }
 
 div.divider-wrapper {
@@ -1072,7 +1092,7 @@ div.divider-wrapper {
     background: -ms-linear-gradient(right,  #deedf7 0%,#cbebff 47%,#a3d4f0 100%);
     background: linear-gradient(to left,  #deedf7 0%,#cbebff 47%,#a3d4f0 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a3d4f0', endColorstr='#deedf7',GradientType=1 );
-    border: 1px solid #aed0ea;
+    border: $blue-frame-border;
     width: 1125px;
     padding-left: 14px;
     font-size: 12px;
@@ -1100,10 +1120,10 @@ input#vtp-search-bytags-taglist {
 #vtp-projectdata-project-live, #vtp-projectdata-project-edit {
     display: inline-block;
     position: absolute;
-    border: 1px solid #aed0ea;
+    border: $blue-frame-border;
     top: 50%;
     margin: -9px 9px 0 0;
-    background-color: #f2f5f7;
+    background-color: $vitoop-body-background-color;
     cursor: pointer;
     width: 34px;
     height: 19px;
@@ -1131,7 +1151,7 @@ input#vtp-search-bytags-taglist {
     overflow: auto;
     margin: 8px;
     padding:1em;
-    border: 1px solid #aed0ea;
+    border: $blue-frame-border;
     vertical-align: top;
 }
 
@@ -1139,7 +1159,7 @@ input#vtp-search-bytags-taglist {
     overflow: auto;
     margin: 0px;
     padding: 0 1em;
-    border: 1px solid #aed0ea;
+    border: $blue-frame-border;
     vertical-align: top;
     float: right;
     width: 26%
@@ -1172,7 +1192,7 @@ span.vtp-icon-active {
 }
 
 #vtp-projectdata-sheet-info > p, #vtp-lexicondata-sheet-info > p {
-    color: #2779aa;
+    color: $vitoop-blue-color;
     margin-bottom: 5px;
     margin-top: 5px;
 }
@@ -1211,7 +1231,7 @@ span.vtp-icon-active {
 
 #vtp-footer {
     overflow: hidden;
-    border: 1px solid #aed0ea;
+    border: $blue-frame-border;
     /*background-color: #deedf7;*/
     background: #cfe7f7; /* Old browsers */
     background: -moz-linear-gradient(top,  #cfe7f7 0%, #E5F1FA 100%); /* FF3.6+ */
@@ -1221,14 +1241,14 @@ span.vtp-icon-active {
     background: -ms-linear-gradient(top,  #cfe7f7 0%,#E5F1FA 100%); /* IE10+ */
     background: linear-gradient(to bottom,  #cfe7f7 0%,#E5F1FA 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfe7f7', endColorstr='#E5F1FA',GradientType=0 ); /* IE6-9 */
-    color: #2779aa;
+    color: $vitoop-blue-color;
     margin-top: 2px;
     padding: 6px 18px 6px 7px;
 }
 
 a.vtp-homelink {
     font-family: Merriweather, 'Times New Roman', serif;
-    color: #2779aa;
+    color: $vitoop-blue-color;
     border: 0 none;
     text-decoration: none;
 }
@@ -1253,7 +1273,7 @@ a.vtp-homelink span {
 #remark_save,
 #vtp-footer #vtp-imprint a,
 #vtp-footer #vtp-imprint button,
-div#vtp-login form div.vtp-submit-wrapper input[type=submit], 
+div#vtp-login form div.vtp-submit-wrapper input[type=submit],
 div#vtp-forgot form input[type=submit]
  {
     padding-left: 4px;
@@ -1336,7 +1356,7 @@ form#form-tag {
 #resource-quickview form#vtp-form-data label,
 #vtp-view-meta label,
 #form-user-links label{
-    color: #2779aa;
+    color: $vitoop-blue-color;
     font-size: 0.85em;
 }
 
@@ -1352,13 +1372,13 @@ div.ui-dialog-titlebar > button {
 }
 
 fieldset {
-    border: 1px solid #aed0ea;
+    border: $blue-frame-border;
     margin: 0;
     padding: 0.5em;
 }
 
 legend {
-    color: #2779aa;
+    color: $vitoop-blue-color;
     padding: 0.1em 0.5em;
 }
 
@@ -1373,7 +1393,6 @@ div#vtp-res-dialog-tabs > div {
 #vtp-credentials form div {
     margin-top: 5px;
     margin-bottom: 5px;
-
 }
 
 #vtp-credentials div {
@@ -1387,8 +1406,8 @@ input.ng-invalid{
 
 .vtp-button-light {
     background-color: #ffffff;
-    color: #2779aa;
-    border: 1px solid #aed0ea;
+    color: $vitoop-blue-color;
+    border: $blue-frame-border;
     padding-bottom: 5px;
     padding-top: 5px
 }
@@ -1402,9 +1421,9 @@ div#vtp-res-list table input[disabled="disabled"] {
 
 #button-user-agreed {
     padding: 30px;
-    border: 1px solid #aed0ea;
+    border: $blue-frame-border;
     background: #d7ebf9 url("../img/ui-bg_glass_80_d7ebf9_1x400.png") 50% 50% repeat-x;
-    color: #2779aa;
+    color: $vitoop-blue-color;
     margin-left: 20px;
 }
 
@@ -1435,16 +1454,16 @@ div#vtp-res-list table input[disabled="disabled"] {
     background: -o-linear-gradient(right, #7bc0f6 , #deedf7); /* For Opera 11.1 to 12.0 */
     background: -moz-linear-gradient(right, #7bc0f6 , #deedf7); /* For Firefox 3.6 to 15 */
     background: linear-gradient(to right, #7bc0f6 , #deedf7); /* Standard syntax */
-    
+
 }
 
 .odd > td.vtp-blue {
     background: #7bc0f6; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left, #7bc0f6 , #f2f5f7); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #7bc0f6 , #f2f5f7); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, #7bc0f6 , #f2f5f7); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, #7bc0f6 , #f2f5f7); /* Standard syntax */
-    
+    background: -webkit-linear-gradient(left, #7bc0f6 , $vitoop-body-background-color); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #7bc0f6 , $vitoop-body-background-color); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #7bc0f6 , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #7bc0f6 , $vitoop-body-background-color); /* Standard syntax */
+
 }
 
 td.vtp-blue.ui-state-active {
@@ -1508,7 +1527,7 @@ a.vtp-uiaction-open-url:visited {
 
 #vtp-res-list td.dataTables_empty {
     margin-top: 2px;
-    border: 1px solid #aed0ea !important;
+    border: $blue-frame-border !important;
 }
 
 #vtp-res-list span.ellipsis {
@@ -1547,7 +1566,7 @@ a.vtp-uiaction-open-url:visited {
 }
 
 #form-user-links-info {
-  border: 1px solid #aed0ea;
+  border: $blue-frame-border;
   margin-top: 10px;
   padding: 3px;
 }
@@ -1594,12 +1613,14 @@ a.vtp-uiaction-open-url:visited {
     margin-top: 3px;
 }
 
-#vtp-form-rating > fieldset {
-    height: 42px;
-    padding: 0px;
-}
-#vtp-form-rating > fieldset > legend {
-    margin-left: 4px;
+#vtp-form-rating {
+    fieldset {
+        height: 42px;
+        padding: 0px;
+        legend {
+            margin-left: 4px;
+        }
+    }
 }
 
 table.dataTable thead th.sorting_asc div.DataTables_sort_wrapper,

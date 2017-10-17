@@ -2,7 +2,6 @@
 namespace Vitoop\InfomgmtBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation as Serializer;
 
@@ -57,11 +56,16 @@ class UserConfig
      */
     protected $heightOfTodoList;
 
+    /**
+     * @ORM\Column(name="is_check_max_link", type="boolean", options={"default" = true})
+     */
+    protected $isCheckMaxLink;
 
     public function __construct(User $user)
     {
         $this->setUser($user);
         $this->setMaxPerPage(10);
+        $this->setIsCheckMaxLink(true);
         $this->heightOfTodoList = 550;
         $this->numberOfTodoElements = 12;
     }
@@ -116,6 +120,22 @@ class UserConfig
     }
 
     /**
+     * @return mixed
+     */
+    public function getIsCheckMaxLink()
+    {
+        return $this->isCheckMaxLink;
+    }
+
+    /**
+     * @param mixed $isCheckMaxLink
+     */
+    public function setIsCheckMaxLink($isCheckMaxLink)
+    {
+        $this->isCheckMaxLink = $isCheckMaxLink;
+    }
+
+    /**
      * Set numberOfTodoElements
      *
      * @param integer $numberOfTodoElements
@@ -161,6 +181,10 @@ class UserConfig
         return $this->heightOfTodoList;
     }
 
+    /**
+     * @param $numberElements
+     * @param $heightList
+     */
     public function updateTodoParameters($numberElements, $heightList)
     {
         $this->numberOfTodoElements = $numberElements;

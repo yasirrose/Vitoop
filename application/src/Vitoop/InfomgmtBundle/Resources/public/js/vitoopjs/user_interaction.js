@@ -110,25 +110,15 @@ userInteraction = (function () {
             });
         });
 
-        tinymce.init({
-            selector: 'textarea#vitoop_blog_sheet',
-            width: 615,
-            height: 600,
-            plugins: 'textcolor link media code',
-            skin : "vitoop",
-            menubar: false,
-            formats: {
-                alignleft: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'left' },
-                aligncenter: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'center' },
-                alignright: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'right' },
-                alignfull: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'full' },
-                bold: { inline: 'strong' },
-                italic: { inline: 'i' },
-                underline: { inline: 'u' },
-                strikethrough: { inline: 'del' },
-            },
-            toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink | media | code'
-        });
+        var tinyInit = new TinyMCEInitializer();
+        var options = tinyInit.getCommonOptions();
+        options.selector = 'textarea#vitoop_blog_sheet';
+        options.width = 615;
+        options.height = 600;
+        options.plugins = ['textcolor', 'link', 'media', 'code'];
+        options.toolbar = 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink | media | code'
+
+        tinymce.init(options);
     };
 
     return {

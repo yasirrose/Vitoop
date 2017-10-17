@@ -108,24 +108,13 @@ app.controller('PrjController', function ($scope, $http, $filter, $timeout) {
     $scope.isLoaded = false;
     $scope.isOwner = false;
     $scope.isDeleting = false;
-    $scope.tinymceOptions = {
-        width: 800,
-        height: 550,
-        plugins: 'textcolor link media resourceurl',
-        menubar: false,
-        skin : "vitoop",
-        formats: {
-            alignleft: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'left' },
-            aligncenter: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'center' },
-            alignright: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'right' },
-            alignfull: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'full' },
-            bold: { inline: 'strong' },
-            italic: { inline: 'i' },
-            underline: { inline: 'u' },
-            strikethrough: { inline: 'del' },
-        },
-        toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink resourceurl'
-    };
+    var tinyInit = new TinyMCEInitializer();
+    $scope.tinymceOptions = tinyInit.getCommonOptions();
+    $scope.tinymceOptions.width = 800;
+    $scope.tinymceOptions.height = 550;
+    $scope.tinymceOptions.plugins = ['textcolor', 'link', 'media', 'resourceurl'];
+    $scope.tinymceOptions.toolbar = 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink resourceurl';
+
     $scope.$watch("projectId", function(){
         $http.get(vitoop.baseUrl + 'api/project/'+$scope.projectId).success(function (data) {
             $scope.project = data.project;
@@ -221,32 +210,21 @@ app.controller('ToDoController', function ($scope, $http, $filter, $timeout) {
         setHeight: 400,
         scrollInertia: 0
     };
-    
-    $scope.tinymceOptions = {
-        width: 550, //574 for new one button
-        height: 550,
-        plugins: 'textcolor link media resourceurl',
-        menubar: false,
-        debounce: false,
-        skin : "vitoop",
-        formats: {
-            alignleft: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'left' },
-            aligncenter: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'center' },
-            alignright: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'right' },
-            alignfull: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'full' },
-            bold: { inline: 'strong' },
-            italic: { inline: 'i' },
-            underline: { inline: 'u' },
-            strikethrough: { inline: 'del' },
-        },
-        toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor',
-        setup: function(e) {
-            e.on('init', function () {
-                $scope.toDoForm.$setPristine();
-            }),
+
+    var tinyInit = new TinyMCEInitializer();
+    $scope.tinymceOptions = tinyInit.getCommonOptions();
+    $scope.tinymceOptions.width = 550;
+    $scope.tinymceOptions.height = 550;
+    $scope.tinymceOptions.debounce = false;
+    $scope.tinymceOptions.plugins = ['textcolor', 'link', 'media', 'resourceurl'];
+    $scope.tinymceOptions.toolbar = 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor';
+    $scope.tinymceOptions.setup = function(e) {
+        e.on('init', function () {
+            $scope.toDoForm.$setPristine();
+        }),
             e.on('Change', function () {
-                if (($scope.etalonItem && !$scope.etalonItem.id) || 
-                 ($scope.etalonItem && $scope.etalonItem.id &&  $scope.etalonItem.id != $scope.to_do_item.id)) {
+                if (($scope.etalonItem && !$scope.etalonItem.id) ||
+                    ($scope.etalonItem && $scope.etalonItem.id &&  $scope.etalonItem.id != $scope.to_do_item.id)) {
                     angular.copy($scope.to_do_item, $scope.etalonItem);
                     return;
                 }
@@ -254,7 +232,6 @@ app.controller('ToDoController', function ($scope, $http, $filter, $timeout) {
                     $scope.toDoForm.$setDirty();
                 }
             });
-        }
     };
 
     $scope.sortableOptions = {

@@ -14,12 +14,21 @@ LinkStorage.prototype.isNotEmpty = function () {
 };
 
 LinkStorage.prototype.getAllResorces = function () {
-    var resources = new Array();
+    var resources = [];
     for (var i = 0; i < this.resourceTypes.length; i++) {
         resources.push(this.storage.getObject(this.resourceTypes[i]+'-checked'));
     }
 
     return resources;
+};
+
+LinkStorage.prototype.getAllResourcesSize = function () {
+    var resourcesSize = 0;
+    for (var i = 0; i < this.resourceTypes.length; i++) {
+        resourcesSize += Object.keys(this.storage.getObject(this.resourceTypes[i]+'-checked')).length;
+    }
+
+    return resourcesSize;
 };
 
 LinkStorage.prototype.getAllResorcesByTypes = function () {

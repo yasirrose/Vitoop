@@ -82,7 +82,7 @@ class ResourceController extends ApiController
                 if (null === $user_data) {
                     $user_data = new UserData($user);
                 }
-                if (is_null($user->getUserConfig())) {
+                if (null === $user->getUserConfig()) {
                     $user->setUserConfig(new UserConfig($user));
                     $em->merge($user);
                     $em->flush();

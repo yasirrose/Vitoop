@@ -39,8 +39,8 @@ class LoginListener
         $response = $event->getResponse();
 
         $maxperpage = $this->ucm->getUserConfig()->getMaxPerPage();
-        $config_cookie = new Cookie('maxperpage', $maxperpage, 0, '/', null, false, false);
-        $response->headers->setCookie($config_cookie);
+        $configCookie = new Cookie('maxperpage', $maxperpage, 0, '/', null, false, false);
+        $response->headers->setCookie($configCookie);
         $event->setResponse($response);
         $this->eventDispatcher->removeListener(HttpKernel\KernelEvents::RESPONSE, array($this, 'onFilterResponse'));
     }

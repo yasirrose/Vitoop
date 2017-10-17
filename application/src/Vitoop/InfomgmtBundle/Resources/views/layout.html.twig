@@ -16,12 +16,14 @@
             if (typeof maxperpage === 'undefined') {
                 maxperpage = '10';
             }
-            var resourceId = {%if resourceId is defined %}{{resourceId}}{%else%}null{%endif%}
+            var resourceId = {%if resourceId is defined %}{{resourceId}}{%else%}null{%endif%};
+            var isCheckMaxLinks = {% if app.user and app.user.getUserConfig and app.user.getUserConfig.getIsCheckMaxLink() %}{{ app.user.getUserConfig.getIsCheckMaxLink() }}{% else %}true{% endif %};
             
             return {
                 baseUrl: baseUrl,
                 maxperpage: maxperpage,
                 resourceId: resourceId,
+                isCheckMaxLinks: isCheckMaxLinks,
                 isShowHelp: {%if app.user and not app.user.getIsShowHelp() %}false{% else %}true{% endif %}
             };
         }());
@@ -248,6 +250,9 @@
             </div>
             <div id="vtp-res-dialog-links" style="display:none">
                 {# render(controller('VitoopInfomgmtBundle:UserLink:userLinks')) #}
+            </div>
+            <div id="vtp-res-dialog-prompt-links" style="display: none">
+
             </div>
             {% if is_granted('ROLE_ADMIN') %}
                 {% include 'VitoopInfomgmtBundle:User:termsTinyMce.html.twig' %}

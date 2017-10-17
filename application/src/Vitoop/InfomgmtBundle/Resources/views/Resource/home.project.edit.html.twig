@@ -17,25 +17,21 @@
             <div id="vtp-projectdata-sheet-info-edit" class="vtp-fh-w25 ui-corner-all" ng-show="isLoaded">
                 <form name="projectDataForm">
                 <div class="vtp-fh-w100" style="vertical-align: top; text-align: center; margin-top: 5px">
-                    <div style="float: left;">
-                        <button ng-click="save()" ng-cloak ng-class="{'ui-corner-all ui-state-default': projectDataForm.$pristine && projectSheetForm.projectText.$pristine, 'ui-corner-all ui-state-need-to-save': projectDataForm.$dirty || projectSheetForm.projectText.$dirty}" style="padding-bottom: 5px; padding-top: 5px; float: right">speichern</button>
+                    <div>
+                        <button ng-click="save()" ng-cloak ng-class="{'ui-corner-all ui-state-default': projectDataForm.$pristine && projectSheetForm.projectText.$pristine, 'ui-corner-all ui-state-need-to-save': projectDataForm.$dirty || projectSheetForm.projectText.$dirty}" style="padding-bottom: 5px; padding-top: 5px; width: 100%">speichern</button>
                     </div>
-                    <div style="vertical-align: bottom; float: right; text-align: center; color: #2779aa; font-size: 14px; padding-top: 10px;">
+                    <div style="vertical-align: bottom; text-align: left; color: #2779aa; font-size: 14px; padding-top: 10px;">
                         <div class="vtp-fh-w60">
-                            <label for="projectIsPrivate" style="margin-right: 20px">verstecken</label>
-                        </div>
-                        <div class="vtp-fh-w35">
                             <input type="checkbox" ng-model="project.project_data.is_private" name="projectIsPrivate" style="-webkit-appearance: checkbox"/>
+                            <label for="projectIsPrivate" style="margin-right: 20px; vertical-align: top;">verstecken</label>
                         </div>
                     </div>
                 </div>
                 {% if (showasprojectowner is not null) and (showasprojectowner) %}
-                <div class="vtp-fh-w100" style="vertical-align: top; margin-top: 20px; color: #2779aa; font-size: 14px">
+                <div class="vtp-fh-w100 vtp-ui-corner-all blau" style="vertical-align: top; margin-top: 20px; font-size: 14px">
                     <div style="margin-bottom: 15px">
                         <div class="vtp-fh-w60">
-                            <span>
-                                Benutzer
-                            </span>
+                            <span>Benutzer</span>
                         </div>
                         <div class="vtp-fh-w35">
                             <span>Rechte</span>
@@ -46,8 +42,8 @@
                         <div class="vtp-fh-w60">
                             <label for="userReadOnly-{{ rel.user.id }}" ng-bind="rel.user.username" style="margin-right: 20px"></label>
                         </div>
-                        <div class="vtp-fh-w35" style="text-align: center">
-                            <input type="checkbox" ng-true-value="false" ng-false-value="true" ng-model="rel.read_only" name="userReadOnly-{{ rel.user.id }}" style="-webkit-appearance: checkbox"/>
+                        <div class="vtp-fh-w35" style="text-align: left">
+                            <input type="checkbox" ng-true-value="false" ng-false-value="true" ng-model="rel.read_only" name="userReadOnly-{{ rel.user.id }}" class="valid-checkbox" />
                         </div>
                     </div>
                     {% endverbatim %}
@@ -68,8 +64,8 @@
                              titlefield="username"
                              inputclass="vtp-fh-w97"
                              style="margin-bottom: 5px"></div>
-                        <button ng-click="addUser()" class="ui-corner-all vtp-fh-w60 ui-state-default" style="font-size: 14px">verknüpfen</button>
-                        <button ng-click="removeUser()" class="ui-corner-all vtp-fh-w40 ui-state-default" style="font-size: 14px; float: right">löschen</button>
+                        <button ng-click="addUser()" class="ui-corner-all vtp-fh-w60 ui-state-default vtp-button">verknüpfen</button>
+                        <button ng-click="removeUser()" class="ui-corner-all vtp-fh-w40 ui-state-default vtp-button" style="float: right">löschen</button>
                     </div>
                     <span ng-show="isError" id="error-span" class="form-error">Vitoooops!: <span ng-bind="message"></span></span>
                     <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all" ng-show="isSuccess" style="transition: 0s linear all;"><span class="vtp-icon ui-icon ui-icon-info"></span><span ng-bind="message"></span></div>

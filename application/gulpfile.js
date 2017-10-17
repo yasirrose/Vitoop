@@ -55,9 +55,19 @@ gulp.task('js', ['angular-js', 'lexicon-js', 'tinymce-js', 'datatables-js', 'uti
         .pipe(gulp.dest('web/js'));
 });
 
+gulp.task('tinymce-scss', function () {
+    return gulp.src(
+        ['src/Vitoop/InfomgmtBundle/Resources/public/css/vtp-tinymce.scss'])
+        .pipe(sourcemaps.init())
+        .pipe(sass().on('error', sass.logError))
+        .pipe(concat('vtp-tinymce.css'))
+        .pipe(gulpif(env === 'prod', uglifycss()))
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest('web/css'));
+});
+
 gulp.task('scss', function () {
-    return gulp.src([
-        'src/Vitoop/InfomgmtBundle/Resources/public/css/**/*.scss'])
+    return gulp.src(['src/Vitoop/InfomgmtBundle/Resources/public/css/**/*.scss'])
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
         .pipe(concat('vitoop.css'))
@@ -73,7 +83,7 @@ gulp.task('img', function() {
     ]).pipe(gulp.dest('web/img'));
 });
 
-gulp.task('default', ['img', 'scss', 'js']);
+gulp.task('default', ['img', 'tinymce-scss', 'scss', 'js']);
 
 gulp.task('prod', ['set-prod', 'default']);
 

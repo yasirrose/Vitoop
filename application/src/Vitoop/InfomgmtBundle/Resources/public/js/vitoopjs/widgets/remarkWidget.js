@@ -79,32 +79,20 @@ RemarkWidget.prototype.initTinyMCE = function () {
         $(self.remarkBoxId).show();
         return;
     }
-    tinyMCE.init({
-        selector: 'textarea#remark_text',
-        height: 300,
-        plugins: ['textcolor', 'link', 'placeholder'],
-        menubar: false,
-        skin : "vitoop",
-        formats: {
-            alignleft: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'left' },
-            aligncenter: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'center' },
-            alignright: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'right' },
-            alignfull: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'full' },
-            bold: { inline: 'strong' },
-            italic: { inline: 'i' },
-            underline: { inline: 'u' },
-            strikethrough: { inline: 'del' },
-        },
-        toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink',
-        setup: function (editor) {
-            editor.on('init', function (e) {
-                $(self.remarkBoxId).show();
-            }),
-            editor.on('change', function (e) {
-                $('.remark-agreement').show();
-            });
-        }
-    });
+
+    var tinyInit = new TinyMCEInitializer();
+    var options = tinyInit.getCommonOptions();
+    options.selector = 'textarea#remark_text';
+    options.setup = function (editor) {
+        editor.on('init', function (e) {
+            $(self.remarkBoxId).show();
+        }),
+        editor.on('change', function (e) {
+            $('.remark-agreement').show();
+        });
+    };
+
+    tinyMCE.init(options);
 };
 
 RemarkWidget.prototype.initLockButton = function () {
