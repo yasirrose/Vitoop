@@ -18,10 +18,10 @@
         {{ form_widget(fvdata.description, {'attr': {'class': 'vtp-fh-w80', 'rows': '10' }}) }}
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.description) }}</div>
     </div>
-    <div class="vtp-fh-middle created-info-project">
+    <div class="vtp-fh-bottom created-info-project">
         <div class="vtp-fh-infosave-box vtp-fh-w95">
            {{ form_widget(fvdata.isUserHook) }}
-           <span class="blau">blau</span> | Eingetragen am: {{ res.createdat|date('d.m.Y') }}{% if res.getUser is not null %} | von: {{ res.getUser.getUsername }}{% endif %} | ID: {{ res.getId }}
+            <span class="blau blau-text">blau</span><span class="blau-text">&nbsp;&nbsp;|&nbsp;&nbsp;Eingetragen am: {{ res.createdat|date('d.m.Y') }}{% if res.getUser is not null %}&nbsp;&nbsp;|&nbsp;&nbsp;von: {{ res.getUser.getUsername }}{% endif %}&nbsp;&nbsp;|&nbsp;&nbsp;ID: {{ res.getId }}</span>
         </div>
     </div>
     <div class="vtp-fh-bottom">
