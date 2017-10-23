@@ -347,10 +347,8 @@
                     }
                 });
                 $('#vtp-res-dialog-prompt-links').dialog('open');
-                $('#vtp-res-dialog-prompt-links').html(`
-                    <p>Bist Du sicher, dass Du ${resourcesCount} Tabs auf einmal öffen willst?</p>
-                    <p><input type="checkbox" class="valid-checkbox" id="vtp-is-check-max-link" value="0" /> nicht nochmal fragen</p>
-                `);
+                $('#vtp-res-dialog-prompt-links').html("<p>Bist Du sicher, dass Du " + resourcesCount + " Tabs auf einmal öffen willst?</p>"+
+                    "<p><input type='checkbox' class='valid-checkbox' id='vtp-is-check-max-link' value='0' /> nicht nochmal fragen</p>");
 
                 $('#vtp-is-check-max-link').on('change', function () {
                     $.ajax({
