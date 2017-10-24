@@ -150,11 +150,11 @@ class ResourceRepository extends EntityRepository
             $search->countTags = $max_tags;
         }
 
-        $qb->addSelect('COUNT(DISTINCT t.text) as count_different', 'COUNT(t.text) AS HIDDEN quantity_all')
+        $qb->addSelect('COUNT(DISTINCT rt.id) as count_different', 'COUNT(t.text) AS HIDDEN quantity_all')
            ->innerJoin('r.rel_tags', 'rt')
            ->andWhere('t.text IN (:tags)')
            ->andWhere('rt.deletedByUser is null')
-           ->groupBy('r.id')
+           ->addGroupBy('r.id')
            ->setParameter('tags', $search->tags);
 
         if ($search->countTags != 0) {
