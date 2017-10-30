@@ -122,7 +122,7 @@ class TagRepository extends EntityRepository
             ->select('t.text, COUNT (DISTINCT r.id) as cnt')
             ->from(Resource::class, 'r')
             ->innerJoin('r.rel_tags', 'rrt', 'WITH',
-                'rrt.id = (SELECT MAX(rrt2.id) FROM Vitoop\InfomgmtBundle\Entity\RelResourceTag as rrt2 WHERE rrt2.resource = r.id AND rrt2.tag = t.id and rrt2.deletedByUser IS NULL)')
+                'rrt.id = (SELECT MAX(rrt2.id) FROM Vitoop\InfomgmtBundle\Entity\RelResourceTag as rrt2 WHERE rrt2.resource = r.id AND rrt2.tag = rrt.tag and rrt2.deletedByUser IS NULL)')
             ->innerJoin('rrt.tag', 't')
             ->leftJoin('r.flags', 'f')
             ->where('t.text LIKE :letter')
@@ -131,7 +131,7 @@ class TagRepository extends EntityRepository
             ->andWhere('t.text NOT IN (:ignore)')
             ->setMaxResults(10)
             ->setParameter('letter', $letter . "%")
-            ->setParameter('ignore', $ignoreTags?$ignoreTags:false)
+            ->setParameter('ignore', !empty($ignoreTags)?$ignoreTags:false)
             ->orderBy('t.text')
             ->groupBy('t.text')
             ->getQuery()
