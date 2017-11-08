@@ -76,6 +76,9 @@ class ResourceTagLinker
         if ($linkedRelation && $linkedRelation->getDeletedByUser()) {
             throw new \Exception('You had already added this tag, but it was removed by another user.');
         }
+        if ($linkedRelation) {
+            throw new \Exception('Du hast den Datensatz schon mit '.$tagName.' getagt.');
+        }
 
         return $tagName;
     }

@@ -1,0 +1,9 @@
+<div class="vtp-fh-bottom created-info{{ fieldSuffix }}">
+    <div class="vtp-fh-infosave-box vtp-fh-infosave-box-left blau-gradient">
+        {{ form_widget(fvdata.isUserHook) }}
+        <span class="blau-text">blau</span>
+    </div>
+    <div class="vtp-fh-infosave-box vtp-fh-infosave-box-right vtp-fh-w90">
+        <span class="blau-text">&nbsp;&nbsp;Eingetragen am: {{ res.createdat|date('d.m.Y') }}{% if res.getUser is not null %}&nbsp;&nbsp;|&nbsp;&nbsp;von: {{ res.getUser.getUsername }}{% endif %}&nbsp;&nbsp;|&nbsp;&nbsp;ID: {{ res.getId }}</span>
+    </div>
+</div>

@@ -23,12 +23,12 @@
                     <div style="vertical-align: bottom; text-align: left; color: #2779aa; font-size: 14px; padding-top: 10px;">
                         <div class="vtp-fh-w60">
                             <input type="checkbox" ng-model="project.project_data.is_private" name="projectIsPrivate" style="-webkit-appearance: checkbox"/>
-                            <label for="projectIsPrivate" style="margin-right: 20px; vertical-align: top;">verstecken</label>
+                            <label for="projectIsPrivate" id="verstecken-vabel">verstecken</label>
                         </div>
                     </div>
                 </div>
                 {% if (showasprojectowner is not null) and (showasprojectowner) %}
-                <div class="vtp-fh-w100 vtp-ui-corner-all blau" style="vertical-align: top; margin-top: 20px; font-size: 14px">
+                <div class="vtp-fh-w100 vtp-ui-corner-all blau" ng-class="project.project_data.rel_users.length == 1 ? 'red-border': ''" style="vertical-align: top; margin-top: 20px; font-size: 14px">
                     <div style="margin-bottom: 15px">
                         <div class="vtp-fh-w60">
                             <span>Benutzer</span>

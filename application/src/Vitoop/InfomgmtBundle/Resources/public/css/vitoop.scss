@@ -7,6 +7,7 @@ $vitoop-font-family: Verdana, Arial, Helvetica, sans-serif;
 $vitoop-body-color: #362b36;
 $vitoop-blue-color: #2779aa;
 $vitoop-body-background-color: #f2f5f7;
+$vitoop-red-color: #ff0000;
 
 @mixin border-radius($radius) {
     -webkit-border-radius: $radius;
@@ -23,6 +24,28 @@ $vitoop-body-background-color: #f2f5f7;
 @mixin box-sizing($box-sizing) {
     box-sizing: $box-sizing;
     -moz-box-sizing: $box-sizing;
+}
+
+@mixin border-radius-left() {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+@mixin blue-border-radius-left() {
+    @include border-radius-left();
+    border: $blue-frame-border;
+    border-right-width: 0px;
+}
+
+@mixin border-radius-right() {
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+@mixin blue-border-radius-right() {
+    @include border-radius-right();
+    border: $blue-frame-border;
+    border-left-width: 0px;
 }
 
 .vtp-ui-corner-all {
@@ -81,6 +104,14 @@ div#vtp-res-tags table tr:first-of-type th {
     vertical-align: bottom;
 }
 
+.blau-gradient{
+    background: #7bc0f6; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left, #7bc0f6 , #deedf7); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #7bc0f6 , #deedf7); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #7bc0f6 , #deedf7); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #7bc0f6 , #deedf7); /* Standard syntax */
+}
+
 div#vtp-res-tags {
     @include blue-border-radius();
     padding: 5px;
@@ -94,12 +125,10 @@ table#vtp-res-tags tbody {
 
 div#vtp-res-list td, div#vtp-res-tags td {
     &:first-of-type {
-        border-top-left-radius: 6px;
-        border-bottom-left-radius: 6px;
+        @include border-radius-left();
     }
     &:last-of-type {
-        border-top-right-radius: 6px;
-        border-bottom-right-radius: 6px;
+        @include border-radius-right();
     }
 }
 
@@ -301,7 +330,7 @@ table input[disabled="disabled"].vtp-uiaction-coefficient {
 #vtp-search-bytags-taglistbox {
     position: relative;
     border: 2px solid $vitoop-body-background-color;
-    padding: 1px 4px;
+    padding: 2px 4px;
     margin-left: 0.5em;
 }
 
@@ -311,7 +340,7 @@ table input[disabled="disabled"].vtp-uiaction-coefficient {
     border: $blue-frame-border;
     top: 0px;
     right: 0.2em;
-    margin: 2px 4px 4px 4px;
+    margin: 4px;
     background-color: $vitoop-body-background-color;
     width: 34px;
     height: 23px;
@@ -505,15 +534,6 @@ span.vtp-lexiconbox-cntres {
 .vtp-fh-bottom {
     margin-top: 10px;
     padding-top: 2px;
-}
-
-.vtp-fh-infosave-box {
-  font-size: smaller;
-  vertical-align: bottom;
-  padding-left: 8px;
-  padding-right: 3px;
-  margin-top: 4px;
-  @include blue-border-radius();
 }
 
 .vtp-fh-right {
@@ -998,8 +1018,8 @@ span.vtp-icon {
 }
 
 .ui-state-need-to-save {
-    border: 1px solid #FF0000 !important;
-    color: #FF0000 !important;
+    border: 1px solid $vitoop-red-color !important;
+    color: $vitoop-red-color !important;
 }
 
 /************************************************************
@@ -1080,7 +1100,6 @@ div.login-container > div {
 }
 
 span.divider {
-    margin-left: 4px;
 }
 
 input.divider {
@@ -1116,6 +1135,7 @@ input#vtp-search-bytags-taglist {
 #vtp-search-bytags-form
 #vtp-search-bytags-form-submit {
     height: 25px;
+    width: 38px;
     margin-bottom: 1px;
 }
 
@@ -1150,6 +1170,9 @@ input#vtp-search-bytags-taglist {
 #vtp-projectdata-sheet-edit {
     position: relative;
     width: 720px;
+    a {
+        color: #000000;
+    }
 }
 
 #vtp-projectdata-sheet-view, #vtp-projectdata-sheet-info,
@@ -1175,8 +1198,11 @@ input#vtp-search-bytags-taglist {
     float: right;
 }
 
-#vtp-projectdata-sheet-view, #vtp-lexicondata-sheet-view  {
+#vtp-projectdata-sheet-view, #vtp-lexicondata-sheet-view {
     width: 77%;
+    a {
+        color: #000000;
+    }
 }
 
 .ui-state-no-content {
@@ -1331,6 +1357,7 @@ a.vtp-extlink:active {
     fieldset {
         padding-left: 13px;
         padding-right: 0;
+        padding-bottom: 10px; ;
         legend {
             margin-left: -8px;
         }
@@ -1345,13 +1372,32 @@ form#form-tag {
 
 .created-info {
     padding-left: 99px;
+    .vtp-fh-infosave-box {
+        font-size: smaller;
+        vertical-align: bottom;
+        padding-right: 3px;
+        margin-top: 4px;
+    }
+    .vtp-fh-infosave-box-left {
+        @include blue-border-radius-left();
+        padding-left: 8px;
+        height: 24px;
+        width: 45px;
+        float:left;
+    }
+    .vtp-fh-infosave-box-right {
+        @include blue-border-radius-right();
+        padding-top: 1px;
+    }
 }
 
 .created-info-book {
+    @extend .created-info;
     padding-left: 65px;
 }
 
 .created-info-project {
+    @extend .created-info;
     padding-left: 131px;
 }
 
@@ -1376,7 +1422,7 @@ div.ui-dialog-titlebar > button {
 fieldset {
     border: $blue-frame-border;
     margin: 0;
-    padding: 0.5em;
+    padding: 7px;
 }
 
 legend {
@@ -1402,8 +1448,8 @@ div#vtp-res-dialog-tabs > div {
 }
 
 
-input.ng-invalid{
-    border-color: red;
+.red-border, input.ng-invalid{
+    border-color: $vitoop-red-color;
 }
 
 .vtp-button-light {
@@ -1501,7 +1547,7 @@ td.vtp-blue.ui-state-active {
 }
 
 .dataTables_filter {
-    padding-top: 2px;
+    padding-top: 1px;
     padding-bottom: 2px;
 }
 
@@ -1557,18 +1603,35 @@ a.vtp-uiaction-open-url:visited {
     margin-right: 5px;
 }
 
-#vtp-application .ui-dialog .ui-dialog-titlebar {
-    padding: 2px 14px;
+#vtp-application {
+    .ui-dialog {
+        .ui-dialog-titlebar {
+            padding: 2px 14px;
+        }
+        .ui-dialog-title {
+            margin: 0px;
+            vertical-align: middle;
+            height: 24px;
+        }
+    }
 }
 
-#vtp-application .ui-dialog .ui-dialog-title {
-    margin: 0px;
-    vertical-align: middle;
-    height: 24px;
-}
-
-#vtp-application .dataTables_wrapper .ui-toolbar {
-    padding: 2px 8px;
+#vtp-application {
+    .dataTables_wrapper {
+        .ui-toolbar {
+            padding: 2px 8px;
+        }
+        .dataTables_paginate {
+            margin-top: 1px;
+            margin-bottom: 1px;
+        }
+        .dataTables_length {
+            padding-top: 3px;
+        }
+        .dataTables_info {
+            padding-top: 6px;
+        }
+    }
 }
 
 #resource-title {
@@ -1609,11 +1672,10 @@ a.vtp-uiaction-open-url:visited {
     margin-left: 138px;
     padding-top: 2px;
     padding-bottom: 2px;
-}
-
-#search_date_range input {
-    margin-right: 6px;
-    width: 130px;
+    input {
+        margin-right: 6px;
+        width: 130px;
+    }
 }
 
 #vtp_search_date {
@@ -1625,7 +1687,7 @@ a.vtp-uiaction-open-url:visited {
 }
 
 #vtp-filterbox, #vtp-cmstitle {
-    margin-top: 3px;
+    margin-top: 5px;
 }
 
 #vtp-form-rating {
@@ -1649,4 +1711,15 @@ table.dataTable thead th.sorting_desc div.DataTables_sort_wrapper {
 
 .vtp-fh-bottom-last {
     margin-bottom: 10px;
+}
+
+table.dataTable thead th:hover {
+    font-weight: bold;
+}
+
+#verstecken-vabel {
+    margin-top: 2px;
+    margin-right: 20px;
+    vertical-align: top;
+    display: inline-block;
 }

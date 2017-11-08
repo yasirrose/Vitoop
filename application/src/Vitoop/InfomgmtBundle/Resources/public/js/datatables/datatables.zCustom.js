@@ -173,7 +173,7 @@ function dtDrawCallbackCoef() {
                                                 }
                                         });
                                 } else {
-                                        $(this).parent().parent().before($('<div style="height: 18px; padding-top: 3px;" class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 6%; padding-left: 15px"><span>'+ ~~ currentCoefficient+'</span></div><div style="width: 92.4%"><span class="divider">'+divider+'</span></span></div></div>'));
+                                        $(this).parent().parent().before($('<div style="height: 18px; padding-top: 4px;" class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 116px; padding-left: 15px"><span>'+ ~~ currentCoefficient+'</span></div><div><span class="divider">'+divider+'</span></span></div></div>'));
                                 }
                     }
                     upperCoefficient = currentCoefficient;
