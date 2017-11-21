@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 {% if (showasprojectowner is not null) and (showasprojectowner) %}
-                <div class="vtp-fh-w100 vtp-ui-corner-all blau" ng-class="project.project_data.rel_users.length == 1 ? 'red-border': ''" style="vertical-align: top; margin-top: 20px; font-size: 14px">
+                <div class="vtp-fh-w100 vtp-ui-corner-all blau" ng-show="project.project_data.rel_users.length > 0" style="vertical-align: top; margin-top: 20px; font-size: 14px">
                     <div style="margin-bottom: 15px">
                         <div class="vtp-fh-w60">
                             <span>Benutzer</span>

@@ -8,6 +8,7 @@ $vitoop-body-color: #362b36;
 $vitoop-blue-color: #2779aa;
 $vitoop-body-background-color: #f2f5f7;
 $vitoop-red-color: #ff0000;
+$vitoop-even-background-color: #deedf7;
 
 @mixin border-radius($radius) {
     -webkit-border-radius: $radius;
@@ -155,7 +156,7 @@ th {
 }
 
 .even > td, th {
-    background-color: #deedf7;
+    background-color: $vitoop-even-background-color;
     color: #222222;
 }
 
@@ -264,8 +265,9 @@ td > span.vtp-extlink-list {
     margin-left: 12px;
 }
 
-.vtp-odd .vtp-extlink {
-    background-color: #deedf7;
+.vtp-odd .vtp-extlink,
+.vtp-even-background {
+    background-color: $vitoop-even-background-color;
 }
 
 .vtp-even .vtp-extlink {
@@ -376,7 +378,7 @@ span.vtp-lexiconbox-item,
 span.vtp-projectbox-project {
     display: inline-block;
     position: relative;
-    background-color: #deedf7;
+    background-color: $vitoop-even-background-color;
     color: #222222;
     padding: 1px 0.2em 1px 1.3em;
     margin: 1px 0.2em 1px 1px;
@@ -788,7 +790,7 @@ span.vtp-icon {
 
 #vtp-login-main-container {
     border: $blue-frame-border;
-    background-color: #deedf7;
+    background-color: $vitoop-even-background-color;
     height: 398px;
 }
 
@@ -1038,7 +1040,7 @@ span.vtp-icon {
     color: #222222;
     font-weight: bold;
     font-size: 15px;
-    background: #deedf7;
+    background: $vitoop-even-background-color;
     background: -moz-linear-gradient(left,  #deedf7 0%, #cbebff 47%, #3999ca 100%);
     background: -webkit-gradient(linear, left top, right top, color-stop(0%,#deedf7), color-stop(47%,#cbebff), color-stop(100%,#3999ca));
     background: -webkit-linear-gradient(left,  #deedf7 0%,#cbebff 47%,#3999ca 100%);
@@ -1109,7 +1111,7 @@ input.divider {
 }
 
 div.divider-wrapper {
-    background: #deedf7;
+    background: $vitoop-even-background-color;
     background: -moz-linear-gradient(right,  #deedf7 0%, #cbebff 47%, #a3d4f0 100%);
     background: -webkit-gradient(linear, right top, left top, color-stop(0%,#deedf7), color-stop(47%,#cbebff), color-stop(100%,#a3d4f0));
     background: -webkit-linear-gradient(right,  #deedf7 0%,#cbebff 47%,#a3d4f0 100%);
@@ -1520,7 +1522,14 @@ td.vtp-blue.ui-state-active {
 }
 
 #search_blue, .valid-checkbox {
+    position: relative;
+    width: 14px;
+    height: 14px;
+    border: 1px solid #111;
+    background: #fff;
     -webkit-appearance: checkbox;
+    /*-webkit-appearance: none;*/
+    appearance: none;
 }
 
 #div-confirm-tagging {
@@ -1575,7 +1584,7 @@ a.vtp-uiaction-open-url:visited {
 
 #vtp-res-list {
     tr.vtp-uiaction-list-showdetail {
-        height: 32px;
+        height: 30px;
     }
 
     td.dataTables_empty {
