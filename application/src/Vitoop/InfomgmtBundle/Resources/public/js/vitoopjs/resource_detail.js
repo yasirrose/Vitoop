@@ -891,7 +891,7 @@ resourceDetail = (function () {
                 }
             });
 
-            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').append('<input type="checkbox" id="resource-check">');
+            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').append('<input type="checkbox" id="resource-check" class="valid-checkbox">');
             $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').append('<span id="resource-title"></span>');
             $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').after('<span id="resource-buttons"></span>');
 
