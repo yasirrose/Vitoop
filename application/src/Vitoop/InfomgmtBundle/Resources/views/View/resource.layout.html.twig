@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>vitoop</title>
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/vitoop.css') }}">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link href='https://fonts.googleapis.com/css?family=Merriweather:700,300' rel='stylesheet' type='text/css'>
+    <script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
+    <script src="{{ asset('js/vitoop.js') }}"></script>
+</head>
+<body id="vtp-application">
+<div id="vtp-view-container">
+    <div id="vtp-view-meta">
+        <div class="vtp-fh-top">
+            <label class="vtp-fh-w15">{{ 'label.title'|trans }}:</label>
+            <input class="vtp-fh-w80" type="text" disabled value="{{resource.name}}"  />
+        </div>
+        <div class="vtp-fh-top">
+            <label class="vtp-fh-w15">{{ 'label.url'|trans }}:</label>
+            <input class="vtp-fh-w80" type="text" disabled value="{{resource.url}}"  />
+        </div>
+
+        <div class="vtp-view-button-container">
+            <button class="vtp-button ui-corner-all ui-state-default" id="vtp-remark-dialog">{{ 'label.remarks'|trans  }}</button>
+            <button class="vtp-button ui-corner-all ui-state-default" id="vtp-remark-private-dialog">{{ 'label.privat_remarks'|trans  }}</button>
+            <button class="vtp-button ui-corner-all ui-state-default" id="vtp-comments-dialog">{{ 'label.comments'|trans }}</button>
+            <button class="vtp-button ui-corner-all ui-state-default" id="vtp-assignments-dialog">{{ 'label.assignments'|trans }}</button>
+        </div>
+
+        <div class="vtp-fh-top">
+            <label class="vtp-fh-w20">{{ 'label.author'|trans }}:</label>
+            <textarea class="vtp-view-textarea" disabled rows="2">{{resource.author}}</textarea>
+        </div>
+        <div class="vtp-fh-top">
+            <label class="vtp-fh-w60">{{ 'label.tnop'|trans }}:</label>
+            <input class="vtp-fh-w35" type="text" disabled value="{{resource.tnop}}"  />
+        </div>
+        <div class="vtp-fh-top">
+            <label class="vtp-fh-w60">{{ 'label.pdf_date'|trans }}:</label>
+            <input class="vtp-fh-w35" type="text" disabled value="{{resource.pdfDate}}"  />
+        </div>
+        <div class="vtp-fh-top">
+            <label class="vtp-fh-w60">{{ 'label.lang'|trans }}:</label>
+            <input class="vtp-fh-w35" type="text" disabled value="{{resource.lang.name}}"  />
+        </div>
+        <div class="vtp-fh-top" id="resource-tag">
+            {{ tagForm|raw }}
+        </div>
+        {% if is_granted('ROLE_ADMIN') %}
+        <div class="vtp-fh-top vtp-view-button-container">
+            <button class="vtp-button ui-corner-all ui-state-default" id="pdf-editor-save">{{ 'label.save'|trans }} PDF</button>
+        </div>
+        {% endif %}
+    </div>
+    <div id="vtp-pdf-view-toggle">
+        <button id="vtp-pdf-view-toggle-button"><span class="ui-icon ui-icon-seek-first"></span></button>
+    </div>
+    {% block pdfview %}{% endblock pdfview %}
+</div>
+<div id="resource-remark" style="display:none">
+    {{ remarkForm|raw }}
+</div>
+<div id="resource-remark_private" style="display:none">
+    {{ privateRemarkForm|raw }}
+</div>
+<div id="resource-comments" style="display:none">
+    {{ commentForm|raw }}
+</div>
+<div id="resource-assignments" style="display:none">
+    <div id="resource-lexicon">
+        {{ lexiconForm|raw }}
+    </div>
+    <div id="resource-project">
+        {{ projectForm|raw }}
+    </div>
+</div>
+<script>
+    var resourceId = {{resource.id}};
+    var resourceType = '{{resource.getResourceType()}}';
+    var baseUrl = '{{ path('_base_url') }}';
+    var pdfUrl = baseUrl + 'resource-files/' + resourceId + '.pdf';
+    var isLoadAnnotation = {% if is_granted('ROLE_ADMIN') %}true{% else %}false{% endif %};
+    $(document).ready(function () {
+
+        $('#vtp-pdf-view-toggle-button').on('click', function () {
+            if ($('#pdf-view-wrapper').css('left') !== '0px') {
+                $('#pdf-view-wrapper').css('left', 0);
+                $('.toolbar').css('left', 0);
+                $('#vtp-view-meta').hide();
+                $('#vtp-pdf-view-toggle').css('left', 0);
+                $('#vtp-pdf-view-toggle-button span').removeClass('ui-icon-seek-first').addClass('ui-icon-seek-end');
+            } else {
+                $('#pdf-view-wrapper').css('left', '400px');
+                $('.toolbar').css('left', '400px');
+                $('#vtp-pdf-view-toggle').css('left', '400px');
+                $('#vtp-view-meta').show();
+                $('#vtp-pdf-view-toggle-button span').removeClass('ui-icon-seek-end').addClass('ui-icon-seek-first');
+            }
+        });
+
+        var tagWidget = new TagWidget(resourceId, baseUrl);
+        tagWidget.init();
+
+        $('#vtp-remark-dialog').on('click', function () {
+            openDialog('#resource-remark');
+
+            var remarkWidget = new RemarkWidget(resourceId, baseUrl);
+            remarkWidget.init();
+        });
+
+        $('#vtp-remark-private-dialog').on('click', function () {
+            openDialog('#resource-remark_private');
+
+            var privateRemarkWidget = new PrivateRemarkWidget(resourceId, baseUrl);
+            privateRemarkWidget.init();
+        });
+
+        $('#vtp-comments-dialog').on('click', function () {
+            openDialog('#resource-comments');
+
+            var commentWidget = new CommentWidget(resourceId, resourceType, baseUrl);
+            commentWidget.init();
+        });
+
+        $('#vtp-assignments-dialog').on('click', function () {
+            openDialog('#resource-assignments');
+
+            var projectWidget = new ProjectWidget(resourceId, baseUrl);
+            projectWidget.init();
+
+            var lexiconWidget = new LexiconWidget(resourceId, baseUrl);
+            lexiconWidget.init();
+        });
+
+        function openDialog(containerId) {
+            $(containerId).dialog({
+                autoOpen: false,
+                width: 720,
+                modal: true,
+                position: {
+                    my: 'left top',
+                    at: 'right top',
+                    of: '#vtp-remark-dialog',
+                    collision: 'flip flip'
+                }
+            });
+            $(containerId).dialog('open');
+        }
+    });
+</script>
+{% block pdfscripts %}
+    <script src="{{ asset('build/old/pdf.js') }}"></script>
+    <script src="{{ asset('build/old/pdf.viewer.js') }}"></script>
+    <script src="{{ asset('build/pdf.editor.js') }}"></script>
+{% endblock %}
+</body>
+</html>

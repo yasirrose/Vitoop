@@ -273,6 +273,12 @@ services:
         arguments:
             - Vitoop\InfomgmtBundle\Entity\Lexicon
 
+    vitoop.repository.pdf_annotation:
+        class: Vitoop\InfomgmtBundle\Repository\PdfAnnotationRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - Vitoop\InfomgmtBundle\Entity\PdfAnnotation
+
     vitoop.validator.user_unique:
         class: Vitoop\InfomgmtBundle\Validator\Constraints\User\UserUniqueValidator
         arguments: ["@vitoop.repository.user"]

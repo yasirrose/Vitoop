@@ -83,8 +83,8 @@ class Pdf extends Resource implements DownloadableInterface, UrlCheckInterface
     {
         return 'pdf';
     }
-    
-    static public function getSearcheableColumns()
+
+    public static function getSearcheableColumns()
     {
         return [
             'name',

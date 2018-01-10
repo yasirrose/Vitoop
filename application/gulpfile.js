@@ -5,6 +5,7 @@ var uglify = require('gulp-uglify');
 var uglifycss = require('gulp-uglifycss');
 var concat = require('gulp-concat');
 var sourcemaps = require('gulp-sourcemaps');
+var webpack = require('webpack-stream');
 var env = process.env.GULP_ENV;
 
 gulp.task('angular-js', function () {
@@ -35,15 +36,7 @@ gulp.task('datatables-js', function () {
         .pipe(gulp.dest('web/js/datatables'));
 });
 
-gulp.task('utils-js', function () {
-    return gulp.src(['src/Vitoop/InfomgmtBundle/Resources/public/js/utils/**/*.*'])
-        .pipe(sourcemaps.init())
-        .pipe(concat('utils.js'))
-        .pipe(gulpif(env === 'prod', uglify()))
-        .pipe(gulp.dest('web/js/utils'));
-});
-
-gulp.task('js', ['angular-js', 'lexicon-js', 'tinymce-js', 'datatables-js', 'utils-js'], function () {
+gulp.task('js', ['angular-js', 'lexicon-js', 'tinymce-js', 'datatables-js'], function () {
     return gulp.src(['src/Vitoop/InfomgmtBundle/Resources/public/js/jquery/*.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/components/*.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/widgets/*.js',
@@ -83,7 +76,26 @@ gulp.task('img', function() {
     ]).pipe(gulp.dest('web/img'));
 });
 
-gulp.task('default', ['img', 'tinymce-scss', 'scss', 'js']);
+gulp.task('pdf', function () {
+    return gulp.src('src/Vitoop/InfomgmtBundle/Resources/public/js/pdf.editor/pdf.editor.js')
+        .pipe(webpack({
+            output: {
+                publicPath: "/build/",
+                filename: 'pdf.editor.js'
+            },
+            module: {
+                loaders: [
+                    {
+                        test: /\.js$/,
+                        loader: 'babel-loader'
+                    }
+                ]
+            }
+        }))
+        .pipe(gulp.dest('web/build'));
+});
+
+gulp.task('default', ['img', 'tinymce-scss', 'scss', 'js', 'pdf']);
 
 gulp.task('prod', ['set-prod', 'default']);
 

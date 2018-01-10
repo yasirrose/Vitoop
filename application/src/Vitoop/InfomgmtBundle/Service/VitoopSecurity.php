@@ -72,8 +72,7 @@ class VitoopSecurity
         }
         if (!isset ($this->decisions['is_owner'])) {
             if ($this->getUser() instanceof UserInterface  && $this->res->getUser()) {
-                $this->decisions['is_owner'] = $this->res->getUser()
-                                                         ->isEqualTo($this->getUser());
+                $this->decisions['is_owner'] = $this->res->getUser()->isEqualTo($this->getUser());
             } else {
                 $this->decisions['is_owner'] = false;
             }
@@ -84,7 +83,7 @@ class VitoopSecurity
 
     public function isAdmin()
     {
-        if (!isset ($this->decisions['is_admin'])) {
+        if (!isset($this->decisions['is_admin'])) {
             $this->decisions['is_admin'] = $this->authChecker->isGranted('ROLE_ADMIN');
         }
 

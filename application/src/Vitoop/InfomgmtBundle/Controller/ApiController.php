@@ -10,13 +10,19 @@ use Vitoop\InfomgmtBundle\DTO\CreateFromRequestInterface;
 
 class ApiController extends Controller
 {
-    public function getApiResponse($data, $status = 200)
+    /**
+     * @param $data
+     * @param int $status
+     * @param bool $alreadyJson
+     * @return JsonResponse
+     */
+    public function getApiResponse($data, $status = 200, $alreadyJson = false)
     {
         if ($data instanceof GetDTOInterface) {
            $data = $data->getDTO(); 
         }
 
-        return new JsonResponse($data, $status);
+        return new JsonResponse($data, $status, [], $alreadyJson);
     }
 
     public function getDTOFromRequest(Request $request, $type = null)

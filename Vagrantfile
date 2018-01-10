@@ -31,8 +31,9 @@ Vagrant.configure("2") do |config|
             "--name", "vitoop",
             "--memory", 1024,
             "--natdnshostresolver1", "on",
-            "--cpus", 1,
+            "--cpus", 1
         ]
+        v.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/www", "1"]
     end
 
     config.vm.box = "ubuntu/trusty64"
