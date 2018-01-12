@@ -283,6 +283,26 @@ if (true === isLoadAnnotation) {
             document.querySelector('.toolbar').addEventListener('click', handleToolbarClick);
         })();
 
+        // Scale
+        (function () {
+            function setScaleRotate(scale) {
+                scale = parseFloat(scale, 10);
+
+                if (RENDER_OPTIONS.scale !== scale) {
+                    RENDER_OPTIONS.scale = scale;
+                    localStorage.setItem(`${RENDER_OPTIONS.documentId}/scale`, RENDER_OPTIONS.scale);
+                    render();
+                }
+            }
+
+            function handleScaleChange(e) {
+                setScaleRotate(e.target.value);
+            }
+
+            document.querySelector('.toolbar select.scale').value = RENDER_OPTIONS.scale;
+            document.querySelector('.toolbar select.scale').addEventListener('change', handleScaleChange);
+        })();
+
         // Clear toolbar button
         (function () {
             function handleClearClick(e) {
