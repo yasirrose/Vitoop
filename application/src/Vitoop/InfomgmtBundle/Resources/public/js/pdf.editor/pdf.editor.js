@@ -1,21 +1,29 @@
+import './array';
 import twitter from 'twitter-text';
 import PDFJSAnnotate from 'pdf-annotate';
 import initColorPicker from './initColorPicker';
+import { resizeListen, resizeUnlisten } from 'dom-resize';
 
-const { UI } = PDFJSAnnotate;
+const UI = PDFJSAnnotate.UI;
 const documentId = resourceId;
 const documentUrl = pdfUrl;
 
 const pdfWrapperId = 'pdf-view-wrapper';
 const pdfViewId = 'pdf-view';
 
+const TIMEOUT = 300;
+const pdfWrapper = document.getElementById(pdfWrapperId);
+let pdfWrapperWidth = pdfWrapper.offsetWidth;
+let pdfWidth = null;
+
+let timer;
 let PAGE_HEIGHT;
 let RENDER_OPTIONS = {
     documentId: documentId,
     pdfUrl: documentUrl,
     pdfDocument: null,
-    scale: parseFloat(localStorage.getItem(`${documentId}/scale`), 10) || 1.33,
-    rotate: parseInt(localStorage.getItem(`${documentId}/rotate`), 10) || 0
+    scale: 1,
+    rotate: 0
 };
 
 PDFJSAnnotate.setStoreAdapter(new PDFJSAnnotate.LocalStoreAdapter());
@@ -31,13 +39,13 @@ if (document.getElementById('pdf-editor-save')) {
         let xhr = new XMLHttpRequest();
         xhr.open('POST', baseUrl + 'views/' + documentId + '/annotations', true);
         xhr.setRequestHeader('Content-type', 'application/json');
-        xhr.send(localStorage.getItem(`${RENDER_OPTIONS.documentId}/annotations`));
+        xhr.send(localStorage.getItem(RENDER_OPTIONS.documentId+'/annotations'));
     });
 }
 
-document.getElementById(pdfWrapperId).addEventListener('scroll', function (e) {
+pdfWrapper.addEventListener('scroll', function (e) {
     let visiblePageNum = Math.round(e.target.scrollTop / PAGE_HEIGHT) + 1;
-    let visiblePage = document.querySelector(`.page[data-page-number="${visiblePageNum}"][data-loaded="false"]`);
+    let visiblePage = document.querySelector('.page[data-page-number="'+visiblePageNum+'"][data-loaded="false"]');
 
     if (renderedPages.indexOf(visiblePageNum) == -1) {
         okToRender = true;
@@ -54,23 +62,43 @@ document.getElementById(pdfWrapperId).addEventListener('scroll', function (e) {
 });
 
 function render() {
-    PDFJS.getDocument(RENDER_OPTIONS.pdfUrl).then((pdf) => {
+    PDFJS.getDocument(RENDER_OPTIONS.pdfUrl).then(function(pdf) {
         RENDER_OPTIONS.pdfDocument = pdf;
 
-    let viewer = document.getElementById(pdfViewId);
-    viewer.innerHTML = '';
-    NUM_PAGES = pdf.pdfInfo.numPages;
-    for (let i=0; i<NUM_PAGES; i++) {
-        let page = UI.createPage(i+1);
-        viewer.appendChild(page);
-    }
+        let viewer = document.getElementById(pdfViewId);
+        viewer.innerHTML = '';
+        NUM_PAGES = pdf.pdfInfo.numPages;
+        for (let i=0; i<NUM_PAGES; i++) {
+            let page = UI.createPage(i+1);
+            viewer.appendChild(page);
+        }
 
-    UI.renderPage(1, RENDER_OPTIONS).then(([pdfPage, annotations]) => {
-        let viewport = pdfPage.getViewport(RENDER_OPTIONS.scale, RENDER_OPTIONS.rotate);
-    PAGE_HEIGHT = viewport.height;
-});
+        //update scale
+        if (null !== pdfWidth) {
+            RENDER_OPTIONS.scale = (pdfWrapper.offsetWidth / pdfWidth) * 0.9;
+        }
+
+        UI.renderPage(1, RENDER_OPTIONS).then(function(params) {
+            let pdfPage = params[0];
+            if (null === pdfWidth) {
+                pdfWidth = pdfPage.getViewport(1.0).width;
+            }
+            pdfWrapperWidth = pdfWrapper.offsetWidth;
+            let viewport = pdfPage.getViewport(RENDER_OPTIONS.scale, RENDER_OPTIONS.rotate);
+            PAGE_HEIGHT = viewport.height;
+        });
 });
 }
+
+// Subscribe to resize event
+resizeListen(pdfWrapper, function() {
+    if (pdfWrapper.offsetWidth !== pdfWrapperWidth) {
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+            window.dispatchEvent(new CustomEvent('renderpdf'));
+        }, TIMEOUT);
+    }
+});
 
 if (true === isLoadAnnotation) {
     //load annotations from server
@@ -78,7 +106,7 @@ if (true === isLoadAnnotation) {
     xhr.open('GET', baseUrl + 'views/' + documentId + '/annotations', true);
     xhr.onload = function () {
         if (this.status == 200) {
-            localStorage.setItem(`${RENDER_OPTIONS.documentId}/annotations`, (typeof this.response === 'string') ? this.response : JSON.stringify(this.response));
+            localStorage.setItem(RENDER_OPTIONS.documentId+'/annotations', (typeof this.response === 'string') ? this.response : JSON.stringify(this.response));
             render();
         }
     };
@@ -92,13 +120,13 @@ if (true === isLoadAnnotation) {
 
             function initText() {
                 let size = document.querySelector('.toolbar .text-size');
-                [8, 9, 10, 11, 12, 14, 18, 24, 30, 36, 48, 60, 72, 96].forEach((s) => {
+                [8, 9, 10, 11, 12, 14, 18, 24, 30, 36, 48, 60, 72, 96].forEach(function(s) {
                     size.appendChild(new Option(s, s));
                  });
 
                 setText(
-                    localStorage.getItem(`${RENDER_OPTIONS.documentId}/text/size`) || 10,
-                    localStorage.getItem(`${RENDER_OPTIONS.documentId}/text/color`) || '#000000'
+                    localStorage.getItem(RENDER_OPTIONS.documentId + '/text/size') || 10,
+                    localStorage.getItem(RENDER_OPTIONS.documentId + '/text/color') || '#000000'
                 );
 
                 initColorPicker(document.querySelector('.text-color'), textColor, function (value) {
@@ -112,14 +140,14 @@ if (true === isLoadAnnotation) {
                 if (textSize !== size) {
                     modified = true;
                     textSize = size;
-                    localStorage.setItem(`${RENDER_OPTIONS.documentId}/text/size`, textSize);
+                    localStorage.setItem(RENDER_OPTIONS.documentId+'/text/size', textSize);
                     document.querySelector('.toolbar .text-size').value = textSize;
                 }
 
                 if (textColor !== color) {
                     modified = true;
                     textColor = color;
-                    localStorage.setItem(`${RENDER_OPTIONS.documentId}/text/color`, textColor);
+                    localStorage.setItem(RENDER_OPTIONS.documentId+'/text/color', textColor);
 
                     let selected = document.querySelector('.toolbar .text-color.color-selected');
                     if (selected) {
@@ -127,12 +155,11 @@ if (true === isLoadAnnotation) {
                         selected.removeAttribute('aria-selected');
                     }
 
-                    selected = document.querySelector(`.toolbar .text-color[data-color="${color}"]`);
+                    selected = document.querySelector('.toolbar .text-color[data-color="'+color+'"]');
                     if (selected) {
                         selected.classList.add('color-selected');
                         selected.setAttribute('aria-selected', true);
                     }
-
                 }
 
                 if (modified) {
@@ -161,8 +188,8 @@ if (true === isLoadAnnotation) {
                 }
 
                 setPen(
-                    localStorage.getItem(`${RENDER_OPTIONS.documentId}/pen/size`) || 1,
-                    localStorage.getItem(`${RENDER_OPTIONS.documentId}/pen/color`) || '#000000'
+                    localStorage.getItem(RENDER_OPTIONS.documentId+'/pen/size') || 1,
+                    localStorage.getItem(RENDER_OPTIONS.documentId +'/pen/color') || '#000000'
                 );
 
                 initColorPicker(document.querySelector('.pen-color'), penColor, function (value) {
@@ -176,14 +203,14 @@ if (true === isLoadAnnotation) {
                 if (penSize !== size) {
                     modified = true;
                     penSize = size;
-                    localStorage.setItem(`${RENDER_OPTIONS.documentId}/pen/size`, penSize);
+                    localStorage.setItem(RENDER_OPTIONS.documentId+'/pen/size', penSize);
                     document.querySelector('.toolbar .pen-size').value = penSize;
                 }
 
                 if (penColor !== color) {
                     modified = true;
                     penColor = color;
-                    localStorage.setItem(`${RENDER_OPTIONS.documentId}/pen/color`, penColor);
+                    localStorage.setItem(RENDER_OPTIONS.documentId+'/pen/color', penColor);
 
                     let selected = document.querySelector('.toolbar .pen-color.color-selected');
                     if (selected) {
@@ -191,7 +218,7 @@ if (true === isLoadAnnotation) {
                         selected.removeAttribute('aria-selected');
                     }
 
-                    selected = document.querySelector(`.toolbar .pen-color[data-color="${color}"]`);
+                    selected = document.querySelector('.toolbar .pen-color[data-color="'+color+'"]');
                     if (selected) {
                         selected.classList.add('color-selected');
                         selected.setAttribute('aria-selected', true);
@@ -214,9 +241,9 @@ if (true === isLoadAnnotation) {
 
         // Toolbar buttons
         (function () {
-            let tooltype = localStorage.getItem(`${RENDER_OPTIONS.documentId}/tooltype`) || 'cursor';
+            let tooltype = localStorage.getItem(RENDER_OPTIONS.documentId+'/tooltype') || 'cursor';
             if (tooltype) {
-                setActiveToolbarItem(tooltype, document.querySelector(`.toolbar button[data-tooltype=${tooltype}]`));
+                setActiveToolbarItem(tooltype, document.querySelector('.toolbar button[data-tooltype='+tooltype+']'));
             }
 
             function setActiveToolbarItem(type, button) {
@@ -249,7 +276,7 @@ if (true === isLoadAnnotation) {
                     button.classList.add('active');
                 }
                 if (tooltype !== type) {
-                    localStorage.setItem(`${RENDER_OPTIONS.documentId}/tooltype`, type);
+                    localStorage.setItem(RENDER_OPTIONS.documentId+'/tooltype', type);
                 }
                 tooltype = type;
 
@@ -283,35 +310,15 @@ if (true === isLoadAnnotation) {
             document.querySelector('.toolbar').addEventListener('click', handleToolbarClick);
         })();
 
-        // Scale
-        (function () {
-            function setScaleRotate(scale) {
-                scale = parseFloat(scale, 10);
-
-                if (RENDER_OPTIONS.scale !== scale) {
-                    RENDER_OPTIONS.scale = scale;
-                    localStorage.setItem(`${RENDER_OPTIONS.documentId}/scale`, RENDER_OPTIONS.scale);
-                    render();
-                }
-            }
-
-            function handleScaleChange(e) {
-                setScaleRotate(e.target.value);
-            }
-
-            document.querySelector('.toolbar select.scale').value = RENDER_OPTIONS.scale;
-            document.querySelector('.toolbar select.scale').addEventListener('change', handleScaleChange);
-        })();
-
         // Clear toolbar button
         (function () {
             function handleClearClick(e) {
                 if (confirm('Are you sure you want to clear annotations?')) {
                     for (let i = 0; i < NUM_PAGES; i++) {
-                        document.querySelector(`div#pageContainer${i + 1} svg.annotationLayer`).innerHTML = '';
+                        document.querySelector('div#pageContainer'+(i + 1)+' svg.annotationLayer').innerHTML = '';
                     }
 
-                    localStorage.removeItem(`${RENDER_OPTIONS.documentId}/annotations`);
+                    localStorage.removeItem(RENDER_OPTIONS.documentId+'/annotations');
                 }
             }
 
@@ -319,6 +326,10 @@ if (true === isLoadAnnotation) {
         })();
     }
 } else {
-    localStorage.setItem(`${RENDER_OPTIONS.documentId}/annotations`, '[]');
+    localStorage.setItem(RENDER_OPTIONS.documentId+'/annotations', '[]');
     render();
 }
+
+window.addEventListener('renderpdf', function (e) {
+    render();
+});

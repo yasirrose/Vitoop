@@ -19,7 +19,7 @@ const COLORS = [
 ];
 
 export default function initColorPicker(el, value, onChange) {
-    function setColor(value, fireOnChange = true) {
+    function setColor(value, fireOnChange) {
         currentValue = value;
         a.setAttribute('data-color', value);
         a.style.background = value;
@@ -56,9 +56,9 @@ export default function initColorPicker(el, value, onChange) {
             picker.style.width = '122px';
             el.style.position = 'relative';
 
-            COLORS.map(createColorOption).forEach((c) => {
+            COLORS.map(createColorOption).forEach(function (c) {
                 c.style.margin = '2px';
-            c.onclick = function () { setColor(c.getAttribute('data-color')); };
+            c.onclick = function () { setColor(c.getAttribute('data-color'), true); };
             picker.appendChild(c);
         });
         }
