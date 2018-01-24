@@ -1137,7 +1137,6 @@ input#vtp-search-bytags-taglist {
 #vtp-search-bytags-form
 #vtp-search-bytags-form-submit {
     height: 25px;
-    width: 38px;
     margin-bottom: 1px;
 }
 
@@ -1585,7 +1584,7 @@ a.vtp-uiaction-open-url:visited {
 
 #vtp-res-list {
     tr.vtp-uiaction-list-showdetail {
-        height: 30px;
+        height: 28px;
     }
 
     td.dataTables_empty {
@@ -1715,8 +1714,14 @@ table.dataTable thead th.sorting_desc div.DataTables_sort_wrapper {
     font-weight: bold;
 }
 
-#resource-data p {
-    margin-top: 0px;
+#resource-data {
+    label {
+        vertical-align: bottom;
+    }
+
+    p {
+        margin-top: 0px;
+    }
 }
 
 .vtp-fh-bottom-last {
@@ -1732,4 +1737,9 @@ table.dataTable thead th:hover {
     margin-right: 20px;
     vertical-align: top;
     display: inline-block;
+}
+
+.prj-edit-header {
+    margin-bottom: 15px;
+    border-bottom: $blue-frame-border;
 }

@@ -9,7 +9,7 @@ use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
 
-class PaginationExtension extends \Twig_Extension
+class PaginationExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
     protected $environment;
 

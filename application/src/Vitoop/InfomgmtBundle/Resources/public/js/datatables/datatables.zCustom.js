@@ -244,7 +244,7 @@ function getRatingColumn() {
 }
 
 function getOwnerColumn() {
-    return {"data": "username"};
+    return {"data": "username", "render": getWrapperForTextValue};
 }
 
 function getIsDownloadedValue(data, type, row, meta) {
@@ -352,7 +352,7 @@ function getMapsLinkColumn(isEdit) {
 }
 
 function getCityColumn() {
-	return {"data": "city"};
+	return {"data": "city", "render": getWrapperForTextValue};
 }
 
 function getZipColumn() {

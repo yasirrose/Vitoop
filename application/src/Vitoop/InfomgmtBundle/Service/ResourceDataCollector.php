@@ -231,14 +231,6 @@ class ResourceDataCollector
         ));
     }
 
-    public function getDataTableRow()
-    {
-        //@TODO THIS DOES NOT WORK: listtagger wants a pagerfanta...
-        $single_res = array($this->res);
-
-        return $this->twig->render('VitoopInfomgmtBundle:Resource:table.resource.tdata.' . $this->res_type . '.html.twig', array('resources' => $single_res));
-    }
-
     public function getTitle()
     {
         if ($this->initialized) {

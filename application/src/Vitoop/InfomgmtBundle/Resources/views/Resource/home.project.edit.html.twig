@@ -29,12 +29,12 @@
                 </div>
                 {% if (showasprojectowner is not null) and (showasprojectowner) %}
                 <div class="vtp-fh-w100 vtp-ui-corner-all blau" ng-show="project.project_data.rel_users.length > 0" style="vertical-align: top; margin-top: 20px; font-size: 14px">
-                    <div style="margin-bottom: 15px">
+                    <div class="prj-edit-header">
                         <div class="vtp-fh-w60">
-                            <span>Benutzer</span>
+                            <span><strong>Benutzer</strong></span>
                         </div>
                         <div class="vtp-fh-w35">
-                            <span>Rechte</span>
+                            <span><strong>Rechte</strong></span>
                         </div>
                     </div>
                     {% verbatim %}
@@ -53,7 +53,7 @@
                 {% if (showasprojectowner is not null) and (showasprojectowner) %}
                 <div class="vtp-fh-w100" style="vertical-align: top; margin-top: 20px; color: #2779aa; font-size: 14px">
                     <div class="vtp-fh-w100" style="vertical-align: top; margin-bottom: 5px">
-                        <label for="newUser">Neuer Benutzer:</label>
+                        <label for="newUser"><strong>Neuer Benutzer:</strong></label>
                     </div>
                     <div class="vtp-fh-w100 vtp-new-user-search">
                         <div angucomplete id="usernames-autocomplete"

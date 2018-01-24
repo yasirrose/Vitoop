@@ -1,7 +1,7 @@
 <?php
 namespace Vitoop\InfomgmtBundle\Twig\Extension;
 
-class VitoopExtension extends \Twig_Extension
+class VitoopExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
     public function getName()
     {
