@@ -132,7 +132,7 @@ class ResourceManager
      * @param Resource type $res_type
      * @return Pagerfanta
      */
-    public function getFlaggedResources($res_type)
+    public function §($res_type)
     {
         if ($this->vsec->isAdmin()) {
             return $this->getRepository($res_type)->getFlaggedResources();

@@ -85,7 +85,7 @@ function dtDrawCallback() {
 function setTotalMessage(totalRecords) {
     var isBlueFilter = new IsBlueFilter();
     if (totalRecords === 0 && !isBlueFilter.isBlue()) {
-        $('td.dataTables_empty').html('In dem Bereich hast du im Popup keinen Datensatz markiert.');
+        $('td.dataTables_empty').html('Hier gibt es leider keinen Treffer.');
     } else {
         $('td.dataTables_empty').html('Hier gibt es leider keinen Treffen - wenn du willst, kannst du Datensätze zu diesem Thema in die Datenbank eintragen.');
     }
@@ -300,7 +300,7 @@ function getPdfUrlValue(isEdit) {
         return getUnlinkColumn();
     }
 
-    return {"data": "id", "render": getResourceViewValue};
+    return {"data": "url", "render": getUrlValue}; //getResourceViewValue
 }
 
 function getUrlColumn(isEdit) {

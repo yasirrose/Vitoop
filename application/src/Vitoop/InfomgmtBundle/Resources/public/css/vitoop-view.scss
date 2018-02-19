@@ -74,6 +74,10 @@ $vitoop-body-background-color: #f2f5f7;
     padding: 10px;
     background-color: #f2f5f7;
 
+    :disabled {
+        color: #000000;
+    }
+
     #tag_text {
         width: 200px;
         height: 26px;

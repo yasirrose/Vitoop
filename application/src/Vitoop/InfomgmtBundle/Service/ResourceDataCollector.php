@@ -270,7 +270,7 @@ class ResourceDataCollector
                 if ($form_tag->get('remove')->isEmpty()) {
                     try {
                         $tag_text = $this->rm->setTag($tag, $this->res);
-                        $info_tag = 'Tag "' . $tag_text . '" successfully added!';
+                        $info_tag = 'Tag "' . $tag_text . '" zugewiesen/hochgestuft!';
                         $form_tag = $this->formCreator->createTagForm(new Tag(), $this->res, $action);
                         $form_tag->get('showown')->setData($tag_showown);
                     } catch (\Exception $e) {
@@ -280,7 +280,7 @@ class ResourceDataCollector
                 } else {
                     try {
                         $tag_text = $this->rm->removeTag($tag, $this->res);
-                        $info_tag = 'Tag "' . $tag_text . '" successfully removed!';
+                        $info_tag = 'Tag "' . $tag_text . '" wurde entfernt/runtergestuft!';
                         $form_tag = $this->formCreator->createTagForm(new Tag(), $this->res, $action);
                         $form_tag->get('showown')->setData($tag_showown);
                     } catch (\Exception $e) {

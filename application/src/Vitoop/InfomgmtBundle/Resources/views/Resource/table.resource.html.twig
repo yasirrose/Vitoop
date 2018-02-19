@@ -148,7 +148,7 @@
         var datatable = $('table#list-{{ restype }}').DataTable({
             autoWidth: false,
             stateSave: false,
-            lengthMenu: [ 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 50, 100 ],
+            lengthMenu: [ 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 50, 100 ],
             pageLength: getPageLength(),
             language: dtLanguageObject(),
             serverSide: true,
@@ -318,11 +318,7 @@
                 for (var i = 0; i < resources.length; i++) {
                     for (var property in resources[i]) {
                         if (resources[i].hasOwnProperty(property) && 'url' in resources[i][property]) {
-                            if ('pdf' === resources[i][property]['resType']) {
-                                openAsResourceView(resources[i][property].id);
-                            } else {
-                                window.open(resources[i][property].url);
-                            }
+                            window.open(resources[i][property].url);
                         }
                     }
                 }
