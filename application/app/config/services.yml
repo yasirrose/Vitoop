@@ -192,15 +192,6 @@ services:
         arguments:     ['@vitoop.vitoop_security']
         tags:
             - { name: form.type_extension, extended_type:  Symfony\Component\Form\Extension\Core\Type\FormType }
-              
-    # pg_xxx() - Twig Function
-    vitoop.twig.extension.pagination_extension:
-        class:   Vitoop\InfomgmtBundle\Twig\Extension\PaginationExtension
-        arguments: ['@router']
-        calls:
-            - [setRequest, ['@?request=']]
-        tags:
-            - {name: twig.extension}
 
     # Some useful Twig Filter, Function
     vitoop.twig.extension.vitoop_extension:
