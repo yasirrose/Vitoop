@@ -13,13 +13,13 @@ class BookType extends AbstractType
     {
         $builder->remove('name')
                 ->remove('country')
-                ->add('name', null, array('label' => 'Titel:'))
-                ->add('author', null, array('label' => 'Autor:'))
-                ->add('publisher', null, array('label' => 'Verlag:'))
-                ->add('issuer', null, array('label' => 'Hrsg.:', 'required' => false))
-                ->add('isbn13', null, array('label' => 'ISBN-13:'))
-                ->add('isbn10', null, array('label' => 'ISBN-10:'))
-                ->add('tnop', TextType::class, array('label' => 'Seiten:'))
+                ->add('name', TextType::class, ['label' => 'Titel:'])
+                ->add('author', TextType::class, ['label' => 'Autor:'])
+                ->add('publisher', TextType::class, ['label' => 'Verlag:'])
+                ->add('issuer', TextType::class, ['label' => 'Hrsg.:', 'required' => false])
+                ->add('isbn13', TextType::class, ['label' => 'ISBN-13:'])
+                ->add('isbn10', TextType::class, ['label' => 'ISBN-10:'])
+                ->add('tnop', TextType::class, ['label' => 'Seiten:'])
                 ->add('kind', ChoiceType::class, [
                     'choices' => [
                         'XX' => 'auswählen',
@@ -28,7 +28,7 @@ class BookType extends AbstractType
                     ],
                     'label' => 'Art'
                 ])
-                ->add('year', null, array('label' => 'Jahr:'));
+                ->add('year', TextType::class, ['label' => 'Jahr:']);
     }
 
     public function getParent()

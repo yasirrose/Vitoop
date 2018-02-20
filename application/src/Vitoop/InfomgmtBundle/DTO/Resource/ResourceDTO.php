@@ -12,6 +12,7 @@ class ResourceDTO
      *      max=160,
      *      maxMessage= "Der Name der Resource darf nicht mehr als {{ limit }} Zeichen haben.",
      *      groups={"Default"}
+     * )
      */
     public $name;
 
