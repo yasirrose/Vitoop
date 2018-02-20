@@ -25,7 +25,7 @@ class Resource
     protected $id;
 
     /**
-     * @ORM\Column(name="name", type="string", length=128)
+     * @ORM\Column(name="name", type="string", length=160)
      */
     protected $name;
 
