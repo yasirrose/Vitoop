@@ -1,13 +1,13 @@
-<button class="vtp-uistyle-iconbutton vtp-uiaction-detail-previous"></button>
-<button class="vtp-uistyle-iconbutton vtp-uiaction-detail-next"></button>
+<button class="vtp-uistyle-iconbutton vtp-uiaction-detail-previous" title="{{ 'label.previous'|trans }}"></button>
+<button class="vtp-uistyle-iconbutton vtp-uiaction-detail-next" title="{{ 'label.next'|trans }}"></button>
 {#<button class="vtp-uistyle-iconbutton vtp-uiaction-detail-save"></button>#}
 {% if (res_type == "pdf") %}
-<button class="vtp-uistyle-iconbutton vtp-uiaction-detail-popup"></button>
+<button class="vtp-uistyle-iconbutton vtp-uiaction-detail-popup" title="{{ 'label.pdf_meta'|trans }}"></button>
 {% endif %}
 {% if not (res_type == "lex" or res_type == "prj") %}
-<button class="vtp-uistyle-iconbutton vtp-uiaction-detail-delete"></button>
+<button class="vtp-uistyle-iconbutton vtp-uiaction-detail-delete" title="{{ 'label.delete'|trans }}"></button>
 {% endif %}
 {% if not (res_type == "lex") %}
-<button class="vtp-uistyle-iconbutton vtp-uiaction-detail-new"></button>
+<button class="vtp-uistyle-iconbutton vtp-uiaction-detail-new" title="{{ 'label.new'|trans }}"></button>
 {% endif %}
-<button class="vtp-uistyle-iconbutton vtp-uiaction-detail-blame"></button>
+<button class="vtp-uistyle-iconbutton vtp-uiaction-detail-blame" title="{{ 'label.blame'|trans }}"></button>

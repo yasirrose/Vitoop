@@ -131,7 +131,7 @@ resourceList = (function () {
                     primary: "ui-icon-refresh"
                 },
                 text: false,
-                label: "aktualisieren"
+                label: "Suche"
             });
 
             $('#vtp-user-loginform-login').button({
@@ -139,7 +139,7 @@ resourceList = (function () {
                     primary: "ui-icon-person"
                 },
                 text: false,
-                label: "bei Vitoop anmelden"
+                label: "abmelden"
             });
 
             $('#vtp-user-loginform-logout').button({
@@ -183,7 +183,8 @@ resourceList = (function () {
                 icons: {
                     primary: "ui-icon-newwin",
                 },
-                text: false
+                text: false,
+                label: 'Einstellungen'
             });
             
             // Highlight Tablerows onmousover

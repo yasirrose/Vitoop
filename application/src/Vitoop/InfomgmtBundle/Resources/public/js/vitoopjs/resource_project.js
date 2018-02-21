@@ -30,7 +30,8 @@ resourceProject = (function () {
         $('#vtp-projectdata-project-close').button({
             icons: {
                 primary: "ui-icon-close"
-            }
+            },
+            title: "schließen"
         });
 
         $('#vtp-projectdata-project-edit').button({
@@ -83,7 +84,8 @@ resourceProject = (function () {
         $('#vtp-lexicondata-lexicon-close').button({
             icons: {
                 primary: "ui-icon-close"
-            }
+            },
+            title: 'schließen'
         });
 
         $('#vtp-lexicondata-lexicon-close').on('click', function () {

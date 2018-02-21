@@ -1,61 +1,76 @@
 label:
-    username: Benutzername
-    login: Username
-    email: eMail
+    account:
+        data: Account-Daten
+    address: Adresse
+    assignments: Verknüfpungen
+    author: AutorInnen
+    blame: beschweren
+    book: Buch
+    cancel: abbrechen
     change.email: Email-Adresse ändern
     change.username: Nutzername ändern
-    password: Passwort
-    forgot.password: Passwort vergessen
-    repeat.password: Passwort wiederholen
     change.password: Passwort ändern
-    signin: anmelden
-    signup: Registrieren
-    signup.free: Kostenlos registrieren
-    download:
-        size: Downloads size
-        mb: Mb
-    flags:
-        edit: Flags bearbeiten
-    terms: Terms
-    datap: data-P
+    changed: geändert
     checkbox:
         off: Off
         on: On
-    created: erstellt
-    changed: geändert
-    new: neu
-    delete: löschen
-    cancel: abbrechen
-    send: mailen
-    save: speichern
-    yes: ja
-    project: Projekt
-    lexicon: Lexicon
-    pdf: Pdf
-    textlink: Textlink
-    link: Link
-    book: Buch
-    address: Adresse
-    news: Neuigkeiten
-    account:
-        data: Account-Daten
-    credentials: Credentials
-    open: öffnen
-    title: Titel
-    url: URL
-    author: AutorInnen
-    publisher: Verlag
-    tnop: Seiten
-    pdf_date: Erschienen
-    lang: Sprache
-    remarks: Anmerkungen
-    privat_remarks: Privat
+    close: schließen
     comments: Kommentare
-    assignments: Verknüfpungen
+    created: erstellt
+    credentials: Credentials
+    datap: data-P
+    delete: löschen
+    download:
+        size: Downloads size
+        mb: Mb
+    email: eMail
+    flags:
+        edit: Flags bearbeiten
+    forgot.password: Passwort vergessen
+    icon:
+        light: in der Ergebnisliste nach oben sortieren
+        plate: Datensätze mit diesem Tag aussortieren
+        cross: Tag entfernen
+    lang: Sprache
+    lexicon: Lexicon
+    link: Link
+    login: Username
+    new: neu
+    news: Neuigkeiten
+    next: vor
+    open: öffnen
+    open.tooltip: angehakte Datensätze öffnen
+    password: Passwort
+    pdf: Pdf
+    pdf_date: Erschienen
+    pdf_meta: Pdf&Daten
+    previous: zurück
+    privat_remarks: Privat
+    project: Projekt
+    publisher: Verlag
+    remove.tooltip: angehakte Datensätze "enthaken"
+    remarks: Anmerkungen
+    repeat.password: Passwort wiederholen
+    save: speichern
+    send: mailen
+    send.tooltip: angehakte Datensätze verschicken
+    signin: anmelden
+    signup: Registrieren
+    signup.free: Kostenlos registrieren
     subject: Betreff
+    tab: Lesezeichen setzen
+    tag.add: ein Tag zuweisen
+    tag.remove: ein Tag entfernen
+    terms: Terms
+    textlink: Textlink
+    title: Titel
+    tnop: Seiten
+    url: URL
+    username: Benutzername
+    yes: ja
 logout:
     label: logout
-    message: Bei VitooP abmelden
+    message: abmelden
 invitations:
     label: Invitations
     send: Einladung verschicken

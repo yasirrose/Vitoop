@@ -18,7 +18,7 @@ class TagType extends AbstractType
             ->add('can_remove', HiddenType::class, ['mapped' => false])
             ->add('showown', CheckboxType::class, ['label' => 'Zeige eigene Tags', 'mapped' => false])
             ->add('save', InputTypeSubmitType::class, ['label' => 'Ja'])
-            ->add('remove', InputTypeSubmitType::class, ['label' => '-']);
+            ->add('remove', InputTypeSubmitType::class, ['label' => '-', 'attr' => ['title' => 'label.tag.remove']]);
     }
 
     public function getBlockPrefix()

@@ -555,6 +555,7 @@ resourceDetail = (function () {
                 loadTab(undefined, 0);
             }
             clearTabsClasses();
+            $('#vtp-res-dialog').dialog('option', 'closeText', 'schließen');
             $('#vtp-res-dialog').dialog('open');
         },
 
@@ -891,7 +892,7 @@ resourceDetail = (function () {
                 }
             });
 
-            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').append('<input type="checkbox" id="resource-check" class="valid-checkbox">');
+            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').append('<input type="checkbox" id="resource-check" class="valid-checkbox" title="anhaken für weitere Verwendung: öffnen/mailen">');
             $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').append('<span id="resource-title"></span>');
             $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').after('<span id="resource-buttons"></span>');
 

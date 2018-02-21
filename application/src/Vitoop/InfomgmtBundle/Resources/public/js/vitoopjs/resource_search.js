@@ -238,6 +238,7 @@ resourceSearch = (function () {
             resourceList.maintainResLinks({'taglist': arr_taglist, 'taglist_i': arr_taglist_ignore, 'taglist_h': arr_taglist_highlight, 'tagcnt': tempCount});
             $('select#vtp-search-bytags-tagcnt').selectmenu("refresh");
             $('#vtp-search-bytags-form span.ui-selectmenu-button').removeAttr('tabIndex');
+            $('#vtp-search-bytags-tagcnt-button').attr('title', 'Übereinstimmungen der Tags');
         },
 
         maintainTaglistbox = function (force_hide) {
@@ -256,26 +257,6 @@ resourceSearch = (function () {
             }
         },
 
-        removeTagByName = function (tag) {
-            // written accidently - not yet used :-(
-            if (tag == '') {
-                return;
-            }
-            for (var i = 0; i < arr_taglist.length; i += 1) {
-                if (tag == arr_taglist[i]) {
-                    arr_taglist.splice(i, 1);
-                    break;
-                }
-            }
-            $("#vtp-search-bytags-taglistbox span").each(function (i, ele) {
-                if (tag == ele.text()) {
-                    ele.remove();
-                    return false;
-                }
-            });
-            maintainCntTags();
-        },
-
     // Same code on server-side !!!
         decorateTag = function (tag, ignored, highlighted) {
             if (typeof(ignored) === 'undefined') {
@@ -288,7 +269,12 @@ resourceSearch = (function () {
             var highlightedClass = (highlighted)?(' vtp-search-bytags-tag-bulb'):('');
 
             return $('<span class="vtp-search-bytags-tag ui-corner-all'+ignoredClass+highlightedClass+'"><span class="vtp-icon-tag ui-icon ui-icon-tag" onclick="extendTag(event);"></span><span class="vtp-search-bytags-content" onclick="extendTag(event);">'
-                + tag + '</span><span class="ui-icon ui-icon-lightbulb tag-icons-to-hide vtp-icon-bulb" style="display: none" onclick="highlightTag(event)"></span><span class="ui-icon ui-icon-cancel tag-icons-to-hide vtp-icon-cancel" style="display: none" onclick="ignoreTag(event)"></span><span class="vtp-icon-close vtp-uiaction-search-bytags-removetag ui-icon ui-icon-close"></span></span>');
+                + tag + '</span>' +
+                '<span title="in der Ergebnisliste nach oben sortieren" class="ui-icon ui-icon-lightbulb tag-icons-to-hide vtp-icon-bulb" style="display: none" onclick="highlightTag(event)"></span>' +
+                '<span title="Datensätze mit diesem Tag aussortieren" class="ui-icon ui-icon-cancel tag-icons-to-hide vtp-icon-cancel" style="display: none" onclick="ignoreTag(event)"></span>' +
+                '<span title="Tag entfernen" class="vtp-icon-close vtp-uiaction-search-bytags-removetag ui-icon ui-icon-close"></span>' +
+                '</span>'
+            );
         },
 
         updateAutocomplete = function (seacrhByTag) {

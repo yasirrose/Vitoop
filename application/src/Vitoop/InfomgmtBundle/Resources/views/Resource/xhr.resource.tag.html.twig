@@ -14,7 +14,7 @@
         {{ form_widget(fvtag.can_add) }}
         {{ form_widget(fvtag.can_remove) }}
         {{ form_widget(fvtag.text, {'attr': {'class': 'vtp-fh-w40'}}) }}
-        <input type="button" id="tag_confirm_save" name="tag[confirm_save]" class="vtp-uiinfo-anchor vtp-tag-submit ui-button ui-widget ui-state-default ui-corner-all" style="font-weight: normal; height: 24px; padding-top: 0px; padding-bottom: 0px;" value="+{{tagsRestAddedCount}}" role="button" aria-disabled="false">
+        <input type="button" id="tag_confirm_save" title="{{ 'label.tag.add'|trans }}" name="tag[confirm_save]" class="vtp-uiinfo-anchor vtp-tag-submit ui-button ui-widget ui-state-default ui-corner-all" style="font-weight: normal; height: 24px; padding-top: 0px; padding-bottom: 0px;" value="+{{tagsRestAddedCount}}" role="button" aria-disabled="false">
         {{ form_widget(fvtag.remove, {'value': '-'~tagsRestRemovedCount, 'attr': {'class': 'vtp-uiinfo-anchor vtp-tag-submit' }}) }}
         <span style="float: right;">
          {{ form_label(fvtag.showown, null, {'label_attr': {'class': 'vtp-fh-h24' }}) }}

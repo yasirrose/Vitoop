@@ -3,12 +3,12 @@
     {% if app.user %}
     <input id="vtp-search-bytags-taglist" name="taglist[]" maxlength="64" type="text" placeholder="tag (Suchbegriff) eingeben">
     <input id="vtp-search-bytags-restype" name="restype" type="hidden" value="{{ restype }}"/>
-        <select id="vtp-search-bytags-tagcnt" name="tagcnt" size="1" style="width: 52px">
+    <select id="vtp-search-bytags-tagcnt" title="Übereinstimmungen der Tags" name="tagcnt" size="1" style="width: 52px">
         <option value="">-</option>
         {% for i in 1..9 %}
             <option value="{{ i }}" {{ ((tagcnt is defined) and (tagcnt == i) ) ? 'selected' : '' }}>{{ i }}</option>
         {% endfor %}
     </select>
-    <button id="vtp-search-bytags-form-submit" class="vtp-button" type="submit" name="submit" value="suchen">-></button>
+    <button id="vtp-search-bytags-form-submit" class="vtp-button" type="submit" name="submit" value="Suche">-></button>
    {% endif %}
 </form>

@@ -7,13 +7,13 @@
                 <button id="vtp-projectdata-project-live"></button>
                 <button id="vtp-projectdata-project-edit" class=""></button>
             {% endif %}
-            <button id="vtp-projectdata-project-close" class=""></button>
+            <button id="vtp-projectdata-project-close" title="{{ 'label.close'|trans }}" class=""></button>
         </div>
     {% endif %}
     {% if lexicon is defined %}
         <div id="vtp-lexicondata-title" class="ui-corner-all">
             <span>{{'label.lexicon'|trans}}: {{ lexicon.name }}</span> 
-            <button id="vtp-lexicondata-lexicon-close" class=""></button>
+            <button id="vtp-lexicondata-lexicon-close" title="{{ 'label.close'|trans }}" class=""></button>
         </div>
     {% endif %}
 {% endblock %}

@@ -45,7 +45,7 @@ searchToggler = (function() {
                 primary: icon
             },
             text: false,
-            label: "toggle"
+            label: "Second Search"
         });
         $('#vtp-search-toggle').on('click', toggler);
     }
