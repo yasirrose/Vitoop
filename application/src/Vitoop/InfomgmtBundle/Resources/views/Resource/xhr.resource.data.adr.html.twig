@@ -32,7 +32,7 @@
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.street) }}</div>
     </div>
     <div class="vtp-fh-middle">
-        <div class="vtp-fh-w15">{{ form_label(fvdata.zip) }}/{{ form_label(fvdata.city) }}</div>
+        <label class="vtp-fh-w15">{{ fvdata.zip.vars.label }}/{{ fvdata.city.vars.label }}</label>
         {{ form_widget(fvdata.zip, {'attr': {'class': 'vtp-fh-w10' }}) }}
         {{ form_widget(fvdata.city, {'attr': {'class': 'vtp-fh-w40' }}) }}
         <div class="vtp-fh-w05"></div>

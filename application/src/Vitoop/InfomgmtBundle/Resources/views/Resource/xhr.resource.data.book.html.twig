@@ -1,5 +1,6 @@
 {# VitoopInfomgmtBundle:Resource:xhr.resource.data.book.html.twig #}
 {{ form_start(fvdata, {'attr': {'id': 'vtp-form-data', 'novalidate': 'novalidate' }}) }}
+{% spaceless %}
 <fieldset class="ui-corner-all">
     <legend>{{ res.resourcename }}</legend>
     {% if infodata is not empty %}
@@ -44,22 +45,22 @@
             {{ form_widget(fvdata.isbn10, {'attr': {'class': 'vtp-fh-w60', 'onblur': 'checkUniqueBook(\'isbn10\', event);', 'old': fvdata.vars.value.isbn10 }}) }}
         </div>
         <div class="vtp-fh-w31">
-            {{ form_label(fvdata.tnop, null, {'label_attr': {'class': 'vtp-fh-w31' }}) }}
-            {{ form_widget(fvdata.tnop, {'attr': {'class': 'vtp-fh-w60', 'style': 'float: right; margin-right: 11px' }}) }}
+            {{ form_label(fvdata.tnop, null, {'label_attr': {'class': 'vtp-fh-w35' }}) }}
+            {{ form_widget(fvdata.tnop, {'attr': {'class': 'vtp-fh-w60', 'style': 'margin-right: 5px' }}) }}
         </div>
     </div>
     <div class="vtp-fh-middle">
         <div class="vtp-fh-w35">
-            {{ form_label(fvdata.lang, null, {'label_attr': {'class': 'vtp-fh-w31', 'style': 'width: 26%' }}) }}
+            {{ form_label(fvdata.lang, null, {'label_attr': {'class': 'vtp-fh-w31', 'style': 'width: 26%; margin-bottom: -5px;' }}) }}
             {{ form_widget(fvdata.lang, {'attr': {'class': 'vtp-fh-w60'}}) }}
         </div>
         <div class="vtp-fh-w35">
-            {{ form_label(fvdata.kind, null, {'label_attr': {'class': 'vtp-fh-w35' }}) }}
+            {{ form_label(fvdata.kind, null, {'label_attr': {'class': 'vtp-fh-w35', 'style': 'margin-bottom: -5px;' }}) }}
             {{ form_widget(fvdata.kind, {'attr': {'class': 'vtp-fh-w60' }}) }}
         </div>
         <div class="vtp-fh-w31">
-            {{ form_label(fvdata.year, null, {'label_attr': {'class': 'vtp-fh-w31' }}) }}
-            {{ form_widget(fvdata.year, {'attr': {'class': 'vtp-fh-w60', 'style': 'float: right; margin-right: 11px' }}) }}
+            {{ form_label(fvdata.year, null, {'label_attr': {'class': 'vtp-fh-w35' }}) }}
+            {{ form_widget(fvdata.year, {'attr': {'class': 'vtp-fh-w60', 'style':'margin-right: 5px' }}) }}
         </div>
     </div>
     <div class="vtp-fh-middle">
@@ -83,4 +84,5 @@
         {% do fvdata.save.setRendered %}
     {%endif%}
 </fieldset>
+{% endspaceless %}
 {{ form_end(fvdata) }}
