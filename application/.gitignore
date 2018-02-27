@@ -6,6 +6,7 @@
 /composer.phar
 /vendor/
 /web/bundles/
+/web/js/tinymce/
 /var/bootstrap.php.cache
 /var/SymfonyRequirements.php
 /var/cache/*
