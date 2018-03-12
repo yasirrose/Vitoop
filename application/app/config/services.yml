@@ -6,12 +6,22 @@ parameters:
 
 services:
     vitoop.settings:
-        class:          Vitoop\InfomgmtBundle\Service\SettingsService
-        arguments:      ['@doctrine.orm.entity_manager']
+        class: Vitoop\InfomgmtBundle\Service\SettingsService
+        arguments: ['@doctrine.orm.entity_manager']
 
     vitoop.downloads:
-        class:          Vitoop\InfomgmtBundle\Service\DownloadsService
-        arguments:      ['@doctrine.orm.entity_manager', '@vitoop.settings', '@knp_snappy.pdf','%download_folder%']
+        class: Vitoop\InfomgmtBundle\Service\DownloadsService
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@vitoop.settings'
+            - '@knp_snappy.pdf'
+            - '%download_folder%'
+
+
+    vitoop.file_downloader:
+        class: Vitoop\InfomgmtBundle\Service\FileDownloader
+        arguments:
+          - '%download_folder%'
 
     vitoop.resource_manager:
         class: Vitoop\InfomgmtBundle\Service\ResourceManager

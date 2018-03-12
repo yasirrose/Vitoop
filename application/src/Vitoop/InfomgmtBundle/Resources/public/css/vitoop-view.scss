@@ -187,6 +187,15 @@ $vitoop-body-background-color: #f2f5f7;
     left: 4px;
 }
 
+.toolbar button.underline:after {
+    width: 18px;
+    height: 1px;
+    background: red;
+    position: absolute;
+    top: 18px;
+    left: 4px;
+}
+
 .toolbar button.text:after {
     content: 'T';
     font-family: 'Times New Roman';

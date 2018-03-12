@@ -4,7 +4,7 @@ namespace Vitoop\InfomgmtBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Console\Output\OutputInterface;
-use Knp\Bundle\SnappyBundle\Snappy\LoggableGenerator;
+use Knp\Snappy\Pdf;
 use Vitoop\InfomgmtBundle\Entity\Downloadable\DownloadableInterface;
 use Vitoop\InfomgmtBundle\Entity\Teli;
 
@@ -21,7 +21,7 @@ class DownloadsService
     public function __construct(
         EntityManager $entityManager,
         SettingsService $settingsService,
-        LoggableGenerator $pdfGenerator,
+        Pdf $pdfGenerator,
         $downloadFolder
     ) {
         $this->em = $entityManager;
@@ -74,6 +74,9 @@ class DownloadsService
         $this->em->flush();
     }
 
+    /**
+     * @TODO Refactoring with FileDownloader
+     */
     public function downloadHtml($count, $missing, OutputInterface $output)
     {
         $output->writeln('Getting '.$count.' elements from database');

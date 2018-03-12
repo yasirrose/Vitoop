@@ -3,8 +3,9 @@ import twitter from 'twitter-text';
 import PDFJSAnnotate from 'pdf-annotate';
 import initColorPicker from './initColorPicker';
 import { resizeListen, resizeUnlisten } from 'dom-resize';
+import UI from './UI';
 
-const UI = PDFJSAnnotate.UI;
+//const UI = PDFJSAnnotate.UI;
 const documentId = resourceId;
 const documentUrl = pdfUrl;
 
@@ -24,6 +25,7 @@ let RENDER_OPTIONS = {
     scale: 1,
     rotate: 0
 };
+let currentPageNum = 1;
 
 PDFJSAnnotate.setStoreAdapter(new PDFJSAnnotate.LocalStoreAdapter());
 PDFJS.workerSrc = '/build/pdf.worker.js';
@@ -47,6 +49,7 @@ pdfWrapper.addEventListener('scroll', openCurrentPage);
 function openCurrentPage(e) {
     let visiblePageNum = Math.round(e.target.scrollTop / PAGE_HEIGHT) + 1;
     let visiblePage = document.querySelector('.page[data-page-number="'+visiblePageNum+'"][data-loaded="false"]');
+    currentPageNum = visiblePageNum;
 
     if (renderedPages.indexOf(visiblePageNum) == -1) {
         okToRender = true;
@@ -57,7 +60,7 @@ function openCurrentPage(e) {
 
     if (visiblePage && okToRender) {
         setTimeout(function () {
-            renderPdfByPageNum(visiblePageNum);
+            renderPdfByPageNum(visiblePageNum, false);
         });
     }
 }
@@ -81,10 +84,10 @@ function renderPdf(pdf) {
         viewer.appendChild(page);
     }
 
-    renderPdfByPageNum(1);
+    renderPdfByPageNum(1, false);
 }
 
-function renderPdfByPageNum(pageNum) {
+function renderPdfByPageNum(pageNum, isNeedToScroll) {
     let pdf = RENDER_OPTIONS.pdfDocument;
 
     pdf.getPage(pageNum).then(function (page) {
@@ -95,6 +98,10 @@ function renderPdfByPageNum(pageNum) {
             pdfWrapperWidth = pdfWrapper.offsetWidth;
             let viewport = pdfPage.getViewport(RENDER_OPTIONS.scale, RENDER_OPTIONS.rotate);
             PAGE_HEIGHT = viewport.height;
+
+            if (isNeedToScroll) {
+                document.querySelector('.page[data-page-number="'+pageNum+'"][data-loaded="true"]').scrollIntoView(true);
+            }
         });
     });
 }
@@ -276,6 +283,7 @@ if (true === isLoadAnnotation) {
                         case 'area':
                         case 'highlight':
                         case 'strikeout':
+                        case 'underline':
                             UI.disableRect();
                             break;
                     }
@@ -305,6 +313,7 @@ if (true === isLoadAnnotation) {
                     case 'area':
                     case 'highlight':
                     case 'strikeout':
+                    case 'underline':
                         UI.enableRect(type);
                         break;
                 }
@@ -346,5 +355,7 @@ window.addEventListener('renderpdf', function (e) {
     } else {
         render();
     }
-    pdfWrapper.scrollTop = 0;
+    for (let i=1; i<=currentPageNum; i++) {
+        renderPdfByPageNum(i, (i == currentPageNum));
+    }
 });

@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class PDFResponse extends Response
 {
-    public function __construct($filename, $content = '')
+    public function __construct($filename, $content = '', $disposition = ResponseHeaderBag::DISPOSITION_INLINE)
     {
         parent::__construct($content, self::HTTP_OK, [
             'Content-Type' => 'application/pdf',
@@ -18,7 +18,7 @@ class PDFResponse extends Response
         $this->headers->set(
             "Content-Disposition",
             $this->headers->makeDisposition(
-                ResponseHeaderBag::DISPOSITION_INLINE,
+                $disposition,
                 $filename
             )
         );

@@ -50,11 +50,9 @@
         <div class="vtp-fh-top" id="resource-tag">
             {{ tagForm|raw }}
         </div>
-        {% if is_granted('ROLE_ADMIN') %}
         <div class="vtp-fh-top vtp-view-button-container">
             <button class="vtp-button ui-corner-all ui-state-default" id="pdf-editor-save">{{ 'label.save'|trans }} PDF</button>
         </div>
-        {% endif %}
     </div>
     <div id="vtp-pdf-view-toggle">
         <button id="vtp-pdf-view-toggle-button"><span class="ui-icon ui-icon-seek-first"></span></button>
@@ -83,7 +81,7 @@
     var resourceType = '{{resource.getResourceType()}}';
     var baseUrl = '{{ path('_base_url') }}';
     var pdfUrl = baseUrl + 'resource-files/' + resourceId + '.pdf';
-    var isLoadAnnotation = {% if is_granted('ROLE_ADMIN') %}true{% else %}false{% endif %};
+    var isLoadAnnotation = true;
     $(document).ready(function () {
 
         $('#vtp-pdf-view-toggle-button').on('click', function () {

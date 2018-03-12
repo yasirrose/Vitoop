@@ -3,11 +3,11 @@
 namespace Vitoop\InfomgmtBundle\Controller;
 
 use Doctrine\ORM\ORMException;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Vitoop\InfomgmtBundle\Entity\Pdf;
 use Vitoop\InfomgmtBundle\Entity\PdfAnnotation;
 
@@ -33,11 +33,7 @@ class PdfViewerController extends ApiController
             'lexiconForm' => $dataCollector->getLexicon(),
         ];
 
-        if ($this->get('vitoop.vitoop_security')->isAdmin()) {
-            return $this->render('@VitoopInfomgmt/View/resource.edit.html.twig', $pdfParams);
-        }
-
-        return $this->render('@VitoopInfomgmt/View/resource.html.twig', $pdfParams);
+        return $this->render('@VitoopInfomgmt/View/resource.edit.html.twig', $pdfParams);
     }
 
     /**
@@ -45,10 +41,6 @@ class PdfViewerController extends ApiController
      */
     public function annotationsAction(Pdf $pdf)
     {
-        if (!$this->get("vitoop.vitoop_security")->isAdmin()) {
-            throw $this->createNotFoundException();
-        }
-
         try {
             return $this->getApiResponse(
                 $this->get('vitoop.repository.pdf_annotation')->getAnnotationsByPdfAndUser(
@@ -67,9 +59,6 @@ class PdfViewerController extends ApiController
      */
     public function saveAnnotationAction(Pdf $pdf, Request $request)
     {
-        if (!$this->get("vitoop.vitoop_security")->isAdmin()) {
-            throw $this->createNotFoundException();
-        }
         $annotationData = $this->getDTOFromRequest($request) ?? [];
         $user = $this->get("vitoop.vitoop_security")->getUser();
 
