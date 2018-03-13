@@ -197,9 +197,13 @@
                 dateRange.updateRangeFromDOM();
                 refreshTable();
             });
-            $('.range-filter').off().on('change', function () {
-                dateRange.updateRangeFromDOM();
-            });
+            $('.range-filter').off()
+                .on('change', function () {
+                    dateRange.updateRangeFromDOM();
+                })
+                .on('keyup', function () {
+                    dateRange.checkButtonState();
+                });
 
             dateRange.updateDOMFromRange();
         }

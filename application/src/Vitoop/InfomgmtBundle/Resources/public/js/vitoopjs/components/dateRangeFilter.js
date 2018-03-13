@@ -10,12 +10,6 @@ DateRangeFilter.prototype.dateToId = '#search_date_to';
 DateRangeFilter.prototype.filterButtonId = '#vtp_search_date';
 
 DateRangeFilter.prototype.updateRangeFromDOM = function () {
-    if (this.isNeedToSave()) {
-        $(this.filterButtonId).addClass('ui-state-active');
-    } else {
-        $(this.filterButtonId).removeClass('ui-state-active');
-    }
-
     this.storage.setItem(this.dateFromStorageKey, $(this.dateFromId).val());
     this.storage.setItem(this.dateToStorageKey, $(this.dateToId).val());
 };
@@ -23,6 +17,14 @@ DateRangeFilter.prototype.updateRangeFromDOM = function () {
 DateRangeFilter.prototype.updateDOMFromRange = function () {
     $(this.dateFromId).val(this.getDateFilterFrom());
     $(this.dateToId).val(this.getDateFilterTo());
+};
+
+DateRangeFilter.prototype.checkButtonState = function () {
+    if (this.isNeedToSave()) {
+        $(this.filterButtonId).addClass('ui-state-active');
+    } else {
+        $(this.filterButtonId).removeClass('ui-state-active');
+    }
 };
 
 DateRangeFilter.prototype.getDateFilterFrom = function () {
