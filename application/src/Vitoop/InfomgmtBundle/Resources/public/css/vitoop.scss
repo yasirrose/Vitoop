@@ -1592,7 +1592,8 @@ a.vtp-uiaction-open-url:visited {
 
     td.dataTables_empty {
         margin-top: 2px;
-        height: 20px;
+        height: 40px;
+        vertical-align: middle;
         border: $blue-frame-border !important;
     }
 
