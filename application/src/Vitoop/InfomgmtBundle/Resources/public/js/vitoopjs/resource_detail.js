@@ -153,8 +153,10 @@ resourceDetail = (function () {
                         }
                     });
                 });
-               
-                   
+
+                var readButton = new ReadableButton(res_type, res_id);
+                readButton.init($('#'+res_type+'_isUserRead').val());
+
                 addDateModificator('#teli_release_date');
                 //addDateModificator('#pdf_pdf_date');
                

@@ -306,11 +306,12 @@ class ResourceRepository extends EntityRepository
     protected function prepareListQueryBuilder(QueryBuilder $query, SearchResource $search)
     {
         $query
-            ->addSelect('r.id, r.name, CONCAT(r.created_at,\'\') AS created_at, u.username, AVG(ra.mark) as avgmark, COUNT(DISTINCT rrr.id) as res12count, COUNT(uh.id) as isUserHook')
+            ->addSelect('r.id, r.name, CONCAT(r.created_at,\'\') AS created_at, u.username, AVG(ra.mark) as avgmark, COUNT(DISTINCT rrr.id) as res12count, COUNT(uh.id) as isUserHook, COUNT(ur.id) as isUserRead')
             ->innerJoin('r.user', 'u')
             ->leftJoin('r.flags', 'f')
             ->leftJoin('r.ratings', 'ra')
             ->leftJoin('r.userHooks', 'uh', 'WITH', 'uh.user = :currentUser')
+            ->leftJoin('r.userReads', 'ur', 'WITH', 'ur.user = :currentUser')
             ->groupBy('r.id')
             ->setParameter('currentUser', $search->user);
         $rootEntity = $query->getRootEntities();
@@ -357,6 +358,9 @@ class ResourceRepository extends EntityRepository
         
         if (1 === $search->isUserHook) {
             $query->andHaving('isUserHook > 0');
+        }
+        if (1 === $search->isUserRead) {
+            $query->andHaving('isUserRead > 0');
         }
 
         if ($search->resourceId) {

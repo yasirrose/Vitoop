@@ -44,6 +44,7 @@ class ResourceApiController extends ApiController
             $request->query->get('tagcnt', 0),
             $request->query->get('search', null),
             $request->query->get('isUserHook', null),
+            $request->query->get('isUserRead', null),
             $request->query->get('resourceId', null),
             $request->query->get('dateFrom', null),
             $request->query->get('dateTo', null)

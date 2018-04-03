@@ -2,6 +2,7 @@
 namespace Vitoop\InfomgmtBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -36,6 +37,7 @@ class ResourceType extends AbstractType
                 )
             )
             ->add('isUserHook', CheckboxType::class, ['label' => 'blau', 'attr' => ['class' => 'valid-checkbox', 'title' => 'label.tab']])
+            ->add('isUserRead', HiddenType::class, ['attr' => ['class' => 'userRead']])
             ->add('save', InputTypeSubmitType::class, ['label' => 'speichern']);
     }
 

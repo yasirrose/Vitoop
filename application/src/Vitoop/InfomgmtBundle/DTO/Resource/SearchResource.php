@@ -56,6 +56,7 @@ class SearchResource
     public $user;
 
     public $isUserHook;
+    public $isUserRead;
 
     public $resourceId;
 
@@ -74,6 +75,7 @@ class SearchResource
         $countTags = array(),
         $search = null,
         $isUserHook = null,
+        $isUserRead = null,
         $resourceId = null,
         $dateFrom = null,
         $dateTo = null
@@ -91,6 +93,7 @@ class SearchResource
         $this->paging = $paging;
         $this->columns = $columns;
         $this->isUserHook = (int)$isUserHook;
+        $this->isUserRead = (int)$isUserRead;
         $this->resourceId = $resourceId;
         $this->dateFrom = $dateFrom;
         $this->dateTo = $dateTo;

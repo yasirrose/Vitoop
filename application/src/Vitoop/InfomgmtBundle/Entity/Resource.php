@@ -116,6 +116,14 @@ class Resource
      */
     protected $userHooks;
 
+    /**
+     * @ORM\OneToMany(
+     *      targetEntity="UserReadResource", mappedBy="resource",
+     *      cascade={"persist", "remove"}, orphanRemoval=true
+     * )
+     */
+    protected $userReads;
+
     public function __construct()
     {
         $this->created_at = new \DateTime();
@@ -133,6 +141,7 @@ class Resource
         $this->rel_resources2 = new ArrayCollection();
         $this->watchlist_entries = new ArrayCollection();
         $this->userHooks = new ArrayCollection();
+        $this->userReads = new ArrayCollection();
 
         $this->avgmark = 'not rated';
         $this->res12count = '-';
@@ -561,7 +570,7 @@ class Resource
     /**
      * @return string
      */
-    public function getRes12count()
+    public function getRes12count() : string
     {
         return $this->res12count;
     }
@@ -593,9 +602,22 @@ class Resource
         }
     }
 
+    /**
+     * @param User $user
+     * @return bool
+     */
     public function isBlueByUser(User $user) : bool
     {
         return 0 < $this->findUserHook($user)->count();
+    }
+
+    /**
+     * @param User $user
+     * @return bool
+     */
+    public function isReadByUser(User $user) : bool
+    {
+        return 0 < $this->findUserRead($user)->count();
     }
 
     public function updateFromResourceDTO(ResourceDTO $dto)
@@ -608,9 +630,13 @@ class Resource
         $this->country = $dto->country;
 
         $this->updateUserHook($dto);
+        $this->updateUserRead($dto);
         $this->updated_at = new \DateTime();
     }
 
+    /**
+     * @param ResourceDTO $dto
+     */
     public function updateUserHook(ResourceDTO $dto)
     {
         if ($dto->isUserHook) {
@@ -618,6 +644,40 @@ class Resource
             return;
         }
         $this->unhook($dto->user);
+    }
+
+    /**
+     * @param ResourceDTO $dto
+     */
+    public function updateUserRead(ResourceDTO $dto)
+    {
+        if ($dto->isUserRead) {
+            $this->read($dto->user);
+            return;
+        }
+        $this->unread($dto->user);
+    }
+
+    /**
+     * @param User $user
+     */
+    public function read(User $user)
+    {
+        $userReads = $this->findUserRead($user);
+        if (0 === $userReads->count()) {
+            $this->userReads->add(new UserReadResource($user, $this));
+        }
+    }
+
+    /**
+     * @param User $user
+     */
+    public function unread(User $user)
+    {
+        $userReads = $this->findUserRead($user);
+        if (0 < $userReads->count()) {
+            $this->userReads->removeElement($userReads->first());
+        }
     }
 
     public function toResourceDTO(User $user) : ResourceDTO
@@ -628,17 +688,40 @@ class Resource
         $dto->lang = $this->lang;
         $dto->country = $this->country;
         $dto->isUserHook = $this->isBlueByUser($user);
+        $dto->isUserRead = $this->isReadByUser($user);
 
         return $dto;
     }
-    
+
+    /**
+     * @param User $user
+     * @return ArrayCollection
+     */
     protected function findUserHook(User $user) : ArrayCollection
+    {
+        return $this->userHooks->matching($this->getUserCriteria($user));
+    }
+
+    /**
+     * @param User $user
+     * @return ArrayCollection
+     */
+    protected function findUserRead(User $user) :ArrayCollection
+    {
+        return $this->userReads->matching($this->getUserCriteria($user));
+    }
+
+    /**
+     * @param User $user
+     * @return Criteria
+     */
+    protected function getUserCriteria(User $user) : Criteria
     {
         $expr = Criteria::expr();
         $userCriteria = Criteria::create();
         $userCriteria
             ->where($expr->eq('user', $user));
 
-        return $this->userHooks->matching($userCriteria);
+        return $userCriteria;
     }
 }

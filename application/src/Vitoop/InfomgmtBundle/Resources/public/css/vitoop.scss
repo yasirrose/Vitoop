@@ -1748,3 +1748,20 @@ table.dataTable thead th:hover {
     margin-bottom: 15px;
     border-bottom: $blue-frame-border;
 }
+
+.vtp-button-read {
+    float: right;
+    height: 20px;
+    margin-top: 1px;
+    @include border-radius(3px);
+    padding: 0px 2px;
+
+    :focus {
+
+    }
+}
+
+#is-read-filter {
+    height: 22px;
+    padding: 0px 2px;
+}

@@ -78,10 +78,11 @@ searchToggler = (function() {
     }
 
     function checkButtonState() {
-        var dateRangeFilter = new DateRangeFilter();
-        var isBlueFilter = new IsBlueFilter();
+        let dateRangeFilter = new DateRangeFilter();
+        let isBlueFilter = new IsBlueFilter();
+        let isReadFilter = new IsReadFilter();
 
-        if (!state || isBlueFilter.isBlue() || '' != localStorage.getItem('dt-search') || !dateRangeFilter.isEmpty()) {
+        if (!state || isBlueFilter.isBlue() || isReadFilter.isRead() || '' != localStorage.getItem('dt-search') || !dateRangeFilter.isEmpty()) {
             activateButton();
             return;
         }

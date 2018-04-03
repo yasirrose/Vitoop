@@ -686,7 +686,7 @@ class ResourceController extends ApiController
 
     /**
      * @Method("POST")
-     * @Route("/{resType}/{resId}/user-hooks", name="_xhr_resource_user_hook", requirements={"resId": "\d+", "resYype": "pdf|adr|link|teli|lex|prj|book"})
+     * @Route("/{resType}/{resId}/user-hooks", name="_xhr_resource_user_hook", requirements={"resId": "\d+", "resType": "pdf|adr|link|teli|lex|prj|book"})
      */
     public function userHookAction(Request $request, $resType, $resId)
     {
@@ -704,6 +704,32 @@ class ResourceController extends ApiController
         $resourceDTO->isUserHook = $dto->isUserHook;
         
         $resource->updateUserHook($resourceDTO);
+        $entityManager->persist($resource);
+        $entityManager->flush();
+
+        return $this->getApiResponse([]);
+    }
+
+    /**
+     * @Method("POST")
+     * @Route("/{resType}/{resId}/user-reads", name="_xhr_resource_user_hook", requirements={"resId": "\d+", "resType": "pdf|adr|link|teli|lex|prj|book"})
+     */
+    public function userReadsAction(Request $request, $resType, $resId)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $resource = $entityManager->getRepository(
+            Resource\ResourceType::getClassByResourceType($resType)
+        )->find($resId);
+        if (!$resource) {
+            $this->createNotFoundException();
+        }
+
+        $dto = $this->getDTOFromRequest($request);
+        $resourceDTO = new \Vitoop\InfomgmtBundle\DTO\Resource\ResourceDTO();
+        $resourceDTO->user = $this->getUser();
+        $resourceDTO->isUserRead = $dto->isUserRead;
+
+        $resource->updateUserRead($resourceDTO);
         $entityManager->persist($resource);
         $entityManager->flush();
 

@@ -142,6 +142,7 @@
         var isCoef = {% if  isCoef is defined and isCoef %}1{% else %}0{% endif %};
         var dateRange = new DateRangeFilter();
         var isBlueFilter = new IsBlueFilter();
+        let isReadFilter = new IsReadFilter();
         domPrefix += dtDomObject();
         searchToggler.checkButtonState();
         checkOpenButtonState(resType);
@@ -156,6 +157,7 @@
                 url: "{{ ajaxUrl |raw }}",
                 data: function (d) {
                     d.isUserHook = isBlueFilter.getIsBlueValue();
+                    d.isUserRead = isReadFilter.getIsReadValue();
                     d.resourceId = vitoop.resourceId;
                     if (resType == 'pdf' || resType == 'teli') {
                         d.dateFrom = dateRange.getDateFilterFrom();
@@ -182,6 +184,13 @@
         $("#search_blue").change(function() {
             isBlueFilter.setFilterValue(this.checked?1:0);
             searchToggler.checkButtonState();
+            refreshTable();
+        });
+
+        //user read filter
+        $('.dataTables_filter input').before(isReadFilter.renderButton());
+        $('#is-read-filter').on('click', function () {
+            isReadFilter.toggleButton($(this));
             refreshTable();
         });
 

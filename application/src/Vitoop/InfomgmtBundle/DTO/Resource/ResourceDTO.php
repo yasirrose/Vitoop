@@ -24,6 +24,8 @@ class ResourceDTO
 
     public $isUserHook;
 
+    public $isUserRead;
+
     /**
      * @Assert\NotBlank(
      *      message = "Bitte gebe eine URL für die Resource ein.",
