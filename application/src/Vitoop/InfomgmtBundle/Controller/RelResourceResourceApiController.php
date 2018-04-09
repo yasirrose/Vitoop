@@ -12,7 +12,7 @@ use Vitoop\InfomgmtBundle\Entity\RelResourceResource;
 /**
  * @Route("api/rrr")
  */
-class RelResourceResourceApiController extends Controller
+class RelResourceResourceApiController extends ApiController
 {
     /**
      * @Route("/{relID}/coefficient", name="edit_coefficient")
@@ -35,8 +35,7 @@ class RelResourceResourceApiController extends Controller
             $em->flush();
             $response = array('success' => true, 'message' => 'Coefficient updated!');
         }
-        $response = $serializer->serialize($response, 'json');
 
-        return new Response($response);
+        return $this->getApiResponse($response);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 namespace Vitoop\InfomgmtBundle\Service;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Vitoop\InfomgmtBundle\Entity\Flag;
 use Vitoop\InfomgmtBundle\Entity\ProjectData;
 use Vitoop\InfomgmtBundle\Entity\Tag;
@@ -15,7 +16,6 @@ use Vitoop\InfomgmtBundle\Entity\User;
 use Vitoop\InfomgmtBundle\Entity\Resource\ResourceType;
 use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
 use Vitoop\InfomgmtBundle\DTO\Resource\ResourceDTO;
-use Doctrine\Common\Persistence\ObjectManager;
 use Vitoop\InfomgmtBundle\Service\RelResource\RelResourceLinker;
 use Vitoop\InfomgmtBundle\Service\Tag\ResourceTagLinker;
 
@@ -68,7 +68,7 @@ class ResourceManager
     protected $relResourceLinker;
 
     public function __construct(
-        ObjectManager $em,
+        EntityManagerInterface $em,
         VitoopSecurity $vsec,
         ResourceTagLinker $tagLinker,
         RelResourceLinker $relResourceLinker

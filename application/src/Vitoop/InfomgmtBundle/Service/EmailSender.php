@@ -3,7 +3,7 @@
 namespace Vitoop\InfomgmtBundle\Service;
 
 use Swift_Mailer;
-use Symfony\Bundle\TwigBundle\TwigEngine;
+use Symfony\Component\Templating\EngineInterface;
 use Vitoop\InfomgmtBundle\DTO\Links\SendLinksDTO;
 use Vitoop\InfomgmtBundle\Entity\Invitation;
 use Vitoop\InfomgmtBundle\Entity\User;
@@ -16,17 +16,21 @@ class EmailSender
     private $mailer;
 
     /**
-     * @var TwigEngine 
+     * @var EngineInterface
      */
     private $templater;
 
-    public function __construct(Swift_Mailer $mailer, TwigEngine $templater)
+    public function __construct(Swift_Mailer $mailer, EngineInterface $templater)
     {
         $this->mailer = $mailer;
         $this->templater = $templater;
     }
 
-    public function sendInvite(Invitation $invitation)
+    /**
+     * @param Invitation $invitation
+     * @return int
+     */
+    public function sendInvite(Invitation $invitation) :int
     {
         $message = $this->createMessage(
             $invitation->getSubject(),
@@ -37,14 +41,22 @@ class EmailSender
         return $this->mailer->send($message);
     }
 
-    public function sendRegisterNotification(User $user)
+    /**
+     * @param User $user
+     * @return int
+     */
+    public function sendRegisterNotification(User $user) :int
     {
         $message = $this->createMessage('New user', 'info@vitoop.org', '');
         
         return $this->mailer->send($message);
     }
 
-    public function sendUserForgotPassword(User $user)
+    /**
+     * @param User $user
+     * @return int
+     */
+    public function sendUserForgotPassword(User $user) :int
     {
         $message = $this->createMessage(
             'Forgot Password',
@@ -80,6 +92,23 @@ class EmailSender
             )
         );
         $message->setFrom($user->getEmail());
+
+        return $this->mailer->send($message);
+    }
+
+    public function sendDownloadFolderStatus(string $email, $folderSize, $message)
+    {
+        $message = $this->createMessage(
+            'Vitoop needs help',
+            $email,
+            $this->templater->render(
+                'email/downloadFolder.html.twig',
+                [
+                    'size'  => $folderSize,
+                    'message' => $message
+                ]
+            )
+        );
 
         return $this->mailer->send($message);
     }

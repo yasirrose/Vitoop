@@ -2,7 +2,7 @@
 
 namespace Vitoop\InfomgmtBundle\Service;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Vitoop\InfomgmtBundle\Entity\Option;
 use Vitoop\InfomgmtBundle\Repository\OptionRepository;
 
@@ -18,7 +18,7 @@ class SettingsService
     private $repository = null;
     private $em = null;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->em = $entityManager;
         $this->repository = $this->em->getRepository('VitoopInfomgmtBundle:Option');

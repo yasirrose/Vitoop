@@ -7,6 +7,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Vitoop\InfomgmtBundle\Service\SettingsService;
+use Vitoop\InfomgmtBundle\Service\VitoopSecurity;
 
 class SettingsController extends ApiController
 {
@@ -16,11 +18,11 @@ class SettingsController extends ApiController
      *
      * @return array
      */
-    public function getTermsAction()
+    public function getTermsAction(VitoopSecurity $vitoopSecurity, SettingsService $settings)
     {
         return $this->getApiResponse(array(
-            'terms' => $this->get('vitoop.settings')->getTerms(),
-            'isAdmin' => $this->get('vitoop.vitoop_security')->isAdmin()
+            'terms' => $settings->getTerms(),
+            'isAdmin' => $vitoopSecurity->isAdmin()
         ));
     }
 
@@ -30,13 +32,13 @@ class SettingsController extends ApiController
      *
      * @return array
      */
-    public function editTermsAction(Request $request)
+    public function editTermsAction(VitoopSecurity $vitoopSecurity, SettingsService $settings, Request $request)
     {
-        if (!$this->get('vitoop.vitoop_security')->isAdmin()) {
+        if (!$vitoopSecurity->isAdmin()) {
             throw new AccessDeniedHttpException;
         }
         $terms = $this->getDTOFromRequest($request);
-        $this->get('vitoop.settings')->setTerms($terms->text, (bool) $terms->allUsers);
+        $settings->setTerms($terms->text, (bool) $terms->allUsers);
 
         return $this->getApiResponse(array('success' => true));
     }
@@ -47,14 +49,14 @@ class SettingsController extends ApiController
      *
      * @return array
      */
-    public function editDataPAction(Request $request)
+    public function editDataPAction(VitoopSecurity $vitoopSecurity, SettingsService $settings, Request $request)
     {
-        if (!$this->get('vitoop.vitoop_security')->isAdmin()) {
+        if (!$vitoopSecurity->isAdmin()) {
             throw new AccessDeniedHttpException;
         }
 
         $data = $this->getDTOFromRequest($request);
-        $this->get('vitoop.settings')->setDataP($data->text);
+        $settings->setDataP($data->text);
 
         return $this->getApiResponse(array('success' => true));
     }
@@ -65,14 +67,14 @@ class SettingsController extends ApiController
      *
      * @return array
      */
-    public function getHelpAction()
+    public function getHelpAction(VitoopSecurity $vitoopSecurity)
     {
         $help = $this->getDoctrine()->getManager()->getRepository('VitoopInfomgmtBundle:Help')->getHelp();
 
-        return $this->getApiResponse(array(
-            'help' => $help?$help->toDTO():null,
-            'isAdmin' => $this->get('vitoop.vitoop_security')->isAdmin()
-        ));
+        return $this->getApiResponse([
+            'help' => $help?$help->getDTO():null,
+            'isAdmin' => $vitoopSecurity->isAdmin()
+        ]);
     }
 
     /**
@@ -81,9 +83,9 @@ class SettingsController extends ApiController
      *
      * @return array
      */
-    public function editHelpAction(Request $request)
+    public function editHelpAction(VitoopSecurity $vitoopSecurity, Request $request)
     {
-        if (!$this->get('vitoop.vitoop_security')->isAdmin()) {
+        if (!$vitoopSecurity->isAdmin()) {
             throw new AccessDeniedHttpException;
         }
         $serializer = $this->get('jms_serializer');

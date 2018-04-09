@@ -13,6 +13,7 @@ use JMS\Serializer\DeserializationContext;
 use JMS\Serializer\SerializationContext;
 use Vitoop\InfomgmtBundle\Entity\Project;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Vitoop\InfomgmtBundle\Service\VitoopSecurity;
 
 /**
  * @Route("api/project/{projectID}")
@@ -102,9 +103,9 @@ class ProjectApiController extends ApiController
      *
      * @return array
      */
-    public function addUserToProject(Project $project, Request $request)
+    public function addUserToProject(VitoopSecurity $vitoopSecurity, Project $project, Request $request)
     {
-        $currentUser = $this->get('vitoop.vitoop_security')->getUser();
+        $currentUser = $vitoopSecurity->getUser();
         $this->checkAccess($project);
 
         $response = null;
@@ -154,9 +155,9 @@ class ProjectApiController extends ApiController
      *
      * @return array
      */
-    public function removeUserFromProject(Project $project, User $user)
+    public function removeUserFromProject(VitoopSecurity $vitoopSecurity, Project $project, User $user)
     {
-        $currentUser = $this->get('vitoop.vitoop_security')->getUser();
+        $currentUser = $vitoopSecurity->getUser();
         $this->checkAccess($project);
 
         $response = null;

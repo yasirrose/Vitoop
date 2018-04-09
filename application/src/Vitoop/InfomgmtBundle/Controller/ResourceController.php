@@ -29,6 +29,10 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Vitoop\InfomgmtBundle\Entity\Downloadable\DownloadableInterface;
+use Vitoop\InfomgmtBundle\Service\LexiconQueryManager;
+use Vitoop\InfomgmtBundle\Service\ResourceDataCollector;
+use Vitoop\InfomgmtBundle\Service\ResourceManager;
+use Vitoop\InfomgmtBundle\Service\VitoopSecurity;
 
 class ResourceController extends ApiController
 {
@@ -37,11 +41,16 @@ class ResourceController extends ApiController
      * @Route("/project/{project_id}", name="_home_project", requirements={"project_id": "\d+"})
      * @Route("/lexicon/{lexicon_id}", name="_home_lexicon", requirements={"lexicon_id": "\d+"})
      */
-    public function homeAction(Request $request, $project_id = 0, $lexicon_id = 0)
-    {
+    public function homeAction(
+        ResourceManager $rm,
+        ResourceDataCollector $rdc,
+        VitoopSecurity $vsec,
+        LexiconQueryManager $lexiconQueryManager,
+        Request $request,
+        $project_id = 0,
+        $lexicon_id = 0
+    ) {
         //@TODO: Fat controller - need refactoring
-        $rm = $this->get('vitoop.resource_manager');
-        $vsec = $this->get('vitoop.vitoop_security');
         $em = $this->getDoctrine()->getManager();
         $tpl_vars = array();
 
@@ -158,7 +167,7 @@ class ResourceController extends ApiController
         } elseif ($is_lexicon_home) {
             $diff = date_diff(new \DateTime(), $lexicon->getUpdated());
             if (($diff->m > 2)||($diff->y > 0)) {
-                $description = $this->get('vitoop.lexicon_query_manager')->getDescriptionFromWikiApi($lexicon->getName());
+                $description = $lexiconQueryManager->getDescriptionFromWikiApi($lexicon->getName());
                 if (!array_key_exists(-1, $description)) {
                     $lexicon->setDescription($description[$lexicon->getWikiPageId()]['extract']);
                     $lexicon->setUpdated(new \DateTime());
@@ -171,7 +180,6 @@ class ResourceController extends ApiController
                 'lexicon' => $lexicon,
                 'resourceInfo' => $resourceInfo
             ));
-            $rdc = $this->get('vitoop.resource_data_collector');
             $rdc->prepare('lex', $request);
             $rdc->init($lexicon);
             $lexiconsPart = $rdc->getLexicon(true);
@@ -192,10 +200,9 @@ class ResourceController extends ApiController
     /**
      * @Route("/{res_type}/", name="_resource_list", requirements={"res_type": "pdf|adr|link|teli|lex|prj|book"})
      */
-    public function listAction(Request $request, $res_type)
+    public function listAction(ResourceManager $rm, VitoopSecurity $vsec, Request $request, $res_type)
     {
-        $rm = $this->get('vitoop.resource_manager');
-        $user = $this->get('vitoop.vitoop_security')->getUser();
+        $user = $vsec->getUser();
         $block_content_tpl = 'VitoopInfomgmtBundle:Resource:table.resource.html.twig';
 
         $url = $this->generateUrl('api_resource_list', array('resType' => $res_type));
@@ -306,9 +313,8 @@ class ResourceController extends ApiController
     /**
      * @Route("/edit-vitoop-blog", name="_edit_vitoop_blog")
      */
-    public function editVitoopBlogAction(Request $request)
+    public function editVitoopBlogAction(VitoopSecurity $vsec, Request $request)
     {
-        $vsec = $this->get('vitoop.vitoop_security');
         if (!$vsec->isAdmin()) {
             throw new AccessDeniedException();
         }
@@ -377,11 +383,8 @@ class ResourceController extends ApiController
     /**
      * @Route("/{res_type}/{res_id}/data", name="_xhr_resource_data", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
      */
-    public function dataAction($res_type, $res_id)
+    public function dataAction(ResourceDataCollector $rdc, $res_type, $res_id)
     {
-        /* @var $rdc \Vitoop\InfomgmtBundle\Service\ResourceDataCollector */
-        $rdc = $this->get('vitoop.resource_data_collector');
-
         /* @var $res \Vitoop\InfomgmtBundle\Entity\Resource */
         $res = $rdc->getResource();
 
@@ -396,11 +399,8 @@ class ResourceController extends ApiController
     /**
      * @Route("/{res_type}/new", name="_xhr_resource_new", requirements={"res_type": "pdf|adr|link|teli|lex|prj|book"})
      */
-    public function newAction($res_type)
+    public function newAction(ResourceDataCollector $rdc, $res_type)
     {
-        /* @var $rdc \Vitoop\InfomgmtBundle\Service\ResourceDataCollector */
-        $rdc = $this->get('vitoop.resource_data_collector');
-
         // get Data first - when new res is created it will be
         // set per $this->init($res) therefore  title/buttons will return correctly
         $content['resource-data'] = $rdc->newData();
@@ -420,11 +420,8 @@ class ResourceController extends ApiController
     /**
      * @Route("/{res_type}/{res_id}/tags", name="_xhr_resource_tags", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
      */
-    public function tagAction($res_type, $res_id)
+    public function tagAction(ResourceDataCollector $rdc, $res_type, $res_id)
     {
-        /* @var $rdc \Vitoop\InfomgmtBundle\Service\ResourceDataCollector */
-        $rdc = $this->get('vitoop.resource_data_collector');
-
         /* @var $res \Vitoop\InfomgmtBundle\Entity\Resource */
         $res = $rdc->getResource();
 
@@ -436,11 +433,8 @@ class ResourceController extends ApiController
     /**
      * @Route("/{res_type}/{res_id}/rating", name="_xhr_resource_rating", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
      */
-    public function ratingAction($res_type, $res_id)
+    public function ratingAction(ResourceDataCollector $rdc, $res_type, $res_id)
     {
-        /* @var $rdc \Vitoop\InfomgmtBundle\Service\ResourceDataCollector */
-        $rdc = $this->get('vitoop.resource_data_collector');
-
         /* @var $res \Vitoop\InfomgmtBundle\Entity\Resource */
         $res = $rdc->getResource();
 
@@ -452,11 +446,8 @@ class ResourceController extends ApiController
     /**
      * @Route("/{res_type}/{res_id}/quickview", name="_xhr_resource_quickview", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
      */
-    public function quickviewAction($res_type, $res_id)
+    public function quickviewAction(ResourceDataCollector $rdc, $res_type, $res_id)
     {
-        /* @var $rdc \Vitoop\InfomgmtBundle\Service\ResourceDataCollector */
-        $rdc = $this->get('vitoop.resource_data_collector');
-
         /* @var $res \Vitoop\InfomgmtBundle\Entity\Resource */
         $res = $rdc->getResource();
 
@@ -491,11 +482,8 @@ class ResourceController extends ApiController
     /**
      * @Route("/{res_type}/{res_id}/remark", name="_xhr_resource_remark", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
      */
-    public function remarkAction($res_type, $res_id)
+    public function remarkAction(ResourceDataCollector $rdc, $res_type, $res_id)
     {
-        /* @var $rdc \Vitoop\InfomgmtBundle\Service\ResourceDataCollector */
-        $rdc = $this->get('vitoop.resource_data_collector');
-
         /* @var $res \Vitoop\InfomgmtBundle\Entity\Resource */
         $res = $rdc->getResource();
 
@@ -507,11 +495,8 @@ class ResourceController extends ApiController
     /**
      * @Route("/{res_type}/{res_id}/remark_private", name="_xhr_resource_remark_private", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
      */
-    public function remarkPrivateAction($res_type, $res_id)
+    public function remarkPrivateAction(ResourceDataCollector $rdc, $res_type, $res_id)
     {
-        /* @var $rdc \Vitoop\InfomgmtBundle\Service\ResourceDataCollector */
-        $rdc = $this->get('vitoop.resource_data_collector');
-
         /* @var $res \Vitoop\InfomgmtBundle\Entity\Resource */
         $res = $rdc->getResource();
 
@@ -523,11 +508,8 @@ class ResourceController extends ApiController
     /**
      * @Route("/{res_type}/{res_id}/comments", name="_xhr_resource_comments", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
      */
-    public function commentAction($res_type, $res_id)
+    public function commentAction(ResourceDataCollector $rdc, $res_type, $res_id)
     {
-        /* @var $rdc \Vitoop\InfomgmtBundle\Service\ResourceDataCollector */
-        $rdc = $this->get('vitoop.resource_data_collector');
-
         /* @var $res \Vitoop\InfomgmtBundle\Entity\Resource */
         $res = $rdc->getResource();
 
@@ -548,9 +530,9 @@ class ResourceController extends ApiController
      * )
      * @Method({"PATCH"})
      */
-    public function removeCommentAction(Comment $comment, $resType, $resId, Request $request)
+    public function removeCommentAction(VitoopSecurity $vsec, Comment $comment, $resType, $resId, Request $request)
     {
-        if (!$this->get('vitoop.vitoop_security')->isAdmin()) {
+        if (!$vsec->isAdmin()) {
             throw new AccessDeniedHttpException;
         }
         $dto = $this->getDTOFromRequest($request);
@@ -565,63 +547,48 @@ class ResourceController extends ApiController
      * @Route("/{res_type}/{res_id}/lexicons", name="_xhr_resource_lexicons", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
      * @Route("/{res_type}/{res_id}/lexicons/{isLexiconHome}", name="_xhr_resource_lexicons_lexicon", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book", "isLexiconHome": "1"})
      */
-    public function lexiconAction($res_type, $res_id, $isLexiconHome = false)
+    public function lexiconAction(ResourceDataCollector $rdc, $res_type, $res_id, $isLexiconHome = false)
     {
-        /* @var $rdc \Vitoop\InfomgmtBundle\Service\ResourceDataCollector */
-        $rdc = $this->get('vitoop.resource_data_collector');
-
         /* @var $res \Vitoop\InfomgmtBundle\Entity\Resource */
         $res = $rdc->getResource();
 
-        $content['resource-lexicon'] = $rdc->getLexicon($isLexiconHome);
-
-        return $this->getApiResponse($content);
+        return $this->getApiResponse([
+            'resource-lexicon' => $rdc->getLexicon($isLexiconHome)
+        ]);
     }
 
     /**
      * @Route("/{res_type}/{res_id}/projects", name="_xhr_resource_projects", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
      */
-    public function projectAction($res_type, $res_id)
+    public function projectAction(ResourceDataCollector $rdc, $res_type, $res_id)
     {
-        /* @var $rdc \Vitoop\InfomgmtBundle\Service\ResourceDataCollector */
-        $rdc = $this->get('vitoop.resource_data_collector');
-
         /* @var $res \Vitoop\InfomgmtBundle\Entity\Resource */
         $res = $rdc->getResource();
 
-        $content['resource-project'] = $rdc->getProject();
-
-        return new Response(json_encode($content));
+        return $this->getApiResponse([
+            'resource-project' => $rdc->getProject()
+        ]);
     }
 
     /**
      * @Route("/{res_type}/{res_id}/assignments", name="_xhr_resource_assignments", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
      */
-    public function assignmentAction($res_type, $res_id)
+    public function assignmentAction(ResourceDataCollector $rdc, $res_type, $res_id)
     {
-        /* @var $rdc \Vitoop\InfomgmtBundle\Service\ResourceDataCollector */
-        $rdc = $this->get('vitoop.resource_data_collector');
-
         /* @var $res \Vitoop\InfomgmtBundle\Entity\Resource */
         $res = $rdc->getResource();
 
-        $content['resource-lexicon'] = $rdc->getLexicon();
-        $content['resource-project'] = $rdc->getProject();
-
-        return new Response(json_encode($content));
+        return $this->getApiResponse([
+            'resource-lexicon' => $rdc->getLexicon(),
+            'resource-project' => $rdc->getProject()
+        ]);
     }
 
     /**
      * @Route("/{res_type}/{res_id}/flag/{flag_type}", name="_xhr_resource_flag", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book", "flag_type": "delete|blame"})
      */
-    public function flagAction(Request $request, $res_type, $res_id, $flag_type)
+    public function flagAction(ResourceDataCollector $rdc, ResourceManager $rm, Request $request, $res_type, $res_id, $flag_type)
     {
-        /* @var $rdc \Vitoop\InfomgmtBundle\Service\ResourceDataCollector */
-        $rdc = $this->get('vitoop.resource_data_collector');
-
-        /* @var $rm \Vitoop\InfomgmtBundle\Service\ResourceManager */
-        $rm = $this->get('vitoop.resource_manager');
-
         /* @var $res \Vitoop\InfomgmtBundle\Entity\Resource */
         $res = $rdc->getResource();
 
@@ -674,14 +641,11 @@ class ResourceController extends ApiController
     /**
      * @Route("/{res_type}/{res_id}/flaginfo", name="_xhr_resource_flaginfo", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
      */
-    public function flagInfoAction($res_type, $res_id)
+    public function flagInfoAction(ResourceDataCollector $rdc, $res_type, $res_id)
     {
-        /* @var $rdc \Vitoop\InfomgmtBundle\Service\ResourceDataCollector */
-        $rdc = $this->get('vitoop.resource_data_collector');
-
-        $content['resource-flags'] = $rdc->getFlags();
-
-        return new JsonResponse($content);
+        return $this->getApiResponse([
+            'resource-flags' => $rdc->getFlags()
+        ]);
     }
 
     /**

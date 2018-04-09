@@ -17,7 +17,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  * @Route("/api/user/{user_id}/todo", requirements={"user_id": "\d+"})
  * @ParamConverter("user", class="Vitoop\InfomgmtBundle\Entity\User", options={"id" = "user_id"})
  */
-class ToDoController extends Controller
+class ToDoController extends ApiController
 {
     /**
      * @Route("/{id}", requirements={"id": "\d+"}, name="to_do_items_delete")
@@ -28,17 +28,15 @@ class ToDoController extends Controller
      */
     public function deleteAction(User $user, ToDoItem $item, Request $request)
     {
-        if ($this->getUser()->getId() == $user->getId()) {
-            $serializer = $this->get('jms_serializer');
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($item);
-            $em->flush();
-            $response = $serializer->serialize(array('success' => 'success'), 'json');
-        } else {
+        if ($this->getUser()->getId() !== $user->getId()) {
             throw new AccessDeniedHttpException;
         }
 
-        return new Response($response);
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($item);
+        $em->flush();
+
+        return $this->getApiResponse(['success' => 'success']);
     }
 
     /**
@@ -49,24 +47,23 @@ class ToDoController extends Controller
      */
     public function editAction(User $user, Request $request)
     {
-        if ($this->getUser()->getId() == $user->getId()) {
-            $serializer = $this->get('jms_serializer');
-            $serializerContext = DeserializationContext::create()
-                ->setGroups(array('edit'));
-            $item = $serializer->deserialize(
-                $request->getContent(),
-                'Vitoop\InfomgmtBundle\Entity\ToDoItem',
-                'json',
-                $serializerContext
-            );
-            $item->setUser($user);
-            $em = $this->getDoctrine()->getManager();
-            $em->merge($item);
-            $em->flush();
-            $response = $serializer->serialize(array('success' => 'success'), 'json');
-        } else {
+        if ($this->getUser()->getId() !== $user->getId()) {
             throw new AccessDeniedHttpException;
         }
+        $serializer = $this->get('jms_serializer');
+        $serializerContext = DeserializationContext::create()
+            ->setGroups(array('edit'));
+        $item = $serializer->deserialize(
+            $request->getContent(),
+            'Vitoop\InfomgmtBundle\Entity\ToDoItem',
+            'json',
+            $serializerContext
+        );
+        $item->setUser($user);
+        $em = $this->getDoctrine()->getManager();
+        $em->merge($item);
+        $em->flush();
+        $response = $serializer->serialize(array('success' => 'success'), 'json');
 
         return new Response($response);
     }
@@ -79,27 +76,27 @@ class ToDoController extends Controller
      */
     public function newAction(User $user, Request $request)
     {
-        if ($this->getUser()->getId() == $user->getId()) {
-            $serializer = $this->get('jms_serializer');
-            $serializerContext = DeserializationContext::create()
-                ->setGroups(array('new'));
-            $item = $serializer->deserialize(
-                $request->getContent(),
-                'Vitoop\InfomgmtBundle\Entity\ToDoItem',
-                'json',
-                $serializerContext
-            );
-            if (is_null($item->getOrder())) {
-                $item->setOrder(0);
-            }
-            $item->setUser($user);
-            $em = $this->getDoctrine()->getManager();
-            $item = $em->merge($item);
-            $em->flush();
-            $response = $serializer->serialize(array('success' => 'success', 'id' => $item->getId()), 'json');
-        } else {
+        if ($this->getUser()->getId() !== $user->getId()) {
             throw new AccessDeniedHttpException;
         }
+
+        $serializer = $this->get('jms_serializer');
+        $serializerContext = DeserializationContext::create()
+            ->setGroups(array('new'));
+        $item = $serializer->deserialize(
+            $request->getContent(),
+            'Vitoop\InfomgmtBundle\Entity\ToDoItem',
+            'json',
+            $serializerContext
+        );
+        if (is_null($item->getOrder())) {
+            $item->setOrder(0);
+        }
+        $item->setUser($user);
+        $em = $this->getDoctrine()->getManager();
+        $item = $em->merge($item);
+        $em->flush();
+        $response = $serializer->serialize(array('success' => 'success', 'id' => $item->getId()), 'json');
 
         return new Response($response);
     }
@@ -112,18 +109,17 @@ class ToDoController extends Controller
      */
     public function listAction(User $user)
     {
-        if ($this->getUser()->getId() == $user->getId()) {
-            $serializer = $this->get('jms_serializer');
-            $serializerContext = SerializationContext::create()
-                ->setGroups(array('list'));
-            $response = $serializer->serialize(
-                $user->getToDoItems(),
-                'json',
-                $serializerContext
-            );
-        } else {
+        if ($this->getUser()->getId() !== $user->getId()) {
             throw new AccessDeniedHttpException;
         }
+        $serializer = $this->get('jms_serializer');
+        $serializerContext = SerializationContext::create()
+            ->setGroups(array('list'));
+        $response = $serializer->serialize(
+            $user->getToDoItems(),
+            'json',
+            $serializerContext
+        );
 
         return new Response($response);
     }

@@ -2,7 +2,7 @@
 
 namespace Vitoop\InfomgmtBundle\Service;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Knp\Snappy\Pdf;
 use Vitoop\InfomgmtBundle\Entity\Downloadable\DownloadableInterface;
@@ -19,7 +19,7 @@ class DownloadsService
     const ERROR_FOLDER_SIZE = 3000;
 
     public function __construct(
-        EntityManager $entityManager,
+        EntityManagerInterface $entityManager,
         SettingsService $settingsService,
         Pdf $pdfGenerator,
         $downloadFolder

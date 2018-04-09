@@ -1,326 +1,111 @@
 parameters:
-    vitoop.lexicon_query_manager.class:         Vitoop\InfomgmtBundle\Service\LexiconQueryManager
-    vitoop.resource_data_collector.class:       Vitoop\InfomgmtBundle\Service\ResourceDataCollector
-    vitoop.vitoop_security.class:               Vitoop\InfomgmtBundle\Service\VitoopSecurity
-    vitoop.options_repository.class:            Vitoop\InfomgmtBundle\Repository\OptionRepository
+   container.autowiring.strict_mode: true
 
 services:
-    vitoop.settings:
-        class: Vitoop\InfomgmtBundle\Service\SettingsService
-        arguments: ['@doctrine.orm.entity_manager']
+    _defaults:
+         autowire: true
+         autoconfigure: true
+         public: true
 
-    vitoop.downloads:
-        class: Vitoop\InfomgmtBundle\Service\DownloadsService
+    Vitoop\InfomgmtBundle\Service\:
+         resource: '../../src/Vitoop/InfomgmtBundle/Service/*'
+
+    Vitoop\InfomgmtBundle\Controller\:
+         resource: '../../src/Vitoop/InfomgmtBundle/Controller'
+         tags: ['controller.service_arguments']
+
+    Vitoop\InfomgmtBundle\Command\:
+         resource: '../../src/Vitoop/InfomgmtBundle/Command/*'
+
+    Vitoop\InfomgmtBundle\Service\DownloadsService:
         arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@vitoop.settings'
-            - '@knp_snappy.pdf'
-            - '%download_folder%'
+            $downloadFolder: '%download_folder%'
 
-
-    vitoop.file_downloader:
-        class: Vitoop\InfomgmtBundle\Service\FileDownloader
+    Vitoop\InfomgmtBundle\Service\FileDownloader:
         arguments:
-          - '%download_folder%'
-
-    vitoop.resource_manager:
-        class: Vitoop\InfomgmtBundle\Service\ResourceManager
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@vitoop.vitoop_security'
-            - '@vitoop.resource_tag.linker'
-            - '@vitoop.rel_resource.linker'
-      
-    vitoop.lexicon_query_manager:
-        class:          '%vitoop.lexicon_query_manager.class%'
-        arguments:      ['@buzz.browser']
-
-    vitoop.resource_data_collector:
-        class:          '%vitoop.resource_data_collector.class%'
-        arguments:      ['@vitoop.resource_manager', '@vitoop.vitoop_security', '@vitoop.lexicon_query_manager', '@form.factory', '@twig', '@router', '@vitoop.form_creator']
-
-    vitoop.form_creator:
-        class: Vitoop\InfomgmtBundle\Service\FormCreator
-        arguments:
-            - '@form.factory'
-            - '@vitoop.resource_tag.linker'
-            - '@vitoop.rel_resource.linker'
-
-    vitoop.vitoop_security:
-        class:          '%vitoop.vitoop_security.class%'
-        arguments:      ['@security.token_storage','@security.authorization_checker']
-
-    vitoop.user_config_manager:
-        class: Vitoop\InfomgmtBundle\Service\UserConfigManager
-        arguments:
-          - '@vitoop.repository.user_config'
-          - '@security.token_storage'
-
-    vitoop.url_getter:
-        class: Vitoop\InfomgmtBundle\Service\UrlGetter
-
+            $downloadFolder: '%download_folder%'
 
     #KernelListeners
-    kernel.listener.resource_data_collector_initializer_listener:
-        class:          Vitoop\InfomgmtBundle\EventListener\ResourceDataCollectorInitializerListener
-        arguments:      ['@vitoop.resource_data_collector', '@vitoop.resource_manager']
+    Vitoop\InfomgmtBundle\EventListener\ResourceDataCollectorInitializerListener:
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
 
-    kernel.listener.login_listener:
-        class:          Vitoop\InfomgmtBundle\EventListener\LoginListener
-        arguments:      ['@vitoop.user_config_manager', '@doctrine.orm.entity_manager', '@event_dispatcher']
+    Vitoop\InfomgmtBundle\EventListener\LoginListener:
         tags:
             - { name: kernel.event_listener, event: security.interactive_login, method: onInteractiveLogin }
 
-   #All Resource subtypes have are registered as a Service so you can use their shortcut/alias instead of Classname
-    vitoop.form.type.res:
-        class: Vitoop\InfomgmtBundle\Form\Type\ResourceType
-        tags:
-            - { name: form.type, alias: res }
 
-    vitoop.form.type.pdf:
-        class: Vitoop\InfomgmtBundle\Form\Type\PdfType
-        tags:
-            - { name: form.type, alias: pdf }
-
-    vitoop.form.type.book:
-        class: Vitoop\InfomgmtBundle\Form\Type\BookType
-        tags:
-            - { name: form.type, alias: book }
-
-    vitoop.form.type.adr:
-        class: Vitoop\InfomgmtBundle\Form\Type\AddressType
-        tags:
-            - { name: form.type, alias: adr }
-
-    vitoop.form.type.link:
-        class: Vitoop\InfomgmtBundle\Form\Type\LinkType
-        tags:
-            - { name: form.type, alias: link }
-
-    vitoop.form.type.teli:
-        class: Vitoop\InfomgmtBundle\Form\Type\TeliType
-        tags:
-            - { name: form.type, alias: teli }
-
-    vitoop.form.type.lex:
-        class: Vitoop\InfomgmtBundle\Form\Type\LexiconType
-        tags:
-            - { name: form.type, alias: lex }
-
-    vitoop.form.type.prj:
-        class: Vitoop\InfomgmtBundle\Form\Type\ProjectType
-        tags:
-            - { name: form.type, alias: prj }
-
-
-    #Other FormTypes
-
-    vitoop.form.type.rating:
-        class: Vitoop\InfomgmtBundle\Form\Type\RatingType
-        tags:
-            - { name: form.type, alias: rating }
-
-    vitoop.form.type.tag:
-        class: Vitoop\InfomgmtBundle\Form\Type\TagType
-        tags:
-            - { name: form.type, alias: tag }
-
-    vitoop.form.type.remark:
-        class: Vitoop\InfomgmtBundle\Form\Type\RemarkType
-        tags:
-            - { name: form.type, alias: remark }
-
-    vitoop.form.type.remark_private:
-        class: Vitoop\InfomgmtBundle\Form\Type\RemarkPrivateType
-        tags:
-            - { name: form.type, alias: remark_private }
-
-    vitoop.form.type.comment:
-        class: Vitoop\InfomgmtBundle\Form\Type\CommentType
-        tags:
-            - { name: form.type, alias: comment }
-
-    vitoop.form.type.lexicon.name:
-        class: Vitoop\InfomgmtBundle\Form\Type\LexiconNameType
-        tags:
-            - { name: form.type, alias: lexicon_name }
-
-    vitoop.form.type.project:
-        class: Vitoop\InfomgmtBundle\Form\Type\ProjectType
-        tags:
-            - { name: form.type, alias: project }
-
-    vitoop.form.type.project.name:
-        class: Vitoop\InfomgmtBundle\Form\Type\ProjectNameType
-        tags:
-            - { name: form.type, alias: project_name }
-
-    vitoop.form.type.flag:
-        class: Vitoop\InfomgmtBundle\Form\Type\FlagType
-        tags:
-            - { name: form.type, alias: flag }
-
-    vitoop.form.type.flaginfo:
-        class: Vitoop\InfomgmtBundle\Form\Type\FlagInfoType
-        tags:
-            - { name: form.type, alias: flaginfo }
-
-    vitoop.form.type.invitation:
-        class: Vitoop\InfomgmtBundle\Form\Type\InvitationType
-        tags:
-            - { name: form.type, alias: invitation }
-
-    vitoop.form.type.invitation_new:
-        class: Vitoop\InfomgmtBundle\Form\Type\InvitationNewType
-        tags:
-            - { name: form.type, alias: invitation_new }
-
-    vitoop.form.type.project_data:
-        class: Vitoop\InfomgmtBundle\Form\Type\ProjectDataType
-        tags:
-            - { name: form.type, alias: project_data }
-
-    vitoop.form.type.user_data:
-        class: Vitoop\InfomgmtBundle\Form\Type\UserDataType
-        tags:
-            - { name: form.type, alias: user_data }
-
-    vitoop.form.type.vitoop_blog:
-        class: Vitoop\InfomgmtBundle\Form\Type\VitoopBlogType
-        tags:
-            - { name: form.type, alias: vitoop_blog }
-
-    vitoop.form.type.input_type_submit:
-        class: Vitoop\InfomgmtBundle\Form\Type\InputTypeSubmitType
-        tags:
-            - { name: form.type, alias: input_type_submit }
-
-    vitoop.form.type_extension.security_aware_extension:
-        class: Vitoop\InfomgmtBundle\Form\Extension\SecurityAwareTypeExtension
-        arguments:     ['@vitoop.vitoop_security']
+    Vitoop\InfomgmtBundle\Form\Extension\SecurityAwareTypeExtension:
         tags:
             - { name: form.type_extension, extended_type:  Symfony\Component\Form\Extension\Core\Type\FormType }
 
     # Some useful Twig Filter, Function
-    vitoop.twig.extension.vitoop_extension:
-        class:   Vitoop\InfomgmtBundle\Twig\Extension\VitoopExtension
+    Vitoop\InfomgmtBundle\Twig\Extension\VitoopExtension:
         tags:
             - {name: twig.extension}
 
     # cURL client for Buzz
-    buzz.client.curl:
-        class:  Buzz\Client\Curl
+    Buzz\Client\Curl:
         public: false
         calls:
             - [setVerifyPeer, [false]]
    
     # Buzz browser
-    buzz.browser:
-        class:     Buzz\Browser
-        arguments: ['@buzz.client.curl']
+    Buzz\Browser: ~
 
-    vitoop.url_checker:
-        class: Vitoop\InfomgmtBundle\Service\UrlChecker
-    
-    vitoop.email_sender:
-        class: Vitoop\InfomgmtBundle\Service\EmailSender
-        arguments: ["@mailer", "@templating"]
-
-    vitoop.repository.user:
-        class: Vitoop\InfomgmtBundle\Repository\UserRepository
-        factory: ["@doctrine.orm.entity_manager", getRepository]
+    # Repositories
+    Vitoop\InfomgmtBundle\Repository\UserRepository:
+        factory: ['@doctrine.orm.entity_manager', getRepository]
         arguments:
             - Vitoop\InfomgmtBundle\Entity\User
 
-    vitoop.repository.user_config:
-            class: Vitoop\InfomgmtBundle\Repository\UserConfigRepository
-            factory: ["@doctrine.orm.entity_manager", getRepository]
-            arguments:
-                - Vitoop\InfomgmtBundle\Entity\UserConfig
+    Vitoop\InfomgmtBundle\Repository\UserConfigRepository:
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - Vitoop\InfomgmtBundle\Entity\UserConfig
 
-    vitoop.repository.invitation:
-        class: Vitoop\InfomgmtBundle\Repository\InvitationRepository
-        arguments: ["@doctrine.orm.entity_manager"]
+    Vitoop\InfomgmtBundle\Repository\InvitationRepository: ~
 
-    vitoop.repository.resource:
-        class: Vitoop\InfomgmtBundle\Repository\ResourceRepository
+    Vitoop\InfomgmtBundle\Repository\ResourceRepository:
         factory: ["@doctrine.orm.entity_manager", getRepository]
         arguments:
             - Vitoop\InfomgmtBundle\Entity\Resource
 
-    vitoop.repository.tag:
-        class: Vitoop\InfomgmtBundle\Repository\TagRepository
+    Vitoop\InfomgmtBundle\Repository\TagRepository:
         factory: ["@doctrine.orm.entity_manager", getRepository]
         arguments:
             - Vitoop\InfomgmtBundle\Entity\Tag
 
-    vitoop.repository.rel_resource:
-        class: Vitoop\InfomgmtBundle\Repository\RelResourceResourceRepository
+    Vitoop\InfomgmtBundle\Repository\RelResourceResourceRepository:
         factory: ["@doctrine.orm.entity_manager", getRepository]
         arguments:
             - Vitoop\InfomgmtBundle\Entity\RelResourceResource
 
-    vitoop.repository.rel_tag_resource:
-        class: Vitoop\InfomgmtBundle\Repository\RelResourceTagRepository
+    Vitoop\InfomgmtBundle\Repository\RelResourceTagRepository:
         factory: ["@doctrine.orm.entity_manager", getRepository]
         arguments:
             - Vitoop\InfomgmtBundle\Entity\RelResourceTag
 
-    vitoop.repository.lexicon:
-        class: Vitoop\InfomgmtBundle\Repository\LexiconRepository
+    Vitoop\InfomgmtBundle\Repository\LexiconRepository:
         factory: ["@doctrine.orm.entity_manager", getRepository]
         arguments:
             - Vitoop\InfomgmtBundle\Entity\Lexicon
 
-    vitoop.repository.pdf_annotation:
-        class: Vitoop\InfomgmtBundle\Repository\PdfAnnotationRepository
+    Vitoop\InfomgmtBundle\Repository\PdfAnnotationRepository:
         factory: ["@doctrine.orm.entity_manager", getRepository]
         arguments:
             - Vitoop\InfomgmtBundle\Entity\PdfAnnotation
 
-    vitoop.validator.user_unique:
-        class: Vitoop\InfomgmtBundle\Validator\Constraints\User\UserUniqueValidator
-        arguments: ["@vitoop.repository.user"]
+    Vitoop\InfomgmtBundle\Validator\Constraints\User\UserUniqueValidator:
         tags:
             - { name: validator.constraint_validator }
 
-    vitoop.validator.username:
-        class: Vitoop\InfomgmtBundle\Validator\Constraints\User\UsernameValidator
-        arguments: ["@vitoop.repository.user", "@vitoop.vitoop_security"]
+    Vitoop\InfomgmtBundle\Validator\Constraints\User\UsernameValidator:
         tags:
             - { name: validator.constraint_validator }
 
-    vitoop.validator.user_email:
-        class: Vitoop\InfomgmtBundle\Validator\Constraints\User\UserEmailValidator
-        arguments: ["@vitoop.repository.user", "@vitoop.vitoop_security"]
+    Vitoop\InfomgmtBundle\Validator\Constraints\User\UserEmailValidator:
         tags:
             - { name: validator.constraint_validator }
-
-    vitoop.password_encoder.user:
-        class: Vitoop\InfomgmtBundle\Service\User\UserPasswordEncoder
-        arguments: ["@security.encoder_factory"]
  
-    vitoop.generator.common_token:
-        class: Vitoop\InfomgmtBundle\Utils\Token\CommonGeneratorStrategy
-
-    vitoop.tag.factory:
-        class: Vitoop\InfomgmtBundle\Service\Tag\TagCreator
-        arguments:
-            - "@vitoop.repository.tag"
-
-    vitoop.resource_tag.linker:
-        class: Vitoop\InfomgmtBundle\Service\Tag\ResourceTagLinker
-        arguments:
-            - '@vitoop.repository.rel_tag_resource'
-            - '@vitoop.tag.factory'
-            - '@vitoop.vitoop_security'
-
-    vitoop.rel_resource.linker:
-        class: Vitoop\InfomgmtBundle\Service\RelResource\RelResourceLinker
-        arguments:
-            - '@vitoop.repository.rel_resource'
-            - '@vitoop.repository.lexicon'
-            - '@vitoop.resource_tag.linker'
-            - '@vitoop.vitoop_security'
+    Vitoop\InfomgmtBundle\Utils\Token\CommonGeneratorStrategy: ~

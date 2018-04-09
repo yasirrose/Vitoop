@@ -10,6 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Vitoop\InfomgmtBundle\Entity\Pdf;
 use Vitoop\InfomgmtBundle\Entity\PdfAnnotation;
+use Vitoop\InfomgmtBundle\Repository\PdfAnnotationRepository;
+use Vitoop\InfomgmtBundle\Service\ResourceDataCollector;
+use Vitoop\InfomgmtBundle\Service\VitoopSecurity;
 
 /**
  * @Route("views/")
@@ -19,9 +22,8 @@ class PdfViewerController extends ApiController
     /**
      * @Route("{id}")
      */
-    public function viewerAction(Pdf $pdf)
+    public function viewerAction(ResourceDataCollector $dataCollector, Pdf $pdf)
     {
-        $dataCollector = $this->get('vitoop.resource_data_collector');
         $dataCollector->init($pdf);
         $pdfParams = [
             'resource' => $pdf,
@@ -39,15 +41,14 @@ class PdfViewerController extends ApiController
     /**
      * @Route("{id}/annotations", methods={"GET"})
      */
-    public function annotationsAction(Pdf $pdf)
-    {
+    public function annotationsAction(
+        PdfAnnotationRepository $annotationRepository,
+        VitoopSecurity $vitoopSecurity,
+        Pdf $pdf
+    ) {
         try {
             return $this->getApiResponse(
-                $this->get('vitoop.repository.pdf_annotation')->getAnnotationsByPdfAndUser(
-                    $pdf,
-                    $this->get("vitoop.vitoop_security")->getUser(),
-                    true
-                )
+                $annotationRepository->getAnnotationsByPdfAndUser($pdf, $vitoopSecurity->getUser(), true)
             );
         } catch (ORMException $exception) {
             return $this->getApiResponse([]);
@@ -57,17 +58,21 @@ class PdfViewerController extends ApiController
     /**
      * @Route("{id}/annotations", methods={"POST"})
      */
-    public function saveAnnotationAction(Pdf $pdf, Request $request)
-    {
+    public function saveAnnotationAction(
+        PdfAnnotationRepository $annotationRepository,
+        VitoopSecurity $vitoopSecurity,
+        Pdf $pdf,
+        Request $request
+    ) {
         $annotationData = $this->getDTOFromRequest($request) ?? [];
-        $user = $this->get("vitoop.vitoop_security")->getUser();
+        $user = $vitoopSecurity->getUser();
 
-        $annotation = $this->get('vitoop.repository.pdf_annotation')->findOneByPdfAndUser($pdf, $user);
+        $annotation = $annotationRepository->findOneByPdfAndUser($pdf, $user);
         if (!$annotation) {
             $annotation = new PdfAnnotation($pdf, $user, []);
         }
         $annotation->updateAnnotation($annotationData);
-        $this->get('vitoop.repository.pdf_annotation')->add($annotation);
+        $annotationRepository->add($annotation);
         $this->getDoctrine()->getManager()->flush();
 
         return $this->getApiResponse($annotation->getAnnotations());

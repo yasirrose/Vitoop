@@ -2,7 +2,9 @@
 
 namespace Vitoop\InfomgmtBundle\Command;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -12,8 +14,31 @@ use Vitoop\InfomgmtBundle\Entity\Teli;
 use Vitoop\InfomgmtBundle\Entity\Link;
 use Vitoop\InfomgmtBundle\Service\UrlChecker;
 
-class UrlCheckCommand extends ContainerAwareCommand
+class UrlCheckCommand extends Command
 {
+    /**
+     * @var UrlChecker
+     */
+    private $urlChecker;
+
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+
+    /**
+     * UrlCheckCommand constructor.
+     * @param UrlChecker $urlChecker
+     * @param EntityManagerInterface $entityManager
+     */
+    public function __construct(UrlChecker $urlChecker, EntityManagerInterface $entityManager)
+    {
+        $this->urlChecker = $urlChecker;
+        $this->entityManager = $entityManager;
+
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this
@@ -24,24 +49,21 @@ class UrlCheckCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /* @var $urlChecker UrlChecker */
-        $urlChecker = $this->getContainer()->get('vitoop.url_checker');
-
         $linkClasses = [Pdf::class, Teli::class, Link::class];
 
         foreach ($linkClasses as $class) {
-            $resourcesForCheck = $this->getContainer()->get('doctrine.orm.entity_manager')
+            $resourcesForCheck = $this->entityManager
                 ->getRepository($class)
                 ->findResourcesForCheckUrl();
 
             foreach ($resourcesForCheck as $resource) {
                 $resource->updateLastCheck();
-                if (!$urlChecker->isAvailableUrl($resource->getUrl())) {
+                if (!$this->urlChecker->isAvailableUrl($resource->getUrl())) {
                     $resource->blame('URL not exist anymore');
                 }
             }
 
-            $this->getContainer()->get('doctrine.orm.entity_manager')->flush();
+            $this->entityManager->flush();
         }
     }
 }

@@ -2,14 +2,30 @@
 
 namespace Vitoop\InfomgmtBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Vitoop\InfomgmtBundle\Service\DownloadsService;
 
-class DownloadPdfCommand extends ContainerAwareCommand
+class DownloadPdfCommand extends Command
 {
+    /**
+     * @var DownloadsService
+     */
+    private $downloadService;
+
+    /**
+     * DownloadPdfCommand constructor.
+     * @param DownloadsService $downloadService
+     */
+    public function __construct(DownloadsService $downloadService)
+    {
+        $this->downloadService = $downloadService;
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this
@@ -31,8 +47,6 @@ class DownloadPdfCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $downloadService = $this->getContainer()->get('vitoop.downloads');
-
         $count = 10;
         $missing = false;
 
@@ -45,7 +59,7 @@ class DownloadPdfCommand extends ContainerAwareCommand
         if ($input->getOption('missing')) {
             $missing = true;
         }
-        $downloadService->downloadPDF($count, $missing, $output);
-        $downloadService->downloadHtml($count, $missing, $output);
+        $this->downloadService->downloadPDF($count, $missing, $output);
+        $this->downloadService->downloadHtml($count, $missing, $output);
     }
 }

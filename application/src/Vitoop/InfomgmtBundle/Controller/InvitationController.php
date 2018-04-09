@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Vitoop\InfomgmtBundle\Entity\Invitation;
 use Vitoop\InfomgmtBundle\Form\Type\InvitationNewType;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Vitoop\InfomgmtBundle\Service\SettingsService;
 
 /**
  * @Route("/invitation")
@@ -22,9 +23,9 @@ class InvitationController extends ApiController
      *
      * @return array
      */
-    public function onAction()
+    public function onAction(SettingsService $settings)
     {
-        $invitation = $this->get('vitoop.settings')->toggleInvitation();
+        $invitation = $settings->toggleInvitation();
         $serializer = $this->get('jms_serializer');
         $serializerContext = SerializationContext::create();
         $response = $serializer->serialize(array('success' => true, 'invitation' => $invitation), 'json', $serializerContext);
@@ -39,9 +40,9 @@ class InvitationController extends ApiController
      *
      * @return array
      */
-    public function newAction(Request $request)
+    public function newAction(SettingsService $settings, Request $request)
     {
-        if ($this->get('vitoop.settings')->getInvitation()->getValue() == false) {
+        if ($settings->getInvitation()->getValue() == false) {
             return $this->redirect($this->generateUrl('_base_url'));
         }
         $link = '';

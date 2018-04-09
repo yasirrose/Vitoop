@@ -8,7 +8,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Vitoop\InfomgmtBundle\Entity\Invitation;
 use Vitoop\InfomgmtBundle\Entity\Project;
 use Vitoop\InfomgmtBundle\Entity\User;
@@ -22,6 +24,8 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Vitoop\InfomgmtBundle\Service\SettingsService;
+use Vitoop\InfomgmtBundle\Service\VitoopSecurity;
 
 class UserController extends ApiController
 {
@@ -32,15 +36,15 @@ class UserController extends ApiController
      *
      * @return array
      */
-    public function deleteUserAction(User $user)
+    public function deleteUserAction(VitoopSecurity $vitoopSecurity, TokenStorageInterface $tokenStorage, User $user)
     {
-        if (!$this->get('vitoop.vitoop_security')->isEqualToCurrentUser($user)) {
+        if (!$vitoopSecurity->isEqualToCurrentUser($user)) {
             throw new AccessDeniedHttpException;
         }
         $user->deactivate();
         $this->getDoctrine()->getManager()->flush();
 
-        $this->get('security.token_storage')->setToken(null);
+        $tokenStorage->setToken(null);
 
         return $this->getApiResponse([
             'success' => true,
@@ -71,9 +75,9 @@ class UserController extends ApiController
      *
      * @return array
      */
-    public function getUserAgreement(Request $request)
+    public function getUserAgreement(VitoopSecurity $vitoopSecurity, SettingsService $settings, Request $request)
     {
-        $user = $this->get('vitoop.vitoop_security')->getUser();
+        $user = $vitoopSecurity->getUser();
         if ($user && ($request->getMethod() === 'POST')) {
             $em = $this->getDoctrine()->getManager();
             $user->setIsAgreedWithTerms((bool) $request->get('user_agreed'));
@@ -85,7 +89,7 @@ class UserController extends ApiController
 
             return $this->redirect($this->generateUrl('_resource_list', array('res_type'=>'link')));
         }
-        $terms = $this->get('vitoop.settings')->getTerms()->getValue();
+        $terms = $settings->getTerms()->getValue();
 
         return array('terms' => $terms, 'without_js' => true);
     }
@@ -95,10 +99,10 @@ class UserController extends ApiController
      * @Method({"GET"})
      * @Template("VitoopInfomgmtBundle:User:datap.html.twig")
      */
-    public function dataPAction()
+    public function dataPAction(SettingsService $settings)
     {
         return array(
-            'datap' => $this->get('vitoop.settings')->getDataP()->getValue(),
+            'datap' => $settings->getDataP()->getValue(),
             'without_js' => true
         );
     }
@@ -242,10 +246,8 @@ EOT;
      * @Route("/login", name="_login")
      * @Template()
      */
-    public function loginAction(Request $request)
+    public function loginAction(AuthenticationUtils $authenticationUtils, Request $request)
     {
-        $authenticationUtils = $this->get('security.authentication_utils');
-
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
 

@@ -12,6 +12,7 @@ use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
 use Vitoop\InfomgmtBundle\DTO\Resource\SearchColumns;
 use Vitoop\InfomgmtBundle\DTO\Paging;
+use Vitoop\InfomgmtBundle\Service\ResourceManager;
 
 /**
  * @Route("api/")
@@ -24,7 +25,7 @@ class ResourceApiController extends ApiController
      *
      * @return array
      */
-    public function listAction($resType, Request $request)
+    public function listAction(ResourceManager $resourceManager, $resType, Request $request)
     {
        $search = new SearchResource(
             new Paging(
@@ -50,12 +51,8 @@ class ResourceApiController extends ApiController
             $request->query->get('dateTo', null)
         );
 
-        $resources = $this->get('vitoop.resource_manager')
-            ->getRepository($resType)
-            ->getResources($search);
-        $total = $this->get('vitoop.resource_manager')
-            ->getRepository($resType)
-            ->getResourcesTotal($search);
+        $resources = $resourceManager->getRepository($resType)->getResources($search);
+        $total = $resourceManager->getRepository($resType)->getResourcesTotal($search);
         
         if ($resType == 'prj') {
             $repo = $this->getDoctrine()->getRepository('VitoopInfomgmtBundle:Project');

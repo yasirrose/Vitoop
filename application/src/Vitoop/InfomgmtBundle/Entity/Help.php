@@ -4,6 +4,7 @@ namespace Vitoop\InfomgmtBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Vitoop\InfomgmtBundle\DTO\GetDTOInterface;
 
 /**
  * Help
@@ -11,7 +12,7 @@ use JMS\Serializer\Annotation as Serializer;
  * @ORM\Table(name="help")
  * @ORM\Entity(repositoryClass="Vitoop\InfomgmtBundle\Repository\HelpRepository")
  */
-class Help
+class Help implements GetDTOInterface
 {
     /**
      * @var integer
@@ -67,11 +68,11 @@ class Help
         return $this->text;
     }
 
-    public function toDTO()
+    public function getDTO()
     {
-        return array(
+        return [
             'id' => $this->id,
             'text' => $this->text
-        );
+        ];
     }
 }
