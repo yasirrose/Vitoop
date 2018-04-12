@@ -18,8 +18,9 @@ IsReadFilter.prototype.setFilterValue = function (value) {
     this.storage.setItem(this.searchReadStorageKey, value);
 };
 
-IsReadFilter.prototype.clear = function () {
+IsReadFilter.prototype.clear = function (button) {
     this.storage.setItem(this.searchReadStorageKey, 0);
+    this.buttonBehavior.makeAsUnread(button);
 };
 
 IsReadFilter.prototype.toggleButton = function (button) {

@@ -652,7 +652,7 @@ class ResourceController extends ApiController
      * @Method("POST")
      * @Route("/{resType}/{resId}/user-hooks", name="_xhr_resource_user_hook", requirements={"resId": "\d+", "resType": "pdf|adr|link|teli|lex|prj|book"})
      */
-    public function userHookAction(Request $request, $resType, $resId)
+    public function userHookAction(string $resType, int $resId, Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $resource = $entityManager->getRepository(
@@ -676,7 +676,7 @@ class ResourceController extends ApiController
 
     /**
      * @Method("POST")
-     * @Route("/{resType}/{resId}/user-reads", name="_xhr_resource_user_hook", requirements={"resId": "\d+", "resType": "pdf|adr|link|teli|lex|prj|book"})
+     * @Route("/{resType}/{resId}/user-reads", name="_xhr_resource_user_read", requirements={"resId": "\d+", "resType": "pdf|adr|link|teli|lex|prj|book"})
      */
     public function userReadsAction(Request $request, $resType, $resId)
     {

@@ -262,6 +262,7 @@
             $("#search_blue").removeProp('checked');
             localStorage.setItem('dt-search', '');
             isBlueFilter.clear();
+            isReadFilter.clear($('#is-read-filter'));
             searchToggler.checkButtonState();
             dateRange.clearWithDOM();
             datatable.search('').draw();
