@@ -5,7 +5,7 @@ ReadableButtonBehavior.prototype.constructor = ReadableButtonBehavior;
 ReadableButtonBehavior.prototype.makeAsRead = function (buttonElement) {
     buttonElement.removeClass('ui-state-default');
     buttonElement.addClass('ui-state-active');
-    this.setButtonLabel(buttonElement, 'gelesen :-)');
+    this.setButtonLabel(buttonElement, "gelesen :-)");
 };
 
 ReadableButtonBehavior.prototype.makeAsUnread = function (buttonElement) {
@@ -15,7 +15,6 @@ ReadableButtonBehavior.prototype.makeAsUnread = function (buttonElement) {
 };
 
 ReadableButtonBehavior.prototype.checkButtonState = function (buttonElement) {
-    console.log(buttonElement);
     if (buttonElement.hasClass('ui-state-active')) {
         this.makeAsUnread(buttonElement);
         return 0;

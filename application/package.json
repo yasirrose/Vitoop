@@ -27,6 +27,7 @@
     "pdf-annotate": "^0.0.0",
     "pdfjs-dist": "^2.0.207",
     "twitter-text": "^2.0.1",
+    "uglify-js": "^3.3.21",
     "uuid": "^3.1.0",
     "webpack": "^3.9.1",
     "webpack-stream": "^4.0.0"

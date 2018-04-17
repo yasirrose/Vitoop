@@ -43,7 +43,6 @@ gulp.task('js', ['angular-js', 'lexicon-js', 'tinymce-js', 'datatables-js'], fun
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/*.js'])
         .pipe(sourcemaps.init())
         .pipe(concat('vitoop.js'))
-        .pipe(gulpif(env === 'prod', uglify()))
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('web/js'));
 });
