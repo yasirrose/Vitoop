@@ -6,6 +6,9 @@ var uglifycss = require('gulp-uglifycss');
 var concat = require('gulp-concat');
 var sourcemaps = require('gulp-sourcemaps');
 var webpack = require('webpack-stream');
+var ProvidePlugin = require('webpack-stream').webpack.ProvidePlugin;
+var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+var path = require('path');
 var env = process.env.GULP_ENV;
 
 gulp.task('angular-js', function () {
@@ -36,8 +39,61 @@ gulp.task('datatables-js', function () {
         .pipe(gulp.dest('web/js/datatables'));
 });
 
+gulp.task('jquery-js', function () {
+   return gulp.src([
+       'src/Vitoop/InfomgmtBundle/Resources/public/js/jquery/jquery.loader.js',
+       ])
+       .pipe(webpack({
+            output: {
+                publicPath: "/js/",
+                filename: 'vitoop-jquery.js'
+            },
+            resolve: {
+                modules: [
+                    path.resolve('./'),
+                    path.resolve('./node_modules'),
+                ],
+            },
+            module: {
+                loaders: [
+                    /*{
+                        test: require.resolve('angular'),
+                        loader: "exports-loader?window.angular"
+                    },*/
+                    {
+                        test: require.resolve('jquery'),
+                        loader: 'imports-loader?$=jquery'
+                    },
+                    {   test: /jquery-mousewheel/, loader: "imports-loader?define=>false&this=>window" },
+                    {   test: /malihu-custom-scrollbar-plugin/, loader: "imports-loader?define=>false&this=>window" },
+                    {   test: /jquery.ba-bbq/, loader: "imports-loader?jQuery=jquery!./jquery/jquery.ba-bbq.js"},
+                    {   test: /jquery.scrolltable/, loader: "imports-loader?jQuery=jquery!./jquery/jquery.scrolltable.js"},
+                    {
+                        test: /\.js$/,
+                        exclude: /node_modules/,
+                        loader: 'babel-loader',
+                    }
+                ]
+            },
+            plugins: [
+                //new UglifyJsPlugin(),
+                new ProvidePlugin({
+                    $: 'jquery',
+                    jQuery: 'jquery',
+                    'window.jQuery': 'jquery',
+                    'window.$': 'jquery',
+                    /*angular: 'angular',
+                    DataTable: 'datatables.net'*/
+                }),
+            ],
+            devtool: 'source-map'
+       }))
+    .pipe(gulp.dest('web/js'));
+});
+
 gulp.task('js', ['angular-js', 'lexicon-js', 'tinymce-js', 'datatables-js'], function () {
-    return gulp.src(['src/Vitoop/InfomgmtBundle/Resources/public/js/jquery/*.js',
+    return gulp.src([
+        'src/Vitoop/InfomgmtBundle/Resources/public/js/jquery/*.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/components/*.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/widgets/*.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/*.js'])

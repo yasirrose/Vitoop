@@ -4,11 +4,7 @@
   "description": "",
   "main": "index.php",
   "dependencies": {
-    "babel-core": "^6.0.0",
-    "babel-plugin-transform-es2015-arrow-functions": "^6.22.0",
-    "babel-plugin-transform-es2015-block-scoping": "^6.26.0",
-    "babel-plugin-transform-es2015-literals": "^6.22.0",
-    "babel-plugin-transform-es2015-template-literals": "^6.22.0",
+    "babel-core": "^6.26.3",
     "babel-polyfill": "^6.26.0",
     "create-stylesheet": "^0.3.0",
     "dom-resize": "^1.0.3",
@@ -21,21 +17,32 @@
     "gulp-uglify": "^3.0.0",
     "gulp-uglifycss": "^1.0.8",
     "gulp-util": "^3.0.8",
+    "imports-loader": "^0.8.0",
+    "jquery": "^3.3.1",
+    "jquery-form": "^4.2.2",
+    "jquery-mousewheel": "^3.1.13",
+    "jquery-ui": "1.10.4",
     "lodash.clonedeep": "^4.5.0",
+    "malihu-custom-scrollbar-plugin": "^3.1.5",
     "minimatch": "^3.0.4",
+    "moment": "github:moment/moment",
     "object-assign": "^4.1.1",
     "pdf-annotate": "^0.0.0",
     "pdfjs-dist": "^2.0.207",
     "twitter-text": "^2.0.1",
     "uglify-js": "^3.3.21",
+    "uglifyjs-webpack-plugin": "^1.2.5",
     "uuid": "^3.1.0",
-    "webpack": "^3.9.1",
+    "webpack": "^3.12.0",
     "webpack-stream": "^4.0.0"
   },
   "devDependencies": {
+    "@symfony/webpack-encore": "^0.20.1",
     "babel-loader": "^7.1.2",
-    "babel-preset-env": "^1.6.1",
-    "mkdirp": "^0.5.1"
+    "babel-preset-env": "^1.7.0",
+    "expose-loader": "^0.7.5",
+    "mkdirp": "^0.5.1",
+    "webpack-notifier": "^1.6.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
