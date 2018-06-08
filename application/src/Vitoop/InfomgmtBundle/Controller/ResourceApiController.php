@@ -48,7 +48,8 @@ class ResourceApiController extends ApiController
             $request->query->get('isUserRead', null),
             $request->query->get('resourceId', null),
             $request->query->get('dateFrom', null),
-            $request->query->get('dateTo', null)
+            $request->query->get('dateTo', null),
+            $request->query->get('art', null)
         );
 
         $resources = $resourceManager->getRepository($resType)->getResources($search);
@@ -114,11 +115,8 @@ class ResourceApiController extends ApiController
     {
         $dto = $this->getDTOFromRequest($request);
         $findByCriteria = [];
-        if (isset($dto->isbn13) && !empty($dto->isbn13) ) {
-            $findByCriteria['isbn13'] = $dto->isbn13;
-        }
-        if (isset($dto->isbn10) && !empty($dto->isbn10) ) {
-            $findByCriteria['isbn10'] = $dto->isbn10;
+        if (isset($dto->isbn) && !empty($dto->isbn) ) {
+            $findByCriteria['isbn'] = $dto->isbn;
         }
         $result = $this->getDoctrine()
             ->getManager()

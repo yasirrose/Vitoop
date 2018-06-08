@@ -63,6 +63,8 @@ class SearchResource
     public $dateFrom;
     public $dateTo;
 
+    public $art;
+
     public function __construct(
         Paging $paging,
         SearchColumns $columns,
@@ -78,7 +80,8 @@ class SearchResource
         $isUserRead = null,
         $resourceId = null,
         $dateFrom = null,
-        $dateTo = null
+        $dateTo = null,
+        $art = null
     ) {
         $this->user = $user;
         $this->flagged = $flagged;
@@ -97,5 +100,6 @@ class SearchResource
         $this->resourceId = $resourceId;
         $this->dateFrom = $dateFrom;
         $this->dateTo = $dateTo;
+        $this->art = $art;
     }
 }

@@ -26,19 +26,12 @@ Vitoop\InfomgmtBundle\Entity\Book:
             - Length:
                 max: 256
                 maxMessage: "Dieses Feld darf nicht mehr als {{ limit }} Zeichen haben."
-        isbn13:
+        isbn:
             - NotBlank:
                 message: "Bitte gebe einen ISBN-13 ein. Wenn der ISBN-13 unbekannt ist, gebe \"??\" ein."
             - Length:
                 min: 13
                 max: 17
-                maxMessage: "Dieses Feld darf nicht mehr als {{ limit }} Zeichen haben."
-        isbn10:
-            - NotBlank:
-                message: "Bitte gebe einen ISBN-10 ein. Wenn der ISBN-10 unbekannt ist, gebe \"??\" ein."
-            - Length:
-                min: 10
-                max: 13
                 maxMessage: "Dieses Feld darf nicht mehr als {{ limit }} Zeichen haben."
         year:
             - NotBlank:

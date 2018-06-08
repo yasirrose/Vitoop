@@ -17,6 +17,13 @@ class BookRepository extends ResourceRepository
         $qb = $this->createQueryBuilder('r')->select('r.author, r.tnop');
         $this->prepareListQueryBuilder($qb, $search);
 
+        if ($search->art) {
+            $qb
+                ->andWhere('r.kind = :art')
+                ->setParameter('art', $search->art);
+        }
+
+
         return $qb;
     }
 }

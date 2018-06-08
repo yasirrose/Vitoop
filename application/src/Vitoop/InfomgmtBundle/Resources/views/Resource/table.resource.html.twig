@@ -135,16 +135,13 @@
         $.fn.dataTable.moment('DD.MM.YY');
         var dataStorage = new DataStorage();
         var linkStorage = new LinkStorage();
-        var domPrefix = (!searchToggler.getState())?('<"'):('<"ui-helper-hidden ');
         var resType = '{{ restype }}';
         var isAdmin = {% if is_granted('ROLE_ADMIN') %}1{% else %}0{% endif %};
         var isEdit = {% if isEdit is defined and isEdit %}1{% else %}0{% endif %};
         var isCoef = {% if  isCoef is defined and isCoef %}1{% else %}0{% endif %};
-        var dateRange = new DateRangeFilter();
-        var isBlueFilter = new IsBlueFilter();
-        let isReadFilter = new IsReadFilter();
-        domPrefix += dtDomObject();
-        searchToggler.checkButtonState();
+        let secondSearch = new SecondSearch(resType);
+        secondSearch.init();
+        let domPrefix = secondSearch.getDomPrefix() + dtDomObject();
         checkOpenButtonState(resType);
         var datatable = $('table#list-{{ restype }}').DataTable({
             autoWidth: false,
@@ -156,13 +153,7 @@
             ajax: {
                 url: "{{ ajaxUrl |raw }}",
                 data: function (d) {
-                    d.isUserHook = isBlueFilter.getIsBlueValue();
-                    d.isUserRead = isReadFilter.getIsReadValue();
-                    d.resourceId = vitoop.resourceId;
-                    if (resType == 'pdf' || resType == 'teli') {
-                        d.dateFrom = dateRange.getDateFilterFrom();
-                        d.dateTo = dateRange.getDateFilterTo();
-                    }
+                    return secondSearch.buildSearchParameters(d);
                 }
             },
             search: {
@@ -182,15 +173,15 @@
         });
         $("div.top-toolbar").append('<div id="search_blue_box"><input id="search_blue" type="checkbox" value="1" name="search_blue"/></div>');
         $("#search_blue").change(function() {
-            isBlueFilter.setFilterValue(this.checked?1:0);
-            searchToggler.checkButtonState();
+            secondSearch.isBlueFilter.setFilterValue(this.checked?1:0);
+            secondSearch.searchToggler.checkButtonState();
             refreshTable();
         });
 
         //user read filter
-        $('.dataTables_filter input').before(isReadFilter.renderButton());
+        $('.dataTables_filter input').before(secondSearch.isReadFilter.renderButton());
         $('#is-read-filter').on('click', function () {
-            isReadFilter.toggleButton($(this));
+            secondSearch.isReadFilter.toggleButton($(this));
             refreshTable();
         });
 
@@ -203,35 +194,46 @@
                 '</div>'
             );
             $('#vtp_search_date').off().on('click', function () {
-                dateRange.updateRangeFromDOM();
+                secondSearch.dateRange.updateRangeFromDOM();
                 refreshTable();
             });
             $('.range-filter').off()
                 .on('change', function () {
-                    dateRange.updateRangeFromDOM();
+                    secondSearch.dateRange.updateRangeFromDOM();
                 })
                 .on('keyup', function () {
-                    dateRange.checkButtonState();
+                    secondSearch.dateRange.checkButtonState();
                 });
 
-            dateRange.updateDOMFromRange();
+            secondSearch.dateRange.updateDOMFromRange();
+        }
+
+        if (resType == 'book') {
+            document.querySelector('div.top-toolbar').appendChild(secondSearch.artFilter.getDOMElement());
+            $('#'+secondSearch.artFilter.storageKey).selectmenu({
+                width:200,
+                change: function () {
+                    secondSearch.artFilter.loadFromElement();
+                    refreshTable();
+                }
+            });
         }
 
         datatable
             .on('init.dt', function () {
-                if (isBlueFilter.isBlue()) {
+                if (secondSearch.isBlueFilter.isBlue()) {
                     $("#search_blue").prop('checked', true);
                 } else {
                     $("#search_blue").removeProp('checked', false);
                 }
                 datatable.search(getCurrentSearch());
                 datatable.page.len(getPageLength());
-                searchToggler.checkButtonState();
+                secondSearch.searchToggler.checkButtonState();
             })
             .on('xhr.dt', dtAjaxCallback)
             .on('search.dt', function (e) {
                 localStorage.setItem('dt-search', datatable.search());
-                searchToggler.checkButtonState();
+                secondSearch.searchToggler.checkButtonState();
             });
             {%if resourceId is defined %}
             datatable.on('draw.dt', function () {
@@ -260,11 +262,7 @@
         $('#vtp-search-clear').on('click', function() {
             $('.dataTables_filter input').val('');
             $("#search_blue").removeProp('checked');
-            localStorage.setItem('dt-search', '');
-            isBlueFilter.clear();
-            isReadFilter.clear($('#is-read-filter'));
-            searchToggler.checkButtonState();
-            dateRange.clearWithDOM();
+            secondSearch.clearFilters();
             datatable.search('').draw();
         });
 

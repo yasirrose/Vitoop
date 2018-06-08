@@ -1,103 +1,94 @@
-searchToggler = (function() {
+class SearchToggler {
+    constructor() {
+        this.state = false;
+        this.storage = new DataStorage();
+        this.storageKey = 'vitoop_s_hidden';
+        this.searchToolbar = '#vtp-res-list .top-toolbar';
+        this.toggleButtonId = '#vtp-search-toggle';
 
-    var state;
+        this.loadSearchState();
+        this.createButton();
+        this.showHideSearch();
+    }
 
-    function loadSearchState () {
-        var state1 = localStorage.getItem(
-            'vitoop_s_hidden'+location.pathname
-        );
+    loadSearchState () {
+        let state1 = this.storage.getAlphaNumValue(this.storageKey+location.pathname, null);
         if (state1 == null) {
             state1 = true;
         }
 
-        state = state1;
+        this.state = state1;
     }
 
-    function saveSearchState() {
-        localStorage.setItem(
-            'vitoop_s_hidden'+location.pathname,
-            state
-        );
+    saveSearchState() {
+        this.storage.setItem(this.storageKey+location.pathname, this.state);
     }
 
-    function getState() {
-        return state;
+    getState() {
+        return this.state;
     }
 
-    function showHideSearch() {
-        
-        if (state) {
-            $('#vtp-res-list .top-toolbar').hide(400);
+    showHideSearch() {
+        if (this.state) {
+            $(this.searchToolbar).hide(400);
         } else {
-            $('#vtp-res-list .top-toolbar').show(400);
+            $(this.searchToolbar).show(400);
         }
     }
 
-    function createButton() {
-        var icon;
-        if (state) {
+    createButton() {
+        let icon;
+        let self = this;
+        if (this.state) {
             icon = 'ui-icon-arrowthick-1-s';
         } else {
             icon = 'ui-icon-arrowthick-1-n';
         }
-        $('#vtp-search-toggle').button({
+        $(this.toggleButtonId).button({
             icons: {
                 primary: icon
             },
             text: false,
             label: "Second Search"
         });
-        $('#vtp-search-toggle').on('click', toggler);
+        $(this.toggleButtonId).on('click', function () {
+            self.state = !self.state;
+            self.saveSearchState();
+            $(self.toggleButtonId).off().button("destroy");
+            self.createButton();
+            self.showHideSearch();
+            self.checkButtonState();
+        });
     }
 
-    function toggler() {
-        state = !state;
-        saveSearchState();
-        $('#vtp-search-toggle').off().button("destroy");
-        createButton();
-        showHideSearch();
-        checkButtonState();
-    }
-
-    function activateButton() {
-        if (!$("#vtp-search-toggle").hasClass('vtp-toggler-active')) {
-            $("#vtp-search-toggle").addClass('vtp-toggler-active');
+    activateButton() {
+        if (!$(this.toggleButtonId).hasClass('vtp-toggler-active')) {
+            $(this.toggleButtonId).addClass('vtp-toggler-active');
         }
-        if ($("#vtp-search-toggle").hasClass('ui-state-focus')) {
-            $("#vtp-search-toggle").removeClass('ui-state-focus');
+        if ($(this.toggleButtonId).hasClass('ui-state-focus')) {
+            $(this.toggleButtonId).removeClass('ui-state-focus');
         }
     }
 
-    function deactivateButton() {
-        if ($("#vtp-search-toggle").hasClass('vtp-toggler-active')) {
-            $("#vtp-search-toggle").removeClass('vtp-toggler-active');
+    deactivateButton() {
+        if ($(this.toggleButtonId).hasClass('vtp-toggler-active')) {
+            $(this.toggleButtonId).removeClass('vtp-toggler-active');
         }
-        if ($("#vtp-search-toggle").hasClass('ui-state-focus')) {
-            $("#vtp-search-toggle").removeClass('ui-state-focus');
+        if ($(this.toggleButtonId).hasClass('ui-state-focus')) {
+            $(this.toggleButtonId).removeClass('ui-state-focus');
         }
     }
 
-    function checkButtonState() {
+    checkButtonState() {
         let dateRangeFilter = new DateRangeFilter();
         let isBlueFilter = new IsBlueFilter();
         let isReadFilter = new IsReadFilter();
+        let artFilter = new ArtFilter();
 
-        if (!state || isBlueFilter.isBlue() || isReadFilter.isRead() || '' != localStorage.getItem('dt-search') || !dateRangeFilter.isEmpty()) {
-            activateButton();
+        if (!this.state || isBlueFilter.isBlue() || isReadFilter.isRead() || '' != this.storage.getAlphaNumValue('dt-search') || !dateRangeFilter.isEmpty() || !artFilter.isEmpty()) {
+            this.activateButton();
             return;
         }
-        deactivateButton();
+        this.deactivateButton();
     }
-
-    function init() {
-        loadSearchState();
-        createButton();
-        showHideSearch();
-    }
-
-    return {
-        init: init,
-        getState: getState,
-        checkButtonState: checkButtonState
-    };
-}) ();
+}

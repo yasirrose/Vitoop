@@ -17,14 +17,18 @@ class BookType extends AbstractType
                 ->add('author', TextType::class, ['label' => 'Autor:'])
                 ->add('publisher', TextType::class, ['label' => 'Verlag:'])
                 ->add('issuer', TextType::class, ['label' => 'Hrsg.:', 'required' => false])
-                ->add('isbn13', TextType::class, ['label' => 'ISBN-13:'])
-                ->add('isbn10', TextType::class, ['label' => 'ISBN-10:'])
+                ->add('isbn', TextType::class, ['label' => 'ISBN:'])
                 ->add('tnop', TextType::class, ['label' => 'Seiten:'])
                 ->add('kind', ChoiceType::class, [
                     'choices' => [
                         'XX' => 'auswählen',
                         'Sachbuch' => 'Sachbuch',
-                        'Roman' => 'Roman'
+                        'Roman' => 'Roman',
+                        'Essay' => 'Essay',
+                        'Erlebnisbericht' => 'Erlebnisbericht',
+                        'Biografie' => 'Biografie',
+                        'Autobiografie' => 'Autobiografie',
+                        'Thriller' => 'Thriller'
                     ],
                     'label' => 'Art'
                 ])

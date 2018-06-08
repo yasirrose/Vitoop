@@ -33,14 +33,9 @@ class Book extends Resource
     protected $kind;
 
     /**
-     * @ORM\Column(name="isbn13", type="string", length=17)
+     * @ORM\Column(name="isbn", type="string", length=17)
      */
-    protected $isbn13;
-
-    /**
-     * @ORM\Column(name="isbn10", type="string", length=13)
-     */
-    protected $isbn10;
+    protected $isbn;
 
     /**
      * @ORM\Column(name="tnop", type="integer")
@@ -187,49 +182,13 @@ class Book extends Resource
     }
 
     /**
-     * Set isbn13
-     *
-     * @param string $isbn13
-     * @return Book
-     */
-    public function setIsbn13($isbn13)
-    {
-        $this->isbn13 = $isbn13;
-
-        return $this;
-    }
-
-    /**
-     * Get isbn13
+     * Get isbn
      *
      * @return string 
      */
-    public function getIsbn13()
+    public function getIsbn()
     {
-        return $this->isbn13;
-    }
-
-    /**
-     * Set isbn10
-     *
-     * @param string $isbn10
-     * @return Book
-     */
-    public function setIsbn10($isbn10)
-    {
-        $this->isbn10 = $isbn10;
-
-        return $this;
-    }
-
-    /**
-     * Get isbn10
-     *
-     * @return string 
-     */
-    public function getIsbn10()
-    {
-        return $this->isbn10;
+        return $this->isbn;
     }
 
     /**
@@ -283,8 +242,7 @@ class Book extends Resource
         $dto = parent::toResourceDTO($user);
         $dto->author = $this->author;
         $dto->issuer = $this->issuer;
-        $dto->isbn13 = $this->isbn13;
-        $dto->isbn10 = $this->isbn10;
+        $dto->isbn = $this->isbn;
         $dto->publisher = $this->publisher;
         $dto->kind = $this->kind;
         $dto->tnop = $this->tnop;
@@ -306,8 +264,7 @@ class Book extends Resource
         parent::updateFromResourceDTO($dto);
         $this->author = $dto->author;
         $this->issuer = $dto->issuer;
-        $this->isbn13 = $dto->isbn13;
-        $this->isbn10 = $dto->isbn10;
+        $this->isbn = $dto->isbn;
         $this->publisher = $dto->publisher;
         $this->kind = $dto->kind;
         $this->tnop = $dto->tnop;

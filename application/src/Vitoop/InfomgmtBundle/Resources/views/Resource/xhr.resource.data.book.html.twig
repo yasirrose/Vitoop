@@ -37,12 +37,12 @@
     </div>
     <div class="vtp-fh-middle">
         <div class="vtp-fh-w35">
-            {{ form_label(fvdata.isbn13, null, {'label_attr': {'class': 'vtp-fh-w31', 'style': 'width: 26%' }}) }}
-            {{ form_widget(fvdata.isbn13, {'attr': {'class': 'vtp-fh-w60', 'onblur': 'checkUniqueBook(\'isbn13\', event);', 'old': fvdata.vars.value.isbn13 }}) }}
+            {{ form_label(fvdata.isbn, null, {'label_attr': {'class': 'vtp-fh-w31', 'style': 'width: 26%' }}) }}
+            {{ form_widget(fvdata.isbn, {'attr': {'class': 'vtp-fh-w60', 'onblur': 'checkUniqueBook(\'isbn\', event);', 'old': fvdata.vars.value.isbn }}) }}
         </div>
         <div class="vtp-fh-w35">
-            {{ form_label(fvdata.isbn10, null, {'label_attr': {'class': 'vtp-fh-w35' }}) }}
-            {{ form_widget(fvdata.isbn10, {'attr': {'class': 'vtp-fh-w60', 'onblur': 'checkUniqueBook(\'isbn10\', event);', 'old': fvdata.vars.value.isbn10 }}) }}
+            {{ form_label(fvdata.year, null, {'label_attr': {'class': 'vtp-fh-w35' }}) }}
+            {{ form_widget(fvdata.year, {'attr': {'class': 'vtp-fh-w60', 'style':'margin-right: 5px' }}) }}
         </div>
         <div class="vtp-fh-w31">
             {{ form_label(fvdata.tnop, null, {'label_attr': {'class': 'vtp-fh-w35' }}) }}
@@ -54,18 +54,13 @@
             {{ form_label(fvdata.lang, null, {'label_attr': {'class': 'vtp-fh-w31', 'style': 'width: 26%; margin-bottom: -5px;' }}) }}
             {{ form_widget(fvdata.lang, {'attr': {'class': 'vtp-fh-w60'}}) }}
         </div>
-        <div class="vtp-fh-w35">
-            {{ form_label(fvdata.kind, null, {'label_attr': {'class': 'vtp-fh-w35', 'style': 'margin-bottom: -5px;' }}) }}
-            {{ form_widget(fvdata.kind, {'attr': {'class': 'vtp-fh-w60' }}) }}
-        </div>
-        <div class="vtp-fh-w31">
-            {{ form_label(fvdata.year, null, {'label_attr': {'class': 'vtp-fh-w35' }}) }}
-            {{ form_widget(fvdata.year, {'attr': {'class': 'vtp-fh-w60', 'style':'margin-right: 5px' }}) }}
+        <div class="vtp-fh-w60">
+            {{ form_label(fvdata.kind, null, {'label_attr': {'class': 'vtp-fh-w25', 'style': 'width: 20%; margin-bottom: -5px;' }}) }}
+            {{ form_widget(fvdata.kind, {'attr': {'class': 'vtp-fh-w80' }}) }}
         </div>
     </div>
     <div class="vtp-fh-middle">
-        {{ form_errors(fvdata.isbn13) }}
-        {{ form_errors(fvdata.isbn10) }}
+        {{ form_errors(fvdata.isbn) }}
         {{ form_errors(fvdata.tnop) }}
         {{ form_errors(fvdata.lang) }}
         {{ form_errors(fvdata.kind) }}
