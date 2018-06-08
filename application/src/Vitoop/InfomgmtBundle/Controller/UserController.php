@@ -273,7 +273,7 @@ EOT;
 
     /**
      * @Route("/impressum", name="_imprint")
-     * @Template()
+     * @Template("VitoopInfomgmtBundle:User:imprint.html.twig")
      */
     public function imprintAction()
     {
