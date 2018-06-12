@@ -1,59 +1,105 @@
-function SendLinkWidget() {
+class SendLinkWidget extends Widget {
+    constructor() {
+        super();
+        this.formId = '#form-user-links';
+        this.containerName = 'vtp-res-dialog-links';
+        this.linkStorage = new LinkStorage();
+    }
 
-}
+    init() {
+        let self = this;
+        let resources = self.linkStorage.getAllResourcesByTypes();
+        let resourceIds = new Array();
+        $('#form-user-links-info').html('');
+        for (let resourceType in resources) {
+            for (let resourceId in resources[resourceType]) {
+                $('#form-user-links-info').append(
+                    '<div class="vtp-send-type">'+this.getResourceTypeName(resourceType)+':</div>' +
+                    '<div class="vtp-send-name">'+resources[resourceType][resourceId].name+'</div>' +
+                    '<div class="vtp-clear"></div>'
+                );
+                resourceIds.push(resourceId);
+            }
+        }
 
-SendLinkWidget.prototype = Object.create(Widget.prototype);
-SendLinkWidget.prototype.formId = '#form-user-links';
-SendLinkWidget.prototype.containerName = 'vtp-res-dialog-links';
-SendLinkWidget.prototype.init = function () {
-    var self = this;
-    var linkStorage = new LinkStorage();
-    var resources = linkStorage.getAllResorcesByTypes();
-    var resourceIds = new Array();
-    $('#form-user-links-info').html('');
-    for (var resourceType in resources) {
-        for (var resourceId in resources[resourceType]) {
-            $('#form-user-links-info').append(
-                '<div class="vtp-send-type">'+this.getResourceTypeName(resourceType)+':</div>' +
-                '<div class="vtp-send-name">'+resources[resourceType][resourceId].name+'</div>' +
-                '<div class="vtp-clear"></div>'
-            );
-            resourceIds.push(resourceId);
+        $('#send_links_resourceIds').val(resourceIds);
+
+        $(self.formId).ajaxForm({
+            delegation: true,
+            dataType: 'html',
+            success: function (responseJSON, textStatus, jqXHR, form) {
+                self.replaceContainer(self.containerName, responseJSON);
+                self.init();
+            },
+            error: function (jqXHR, textStatus, errorThrown, $form) {
+                $form.empty().append('Vitoooops!: ' + textStatus + ' ' + jqXHR.status + ': ' + jqXHR.statusText);
+            }
+        });
+    }
+
+    getFormFromServer(route) {
+        let self = this;
+        $.get(route, function (responseJSON, textStatus, jqXHR, form) {
+            self.replaceContainer(self.containerName, responseJSON);
+            self.init();
+        })
+    }
+
+    getResourceTypeName(resourceType) {
+        switch (resourceType) {
+            case 'teli':
+                return 'Textlink';
+            case 'book':
+                return 'Buch';
+            case 'adr':
+                return 'Adresse';
+        }
+
+        return resourceType;
+    }
+
+    checkOpenButtonState() {
+        if (!this.linkStorage.isNotEmpty()) {
+            $('#button-checking-links').hide();
+            $('#button-checking-links-remove').hide();
+            $('#button-checking-links-send').hide();
+        } else {
+            $('#button-checking-links').show();
+            $('#button-checking-links-remove').show();
+            $('#button-checking-links-send').show();
         }
     }
 
-    $('#send_links_resourceIds').val(resourceIds);
+    updateCheckedResources(resType, resId, isNeedToSave, data) {
+        let linkStorageKey = resType+'-checked';
+        let resourceChecked = this.linkStorage.getObject(linkStorageKey);
 
-    $(self.formId).ajaxForm({
-        delegation: true,
-        dataType: 'html',
-        success: function (responseJSON, textStatus, jqXHR, form) {
-            self.replaceContainer(self.containerName, responseJSON);
-            self.init();
-        },
-        error: function (jqXHR, textStatus, errorThrown, $form) {
-            $form.empty().append('Vitoooops!: ' + textStatus + ' ' + jqXHR.status + ': ' + jqXHR.statusText);
+        data.resType = resType;
+        let storageKey = resId + '';
+        if(isNeedToSave) {
+            resourceChecked[storageKey] = data;
+        } else {
+            delete resourceChecked[storageKey];
         }
-    });
-};
+        this.linkStorage.setObject(linkStorageKey, resourceChecked);
+        this.checkOpenButtonState();
+    }
 
-SendLinkWidget.prototype.getFormFromServer = function (route) {
-    var self = this;
-    $.get(route, function (responseJSON, textStatus, jqXHR, form) {
-        self.replaceContainer(self.containerName, responseJSON);
-        self.init();
-    })
-};
+    openAllLinks() {
+        let resources = this.linkStorage.getAllResorces();
 
-SendLinkWidget.prototype.getResourceTypeName = function (resourceType) {
-    switch (resourceType) {
-        case 'teli':
-            return 'Textlink';
-        case 'book':
-            return 'Buch';
-        case 'adr':
-            return 'Adresse';
-    };
+        for (var i = 0; i < resources.length; i++) {
+            for (var property in resources[i]) {
+                if (resources[i].hasOwnProperty(property) && 'url' in resources[i][property]) {
+                    window.open(resources[i][property].url);
+                }
+            }
+        }
+    }
 
-    return resourceType;
-};
+    clear() {
+        this.linkStorage.clearAllResources();
+        this.checkOpenButtonState();
+        $('.open-checkbox-link').prop('checked', false);
+    }
+}

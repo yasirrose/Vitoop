@@ -901,19 +901,10 @@ resourceDetail = (function () {
             $('#vtp-res-dialog').before('<div id="resource-flags" style="display: none;"></div>');
 
             $('#resource-check').on('click', function(e) {
-                var storage = new DataStorage();
-                var checkedResources = storage.getObject(res_type +'-checked');
-                var storageKey = res_id+'';
-                var rowId = '#'+res_type+'-'+res_id;
-                var data = $('#vtp-res-list table').DataTable().row(rowId).data();
-                if(this.checked) {
-                    checkedResources[storageKey] = data;
-                } else {
-                    delete checkedResources[storageKey];
-                }
-                storage.setObject(res_type+'-checked', checkedResources);
-                checkOpenButtonState(res_id);
-
+                let rowId = '#'+res_type+'-'+res_id;
+                let data = $('#vtp-res-list table').DataTable().row(rowId).data();
+                let sendLinkWidget = new SendLinkWidget();
+                sendLinkWidget.updateCheckedResources(res_type, res_id, this.checked, data);
                 e.stopPropagation();
             });
 
@@ -924,7 +915,6 @@ resourceDetail = (function () {
                 error: function (jqXHR, textStatus, errorThrown, $form) {
                     $form.empty().append('Vitoooops!: ' + textStatus + ' ' + jqXHR.status + ': ' + jqXHR.statusText);
                 }
-
             });
 
             $('#vtp-res-dialog-tabs form#form-tag').ajaxForm({

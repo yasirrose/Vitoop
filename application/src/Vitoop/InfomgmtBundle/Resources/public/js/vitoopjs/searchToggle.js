@@ -1,14 +1,15 @@
 class SearchToggler {
-    constructor() {
+    constructor(datatable) {
         this.state = false;
         this.storage = new DataStorage();
         this.storageKey = 'vitoop_s_hidden';
         this.searchToolbar = '#vtp-res-list .top-toolbar';
         this.toggleButtonId = '#vtp-search-toggle';
+        this.rowsPerPage = new RowPerPageSelect(datatable);
 
         this.loadSearchState();
         this.createButton();
-        this.showHideSearch();
+        this.showHideSearch(true);
     }
 
     loadSearchState () {
@@ -28,11 +29,18 @@ class SearchToggler {
         return this.state;
     }
 
-    showHideSearch() {
+    showHideSearch(init) {
         if (this.state) {
             $(this.searchToolbar).hide(400);
-        } else {
-            $(this.searchToolbar).show(400);
+            if (!init) {
+                this.rowsPerPage.increase();
+            }
+            return false;
+        }
+
+        $(this.searchToolbar).show(400);
+        if (!init) {
+            this.rowsPerPage.decrease();
         }
     }
 
@@ -51,12 +59,12 @@ class SearchToggler {
             text: false,
             label: "Second Search"
         });
-        $(this.toggleButtonId).on('click', function () {
+        $(this.toggleButtonId).off().on('click', function () {
             self.state = !self.state;
             self.saveSearchState();
             $(self.toggleButtonId).off().button("destroy");
             self.createButton();
-            self.showHideSearch();
+            self.showHideSearch(false);
             self.checkButtonState();
         });
     }
