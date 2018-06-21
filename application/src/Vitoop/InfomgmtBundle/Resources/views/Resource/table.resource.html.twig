@@ -133,28 +133,22 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $.fn.dataTable.moment('DD.MM.YY');
-        var dataStorage = new DataStorage();
-        var linkStorage = new LinkStorage();
         var resType = '{{ restype }}';
         var isAdmin = {% if is_granted('ROLE_ADMIN') %}1{% else %}0{% endif %};
         var isEdit = {% if isEdit is defined and isEdit %}1{% else %}0{% endif %};
         var isCoef = {% if  isCoef is defined and isCoef %}1{% else %}0{% endif %};
-        let sendLinkWidget = new SendLinkWidget();
-        let vtpDatatable = new VtpDatatable(resType, isAdmin, isEdit, isCoef, "{{ ajaxUrl |raw }}", {%if resourceId is defined %}{{ resourceId}}{% else %}null{% endif %});
+        vitoopApp.initTable(resType, isAdmin, isEdit, isCoef, "{{ ajaxUrl |raw }}", {%if resourceId is defined %}{{ resourceId}}{% else %}null{% endif %});
 
-        sendLinkWidget.checkOpenButtonState();
-        vtpDatatable.init();
-
-        var resourceInfo = {};
+        window.resourceInfo = {};
         {% if resourceInfo is defined %}
             {% for resType, count in resourceInfo %}
-                resourceInfo.{{resType}} = {{count}};
+                window.resourceInfo.{{resType}} = {{count}};
             {% endfor %}
         {% endif %}
             
-        var scope = angular.element($("#resourceInfo")).scope();
+        let scope = angular.element($("#resourceInfo")).scope();
         scope.$apply(function(){
-            scope.nav.resourceInfo = resourceInfo;
+            scope.nav.resourceInfo = window.resourceInfo;
         });
     });
 </script>

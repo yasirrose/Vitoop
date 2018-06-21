@@ -5,6 +5,9 @@ var uglify = require('gulp-uglify');
 var uglifycss = require('gulp-uglifycss');
 var concat = require('gulp-concat');
 var sourcemaps = require('gulp-sourcemaps');
+var bro = require('gulp-bro');
+var babelify = require('babelify');
+
 var webpack = require('webpack-stream');
 var ProvidePlugin = require('webpack-stream').webpack.ProvidePlugin;
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
@@ -91,15 +94,28 @@ gulp.task('jquery-js', function () {
     .pipe(gulp.dest('web/js'));
 });
 
-gulp.task('js', ['angular-js', 'lexicon-js', 'tinymce-js', 'datatables-js'], function () {
+gulp.task('vitoop-app', function () {
     return gulp.src([
-        'src/Vitoop/InfomgmtBundle/Resources/public/js/jquery/*.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/components/*.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/widgets/*.js',
-        'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/*.js'])
-        .pipe(sourcemaps.init())
+        'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/*.js',
+        'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/app/vitoop.js'
+        ])
+        .pipe(bro({
+            transform: [
+                babelify.configure({ presets: ['env'] }),
+                [ 'uglifyify', { global: true } ]
+            ]
+        }))
+        .pipe(concat('vitoop-app.js'))
+        .pipe(gulp.dest('web/js/build'));
+});
+
+gulp.task('js', ['angular-js', 'lexicon-js', 'tinymce-js', 'datatables-js', 'vitoop-app'], function () {
+    return gulp.src([
+        'src/Vitoop/InfomgmtBundle/Resources/public/js/jquery/*.js',
+        'web/js/build/vitoop-app.js'])
         .pipe(concat('vitoop.js'))
-        .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('web/js'));
 });
 

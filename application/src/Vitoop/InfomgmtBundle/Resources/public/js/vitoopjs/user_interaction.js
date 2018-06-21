@@ -2,7 +2,9 @@
  * JavaScript GUI for Vitoop Module: user_interaction.js
  */
 
-userInteraction = (function () {
+import TinyMCEInitializer from './components/TinyMCEInitializer';
+
+window.userInteraction = (function () {
 
     var init = function () {
 

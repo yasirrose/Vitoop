@@ -1,4 +1,7 @@
-class SendLinkWidget extends Widget {
+import Widget from './widget';
+import LinkStorage from '../linkstorage';
+
+export default class SendLinkWidget extends Widget {
     constructor() {
         super();
         this.formId = '#form-user-links';

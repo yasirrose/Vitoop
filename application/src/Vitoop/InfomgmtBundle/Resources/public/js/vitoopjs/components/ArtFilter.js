@@ -1,4 +1,6 @@
-class ArtFilter {
+import DataStorage from '../datastorage';
+
+export default class ArtFilter {
     constructor() {
         this.storageKey = 'vtp-list-book-art';
         this.currentValue = '';

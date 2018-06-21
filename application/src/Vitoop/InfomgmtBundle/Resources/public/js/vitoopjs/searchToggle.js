@@ -1,4 +1,11 @@
-class SearchToggler {
+import DataStorage from './datastorage';
+import RowPerPageSelect from './components/RowPerPageSelect';
+import IsBlueFilter from './components/IsBlueFilter';
+import IsReadFilter from './components/IsReadFilter';
+import ArtFilter from './components/ArtFilter';
+import DateRangeFilter from './components/dateRangeFilter';
+
+export default class SearchToggler {
     constructor(datatable) {
         this.state = false;
         this.storage = new DataStorage();

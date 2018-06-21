@@ -1,4 +1,6 @@
-class RowPerPageSelect {
+import DataStorage from '../datastorage';
+
+export default class RowPerPageSelect {
     constructor() {
         this.datastorage = new DataStorage();
         this.datastorageKey = 'dt-page-length';
@@ -16,13 +18,11 @@ class RowPerPageSelect {
     increase() {
         this.updatePageLength(parseInt(this.getPageLength()) + 1);
         this.reloadSelect();
-        console.log('increase '+this.getPageLength());
     }
 
     decrease() {
         this.updatePageLength(parseInt(this.getPageLength()) - 1);
         this.reloadSelect();
-        console.log('decrease '+this.getPageLength());
     }
 
     reloadSelect() {

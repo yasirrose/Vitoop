@@ -1,4 +1,11 @@
-class SecondSearch {
+import SearchToggler from '../searchToggle';
+import IsBlueFilter from './IsBlueFilter';
+import IsReadFilter from './IsReadFilter';
+import DateRangeFilter from './dateRangeFilter';
+import ArtFilter from './ArtFilter';
+import DataStorage from '../datastorage';
+
+export default class SecondSearch {
     constructor(resType) {
         this.resType = resType;
         this.toolbarId = 'div.top-toolbar';

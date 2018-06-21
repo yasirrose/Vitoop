@@ -1,4 +1,6 @@
-class LinkStorage extends DataStorage {
+import DataStorage from './datastorage';
+
+export default class LinkStorage extends DataStorage {
     constructor() {
         super();
         this.resourceTypes = ['pdf', 'teli', 'book', 'link', 'adr', 'lex', 'prj'];

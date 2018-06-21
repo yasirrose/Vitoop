@@ -1,4 +1,7 @@
-class IsReadFilter {
+import DataStorage from '../datastorage';
+import ReadableButtonBehavior from './ReadableButtonBehavior';
+
+export default class IsReadFilter {
     constructor() {
         this.searchReadStorageKey = 'dt-search-read';
         this.storage = new DataStorage();

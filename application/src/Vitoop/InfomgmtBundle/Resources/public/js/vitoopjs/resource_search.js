@@ -41,7 +41,9 @@ function highlightTag(event) {
 
 };
 
-resourceSearch = (function () {
+import RowPerPageSelect from './components/RowPerPageSelect';
+
+window.resourceSearch = (function () {
 
     /*
      * Beim Neuladen der Seite die Tags des Suchstrings

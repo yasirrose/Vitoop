@@ -12,8 +12,7 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function() {
-        var tinyInit = new TinyMCEInitializer();
-        var options = tinyInit.getCommonOptions();
+        let options = vitoopApp.getTinyMceOptions();
         options.mode = 'exact';
         options.selector = 'textarea#datap-text';
         options.id = 'tiny-datap';

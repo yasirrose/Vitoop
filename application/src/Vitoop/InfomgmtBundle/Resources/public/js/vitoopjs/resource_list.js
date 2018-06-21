@@ -2,7 +2,7 @@
  * JavaScript GUI for Vitoop Module: resource_list.js
  */
 
-resourceList = (function () {
+window.resourceList = (function () {
 
     var query = $.deparam.querystring(), // may be empty object
 

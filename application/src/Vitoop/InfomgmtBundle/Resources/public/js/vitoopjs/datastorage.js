@@ -1,32 +1,33 @@
-function DataStorage() {
-    
+export default class DataStorage {
+    constructor() {
+    }
+
+    getObject(key) {
+        if (!(key in localStorage)) {
+            return {};
+        }
+
+        let value = localStorage.getItem(key);
+        if (value[0] === "{") {
+            return JSON.parse(value);
+        }
+
+        return {};
+    }
+
+    setObject(key, value) {
+        localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    getAlphaNumValue (key, defaultValue) {
+        if (typeof defaultValue === 'undefined') {
+            defaultValue = '';
+        }
+
+        return localStorage.getItem(key)?localStorage.getItem(key):defaultValue;
+    }
+
+    setItem(key, value) {
+        localStorage.setItem(key, value);
+    }
 }
-
-DataStorage.prototype.getObject = function (key) {
-    if (!(key in localStorage)) {
-        return {};  
-    }
-
-    var value = localStorage.getItem(key);
-    if (value[0] === "{") {
-        return JSON.parse(value);
-    }
-
-    return {};
-};
-
-DataStorage.prototype.setObject = function(key, value) {
-    localStorage.setItem(key, JSON.stringify(value));
-};
-
-DataStorage.prototype.getAlphaNumValue = function (key, defaultValue) {
-    if (typeof defaultValue === 'undefined') {
-        defaultValue = '';
-    }
-
-    return localStorage.getItem(key)?localStorage.getItem(key):defaultValue;
-};
-
-DataStorage.prototype.setItem = function (key, value) {
-    localStorage.setItem(key, value);
-};

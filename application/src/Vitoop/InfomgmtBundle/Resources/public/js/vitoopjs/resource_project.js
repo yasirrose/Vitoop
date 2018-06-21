@@ -2,7 +2,9 @@
  * JavaScript GUI for Vitoop Module: resource_project.js
  */
 
-resourceProject = (function () {
+import TinyMCEInitializer from './components/TinyMCEInitializer';
+
+window.resourceProject = (function () {
 
     var query = $.deparam.querystring();
 

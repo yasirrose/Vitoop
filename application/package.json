@@ -39,8 +39,11 @@
   "devDependencies": {
     "@symfony/webpack-encore": "^0.20.1",
     "babel-loader": "^7.1.2",
+    "babelify": "^8.0.0",
+    "uglifyify": "^5.0.0",
     "babel-preset-env": "^1.7.0",
     "expose-loader": "^0.7.5",
+    "gulp-bro": "^1.0.3",
     "mkdirp": "^0.5.1",
     "webpack-notifier": "^1.6.0"
   },

@@ -1,4 +1,6 @@
-class DateRangeFilter {
+import DataStorage from '../datastorage';
+
+export default class DateRangeFilter {
     constructor() {
         this.storage = new DataStorage();
         this.dateFromStorageKey = 'dt-search-date_from';

@@ -1,4 +1,6 @@
-class IsBlueFilter {
+import DataStorage from '../datastorage';
+
+export default class IsBlueFilter {
     constructor() {
         this.storage = new DataStorage();
         this.searchBlueStorageKey = 'dt-search-blue';

@@ -2,7 +2,18 @@
  * JavaScript GUI for Vitoop Module: resource_detail.js
  */
 
-resourceDetail = (function () {
+import TinyMCEInitializer from './components/TinyMCEInitializer';
+import ReadableButton from './components/ReadableButton';
+import DataStorage from './datastorage';
+import TagWidget from './widgets/tagWidget';
+import RemarkWidget from './widgets/remarkWidget';
+import PrivateRemarkWidget from './widgets/privateRemarkWidget';
+import CommentWidget from './widgets/commentWidget';
+import ProjectWidget from './widgets/projectWidget';
+import LexiconWidget from './widgets/lexiconWidget';
+import SendLinkWidget from './widgets/sendLinkWidget';
+
+window.resourceDetail = (function () {
 
     var tab_loaded = [ 0, 0, 0, 0, 0 ],
 
@@ -154,7 +165,7 @@ resourceDetail = (function () {
                     });
                 });
 
-                var readButton = new ReadableButton(res_type, res_id);
+                let readButton = new ReadableButton(res_type, res_id);
                 readButton.init($('#'+res_type+'_isUserRead').val());
 
                 addDateModificator('#teli_release_date');

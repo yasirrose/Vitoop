@@ -1,4 +1,10 @@
-class VtpDatatable {
+import SendLinkWidget from '../widgets/sendLinkWidget';
+import DataStorage from '../datastorage';
+import RowPerPageSelect from '../components/RowPerPageSelect';
+import SecondSearch from '../components/SecondSearch';
+import IsBlueFilter from '../components/IsBlueFilter';
+
+export default class VtpDatatable {
     constructor(resType, isAdmin, isEdit, isCoef, url, resourceId) {
         this.resType = resType;
         this.resourceId = resourceId;
@@ -15,6 +21,7 @@ class VtpDatatable {
 
     init() {
         let self = this;
+        self.sendLinkWidget.checkOpenButtonState();
         let datatable = $(this.datatableListId).DataTable(this.getDatatableOptions());
         datatable
             .on('init.dt', function () {
@@ -197,10 +204,10 @@ class VtpDatatable {
         }
 
         if (json && json.resourceInfo) {
-            resourceInfo = json.resourceInfo;
+            window.resourceInfo = json.resourceInfo;
             let scope = angular.element($("#resourceInfo")).scope();
             scope.$apply(function(){
-                scope.nav.resourceInfo = resourceInfo;
+                scope.nav.resourceInfo = window.resourceInfo;
             });
         }
     }
@@ -423,7 +430,7 @@ class VtpDatatable {
 
     getDefaultOrder() {
         if (this.resType == 'pdf' || this.resType == 'teli') {
-            let dateRangeFilter = new DateRangeFilter();
+            let dateRangeFilter = this.secondSearch.dateRange;
             if (!dateRangeFilter.isEmpty()) {
                 return [0, 'asc'];
             }
