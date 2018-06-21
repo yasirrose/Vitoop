@@ -32,14 +32,15 @@ export default class ArtFilter {
     clear() {
         this.currentValue = '';
         if (document.getElementById(this.storageKey)) {
-            document.getElementById(this.storageKey).selectedIndex = -1;
+            document.getElementById(this.storageKey).selectedIndex = 0;
         }
         this.storage.setItem(this.storageKey, this.currentValue);
+        $('#'+this.storageKey).selectmenu( "refresh" );
     }
 
     getDOMElement () {
         let artSelect = document.createElement('select');
-        let options = '<option value=""></option>';
+        let options = '<option value="">Bücher-Auswahl</option>';
         let self = this;
 
         this.artValues.forEach(function (art) {
