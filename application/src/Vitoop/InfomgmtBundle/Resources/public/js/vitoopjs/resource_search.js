@@ -253,14 +253,11 @@ window.resourceSearch = (function () {
                 $('#vtp-search-bytags-taglistbox').hide('blind', 'fast');
             } else {
                 if ((cnt_tags === 0) && (arr_taglist_ignore.length === 0)) {
-                    if ($('#vtp-search-bytags-taglistbox').is(":visible")) {
-                        rowPerPage.increase();
-                    }
                     $('#vtp-search-bytags-taglistbox').hide('blind', 'fast');
                 } else {
                     $('#vtp-search-bytags-taglistbox').show('blind', 'fast');
-                    rowPerPage.decrease();
                 }
+                rowPerPage.checkDOMState();
             }
         },
 

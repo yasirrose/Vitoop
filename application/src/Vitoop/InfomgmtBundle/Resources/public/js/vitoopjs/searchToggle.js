@@ -16,7 +16,6 @@ export default class SearchToggler {
 
         this.loadSearchState();
         this.createButton();
-        this.showHideSearch(true);
     }
 
     loadSearchState () {
@@ -36,19 +35,18 @@ export default class SearchToggler {
         return this.state;
     }
 
-    showHideSearch(init) {
+    showHideSearch() {
+        let self = this;
         if (this.state) {
-            $(this.searchToolbar).hide(400);
-            if (!init) {
-                this.rowsPerPage.increase();
-            }
+            $(this.searchToolbar).hide(400, function () {
+                self.rowsPerPage.checkDOMState();
+            });
             return false;
         }
 
-        $(this.searchToolbar).show(400);
-        if (!init) {
-            this.rowsPerPage.decrease();
-        }
+        $(this.searchToolbar).show(400, function () {
+            self.rowsPerPage.checkDOMState();
+        });
     }
 
     createButton() {
@@ -69,9 +67,10 @@ export default class SearchToggler {
         $(this.toggleButtonId).off().on('click', function () {
             self.state = !self.state;
             self.saveSearchState();
-            $(self.toggleButtonId).off().button("destroy");
-            self.createButton();
-            self.showHideSearch(false);
+
+            // $(self.toggleButtonId).off().button("destroy");
+            // self.createButton();
+          //  self.showHideSearch();
             self.checkButtonState();
         });
     }
@@ -100,6 +99,7 @@ export default class SearchToggler {
         let isReadFilter = new IsReadFilter();
         let artFilter = new ArtFilter();
 
+        this.showHideSearch();
         if (!this.state || isBlueFilter.isBlue() || isReadFilter.isRead() || '' != this.storage.getAlphaNumValue('dt-search') || !dateRangeFilter.isEmpty() || !artFilter.isEmpty()) {
             this.activateButton();
             return;

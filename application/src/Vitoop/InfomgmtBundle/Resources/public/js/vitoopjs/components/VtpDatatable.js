@@ -252,7 +252,9 @@ export default class VtpDatatable {
     }
 
     dtDrawCallback() {
-        VtpDatatable.prototype.setTotalMessage(this.api().page.info().recordsTotal);
+        if (this.api().page && this.api().page.info()) {
+            VtpDatatable.prototype.setTotalMessage(this.api().page.info().recordsTotal);
+        }
     }
 
     dtDrawCallbackCoef() {
@@ -364,13 +366,13 @@ export default class VtpDatatable {
 
         if (index == 0) {
             row.className += " vtp-list-first";
-            if (apiPage.info().page == 0) {
+            if (apiPage.info() && apiPage.info().page == 0) {
                 row.className += " vtp-list-start";
             }
         }
-        if ((index == (apiPage.len()-1)) || ((apiPage.info().page == (apiPage.info().pages - 1)) && (index == (apiPage.info().recordsDisplay % apiPage.len() - 1)))) {
+        if ((index == (apiPage.len()-1)) || (apiPage.info() && (apiPage.info().page == (apiPage.info().pages - 1)) && (index == (apiPage.info().recordsDisplay % apiPage.len() - 1)))) {
             row.className += " vtp-list-last";
-            if (apiPage.info().page == (apiPage.info().pages - 1)) {
+            if (apiPage.info() && (apiPage.info().page == (apiPage.info().pages - 1))) {
                 row.className += " vtp-list-end";
             }
         }
