@@ -52,14 +52,9 @@ export default class SearchToggler {
     createButton() {
         let icon;
         let self = this;
-        if (this.state) {
-            icon = 'ui-icon-arrowthick-1-s';
-        } else {
-            icon = 'ui-icon-arrowthick-1-n';
-        }
         $(this.toggleButtonId).button({
             icons: {
-                primary: icon
+                primary: self.getButtonIcon()
             },
             text: false,
             label: "Second Search"
@@ -68,11 +63,22 @@ export default class SearchToggler {
             self.state = !self.state;
             self.saveSearchState();
 
-            // $(self.toggleButtonId).off().button("destroy");
+            $(self.toggleButtonId).button("option", {
+                icons: { primary: self.getButtonIcon()}
+            });
+
             // self.createButton();
           //  self.showHideSearch();
             self.checkButtonState();
         });
+    }
+
+    getButtonIcon() {
+        if (this.state) {
+            return 'ui-icon-arrowthick-1-s';
+        }
+
+        return 'ui-icon-arrowthick-1-n';
     }
 
     activateButton() {

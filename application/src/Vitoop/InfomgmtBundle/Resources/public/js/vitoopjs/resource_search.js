@@ -2,45 +2,6 @@
  * JavaScript GUI for Vitoop Module: resource_search.js
  */
 
-function extendTag (event) {
-    var parent = $(event.target).parent();
-    if (parent.hasClass('vtp-search-bytags-tag-active')) {
-        $('.tag-icons-to-hide', parent).hide(400);
-        parent.removeClass('vtp-search-bytags-tag-active');
-    } else {
-        $('.tag-icons-to-hide').hide(400);
-        $('.vtp-search-bytags-tag').removeClass('vtp-search-bytags-tag-active');
-        $('.tag-icons-to-hide', parent).show(400);
-        parent.addClass('vtp-search-bytags-tag-active');
-    }
-};
-
-function ignoreTag(event) {
-    var parent = $(event.target).parent();
-    if (!parent.hasClass('vtp-search-bytags-tag-ignore')) {
-        parent.removeClass('vtp-search-bytags-tag-bulb');
-        parent.addClass('vtp-search-bytags-tag-ignore');
-        resourceSearch.ignoreTag(parent.text().trim(), true);
-    } else {
-        parent.removeClass('vtp-search-bytags-tag-ignore');
-        resourceSearch.ignoreTag(parent.text().trim(), false);
-    }
-};
-
-
-function highlightTag(event) {
-    var parent = $(event.target).parent();
-    if (!parent.hasClass('vtp-search-bytags-tag-bulb')) {
-        parent.removeClass('vtp-search-bytags-tag-ignore');
-        parent.addClass('vtp-search-bytags-tag-bulb');
-        resourceSearch.highlightTag(parent.text().trim(), true);
-    } else {
-        parent.removeClass('vtp-search-bytags-tag-bulb');
-        resourceSearch.highlightTag(parent.text().trim(), false);
-    }
-
-};
-
 import RowPerPageSelect from './components/RowPerPageSelect';
 
 window.resourceSearch = (function () {
@@ -173,7 +134,7 @@ window.resourceSearch = (function () {
             var parent = $(this).parent();
             var tagtext = parent.text().trim();
             var index;
-            ignoreTag(tagtext, false);
+            resourceSearch.ignoreTag(tagtext, false);
             updateAutocomplete($('#vtp-search-bytags-taglist'));
             if (!parent.hasClass('vtp-search-bytags-tag-ignore')) {
                 index = arr_taglist_highlight.indexOf(tagtext);
@@ -244,20 +205,23 @@ window.resourceSearch = (function () {
         },
 
         maintainTaglistbox = function (force_hide) {
-            let rowPerPage = new RowPerPageSelect();
             if (typeof force_hide === "undefined") {
                 force_hide = false;
             }
 
+            let displayCallback = function () {
+                let rowPerPage = new RowPerPageSelect();
+                rowPerPage.checkDOMState();
+            };
+
             if (force_hide) {
-                $('#vtp-search-bytags-taglistbox').hide('blind', 'fast');
+                $('#vtp-search-bytags-taglistbox').hide('blind', 'fast', displayCallback);
             } else {
                 if ((cnt_tags === 0) && (arr_taglist_ignore.length === 0)) {
-                    $('#vtp-search-bytags-taglistbox').hide('blind', 'fast');
+                    $('#vtp-search-bytags-taglistbox').hide('blind', 'fast', displayCallback);
                 } else {
-                    $('#vtp-search-bytags-taglistbox').show('blind', 'fast');
+                    $('#vtp-search-bytags-taglistbox').show('blind', 'fast', displayCallback);
                 }
-                rowPerPage.checkDOMState();
             }
         },
 
@@ -272,10 +236,10 @@ window.resourceSearch = (function () {
             var ignoredClass = (ignored)?(' vtp-search-bytags-tag-ignore'):('');
             var highlightedClass = (highlighted)?(' vtp-search-bytags-tag-bulb'):('');
 
-            return $('<span class="vtp-search-bytags-tag ui-corner-all'+ignoredClass+highlightedClass+'"><span class="vtp-icon-tag ui-icon ui-icon-tag" onclick="extendTag(event);"></span><span class="vtp-search-bytags-content" onclick="extendTag(event);">'
+            return $('<span class="vtp-search-bytags-tag ui-corner-all'+ignoredClass+highlightedClass+'"><span class="vtp-icon-tag ui-icon ui-icon-tag" onclick="vitoopApp.extendTag(event);"></span><span class="vtp-search-bytags-content" onclick="extendTag(event);">'
                 + tag + '</span>' +
-                '<span title="in der Ergebnisliste nach oben sortieren" class="ui-icon ui-icon-lightbulb tag-icons-to-hide vtp-icon-bulb" style="display: none" onclick="highlightTag(event)"></span>' +
-                '<span title="Datensätze mit diesem Tag aussortieren" class="ui-icon ui-icon-cancel tag-icons-to-hide vtp-icon-cancel" style="display: none" onclick="ignoreTag(event)"></span>' +
+                '<span title="in der Ergebnisliste nach oben sortieren" class="ui-icon ui-icon-lightbulb tag-icons-to-hide vtp-icon-bulb" style="display: none" onclick="vitoopApp.highlightTag(event)"></span>' +
+                '<span title="Datensätze mit diesem Tag aussortieren" class="ui-icon ui-icon-cancel tag-icons-to-hide vtp-icon-cancel" style="display: none" onclick="vitoopApp.ignoreTag(event)"></span>' +
                 '<span title="Tag entfernen" class="vtp-icon-close vtp-uiaction-search-bytags-removetag ui-icon ui-icon-close"></span>' +
                 '</span>'
             );

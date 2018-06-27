@@ -29,9 +29,9 @@
     <div class="vtp-fh-middle">
         {{ form_label(fvdata.url, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
         {% if isNew %}
-            {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w90', 'onblur': 'checkUniqueUrl("pdf", event);'}}) }}
+            {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w90', 'onblur': 'vitoopApp.checkUniqueUrl("pdf", event);'}}) }}
         {%else%}
-            {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w80', 'onblur': 'checkUniqueUrl("pdf", event);', 'style': 'width: 82.7%' }}) }}
+            {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w80', 'onblur': 'vitoopApp.checkUniqueUrl("pdf", event);', 'style': 'width: 82.7%' }}) }}
             <div class="vtp-fh-right vtp-fh-w0"><a href="{{ res.url }}" target="_blank" class="vtp-uiaction-open-url vtp-button">URL öffnen</a></div>
         {%endif%}
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.url) }}</div>

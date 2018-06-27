@@ -108,8 +108,7 @@ app.controller('PrjController', function ($scope, $http, $filter, $timeout) {
     $scope.isLoaded = false;
     $scope.isOwner = false;
     $scope.isDeleting = false;
-    var tinyInit = new TinyMCEInitializer();
-    $scope.tinymceOptions = tinyInit.getCommonOptions();
+    $scope.tinymceOptions = window.vitoopApp.getTinyMceOptions();
     $scope.tinymceOptions.width = 800;
     $scope.tinymceOptions.height = 550;
     $scope.tinymceOptions.plugins = ['textcolor', 'link', 'media', 'resourceurl'];
@@ -211,8 +210,7 @@ app.controller('ToDoController', function ($scope, $http, $filter, $timeout) {
         scrollInertia: 0
     };
 
-    var tinyInit = new TinyMCEInitializer();
-    $scope.tinymceOptions = tinyInit.getCommonOptions();
+    $scope.tinymceOptions = window.vitoopApp.getTinyMceOptions();
     $scope.tinymceOptions.width = 550;
     $scope.tinymceOptions.height = 550;
     $scope.tinymceOptions.debounce = false;

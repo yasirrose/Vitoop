@@ -24,9 +24,9 @@
     <div class="vtp-fh-middle">
         {{ form_label(fvdata.url, null, {'label_attr': {'class': 'vtp-fh-w15' }}) }}
         {% if isNew %}
-            {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w85', 'onblur': 'checkUniqueUrl("teli", event);' }}) }}
+            {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w85', 'onblur': 'vitoopApp.checkUniqueUrl("teli", event);' }}) }}
         {% else %}
-            {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w75', 'onblur': 'checkUniqueUrl("teli", event);', 'style': 'width: 77.7%' }}) }}
+            {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w75', 'onblur': 'vitoopApp.checkUniqueUrl("teli", event);', 'style': 'width: 77.7%' }}) }}
             <div class="vtp-fh-right vtp-fh-w0"><a href="{{ res.url }}" target="_blank" class="vtp-uiaction-open-url vtp-button">URL öffnen</a></div>
         {% endif %}
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.url) }}</div>

@@ -211,8 +211,7 @@ EOT;
                     $mail = str_replace('{LINK}', $link, $mail);
                     $mail = str_replace('{UNTIL}', sprintf('%s um %s Uhr', $until->format('d.m.Y'), $until->format('H:i:s')), $mail);
 
-                    $message = \Swift_Message::newInstance()
-                                ->setSubject($invitation->getSubject())
+                    $message = (new \Swift_Message($invitation->getSubject()))
                                 ->setFrom(array('einladung@vitoop.org' => 'David Rogalski'))
                                 ->setTo($invitation->getEmail())
                                 ->setBody($mail);

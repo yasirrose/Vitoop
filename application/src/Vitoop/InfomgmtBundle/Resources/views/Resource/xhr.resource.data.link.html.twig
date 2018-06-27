@@ -20,9 +20,9 @@
     <div class="vtp-fh-middle">
         {{ form_label(fvdata.url, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
         {% if isNew %}
-            {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w85', 'onblur': 'checkUniqueUrl("link", event);' }}) }}
+            {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w85', 'onblur': 'vitoopApp.checkUniqueUrl("link", event);' }}) }}
         {%else%}
-            {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w75', 'onblur': 'checkUniqueUrl("link", event);', 'style': 'width: 78%' }}) }}
+            {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w75', 'onblur': 'vitoopApp.checkUniqueUrl("link", event);', 'style': 'width: 78%' }}) }}
         {%endif%}
         <div class="vtp-fh-right vtp-fh-w0">
             {{ form_label(fvdata.is_hp, null, {'label_attr': {'class': 'vtp-fh-w60 vtp-button' }}) }}

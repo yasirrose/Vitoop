@@ -697,14 +697,14 @@ export default class VtpDatatable {
 
     getProjectUrlValue(data, type, row, meta) {
         if (row.canRead) {
-            return this.getInternalUrlValue(vitoop.baseUrl+'project/'+data, type, row, meta);
+            return VtpDatatable.prototype.getInternalUrlValue(vitoop.baseUrl+'project/'+data, type, row, meta);
         }
 
         return '<span class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink"  style="background-color: #DDDDDD"><span class="ui-icon ui-icon-extlink">-></span></span>';
     }
 
     getLexiconUrlValue(data, type, row, meta) {
-        return this.getInternalUrlValue(vitoop.baseUrl+'lexicon/'+data, type, row, meta);
+        return VtpDatatable.prototype.getInternalUrlValue(vitoop.baseUrl+'lexicon/'+data, type, row, meta);
     }
 
 

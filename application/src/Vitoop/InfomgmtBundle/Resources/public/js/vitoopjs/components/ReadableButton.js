@@ -6,8 +6,6 @@ export default class ReadableButton {
         this.resourceId = resourceId;
         this.buttonBehavior = new ReadableButtonBehavior();
         this.buttonClass = '.vtp-button-read';
-        this.resourceId = resourceType;
-        this.resourceType = resourceId;
     }
 
     init(isUserRead) {
@@ -30,7 +28,7 @@ export default class ReadableButton {
                     isUserRead: checkedState
                 }),
                 success: function () {
-                    refresh_list = true;
+                    //refresh_list = true;
                 }
             });
         });
