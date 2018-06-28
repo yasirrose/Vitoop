@@ -1,7 +1,6 @@
 import SendLinkWidget from '../widgets/sendLinkWidget';
 import DataStorage from '../datastorage';
 import RowPerPageSelect from '../components/RowPerPageSelect';
-import SecondSearch from '../components/SecondSearch';
 import IsBlueFilter from '../components/IsBlueFilter';
 
 export default class VtpDatatable {
@@ -15,7 +14,7 @@ export default class VtpDatatable {
         this.datatableListId = 'table#list-'+resType;
         this.datastorage = new DataStorage();
         this.rowsPerPage = new RowPerPageSelect();
-        this.secondSearch = new SecondSearch(this.resType);
+        vitoopApp.secondSearch.setResourceType(resType);
         this.sendLinkWidget = new SendLinkWidget();
     }
 
@@ -25,19 +24,19 @@ export default class VtpDatatable {
         let datatable = $(this.datatableListId).DataTable(this.getDatatableOptions());
         datatable
             .on('init.dt', function () {
-                if (self.secondSearch.isBlueFilter.isBlue()) {
+                if (vitoopApp.secondSearch.isBlueFilter.isBlue()) {
                     $("#search_blue").prop('checked', true);
                 } else {
                     $("#search_blue").removeProp('checked', false);
                 }
                 datatable.search(self.getCurrentSearch());
                 datatable.page.len(self.rowsPerPage.getPageLength());
-                self.secondSearch.searchToggler.checkButtonState();
+                vitoopApp.secondSearch.searchToggler.checkButtonState();
             })
             .on('xhr.dt', self.dtAjaxCallback)
             .on('search.dt', function (e) {
                 self.datastorage.setItem('dt-search', datatable.search());
-                self.secondSearch.searchToggler.checkButtonState();
+                vitoopApp.secondSearch.searchToggler.checkButtonState();
             });
 
         if (null !== this.resourceId) {
@@ -48,15 +47,15 @@ export default class VtpDatatable {
 
         $("div.top-toolbar").append('<div id="search_blue_box"><input id="search_blue" type="checkbox" value="1" name="search_blue"/></div>');
         $("#search_blue").change(function() {
-            self.secondSearch.isBlueFilter.setFilterValue(this.checked?1:0);
-            self.secondSearch.searchToggler.checkButtonState();
+            vitoopApp.secondSearch.isBlueFilter.setFilterValue(this.checked?1:0);
+            vitoopApp.secondSearch.searchToggler.checkButtonState();
             self.refreshTable();
         });
 
         //user read filter
-        $('.dataTables_filter input').before(self.secondSearch.isReadFilter.renderButton());
+        $('.dataTables_filter input').before(vitoopApp.secondSearch.isReadFilter.renderButton());
         $('#is-read-filter').on('click', function () {
-            self.secondSearch.isReadFilter.toggleButton($(this));
+            vitoopApp.secondSearch.isReadFilter.toggleButton($(this));
             self.refreshTable();
         });
 
@@ -69,26 +68,26 @@ export default class VtpDatatable {
                 '</div>'
             );
             $('#vtp_search_date').off().on('click', function () {
-                self.secondSearch.dateRange.updateRangeFromDOM();
+                vitoopApp.secondSearch.dateRange.updateRangeFromDOM();
                 self.refreshTable();
             });
             $('.range-filter').off()
                 .on('change', function () {
-                    self.secondSearch.dateRange.updateRangeFromDOM();
+                    vitoopApp.secondSearch.dateRange.updateRangeFromDOM();
                 })
                 .on('keyup', function () {
-                    self.secondSearch.dateRange.checkButtonState();
+                    vitoopApp.secondSearch.dateRange.checkButtonState();
                 });
 
-            self.secondSearch.dateRange.updateDOMFromRange();
+            vitoopApp.secondSearch.dateRange.updateDOMFromRange();
         }
 
         if (self.resType == 'book') {
-            document.querySelector('div.top-toolbar').appendChild(self.secondSearch.artFilter.getDOMElement());
-            $('#'+self.secondSearch.artFilter.storageKey).selectmenu({
+            document.querySelector('div.top-toolbar').appendChild(vitoopApp.secondSearch.artFilter.getDOMElement());
+            $('#'+vitoopApp.secondSearch.artFilter.storageKey).selectmenu({
                 width:200,
                 change: function () {
-                    self.secondSearch.artFilter.loadFromElement();
+                    vitoopApp.secondSearch.artFilter.loadFromElement();
                     self.refreshTable();
                 }
             });
@@ -115,7 +114,7 @@ export default class VtpDatatable {
         $('#vtp-search-clear').on('click', function() {
             $('.dataTables_filter input').val('');
             $("#search_blue").removeProp('checked');
-            self.secondSearch.clearFilters();
+            vitoopApp.secondSearch.clearFilters();
             datatable.search('').draw();
         });
 
@@ -226,14 +225,14 @@ export default class VtpDatatable {
             ajax: {
                 url:  self.url,
                 data: function (d) {
-                    return self.secondSearch.buildSearchParameters(d);
+                    return vitoopApp.secondSearch.buildSearchParameters(d);
                 }
             },
             search: {
                 search: this.getCurrentSearch()
             },
             order: this.getDefaultOrder(),
-            dom: this.secondSearch.getDomPrefix() + this.dtDomObject(),
+            dom: vitoopApp.secondSearch.getDomPrefix() + this.dtDomObject(),
             columns: this.getColumns(),
             pagingType: "full_numbers",
             rowCallback: this.dtRowCallback,
@@ -432,7 +431,7 @@ export default class VtpDatatable {
 
     getDefaultOrder() {
         if (this.resType == 'pdf' || this.resType == 'teli') {
-            let dateRangeFilter = this.secondSearch.dateRange;
+            let dateRangeFilter = vitoopApp.secondSearch.dateRange;
             if (!dateRangeFilter.isEmpty()) {
                 return [0, 'asc'];
             }

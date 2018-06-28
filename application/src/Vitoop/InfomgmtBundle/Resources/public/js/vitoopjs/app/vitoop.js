@@ -1,9 +1,10 @@
 import VtpDatatable from '../components/VtpDatatable';
 import TinyMCEInitializer from '../components/TinyMCEInitializer';
+import SecondSearch from "../components/SecondSearch";
 
 class VitoopApp {
     constructor () {
-
+        this.secondSearch = new SecondSearch();
     }
 
     initTable(resType, isAdmin, isEdit, isCoef, url, resourceId) {

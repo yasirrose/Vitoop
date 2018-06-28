@@ -6,29 +6,24 @@ import ArtFilter from './components/ArtFilter';
 import DateRangeFilter from './components/dateRangeFilter';
 
 export default class SearchToggler {
-    constructor(datatable) {
+    constructor() {
         this.state = false;
         this.storage = new DataStorage();
         this.storageKey = 'vitoop_s_hidden';
         this.searchToolbar = '#vtp-res-list .top-toolbar';
         this.toggleButtonId = '#vtp-search-toggle';
-        this.rowsPerPage = new RowPerPageSelect(datatable);
+        this.rowsPerPage = new RowPerPageSelect();
 
         this.loadSearchState();
         this.createButton();
     }
 
     loadSearchState () {
-        let state1 = this.storage.getAlphaNumValue(this.storageKey+location.pathname, null);
-        if (state1 == null) {
-            state1 = true;
-        }
-
-        this.state = state1;
+        this.state = this.storage.getAlphaNumValue(this.storageKey, true);
     }
 
     saveSearchState() {
-        this.storage.setItem(this.storageKey+location.pathname, this.state);
+        this.storage.setItem(this.storageKey, this.state);
     }
 
     getState() {
@@ -50,7 +45,6 @@ export default class SearchToggler {
     }
 
     createButton() {
-        let icon;
         let self = this;
         $(this.toggleButtonId).button({
             icons: {

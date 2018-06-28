@@ -41,18 +41,18 @@ class ResourceList {
                 if ($('#vtp-nav .vtp-nav-active').hasClass('vtp-resmenu-homelink-home')) {
                     $('#vtp-search-bytags-form, #vtp-search-toggle').show('fade', 'slow');
                     resourceSearch.maintainTaglistbox();
-                } else if ($('#vtp-nav .vtp-nav-active').hasClass('vtp-resmenu-homelink')) {
-                    $('#vtp-search-toggle').show('fade', 'slow');
                 }
+                vitoopApp.secondSearch.show();
                 $('#vtp-nav .vtp-nav-active').removeClass('vtp-nav-active ui-state-active');
                 $(e.target).addClass('vtp-nav-active ui-state-active');
                 succ = [ResourceList.prototype.insertResourceList];
             } else if ($(e.target).hasClass('vtp-resmenu-homelink')) {
                 if ($(e.target).hasClass('vtp-resmenu-homelink-home') && $('#vtp-nav .vtp-nav-active').hasClass('vtp-resmenu-reslink')) {
-                    $('#vtp-search-bytags-form, #vtp-search-toggle').hide('fade', 'slow');
+                    $('#vtp-search-bytags-form').hide('fade', 'slow');
+                    vitoopApp.secondSearch.close();
                     resourceSearch.maintainTaglistbox(true);
                 } else if ($(e.target).hasClass('vtp-resmenu-homelink') && $('#vtp-nav .vtp-nav-active').hasClass('vtp-resmenu-reslink')) {
-                    $('#vtp-search-toggle').hide('fade', 'slow');
+                    vitoopApp.secondSearch.close();
                 }
                 $('#vtp-nav .vtp-nav-active').removeClass('vtp-nav-active ui-state-active');
                 $(e.target).addClass('vtp-nav-active ui-state-active');

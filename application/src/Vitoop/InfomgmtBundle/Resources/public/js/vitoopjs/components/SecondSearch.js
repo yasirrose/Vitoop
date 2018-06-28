@@ -6,8 +6,8 @@ import ArtFilter from './ArtFilter';
 import DataStorage from '../datastorage';
 
 export default class SecondSearch {
-    constructor(resType) {
-        this.resType = resType;
+    constructor() {
+        this.resType = null;
         this.toolbarId = 'div.top-toolbar';
 
         this.searchToggler = new SearchToggler();
@@ -16,6 +16,10 @@ export default class SecondSearch {
         this.dateRange = new DateRangeFilter();
         this.artFilter = new ArtFilter();
         this.datastorage = new DataStorage();
+    }
+
+    setResourceType(resType) {
+        this.resType = resType;
     }
 
     init() {
@@ -43,6 +47,18 @@ export default class SecondSearch {
 
     getSearchTogglerState() {
         return this.searchToggler.getState();
+    }
+
+    close() {
+        if (this.searchToggler.getState()) {
+            this.searchToggler.showHideSearch();
+        }
+    }
+
+    show() {
+        if (!this.searchToggler.getState()) {
+            this.searchToggler.checkButtonState();
+        }
     }
 
     clearFilters() {
