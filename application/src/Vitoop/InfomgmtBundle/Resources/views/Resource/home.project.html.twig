@@ -30,10 +30,10 @@
 $(document).ready(function() {
     $('#vtp-projectdata-sheet-view').on('click', 'a', function (e) {
         if (-1 !== this.href.indexOf('resources')) {
-            var resorcesParts = this.href.match(/resources\/(\d+)/);
+            let resorcesParts = this.href.match(/resources\/(\d+)/);
             e.preventDefault();
 
-            var popup = new ResourcePopup(resorcesParts[1]);
+            let popup = new ResourcePopup(resorcesParts[1]);
             popup.loadResource();
             
             return false;

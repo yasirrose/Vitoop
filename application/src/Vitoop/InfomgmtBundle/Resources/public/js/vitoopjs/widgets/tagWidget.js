@@ -142,5 +142,7 @@ export default class TagWidget extends Widget {
                 $form.empty().append('Vitoooops!: ' + textStatus + ' ' + jqXHR.status + ': ' + jqXHR.statusText);
             }
         });
+
+        window.vitoopApp.helpButton.tagReinit();
     }
 }

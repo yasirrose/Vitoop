@@ -1,9 +1,13 @@
 {% extends "VitoopInfomgmtBundle:Resource:layout.html.twig" %}
 {% block cmstitle %}
     {% if project is defined %}
+        {% set isProjectOwner = (showasprojectowner is not null) and (showasprojectowner) %}
         <div id="vtp-projectdata-title" class="ui-corner-all">
             <span>{{'label.project'|trans}}: {{ project.name }}</span><input type="hidden" id="projectID" value="{{ project.id }}"/>
-            {% if (showasprojectowner is not null) and (showasprojectowner) %}
+            <button id="vtp-projectdata-project-help" help-area="project" class="{% if isProjectOwner %}vtp-help-offset {% endif%}vtp-help-area-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only">
+                <span class="ui-button-icon-primary ui-icon ui-icon-help"></span><span class="ui-button-text"></span>
+            </button>
+            {% if isProjectOwner %}
                 <button id="vtp-projectdata-project-live"></button>
                 <button id="vtp-projectdata-project-edit" class=""></button>
             {% endif %}
@@ -12,7 +16,10 @@
     {% endif %}
     {% if lexicon is defined %}
         <div id="vtp-lexicondata-title" class="ui-corner-all">
-            <span>{{'label.lexicon'|trans}}: {{ lexicon.name }}</span> 
+            <span>{{'label.lexicon'|trans}}: {{ lexicon.name }}</span>
+            <button id="vtp-lexicondata-lexicon-help" help-area="lexicon" class="vtp-help-area-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only">
+                <span class="ui-button-icon-primary ui-icon ui-icon-help"></span><span class="ui-button-text"></span>
+            </button>
             <button id="vtp-lexicondata-lexicon-close" title="{{ 'label.close'|trans }}" class=""></button>
         </div>
     {% endif %}

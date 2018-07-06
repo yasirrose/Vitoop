@@ -1,10 +1,12 @@
 import VtpDatatable from '../components/VtpDatatable';
 import TinyMCEInitializer from '../components/TinyMCEInitializer';
 import SecondSearch from "../components/SecondSearch";
+import HelpButton from '../components/HelpButton';
 
 class VitoopApp {
     constructor () {
         this.secondSearch = new SecondSearch();
+        this.helpButton = new HelpButton();
     }
 
     initTable(resType, isAdmin, isEdit, isCoef, url, resourceId) {
@@ -127,10 +129,10 @@ class VitoopApp {
 
 
 $(function () {
+    window.vitoopApp = new VitoopApp();
     resourceList.init();
     resourceDetail.init();
     resourceSearch.init();
     resourceProject.init();
     userInteraction.init();
-    window.vitoopApp = new VitoopApp();
 });

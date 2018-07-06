@@ -937,13 +937,14 @@ span.vtp-icon {
     padding: 4px 5px;
 }
 
-#vtp-search-toggle {
+#vtp-search-toggle, #vtp-search-help {
     float: right;
     height: 25px;
     width: 34px;
     margin-left: 4px;
     margin-bottom: 1px;
 }
+
 /************************************************************
  * vtp-rating                                               *
  ************************************************************/
@@ -1229,7 +1230,7 @@ input#vtp-search-bytags-taglist {
     width: 156px;
 }
 
-#vtp-projectdata-project-live, #vtp-projectdata-project-edit {
+#vtp-projectdata-project-live, #vtp-projectdata-project-edit, #vtp-projectdata-project-help, #vtp-lexicondata-lexicon-help {
     display: inline-block;
     position: absolute;
     border: $blue-frame-border;
@@ -1244,6 +1245,10 @@ input#vtp-search-bytags-taglist {
 
 #vtp-projectdata-project-live {
     right: 80px;
+}
+
+#vtp-projectdata-project-help.vtp-help-offset {
+    right: 122px;
 }
 
 #vtp-projectdata-box, #vtp-lexicondata-box {
@@ -1409,7 +1414,8 @@ div#vtp-forgot form input[type=submit]
 #vtp_search_date:hover,
 #vtp-imprint a:hover,
 a.ui-button:hover,
-a.vtp-extlink:hover {
+a.vtp-extlink:hover,
+.vtp-button:hover {
     border: 1px solid #74b2e2;
     background: #e4f1fb url("../img/ui-bg_glass_100_e4f1fb_1x400.png") 50% 50% repeat-x;
     font-weight: bold;
@@ -1422,7 +1428,8 @@ a.vtp-extlink:hover {
 #vtp-imprint a:active,
 #vtp_search_date:active,
 a.ui-button:active,
-a.vtp-extlink:active {
+a.vtp-extlink:active,
+.vtp-button:active {
     border: 1px solid #2694e8;
     background: #3baae3 url("../img/ui-bg_glass_50_3baae3_1x400.png") 50% 50% repeat-x;
     font-weight: bold;
@@ -1453,6 +1460,10 @@ a.vtp-extlink:active {
 form#form-tag {
     fieldset {
         padding-right: 17px;
+    }
+
+    #vtp-tagbox-help {
+        padding: .4em;
     }
 }
 
@@ -1856,4 +1867,11 @@ table.dataTable thead th:hover {
 
 #vtp-list-book-art-menu > .ui-menu-item {
     height: 20px;
+}
+
+#vtp-userhome-help {
+    margin-left: 3px;
+    padding-bottom: 8px;
+    padding-top: 9px;
+    float: right;
 }

@@ -2,7 +2,6 @@
  * JavaScript GUI for Vitoop Module: resource_detail.js
  */
 
-import TinyMCEInitializer from './components/TinyMCEInitializer';
 import ReadableButton from './components/ReadableButton';
 import DataStorage from './datastorage';
 import TagWidget from './widgets/tagWidget';
@@ -850,60 +849,7 @@ window.resourceDetail = (function () {
                 close: closeDialog
             });
 
-            $.ajax({
-                url: vitoop.baseUrl +'api/help',
-                method: 'GET',
-                success: function(answer) {
-                    if (answer.isAdmin) {
-                        var element = $('<input type="hidden" id="help-id" value="' + answer.help.id + '"><div class="vtp-fh-w100"><textarea id="help-text"></textarea></div><div class="vtp-fh-w100"><button class="ui-corner-all ui-state-default" id="button-help-save">speichern</button></div>');
-                        $('#help-text', element).val(answer.help.text);
-                        $('#vtp-res-dialog-help').append(element);
-                        setTimeout(function() {
-                            var tinyInit = new TinyMCEInitializer();
-                            var options = tinyInit.getCommonOptions();
-                            options.mode = 'exact';
-                            options.selector = 'textarea#help-text';
-                            options.id = 'tiny-help';
-                            options.height = 430;
-                            options.plugins.push('code');
-                            options.relative_urls = false;
-                            options.remove_script_host = false;
-                            options.convert_urls = true;
-                            options.toolbar = 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink | code';
-
-                            tinyMCE.init(options);
-                        }, 2000);
-
-                        $('#button-help-save').on('click', function() {
-                            tinyMCE.triggerSave();
-                            $.ajax({
-                                url: vitoop.baseUrl +'api/help',
-                                method: 'POST',
-                                data: JSON.stringify({'id': $('#help-id').val(), 'text': $('#help-text').val()}),
-                                success: function(data) {
-                                    var elemSuccess = $('<div class="vtp-uiinfo-info ui-state-highlight ui-corner-all"><span class="vtp-icon ui-icon ui-icon-info"></span>Help message saved!</div>');
-                                    $('#button-help-save').before(elemSuccess);
-                                    setTimeout(function() {
-                                        elemSuccess.hide(400);
-                                    }, 2000);
-                                }
-                            });
-                        });
-                    } else {
-                        $('#vtp-res-dialog-help').append(answer.help.text);
-                    }
-                    $('#vtp-res-dialog-help').dialog({
-                        autoOpen: false,
-                        width: 850,
-                        height: 600,
-                        position: { my: 'center top', at: 'center top', of: '#vtp-nav' },
-                        modal: true
-                    });
-                    $('#button-help').on('click', function() {
-                        $('#vtp-res-dialog-help').dialog('open');
-                    });
-                }
-            });
+            window.vitoopApp.helpButton.loadContent();
 
             $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').append('<input type="checkbox" id="resource-check" class="valid-checkbox" title="anhaken für weitere Verwendung: öffnen/mailen">');
             $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').append('<span id="resource-title"></span>');

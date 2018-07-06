@@ -17,7 +17,10 @@
         <input type="button" id="tag_confirm_save" title="{{ 'label.tag.add'|trans }}" name="tag[confirm_save]" class="vtp-uiinfo-anchor vtp-tag-submit ui-button ui-widget ui-state-default ui-corner-all" style="font-weight: normal; height: 24px; padding-top: 0px; padding-bottom: 0px;" value="+{{tagsRestAddedCount}}" role="button" aria-disabled="false">
         {{ form_widget(fvtag.remove, {'value': '-'~tagsRestRemovedCount, 'attr': {'class': 'vtp-uiinfo-anchor vtp-tag-submit' }}) }}
         <span style="float: right;">
-         {{ form_label(fvtag.showown, null, {'label_attr': {'class': 'vtp-fh-h24' }}) }}
+            <button id="vtp-tagbox-help" help-area="tag" class="vtp-help-area-button vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only" type="button">
+                <span class="ui-button-icon ui-icon ui-icon-help"></span><span class="ui-button-text"></span>
+            </button>
+            {{ form_label(fvtag.showown, null, {'label_attr': {'class': 'vtp-fh-h24' }}) }}
             {{ form_widget(fvtag.showown, {'attr': {'id': 'vtp-tgl-tag-showown', 'class': 'vtp-uiaction-tag-showown' }}) }}
         </span>
         <div id="div-confirm-tagging" class="vtp-fh-w100" style="margin-top: 5px; display: none">
