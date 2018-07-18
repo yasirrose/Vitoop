@@ -161,6 +161,21 @@ table {
     background-color: $vitoop-body-background-color;
 }
 
+.vtp-right {
+    float: right;
+    margin-left: 6px;
+
+    .vtp-right-dropdown {
+        span.ui-selectmenu-button {
+            float: right;
+        }
+    }
+
+    span.ui-selectmenu-button {
+        margin-bottom: 0px;
+    }
+}
+
 div#vtp-res-list table tr:first-of-type th:first-of-type,
 div#vtp-res-tags table tr:first-of-type th:first-of-type {
     border-left-width: 1px;
@@ -321,10 +336,15 @@ input[type="submit"], .vtp-button {
     vertical-align: middle;
 }
 
-.vtp-button .ui-button-text {
-    font-weight: normal !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
+.vtp-button {
+    display: inline-block;
+    position: relative;
+
+    .ui-button-text {
+      font-weight: normal !important;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+    }
 }
 
 .vtp-extlink {
@@ -616,7 +636,7 @@ span.vtp-lexiconbox-cntres {
 }
 
 .vtp-fh-bottom {
-    margin-top: 10px;
+    margin-top: 20px;
     padding-top: 2px;
 }
 
@@ -826,7 +846,7 @@ span.vtp-icon {
     font-size: 200%;
     border: 0 none;
     position: relative;
-    top: -5px;
+    top: -9px;
 }
 
 .vtp-logo a {
@@ -939,10 +959,8 @@ span.vtp-icon {
 
 #vtp-search-toggle, #vtp-search-help {
     float: right;
-    height: 25px;
     width: 34px;
     margin-left: 4px;
-    margin-bottom: 1px;
 }
 
 /************************************************************
@@ -1212,17 +1230,13 @@ div.divider-wrapper {
 }
 
 input#vtp-search-bytags-taglist {
-    height: 21px;
+    height: 19px;
 }
-#vtp-search-bytags-tagcnt-button {
-    height: 23px !important;
-}
+
 #vtp-search-bytags-form
 #vtp-search-bytags-form-submit {
-    height: 25px;
-    margin-bottom: 1px;
     .act {
-        width: 41px;
+        width: 48px;
     }
 }
 
@@ -1449,7 +1463,7 @@ a.vtp-extlink:active,
 #tabs-quickview {
     fieldset {
         padding-left: 13px;
-        padding-right: 0;
+        padding-right: 17px;
         padding-bottom: 10px; ;
         legend {
             margin-left: -8px;
@@ -1468,12 +1482,13 @@ form#form-tag {
 }
 
 .created-info {
-    padding-left: 99px;
+    margin-top: 10px;
     .vtp-fh-infosave-box {
         font-size: smaller;
         vertical-align: bottom;
         padding-right: 3px;
         margin-top: 4px;
+        margin-left: 0px;
     }
     .vtp-fh-infosave-box-left {
         @include blue-border-radius-left();
@@ -1485,17 +1500,17 @@ form#form-tag {
     .vtp-fh-infosave-box-right {
         @include blue-border-radius-right();
         padding-top: 1px;
+        margin-left: 6px;
     }
 }
 
 .created-info-book {
     @extend .created-info;
-    padding-left: 65px;
 }
 
 .created-info-project {
     @extend .created-info;
-    padding-left: 131px;
+    padding-left: 75px;
 }
 
 #resource-quickview form#vtp-form-data label,
@@ -1503,6 +1518,8 @@ form#form-tag {
 #form-user-links label{
     color: $vitoop-blue-color;
     font-size: 0.85em;
+    height: 24px;
+    line-height: 30px;
 }
 
 #button-help-save, #button-terms-save, #button-datap-save {
@@ -1847,7 +1864,7 @@ table.dataTable thead th:hover {
     height: 20px;
     margin-top: 1px;
     @include border-radius(3px);
-    padding: 0px 4px;
+    padding: 0px 6px;
 
     :focus {
 
@@ -1856,7 +1873,7 @@ table.dataTable thead th:hover {
 
 #is-read-filter {
     height: 22px;
-    padding: 0px 4px;
+    padding: 0px 6px;
 }
 
 #vtp-list-book-art-button {
@@ -1869,9 +1886,18 @@ table.dataTable thead th:hover {
     height: 20px;
 }
 
+#book_kind-button,
+#pdf_lang-button {
+  margin-left: 3px;
+}
+
 #vtp-userhome-help {
     margin-left: 3px;
     padding-bottom: 8px;
     padding-top: 9px;
     float: right;
+}
+
+.vtp-admin-toolbar {
+    display: none;
 }

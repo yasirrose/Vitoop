@@ -2,11 +2,13 @@ import VtpDatatable from '../components/VtpDatatable';
 import TinyMCEInitializer from '../components/TinyMCEInitializer';
 import SecondSearch from "../components/SecondSearch";
 import HelpButton from '../components/HelpButton';
+import AdminToolbarButton from '../components/AdminToolbarButton';
 
 class VitoopApp {
     constructor () {
         this.secondSearch = new SecondSearch();
         this.helpButton = new HelpButton();
+        new AdminToolbarButton();
     }
 
     initTable(resType, isAdmin, isEdit, isCoef, url, resourceId) {

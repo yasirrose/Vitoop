@@ -10,19 +10,19 @@
     {{ form_errors(fvdata) }}
     <div class="vtp-fh-top">
         {{ form_label(fvdata.name, null, {'label_attr': {'class': 'vtp-fh-w20' }}) }}
-        {{ form_widget(fvdata.name, {'attr': {'class': 'vtp-fh-w80' }}) }}
+        {{ form_widget(fvdata.name, {'attr': {'class': 'vtp-fh-w80 vtp-right' }}) }}
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.name) }}</div>
     </div>
     <div class="vtp-fh-middle">
         {{ form_label(fvdata.description, null, {'label_attr': {'class': 'vtp-fh-w20', 'style': 'vertical-align: middle;' }}) }}
-        {{ form_widget(fvdata.description, {'attr': {'class': 'vtp-fh-w80', 'rows': '10' }}) }}
+        {{ form_widget(fvdata.description, {'attr': {'class': 'vtp-fh-w80 vtp-right', 'rows': '10' }}) }}
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.description) }}</div>
     </div>
     {% include 'VitoopInfomgmtBundle:Resource:_userHook.field.html.twig' with {'fvdata': fvdata, 'res': res, 'fieldSuffix': '-project'} %}
     {% if isShowSave %}
     <div class="vtp-fh-bottom">
         <div class="vtp-fh-w75"></div>
-        <div class="vtp-fh-right vtp-fh-w25">
+        <div class="vtp-fh-right vtp-fh-w30 vtp-right">
             {{ form_widget(fvdata.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}
         </div>
     </div>

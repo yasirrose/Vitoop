@@ -13,39 +13,43 @@
     {{ form_errors(fvdata) }}
     <div class="vtp-fh-top">
         {{ form_label(fvdata.name, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
-        {{ form_widget(fvdata.name, {'attr': {'class': 'vtp-fh-w90' }}) }}
+        {{ form_widget(fvdata.name, {'attr': {'class': 'vtp-fh-w90 vtp-right' }}) }}
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.name) }}</div>
     </div>
     <div class="vtp-fh-middle">
         {{ form_label(fvdata.author, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
-        {{ form_widget(fvdata.author, {'attr': {'class': 'vtp-fh-w90' }}) }}
+        {{ form_widget(fvdata.author, {'attr': {'class': 'vtp-fh-w90 vtp-right' }}) }}
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.author) }}</div>
     </div>
     <div class="vtp-fh-middle">
         {{ form_label(fvdata.publisher, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
-        {{ form_widget(fvdata.publisher, {'attr': {'class': 'vtp-fh-w90' }}) }}
+        {{ form_widget(fvdata.publisher, {'attr': {'class': 'vtp-fh-w90 vtp-right' }}) }}
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.publisher) }}</div>
     </div>
     <div class="vtp-fh-middle">
         {{ form_label(fvdata.url, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
         {% if isNew %}
-            {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w90', 'onblur': 'vitoopApp.checkUniqueUrl("pdf", event);'}}) }}
+            {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w90 vtp-right', 'onblur': 'vitoopApp.checkUniqueUrl("pdf", event);'}}) }}
         {%else%}
-            {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w80', 'onblur': 'vitoopApp.checkUniqueUrl("pdf", event);', 'style': 'width: 82.7%' }}) }}
-            <div class="vtp-fh-right vtp-fh-w0"><a href="{{ res.url }}" target="_blank" class="vtp-uiaction-open-url vtp-button">URL öffnen</a></div>
+            <div class="vtp-fh-right vtp-fh-w0 vtp-right"><a href="{{ res.url }}" target="_blank" class="vtp-uiaction-open-url vtp-button">URL öffnen</a></div>
+            {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w80 vtp-right', 'onblur': 'vitoopApp.checkUniqueUrl("pdf", event);', 'style': 'width: 82%' }}) }}
         {%endif%}
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.url) }}</div>
     </div>
     
     <div class="vtp-fh-middle">
         {{ form_label(fvdata.tnop, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
-        {{ form_widget(fvdata.tnop, {'attr': {'class': 'vtp-fh-w15' }}) }}
-        <div class="vtp-fh-w05"></div>
-        {{ form_label(fvdata.pdfDate, null, {'label_attr': {'class': 'vtp-fh-w15' }}) }}
-        {{ form_widget(fvdata.pdfDate, {'attr': {'class': 'vtp-fh-w20' }}) }}
-        <div class="vtp-fh-w05"></div>
-        {{ form_label(fvdata.lang, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
-        {{ form_widget(fvdata.lang, {'attr': {'class': 'vtp-fh-w0', 'style': 'width: 20%' }}) }}
+        <div class="vtp-fh-w90 vtp-right">
+            {{ form_widget(fvdata.tnop, {'attr': {'class': 'vtp-fh-w15' }}) }}
+            <div class="vtp-fh-w50 vtp-right vtp-right-dropdown" style="width: 43%">
+                {{ form_widget(fvdata.lang, {'attr': {'class': 'vtp-right' }}) }}
+                {{ form_label(fvdata.lang, null, {'label_attr': {'class': 'vtp-fh-w20 vtp-right' }}) }}
+            </div>
+            <div class="vtp-fh-w35 vtp-right">
+                {{ form_widget(fvdata.pdfDate, {'attr': {'class': 'vtp-fh-w60 vtp-right' }}) }}
+                {{ form_label(fvdata.pdfDate, null, {'label_attr': {'class': 'vtp-fh-w35 vtp-right' }}) }}
+            </div>
+        </div>
     </div>
     <div>
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.tnop) }}</div>
@@ -56,7 +60,7 @@
     {% if isShowSave %}
     <div class="vtp-fh-bottom">
         <div class="vtp-fh-w70"></div>
-        <div class="vtp-fh-right vtp-fh-w30">
+        <div class="vtp-fh-right vtp-fh-w30 vtp-right">
             {{ form_widget(fvdata.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}
         </div>
     </div>

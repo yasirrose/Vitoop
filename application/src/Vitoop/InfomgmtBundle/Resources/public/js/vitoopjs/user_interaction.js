@@ -20,14 +20,6 @@ window.userInteraction = (function () {
             }
         });
 
-        $('#invitations-toggle').button({
-
-        });
-
-        $('#button-terms-admin').button({
-
-        });
-
         $('#button-checking-links').button({});
         $('#button-checking-links-send').button({});
         $('#button-checking-links-remove').button({
@@ -36,7 +28,6 @@ window.userInteraction = (function () {
                 },
             text: false,
         });
-        $('#button-data-p').button({});
 
         $('#invitations-toggle').click(function() {
             $.ajax({

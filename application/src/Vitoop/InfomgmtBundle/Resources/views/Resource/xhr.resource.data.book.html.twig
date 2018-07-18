@@ -17,46 +17,47 @@
     {{ form_errors(fvdata) }}
     <div class="vtp-fh-top">
         {{ form_label(fvdata.name, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
-        {{ form_widget(fvdata.name, {'attr': {'class': 'vtp-fh-w90' }}) }}
+        {{ form_widget(fvdata.name, {'attr': {'class': 'vtp-fh-w90 vtp-right' }}) }}
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.name) }}</div>
     </div>
     <div class="vtp-fh-middle">
         {{ form_label(fvdata.author, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
-        {{ form_widget(fvdata.author, {'attr': {'class': 'vtp-fh-w90' }}) }}
+        {{ form_widget(fvdata.author, {'attr': {'class': 'vtp-fh-w90 vtp-right' }}) }}
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.author) }}</div>
     </div>
     <div class="vtp-fh-middle">
         {{ form_label(fvdata.publisher, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
-        {{ form_widget(fvdata.publisher, {'attr': {'class': 'vtp-fh-w90' }}) }}
+        {{ form_widget(fvdata.publisher, {'attr': {'class': 'vtp-fh-w90 vtp-right' }}) }}
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.publisher) }}</div>
     </div>
     <div class="vtp-fh-middle">
         {{ form_label(fvdata.issuer, null, {'label_attr': {'class': 'vtp-fh-w10' }}) }}
-        {{ form_widget(fvdata.issuer, {'attr': {'class': 'vtp-fh-w90' }}) }}
+        {{ form_widget(fvdata.issuer, {'attr': {'class': 'vtp-fh-w90 vtp-right' }}) }}
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.issuer) }}</div>
     </div>
     <div class="vtp-fh-middle">
-        <div class="vtp-fh-w35">
-            {{ form_label(fvdata.isbn, null, {'label_attr': {'class': 'vtp-fh-w31', 'style': 'width: 26%' }}) }}
-            {{ form_widget(fvdata.isbn, {'attr': {'class': 'vtp-fh-w60', 'onblur': 'vitoopApp.checkUniqueBook(\'isbn\', event);', 'old': fvdata.vars.value.isbn }}) }}
-        </div>
-        <div class="vtp-fh-w35">
-            {{ form_label(fvdata.year, null, {'label_attr': {'class': 'vtp-fh-w35' }}) }}
-            {{ form_widget(fvdata.year, {'attr': {'class': 'vtp-fh-w60', 'style':'margin-right: 5px' }}) }}
-        </div>
-        <div class="vtp-fh-w31">
-            {{ form_label(fvdata.tnop, null, {'label_attr': {'class': 'vtp-fh-w35' }}) }}
-            {{ form_widget(fvdata.tnop, {'attr': {'class': 'vtp-fh-w60', 'style': 'margin-right: 5px' }}) }}
+        {{ form_label(fvdata.isbn, null, {'label_attr': {'class': 'vtp-fh-w10'}}) }}
+        <div class="vtp-fh-w90 vtp-right">
+            {{ form_widget(fvdata.isbn, {'attr': {'class': 'vtp-fh-w25', 'onblur': 'vitoopApp.checkUniqueBook(\'isbn\', event);', 'old': fvdata.vars.value.isbn }}) }}
+            <div class="vtp-fh-w35 vtp-right">
+                {{ form_label(fvdata.tnop, null, {'label_attr': {'class': 'vtp-fh-w35' }}) }}
+                {{ form_widget(fvdata.tnop, {'attr': {'class': 'vtp-fh-w60 vtp-right' }}) }}
+            </div>
+            <div class="vtp-fh-w35 vtp-right">
+                {{ form_label(fvdata.year, null, {'label_attr': {'class': 'vtp-fh-w35' }}) }}
+                {{ form_widget(fvdata.year, {'attr': {'class': 'vtp-fh-w60 vtp-right' }}) }}
+            </div>
+
         </div>
     </div>
     <div class="vtp-fh-middle">
-        <div class="vtp-fh-w35">
-            {{ form_label(fvdata.lang, null, {'label_attr': {'class': 'vtp-fh-w31', 'style': 'width: 26%; margin-bottom: -5px;' }}) }}
-            {{ form_widget(fvdata.lang, {'attr': {'class': 'vtp-fh-w60'}}) }}
-        </div>
-        <div class="vtp-fh-w60">
-            {{ form_label(fvdata.kind, null, {'label_attr': {'class': 'vtp-fh-w25', 'style': 'width: 20%; margin-bottom: -5px;' }}) }}
-            {{ form_widget(fvdata.kind, {'attr': {'class': 'vtp-fh-w80' }}) }}
+        {{ form_label(fvdata.lang, null, {'label_attr': {'class': 'vtp-fh-w10', 'style': 'margin-bottom: -5px;' }}) }}
+        <div class="vtp-fh-w90 vtp-right">
+            {{ form_widget(fvdata.lang, {'attr': {'class': 'vtp-fh-30'}}) }}
+            <div class="vtp-fh-w70 vtp-right">
+                {{ form_label(fvdata.kind, null, {'label_attr': {'class': 'vtp-fh-w20', 'style': 'width: 19%; margin-bottom: 5px' }}) }}
+                {{ form_widget(fvdata.kind, {'attr': {'class': 'vtp-fh-w80 vtp-right',  'style': 'width: 80%; margin-left: 3px;' }}) }}
+            </div>
         </div>
     </div>
     <div class="vtp-fh-middle">
@@ -70,7 +71,7 @@
     {% if isShowSave %}
     <div class="vtp-fh-bottom">
         <div class="vtp-fh-w70"></div>
-        <div class="vtp-fh-right vtp-fh-w30">
+        <div class="vtp-fh-right vtp-fh-w30 vtp-right">
             {{ form_widget(fvdata.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}
         </div>
     </div>

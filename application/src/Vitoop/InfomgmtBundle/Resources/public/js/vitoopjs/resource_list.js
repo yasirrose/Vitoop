@@ -165,21 +165,6 @@ class ResourceList {
         });
         $('#vtp-header-toggle-flag button').hide();
 
-        $('#vtp-header-status a.vtp-uiaction-goto-invite').button({
-            icons: {
-                primary: "ui-icon-mail-closed",
-                secondary: "ui-icon-pencil"
-            },
-            text: false
-        });
-
-        $('#vtp-header-status a.vtp-uiaction-goto-edithome').button({
-            icons: {
-                primary: "ui-icon-home",
-                secondary: "ui-icon-pencil"
-            },
-            text: false
-        });
 
         $('#vtp-user-userdata').button({
             icons: {

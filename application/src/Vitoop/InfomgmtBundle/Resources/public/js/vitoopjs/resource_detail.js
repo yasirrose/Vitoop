@@ -624,7 +624,7 @@ window.resourceDetail = (function () {
                 return;
             }
             if (next_id == 0) {// load NEXT listpage
-                rows = $('#vtp-res-list table').DataTable().page('next').draw('page');
+                let rows = $('#vtp-res-list table').DataTable().page('next').draw('page');
                 rows.on('draw.dt', function () {
                     tr_res = $('.vtp-list-first');
                     tgl();
