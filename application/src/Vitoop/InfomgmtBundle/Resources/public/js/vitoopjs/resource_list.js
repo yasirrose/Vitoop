@@ -39,7 +39,7 @@ class ResourceList {
             // decide reslink or homelink
             if ($(e.target).hasClass('vtp-resmenu-reslink')) {
                 if ($('#vtp-nav .vtp-nav-active').hasClass('vtp-resmenu-homelink-home')) {
-                    $('#vtp-search-bytags-form, #vtp-search-toggle').show('fade', 'slow');
+                    $('#vtp-search-bytags-form, #vtp-search-toggle, #vtp-search-help').show('fade', 'slow');
                     resourceSearch.maintainTaglistbox();
                 }
                 vitoopApp.secondSearch.show();
@@ -48,7 +48,7 @@ class ResourceList {
                 succ = [ResourceList.prototype.insertResourceList];
             } else if ($(e.target).hasClass('vtp-resmenu-homelink')) {
                 if ($(e.target).hasClass('vtp-resmenu-homelink-home') && $('#vtp-nav .vtp-nav-active').hasClass('vtp-resmenu-reslink')) {
-                    $('#vtp-search-bytags-form').hide('fade', 'slow');
+                    $('#vtp-search-bytags-form, #vtp-search-toggle, #vtp-search-help').hide('fade', 'slow');
                     vitoopApp.secondSearch.close();
                     resourceSearch.maintainTaglistbox(true);
                 } else if ($(e.target).hasClass('vtp-resmenu-homelink') && $('#vtp-nav .vtp-nav-active').hasClass('vtp-resmenu-reslink')) {
