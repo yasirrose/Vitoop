@@ -1,4 +1,5 @@
 $vitoop-body-background-color: #f2f5f7;
+$vitoop-pdf-view-meta-width: 360px;
 
 .pdfobject-container {
     /*width: 100%;*/
@@ -17,16 +18,12 @@ $vitoop-body-background-color: #f2f5f7;
     background-color: #404040;
     overflow: hidden;
 
-    #resource-tag {
-        width: 380px;
-        padding-top: 30px;
-    }
 }
 
 #pdf-view-wrapper{
     position: absolute;
     /*top: 24px;*/
-    left: 400px;
+    left: $vitoop-pdf-view-meta-width;
     right: 0;
     bottom: 0px;
     height: 100%;
@@ -36,7 +33,7 @@ $vitoop-body-background-color: #f2f5f7;
 
 #vtp-pdf-view-toggle {
     position: absolute;
-    left: 400px;
+    left: $vitoop-pdf-view-meta-width;
     bottom: 30px;
     width: 36px;
     z-index: 30;
@@ -46,11 +43,6 @@ $vitoop-body-background-color: #f2f5f7;
     height: 50px;
     width: 32px;
     border: 1px solid #aed0ea;
-}
-
-.vtp-view-textarea {
-    height: 20px;
-    width: 365px;
 }
 
 .vtp-view-button-container {
@@ -67,7 +59,7 @@ $vitoop-body-background-color: #f2f5f7;
 #vtp-view-meta {
     /*position: absolute;*/
     top: 0px;
-    width: 400px;
+    width: $vitoop-pdf-view-meta-width;
     height: 100%;
     float:left;
     z-index: 20;
@@ -79,14 +71,19 @@ $vitoop-body-background-color: #f2f5f7;
     }
 
     #tag_text {
-        width: 200px;
+        width: 335px;
         height: 26px;
+        margin-bottom: 3px;
     }
 
     #form-tag {
         button {
             height: 26px;
         }
+    }
+
+    .vtp-meta-list ul, li {
+        list-style-type: none;
     }
 }
 
@@ -99,7 +96,7 @@ $vitoop-body-background-color: #f2f5f7;
     @media (min-width: 1100px) {
       top: 0; // then this rule comes in at larger widths and overrides whatever the nav inheriting
     }
-    left: 400px;
+    left: $vitoop-pdf-view-meta-width;
     right: 0;
     padding: 0 5px;
     text-shadow: 1px 1px 0 #fff;

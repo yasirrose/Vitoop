@@ -4,10 +4,13 @@ import SecondSearch from "../components/SecondSearch";
 import HelpButton from '../components/HelpButton';
 import AdminToolbarButton from '../components/AdminToolbarButton';
 
-class VitoopApp {
+export default class VitoopApp {
     constructor () {
-        this.secondSearch = new SecondSearch();
         this.helpButton = new HelpButton();
+    }
+
+    init() {
+        this.secondSearch = new SecondSearch();
         new AdminToolbarButton();
     }
 
@@ -128,13 +131,3 @@ class VitoopApp {
         });
     }
 }
-
-
-$(function () {
-    window.vitoopApp = new VitoopApp();
-    resourceList.init();
-    resourceDetail.init();
-    resourceSearch.init();
-    resourceProject.init();
-    userInteraction.init();
-});

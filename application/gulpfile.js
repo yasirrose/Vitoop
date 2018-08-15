@@ -99,7 +99,8 @@ gulp.task('vitoop-app', function () {
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/components/*.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/widgets/*.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/*.js',
-        'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/app/vitoop.js'
+        'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/app/vitoop.js',
+        'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/app/boot.js'
         ])
         .pipe(bro({
             transform: [
@@ -111,11 +112,34 @@ gulp.task('vitoop-app', function () {
         .pipe(gulp.dest('web/js/build'));
 });
 
+gulp.task('pdf-view', function () {
+    return gulp.src([
+        'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/app/pdfView.js'
+    ])
+        .pipe(bro({
+            transform: [
+                babelify.configure({ presets: ['env'] }),
+               /* [ 'uglifyify', { global: true } ]*/
+            ]
+        }))
+        .pipe(concat('vitoop-pdf-view.js'))
+        .pipe(gulp.dest('web/js/build'));
+});
+
+
 gulp.task('js', ['angular-js', 'lexicon-js', 'tinymce-js', 'datatables-js', 'vitoop-app'], function () {
     return gulp.src([
         'src/Vitoop/InfomgmtBundle/Resources/public/js/jquery/*.js',
         'web/js/build/vitoop-app.js'])
         .pipe(concat('vitoop.js'))
+        .pipe(gulp.dest('web/js'));
+});
+
+gulp.task('pdf-view-js', ['pdf-view'], function () {
+    return gulp.src([
+        'src/Vitoop/InfomgmtBundle/Resources/public/js/jquery/*.js',
+        'web/js/build/vitoop-pdf-view.js'])
+        .pipe(concat('vitoop-pdf-view.js'))
         .pipe(gulp.dest('web/js'));
 });
 
@@ -166,7 +190,7 @@ gulp.task('pdf', function () {
         .pipe(gulp.dest('web/build'));
 });
 
-gulp.task('default', ['img', 'tinymce-scss', 'scss', 'js', 'pdf']);
+gulp.task('default', ['img', 'tinymce-scss', 'scss', 'js', 'pdf', 'pdf-view-js']);
 
 gulp.task('prod', ['set-prod', 'default']);
 
