@@ -58,9 +58,9 @@ export default class DateRangeFilter {
     getDOMElement () {
         let dateRange = document.createElement('div');
         dateRange.id = "search_date_range";
-        dateRange.innerHTML = '<input id="search_date_from" class="range-filter" type="text" value="" name="search_date_from" placeholder="Datum von"/>' +
+        dateRange.innerHTML = '<label><input id="search_date_from" class="range-filter" type="text" value="" name="search_date_from" placeholder="Datum von"/>' +
             '<input id="search_date_to" class="range-filter" type="text" value="" name="search_date_to" placeholder="Datum bis"/>' +
-            '<button class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only" id="vtp_search_date"><span class="ui-icon ui-icon-search"></span><span class="ui-button-text"></span></button>';
+            '<button class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only" id="vtp_search_date"><span class="ui-icon ui-icon-search"></span><span class="ui-button-text"></span></button></label>';
 
         return dateRange;
     }

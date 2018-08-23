@@ -53,7 +53,7 @@ export default class VtpDatatable {
         });
 
         //user read filter
-        $('.dataTables_filter input').before(vitoopApp.secondSearch.isReadFilter.renderButton());
+        $('.dataTables_filter label').before(vitoopApp.secondSearch.isReadFilter.renderButton());
         $('#is-read-filter').on('click', function () {
             vitoopApp.secondSearch.isReadFilter.toggleButton($(this));
             self.refreshTable();
@@ -104,7 +104,7 @@ export default class VtpDatatable {
             }
         });
 
-        $('.dataTables_filter input').after($('<button id="vtp-search-clear" class="vtp-button"></button>'));
+        $('.dataTables_filter label').after($('<button id="vtp-search-clear" class="vtp-button"></button>'));
         $('#vtp-search-clear').button({
             icons: {
                 primary: "ui-icon-close"
@@ -398,7 +398,7 @@ export default class VtpDatatable {
     }
 
     dtDomObject() {
-        let toolbar_prefix = 'fg-toolbar ui-toolbar vtp-pg-pane ui-state-defaultgulp ui-helper-clearfix ui-corner-';
+        let toolbar_prefix = 'fg-toolbar ui-toolbar vtp-pg-pane ui-state-default ui-helper-clearfix ui-corner-';
 
         return toolbar_prefix+'all top-toolbar"fr>'+'t'+'<"'+toolbar_prefix+'all"lip>';
     }

@@ -196,7 +196,7 @@ div#vtp-res-tags table tr:first-of-type th {
 .blau, .vtp-title {
     color: $vitoop-blue-color;
 }
-
+.dataTables_filter
 .blau-text {
     line-height: 23px;
     vertical-align: bottom;
@@ -449,19 +449,6 @@ table input[disabled="disabled"].vtp-uiaction-coefficient {
     width: 34px;
     height: 23px;
     cursor: pointer;
-}
-
-#vtp-search-clear {
-    width: 34px;
-    margin-left: 5px;
-    margin-right: 8px;
-    height: 22px;
-    background: -webkit-linear-gradient(bottom, #e8f3fa, #7cc0f6); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(top, #7cc0f6 , #e8f3fa); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(top, #7cc0f6 , #e8f3fa); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to top, #7cc0f6 , #e8f3fa);
-    /*background-size: 7% auto;*/
-    background-repeat: no-repeat;
 }
 
 #vtp-search-toggle.vtp-toggler-active {
@@ -1662,20 +1649,10 @@ td.vtp-blue.ui-state-active {
 
 #vtp-register {
     padding: 2em 10em;
-}
 
-#vtp-register input {
-    margin-left: 5em;
-}
-
-.dataTables_filter {
-    padding-top: 1px;
-    padding-bottom: 2px;
-}
-
-.dataTables_filter input,
-#search_date_range input {
-    height: 18px;
+    input {
+        margin-left: 5em;
+    }
 }
 
 #search_blue_box {
@@ -1719,6 +1696,7 @@ a.vtp-uiaction-open-url:visited {
         .fg-toolbar.ui-toolbar.vtp-pg-pane {
             padding-top: 0px;
             padding-bottom: 0px;
+            height: 28px;
         }
     }
 }
@@ -1792,18 +1770,63 @@ a.vtp-uiaction-open-url:visited {
     clear: both;
 }
 
-#search_date_range {
-    margin-left: 138px;
+.dataTables_filter {
     padding-top: 2px;
-    padding-bottom: 2px;
+   // padding-bottom: 2px;
+
+    label {
+        vertical-align: baseline;
+    }
+
+    #is-read-filter {
+        margin-bottom: 4px;
+        //vertical-align: baseline;
+    }
+
     input {
-        margin-right: 6px;
-        width: 130px;
+        margin-top: 1px;
+        vertical-align: baseline;
+    }
+
+    #vtp-search-clear {
+        width: 34px;
+        margin-left: 5px;
+        margin-right: 8px;
+        margin-bottom: 4px;
+        height: 22px;
+        background: -webkit-linear-gradient(bottom, #e8f3fa, #7cc0f6); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(top, #7cc0f6 , #e8f3fa); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(top, #7cc0f6 , #e8f3fa); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(to top, #7cc0f6 , #e8f3fa);
+        /*background-size: 7% auto;*/
+        background-repeat: no-repeat;
     }
 }
 
-#vtp_search_date {
-    height: 22px;
+.dataTables_filter input,
+#search_date_range input {
+    height: 18px;
+}
+
+#search_date_range {
+    margin-left: 138px;
+   // margin-bottom: 1px;
+    width: 35%;
+    padding-top: 2px;
+    input {
+        margin-top: 1px;
+        margin-right: 6px;
+        width: 130px;
+        vertical-align: baseline;
+    }
+    label {
+        vertical-align: baseline;
+    }
+
+    #vtp_search_date {
+        height: 22px;
+        margin-bottom: 4px;
+    }
 }
 
 #remark_locked {
