@@ -96,7 +96,7 @@ $vitoop-pdf-view-meta-width: 360px;
     @media (min-width: 1100px) {
       top: 0; // then this rule comes in at larger widths and overrides whatever the nav inheriting
     }
-    left: $vitoop-pdf-view-meta-width;
+    left: 380px;
     right: 0;
     padding: 0 5px;
     text-shadow: 1px 1px 0 #fff;
@@ -423,4 +423,8 @@ $vitoop-pdf-view-meta-width: 360px;
 .pdfPresentationMode:fullscreen .pdfViewer .page {
     margin-bottom: 100%;
     border: 0;
+}
+
+.vtp-view-title {
+    font-size: 16px;
 }

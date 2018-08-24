@@ -12,34 +12,21 @@
 <div id="vtp-view-container">
     <div id="vtp-view-meta">
         <div class="vtp-fh-top">
-            <p class="vtp-title">{{ 'label.title'|trans }}: {{resource.name}}</p>
-        </div>
-
-        <div class="vtp-view-button-container">
-            <button class="vtp-button ui-corner-all ui-state-default" id="vtp-remark-dialog">{{ 'label.remarks'|trans  }}</button>
-            <button class="vtp-button ui-corner-all ui-state-default" id="vtp-remark-private-dialog">{{ 'label.privat_remarks'|trans  }}</button>
-            <button class="vtp-button ui-corner-all ui-state-default" id="vtp-comments-dialog">{{ 'label.comments'|trans }}</button>
-            <button class="vtp-button ui-corner-all ui-state-default" id="vtp-assignments-dialog">{{ 'label.assignments'|trans }}</button>
-        </div>
-
-        <div>
-            <p class="vtp-title">{{ 'label.author'|trans }}: {{resource.author}}</p>
-        </div>
-        <div>
-            <div class="vtp-fh-w25"></div>
-            <div class="vtp-fh-w75">
-                <ul class="vtp-meta-list">
-                    <li><p class="vtp-title">{{ 'label.tnop'|trans }}: {{resource.tnop}}<p/></li>
-                    <li><p class="vtp-title">{{ 'label.pdf_date'|trans }}: {{resource.pdfDate}}<p/></li>
-                    <li><p class="vtp-title">{{ 'label.lang'|trans }}: {{resource.lang.name}}<p/></li>
-                </ul>
-            </div>
+            <p class="vtp-title vtp-view-title"><b>{{ 'label.title'|trans }}:</b> {{resource.name}}</p>
+            <p class="vtp-title"><b>{{ 'label.author'|trans }}:</b> {{resource.author}}</p>
+            <p class="vtp-title"><b>{{ 'label.tnop'|trans }}:</b> {{resource.tnop}}<p/>
+            <p class="vtp-title"><b>{{ 'label.pdf_date'|trans }}:</b> {{resource.pdfDate}}<p/>
+            <p class="vtp-title"><b>{{ 'label.lang'|trans }}:</b> {{resource.lang.name}}<p/>
         </div>
 
         <div class="vtp-fh-middle" id="resource-tag">
             {{ tagForm|raw }}
         </div>
         <div class="vtp-fh-middle vtp-view-button-container">
+            <button class="vtp-button ui-corner-all ui-state-default" id="vtp-remark-dialog">{{ 'label.remarks'|trans  }}</button>
+            <button class="vtp-button ui-corner-all ui-state-default" id="vtp-remark-private-dialog">{{ 'label.privat_remarks'|trans  }}</button>
+            <button class="vtp-button ui-corner-all ui-state-default" id="vtp-comments-dialog">{{ 'label.comments'|trans }}</button>
+            <button class="vtp-button ui-corner-all ui-state-default" id="vtp-assignments-dialog">{{ 'label.assignments'|trans }}</button>
             <button class="vtp-button ui-corner-all ui-state-default" id="pdf-editor-save">{{ 'label.save'|trans }} PDF</button>
         </div>
     </div>

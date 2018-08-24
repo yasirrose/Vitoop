@@ -99,6 +99,10 @@ function renderPdfByPageNum(pageNum, isNeedToScroll) {
             let viewport = pdfPage.getViewport(RENDER_OPTIONS.scale, RENDER_OPTIONS.rotate);
             PAGE_HEIGHT = viewport.height;
 
+            if (renderedPages.indexOf(pageNum) == -1) {
+                renderedPages.push(pageNum);
+            }
+
             if (isNeedToScroll) {
                 document.querySelector('.page[data-page-number="'+pageNum+'"][data-loaded="true"]').scrollIntoView(true);
             }
@@ -356,6 +360,8 @@ window.addEventListener('renderpdf', function (e) {
         render();
     }
     for (let i=1; i<=currentPageNum; i++) {
-        renderPdfByPageNum(i, (i == currentPageNum));
+        if (renderedPages.indexOf(i) !== -1) {
+            renderPdfByPageNum(i, (i == currentPageNum));
+        }
     }
 });
