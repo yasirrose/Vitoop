@@ -196,7 +196,7 @@ div#vtp-res-tags table tr:first-of-type th {
 .blau {
     color: $vitoop-blue-color;
 }
-.dataTables_filter
+
 .blau-text {
     line-height: 23px;
     vertical-align: bottom;
@@ -1779,7 +1779,10 @@ a.vtp-uiaction-open-url:visited {
     }
 
     #is-read-filter {
+        margin-top: 1px;
         margin-bottom: 4px;
+        float: left;
+
         //vertical-align: baseline;
     }
 
@@ -1790,9 +1793,7 @@ a.vtp-uiaction-open-url:visited {
 
     #vtp-search-clear {
         width: 34px;
-        margin-left: 5px;
-        margin-right: 8px;
-        margin-bottom: 4px;
+        margin: 1px 8px 4px 5px;
         height: 22px;
         background: -webkit-linear-gradient(bottom, #e8f3fa, #7cc0f6); /* For Safari 5.1 to 6.0 */
         background: -o-linear-gradient(top, #7cc0f6 , #e8f3fa); /* For Opera 11.1 to 12.0 */
@@ -1806,6 +1807,8 @@ a.vtp-uiaction-open-url:visited {
 .dataTables_filter input,
 #search_date_range input {
     height: 18px;
+    display: block;
+    float: left;
 }
 
 #search_date_range {
@@ -1824,6 +1827,7 @@ a.vtp-uiaction-open-url:visited {
     }
 
     #vtp_search_date {
+        margin-top: 1px;
         height: 22px;
         margin-bottom: 4px;
     }
