@@ -11,12 +11,14 @@
 <body id="vtp-application">
 <div id="vtp-view-container">
     <div id="vtp-view-meta">
-        <div class="vtp-fh-top">
-            <p class="vtp-title vtp-view-title"><b>{{ 'label.title'|trans }}:</b> {{resource.name}}</p>
-            <p class="vtp-title"><b>{{ 'label.author'|trans }}:</b> {{resource.author}}</p>
-            <p class="vtp-title"><b>{{ 'label.tnop'|trans }}:</b> {{resource.tnop}}<p/>
-            <p class="vtp-title"><b>{{ 'label.pdf_date'|trans }}:</b> {{resource.pdfDate}}<p/>
-            <p class="vtp-title"><b>{{ 'label.lang'|trans }}:</b> {{resource.lang.name}}<p/>
+        <div class="vtp-fh-top vtp-mb-15">
+            <p class="vtp-title vtp-view-title">{{ 'label.title'|trans }}: <b>{{resource.name}}</b></p>
+            <p class="vtp-title">
+                <span class="vtp-view-label">{{ 'label.author'|trans }}:</span> <span class="vtp-view-description">{{resource.author}}</span>
+                <span class="vtp-view-label">{{ 'label.tnop'|trans }}:</span> <span class="vtp-view-description">{{resource.tnop}}</span>
+                <span class="vtp-view-label">{{ 'label.pdf_date'|trans }}:</span> <span class="vtp-view-description">{{ resource.pdfDate}}</span>
+                <span class="vtp-view-label">{{ 'label.lang'|trans }}: </span> <span class="vtp-view-description">{{resource.lang.name}}</span>
+            </p>
         </div>
 
         <div class="vtp-fh-middle" id="resource-tag">

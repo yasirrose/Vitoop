@@ -47,21 +47,25 @@ if (document.getElementById('pdf-editor-save')) {
 pdfWrapper.addEventListener('scroll', openCurrentPage);
 
 function openCurrentPage(e) {
+    if (0 === NUM_PAGES) {
+        return;
+    }
     let visiblePageNum = Math.round(e.target.scrollTop / PAGE_HEIGHT) + 1;
+    if (currentPageNum === visiblePageNum) {
+        return;
+    }
+
     let visiblePage = document.querySelector('.page[data-page-number="'+visiblePageNum+'"][data-loaded="false"]');
     currentPageNum = visiblePageNum;
 
-    if (renderedPages.indexOf(visiblePageNum) == -1) {
+    let okToRender = false;
+    if (renderedPages.indexOf(visiblePageNum) === -1) {
         okToRender = true;
         renderedPages.push(visiblePageNum);
-    } else {
-        okToRender = false;
     }
 
     if (visiblePage && okToRender) {
-        setTimeout(function () {
-            renderPdfByPageNum(visiblePageNum, false);
-        });
+        renderPdfByPageNum(visiblePageNum, false);
     }
 }
 
@@ -73,18 +77,13 @@ function renderPdf(pdf) {
     RENDER_OPTIONS.pdfDocument = pdf;
 
     let viewer = document.getElementById(pdfViewId);
-    let lastPage = null;
     viewer.innerHTML = '';
     NUM_PAGES = pdf.pdfInfo.numPages;
-    for (let i=0; i<NUM_PAGES; i++) {
-        let page = UI.createPage(i+1);
-        if (null === lastPage) {
-            lastPage = page;
-        }
+    for (let i=1; i <= NUM_PAGES; i++) {
+        let page = UI.createPage(i);
         viewer.appendChild(page);
+        renderPdfByPageNum(i, false);
     }
-
-    renderPdfByPageNum(1, false);
 }
 
 function renderPdfByPageNum(pageNum, isNeedToScroll) {
@@ -98,8 +97,8 @@ function renderPdfByPageNum(pageNum, isNeedToScroll) {
             pdfWrapperWidth = pdfWrapper.offsetWidth;
             let viewport = pdfPage.getViewport(RENDER_OPTIONS.scale, RENDER_OPTIONS.rotate);
             PAGE_HEIGHT = viewport.height;
-
-            if (renderedPages.indexOf(pageNum) == -1) {
+console.log('renderPdfByPageNum ' + pageNum);
+            if (renderedPages.indexOf(pageNum) === -1) {
                 renderedPages.push(pageNum);
             }
 
@@ -359,9 +358,12 @@ window.addEventListener('renderpdf', function (e) {
     } else {
         render();
     }
-    for (let i=1; i<=currentPageNum; i++) {
+
+    renderPdfByPageNum(currentPageNum, true);
+
+    for (let i = 1; i <= currentPageNum; i++) {
         if (renderedPages.indexOf(i) !== -1) {
-            renderPdfByPageNum(i, (i == currentPageNum));
+            renderPdfByPageNum(i, (i === currentPageNum));
         }
     }
 });
