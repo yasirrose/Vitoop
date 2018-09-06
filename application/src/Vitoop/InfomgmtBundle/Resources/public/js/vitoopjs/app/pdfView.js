@@ -82,5 +82,3 @@ class PdfView {
 
 window.vitoopApp = new VitoopApp();
 window.vitoopPdfView = new PdfView();
-
-

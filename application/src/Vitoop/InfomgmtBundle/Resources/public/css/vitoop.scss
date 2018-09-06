@@ -198,7 +198,7 @@ div#vtp-res-tags table tr:first-of-type th {
 }
 
 .blau-text {
-    line-height: 23px;
+    line-height: 22px;
     vertical-align: bottom;
 }
 
@@ -1476,6 +1476,10 @@ form#form-tag {
         padding-right: 3px;
         margin-top: 4px;
         margin-left: 0px;
+
+        input[type='checkbox'] {
+            vertical-align: baseline;
+        }
     }
     .vtp-fh-infosave-box-left {
         @include blue-border-radius-left();
@@ -1488,6 +1492,7 @@ form#form-tag {
         @include blue-border-radius-right();
         padding-top: 1px;
         margin-left: 6px;
+        height: 23px;
     }
 }
 
@@ -1535,8 +1540,13 @@ div#vtp-res-dialog-tabs > div {
     padding: 1em 1em;
 }
 
-#vtp-res-dialog-tabs.ui-tabs .ui-tabs-nav .ui-tabs-anchor {
-   padding: 7px 14px 5px;
+#vtp-res-dialog-tabs.ui-tabs {
+    .ui-tabs-nav .ui-tabs-anchor {
+        padding: 8px 14px 6px;
+    }
+    .ui-tabs-nav li {
+        height: 32px;
+    }
 }
 
 #vtp-credentials form div {
@@ -1621,7 +1631,7 @@ td.vtp-blue.ui-state-active {
 }
 
 #search_blue, .valid-checkbox {
-    margin: 4px 2px;
+    margin: 5px 2px 4px;
     position: relative;
     width: 14px;
     height: 14px;
@@ -1703,6 +1713,8 @@ a.vtp-uiaction-open-url:visited {
 
 #resource-check {
     margin-right: 5px;
+    margin-top: 3px;
+    margin-bottom: 3px;
 }
 
 #vtp-application {
@@ -1711,9 +1723,9 @@ a.vtp-uiaction-open-url:visited {
             padding: 2px 14px;
         }
         .ui-dialog-title {
-            margin: 0px;
-            vertical-align: middle;
-            height: 24px;
+            line-height: 18px;
+            padding-top: .1em;
+            display: block;
         }
     }
 }
@@ -1724,20 +1736,13 @@ a.vtp-uiaction-open-url:visited {
             padding: 2px 8px;
         }
         .dataTables_paginate {
-            margin-top: 1px;
             margin-bottom: 1px;
-        }
-        .dataTables_length {
-            padding-top: 3px;
-        }
-        .dataTables_info {
-            padding-top: 6px;
         }
     }
 }
 
 #resource-title {
-    vertical-align: middle;
+    vertical-align: top;
     padding-top: 1px;
 }
 
@@ -1877,7 +1882,7 @@ table.dataTable thead th:hover {
 #verstecken-vabel {
     margin-top: 2px;
     margin-right: 20px;
-    vertical-align: top;
+    vertical-align: baseline;
     display: inline-block;
 }
 
@@ -1906,7 +1911,7 @@ table.dataTable thead th:hover {
 #vtp-list-book-art-button {
     margin-left: 100px;
     height: 20px;
-    margin-top: 2px;
+    margin-top: 3px;
 }
 
 #vtp-list-book-art-menu > .ui-menu-item {
