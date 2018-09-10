@@ -407,10 +407,6 @@ table input[disabled="disabled"].vtp-uiaction-coefficient {
  * vtp-tagbox                                               *
  ************************************************************/
 
-#vtp-search-bytags-form {
-    float: right;
-}
-
 #vtp-search-bytags-tagcnt {
     min-width: 3em;
 }
@@ -725,6 +721,10 @@ span.vtp-lexiconbox-cntres {
 
 .vtp-fh-h24 {
     height: 24px;
+}
+
+.vtp-fh-h22 {
+    height: 22px;
 }
 
 .vtp-dialog-submit {
@@ -1217,13 +1217,16 @@ div.divider-wrapper {
 }
 
 input#vtp-search-bytags-taglist {
-    height: 19px;
+    height: 20px;
 }
 
-#vtp-search-bytags-form
-#vtp-search-bytags-form-submit {
-    .act {
-        width: 48px;
+#vtp-search-bytags-form {
+    float: right;
+
+    #vtp-search-bytags-form-submit {
+        &.act {
+            width: 45px;
+        }
     }
 }
 
@@ -1684,7 +1687,7 @@ a.vtp-uiaction-open-url:visited {
 
 #vtp-res-list {
     tr.vtp-uiaction-list-showdetail {
-        height: 28px;
+        height: 27px;
     }
 
     td.dataTables_empty {
@@ -1737,6 +1740,10 @@ a.vtp-uiaction-open-url:visited {
         }
         .dataTables_paginate {
             margin-bottom: 1px;
+        }
+        .dataTables_length, .dataTables_info {
+            font-weight: normal;
+            color: $vitoop-blue-color;
         }
     }
 }

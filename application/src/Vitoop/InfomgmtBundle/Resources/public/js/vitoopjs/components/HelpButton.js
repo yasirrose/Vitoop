@@ -23,7 +23,7 @@ export default class HelpButton {
             }
         });
 
-        $('#button-help, #vtp-search-help').on('click', function() {
+        $('#button-help').on('click', function() {
             self.resetScroll();
             $(self.helpPopupId).dialog('open');
         });

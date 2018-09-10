@@ -30,7 +30,7 @@ export default class SecondSearch {
     buildSearchParameters (data) {
         data.isUserHook = this.isBlueFilter.getIsBlueValue();
         data.isUserRead = this.isReadFilter.getIsReadValue();
-        if (SecondSearch.resType == 'pdf' || this.resType == 'teli') {
+        if (this.resType == 'pdf' || this.resType == 'teli') {
             data.dateFrom = this.dateRange.getDateFilterFrom();
             data.dateTo = this.dateRange.getDateFilterTo();
         }
