@@ -92,15 +92,20 @@ function renderPdfByPageNum(pageNum, isNeedToScroll) {
     pdf.getPage(pageNum).then(function (page) {
         RENDER_OPTIONS.scale = (pdfWrapper.offsetWidth / page.getViewport(1).width)*0.9;
 
+        console.log('renderPdfByPageNum ' + pageNum);
+        if (renderedPages.indexOf(pageNum) !== -1) {
+            if (isNeedToScroll) {
+                document.querySelector('.page[data-page-number="'+pageNum+'"][data-loaded="true"]').scrollIntoView(true);
+            }
+            return;
+        }
+        renderedPages.push(pageNum);
+
         UI.renderPage(pageNum, RENDER_OPTIONS).then(function (params) {
             let pdfPage = params[0];
             pdfWrapperWidth = pdfWrapper.offsetWidth;
             let viewport = pdfPage.getViewport(RENDER_OPTIONS.scale, RENDER_OPTIONS.rotate);
             PAGE_HEIGHT = viewport.height;
-console.log('renderPdfByPageNum ' + pageNum);
-            if (renderedPages.indexOf(pageNum) === -1) {
-                renderedPages.push(pageNum);
-            }
 
             if (isNeedToScroll) {
                 document.querySelector('.page[data-page-number="'+pageNum+'"][data-loaded="true"]').scrollIntoView(true);

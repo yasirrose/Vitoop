@@ -70,9 +70,9 @@ class PdfView {
             width: 720,
             modal: true,
             position: {
-                my: 'left top',
+                my: 'left bottom',
                 at: 'right top',
-                of: '#vtp-remark-dialog',
+                of: '.vtp-view-title',
                 collision: 'flip flip'
             }
         });
