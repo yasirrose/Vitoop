@@ -108,13 +108,14 @@ class PublishedDate
         }
 
         if ('00' === $dateParts[0]) {
-            $monthDate = new \DateTime(implode('.', ['01', $dateParts[1], $dateParts[2]]));
+            $monthDate = new \DateTime(implode('.', ['01', $dateParts[1], $dateParts[2]]), new \DateTimeZone('UTC'));
             $dayInMonth = date('t', $monthDate->getTimestamp());
             $dateParts[0] = $dayInMonth;
             $offset[] = ' +1 second ';
         }
 
-        return (new \DateTime(implode('.', $dateParts). implode('',$offset)))->getTimestamp();
+        return (new \DateTime(implode('.', $dateParts). implode('',$offset), new \DateTimeZone('UTC')))
+            ->getTimestamp();
     }
 
     /**

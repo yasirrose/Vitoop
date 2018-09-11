@@ -24,7 +24,7 @@ class TeliRepository extends ResourceRepository
         if ($search->dateTo) {
             $qb
                 ->andWhere('r.releaseDate.order <= :dateTo')
-                ->setParameter('dateTo', (PublishedDate::createFromString($search->dateTo))->getOrder());
+                ->setParameter('dateTo', PublishedDate::generateOrderValue(PublishedDate::createFromString($search->dateTo)));
         }
 
         return $qb;
