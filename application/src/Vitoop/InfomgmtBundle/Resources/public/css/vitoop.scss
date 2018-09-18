@@ -230,18 +230,6 @@ div#vtp-res-list td, div#vtp-res-tags td {
     }
 }
 
-td {
-    border: none !important;
-    text-align: left;
-    padding: 9px 1px 9px 3px;
-}
-
-th {
-    background-color: #deedf7;
-    text-align: left;
-    font-weight: normal;
-}
-
 .tanz {
     background-color: hsla(216, 100%, 59%, 0.5);
     @include border-radius(30px);
@@ -255,20 +243,6 @@ th {
 .even > td, th {
     background-color: $vitoop-even-background-color;
     color: #222222;
-}
-
-td > div {
-    position: relative;
-    overflow: hidden;
-    white-space: nowrap;
-}
-
-div.vtp-teasefader {
-    position: absolute;
-    width: 2em;
-    height: 100%;
-    top: 0;
-    right: 0;
 }
 
 tr.odd div.vtp-teasefader {
@@ -1703,6 +1677,35 @@ a.vtp-uiaction-open-url:visited {
 
     tbody td {
         padding: 0px 8px;
+    }
+
+    td {
+        border: none !important;
+        text-align: left;
+        padding: 9px 1px 9px 3px;
+        vertical-align: middle;
+    }
+
+    td > div {
+        position: relative;
+        overflow: hidden;
+        white-space: nowrap;
+        vertical-align: baseline;
+        height: 15px;
+    }
+
+    div.vtp-teasefader {
+        position: absolute;
+        width: 2em;
+        height: 100%;
+        top: 0;
+        right: 0;
+    }
+
+    th {
+        background-color: #deedf7;
+        text-align: left;
+        font-weight: normal;
     }
 
     .dataTables_wrapper {
