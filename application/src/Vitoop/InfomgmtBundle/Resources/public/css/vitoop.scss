@@ -1614,6 +1614,7 @@ td.vtp-blue.ui-state-active {
     height: 14px;
     border: 1px solid #111;
     background: #fff;
+    -moz-appearance: checkbox;
     -webkit-appearance: checkbox;
     /*-webkit-appearance: none;*/
     appearance: none;
@@ -1942,6 +1943,7 @@ table.dataTable thead th:hover {
     padding-bottom: 8px;
     padding-top: 9px;
     float: right;
+    height: 30px;
 }
 
 .vtp-admin-toolbar {

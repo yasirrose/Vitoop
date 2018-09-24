@@ -9,7 +9,7 @@ export default class HelpButton {
         $(this.helpPopupId).dialog({
             autoOpen: false,
             width: 850,
-            height: 600,
+            height: 585,
             position: { my: 'center top', at: 'center top', of: '#vtp-nav' },
             modal: true,
             open: function () {

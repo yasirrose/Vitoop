@@ -67,6 +67,10 @@ export default class LexiconWidget extends Widget {
             $('#lexicon_name_remove').button('disable');
         }
 
+        if ($(self.lexiconFormId + ' .vtp-uiinfo-info').length) {
+            $(self.lexiconFormId + ' .vtp-uiinfo-info').hide("fade", 3000);
+        }
+
         $(self.lexiconFormId).ajaxForm({
             delegation: true,
             dataType: 'json',

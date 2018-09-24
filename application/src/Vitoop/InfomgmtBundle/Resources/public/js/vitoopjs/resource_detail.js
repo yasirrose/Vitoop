@@ -507,10 +507,20 @@ window.resourceDetail = (function () {
                 $('#vtp-rating-panel').show('blind', 'slow');
             }
             
-            //show lexicon button
+            //show lexicon button and scrollbars
             $('.vtp-extlink-lexicon').remove();
             if ('lex' === res_type ) {
                 $('.ui-tabs-nav').append('<a class="vtp-extlink vtp-extlink-lexicon vtp-uiaction-open-extlink" href="'+viewUrl+'" target="_blank">Lexikon gross</a>');
+
+                let scrollableHeight = 274;
+                let currentHeight = parseInt($('.vtp-lexicon-description').css('height').replace('px',''));
+
+                if (currentHeight > scrollableHeight) {
+                    $('.vtp-lexicon-description').mCustomScrollbar({
+                        setHeight: scrollableHeight + 'px'
+                    });
+                }
+
             }
         },
 

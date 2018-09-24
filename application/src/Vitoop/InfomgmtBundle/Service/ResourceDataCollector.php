@@ -619,7 +619,7 @@ class ResourceDataCollector
 
                         $lex_name = $this->rm->linkLexiconToResource($lexicon, $this->res);
 
-                        $info_lex = 'Lexicon "' . $lex_name . '" successfully added!';
+                        $info_lex = 'Lexikon "' . $lex_name . '" wurde erfolgreich verknüpft.';
                         $form_lex = $this->formCreator->createLexiconNameForm(new Lexicon(), $this->res, $action);
                     } else {
                         if (is_null($lexicon)) {

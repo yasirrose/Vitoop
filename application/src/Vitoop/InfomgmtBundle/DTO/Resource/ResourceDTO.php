@@ -120,6 +120,17 @@ class ResourceDTO
      */
     public $tnop;
 
+    /**
+     * @Assert\NotBlank(
+     *      message = "Bitte wähle eine Art aus.",
+     *      groups={"book"}
+     * )
+     * @Assert\NotEqualTo(
+     *     value="auswählen",
+     *     message = "Bitte wähle eine Art aus.",
+     *     groups={"book"}
+     * )
+     */
     public $kind;
 
      /**
