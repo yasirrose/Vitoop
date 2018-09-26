@@ -469,7 +469,7 @@ table input[disabled="disabled"].vtp-uiaction-coefficient {
     position: absolute;
     border: $blue-frame-border;
     top: 0px;
-    right: 0.2em;
+    right: 5px;
     margin: 2px;
     background-color: $vitoop-body-background-color;
     width: 34px;
@@ -977,6 +977,7 @@ span.vtp-icon {
 #vtp-search-toggle, #vtp-search-help {
     float: right;
     width: 34px;
+    margin-top: 1px;
     margin-left: 4px;
 }
 
