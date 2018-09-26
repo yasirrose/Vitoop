@@ -9,7 +9,7 @@ export default class HelpButton {
         $(this.helpPopupId).dialog({
             autoOpen: false,
             width: 850,
-            height: 585,
+            height: 570,
             position: { my: 'center top', at: 'center top', of: '#vtp-nav' },
             modal: true,
             open: function () {
@@ -51,7 +51,7 @@ export default class HelpButton {
                         options.mode = 'exact';
                         options.selector = 'textarea#help-text';
                         options.id = 'tiny-help';
-                        options.height = 430;
+                        options.height = 400;
                         options.plugins.push('code');
                         options.relative_urls = false;
                         options.remove_script_host = false;
