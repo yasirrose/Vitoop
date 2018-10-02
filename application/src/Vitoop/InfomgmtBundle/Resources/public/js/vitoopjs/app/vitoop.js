@@ -3,6 +3,7 @@ import TinyMCEInitializer from '../components/TinyMCEInitializer';
 import SecondSearch from "../components/SecondSearch";
 import HelpButton from '../components/HelpButton';
 import AdminToolbarButton from '../components/AdminToolbarButton';
+import TagSearch from "../components/TagSearch";
 
 export default class VitoopApp {
     constructor () {
@@ -11,6 +12,8 @@ export default class VitoopApp {
 
     init() {
         this.secondSearch = new SecondSearch();
+        this.tagSearch = new TagSearch();
+        this.tagSearch.init();
         new AdminToolbarButton();
     }
 
@@ -42,10 +45,10 @@ export default class VitoopApp {
         if (!parent.hasClass('vtp-search-bytags-tag-bulb')) {
             parent.removeClass('vtp-search-bytags-tag-ignore');
             parent.addClass('vtp-search-bytags-tag-bulb');
-            resourceSearch.highlightTag(parent.text().trim(), true);
+            this.tagSearch.highlightTag(parent.text().trim(), true);
         } else {
             parent.removeClass('vtp-search-bytags-tag-bulb');
-            resourceSearch.highlightTag(parent.text().trim(), false);
+            this.tagSearch.highlightTag(parent.text().trim(), false);
         }
 
     }
@@ -55,10 +58,10 @@ export default class VitoopApp {
         if (!parent.hasClass('vtp-search-bytags-tag-ignore')) {
             parent.removeClass('vtp-search-bytags-tag-bulb');
             parent.addClass('vtp-search-bytags-tag-ignore');
-            resourceSearch.ignoreTag(parent.text().trim(), true);
+            this.tagSearch.ignoreTag(parent.text().trim(), true);
         } else {
             parent.removeClass('vtp-search-bytags-tag-ignore');
-            resourceSearch.ignoreTag(parent.text().trim(), false);
+            this.tagSearch.ignoreTag(parent.text().trim(), false);
         }
     }
 

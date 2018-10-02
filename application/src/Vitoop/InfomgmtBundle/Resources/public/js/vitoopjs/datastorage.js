@@ -30,4 +30,21 @@ export default class DataStorage {
     setItem(key, value) {
         localStorage.setItem(key, value);
     }
+
+    getArray(key) {
+        if (!(key in localStorage)) {
+            return [];
+        }
+
+        let value = localStorage.getItem(key);
+        if (value[0] === "[") {
+            return JSON.parse(value);
+        }
+
+        return [];
+    }
+
+    setArray(key, array) {
+        this.setObject(key, array);
+    }
 }

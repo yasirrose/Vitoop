@@ -119,7 +119,7 @@ gulp.task('pdf-view', function () {
         .pipe(bro({
             transform: [
                 babelify.configure({ presets: ['env'] }),
-               /* [ 'uglifyify', { global: true } ]*/
+                [ 'uglifyify', { global: true } ]
             ]
         }))
         .pipe(concat('vitoop-pdf-view.js'))
