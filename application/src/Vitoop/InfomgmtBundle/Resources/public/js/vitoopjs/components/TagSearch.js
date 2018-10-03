@@ -12,11 +12,13 @@ export default class TagSearch {
         this.tagSearchListId = '#vtp-search-bytags-taglist';
         this.tagSearchAreaId = '#vtp-search-bytags-taglistbox';
         this.tagSearchFormId = '#vtp-search-bytags-form';
+        this.tagCntId = '#vtp-search-bytags-tagcnt';
 
         this.datastorage = new DataStorage();
         this.tagsDSKey = 'dt-tags';
         this.ignoredTagsDSKey = 'dt-ignoredTags';
         this.highlightedTagsDSKey = 'dt-highlightedTags';
+        this.tagcntDSKey = 'dt-tagCnt';
     }
 
     init() {
@@ -24,8 +26,16 @@ export default class TagSearch {
 
         this.loadTagsFromStorage();
         this.tags.forEach(function(tag) {
-            self.decorateTag(tag, false, false).appendTo(self.tagSearchAreaId);
+
+            let isHighlighted = self.highlightedTags.includes(tag);
+            self.decorateTag(tag, false, isHighlighted).appendTo(self.tagSearchAreaId);
         });
+        this.ignoredTags.forEach(function (tag) {
+            let isIgnored = self.ignoredTags.includes(tag);
+            self.decorateTag(tag, isIgnored, false).appendTo(self.tagSearchAreaId);
+        });
+        $(this.tagCntId).val(self.tagcnt);
+        $(this.tagCntId).selectmenu("refresh");
 
         $(this.tagSearchFormId).on('keypress', this.tagSearchListId, function (e) {
             if (e.keyCode == 13) {
@@ -137,6 +147,7 @@ export default class TagSearch {
             self.tagcnt = +$(this).val();
             $('#vtp-search-bytags-form-submit').addClass('act');
 
+            self.saveTagsToStorage();
             resourceList.maintainResLinks({'tagcnt': self.tagcnt});
         });
 
@@ -147,6 +158,7 @@ export default class TagSearch {
         this.tags = this.datastorage.getArray(this.tagsDSKey);
         this.ignoredTags = this.datastorage.getArray(this.ignoredTagsDSKey);
         this.highlightedTags = this.datastorage.getArray(this.highlightedTagsDSKey);
+        this.tagcnt = this.datastorage.getAlphaNumValue(this.tagcntDSKey);
         this.tagCount = this.tags.length;
         this.igCount = this.ignoredTags.length;
         this.hlCount = this.highlightedTags.length;
@@ -156,6 +168,7 @@ export default class TagSearch {
         this.datastorage.setArray(this.tagsDSKey, this.tags);
         this.datastorage.setArray(this.ignoredTagsDSKey, this.ignoredTags);
         this.datastorage.setArray(this.highlightedTagsDSKey, this.highlightedTags);
+        this.datastorage.setItem(this.tagcntDSKey, this.tagcnt)
     }
 
     resetTags() {
@@ -169,7 +182,7 @@ export default class TagSearch {
     }
 
     changeColor() {
-        if ((!this.isChanged) && ((this.tagCount != this.tags.length) || (this.igCount != this.ignoredTags.length) || (this.hlCount != this.ignoredTags.length))) {
+        if ((!this.isChanged) && ((this.tagCount != this.tags.length) || (this.igCount != this.ignoredTags.length) || (this.hlCount != this.highlightedTags.length))) {
             $('#vtp-search-bytags-form-submit').addClass('act');
             this.isChanged = true;
         }
