@@ -27,11 +27,11 @@ export default class TagSearch {
         this.loadTagsFromStorage();
         this.tags.forEach(function(tag) {
 
-            let isHighlighted = self.highlightedTags.includes(tag);
+            let isHighlighted = self.highlightedTags.indexOf(tag) !== -1;
             self.decorateTag(tag, false, isHighlighted).appendTo(self.tagSearchAreaId);
         });
         this.ignoredTags.forEach(function (tag) {
-            let isIgnored = self.ignoredTags.includes(tag);
+            let isIgnored = self.ignoredTags.indexOf(tag) !== -1;
             self.decorateTag(tag, isIgnored, false).appendTo(self.tagSearchAreaId);
         });
         $(this.tagCntId).val(self.tagcnt);
@@ -266,7 +266,7 @@ export default class TagSearch {
         if (tag == '') {
             return;
         }
-        if (!this.tags.includes(tag)) {
+        if (this.tags.indexOf(tag) === -1) {
             this.tags.push(tag);
             this.decorateTag(tag, false, false).appendTo(this.tagSearchAreaId);
 

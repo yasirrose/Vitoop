@@ -443,7 +443,7 @@ table input[disabled="disabled"].vtp-uiaction-coefficient {
 
 #vtp-search-bytags-taglist {
     width: 235px;
-    margin-right: 4px;
+    margin-right: 2px;
 }
 
 .vtp-search-bytags-item {
@@ -507,7 +507,7 @@ span.vtp-projectbox-project {
 span.vtp-search-bytags-tag {
     background-color: $vitoop-body-background-color;
     color: $vitoop-body-color;
-    padding: 2px 2em 1px 1.3em;
+    padding: 1px 2em 0px 1.3em;
     transition: padding 0.4s ease 0s;
     border: $blue-frame-border;
 }
@@ -526,12 +526,13 @@ span.vtp-search-bytags-tag.vtp-search-bytags-tag-ignore {
 }
 
 span.vtp-search-bytags-tag.vtp-search-bytags-tag-active {
-    padding: 2px 4em 1px 1.3em !important;
+    padding: 1px 4em 0px 1.3em !important;
     border: 1px solid #2694e8;
 }
 
 .vtp-search-bytags-content {
     cursor: pointer;
+    font-size: 14px;
 }
 
 span.vtp-tagbox-cnttag,
@@ -864,6 +865,7 @@ span.vtp-icon {
     border: 0 none;
     position: relative;
     top: -9px;
+    width: 300px;
 }
 
 .vtp-logo a {
@@ -1254,9 +1256,15 @@ input#vtp-search-bytags-taglist {
 #vtp-search-bytags-form {
     float: right;
 
+    #vtp-search-bytags-tagcnt-button {
+        margin-right: 2px;
+    }
+
     #vtp-search-bytags-form-submit {
+        margin-right: 2px;
+
         &.act {
-            width: 45px;
+            width: 52px;
         }
     }
 }
@@ -1764,6 +1772,12 @@ a.vtp-uiaction-open-url:visited {
         background-color: #deedf7;
         text-align: left;
         font-weight: normal;
+        padding-top: 2px;
+        padding-bottom: 2px;
+
+        .DataTables_sort_icon {
+            margin-top: 1px;
+        }
     }
 
     .dataTables_wrapper {
@@ -1784,7 +1798,7 @@ a.vtp-uiaction-open-url:visited {
 #vtp-application {
     .ui-dialog {
         .ui-dialog-titlebar {
-            padding: 2px 14px;
+            padding: 1px 14px;
         }
         .ui-dialog-title {
             line-height: 18px;
@@ -1810,7 +1824,7 @@ a.vtp-uiaction-open-url:visited {
 }
 
 #resource-title {
-    vertical-align: top;
+    vertical-align: baseline;
     padding-top: 1px;
 }
 
@@ -2009,4 +2023,12 @@ table.dataTable thead th:hover {
 
 .vtp-mb-15 {
     margin-bottom: 15px;
+}
+
+#resource-project {
+    margin-top: 1px;
+}
+
+#project_name_save {
+    float: right;
 }

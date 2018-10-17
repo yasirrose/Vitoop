@@ -21,6 +21,8 @@
                <span class="vtp-icon-prj ui-icon ui-icon-folder-open"></span>
                 {{ everyproject.name }}
             </span>
+        {% else %}
+            {{ 'You don\'t have a project jet'|trans }}
         {% endfor %}
     </div>
 </fieldset>

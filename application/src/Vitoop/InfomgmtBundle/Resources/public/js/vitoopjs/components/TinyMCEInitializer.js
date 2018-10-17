@@ -21,7 +21,6 @@ export default class TinyMCEInitializer {
             },
             target_list: [
                 {title: 'New Tab', value: '_self'},
-                {title: 'New window', value: '_blank'},
             ],
             toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink',
         };

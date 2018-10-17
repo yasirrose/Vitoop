@@ -39,9 +39,9 @@ export default class VtpDatatable {
                 vitoopApp.secondSearch.searchToggler.checkButtonState();
             });
 
-        if (null !== this.resourceId) {
+        if (null !== self.resourceId) {
             datatable.on('draw.dt', function () {
-                $('#'+this.resourceType+'-'+this.resourceId+' > td:first').trigger('click');
+                $('#'+self.resType+'-'+self.resourceId+' > td:first').trigger('click');
             });
         }
 
