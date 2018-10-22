@@ -507,7 +507,7 @@ span.vtp-projectbox-project {
 span.vtp-search-bytags-tag {
     background-color: $vitoop-body-background-color;
     color: $vitoop-body-color;
-    padding: 1px 2em 0px 1.3em;
+    padding: 0px 2em 0px 1.3em;
     transition: padding 0.4s ease 0s;
     border: $blue-frame-border;
 }
@@ -526,13 +526,13 @@ span.vtp-search-bytags-tag.vtp-search-bytags-tag-ignore {
 }
 
 span.vtp-search-bytags-tag.vtp-search-bytags-tag-active {
-    padding: 1px 4em 0px 1.3em !important;
+    padding: 0px 4em 0px 1.3em !important;
     border: 1px solid #2694e8;
 }
 
 .vtp-search-bytags-content {
     cursor: pointer;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 span.vtp-tagbox-cnttag,
@@ -716,6 +716,14 @@ span.vtp-lexiconbox-cntres {
 
 .vtp-fh-w60 {
     width: 58%;
+}
+
+.vtp-fh-w63 {
+    width: 61%;
+}
+
+.vtp-fh-w65 {
+  width: 63%;
 }
 
 .vtp-fh-w70 {
@@ -1826,6 +1834,7 @@ a.vtp-uiaction-open-url:visited {
 #resource-title {
     vertical-align: baseline;
     padding-top: 1px;
+    font-size: 13px;
 }
 
 #send_links_textBody {
@@ -2031,4 +2040,11 @@ table.dataTable thead th:hover {
 
 #project_name_save {
     float: right;
+}
+
+.DataTables_sort_wrapper {
+    .ui-icon {
+        width: 18px;
+        height: 18px;
+    }
 }
