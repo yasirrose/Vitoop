@@ -266,30 +266,44 @@ table.dataTable td {
   clear: both;
   *zoom: 1;
   zoom: 1;
-}
-.dataTables_wrapper .dataTables_length {
-  select {
-    width: 60px;
+
+  .dataTables_length {
+    float: left;
+    padding-top: 3px;
+
+    select {
+      width: 70px;
+      height: 26px;
+    }
+    .ui-menu li.ui-menu-item.ui-state-focus {
+      width: 73%;
+    }
+    
+    span.ui-selectmenu-button {
+      margin-bottom: 0px;
+      span.ui-selectmenu-text {
+        line-height: 14px;
+      }
+    }
   }
-  .ui-menu li.ui-menu-item.ui-state-focus {
-    width: 73%;
+
+  .dataTables_filter {
+    float: right;
+    text-align: right;
+
+    input {
+      margin-left: 0.5em;
+      width: 233px;
+    }
   }
-  float: left;
-  padding-top: 2px;
+
+  .dataTables_info {
+    margin-left: 68px;
+    float: left;
+    padding-top: 5px;
+  }
 }
-.dataTables_wrapper .dataTables_filter {
-  float: right;
-  text-align: right;
-}
-.dataTables_wrapper .dataTables_filter input {
-  margin-left: 0.5em;
-  width: 233px;
-}
-.dataTables_wrapper .dataTables_info {
-  margin-left: 10px;
-  float: left;
-  padding-top: 5px;
-}
+
 .dataTables_wrapper .dataTables_paginate {
   > a {
     &.first, &.last {

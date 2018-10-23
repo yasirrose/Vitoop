@@ -381,7 +381,7 @@ export default class VtpDatatable {
 
     dtLanguageObject() {
         return {
-            "lengthMenu": "Treffer/Seite _MENU_",
+            "lengthMenu": "_MENU_",
             "search": "",
             "loadingRecords": '<div id="ballsWaveG"><div id="ballsWaveG_1" class="ballsWaveG"></div><div id="ballsWaveG_2" class="ballsWaveG"></div><div id="ballsWaveG_3" class="ballsWaveG"></div><div id="ballsWaveG_4" class="ballsWaveG"></div><div id="ballsWaveG_5" class="ballsWaveG"></div><div id="ballsWaveG_6" class="ballsWaveG"></div><div id="ballsWaveG_7" class="ballsWaveG"></div><div id="ballsWaveG_8" class="ballsWaveG"></div></div>',
             "searchPlaceholder": "ergebnisliste durchsuchen",
