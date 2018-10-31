@@ -29,7 +29,7 @@ class ApiController extends Controller
     {
         if ($type) {
             $interfaces = class_implements($type);
-            if ($interfaces && in_array(CreateFromRequestInterface::class, $interfaces)) {
+            if ($interfaces && \in_array(CreateFromRequestInterface::class, $interfaces, true)) {
                 return $type::createFromRequest($request);
             }
         }

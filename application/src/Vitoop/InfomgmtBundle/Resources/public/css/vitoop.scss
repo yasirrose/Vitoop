@@ -613,8 +613,16 @@ span.vtp-owntag-hilight {
     border-bottom: none;
 }
 
-#lexicon-rights {
-    font-size: 12px;
+#vtp-lexicondata-box {
+    a {
+        color: $vitoop-blue-color;
+    }
+    #lexicon-rights {
+        font-size: 12px;
+        a {
+            text-decoration: underline;
+        }
+    }
 }
 
 span.vtp-lexiconbox-cntres {
@@ -1143,11 +1151,6 @@ span.vtp-icon {
     margin-top: 50px;
 }
 
-#vtp-lexicondata-box a {
-    color: $vitoop-blue-color;
-    text-decoration: none;
-}
-
 .ui-state-need-to-save {
     border: 1px solid $vitoop-red-color !important;
     color: $vitoop-red-color !important;
@@ -1564,6 +1567,30 @@ form#form-tag {
     line-height: 30px;
 }
 
+#resource-quickview {
+    .vtp-pdf-date-field {
+        #pdf_pdfDate {
+            margin-left: 7px;
+        }
+    }
+    .vtp-pdf-lang-field > label {
+        margin-right: 7px;
+    }
+
+    .vtp-teli-lang-label {
+      margin-right: 1px;
+    }
+
+    .vtp-label-right {
+        text-align: right;
+        margin-right: 1px;
+    }
+
+    #book_kind-button {
+        float: right;
+    }
+}
+
 #button-help-save, #button-terms-save, #button-datap-save {
     width: 100%;
     margin-top: 10px;
@@ -1970,7 +1997,7 @@ table.dataTable thead th:hover {
     font-weight: bold;
 }
 
-#verstecken-vabel {
+#verstecken-vabel, #sperren-vabel {
     margin-top: 2px;
     margin-right: 20px;
     vertical-align: baseline;

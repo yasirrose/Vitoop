@@ -18,7 +18,11 @@ class ProjectRepository extends ResourceRepository
     {
         $qb = $this->createQueryBuilder('r')
             ->select('la.code')
-            ->leftJoin('r.lang', 'la');
+            ->leftJoin('r.lang', 'la')
+            ->leftJoin('r.project_data', 'projectData')
+            ->leftJoin('projectData.relUsers', 'relUsers', 'WITH', 'relUsers.user = :currentUser')
+            ->andWhere('projectData.isForRelatedUsers = false OR (projectData.isForRelatedUsers = true AND (relUsers.user = :currentUser OR r.user = :currentUser))')
+        ;
         $this->prepareListQueryBuilder($qb, $search);
 
         return $qb;

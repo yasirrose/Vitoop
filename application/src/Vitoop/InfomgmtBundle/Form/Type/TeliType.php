@@ -14,8 +14,8 @@ class TeliType extends AbstractType
         $builder->remove('name')
                 ->remove('country')
                 ->add('name', null, array('label' => 'Titel:'))
-                ->add('author', null, array('label' => 'Autor'))
-                ->add('url', UrlType::class, array('label' => 'URL'))
+                ->add('author', null, array('label' => 'AutorInnen:'))
+                ->add('url', UrlType::class, array('label' => 'URL:'))
                 ->add('releaseDate', null, array('label' => 'Erschienen:'));
         $builder->get('author')
                 ->addModelTransformer(new EmptyStringToNullTransformer());

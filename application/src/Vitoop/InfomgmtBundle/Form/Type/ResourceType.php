@@ -17,7 +17,7 @@ class ResourceType extends AbstractType
         $builder
             ->add('name', null, array('label' => 'Name:'))
             ->add('country', EntityType::class, array(
-                'label' => 'Land.',
+                'label' => 'Land:',
                 'class' => 'VitoopInfomgmtBundle:Country',
                 'choice_label' => 'name',
                 'query_builder' => function (EntityRepository $er) {

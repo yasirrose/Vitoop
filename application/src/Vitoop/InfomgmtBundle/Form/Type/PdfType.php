@@ -16,7 +16,7 @@ class PdfType extends AbstractType
         $builder->remove('name')
                 ->remove('country')
                 ->add('name', null, array('label' => 'Titel:'))
-                ->add('author', null, array('label' => 'Autor:'))
+                ->add('author', null, array('label' => 'AutorInnen:'))
                 ->add('publisher', null, array('label' => 'Hrsg.:'))
                 ->add('url', UrlType::class, array('label' => 'URL:'))
                 ->add('tnop', TextType::class, array('label' => 'Seiten:'))

@@ -14,7 +14,7 @@ class BookType extends AbstractType
         $builder->remove('name')
                 ->remove('country')
                 ->add('name', TextType::class, ['label' => 'Titel:'])
-                ->add('author', TextType::class, ['label' => 'Autor:'])
+                ->add('author', TextType::class, ['label' => 'AutorInnen:'])
                 ->add('publisher', TextType::class, ['label' => 'Verlag:'])
                 ->add('issuer', TextType::class, ['label' => 'Hrsg.:', 'required' => false])
                 ->add('isbn', TextType::class, ['label' => 'ISBN:'])
@@ -30,7 +30,7 @@ class BookType extends AbstractType
                         'Autobiografie' => 'Autobiografie',
                         'Thriller' => 'Thriller'
                     ],
-                    'label' => 'Art'
+                    'label' => 'Art:'
                 ])
                 ->add('year', TextType::class, ['label' => 'Jahr:']);
     }

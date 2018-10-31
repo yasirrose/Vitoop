@@ -37,7 +37,7 @@
             {{ form_widget(fvdata.zip, {'attr': {'class': 'vtp-fh-w15' }}) }}
             {{ form_widget(fvdata.city, {'attr': {'class': 'vtp-fh-w50' }}) }}
             <div class="vtp-fh-w35 vtp-right">
-            {{ form_label(fvdata.country, null, {'label_attr': {'class': 'vtp-fh-w30' }}) }}
+            {{ form_label(fvdata.country, null, {'label_attr': {'class': 'vtp-fh-w30 vtp-label-right' }}) }}
             {{ form_widget(fvdata.country, {'attr': {'class': 'vtp-fh-w70', 'style': 'width: 133px;' }}) }}
             </div>
             <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.zip) }}</div>
@@ -51,7 +51,7 @@
         <div class="vtp-fh-w90 vtp-right">
             {{ form_widget(fvdata.contact1, {'attr': {'class': 'vtp-fh-w50' }}) }}
             {{ form_widget(fvdata.contact3, {'attr': {'class': 'vtp-fh-w40 vtp-right' }}) }}
-            {{ form_label(fvdata.contact3, null, {'label_attr': {'class': 'vtp-fh-w10 vtp-right' }}) }}
+            {{ form_label(fvdata.contact3, null, {'label_attr': {'class': 'vtp-fh-w10 vtp-right vtp-label-right' }}) }}
             <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.contact1) }}</div>
             <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.contact1) }}</div>
         </div>

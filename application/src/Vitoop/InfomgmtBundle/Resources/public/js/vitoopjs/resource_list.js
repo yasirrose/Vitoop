@@ -155,6 +155,9 @@ class ResourceList {
             //clear localstorage
             let datastorage = new LinkStorage();
             datastorage.clearAllResources();
+            //clear tags
+            vitoopApp.tagSearch.resetTags();
+            vitoopApp.tagSearch.saveTagsToStorage();
         });
 
         $('#vtp-header-toggle-flag input[type=checkbox]').button({

@@ -322,10 +322,10 @@ class ResourceRepository extends EntityRepository
             $query->leftJoin('r.rel_resources2', 'rrr');
         }
         if ($search->flagged) {
-            $query->where('f.id IS NOT NULL')
+            $query->andWhere('f.id IS NOT NULL')
                 ->andWhere('f.type != 128');
         } else {
-            $query->where('f.id IS NULL');
+            $query->andWhere('f.id IS NULL');
         }
 
         if ($search->searchString) {

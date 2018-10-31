@@ -21,9 +21,13 @@
                         <button ng-click="save()" ng-cloak ng-class="{'ui-corner-all ui-state-default': projectDataForm.$pristine && projectSheetForm.projectText.$pristine, 'ui-corner-all ui-state-need-to-save': projectDataForm.$dirty || projectSheetForm.projectText.$dirty}" style="padding-bottom: 5px; padding-top: 5px; width: 100%">speichern</button>
                     </div>
                     <div style="vertical-align: bottom; text-align: left; color: #2779aa; font-size: 14px; padding-top: 10px;">
-                        <div class="vtp-fh-w60">
+                        <div class="vtp-fh-w70">
                             <input type="checkbox" ng-model="project.project_data.is_private" name="projectIsPrivate" style="-webkit-appearance: checkbox"/>
-                            <label for="projectIsPrivate" id="verstecken-vabel">verstecken</label>
+                            <label for="projectIsPrivate" id="sperren-vabel">Projekt sperren</label>
+                        </div>
+                        <div class="vtp-fh-w70">
+                            <input type="checkbox" ng-model="project.project_data.is_for_related_users" name="projectForRelated" style="-webkit-appearance: checkbox"/>
+                            <label for="projectForRelated" id="verstecken-vabel">Projekt verstecken</label>
                         </div>
                     </div>
                 </div>

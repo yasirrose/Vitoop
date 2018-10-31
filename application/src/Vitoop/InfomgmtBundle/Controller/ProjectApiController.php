@@ -3,6 +3,7 @@ namespace Vitoop\InfomgmtBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -75,26 +76,23 @@ class ProjectApiController extends ApiController
         $serializer = $this->get('jms_serializer');
         $em = $this->getDoctrine()->getManager();
         $serializerContext = DeserializationContext::create()
-            ->setGroups(array('get_project'));
+            ->setGroups(['get_project']);
         $updatedProject = $serializer->deserialize(
             $request->getContent(),
             'Vitoop\InfomgmtBundle\Entity\Project',
             'json',
             $serializerContext
         );
+        $response = ['status' => 'error', 'message' => 'Project is not found'];
         $project = $em->getRepository('VitoopInfomgmtBundle:Project')->find($updatedProject->getId());
-        if (is_null($project)) {
-            $response = array('status' => 'error', 'message' => 'Project is not found');
-        } else {
+        if ($project) {
             $project->setProjectData($updatedProject->getProjectData());
             $em->merge($project);
             $em->flush();
-            $response = array('status' => 'success', 'message' => 'Project saved!');
+            $response = ['status' => 'success', 'message' => 'Project saved!'];
         }
 
-        $response = $serializer->serialize($response, 'json');
-
-        return new Response($response);
+        return new JsonResponse($response);
     }
 
     /**

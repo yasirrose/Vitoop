@@ -38,6 +38,12 @@ class ProjectData implements GetDTOInterface
     protected $isPrivate;
 
     /**
+     * @ORM\Column(name="is_for_related_users", type="boolean", options={"default":false})
+     * @Serializer\Groups({"get_project"})
+     */
+    protected $isForRelatedUsers;
+
+    /**
      * @ORM\OneToMany(targetEntity="RelProjectUser", mappedBy="projectData", cascade={"merge", "remove"})
      * @Serializer\Groups({"get_project"})
      */
@@ -52,6 +58,7 @@ class ProjectData implements GetDTOInterface
     {
         $this->sheet = '<h1>Leeres Projekt.</h1>';
         $this->isPrivate = false;
+        $this->isForRelatedUsers = false;
         $this->relUsers = new ArrayCollection();
         $this->dividers = new ArrayCollection();
     }
@@ -174,15 +181,15 @@ class ProjectData implements GetDTOInterface
 
     public function availableForReading(User $user)
     {
-        if (!$this->isPrivate || $user->isAdmin()) {
+        if ((!$this->isPrivate && !$this->isForRelatedUsers) || $user->isAdmin()) {
             return true;
         }
         
-        if ($user->getId() == $this->getProject()->getUser()->getId()) {
+        if ($user->getId() === $this->getProject()->getUser()->getId()) {
             return true;
         }
         foreach ($this->relUsers as $rel) {
-            if ($rel->getUser()->getId() == $user->getId()) {
+            if ($rel->getUser()->getId() === $user->getId()) {
                 return true;
             }
         }
@@ -192,11 +199,11 @@ class ProjectData implements GetDTOInterface
 
     public function availableForWriting(User $user)
     {
-        if (($user->getId() == $this->getProject()->getUser()->getId()) || $user->isAdmin()) {
+        if (($user->getId() === $this->getProject()->getUser()->getId()) || $user->isAdmin()) {
             return true;
         }
         foreach ($this->relUsers as $rel) {
-            if (($rel->getUser()->getId() == $user->getId()) && !$rel->getReadOnly()) {
+            if (($rel->getUser()->getId() === $user->getId()) && !$rel->getReadOnly()) {
                 return true;
             }
         }
@@ -253,6 +260,7 @@ class ProjectData implements GetDTOInterface
             'id' => $this->id,
             'sheet' => $this->sheet,
             'is_private' => $this->isPrivate,
+            'is_for_related_users' => $this->isForRelatedUsers,
             'rel_users' => $this->relUsers->map(function (RelProjectUser $user) {
                 return $user->getDTO();
             })->toArray()
