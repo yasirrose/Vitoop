@@ -1,0 +1,9 @@
+version: '2'
+syncs:
+  app-vitoop:
+    sync_userid: '1000'
+    src: './application'
+    sync_strategy: 'native_osx'
+    sync_host_port: 10888
+    sync_args: '-prefer newer -copyonconflict -fastcheck no'
+    sync_excludes: ['.git', '.gitignore', '.DS_Store', 'node_modules', '.idea', 'app/cache/*', 'var/cache/*', 'var/logs/*']

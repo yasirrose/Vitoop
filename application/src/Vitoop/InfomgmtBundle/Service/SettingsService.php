@@ -62,18 +62,14 @@ class SettingsService
     public function set($name, $value)
     {
         $option = $this->get($name);
-        if (is_null($option)) {
-            $option = new Option();
-            $option->setName($name);
+        $value = $this->convertFromBoolToString($value);
+        if (null === $option) {
+            $option = new Option($name, $value);
         }
-        if ($value === true) {
-            $value = '1';
-        } elseif ($value === false) {
-            $value = '0';
-        }
-        $option->setValue($value);
-        $this->em->merge($option);
-        $this->em->flush();
+        $option->updateValue($value);
+
+        $this->em->persist($option);
+        $this->em->flush($option);
     }
 
     public function setHelp($value)
@@ -133,5 +129,21 @@ class SettingsService
             $user->setIsAgreedWithTerms(false);
         }
         $this->em->flush();
+    }
+
+    /**
+     * @param $value
+     * @return string
+     */
+    private function convertFromBoolToString($value)
+    {
+        if ($value === true) {
+            return '1';
+        }
+        if ($value === false) {
+            return '0';
+        }
+
+        return $value;
     }
 }

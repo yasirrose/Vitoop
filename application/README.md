@@ -2,8 +2,34 @@ Vitoop Project
 
 Commands:
 
-1. Before npm install on Vagrant:
+ Start prod enviroument
 
-`
-mkdir ~/tmp_node_modules && ln -s ~/tmp_node_modules ./node_modules
-`
+```sh
+
+make start 
+
+```
+
+ Install all dependencies and get last packages and updates
+
+```sh
+
+make install 
+
+```
+
+ Load dump from mysql in project
+
+```sh
+
+make load_db path=<path_to_mysqldump.sql> 
+
+```
+ 
+ Stop prod enviroument
+ 
+ ```sh
+ 
+ make stop 
+ 
+ ```

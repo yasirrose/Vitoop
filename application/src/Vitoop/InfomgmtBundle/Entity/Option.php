@@ -42,6 +42,27 @@ class Option
      */
     private $value;
 
+    /**
+     * Option constructor.
+     * @param string $name
+     * @param string $value
+     */
+    public function __construct($name, $value)
+    {
+        $this->name = $name;
+        $this->value = $value;
+    }
+
+    /**
+     * @param $value
+     * @return $this
+     */
+    public function updateValue($value)
+    {
+        $this->value = $value;
+
+        return $this;
+    }
 
     /**
      * Get id
@@ -54,19 +75,6 @@ class Option
     }
 
     /**
-     * Set name
-     *
-     * @param string $name
-     * @return Option
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
      * Get name
      *
      * @return string 
@@ -74,19 +82,6 @@ class Option
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Set value
-     *
-     * @param string $value
-     * @return Option
-     */
-    public function setValue($value)
-    {
-        $this->value = $value;
-
-        return $this;
     }
 
     /**

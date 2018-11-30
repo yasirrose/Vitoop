@@ -1,5 +1,6 @@
 /.idea
 /.vagrant/
+/.docker-sync/
 /application/node_modules/
 /application/web/build/pdf.editor.js
 /application/web/js/
@@ -7,4 +8,8 @@
 /application/web/css/
 /application/.netbeans.xml
 /application/nbproject/private/
-/downloads
+!/downloads/.gitkeep
+/downloads/
+!/devops/docker/states/db/vitoop/.gitkeep
+/devops/docker/states/db/vitoop/
+/devops/docker/dump.sql

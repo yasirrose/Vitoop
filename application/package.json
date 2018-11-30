@@ -26,6 +26,7 @@
     "malihu-custom-scrollbar-plugin": "^3.1.5",
     "minimatch": "^3.0.4",
     "moment": "github:moment/moment",
+    "natives": "^1.1.6",
     "object-assign": "^4.1.1",
     "pdf-annotate": "^0.0.0",
     "pdfjs-dist": "^2.0.207",
@@ -37,14 +38,14 @@
     "webpack-stream": "^4.0.0"
   },
   "devDependencies": {
-    "@symfony/webpack-encore": "^0.20.1",
+    "@symfony/webpack-encore": "^0.22.1",
     "babel-loader": "^7.1.2",
-    "babelify": "^8.0.0",
-    "uglifyify": "^5.0.0",
     "babel-preset-env": "^1.7.0",
+    "babelify": "^8.0.0",
     "expose-loader": "^0.7.5",
     "gulp-bro": "^1.0.3",
     "mkdirp": "^0.5.1",
+    "uglifyify": "^5.0.0",
     "webpack-notifier": "^1.6.0"
   },
   "scripts": {
