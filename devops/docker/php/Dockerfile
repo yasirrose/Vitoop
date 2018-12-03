@@ -4,7 +4,7 @@ FROM php:7.1-fpm
 RUN usermod -u 1000 www-data \
  && usermod -G staff www-data
 
-RUN apt-get update && && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     unzip \
     git \
     libc-client-dev \
