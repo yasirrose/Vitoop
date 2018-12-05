@@ -7,11 +7,10 @@ ifeq ($(OS),Darwin)
 	docker-compose -f docker-compose.dev.yml up -d
 	docker-sync start
 else
-	docker-compose up -d
+	docker-compose -f docker-compose.dev.yml up -d
 endif
 
 start:
-	docker volume create --name=app-vitoop
 	docker-compose -f docker-compose.yml up -d
 
 stop_dev:
@@ -20,11 +19,11 @@ ifeq ($(OS),Darwin)
 	docker-sync stop
 	docker-sync clean
 else
-	docker-compose stop
+	docker-compose -f docker-compose.dev.yml stop
 endif
 
 stop:
-	docker-compose stop
+	docker-compose -f docker-compose.yml stop
 
 install:
 	cp devops/docker/app/parameters.yml application/app/config/parameters.yml
