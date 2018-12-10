@@ -9,7 +9,7 @@
     },
     "require": {
         "php": ">=7.0",
-        "symfony/symfony": "3.4.6",
+        "symfony/symfony": "3.4.20",
         "symfony/console": "3.4.*",
         "symfony/intl": "3.4.*",
         "symfony/assetic-bundle": "2.8.*",
