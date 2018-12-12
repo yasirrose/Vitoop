@@ -56,9 +56,6 @@ class Version20181100000000 extends AbstractMigration
         $this->addSql("DELETE FROM migration_versions WHERE version = '20180314205529'");
         $this->addSql("DELETE FROM migration_versions WHERE version = '20180524202305'");
         $this->addSql("DELETE FROM migration_versions WHERE version = '20181030193502'");
-
-        $this->addSql("INSERT INTO migration_versions(version) VALUES ('20181100000001')");
-
     }
 
     /**
@@ -67,6 +64,5 @@ class Version20181100000000 extends AbstractMigration
     public function down(Schema $schema)
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
     }
 }
