@@ -7,7 +7,7 @@ div#menu, ul, li {
 }
 
 .vtp-menu {
-    padding: 0 0.5em;
+    padding: 0 8px 0 0.5em;
     line-height: 1em;
 }
 
@@ -22,7 +22,7 @@ div#menu, ul, li {
     font-size: 1.0em;
     line-height: 1em;
     list-style-type: none;
-    margin: 0 .25em 0 0;
+    margin: 0 4px 0 0;
     padding: 0;
 }
 
@@ -62,4 +62,8 @@ div#menu, ul, li {
     color: #0070a3;
     text-decoration: none;
     outline: 0 none;
+}
+
+.vtp-menu ul li:last-child {
+    margin-right: 0px;
 }

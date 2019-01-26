@@ -101,6 +101,7 @@
             {% if (not app.user) or (app.user.getIsAgreedWithTerms()) %}
                 <div id="vtp-nav" class="vtp-menu ui-helper-clearfix ui-corner-all">
                     <input id="resourceInfo" type="hidden" ng-model="nav.resourceInfo" />
+                    <div style="width: 588px; float: left;">
                     <ul>
                         {% set ang = "click('')" %}
                         {% if restype is not defined %}
@@ -163,6 +164,7 @@
                             </li>
                         {% endfor %}
                     </ul>
+                    </div>
                     {% block search_by_tags_form %}
                         {% include 'VitoopInfomgmtBundle:Resource:search.bytags.form.html.twig' %}
                     {% endblock %}

@@ -1,15 +1,19 @@
-<button id="vtp-search-toggle" class="vtp-button" {% if restype == '' %}style="display: none;"{% endif %}>^</button>
-<button id="vtp-search-help" help-area="search" class="vtp-button vtp-help-area-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only" {% if restype == '' %}style="display: none;"{% endif %}><span class="ui-icon ui-icon-help"></span><span class="ui-button-text"></span></button>
 <form id="vtp-search-bytags-form" action="" method="get" novalidate="novalidate"{% if restype == '' %} style="display: none;"{% endif %}>
-    {% if app.user %}
-    <input id="vtp-search-bytags-taglist" name="taglist[]" maxlength="64" type="text" placeholder="tag (Suchbegriff) eingeben">
-    <input id="vtp-search-bytags-restype" name="restype" type="hidden" value="{{ restype }}"/>
-    <select id="vtp-search-bytags-tagcnt" title="Übereinstimmungen der Tags" name="tagcnt" size="1" style="width: 52px">
-        <option value="">-</option>
-        {% for i in 1..9 %}
-            <option value="{{ i }}" {{ ((tagcnt is defined) and (tagcnt == i) ) ? 'selected' : '' }}>{{ i }}</option>
-        {% endfor %}
-    </select>
-    <button id="vtp-search-bytags-form-submit" class="vtp-button" type="submit" name="submit" value="Suche">-></button>
-   {% endif %}
+    {#{% if app.user %}#}
+    <div id="vtp-search-bytags-form-input-container">
+        <input id="vtp-search-bytags-taglist" name="taglist[]" type="text" placeholder="tag (Suchbegriff) eingeben">
+    </div>
+    <div id="vtp-search-bytags-form-buttons">
+        <input id="vtp-search-bytags-restype" name="restype" type="hidden" value="{{ restype }}"/>
+        <select id="vtp-search-bytags-tagcnt" title="Übereinstimmungen der Tags" name="tagcnt" size="1" style="width: 52px">
+            <option value="">-</option>
+            {% for i in 1..9 %}
+                <option value="{{ i }}" {{ ((tagcnt is defined) and (tagcnt == i) ) ? 'selected' : '' }}>{{ i }}</option>
+            {% endfor %}</select><button
+                id="vtp-search-bytags-form-submit" class="vtp-button" type="submit" name="submit" value="Suche">-></button><button
+                id="vtp-search-help" help-area="search" class="vtp-button vtp-help-area-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only" {% if restype == '' %}style="display: none;"{% endif %}><span class="ui-icon ui-icon-help"></span><span class="ui-button-text"></span></button><button
+                id="vtp-search-toggle" class="vtp-button" {% if restype == '' %}style="display: none;"{% endif %}>^</button>
+    </div>
+
+    {#{% endif %}#}
 </form>

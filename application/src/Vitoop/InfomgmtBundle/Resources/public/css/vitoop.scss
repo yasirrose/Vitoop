@@ -9,6 +9,7 @@ $vitoop-blue-color: #2779aa;
 $vitoop-body-background-color: #f2f5f7;
 $vitoop-red-color: #ff0000;
 $vitoop-even-background-color: #deedf7;
+$menu-distance: 4px;
 
 /* cyrillic-ext */
 @font-face {
@@ -441,11 +442,6 @@ table input[disabled="disabled"].vtp-uiaction-coefficient {
     min-width: 3em;
 }
 
-#vtp-search-bytags-taglist {
-    width: 235px;
-    margin-right: 2px;
-}
-
 .vtp-search-bytags-item {
     white-space: nowrap;
     overflow: hidden;
@@ -473,7 +469,7 @@ table input[disabled="disabled"].vtp-uiaction-coefficient {
     margin: 2px;
     background-color: $vitoop-body-background-color;
     width: 34px;
-    height: 23px;
+    height: 22px;
     cursor: pointer;
 }
 
@@ -992,13 +988,6 @@ span.vtp-icon {
     padding: 4px 5px;
 }
 
-#vtp-search-toggle, #vtp-search-help {
-    float: right;
-    width: 34px;
-    margin-top: 1px;
-    margin-left: 4px;
-}
-
 /************************************************************
  * vtp-rating                                               *
  ************************************************************/
@@ -1260,19 +1249,49 @@ div.divider-wrapper {
     display: inline-flex
 }
 
-input#vtp-search-bytags-taglist {
-    height: 20px;
-}
-
 #vtp-search-bytags-form {
-    float: right;
+    //float: right;
+    margin-left: 621px;
+    display: flex;
+
+    #vtp-search-bytags-taglist {
+        height: 20px;
+        //width: 235px;
+        margin-right: 0px;
+        width: calc(100% - 12px);
+    }
+
+    #vtp-search-bytags-form-buttons {
+        float: right;
+        flex-shrink: 0;
+
+        #text {
+            width: 0px;
+            display: none;
+        }
+    }
+
+    #vtp-search-bytags-form-input-container {
+        flex-grow: 1;
+    }
 
     #vtp-search-bytags-tagcnt-button {
-        margin-right: 2px;
+        margin-right: 0px;
+    }
+
+    #vtp-search-toggle, #vtp-search-help {
+        width: 34px;
+        margin-top: 1px;
+        margin-left: $menu-distance;
+        margin-right: 0px;
+    }
+
+    #vtp-search-help {
     }
 
     #vtp-search-bytags-form-submit {
-        margin-right: 2px;
+        margin-left: $menu-distance;
+        margin-right: 0px;
 
         &.act {
             width: 52px;
@@ -1807,11 +1826,11 @@ a.vtp-uiaction-open-url:visited {
         background-color: #deedf7;
         text-align: left;
         font-weight: normal;
-        padding-top: 2px;
-        padding-bottom: 2px;
+        padding-top: 1px;
+        padding-bottom: 1px;
 
-        .DataTables_sort_icon {
-            margin-top: 1px;
+        .DataTables_sort_icon.ui-icon-carat-2-n-s {
+          background-position-y: 1px;
         }
     }
 
@@ -1819,7 +1838,6 @@ a.vtp-uiaction-open-url:visited {
         .fg-toolbar.ui-toolbar.vtp-pg-pane {
             padding-top: 0px;
             padding-bottom: 0px;
-            height: 30px;
         }
     }
 }
@@ -1854,6 +1872,10 @@ a.vtp-uiaction-open-url:visited {
         .dataTables_length, .dataTables_info {
             font-weight: normal;
             color: $vitoop-blue-color;
+        }
+
+        .dataTables_length select {
+            height: 24px;
         }
     }
 }
@@ -1894,7 +1916,7 @@ a.vtp-uiaction-open-url:visited {
 }
 
 .dataTables_filter {
-    padding-top: 2px;
+     padding-top: 1px;
    // padding-bottom: 2px;
 
     label {
@@ -1903,7 +1925,7 @@ a.vtp-uiaction-open-url:visited {
 
     #is-read-filter {
         margin-top: 1px;
-        margin-bottom: 4px;
+        margin-bottom: 1px;
         float: left;
 
         //vertical-align: baseline;
@@ -1916,7 +1938,7 @@ a.vtp-uiaction-open-url:visited {
 
     #vtp-search-clear {
         width: 34px;
-        margin: 1px 8px 4px 5px;
+        margin: 1px 8px 1px 5px;
         height: 22px;
         background: -webkit-linear-gradient(bottom, #e8f3fa, #7cc0f6); /* For Safari 5.1 to 6.0 */
         background: -o-linear-gradient(top, #7cc0f6 , #e8f3fa); /* For Opera 11.1 to 12.0 */
