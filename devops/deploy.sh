@@ -11,4 +11,4 @@ php bin/console doc:migr:migr --no-interaction
 php bin/console cache:clear --env=prod
 php bin/console cache:warmup --env=prod
 
-gulp
+node_modules/.bin/gulp
