@@ -229,7 +229,7 @@ EOT;
         }
         $fv = $form->createView();
 
-        return array('fv' => $fv, 'link' => $link, 'info' => $info);
+        return $this->render('@VitoopInfomgmt/User/invite.html.twig', ['fv' => $fv, 'link' => $link, 'info' => $info]);
     }
 
     /**

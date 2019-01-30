@@ -3,6 +3,7 @@
  ************************************************************/
 
 $blue-frame-border: 1px solid #aed0ea;
+$white-frame-border: 1px solid #ffffff;
 $vitoop-font-family: 'Open Sans', Arial, Helvetica, sans-serif;
 $vitoop-body-color: #362b36;
 $vitoop-blue-color: #2779aa;
@@ -385,17 +386,17 @@ input[type="submit"], .vtp-button {
 }
 
 .vtp-extlink-list {
-    width: 41px;
+    width: 43px;
+
+    > span {
+        margin-left: 13px;
+    }
 }
 
 td > a.vtp-extlink-list,
 td > span.vtp-extlink-list {
     float: right;
     margin-right: 0.45em;
-}
-
-.vtp-extlink-list > span {
-    margin-left: 12px;
 }
 
 .vtp-odd .vtp-extlink,
@@ -506,24 +507,25 @@ span.vtp-search-bytags-tag {
     padding: 0px 2em 0px 1.3em;
     transition: padding 0.4s ease 0s;
     border: $blue-frame-border;
-}
 
+    &.vtp-search-bytags-tag-bulb {
+        background-color: #3baae3;
+        color: #ffffff;
+        border: $white-frame-border;
 
-span.vtp-search-bytags-tag.vtp-search-bytags-tag-bulb {
-    background-color: #3baae3;
-}
+        > span.ui-icon {
+            background-image: url("../img/ui-icons_ffffff_256x240.png");
+        }
+    }
 
-span.vtp-search-bytags-tag.vtp-search-bytags-tag-bulb > span.ui-icon {
-    background-image: url("../img/ui-icons_ffffff_256x240.png");
-}
+    &.vtp-search-bytags-tag-ignore {
+        text-decoration: line-through;
+    }
 
-span.vtp-search-bytags-tag.vtp-search-bytags-tag-ignore {
-    text-decoration: line-through;
-}
-
-span.vtp-search-bytags-tag.vtp-search-bytags-tag-active {
-    padding: 0px 4em 0px 1.3em !important;
-    border: 1px solid #2694e8;
+    &.vtp-search-bytags-tag-active {
+        padding: 0px 4em 0px 1.3em !important;
+        border: 1px solid #2694e8;
+    }
 }
 
 .vtp-search-bytags-content {
@@ -1153,7 +1155,7 @@ span.vtp-icon {
 }
 
 #vtp-projectdata-title, #vtp-lexicondata-title {
-    height: 20px;
+    height: 24px;
     position: relative;
     margin: auto;
     border: $blue-frame-border;
@@ -1295,6 +1297,7 @@ div.divider-wrapper {
 
         &.act {
             width: 52px;
+            border: $white-frame-border;
         }
     }
 }
@@ -1782,7 +1785,7 @@ a.vtp-uiaction-open-url:visited {
 #vtp-res-list {
     tr.vtp-uiaction-list-showdetail {
         height: 25px;
-        font-size: 14px;
+        font-size: 12px;
     }
 
     td.dataTables_empty {
@@ -1894,21 +1897,22 @@ a.vtp-uiaction-open-url:visited {
     border: $blue-frame-border;
     margin-top: 10px;
     padding: 3px;
-}
+    font-family: $vitoop-font-family;
 
-.vtp-send-type {
-    width: 10%;
-    float: left;
-    padding: 5px 0px 0px 5px;
-    text-transform: capitalize;
-    font-weight: bold;
-}
+    .vtp-send-type {
+        width: 10%;
+        float: left;
+        padding: 5px 0px 0px 5px;
+        text-transform: capitalize;
+        color: $vitoop-blue-color;
+    }
 
-.vtp-send-name {
-    width: 87%;
-    overflow: hidden;
-    float: left;
-    padding: 5px 0px 0px 5px;
+    .vtp-send-name {
+        width: 87%;
+        overflow: hidden;
+        float: left;
+        padding: 5px 0px 0px 5px;
+    }
 }
 
 .vtp-clear {
@@ -1927,6 +1931,8 @@ a.vtp-uiaction-open-url:visited {
         margin-top: 1px;
         margin-bottom: 1px;
         float: left;
+        height: 22px;
+        padding: 0px 8px;
 
         //vertical-align: baseline;
     }
@@ -2043,11 +2049,6 @@ table.dataTable thead th:hover {
     }
 }
 
-#is-read-filter {
-    height: 22px;
-    padding: 0px 6px;
-}
-
 #vtp-list-book-art-button {
     margin-left: 100px;
     height: 20px;
@@ -2095,5 +2096,13 @@ table.dataTable thead th:hover {
     .ui-icon {
         width: 18px;
         height: 18px;
+    }
+}
+
+#resource-buttons {
+    .vtp-uistyle-iconbutton {
+        &.vtp-wide-iconbutton {
+            width: 25px;
+        }
     }
 }

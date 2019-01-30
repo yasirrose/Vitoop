@@ -50,7 +50,7 @@ class Invitation
     public function __construct()
     {
         $this->subject = 'Einladung zum Informationsportal vitoop';
-        $this->secret = md5(bin2hex(mcrypt_create_iv(22, MCRYPT_DEV_URANDOM)));
+        $this->secret = md5(bin2hex(random_bytes(22)));
         $this->updateUntil();
     }
 
