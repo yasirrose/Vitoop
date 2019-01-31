@@ -14,14 +14,20 @@ export default class SendLinkWidget extends Widget {
         let resources = self.linkStorage.getAllResourcesByTypes();
         let resourceIds = new Array();
         $('#form-user-links-info').html('');
+        let currentRowCounter = 0;
         for (let resourceType in resources) {
             for (let resourceId in resources[resourceType]) {
+                let rowClass = 'odd';
+                if (currentRowCounter % 2) {
+                    rowClass = 'even';
+                }
                 $('#form-user-links-info').append(
-                    '<div class="vtp-send-type">'+this.getResourceTypeName(resourceType)+':</div>' +
-                    '<div class="vtp-send-name">'+resources[resourceType][resourceId].name+'</div>' +
+                    '<div class="vtp-send-type '+ rowClass +'">'+this.getResourceTypeName(resourceType)+':</div>' +
+                    '<div class="vtp-send-name '+ rowClass +'">'+resources[resourceType][resourceId].name+'</div>' +
                     '<div class="vtp-clear"></div>'
                 );
                 resourceIds.push(resourceId);
+                currentRowCounter++;
             }
         }
 

@@ -11,6 +11,7 @@ $vitoop-body-background-color: #f2f5f7;
 $vitoop-red-color: #ff0000;
 $vitoop-even-background-color: #deedf7;
 $menu-distance: 4px;
+$wide-iconbutton-width: 29px;
 
 /* cyrillic-ext */
 @font-face {
@@ -396,7 +397,7 @@ input[type="submit"], .vtp-button {
 td > a.vtp-extlink-list,
 td > span.vtp-extlink-list {
     float: right;
-    margin-right: 0.45em;
+    margin-right: 8px;
 }
 
 .vtp-odd .vtp-extlink,
@@ -1620,8 +1621,14 @@ form#form-tag {
     padding-bottom: 5px;
 }
 
-div.ui-dialog-titlebar > button {
-    outline: 0 none;
+div.ui-dialog-titlebar {
+    > button {
+        outline: 0 none;
+    }
+
+    .ui-dialog-titlebar-close {
+        width: $wide-iconbutton-width;
+    }
 }
 
 fieldset {
@@ -1785,7 +1792,6 @@ a.vtp-uiaction-open-url:visited {
 #vtp-res-list {
     tr.vtp-uiaction-list-showdetail {
         height: 25px;
-        font-size: 12px;
     }
 
     td.dataTables_empty {
@@ -1899,12 +1905,22 @@ a.vtp-uiaction-open-url:visited {
     padding: 3px;
     font-family: $vitoop-font-family;
 
+    .odd {
+        background-color: $vitoop-body-background-color;
+        color: $vitoop-body-color;
+    }
+
+    .even {
+        background-color: $vitoop-even-background-color;
+        color: #222222;
+    }
+
     .vtp-send-type {
         width: 10%;
         float: left;
         padding: 5px 0px 0px 5px;
         text-transform: capitalize;
-        color: $vitoop-blue-color;
+        font-weight: bold;
     }
 
     .vtp-send-name {
@@ -1932,7 +1948,7 @@ a.vtp-uiaction-open-url:visited {
         margin-bottom: 1px;
         float: left;
         height: 22px;
-        padding: 0px 8px;
+        padding: 0px 10px;
 
         //vertical-align: baseline;
     }
@@ -2100,9 +2116,20 @@ table.dataTable thead th:hover {
 }
 
 #resource-buttons {
+    position: absolute;
+    right: 38px;
+    top: 50%;
+    margin: -10px 0 0 0;
+    cursor: default;
+
     .vtp-uistyle-iconbutton {
+        width: 21px;
+        padding: 1px;
+        height: 20px;
+        vertical-align: baseline;
+
         &.vtp-wide-iconbutton {
-            width: 25px;
+            width: $wide-iconbutton-width;
         }
     }
 }

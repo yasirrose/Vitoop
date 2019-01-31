@@ -2,22 +2,6 @@
  * VitooP - UI-Styles
  */
 
-/* correspondens with jquery-ui-css-selector: .ui-dialog .ui-dialog-titlebar-close */
-#resource-buttons .vtp-uistyle-iconbutton {
-    width: 21px;
-    padding: 1px;
-    height: 20px;
-    vertical-align: baseline;
-}
-
-#resource-buttons {
-    position: absolute;
-    right: 2em;
-    top: 50%;
-    margin: -10px 0 0 0;
-    cursor: default;
-}
-
 .vtp-active {
     border: 1px solid #2694e8;
     background: #3baae3 url("../img/ui-bg_glass_50_3baae3_1x400.png") 50% 50% repeat-x;
