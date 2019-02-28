@@ -4,6 +4,7 @@ import SecondSearch from "../components/SecondSearch";
 import HelpButton from '../components/HelpButton';
 import AdminToolbarButton from '../components/AdminToolbarButton';
 import TagSearch from "../components/TagSearch";
+import ResourcePopup from "../components/ResourcePopup";
 
 export default class VitoopApp {
     constructor () {
@@ -132,5 +133,12 @@ export default class VitoopApp {
                 }
             }
         });
+    }
+
+    openResourcePopup(resourceId) {
+        let popup = new ResourcePopup(resourceId);
+        popup.loadResource();
+
+        return popup;
     }
 }

@@ -19,6 +19,7 @@ export default class TinyMCEInitializer {
                 underline: { inline: 'u' },
                 strikethrough: { inline: 'del' },
             },
+            default_link_target: "_blank",
             target_list: false,
             toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink',
         };

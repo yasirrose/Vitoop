@@ -30,11 +30,10 @@
 $(document).ready(function() {
     $('#vtp-projectdata-sheet-view').on('click', 'a', function (e) {
         if (-1 !== this.href.indexOf('resources')) {
-            let resorcesParts = this.href.match(/resources\/(\d+)/);
+            let resourcesParts = this.href.match(/resources\/(\d+)/);
             e.preventDefault();
 
-            let popup = new ResourcePopup(resorcesParts[1]);
-            popup.loadResource();
+            vitoopApp.openResourcePopup(resourcesParts[1]);
             
             return false;
         }
