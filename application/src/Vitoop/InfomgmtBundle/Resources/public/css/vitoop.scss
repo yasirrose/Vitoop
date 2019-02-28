@@ -12,6 +12,7 @@ $vitoop-red-color: #ff0000;
 $vitoop-even-background-color: #deedf7;
 $menu-distance: 4px;
 $wide-iconbutton-width: 29px;
+$table-row-height: 25px;
 
 /* cyrillic-ext */
 @font-face {
@@ -280,7 +281,9 @@ table#vtp-res-tags tbody {
     overflow-x: hidden;
 }
 
-div#vtp-res-list td, div#vtp-res-tags td {
+div#vtp-res-list td,
+div#vtp-res-tags td,
+#form-user-links-info td{
     &:first-of-type {
         @include border-radius-left();
     }
@@ -467,7 +470,7 @@ table input[disabled="disabled"].vtp-uiaction-coefficient {
     position: absolute;
     border: $blue-frame-border;
     top: 0px;
-    right: 5px;
+    right: 4px;
     margin: 2px;
     background-color: $vitoop-body-background-color;
     width: 34px;
@@ -1773,7 +1776,7 @@ td.vtp-blue.ui-state-active {
 }
 
 #search_blue_box {
-    height: 25px;
+    height: $table-row-height;
     padding-top: 1px;
     float: left;
     padding-right: 20px;
@@ -1791,7 +1794,7 @@ a.vtp-uiaction-open-url:visited {
 
 #vtp-res-list {
     tr.vtp-uiaction-list-showdetail {
-        height: 25px;
+        height: $table-row-height;
     }
 
     td.dataTables_empty {
@@ -1905,22 +1908,28 @@ a.vtp-uiaction-open-url:visited {
     padding: 3px;
     font-family: $vitoop-font-family;
 
-    .odd {
+    tr {
+        height: $table-row-height;
         background-color: $vitoop-body-background-color;
+    }
+
+    td {
+        padding: 0px 8px;
+        box-sizing: content-box;
+        vertical-align: middle;
+    }
+
+    .odd {
         color: $vitoop-body-color;
     }
 
     .even {
-        background-color: $vitoop-even-background-color;
         color: #222222;
     }
 
     .vtp-send-type {
-        width: 10%;
-        float: left;
-        padding: 5px 0px 0px 5px;
+        width: 5%;
         text-transform: capitalize;
-        font-weight: bold;
     }
 
     .vtp-send-name {
@@ -1948,7 +1957,7 @@ a.vtp-uiaction-open-url:visited {
         margin-bottom: 1px;
         float: left;
         height: 22px;
-        padding: 0px 10px;
+        padding: 0px 13px;
 
         //vertical-align: baseline;
     }
@@ -1960,7 +1969,7 @@ a.vtp-uiaction-open-url:visited {
 
     #vtp-search-clear {
         width: 34px;
-        margin: 1px 8px 1px 5px;
+        margin: 1px 7px 1px 5px;
         height: 22px;
         background: -webkit-linear-gradient(bottom, #e8f3fa, #7cc0f6); /* For Safari 5.1 to 6.0 */
         background: -o-linear-gradient(top, #7cc0f6 , #e8f3fa); /* For Opera 11.1 to 12.0 */
@@ -1982,7 +1991,7 @@ a.vtp-uiaction-open-url:visited {
     margin-left: 138px;
    // margin-bottom: 1px;
     width: 35%;
-    padding-top: 2px;
+    padding-top: 1px;
     input {
         margin-top: 1px;
         margin-right: 6px;
@@ -1996,7 +2005,7 @@ a.vtp-uiaction-open-url:visited {
     #vtp_search_date {
         margin-top: 1px;
         height: 22px;
-        margin-bottom: 4px;
+        margin-bottom: 1px;
     }
 }
 
@@ -2117,10 +2126,14 @@ table.dataTable thead th:hover {
 
 #resource-buttons {
     position: absolute;
-    right: 38px;
+    right: 33px;
     top: 50%;
     margin: -10px 0 0 0;
     cursor: default;
+
+    > button {
+        margin-right: 4px;
+    }
 
     .vtp-uistyle-iconbutton {
         width: 21px;

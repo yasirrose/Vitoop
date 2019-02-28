@@ -17,14 +17,20 @@ export default class SendLinkWidget extends Widget {
         let currentRowCounter = 0;
         for (let resourceType in resources) {
             for (let resourceId in resources[resourceType]) {
-                let rowClass = 'odd';
+                let rowClass = 'odd ui-corner-all';
                 if (currentRowCounter % 2) {
-                    rowClass = 'even';
+                    rowClass = 'even ui-corner-all';
                 }
                 $('#form-user-links-info').append(
-                    '<div class="vtp-send-type '+ rowClass +'">'+this.getResourceTypeName(resourceType)+':</div>' +
-                    '<div class="vtp-send-name '+ rowClass +'">'+resources[resourceType][resourceId].name+'</div>' +
-                    '<div class="vtp-clear"></div>'
+                    '<tr class="'+ rowClass +'">'+
+                        '<td class="vtp-send-type">'+this.getResourceTypeName(resourceType)+':</td>' +
+                        '<td>'+resources[resourceType][resourceId].name+'</td>' +
+                    '</tr>'
+                    //
+                    //
+                    // '<div class="vtp-send-type '+ rowClass +'">'+this.getResourceTypeName(resourceType)+':</div>' +
+                    // '<div class="vtp-send-name '+ rowClass +'">'+resources[resourceType][resourceId].name+'</div>' +
+                    // '<div class="vtp-clear"></div>'
                 );
                 resourceIds.push(resourceId);
                 currentRowCounter++;

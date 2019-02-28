@@ -53,7 +53,8 @@ export default class SearchToggler {
             text: false,
             label: "Second Search"
         });
-        $(this.toggleButtonId).off().on('click', function () {
+        $(this.toggleButtonId).off().on('click', function (e) {
+            e.preventDefault();
             self.state = !self.state;
             self.saveSearchState();
 
