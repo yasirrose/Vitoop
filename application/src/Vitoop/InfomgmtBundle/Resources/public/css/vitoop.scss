@@ -1257,7 +1257,7 @@ div.divider-wrapper {
 
 #vtp-search-bytags-form {
     //float: right;
-    margin-left: 621px;
+    margin-left: 631px;
     display: flex;
 
     #vtp-search-bytags-taglist {
@@ -1904,6 +1904,7 @@ a.vtp-uiaction-open-url:visited {
 
 #form-user-links-info {
     border: $blue-frame-border;
+    @include border-radius(6px);
     margin-top: 10px;
     padding: 3px;
     font-family: $vitoop-font-family;
@@ -1928,7 +1929,7 @@ a.vtp-uiaction-open-url:visited {
     }
 
     .vtp-send-type {
-        width: 5%;
+        width: 8%;
         text-transform: capitalize;
     }
 
@@ -2066,8 +2067,8 @@ table.dataTable thead th:hover {
     float: right;
     height: 20px;
     margin-top: 1px;
-    @include border-radius(3px);
-    padding: 0px 6px;
+    @include border-radius(6px);
+    padding: 0px 8px;
 
     :focus {
 
@@ -2077,7 +2078,7 @@ table.dataTable thead th:hover {
 #vtp-list-book-art-button {
     margin-left: 100px;
     height: 20px;
-    margin-top: 3px;
+    margin-top: 2px;
 }
 
 #vtp-list-book-art-menu > .ui-menu-item {
