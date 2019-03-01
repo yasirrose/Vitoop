@@ -1264,7 +1264,8 @@ div.divider-wrapper {
         height: 20px;
         //width: 235px;
         margin-right: 0px;
-        width: calc(100% - 12px);
+        width: calc(100% - 22px);
+        padding-left: 15px;
     }
 
     #vtp-search-bytags-form-buttons {
