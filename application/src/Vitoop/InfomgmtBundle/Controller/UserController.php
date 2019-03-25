@@ -355,6 +355,15 @@ EOT;
     }
 
     /**
+     * @Route("api/user/{id}/credentials",  requirements={"userID": "\d+"})
+     * @Method({"GET"})
+     */
+    public function getCredentialsAction(User $user)
+    {
+        return $this->getApiResponse($user->getDTOWithConfig());
+    }
+
+    /**
      * @Route("api/user/{userID}/credentials", requirements={"userID": "\d+"}, name="user_new_credentials")
      * @Method({"POST"})
      * @ParamConverter("user", class="Vitoop\InfomgmtBundle\Entity\User", options={"id" = "userID"})
@@ -385,7 +394,8 @@ EOT;
 
         return new JsonResponse([
             'success' => true,
-            'message' => 'Settings successfully changed!'
+            'message' => 'Settings successfully changed!',
+            'user' => $user->getDTOWithConfig()
         ]);
     }
 
@@ -415,6 +425,6 @@ EOT;
      */
     public function getUserProfileAction(Request $request)
     {
-        return $this->getApiResponse($this->getUser()->getDTO());
+        return $this->getApiResponse($this->getUser()->getDTOWithConfig());
     }
 }

@@ -1659,13 +1659,19 @@ div#vtp-res-dialog-tabs > div {
     }
 }
 
-#vtp-credentials form div {
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
+#vtp-credentials {
+    div {
+        vertical-align: top;
+    }
 
-#vtp-credentials div {
-    vertical-align: top;
+    form div {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    #vtp-credentials-decrease-font {
+        width: 100px;
+    }
 }
 
 
@@ -1966,7 +1972,9 @@ a.vtp-uiaction-open-url:visited {
 
     input {
         margin-top: 1px;
+        margin-left: 0.5em;
         vertical-align: baseline;
+        padding-left: 15px;
     }
 
     #vtp-search-clear {

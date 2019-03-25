@@ -10,9 +10,9 @@ var babelify = require('babelify');
 
 var webpack = require('webpack-stream');
 var ProvidePlugin = require('webpack-stream').webpack.ProvidePlugin;
-var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 var path = require('path');
 var env = process.env.GULP_ENV;
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 gulp.task('angular-js', function () {
     return gulp.src(['src/Vitoop/InfomgmtBundle/Resources/public/js/angular/*.js'])
@@ -79,7 +79,6 @@ gulp.task('jquery-js', function () {
                 ]
             },
             plugins: [
-                //new UglifyJsPlugin(),
                 new ProvidePlugin({
                     $: 'jquery',
                     jQuery: 'jquery',
@@ -96,19 +95,34 @@ gulp.task('jquery-js', function () {
 
 gulp.task('vitoop-app', function () {
     return gulp.src([
+        'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/components/Vue/*/*.vue',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/components/*.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/widgets/*.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/*.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/app/vitoop.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/app/boot.js'
         ])
-        .pipe(bro({
-            transform: [
-                babelify.configure({ presets: ['env'] }),
-                [ 'uglifyify', { global: true } ]
+        .pipe(webpack({
+            mode: 'production',
+            output: {
+                publicPath: "/js/",
+                filename: 'vitoop-app.js'
+            },
+            module: {
+                rules: [
+                    {
+                        test: /\.vue$/,
+                        exclude: /node_modules/,
+                        use: 'vue-loader'
+                    }
+                ],
+            },
+            plugins: [
+                new VueLoaderPlugin(),
             ]
         }))
         .pipe(concat('vitoop-app.js'))
+        .pipe(gulpif(env === 'prod', uglify()))
         .pipe(gulp.dest('web/js/build'));
 });
 
@@ -174,15 +188,16 @@ gulp.task('img', function() {
 gulp.task('pdf', function () {
     return gulp.src('src/Vitoop/InfomgmtBundle/Resources/public/js/pdf.editor/pdf.editor.js')
         .pipe(webpack({
+            mode: 'production',
             output: {
                 publicPath: "/build/",
                 filename: 'pdf.editor.js'
             },
             module: {
-                loaders: [
+                rules: [
                     {
                         test: /\.js$/,
-                        loader: 'babel-loader',
+                        use: 'babel-loader',
                     }
                 ]
             }

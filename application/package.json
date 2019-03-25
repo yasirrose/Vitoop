@@ -32,10 +32,13 @@
     "pdfjs-dist": "^2.0.207",
     "twitter-text": "^2.0.1",
     "uglify-js": "^3.3.21",
-    "uglifyjs-webpack-plugin": "^1.2.5",
     "uuid": "^3.1.0",
-    "webpack": "^3.12.0",
-    "webpack-stream": "^4.0.0"
+    "webpack": "^4.29.6",
+    "webpack-stream": "^5.2.1",
+    "vue": "^2.6.8",
+    "vue-loader": "^15.7.0",
+    "vue-template-compiler": "^2.6.8",
+    "axios": "^0.18.0"
   },
   "devDependencies": {
     "@symfony/webpack-encore": "^0.22.1",

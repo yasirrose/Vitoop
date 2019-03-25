@@ -41,65 +41,6 @@ app.controller('MainController', function ($scope, $http, $compile) {
     };
 });
 
-app.controller('UserController', function ($scope, $http, $filter, $timeout) {
-    $scope.user = {
-        password: "",
-        email: "",
-        username: ""
-    };
-    $scope.message = "";
-    $scope.email1 = "";
-    $scope.username1 = "";
-    $scope.pass1 = "";
-    $scope.isError = false;
-    $scope.isSuccess = false;
-    $scope.isDeleting = false;
-
-    $scope.delete = function() {
-        $http.delete(vitoop.baseUrl + 'api/user/'+$scope.user.id).success(function(data) {
-            if (data.success) {
-                window.location = data.url;
-            } else {
-                $scope.isError = true;
-                $scope.message = data.message;
-            }
-
-        });
-    };
-
-    $scope.save = function() {
-        if ($scope.user_email.email2.$error.match || $scope.user_name.username2.$error.match || $scope.user_password.pass2.$error.match || !$scope.userTodo.$valid || !$scope.userTodo1.$valid) {
-            return false;
-        }
-        $http.post(vitoop.baseUrl + 'api/user/'+$scope.user.id+'/credentials', angular.toJson($scope.user)).success(function(data) {
-            $scope.message = data.message;
-            if (data.success) {
-                $scope.user.email = "";
-                $scope.user.password = "";
-                $scope.user.username = "";
-                $scope.email1 = "";
-                $scope.pass1 = "";
-                $scope.username1 = "";
-                $scope.isError = false;
-                $scope.isSuccess = true;
-                $timeout(function() {
-                    $scope.isSuccess = false;
-                    //window.location = '../userhome';
-                }, 3000);
-                $scope.user_email.$setPristine();
-                $scope.user_password.$setPristine();
-                $scope.user_name.$setPristine();
-            } else {
-                $scope.isError = true;
-            }
-
-        });
-    };
-
-});
-
-
-
 app.controller('PrjController', function ($scope, $http, $filter, $timeout) {
     $scope.project = {};
     $scope.message = "";

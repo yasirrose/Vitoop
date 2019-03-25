@@ -61,6 +61,12 @@ class UserConfig
      */
     protected $isCheckMaxLink;
 
+    /**
+     * @var int
+     * @ORM\Column(name="decrease_font_size", type="smallint", options={"default" = 0})
+     */
+    protected $decreaseFontSize = 0;
+
     public function __construct(User $user)
     {
         $this->setUser($user);
@@ -68,6 +74,7 @@ class UserConfig
         $this->setIsCheckMaxLink(true);
         $this->heightOfTodoList = 550;
         $this->numberOfTodoElements = 12;
+        $this->decreaseFontSize = 0;
     }
 
     /**
@@ -182,12 +189,22 @@ class UserConfig
     }
 
     /**
+     * @return int
+     */
+    public function getDecreaseFontSize(): int
+    {
+        return $this->decreaseFontSize;
+    }
+
+    /**
      * @param $numberElements
      * @param $heightList
+     * @param $decreaseFontSize
      */
-    public function updateTodoParameters($numberElements, $heightList)
+    public function updateUserSettings($numberElements, $heightList, $decreaseFontSize)
     {
         $this->numberOfTodoElements = $numberElements;
         $this->heightOfTodoList = $heightList;
+        $this->decreaseFontSize = $decreaseFontSize;
     }
 }

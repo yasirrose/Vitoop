@@ -72,6 +72,18 @@ class CredentialsDTO implements CreateFromRequestInterface
      */
     public $heightOfTodoList;
 
+    /**
+     * @var int
+     * @Assert\Range(
+     *      min = 0,
+     *      max = 1,
+     *      minMessage = "Font size decreasing must be more than 0",
+     *      maxMessage = "Font size decreasing be less than 2",
+     *      invalidMessage="Height must be a number"
+     * )
+     */
+    public $decreaseFontSize;
+
     public function __construct()
     {
         $this->password = null;
@@ -79,12 +91,13 @@ class CredentialsDTO implements CreateFromRequestInterface
         $this->username = null;
         $this->numberOfTodoElements = null;
         $this->heightOfTodoList = null;
+        $this->decreaseFontSize = 0;
     }
 
     public static function createFromRequest(Request $request)
     {
         $requestData = json_decode($request->getContent());
-        $fields = ['password', 'email', 'username', 'numberOfTodoElements', 'heightOfTodoList'];
+        $fields = ['password', 'email', 'username', 'numberOfTodoElements', 'heightOfTodoList', 'decreaseFontSize'];
         $dto = new static();
         
         foreach ($fields as $field) {

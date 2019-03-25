@@ -144,6 +144,8 @@ class User implements EquatableInterface, AdvancedUserInterface, \Serializable, 
     protected $rel_resource_resources;
 
     /**
+     * @var UserConfig
+     *
      * @ORM\OneToOne(targetEntity="UserConfig", inversedBy="user", cascade={"persist", "merge"})
      * @Serializer\Groups({"edit"})
      */
@@ -848,9 +850,10 @@ class User implements EquatableInterface, AdvancedUserInterface, \Serializable, 
         }
 
         $this->user_config
-            ->updateTodoParameters(
+            ->updateUserSettings(
                 $credentials->numberOfTodoElements,
-                $credentials->heightOfTodoList
+                $credentials->heightOfTodoList,
+                $credentials->decreaseFontSize
             );
     }
 
@@ -917,6 +920,20 @@ class User implements EquatableInterface, AdvancedUserInterface, \Serializable, 
             'username' => $this->username,
             'is_show_help' => $this->isShowHelp,
             'is_check_max_link' => $this->user_config->getIsCheckMaxLink()
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getDTOWithConfig(): array
+    {
+        $dto = $this->getDTO();
+
+        return $dto += [
+            'number_of_todo_elements' => $this->user_config->getNumberOfTodoElements(),
+            'height_of_todo_list' => $this->user_config->getHeightOfTodoList(),
+            'decrease_font_size' => $this->user_config->getDecreaseFontSize()
         ];
     }
 

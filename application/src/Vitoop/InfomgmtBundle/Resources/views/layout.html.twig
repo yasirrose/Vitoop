@@ -282,6 +282,7 @@
         <div id="additional-info" style="display: none"><input id="sendlink-url" name="sendlink-url" type="hidden" value="{{ path('vitoop_infomgmt_userlink_userlinks') }}"></div>
     {%endif%}
 </div>
+{% block footerjs %}
 <script src="{{ asset('js/angular-modules.js') }}"></script>
 <script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
 <script src="{{ asset('js/datatables/datatables.js') }}"></script>
@@ -304,5 +305,6 @@
         }
     });
 </script>
+{% endblock footerjs %}
 </body>
 </html>

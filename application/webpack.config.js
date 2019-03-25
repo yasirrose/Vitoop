@@ -21,6 +21,8 @@ Encore
         // babelConfig.plugins.push('styled-jsx/babel');
     })
 
+    .enableVueLoader()
+
     // enable source maps during development
     .enableSourceMaps(!Encore.isProduction())
 

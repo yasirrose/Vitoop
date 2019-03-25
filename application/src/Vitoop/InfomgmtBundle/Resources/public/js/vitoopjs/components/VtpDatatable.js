@@ -194,6 +194,13 @@ export default class VtpDatatable {
         });
     }
 
+    changeFontSizeByUserSettings(decreasedValue) {
+        let currentFontSize = 14;
+        currentFontSize -= decreasedValue;
+
+        $('.dataTable').css('font-size', currentFontSize + 'px');
+    }
+
     dtAjaxCallback(e, settings, json, xhr) {
         if (json.length == 0) {
             $('.table-datatables').hide();
