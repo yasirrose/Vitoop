@@ -111,11 +111,26 @@ gulp.task('vitoop-app', function () {
             module: {
                 rules: [
                     {
+                        test: /\.css$/,
+                        use: [
+                            'vue-style-loader',
+                            'css-loader'
+                        ],
+                    },
+                    {
                         test: /\.vue$/,
-                        exclude: /node_modules/,
-                        use: 'vue-loader'
-                    }
+                        loader: 'vue-loader',
+                        options: {
+                            loaders: {
+                                'css': [
+                                    'vue-style-loader',
+                                    'css-loader',
+                                ]
+                            }
+                        }
+                    },
                 ],
+
             },
             plugins: [
                 new VueLoaderPlugin(),

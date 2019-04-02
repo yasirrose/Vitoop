@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.php",
   "dependencies": {
+    "axios": "^0.18.0",
     "babel-core": "^6.26.3",
     "babel-polyfill": "^6.26.0",
     "create-stylesheet": "^0.3.0",
@@ -33,12 +34,12 @@
     "twitter-text": "^2.0.1",
     "uglify-js": "^3.3.21",
     "uuid": "^3.1.0",
-    "webpack": "^4.29.6",
-    "webpack-stream": "^5.2.1",
     "vue": "^2.6.8",
     "vue-loader": "^15.7.0",
+    "vue-select": "^2.6.3",
     "vue-template-compiler": "^2.6.8",
-    "axios": "^0.18.0"
+    "webpack": "^4.29.6",
+    "webpack-stream": "^5.2.1"
   },
   "devDependencies": {
     "@symfony/webpack-encore": "^0.22.1",

@@ -8,10 +8,7 @@
                 <legend>Einstellungen</legend>
                 <div class="vtp-fh-w25">
                     <p>Textgrösse in den Listen: </p>
-                    <select id="vtp-credentials-decrease-font" v-model="dto.decreaseFontSize">
-                        <option v-bind:value="0">klein</option>
-                        <option v-bind:value="1">gross</option>
-                    </select>
+                    <v-select :options="fontSizeOptions" :clearable="false" v-model="dto.decreaseFontSize"></v-select>
                 </div>
             </fieldset>
             <fieldset class="ui-corner-all margin-top-10">
@@ -93,9 +90,13 @@
 
 <script>
     import UserService from "../../../services/User/UserService";
+    import vSelect from 'vue-select/src/components/Select.vue';
 
     export default {
         name: 'user-settings',
+        components: {
+            vSelect
+        },
         props: {
 
         },
@@ -113,6 +114,7 @@
                 isSuccess: false,
                 message: '',
                 errorMessage: '',
+                fontSizeOptions: [{label: 'klein', value: '0'}, {label: 'gross', value: '1'}],
                 dto: {
                     pass1: '',
                     pass2: '',
@@ -120,11 +122,15 @@
                     email2: '',
                     username1: '',
                     username2: '',
-                    decreaseFontSize: 0
+                    decreaseFontSize: {
+                        value: 0,
+                        label: 'klein'
+                    }
                 }
             }
         },
         created() {
+            let self = this;
             let userService = new UserService();
             let userObj = this.user;
             let dto = this.dto;
@@ -133,7 +139,8 @@
                 userObj.username = currentUser.username;
                 userObj.heightOfTodoList = currentUser.height_of_todo_list;
                 userObj.numberOfTodoElements = currentUser.number_of_todo_elements;
-                dto.decreaseFontSize = userObj.decreaseFontSize = currentUser.decrease_font_size;
+                userObj.decreaseFontSize = currentUser.decrease_font_size;
+                self.updateDtoDecreaseValue(userObj.decreaseFontSize);
             });
         },
         computed: {
@@ -141,11 +148,11 @@
                 let comparePropertyPrefixes = ['email', 'username', 'pass'];
                 if (
                     !this.dto.email1 && !this.dto.email2 && !this.dto.pass1 && !this.dto.pass2 &&
-                    !this.dto.username1 && !this.dto.username2 && (this.user.decreaseFontSize === this.dto.decreaseFontSize)) {
+                    !this.dto.username1 && !this.dto.username2 && (this.user.decreaseFontSize === this.dto.decreaseFontSize.value)) {
                     return false;
                 }
 
-                if (this.user.decreaseFontSize !== this.dto.decreaseFontSize) {
+                if (this.user.decreaseFontSize !== this.dto.decreaseFontSize.value) {
                     return true;
                 }
 
@@ -169,7 +176,7 @@
             }
         },
         methods: {
-            deactivate () {
+            deactivate() {
                 let userService = new UserService();
                 let self = this;
                 userService.deactivateUser(this.user.id).then(function (data) {
@@ -179,7 +186,7 @@
                     self.errorMessage = error.message;
                 });
             },
-            save () {
+            save() {
                 if (false === this.isNeedToSave) {
                     return false;
                 }
@@ -192,7 +199,7 @@
                     email: self.dto.email2,
                     heightOfTodoList: self.user.heightOfTodoList,
                     numberOfTodoElements: self.user.numberOfTodoElements,
-                    decreaseFontSize: self.dto.decreaseFontSize
+                    decreaseFontSize: self.dto.decreaseFontSize.value
                 }).then(function (data) {
                     self.isSuccess = true;
                     self.message = data.message;
@@ -205,7 +212,8 @@
                     self.user.username = data.user.username;
                     self.user.heightOfTodoList = data.user.height_of_todo_list;
                     self.user.numberOfTodoElements = data.user.number_of_todo_elements;
-                    self.dto.decreaseFontSize = self.user.decreaseFontSize = data.user.decrease_font_size;
+                    self.user.decreaseFontSize = data.user.decrease_font_size;
+                    self.updateDtoDecreaseValue(self.user.decreaseFontSize);
 
                     window.vitoopApp.user = data.user;
 
@@ -221,6 +229,19 @@
                     self.isError = true;
                     self.errorMessage = error.message;
                 });
+            },
+            getLabelForFontOption(value) {
+                for (let i = 0; i < this.fontSizeOptions.length; i++) {
+                    if (this.fontSizeOptions[i].value == value) {
+                        return this.fontSizeOptions[i].label;
+                    }
+                }
+
+                return '';
+            },
+            updateDtoDecreaseValue(value) {
+                this.dto.decreaseFontSize.value = value;
+                this.dto.decreaseFontSize.label = this.getLabelForFontOption(value);
             }
         }
     };

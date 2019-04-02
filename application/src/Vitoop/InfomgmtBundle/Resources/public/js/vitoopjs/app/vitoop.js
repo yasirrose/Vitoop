@@ -5,12 +5,12 @@ import HelpButton from '../components/HelpButton';
 import AdminToolbarButton from '../components/AdminToolbarButton';
 import TagSearch from "../components/TagSearch";
 import ResourcePopup from "../components/ResourcePopup";
-import UserServide from "../services/User/UserService";
+import UserService from "../services/User/UserService";
 
 export default class VitoopApp {
     constructor () {
         this.helpButton = new HelpButton();
-        this.userService = new UserServide();
+        this.userService = new UserService();
 
         this.user = this.getUser();
     }
@@ -23,10 +23,17 @@ export default class VitoopApp {
     }
 
     initTable(resType, isAdmin, isEdit, isCoef, url, resourceId) {
-        let user = this.getUser();
         let vtpDatatable = new VtpDatatable(resType, isAdmin, isEdit, isCoef, url, resourceId);
         vtpDatatable.init();
-        vtpDatatable.changeFontSizeByUserSettings(user ? user.decrease_font_size : 0);
+        let self = this;
+        if (this.user) {
+            vtpDatatable.changeFontSizeByUserSettings(this.user ? this.user.decrease_font_size : 0);
+        } else {
+            this.userService.getCurrentUser().then(function (currentUser) {
+                self.user = currentUser;
+                vtpDatatable.changeFontSizeByUserSettings(currentUser ? currentUser.decrease_font_size : 0);
+            });
+        }
     }
 
     getTinyMceOptions () {

@@ -9,10 +9,14 @@ $vitoop-body-color: #362b36;
 $vitoop-blue-color: #2779aa;
 $vitoop-body-background-color: #f2f5f7;
 $vitoop-red-color: #ff0000;
+$vitoop-selected-color: #0070a3;
 $vitoop-even-background-color: #deedf7;
 $menu-distance: 4px;
 $wide-iconbutton-width: 29px;
 $table-row-height: 25px;
+$vitoop-select-background: #d7ebf9 url("../img/ui-bg_glass_80_d7ebf9_1x400.png") 50% 50% repeat-x;
+$vitoop-widget-background: #f2f5f7 url("../img/ui-bg_highlight-hard_100_f2f5f7_1x100.png") 50% top repeat-x;
+$vitoop-selected-background: #e4f1fb url("../img/ui-bg_glass_100_e4f1fb_1x400.png") 50% 50% repeat-x;
 
 /* cyrillic-ext */
 @font-face {
@@ -422,7 +426,7 @@ td > span.vtp-extlink-list {
 }
 
 .ui-widget-header a.vtp-extlink-lexicon {
-    color: #0070a3;
+    color: $vitoop-selected-color;
 }
 
 .vtp-even .ui-state-active .vtp-extlink,
@@ -1090,7 +1094,7 @@ span.vtp-icon {
     cursor: default !important;
     text-align: left;
     width: 70%;
-    color: #0070a3;
+    color: $vitoop-selected-color;
     font-size: 12px;
 }
 
@@ -1500,7 +1504,7 @@ a.vtp-extlink:hover,
     border: 1px solid #74b2e2;
     background: #e4f1fb url("../img/ui-bg_glass_100_e4f1fb_1x400.png") 50% 50% repeat-x;
     font-weight: bold;
-    color: #0070a3;
+    color: $vitoop-selected-color;
 }
 
 #remark_save:active, #tag_confirm_save:active,
@@ -1858,6 +1862,10 @@ a.vtp-uiaction-open-url:visited {
             padding-top: 0px;
             padding-bottom: 0px;
         }
+
+        .top-toolbar {
+            font-size: 14px;
+        }
     }
 }
 
@@ -1975,6 +1983,7 @@ a.vtp-uiaction-open-url:visited {
         margin-left: 0.5em;
         vertical-align: baseline;
         padding-left: 15px;
+        width: 200px;
     }
 
     #vtp-search-clear {
@@ -2153,6 +2162,45 @@ table.dataTable thead th:hover {
 
         &.vtp-wide-iconbutton {
             width: $wide-iconbutton-width;
+        }
+    }
+}
+
+.dropdown {
+    &.v-select {
+        width: 190px;
+        .dropdown-toggle {
+            @include blue-border-radius();
+            background: $vitoop-select-background;
+            height: 28px;
+        }
+        .dropdown-menu {
+            @include blue-border-radius();
+            background: $vitoop-widget-background;
+
+            .highlight > a {
+                @include blue-border-radius();
+                color: $vitoop-selected-color;
+                background: $vitoop-selected-background;
+            }
+        }
+        .open-indicator {
+            width: 6px;
+        }
+        &.open {
+            .open-indicator::before {
+                margin-top: 4px;
+            }
+        }
+        .open-indicator::before {
+            border-color: $vitoop-selected-color  transparent transparent transparent;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 6px 0px 0px 6px;
+        }
+        .selected-tag, input[type="search"] {
+            margin-top: 0;
         }
     }
 }
