@@ -114,7 +114,7 @@
                 isSuccess: false,
                 message: '',
                 errorMessage: '',
-                fontSizeOptions: [{label: 'klein', value: '0'}, {label: 'gross', value: '1'}],
+                fontSizeOptions: [{label: 'klein', value: '1'}, {label: 'gross', value: '0'}],
                 dto: {
                     pass1: '',
                     pass2: '',
@@ -123,7 +123,7 @@
                     username1: '',
                     username2: '',
                     decreaseFontSize: {
-                        value: 0,
+                        value: 1,
                         label: 'klein'
                     }
                 }

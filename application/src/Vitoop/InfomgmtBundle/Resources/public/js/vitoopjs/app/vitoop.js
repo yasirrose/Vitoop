@@ -24,14 +24,15 @@ export default class VitoopApp {
 
     initTable(resType, isAdmin, isEdit, isCoef, url, resourceId) {
         let vtpDatatable = new VtpDatatable(resType, isAdmin, isEdit, isCoef, url, resourceId);
-        vtpDatatable.init();
         let self = this;
         if (this.user) {
             vtpDatatable.changeFontSizeByUserSettings(this.user ? this.user.decrease_font_size : 0);
+            vtpDatatable.init();
         } else {
             this.userService.getCurrentUser().then(function (currentUser) {
                 self.user = currentUser;
                 vtpDatatable.changeFontSizeByUserSettings(currentUser ? currentUser.decrease_font_size : 0);
+                vtpDatatable.init();
             });
         }
     }

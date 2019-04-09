@@ -198,7 +198,7 @@ export default class VtpDatatable {
         let currentFontSize = 14;
         currentFontSize -= decreasedValue;
 
-        $('.dataTable').css('font-size', currentFontSize + 'px');
+        $('#vtp-res-list').css('font-size', currentFontSize + 'px');
     }
 
     dtAjaxCallback(e, settings, json, xhr) {
