@@ -144,12 +144,6 @@ class ResourceList {
             label: "abmelden"
         });
 
-        $('#vtp-user-loginform-logout').button({
-            icons: {
-                secondary: "ui-icon-power"
-            }
-        });
-
         $('#vtp-user-loginform-logout').on('click', function () {
             $('#vtp-search-clear').click();
             //clear localstorage
@@ -168,14 +162,6 @@ class ResourceList {
         });
         $('#vtp-header-toggle-flag button').hide();
 
-
-        $('#vtp-user-userdata').button({
-            icons: {
-                primary: "ui-icon-newwin",
-            },
-            text: false,
-            label: 'Einstellungen'
-        });
 
         // Highlight Tablerows onmousover
         $('#vtp-content').on('mouseenter', 'tr', function (e) {

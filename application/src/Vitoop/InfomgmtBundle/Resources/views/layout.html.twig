@@ -66,7 +66,10 @@
                     <button class="vtp-button" id="button-checking-links" title="{{'label.open.tooltip'|trans}}" style="display:none">{{'label.open'|trans}}</button>
                     <button class="vtp-button" id="button-checking-links-send" title="{{ 'label.send.tooltip'|trans }}" style="display:none">{{'label.send'|trans}}</button>
                     <form id="vtp-header-login" action="{{ path('_logout') }}" method="get" enctype="application/x-www-form-urlencoded">
-                        <button id="vtp-user-loginform-logout" class="vtp-button" title="{{'logout.message'|trans}}" value="{{'logout.label'|trans}}" type="submit">{{ app.user.username }}</button>
+                        <button id="vtp-user-loginform-logout" class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-text-icon-secondary" role="button" title="{{'logout.message'|trans}}" value="{{'logout.label'|trans}}" type="submit">
+                            <span class="ui-button-text">{{  app.user.username }}</span>
+                            <span class="ui-button-icon-secondary ui-icon ui-icon-power"></span>
+                        </button>
                     </form>
                 {% if is_granted('ROLE_ADMIN') %}
                     <button id="vtp-admin-toolbar-toggle" class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only">
@@ -74,8 +77,9 @@
                         <span class="ui-button-text"></span>
                     </button>
                 {% endif %}
-                    <a href="{{ path('user_settings') }}" id="vtp-user-userdata" class="vtp-button">
-                        settings
+                    <a href="{{ path('user_settings') }}" id="vtp-user-userdata" class="vtp-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" title="Einstellungen">
+                        <span class="ui-button-icon-primary ui-icon ui-icon-newwin"></span>
+                        <span class="ui-button-text"></span>
                     </a>
                 {% else %}
                         <form id="vtp-header-login" action="{{ path('_login_check') }}" method="post" enctype="application/x-www-form-urlencoded">
@@ -197,7 +201,7 @@
     </div>
     {% if app.user %}
         {% block dialogs %}
-            <div id="vtp-res-dialog">
+            <div id="vtp-res-dialog" style="display:none">
                 <div id="vtp-res-dialog-tabs">
                     <ul>
                         <li><a href="#tabs-quickview">Übersicht</a></li>
@@ -208,15 +212,9 @@
                     </ul>
                     <div id="tabs-quickview">
                         <div id="resource-quickview">
-                            <div id="resource-rating">
-                                <p>Rating</p>
-                            </div>
-                            <div id="resource-data">
-                                <p>Data</p>
-                            </div>
-                            <div id="resource-tag">
-                                <p>Tag</p>
-                            </div>
+                            <div id="resource-rating"></div>
+                            <div id="resource-data"></div>
+                            <div id="resource-tag"></div>
                         </div>
                         <div id="resource-help" style="display:none">
                             <fieldset class="ui-corner-all">
@@ -238,28 +236,18 @@
                         </div>
                     </div>
                     <div id="tabs-remark">
-                        <div id="resource-remark">
-                            <p>Remark</p>
-                        </div>
+                        <div id="resource-remark"></div>
                     </div>
                     <div id="tabs-remark_private">
-                        <div id="resource-remark_private">
-                            <p>Private Remark</p>
-                        </div>
+                        <div id="resource-remark_private"></div>
                     </div>
                     <div id="tabs-comments">
-                        <div id="resource-comments">
-                            <p>Comments</p>
-                        </div>
+                        <div id="resource-comments"></div>
                     </div>
                     <div id="tabs-assignments">
                         <div id="resource-assignments">
-                            <div id="resource-lexicon">
-                                <p>Lexicon</p>
-                            </div>
-                            <div id="resource-project">
-                                <p>Project</p>
-                            </div>
+                            <div id="resource-lexicon"></div>
+                            <div id="resource-project"></div>
                         </div>
                     </div>
                 </div>
