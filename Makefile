@@ -30,5 +30,5 @@ install:
 	docker-compose exec php sh -c 'composer install --optimize-autoloader && php bin/console doc:migr:migr --no-interaction && php bin/console assets:install --env=prod && php bin/console cache:clear --env=prod && chmod -R 0777 var/cache var/logs  && npm install && npm install -g gulp-cli && gulp && chmod -R 0777 var/cache var/logs'
 
 load_db:
-    docker-compose exec vitoopdb mysql -p root -Nse 'show tables' vitoopdb | while read table; do mysql -e "drop table $table" vitoopdb; done
+	docker exec -i $$(docker-compose ps -q vitoopdb) mysql --user=root --password=root --execute="DROP DATABASE IF EXISTS vitoopdb; CREATE DATABASE IF NOT EXISTS vitoopdb;"
 	cat ${path} | docker exec -i $$(docker-compose ps -q vitoopdb) mysql -u root --password=root vitoop
