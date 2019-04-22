@@ -15,19 +15,20 @@ start:
 
 stop_dev:
 ifeq ($(OS),Darwin)
-	docker-compose -f docker-compose.dev.yml stop
+	docker-compose -f docker-compose.dev.yml down
 	docker-sync stop
 	docker-sync clean
 else
-	docker-compose -f docker-compose.dev.yml stop
+	docker-compose -f docker-compose.dev.yml down
 endif
 
 stop:
-	docker-compose -f docker-compose.yml stop
+	docker-compose -f docker-compose.yml down
 
 install:
 	cp devops/docker/app/parameters.yml application/app/config/parameters.yml
-	docker-compose exec php sh -c 'composer install --optimize-autoloader && php bin/console doc:migr:migr --no-interaction && php bin/console cache:clear --env=prod && chmod -R 0777 var/cache var/logs  && npm install && npm install -g gulp-cli && gulp && chmod -R 0777 var/cache var/logs'
+	docker-compose exec php sh -c 'composer install --optimize-autoloader && php bin/console doc:migr:migr --no-interaction && php bin/console assets:install --env=prod && php bin/console cache:clear --env=prod && chmod -R 0777 var/cache var/logs  && npm install && npm install -g gulp-cli && gulp && chmod -R 0777 var/cache var/logs'
 
 load_db:
+    docker-compose exec vitoopdb mysql -p root -Nse 'show tables' vitoopdb | while read table; do mysql -e "drop table $table" vitoopdb; done
 	cat ${path} | docker exec -i $$(docker-compose ps -q vitoopdb) mysql -u root --password=root vitoop
