@@ -23,16 +23,16 @@ export default class VitoopApp {
     }
 
     initTable(resType, isAdmin, isEdit, isCoef, url, resourceId) {
-        let vtpDatatable = new VtpDatatable(resType, isAdmin, isEdit, isCoef, url, resourceId);
+        this.vtpDatatable = new VtpDatatable(resType, isAdmin, isEdit, isCoef, url, resourceId);
         let self = this;
-        if (this.user) {
-            vtpDatatable.changeFontSizeByUserSettings(this.user ? this.user.decrease_font_size : 0);
-            vtpDatatable.init();
+        if (vitoopState.state.user) {
+            this.vtpDatatable.changeFontSizeByUserSettings(vitoopState.state.user ? vitoopState.state.user.decrease_font_size : 0);
+            this.vtpDatatable.init();
         } else {
             this.userService.getCurrentUser().then(function (currentUser) {
-                self.user = currentUser;
-                vtpDatatable.changeFontSizeByUserSettings(currentUser ? currentUser.decrease_font_size : 0);
-                vtpDatatable.init();
+                vitoopState.commit('setUser', currentUser);
+                self.vtpDatatable.changeFontSizeByUserSettings(currentUser ? currentUser.decrease_font_size : 0);
+                self.vtpDatatable.init();
             });
         }
     }
@@ -157,14 +157,11 @@ export default class VitoopApp {
     }
 
     getUser() {
-        if (!this.user) {
-            let self = this;
-            this.userService.getCurrentUser().then(function (currentUser) {
-                self.user = currentUser;
-                return currentUser;
-            });
-        }
+        return vitoopState.state.user;
+    }
 
-        return this.user;
+    isElementExists(elementId) {
+        let element = document.getElementById(elementId);
+        return (typeof(element) !== 'undefined' && element !== null);
     }
 }

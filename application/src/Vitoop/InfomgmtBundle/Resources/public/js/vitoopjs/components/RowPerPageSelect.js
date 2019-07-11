@@ -27,7 +27,7 @@ export default class RowPerPageSelect {
         let originPageLength = this.getOriginPageLength();
         let elements = new Array();
         let tagList = document.getElementById('vtp-search-bytags-taglistbox');
-        let secondSearch = document.getElementsByClassName('top-toolbar');
+        let secondSearch = document.getElementById('vtp-second-search');
         if (tagList) {
             elements.push(tagList);
         }

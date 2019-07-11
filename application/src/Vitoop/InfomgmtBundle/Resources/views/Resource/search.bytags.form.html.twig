@@ -11,8 +11,7 @@
                 <option value="{{ i }}" {{ ((tagcnt is defined) and (tagcnt == i) ) ? 'selected' : '' }}>{{ i }}</option>
             {% endfor %}</select><button
                 id="vtp-search-bytags-form-submit" class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only" type="submit" name="submit" value="Suche"></button><button
-                id="vtp-search-help" help-area="search" class="vtp-button vtp-help-area-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only" {% if restype == '' %}style="display: none;"{% endif %}><span class="ui-icon ui-icon-help"></span><span class="ui-button-text"></span></button><button
-                id="vtp-search-toggle" class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only" {% if restype == '' %}style="display: none;"{% endif %}></button>
+                id="vtp-search-help" help-area="search" class="vtp-button vtp-help-area-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only" {% if restype == '' %}style="display: none;"{% endif %}><span class="ui-icon ui-icon-help"></span><span class="ui-button-text"></span></button><search-toggler></search-toggler>
     </div>
 
     {#{% endif %}#}

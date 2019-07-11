@@ -1,7 +1,6 @@
 import SendLinkWidget from '../widgets/sendLinkWidget';
 import DataStorage from '../datastorage';
 import RowPerPageSelect from '../components/RowPerPageSelect';
-import IsBlueFilter from '../components/IsBlueFilter';
 
 export default class VtpDatatable {
     constructor(resType, isAdmin, isEdit, isCoef, url, resourceId) {
@@ -14,7 +13,6 @@ export default class VtpDatatable {
         this.datatableListId = 'table#list-'+resType;
         this.datastorage = new DataStorage();
         this.rowsPerPage = new RowPerPageSelect();
-        vitoopApp.secondSearch.setResourceType(resType);
         this.sendLinkWidget = new SendLinkWidget();
     }
 
@@ -24,20 +22,10 @@ export default class VtpDatatable {
         let datatable = $(this.datatableListId).DataTable(this.getDatatableOptions());
         datatable
             .on('init.dt', function () {
-                if (vitoopApp.secondSearch.isBlueFilter.isBlue()) {
-                    $("#search_blue").prop('checked', true);
-                } else {
-                    $("#search_blue").removeProp('checked', false);
-                }
                 datatable.search(self.getCurrentSearch());
                 datatable.page.len(self.rowsPerPage.getPageLength());
-                vitoopApp.secondSearch.searchToggler.checkButtonState();
             })
-            .on('xhr.dt', self.dtAjaxCallback)
-            .on('search.dt', function (e) {
-                self.datastorage.setItem('dt-search', datatable.search());
-                vitoopApp.secondSearch.searchToggler.checkButtonState();
-            });
+            .on('xhr.dt', self.dtAjaxCallback);
 
         if (null !== self.resourceId) {
             datatable.on('draw.dt', function () {
@@ -45,28 +33,8 @@ export default class VtpDatatable {
             });
         }
 
-        $("div.top-toolbar").append('<div id="search_blue_box"><input id="search_blue" type="checkbox" value="1" name="search_blue"/></div>');
-        $("#search_blue").change(function() {
-            vitoopApp.secondSearch.isBlueFilter.setFilterValue(this.checked?1:0);
-            vitoopApp.secondSearch.searchToggler.checkButtonState();
-            self.refreshTable();
-        });
-
-        //user read filter
-        $('.dataTables_filter label').before(vitoopApp.secondSearch.isReadFilter.renderButton());
-        $('#is-read-filter').on('click', function () {
-            vitoopApp.secondSearch.isReadFilter.toggleButton($(this));
-            self.refreshTable();
-        });
-
-        if (self.resType == 'pdf' || self.resType == 'teli') {
-            $("div.top-toolbar").append(''+
-                '<div id="search_date_range">' +
-                '<input id="search_date_from" class="range-filter" type="text" value="" name="search_date_from" placeholder="Datum von"/>' +
-                '<input id="search_date_to" class="range-filter" type="text" value="" name="search_date_to" placeholder="Datum bis"/>' +
-                '<button class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only" id="vtp_search_date"><span class="ui-icon ui-icon-search"></span><span class="ui-button-text"></span></button>'+
-                '</div>'
-            );
+        if ((self.resType == 'pdf' || self.resType == 'teli')/* && !vitoopApp.isElementExists('search_date_range'*/) {
+            vitoopState.commit('showDataRange');
             $('#vtp_search_date').off().on('click', function () {
                 vitoopApp.secondSearch.dateRange.updateRangeFromDOM();
                 self.refreshTable();
@@ -80,17 +48,14 @@ export default class VtpDatatable {
                 });
 
             vitoopApp.secondSearch.dateRange.updateDOMFromRange();
+        } else {
+            vitoopState.commit('hideDataRange');
         }
 
         if (self.resType == 'book') {
-            document.querySelector('div.top-toolbar').appendChild(vitoopApp.secondSearch.artFilter.getDOMElement());
-            $('#'+vitoopApp.secondSearch.artFilter.storageKey).selectmenu({
-                width:200,
-                change: function () {
-                    vitoopApp.secondSearch.artFilter.loadFromElement();
-                    self.refreshTable();
-                }
-            });
+            vitoopState.commit('showArtSelect');
+        } else {
+            vitoopState.commit('hideArtSelect');
         }
 
         $('div.paging_full_numbers > span').removeClass();
@@ -102,20 +67,6 @@ export default class VtpDatatable {
                 datatable.page.len(ui.item.value);
                 self.refreshTable();
             }
-        });
-
-        $('.dataTables_filter label').after($('<button id="vtp-search-clear" class="vtp-button"></button>'));
-        $('#vtp-search-clear').button({
-            icons: {
-                primary: "ui-icon-close"
-            },
-            text: false
-        });
-        $('#vtp-search-clear').on('click', function() {
-            $('.dataTables_filter input').val('');
-            $("#search_blue").removeProp('checked');
-            vitoopApp.secondSearch.clearFilters();
-            datatable.search('').draw();
         });
 
         // Handle click on checkbox
@@ -229,17 +180,28 @@ export default class VtpDatatable {
             pageLength: this.rowsPerPage.getPageLength(),
             language: this.dtLanguageObject(),
             serverSide: true,
+            retrieve: true,
             ajax: {
                 url:  self.url,
-                data: function (d) {
-                    return vitoopApp.secondSearch.buildSearchParameters(d);
+                data: function (data) {
+                    data.isUserHook = vitoopState.state.secondSearch.isBlueFilter;
+                    data.isUserRead = vitoopState.state.secondSearch.isReadFilter;
+                    if (self.resType == 'pdf' || self.resType == 'teli') {
+                        data.dateFrom = vitoopState.state.secondSearch.dateFrom;
+                        data.dateTo = vitoopState.state.secondSearch.dateTo;
+                    }
+                    if (self.resType == 'book') {
+                        data.art = vitoopState.state.secondSearch.artFilter
+                    }
+
+                    return data;
                 }
             },
             search: {
-                search: this.getCurrentSearch()
+                search: vitoopState.secondSearch ? vitoopState.secondSearch.searchString : ''
             },
             order: this.getDefaultOrder(),
-            dom: vitoopApp.secondSearch.getDomPrefix() + this.dtDomObject(),
+          //  dom: vitoopApp.secondSearch.getDomPrefix() + this.dtDomObject(),
             columns: this.getColumns(),
             pagingType: "full_numbers",
             rowCallback: this.dtRowCallback,
@@ -249,8 +211,7 @@ export default class VtpDatatable {
     }
 
     setTotalMessage(totalRecords) {
-        let isBlueFilter = new IsBlueFilter();
-        if (totalRecords === 0 && !isBlueFilter.isBlue()) {
+        if (totalRecords === 0 && !vitoopState.state.isSecondSearchBlue) {
             $('td.dataTables_empty').html('Hier gibt es leider keinen Treffer.');
         } else {
             $('td.dataTables_empty').html('Hier gibt es leider keinen Treffen - wenn du willst, kannst du Datensätze zu diesem Thema in die Datenbank eintragen.');
@@ -407,12 +368,12 @@ export default class VtpDatatable {
     dtDomObject() {
         let toolbar_prefix = 'fg-toolbar ui-toolbar vtp-pg-pane ui-state-default ui-helper-clearfix ui-corner-';
 
-        return toolbar_prefix+'all top-toolbar"fr>'+'t'+'<"'+toolbar_prefix+'all"lip>';
+        return 't'+'<"'+toolbar_prefix+'all"lip>';
     }
 
 
     getCurrentSearch() {
-        return this.datastorage.getAlphaNumValue('dt-search', '');
+        return vitoopState.state.secondSearch.searchString;
     }
 
     getDatatableInstance() {
@@ -424,7 +385,7 @@ export default class VtpDatatable {
         let orderArray = this.getDefaultOrder();
         if (orderArray.length > 0) {
             datatable
-                .search(this.getCurrentSearch())
+                .search(vitoopState.state.secondSearch.searchString)
                 .order(orderArray)
                 .draw();
 
@@ -432,7 +393,7 @@ export default class VtpDatatable {
         }
 
         datatable
-            .search(this.getCurrentSearch())
+            .search(vitoopState.state.secondSearch.searchString)
             .draw();
     }
 

@@ -1,9 +1,14 @@
 import VitoopApp from "./vitoop";
 import Vue from 'vue/dist/vue.js';
+import vitoopState from '../store/vitoopState';
 import UserSettings from '../components/Vue/UserSettings/UserSettings.vue';
+import SecondSearch from "../components/Vue/SecondSearch/SecondSearch.vue";
+import SearchToggler from "../components/Vue/SecondSearch/SearchToggler.vue";
 
 window.Vue = Vue;
 window.UserSettings = UserSettings;
+window.SecondSearch = SecondSearch;
+window.SearchToggler = SearchToggler;
 
 $(function () {
     window.vitoopApp = new VitoopApp();
@@ -12,4 +17,16 @@ $(function () {
     resourceDetail.init();
     resourceProject.init();
     userInteraction.init();
+
+    new Vue({
+        el: '#vtp-second-search',
+        store: vitoopState,
+        components: {SecondSearch}
+    }).$mount('#vtp-second-search');
+
+    new Vue({
+        el: '#vtp-search-bytags-form-buttons',
+        store: vitoopState,
+        components: {SearchToggler}
+    }).$mount('#vtp-second-search');
 });

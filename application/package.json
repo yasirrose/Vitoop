@@ -31,6 +31,7 @@
     "object-assign": "^4.1.1",
     "pdf-annotate": "^0.0.0",
     "pdfjs-dist": "^2.0.207",
+    "sass-loader": "^7.1.0",
     "twitter-text": "^2.0.1",
     "uglify-js": "^3.3.21",
     "uuid": "^3.1.0",
@@ -38,6 +39,8 @@
     "vue-loader": "^15.7.0",
     "vue-select": "^2.6.3",
     "vue-template-compiler": "^2.6.8",
+    "vuex": "^3.1.1",
+    "vuex-persist": "^2.0.1",
     "webpack": "^4.29.6",
     "webpack-stream": "^5.2.1"
   },

@@ -2,9 +2,17 @@ import axios from 'axios';
 
 export default class UserService {
     getCurrentUser() {
-        return axios.get(vitoop.baseUrl + 'api/user/me')
+        return axios.get(vitoop.baseUrl + 'api/user/me', {
+                maxRedirects: 0
+            })
             .then(function (response) {
-                return response.data;
+                if (response.status === 200) {
+                    if ('object' === typeof response.data) {
+                        return response.data;
+                    }
+                }
+
+                return null;
             });
     }
 

@@ -21,7 +21,6 @@ var toolbar_prefix = 'fg-toolbar ui-toolbar vtp-pg-pane ui-state-defaultgulp ui-
 /* Set the defaults for DataTables initialisation */
 $.extend( true, DataTable.defaults, {
 	dom:
-	'<"'+toolbar_prefix+'all top-toolbar"fr>'+
 		't'+
 		'<"'+toolbar_prefix+'all"lip>',
 	renderer: 'jqueryui'

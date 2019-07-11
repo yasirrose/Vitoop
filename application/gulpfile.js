@@ -98,6 +98,7 @@ gulp.task('vitoop-app', function () {
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/components/Vue/*/*.vue',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/components/*.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/widgets/*.js',
+        'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/store/*.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/*.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/app/vitoop.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/app/boot.js'
@@ -111,23 +112,24 @@ gulp.task('vitoop-app', function () {
             module: {
                 rules: [
                     {
+                        test: /\.scss$/,
+                        use: [
+                            'vue-style-loader',
+                            'css-loader',
+                            'sass-loader'
+                        ]
+                    },
+                    {
                         test: /\.css$/,
                         use: [
                             'vue-style-loader',
-                            'css-loader'
-                        ],
+                            'css-loader',
+                            'sass-loader'
+                        ]
                     },
                     {
                         test: /\.vue$/,
                         loader: 'vue-loader',
-                        options: {
-                            loaders: {
-                                'css': [
-                                    'vue-style-loader',
-                                    'css-loader',
-                                ]
-                            }
-                        }
                     },
                 ],
 

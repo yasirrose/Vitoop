@@ -450,6 +450,7 @@ window.resourceDetail = (function () {
             }
             if (responseJSON['resource-metadata']) {
                 res_type = responseJSON['resource-metadata'].type;
+                vitoopState.commit('setResource', {type: res_type, id: null});
                 viewUrl = '';
                 if ('lex' === res_type) {
                     viewUrl = vitoop.baseUrl + 'lexicon/' +res_id;
@@ -546,6 +547,7 @@ window.resourceDetail = (function () {
             // id="pdf-1">).
             res_type = (tr_res.attr('id').split('-'))[0];
             res_id = (tr_res.attr('id').split('-'))[1];
+            vitoopState.commit('setResource', {type: res_type, id: res_id});
 
             setNextId();
             setPrevId();
@@ -870,6 +872,9 @@ window.resourceDetail = (function () {
             $('#resource-check').on('click', function(e) {
                 let rowId = '#'+res_type+'-'+res_id;
                 let data = $('#vtp-res-list table').DataTable().row(rowId).data();
+                if (!res_type) {
+                    res_type = vitoopState.state.resource.type;
+                }
                 let sendLinkWidget = new SendLinkWidget();
                 sendLinkWidget.updateCheckedResources(res_type, res_id, this.checked, data);
                 e.stopPropagation();
