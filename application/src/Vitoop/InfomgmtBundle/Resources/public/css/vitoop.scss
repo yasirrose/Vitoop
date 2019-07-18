@@ -2033,7 +2033,8 @@ a.vtp-uiaction-open-url:visited {
 }
 
 table.dataTable thead th.sorting_asc div.DataTables_sort_wrapper,
-table.dataTable thead th.sorting_desc div.DataTables_sort_wrapper {
+table.dataTable thead th.sorting_desc div.DataTables_sort_wrapper,
+table.dataTable thead div.DataTables_sort_wrapper:hover {
     font-weight: bold;
 }
 

@@ -14,6 +14,7 @@ export default class SendLinkWidget extends Widget {
         let resources = self.linkStorage.getAllResourcesByTypes();
         let resourceIds = new Array();
         $('#form-user-links-info').html('');
+        $('#form-user-links-info').css('font-size', vitoopState.getters.getListFontSize + 'px');
         let currentRowCounter = 0;
         for (let resourceType in resources) {
             for (let resourceId in resources[resourceType]) {
@@ -26,11 +27,6 @@ export default class SendLinkWidget extends Widget {
                         '<td class="vtp-send-type">'+this.getResourceTypeName(resourceType)+':</td>' +
                         '<td>'+resources[resourceType][resourceId].name+'</td>' +
                     '</tr>'
-                    //
-                    //
-                    // '<div class="vtp-send-type '+ rowClass +'">'+this.getResourceTypeName(resourceType)+':</div>' +
-                    // '<div class="vtp-send-name '+ rowClass +'">'+resources[resourceType][resourceId].name+'</div>' +
-                    // '<div class="vtp-clear"></div>'
                 );
                 resourceIds.push(resourceId);
                 currentRowCounter++;

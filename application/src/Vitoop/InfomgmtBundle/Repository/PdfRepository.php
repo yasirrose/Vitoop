@@ -43,7 +43,12 @@ class PdfRepository extends ResourceRepository
     public function getResourcesQuery(SearchResource $search)
     {
         $qb = $this->createQueryBuilder('r')
-            ->select('r.author, r.url, r.tnop, r.isDownloaded, r.pdfDate.date as pdfDate');
+            ->select('r.author, r.url, r.tnop, r.isDownloaded, r.pdfDate.date as pdfDate')
+            ->addGroupBy('r.author')
+            ->addGroupBy('r.url')
+            ->addGroupBy('r.tnop')
+            ->addGroupBy('r.isDownloaded')
+            ->addGroupBy('r.pdfDate.date');
         $this->prepareListQueryBuilder($qb, $search);
 
         if ($search->dateFrom) {

@@ -386,6 +386,8 @@ class ResourceRepository extends EntityRepository
             ->addSelect('rr2.coefficient as coef')
             ->addSelect('rr2.id as coefId')
             ->andWhere('rr2.resource1 = :resource')
+            ->addGroupBy('rr2.id')
+            ->addGroupBy('rr2.coefficient')
             ->addOrderBy('rr2.coefficient', 'ASC')
             ->addOrderBy('r.created_at', 'DESC')
             ->setParameter('resource', $resource);

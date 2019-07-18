@@ -26,12 +26,12 @@ export default class VitoopApp {
         this.vtpDatatable = new VtpDatatable(resType, isAdmin, isEdit, isCoef, url, resourceId);
         let self = this;
         if (vitoopState.state.user) {
-            this.vtpDatatable.changeFontSizeByUserSettings(vitoopState.state.user ? vitoopState.state.user.decrease_font_size : 0);
+            this.vtpDatatable.changeFontSizeByUserSettings();
             this.vtpDatatable.init();
         } else {
             this.userService.getCurrentUser().then(function (currentUser) {
                 vitoopState.commit('setUser', currentUser);
-                self.vtpDatatable.changeFontSizeByUserSettings(currentUser ? currentUser.decrease_font_size : 0);
+                self.vtpDatatable.changeFontSizeByUserSettings();
                 self.vtpDatatable.init();
             });
         }

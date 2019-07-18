@@ -145,11 +145,8 @@ export default class VtpDatatable {
         });
     }
 
-    changeFontSizeByUserSettings(decreasedValue) {
-        let currentFontSize = 14;
-        currentFontSize -= decreasedValue;
-
-        $('#vtp-res-list').css('font-size', currentFontSize + 'px');
+    changeFontSizeByUserSettings() {
+        $('#vtp-res-list').css('font-size', vitoopState.getters.getListFontSize + 'px');
     }
 
     dtAjaxCallback(e, settings, json, xhr) {

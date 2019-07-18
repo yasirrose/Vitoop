@@ -91,7 +91,7 @@ const vitoopState = window.vitoopState = new Vuex.Store({
         },
         checkIsNotEmptySearchToggle: function (state) {
             state.searchToggler.isNotEmpty = (1 === state.secondSearch.isBlueFilter) || (1 === this.state.secondSearch.isReadFilter) || state.secondSearch.artFilter || state.secondSearch.searchString || state.secondSearch.dateFrom || state.secondSearch.dateTo;
-            this.commit('updateSearchToggle', state.searchToggler.isNotEmpty);
+            this.commit('updateSearchToggle', state.searchToggler.isNotEmpty === true);
         },
         setUser: function(state, value) {
             state.user = value;
@@ -117,6 +117,14 @@ const vitoopState = window.vitoopState = new Vuex.Store({
                 state[key] = s[key]
             })
         }
+    },
+    getters: {
+        getListFontSize(state, getters) {
+            let currentFontSize = 14;
+            currentFontSize -= state.user ? state.user.decrease_font_size : 0;
+
+            return currentFontSize;
+        },
     },
     computed: {
         isSecondSearchBlue: function () {
