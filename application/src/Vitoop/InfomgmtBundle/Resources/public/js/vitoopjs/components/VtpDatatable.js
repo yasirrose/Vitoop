@@ -1,6 +1,7 @@
 import SendLinkWidget from '../widgets/sendLinkWidget';
 import DataStorage from '../datastorage';
 import RowPerPageSelect from '../components/RowPerPageSelect';
+import HttpService from "../services/HttpService";
 
 export default class VtpDatatable {
     constructor(resType, isAdmin, isEdit, isCoef, url, resourceId) {
@@ -229,8 +230,9 @@ export default class VtpDatatable {
         let projectElem = $('#projectID');
         if ((typeof(projectElem) != 'undefined') && projectElem.val() > -1) {
             $('input.divider').off();
-            var query = $.deparam.querystring(),
+            var query = HttpService.prototype.parseParams(window.location.href),
                 editMode = query.edit;
+            console.log(query);
             var self = this;
             if (typeof(editMode) != 'undefined' && editMode == 1) {
                 $('.vtp-uiaction-coefficient').on('focusout', function() {

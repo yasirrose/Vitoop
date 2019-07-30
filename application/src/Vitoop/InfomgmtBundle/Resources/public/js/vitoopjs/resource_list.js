@@ -3,6 +3,7 @@
  */
 
 import LinkStorage from './linkstorage';
+import HttpService from './services/HttpService';
 
 class ResourceList {
     constructor() {

@@ -1,6 +1,6 @@
 <template>
     <label>
-        <input type="checkbox" value="1" v-model="isOpened"/><span class="vtp-toggler ui-button ui-state-default ui-widget ui-corner-all ui-button-icon-only vtp-button" v-bind:class="[isHasNotEmptyFields ? 'vtp-toggler-active' : '']"><span class="ui-icon" v-bind:class="[isOpened ? 'ui-icon-arrowthick-1-n' : 'ui-icon-arrowthick-1-s']"></span></span>
+        <input type="checkbox" value="1" v-model="isOpened"/><span class="vtp-toggler ui-button ui-state-default ui-widget ui-corner-all ui-button-icon-only vtp-button" v-bind:class="[isOpened ? 'vtp-toggler-active' : '']"><span class="ui-icon" v-bind:class="[isOpened ? 'ui-icon-arrowthick-1-n' : 'ui-icon-arrowthick-1-s']"></span></span>
     </label>
 </template>
 
@@ -14,12 +14,9 @@
                 },
                 set (value) {
                     this.$store.commit('updateSearchToggle', value == 1);
-                    //rowPerPageSelect.checkDOMState();
+                    vitoopApp.vtpDatatable.rowsPerPage.checkDOMState();
                 }
             },
-            isHasNotEmptyFields: function() {
-                return this.$store.state.searchToggler.isNotEmpty;
-            }
         },
     };
 </script>

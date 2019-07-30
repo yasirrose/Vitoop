@@ -310,7 +310,12 @@ export default class TagSearch {
 
         let tempCount = (this.tags.length == 1)?(1):(this.tagcnt);
         resourceList.maintainResLinks({'taglist': this.tags, 'taglist_i': this.ignoredTags, 'taglist_h': this.highlightedTags, 'tagcnt': tempCount});
-        $('select#vtp-search-bytags-tagcnt').selectmenu("refresh");
+        if (typeof $('#vtp-search-bytags-tagcnt').selectmenu('instance') === 'undefined') {
+            $('select#vtp-search-bytags-tagcnt').selectmenu();
+        } else {
+            $('select#vtp-search-bytags-tagcnt').selectmenu("refresh");
+        }
+
         $('#vtp-search-bytags-form span.ui-selectmenu-button').removeAttr('tabIndex');
         $('#vtp-search-bytags-tagcnt-button').attr('title', 'Übereinstimmungen der Tags');
     }
@@ -327,12 +332,15 @@ export default class TagSearch {
 
         if (force_hide) {
             $('#vtp-search-bytags-taglistbox').hide('blind', 'fast', displayCallback);
+            vitoopState.commit('updateTagListShowing', false);
             return;
         }
         if ((this.tags.length === 0) && (this.ignoredTags.length === 0) || !$(this.tagSearchFormId).is(':visible')) {
             $('#vtp-search-bytags-taglistbox').hide('blind', 'fast', displayCallback);
+            vitoopState.commit('updateTagListShowing', false);
         } else {
             $('#vtp-search-bytags-taglistbox').show('blind', 'fast', displayCallback);
+            vitoopState.commit('updateTagListShowing', true);
         }
 
     }

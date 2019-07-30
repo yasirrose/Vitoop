@@ -1,6 +1,6 @@
 <template>
     <transition name="fade">
-        <div v-show="show" id="vtp-second-search-box" class="dataTables_filter ui-corner-all">
+        <div v-show="show" id="vtp-second-search-box" class="dataTables_filter ui-corner-all vtp-blue">
             <div id="search_blue_box"><input id="search_blue" v-model="isBlue" type="checkbox" value="1" name="search_blue">
                 <div v-show="showDataRange" id="search_date_range"><input id="search_date_from" class="range-filter" type="text" value="" v-model="dateFrom" name="search_date_from" placeholder="Datum von"><input id="search_date_to" class="range-filter" type="text" value="" name="search_date_to"  v-model="dateTo" placeholder="Datum bis"><button class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only" v-bind:class="{ 'ui-state-active': isDateRangeChanged }" id="vtp_search_date"><span class="ui-icon ui-icon-search"></span><span class="ui-button-text"></span></button></div>
             </div>
@@ -146,6 +146,18 @@
 </script>
 
 <style lang="scss" scoped>
+    $vitoop-body-background-color: #cfe7f7;
+
+    .vtp-blue {
+        background: #7bc0f6; /* For browsers that do not support gradients */
+        background: -webkit-linear-gradient(left, #7bc0f6 , $vitoop-body-background-color); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(right, #7bc0f6 , $vitoop-body-background-color); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(right, #7bc0f6 , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(to right, #7bc0f6 , $vitoop-body-background-color); /* Standard syntax */
+        background-repeat: no-repeat;
+        background-size: 100px;
+    }
+
     #vtp-second-search-is-read{
         float: left;
 
@@ -162,28 +174,29 @@
         }
     }
 
-        #vtp-second-search-box::v-deep {
-            height: 24px;
+    #vtp-second-search-box::v-deep {
+        height: 24px;
 
-            .dropdown {
-                &.v-select {
-                     width: 200px;
-                     margin-left: 125px
-                }
-            }
-
-            .dropdown-toggle {
-                height: 22px;
-                margin-top: 1px;
-                padding: 0px !important;
-
-                .selected-tag {
-                    color: #2779aa;
-                }
+        .dropdown {
+            &.v-select {
+                 width: 200px;
+                 margin-left: 125px
             }
         }
 
-        #vtp-second-search-panel {
-            float: right;
+        .dropdown-toggle {
+            height: 22px;
+            margin-top: 1px;
+            padding: 0px !important;
+
+            .selected-tag {
+                color: #2779aa;
+            }
         }
+    }
+
+    #vtp-second-search-panel {
+        padding: 1px;
+        float: right;
+    }
 </style>

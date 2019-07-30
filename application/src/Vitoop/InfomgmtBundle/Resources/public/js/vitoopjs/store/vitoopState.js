@@ -28,7 +28,12 @@ function initialState () {
         },
         searchToggler: {
             isOpened: false,
-            isNotEmpty: false,
+        },
+        table: {
+            rowNumber: 7,
+        },
+        tagList: {
+            show: false,
         },
         user: null,
     }
@@ -56,29 +61,29 @@ const vitoopState = window.vitoopState = new Vuex.Store({
         hideArtSelect: function (state) {
             state.secondSearch.showArtSelect = false;
         },
+        updateTableRowNumber(state, value) {
+            state.table.rowNumber = value;
+        },
+        updateTagListShowing(state, value) {
+            state.tagList.show = value
+        },
         updateSecondSearch: function (state, value) {
             state.secondSearch.searchString = value;
-            this.commit('checkIsNotEmptySearchToggle');
         },
         updateBlueFilter: function (state, value) {
             state.secondSearch.isBlueFilter = value;
-            this.commit('checkIsNotEmptySearchToggle');
         },
         updateReadFilter: function (state, value) {
             state.secondSearch.isReadFilter = value;
-            this.commit('checkIsNotEmptySearchToggle');
         },
         updateArtFilter: function (state, value) {
             state.secondSearch.artFilter = value;
-            this.commit('checkIsNotEmptySearchToggle');
         },
         updateDateFrom: function (state, value) {
             state.secondSearch.dateFrom = value;
-            this.commit('checkIsNotEmptySearchToggle');
         },
         updateDateTo: function (state, value) {
             state.secondSearch.dateTo = value;
-            this.commit('checkIsNotEmptySearchToggle');
         },
         updateSearchToggle: function (state, value) {
             state.searchToggler.isOpened = value;
@@ -107,8 +112,6 @@ const vitoopState = window.vitoopState = new Vuex.Store({
             Object.keys(secondSearch).forEach(key => {
                 state.secondSearch[key] = secondSearch[key]
             });
-
-            this.commit('checkIsNotEmptySearchToggle');
         },
         reset (state) {
             // acquire initial state
@@ -125,6 +128,18 @@ const vitoopState = window.vitoopState = new Vuex.Store({
 
             return currentFontSize;
         },
+        getTableRowNumber(state, getters) {
+            let originalPageNumber = state.table.rowNumber ? state.table.rowNumber : 7;
+            let offset = 0;
+            if (true === state.secondSearch.show) {
+                offset++;
+            }
+            if (true === state.tagList.show) {
+                offset++;
+            }
+
+            return originalPageNumber - offset;
+        }
     },
     computed: {
         isSecondSearchBlue: function () {

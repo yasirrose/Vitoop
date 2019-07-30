@@ -3,10 +3,11 @@
  */
 
 import TinyMCEInitializer from './components/TinyMCEInitializer';
+import HttpService from "./services/HttpService";
 
 window.resourceProject = (function () {
 
-    var query = $.deparam.querystring();
+    var query = HttpService.prototype.parseParams(window.location.href);
 
     var  queryEditMode = query.edit;
 

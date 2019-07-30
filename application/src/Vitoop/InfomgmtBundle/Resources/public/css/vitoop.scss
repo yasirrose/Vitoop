@@ -1284,15 +1284,6 @@ div.divider-wrapper {
         margin-right: 0px;
     }
 
-    #vtp-search-help {
-        width: 34px;
-        margin-top: 1px;
-        margin-left: $menu-distance;
-        margin-right: 0px;
-    }
-
-    #vtp-search-help {
-    }
 
     #vtp-search-bytags-form-submit {
         margin-left: $menu-distance;
@@ -1993,7 +1984,7 @@ a.vtp-uiaction-open-url:visited {
     //width: 35%;
    // padding-top: 1px;
     input {
-        margin-top: 1px;
+        margin-top: 0px;
         margin-right: 6px;
         width: 130px;
         vertical-align: baseline;

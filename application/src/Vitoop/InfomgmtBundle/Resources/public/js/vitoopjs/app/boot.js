@@ -4,6 +4,7 @@ import vitoopState from '../store/vitoopState';
 import UserSettings from '../components/Vue/UserSettings/UserSettings.vue';
 import SecondSearch from "../components/Vue/SecondSearch/SecondSearch.vue";
 import SearchToggler from "../components/Vue/SecondSearch/SearchToggler.vue";
+import HelpButton from "../components/Vue/SecondSearch/HelpButton.vue";
 
 window.Vue = Vue;
 window.UserSettings = UserSettings;
@@ -25,8 +26,8 @@ $(function () {
     }).$mount('#vtp-second-search');
 
     new Vue({
-        el: '#vtp-search-bytags-form-buttons',
+        el: '#vtp-search-bytags-form-buttons-vue',
         store: vitoopState,
-        components: {SearchToggler}
+        components: {SearchToggler, HelpButton}
     }).$mount('#vtp-second-search');
 });

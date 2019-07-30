@@ -8,6 +8,7 @@
     "babel-core": "^6.26.3",
     "babel-polyfill": "^6.26.0",
     "create-stylesheet": "^0.3.0",
+    "deparam": "^1.0.5",
     "dom-resize": "^1.0.3",
     "graceful-fs": "^4.1.11",
     "gulp": "^4.0.0",
