@@ -41,7 +41,7 @@ class ResourceList {
                     $('#vtp-search-bytags-form, #vtp-search-toggle, #vtp-search-help').show('fade', 'slow');
                     vitoopApp.tagSearch.maintainTaglistbox();
                 }
-                vitoopState.commit('showSecondSearch');
+                vitoopState.commit('checkIsNotEmptySearchToggle');
                 $('#vtp-nav .vtp-nav-active').removeClass('vtp-nav-active ui-state-active');
                 $(e.target).addClass('vtp-nav-active ui-state-active');
                 succ = [ResourceList.prototype.insertResourceList];

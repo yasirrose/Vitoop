@@ -15,10 +15,6 @@ export default class DateRangeFilter {
         this.storage.setItem(this.dateToStorageKey, $(this.dateToId).val());
     }
 
-    updateDOMFromRange() {
-        $(this.dateFromId).val(this.getDateFilterFrom());
-        $(this.dateToId).val(this.getDateFilterTo());
-    }
 
     checkButtonState() {
         if (this.isNeedToSave()) {
@@ -34,16 +30,6 @@ export default class DateRangeFilter {
 
     getDateFilterTo() {
         return this.storage.getAlphaNumValue(this.dateToStorageKey, '');
-    }
-
-    clear() {
-        this.storage.setItem(this.dateFromStorageKey, '');
-        this.storage.setItem(this.dateToStorageKey, '');
-    }
-
-    clearWithDOM() {
-        this.clear();
-        this.updateDOMFromRange();
     }
 
     isEmpty() {

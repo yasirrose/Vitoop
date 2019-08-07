@@ -1736,7 +1736,7 @@ td.vtp-blue.ui-state-active {
 }
 
 #search_blue, .valid-checkbox {
-    margin: 5px 2px 4px;
+    margin: 4px 2px 4px;
     position: relative;
     width: 14px;
     height: 14px;
@@ -1898,6 +1898,8 @@ a.vtp-uiaction-open-url:visited {
         .dataTables_length select {
             width: 72px;
         }
+
+        height: 30px;
     }
 }
 
@@ -1978,38 +1980,12 @@ a.vtp-uiaction-open-url:visited {
     float: left;
 }
 
-#search_date_range {
-    margin-left: 120px;
-   // margin-bottom: 1px;
-    //width: 35%;
-   // padding-top: 1px;
-    input {
-        margin-top: 0px;
-        margin-right: 6px;
-        width: 130px;
-        vertical-align: baseline;
-    }
-    label {
-        vertical-align: baseline;
-    }
-
-    #vtp_search_date {
-        margin-top: 1px;
-        height: 22px;
-        margin-bottom: 1px;
-    }
-}
 
 #remark_locked {
     margin-left: 5px;
 }
 
 #vtp-filterbox, #vtp-cmstitle {
-    margin-top: 5px;
-}
-
-
-#vtp-second-search {
     margin-top: 5px;
 }
 

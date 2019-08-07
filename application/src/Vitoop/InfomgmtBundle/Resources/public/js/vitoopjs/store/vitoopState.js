@@ -69,33 +69,41 @@ const vitoopState = window.vitoopState = new Vuex.Store({
         },
         updateSecondSearch: function (state, value) {
             state.secondSearch.searchString = value;
+            this.commit('checkIsNotEmptySearchToggle');
         },
         updateBlueFilter: function (state, value) {
             state.secondSearch.isBlueFilter = value;
+            this.commit('checkIsNotEmptySearchToggle');
         },
         updateReadFilter: function (state, value) {
             state.secondSearch.isReadFilter = value;
+            this.commit('checkIsNotEmptySearchToggle');
         },
         updateArtFilter: function (state, value) {
             state.secondSearch.artFilter = value;
+            this.commit('checkIsNotEmptySearchToggle');
         },
         updateDateFrom: function (state, value) {
             state.secondSearch.dateFrom = value;
+            this.commit('checkIsNotEmptySearchToggle');
         },
         updateDateTo: function (state, value) {
             state.secondSearch.dateTo = value;
+            this.commit('checkIsNotEmptySearchToggle');
         },
         updateSearchToggle: function (state, value) {
             state.searchToggler.isOpened = value;
-            if (true === value) {
+            if (true === value && state.secondSearch.show !== true) {
                 this.commit('showSecondSearch');
                 return;
             }
-
-            this.commit('hideSecondSearch');
+            if (false === value && state.secondSearch.show === true) {
+                this.commit('hideSecondSearch');
+                return;
+            }
         },
         checkIsNotEmptySearchToggle: function (state) {
-            state.searchToggler.isNotEmpty = (1 === state.secondSearch.isBlueFilter) || (1 === this.state.secondSearch.isReadFilter) || state.secondSearch.artFilter || state.secondSearch.searchString || state.secondSearch.dateFrom || state.secondSearch.dateTo;
+            state.searchToggler.isNotEmpty = (1 === state.secondSearch.isBlueFilter) || (1 === this.state.secondSearch.isReadFilter) || '' !== state.secondSearch.artFilter || '' !== state.secondSearch.searchString || '' !== state.secondSearch.dateFrom || '' !== state.secondSearch.dateTo;
             this.commit('updateSearchToggle', state.searchToggler.isNotEmpty === true);
         },
         setUser: function(state, value) {
@@ -112,6 +120,7 @@ const vitoopState = window.vitoopState = new Vuex.Store({
             Object.keys(secondSearch).forEach(key => {
                 state.secondSearch[key] = secondSearch[key]
             });
+            this.commit('checkIsNotEmptySearchToggle');
         },
         reset (state) {
             // acquire initial state

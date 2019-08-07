@@ -36,10 +36,6 @@ export default class VtpDatatable {
 
         if ((self.resType == 'pdf' || self.resType == 'teli')/* && !vitoopApp.isElementExists('search_date_range'*/) {
             vitoopState.commit('showDataRange');
-            $('#vtp_search_date').off().on('click', function () {
-                vitoopApp.secondSearch.dateRange.updateRangeFromDOM();
-                self.refreshTable();
-            });
             $('.range-filter').off()
                 .on('change', function () {
                     vitoopApp.secondSearch.dateRange.updateRangeFromDOM();
@@ -47,8 +43,6 @@ export default class VtpDatatable {
                 .on('keyup', function () {
                     vitoopApp.secondSearch.dateRange.checkButtonState();
                 });
-
-            vitoopApp.secondSearch.dateRange.updateDOMFromRange();
         } else {
             vitoopState.commit('hideDataRange');
         }
