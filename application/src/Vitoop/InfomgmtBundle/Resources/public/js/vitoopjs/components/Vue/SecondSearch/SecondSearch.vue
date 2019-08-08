@@ -151,6 +151,7 @@
 
 <style lang="scss" scoped>
     $vitoop-body-background-color: #cfe7f7;
+    $table-row-height: 25px;
 
     .vtp-blue {
         background: #7bc0f6; /* For browsers that do not support gradients */
@@ -175,6 +176,7 @@
             line-height: 17px;
             font-size: 90%;
             vertical-align: middle;
+            margin-bottom: 1px;
         }
     }
 
@@ -228,6 +230,25 @@
             height: 22px;
             margin-bottom: 1px;
         }
+    }
+
+    #search_blue_box {
+        height: $table-row-height;
+        float: left;
+        padding-right: 20px;
+    }
+
+    #search_blue {
+        margin: 4px 2px 4px;
+        position: relative;
+        width: 14px;
+        height: 16px;
+        border: 1px solid #111;
+        background: #fff;
+        -moz-appearance: checkbox;
+        -webkit-appearance: checkbox;
+        /*-webkit-appearance: none;*/
+        appearance: none;
     }
 
 </style>

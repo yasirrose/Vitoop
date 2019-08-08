@@ -20,7 +20,7 @@
 <style lang="scss" scoped>
     #vtp-search-clear {
         width: 34px;
-        margin: 0px 1px 0px 4px;
+        margin: 0px 1px 1px 4px;
         height: 22px;
         background: -webkit-linear-gradient(bottom, #e8f3fa, #7cc0f6); /* For Safari 5.1 to 6.0 */
         background: -o-linear-gradient(top, #7cc0f6 , #e8f3fa); /* For Opera 11.1 to 12.0 */
