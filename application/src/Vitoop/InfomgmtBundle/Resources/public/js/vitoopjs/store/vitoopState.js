@@ -125,8 +125,11 @@ const vitoopState = window.vitoopState = new Vuex.Store({
         reset (state) {
             // acquire initial state
             const s = initialState();
+            let skipedKeys = ['table'];
             Object.keys(s).forEach(key => {
-                state[key] = s[key]
+                if (-1 === skipedKeys.indexOf(key)) {
+                    state[key] = s[key]
+                }
             })
         }
     },

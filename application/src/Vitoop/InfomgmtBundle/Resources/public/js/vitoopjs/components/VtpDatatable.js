@@ -404,7 +404,7 @@ export default class VtpDatatable {
 
         let columns = this.getColumns();
         let columnIndex = -1;
-        for (i=0; i< columns.length; i++) {
+        for (let i=0; i< columns.length; i++) {
             if (columns[i].data === 'res12count') {
                 columnIndex = i;
             }
