@@ -8,11 +8,10 @@ import VitoopApp from '../app/vitoop';
 
 class PdfView {
     constructor() {
-        this.metadataWidth = '360px';
+        this.metadataWidth = '300px';
     }
     init(resourceId, resourceType, baseUrl) {
         let self = this;
-
         $('#vtp-pdf-view-toggle-button').on('click', function () {
             if ($('#pdf-view-wrapper').css('left') !== '0px') {
                 $('#pdf-view-wrapper').css('left', 0);
@@ -22,7 +21,7 @@ class PdfView {
                 $('#vtp-pdf-view-toggle-button span').removeClass('ui-icon-seek-first').addClass('ui-icon-seek-end');
             } else {
                 $('#pdf-view-wrapper').css('left', self.metadataWidth);
-                $('.toolbar').css('left', '380px');
+                $('.toolbar').css('left', '300px');
                 $('#vtp-pdf-view-toggle').css('left', self.metadataWidth);
                 $('#vtp-view-meta').show();
                 $('#vtp-pdf-view-toggle-button span').removeClass('ui-icon-seek-end').addClass('ui-icon-seek-first');
