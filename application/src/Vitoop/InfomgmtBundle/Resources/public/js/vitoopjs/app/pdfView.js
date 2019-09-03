@@ -21,7 +21,7 @@ class PdfView {
                 $('#vtp-pdf-view-toggle-button span').removeClass('ui-icon-seek-first').addClass('ui-icon-seek-end');
             } else {
                 $('#pdf-view-wrapper').css('left', self.metadataWidth);
-                $('.toolbar').css('left', '300px');
+                $('.toolbar').css('left', '320px');
                 $('#vtp-pdf-view-toggle').css('left', self.metadataWidth);
                 $('#vtp-view-meta').show();
                 $('#vtp-pdf-view-toggle-button span').removeClass('ui-icon-seek-end').addClass('ui-icon-seek-first');
