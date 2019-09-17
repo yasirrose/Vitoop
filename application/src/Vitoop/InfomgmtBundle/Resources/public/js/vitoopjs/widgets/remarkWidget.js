@@ -117,7 +117,6 @@ export default class RemarkWidget extends Widget {
         });
         // Toggle lock/unlock-button eventhandler
         btnLockRemark.on('click', function () {
-            debugger;
             $(this).filter(':checked').button("option", {
                 icons: {
                     primary: "ui-icon-locked"
