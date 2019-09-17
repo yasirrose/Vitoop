@@ -25,9 +25,13 @@ $(function () {
         components: {SecondSearch}
     }).$mount('#vtp-second-search');
 
-    new Vue({
-        el: '#vtp-search-bytags-form-buttons-vue',
-        store: vitoopState,
-        components: {SearchToggler, HelpButton}
-    }).$mount('#vtp-second-search');
+    const searchByTagsFormButtons = document.getElementById('vtp-search-bytags-form-buttons-vue');
+
+    if (searchByTagsFormButtons !== null) {
+        new Vue({
+            el: '#vtp-search-bytags-form-buttons-vue',
+            store: vitoopState,
+            components: {SearchToggler, HelpButton}
+        }).$mount('#vtp-second-search');
+    }
 });

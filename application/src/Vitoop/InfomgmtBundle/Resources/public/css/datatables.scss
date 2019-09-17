@@ -287,6 +287,7 @@ table.dataTable td {
       margin-bottom: 0px;
       span.ui-selectmenu-text {
         line-height: 14px;
+        padding: 5px 2.1em 4px 1em;
       }
     }
   }
@@ -297,9 +298,14 @@ table.dataTable td {
   }
 
   .dataTables_info {
-    margin-left: 68px;
     float: left;
-    padding-top: 5px;
+    border: 1px solid #aed0ea;
+    background: #d7ebf9 url(../img/ui-bg_glass_80_d7ebf9_1x400.png) 50% 50% repeat-x;
+    font-weight: bold;
+    color: #2779aa;
+    border-radius: 6px;
+    padding: 2px 14px 3px;
+    margin: 2px 0 0 68px;
   }
 }
 
@@ -496,7 +502,7 @@ table.dataTable tfoot th.ui-state-default:last-child {
   box-sizing: border-box;
   display: inline-block;
   min-width: 1.5em;
-  padding: 2px;
+  padding: 2px 6px 2px 5px;
   border-radius: 6px;
   margin: 2px;
   font-weight: 400;

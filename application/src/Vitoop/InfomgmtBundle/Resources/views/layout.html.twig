@@ -77,15 +77,19 @@
                         <span class="ui-button-text"></span>
                     </button>
                 {% endif %}
-                    <a href="{{ path('user_settings') }}" id="vtp-user-userdata" class="vtp-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" title="Einstellungen">
-                        <span class="ui-button-icon-primary ui-icon ui-icon-newwin"></span>
+                    <a href="{{ path('user_settings') }}" id="vtp-user-userdata" class="vtp-button ui-widget ui-state-default ui-corner-all ui-button-icon-only w-43" title="Einstellungen">
+                        <span class="ui-buttonui-button-text-icon-primary ui-icon ui-icon-newwin"></span>
                         <span class="ui-button-text"></span>
                     </a>
                 {% else %}
                         <form id="vtp-header-login" action="{{ path('_login_check') }}" method="post" enctype="application/x-www-form-urlencoded">
                             <div class="login-container">
                                 <div class="vtp-fh-w5">
-                                    <button id="vtp-user-loginform-login" class="vtp-button" value="login" tabindex="3" type="submit">{{'label.signin'|trans}}</button>
+                                    <button id="vtp-user-loginform-login" class="vtp-button ui-state-default" value="login" tabindex="3" type="submit">
+                                        {% if app.user %}
+                                            {{'label.signin'|trans}}
+                                        {% endif %}
+                                    </button>
                                 </div>
                                 <div class="vtp-fh-w16 forgotPass" style="width: 167px">
                                     <input id="password" name="_password" type="password" tabindex="2" placeholder="{{'label.password'|trans}}" style="width: 94%">

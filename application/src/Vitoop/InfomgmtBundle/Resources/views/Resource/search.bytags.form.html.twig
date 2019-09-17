@@ -1,3 +1,4 @@
+{% if app.user %}
 <form id="vtp-search-bytags-form" action="" method="get" novalidate="novalidate"{% if restype == '' %} style="display: none;"{% endif %}>
     {#{% if app.user %}#}
     <div id="vtp-search-bytags-form-input-container">
@@ -15,3 +16,4 @@
 
     {#{% endif %}#}
 </form>
+{% endif %}

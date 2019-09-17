@@ -113,7 +113,6 @@ class ResourceList {
 
     init() {
         this.maintainResLinks();
-
         /**********************************
          * Set Handlers
          **********************************/

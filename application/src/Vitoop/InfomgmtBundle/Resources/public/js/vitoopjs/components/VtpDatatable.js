@@ -644,7 +644,7 @@ export default class VtpDatatable {
     }
 
     getUrlValue(url, type, row, meta) {
-        return '<a class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink" href="'+url+'" target="_blank"><span class="ui-icon ui-icon-extlink">-></span></a>';
+        return '<a class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink w-43" href="'+url+'" target="_blank"><span class="ui-icon ui-icon-extlink">-></span></a>';
     }
 
     getResourceViewValue(id, type, row, meta) {

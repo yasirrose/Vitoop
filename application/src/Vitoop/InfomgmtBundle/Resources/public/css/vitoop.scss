@@ -202,6 +202,11 @@ $vitoop-selected-background: #e4f1fb url("../img/ui-bg_glass_100_e4f1fb_1x400.pn
     padding: 10px;
 }
 
+.w-43 {
+    width: 43px !important;
+    box-sizing: border-box !important;
+}
+
 html, body {
     height: 100%;
 }
@@ -257,6 +262,24 @@ div#vtp-res-tags table tr:first-of-type th {
     color: $vitoop-blue-color !important;
     font-family: $vitoop-font-family;
     font-size: 12px !important;
+}
+
+#form-user-links-info {
+
+    .vtp-teasefader-wrapper {
+        position: relative;
+        overflow: hidden;
+        white-space: nowrap;
+        vertical-align: baseline;
+    }
+
+    .vtp-teasefader {
+        position: absolute;
+        width: 2em;
+        height: 100%;
+        top: 0;
+        right: 0;
+    }
 }
 
 .blau {
@@ -383,9 +406,9 @@ input[type="submit"], .vtp-button {
     position: relative;
 
     .ui-button-text {
-      font-weight: normal !important;
-      padding-top: 0 !important;
-      padding-bottom: 0 !important;
+        font-weight: normal !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
     }
 }
 
@@ -1919,7 +1942,7 @@ a.vtp-uiaction-open-url:visited {
     }
 
     td {
-        padding: 0px 8px;
+        padding: 5px 8px;
         box-sizing: content-box;
         vertical-align: middle;
     }
@@ -1933,7 +1956,7 @@ a.vtp-uiaction-open-url:visited {
     }
 
     .vtp-send-type {
-        width: 8%;
+        width: 12%;
         text-transform: capitalize;
     }
 
