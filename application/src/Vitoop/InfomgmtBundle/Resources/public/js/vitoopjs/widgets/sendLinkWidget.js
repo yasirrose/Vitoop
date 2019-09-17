@@ -25,7 +25,7 @@ export default class SendLinkWidget extends Widget {
                 $('#form-user-links-info').append(
                     '<tr class="'+ rowClass +'">'+
                         '<td class="vtp-send-type">'+this.getResourceTypeName(resourceType)+':</td>' +
-                        '<td>'+resources[resourceType][resourceId].name+'</td>' +
+                        '<td><div class="vtp-teasefader-wrapper">'+resources[resourceType][resourceId].name+'<div class="vtp-teasefader"></div></div></td>' +
                     '</tr>'
                 );
                 resourceIds.push(resourceId);

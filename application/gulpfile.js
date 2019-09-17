@@ -136,7 +136,10 @@ gulp.task('vitoop-app', function () {
             },
             plugins: [
                 new VueLoaderPlugin(),
-            ]
+            ],
+            performance: {
+                hints: false
+            }
         }))
         .pipe(concat('vitoop-app.js'))
         .pipe(gulpif(env === 'prod', uglify()))
@@ -193,6 +196,19 @@ gulp.task('scss', function () {
         .pipe(gulpif(env === 'prod', uglifycss()))
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('web/css'));
+});
+
+gulp.task('watch', () => {
+    gulp.watch('src/Vitoop/InfomgmtBundle/Resources/public/css/**/*.scss', gulp.series('scss'));
+    gulp.watch([
+        'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/components/Vue/*/*.vue',
+        'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/components/*.js',
+        'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/widgets/*.js',
+        'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/store/*.js',
+        'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/*.js',
+        'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/app/vitoop.js',
+        'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/app/boot.js'
+    ], gulp.series('js'));
 });
 
 gulp.task('img', function() {

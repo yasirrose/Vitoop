@@ -1,5 +1,11 @@
 <template>
-    <button id="vtp-search-help" help-area="search" class="vtp-button vtp-help-area-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only" @click="showHelp('search')"><span class="ui-icon ui-icon-help"></span><span class="ui-button-text"></span></button>
+    <button id="vtp-search-help"
+            help-area="search"
+            class="vtp-button vtp-help-area-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only"
+            @click="showHelp('search')">
+        <span class="ui-icon ui-icon-help"></span>
+        <span class="ui-button-text"></span>
+    </button>
 </template>
 
 <script>

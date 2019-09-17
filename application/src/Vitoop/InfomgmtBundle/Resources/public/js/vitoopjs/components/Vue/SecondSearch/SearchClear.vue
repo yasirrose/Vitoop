@@ -1,5 +1,9 @@
 <template>
-    <button id="vtp-search-clear" class="vtp-button ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" @click="clear" role="button" title="">
+    <button id="vtp-search-clear"
+            class="vtp-button ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only w-43"
+            @click="clear"
+            role="button"
+            title="">
         <span class="ui-button-icon-primary ui-icon ui-icon-close"></span>
         <span class="ui-button-text"></span>
     </button>
