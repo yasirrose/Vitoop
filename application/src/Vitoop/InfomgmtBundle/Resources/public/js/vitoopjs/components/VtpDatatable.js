@@ -65,12 +65,12 @@ export default class VtpDatatable {
         });
 
         // Handle click on checkbox
-        $('table#list-'+self.resType).on('click', 'input[type="checkbox"]', function(e) {
+        $('table#list-'+self.resType).on('click', 'label.custom-checkbox__wrapper', function(e) {
             let $row = $(this).closest('tr');
+            const checkbox = $(this).find('input[type="checkbox"]');
             // Get row data
             let data = datatable.row($row).data();
-            self.sendLinkWidget.updateCheckedResources(self.resType, data.id, this.checked, data);
-
+            self.sendLinkWidget.updateCheckedResources(self.resType, data.id, checkbox[0].checked, data);
             e.stopPropagation();
         });
 
@@ -528,7 +528,19 @@ export default class VtpDatatable {
             'width':'20px',
             'render': function (data, type, full, meta) {
                 let checkedResources = self.datastorage.getObject(self.resType +'-checked');
-                return '<input class="valid-checkbox open-checkbox-link" title="anhaken für weitere Verwendung: öffnen/mailen" type="checkbox"' + (full.id in checkedResources?' checked="checked"':'') + '>';
+                return `
+                    <label class="custom-checkbox__wrapper">
+                        <input 
+                            class="valid-checkbox open-checkbox-link" 
+                            title="anhaken für weitere Verwendung: öffnen/mailen" 
+                            type="checkbox"
+                            ${full.id in checkedResources ? 'checked': ''} />
+                            <span class="custom-checkbox">
+                                <img class="custom-checkbox__check"
+                                     src="../../img/check.png" />
+                            </span>
+                    </label>
+                `;
             }
         };
     }
