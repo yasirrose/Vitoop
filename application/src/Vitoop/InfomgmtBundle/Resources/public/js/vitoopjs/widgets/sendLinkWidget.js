@@ -70,7 +70,6 @@ export default class SendLinkWidget extends Widget {
     }
 
     checkOpenButtonState() {
-        console.log(!this.linkStorage.isNotEmpty());
         if (!this.linkStorage.isNotEmpty()) {
             $('#button-checking-links__wrapper').css({
                 'opacity': 0,
