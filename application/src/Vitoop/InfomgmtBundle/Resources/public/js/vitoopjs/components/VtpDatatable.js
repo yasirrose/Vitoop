@@ -529,10 +529,10 @@ export default class VtpDatatable {
             'render': function (data, type, full, meta) {
                 let checkedResources = self.datastorage.getObject(self.resType +'-checked');
                 return `
-                    <label class="custom-checkbox__wrapper">
+                    <label class="custom-checkbox__wrapper no-title">
                         <input 
                             class="valid-checkbox open-checkbox-link" 
-                            title="anhaken für weitere Verwendung: öffnen/mailen" 
+                            title="anhaken für weitere Verwendung: öffnen/mailen"
                             type="checkbox"
                             ${full.id in checkedResources ? 'checked': ''} />
                             <span class="custom-checkbox">

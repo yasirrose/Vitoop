@@ -238,7 +238,7 @@ gulp.task('pdf', function () {
         .pipe(gulp.dest('web/build'));
 });
 
-gulp.task('default', gulp.series(['img', 'tinymce-scss', 'scss', 'js', 'pdf', 'pdf-view-js']));
+gulp.task('default', gulp.series(['img', 'tinymce-scss', 'scss', 'js', 'pdf', 'pdf-view-js', 'watch']));
 
 gulp.task('set-prod', function() {
     return env = 'prod';

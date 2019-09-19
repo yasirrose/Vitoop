@@ -1,76 +1,36 @@
-input {
-
-  &[type="checkbox"] {
-    //opacity: 0;
-    //height: 0;
-    //width: 0;
-
-    //& + label {
-    //  position: absolute;
-    //  width: 14px;
-    //  height: 14px;
-    //
-    //  &:after, &:before {
-    //    position: absolute;
-    //    content: '';
-    //    display: block;
-    //  }
-    //
-    //  &:before {
-    //    top: 0;
-    //    left: 0;
-    //    border: 1px solid;
-    //    border-radius: 50%;
-    //    width: 14px;
-    //    height: 14px;
-    //  }
-    //
-    //  &:after {
-    //    width: 10px;
-    //    height: 10px;
-    //    background-image: url("../../img/check.png");
-    //    background-size: cover;
-    //    background-position: center;
-    //    background-repeat: no-repeat;
-    //    top: 56%;
-    //    left: 54%;
-    //    transform: translate3d(-50%,-50%,0);
-    //    transition: .3s;
-    //    opacity: 0;
-    //  }
-    //}
-
-    //&:checked + label {
-    //
-    //  &:after {
-    //    opacity: 1;
-    //  }
-    //}
-  }
-}
+@import "../variables/colors";
 
 .custom-checkbox {
-  border: 1px solid;
-  border-radius: 50%;
+  border: 1px solid $vitoop-blue-color;
   position: absolute;
-  top: 0;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+  width: 14px;
+  height: 14px;
+  top: 50%;
   left: 0;
-  right: 0;
-  bottom: 0;
+  transform: translate(0,-50%);
 
   &__wrapper {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 16px;
-    height: 16px;
-    transform: translate3d(-50%,-50%,0);
+    padding-left: 20px;
+    position: relative;
+
+    &.no-title {
+      padding-left: 0;
+      position: static;
+
+      .custom-checkbox {
+        left: 50%;
+        transform: translate(-50%,-50%);
+      }
+    }
 
     input[type="checkbox"] {
       opacity: 0;
       height: 0;
       width: 0;
-      margin: 0;
+      margin: 0 !important;
 
       &:checked + .custom-checkbox {
         .custom-checkbox__check {
