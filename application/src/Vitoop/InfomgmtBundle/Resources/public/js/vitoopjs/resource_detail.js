@@ -863,8 +863,21 @@ window.resourceDetail = (function () {
 
             window.vitoopApp.helpButton.loadContent();
 
-            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').append('<input type="checkbox" id="resource-check" class="valid-checkbox" title="anhaken für weitere Verwendung: öffnen/mailen">');
-            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').append('<span id="resource-title"></span>');
+            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title')
+                .append(`
+                    <label class="custom-checkbox__wrapper">
+                        <input type="checkbox" 
+                               id="resource-check" 
+                               class="valid-checkbox" 
+                               title="anhaken für weitere Verwendung: öffnen/mailen"/>
+                        <span class="custom-checkbox">
+                            <img class="custom-checkbox__check"
+                                 src="../../img/check.png" />
+                        </span>
+                    </label>
+                `);
+            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title .custom-checkbox__wrapper')
+                .append('<span id="resource-title"></span>');
             $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').after('<span id="resource-buttons"></span>');
 
             $('#vtp-res-dialog').before('<div id="resource-flags" style="display: none;"></div>');

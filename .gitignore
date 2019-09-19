@@ -13,3 +13,4 @@
 !/devops/docker/states/db/vitoop/.gitkeep
 /devops/docker/states/db/vitoop/
 /devops/docker/dump.sql
+/devops/docker/php/www.conf

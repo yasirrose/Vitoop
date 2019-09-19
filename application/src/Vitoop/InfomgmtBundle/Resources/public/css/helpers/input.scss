@@ -1,0 +1,52 @@
+@import "../variables/colors";
+
+.custom-checkbox {
+  border: 1px solid $vitoop-blue-color;
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+  width: 14px;
+  height: 14px;
+  top: 50%;
+  left: 0;
+  transform: translate(0,-50%);
+
+  &__wrapper {
+    padding-left: 20px;
+    position: relative;
+
+    &.no-title {
+      padding-left: 0;
+      position: static;
+
+      .custom-checkbox {
+        left: 50%;
+        transform: translate(-50%,-50%);
+      }
+    }
+
+    input[type="checkbox"] {
+      opacity: 0;
+      height: 0;
+      width: 0;
+      margin: 0 !important;
+
+      &:checked + .custom-checkbox {
+        .custom-checkbox__check {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  &__check {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: .3s;
+    opacity: 0;
+  }
+}
