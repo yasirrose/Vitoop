@@ -70,14 +70,28 @@ export default class SendLinkWidget extends Widget {
     }
 
     checkOpenButtonState() {
+        console.log(!this.linkStorage.isNotEmpty());
         if (!this.linkStorage.isNotEmpty()) {
-            $('#button-checking-links').hide();
-            $('#button-checking-links-remove').hide();
-            $('#button-checking-links-send').hide();
+            $('#button-checking-links__wrapper').css({
+                'opacity': 0,
+                'left': '-300px',
+            });
+            setTimeout(() => {
+                if (!this.linkStorage.isNotEmpty()) {
+                    $('#button-checking-links-remove').hide();
+                    $('#button-checking-links').hide();
+                    $('#button-checking-links-send').hide();
+                }
+            }, 500);
         } else {
-            $('#button-checking-links').show();
             $('#button-checking-links-remove').show();
+            $('#button-checking-links').show();
             $('#button-checking-links-send').show();
+
+            $('#button-checking-links__wrapper').css({
+                'opacity': 1,
+                'left': 0
+            })
         }
     }
 

@@ -62,9 +62,11 @@
                     </a>
                 {% endif %}
                 {% if app.user %}
-                    <button class="vtp-button" id="button-checking-links-remove" title="{{ 'label.remove.tooltip'|trans }}" style="display:none">x</button>
-                    <button class="vtp-button" id="button-checking-links" title="{{'label.open.tooltip'|trans}}" style="display:none">{{'label.open'|trans}}</button>
-                    <button class="vtp-button" id="button-checking-links-send" title="{{ 'label.send.tooltip'|trans }}" style="display:none">{{'label.send'|trans}}</button>
+                    <div id="button-checking-links__wrapper">
+                        <button class="vtp-button" id="button-checking-links-remove" title="{{ 'label.remove.tooltip'|trans }}" style="display:none">x</button>
+                        <button class="vtp-button" id="button-checking-links" title="{{'label.open.tooltip'|trans}}" style="display:none">{{'label.open'|trans}}</button>
+                        <button class="vtp-button" id="button-checking-links-send" title="{{ 'label.send.tooltip'|trans }}" style="display:none">{{'label.send'|trans}}</button>
+                    </div>
                     <form id="vtp-header-login" action="{{ path('_logout') }}" method="get" enctype="application/x-www-form-urlencoded">
                         <button id="vtp-user-loginform-logout" class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-text-icon-secondary" role="button" title="{{'logout.message'|trans}}" value="{{'logout.label'|trans}}" type="submit">
                             <span class="ui-button-text">{{  app.user.username }}</span>
