@@ -419,10 +419,11 @@ input[type="submit"], .vtp-button {
 }
 
 .vtp-extlink-list {
-    width: 43px;
+    width: 32px;
 
     > span {
-        margin-left: 13px;
+        //margin-left: 13px;
+        margin: auto;
     }
 }
 
@@ -1899,29 +1900,38 @@ a.vtp-uiaction-open-url:visited {
 }
 
 #vtp-application {
-    .dataTables_wrapper {
-        .ui-toolbar {
-            padding: 2px 8px;
+
+    .dataTables {
+
+        &_wrapper {
+
+            .fg-toolbar {
+                height: 28px;
+                display: flex;
+                align-items: center;
+            }
+
+            .ui-toolbar {
+                padding: 2px 8px;
+            }
         }
-        .dataTables_paginate {
-            margin-bottom: 1px;
+
+        &_length {
+
+            select {
+                width: 72px;
+                height: 24px;
+            }
         }
-        .dataTables_length, .dataTables_info {
+
+        &_length, &_info {
             font-weight: normal;
             color: $vitoop-blue-color;
         }
 
-        .dataTables_length select {
-            height: 24px;
+        &_paginate {
+            flex: 1;
         }
-    }
-
-    .fg-toolbar {
-        .dataTables_length select {
-            width: 72px;
-        }
-
-        height: 30px;
     }
 }
 
