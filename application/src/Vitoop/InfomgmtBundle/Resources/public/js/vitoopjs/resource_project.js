@@ -70,12 +70,13 @@ window.resourceProject = (function () {
                 appendTo: 'body'
             });
         } else {
-            !$('#vtp-projectdata-box .vtp-uiinfo-info').length || $('#vtp-projectdata-box .vtp-uiinfo-info').position({
-                my: 'right top',
-                at: 'left bottom',
-                of: '#vtp-projectdata-box .vtp-uiinfo-anchor',
-                collision: 'none'
-            }).hide("fade", 3000);
+            // !$('#vtp-projectdata-box .vtp-uiinfo-info').length || $('#vtp-projectdata-box .vtp-uiinfo-info').position({
+            //     my: 'right top',
+            //     at: 'left bottom',
+            //     of: '#vtp-projectdata-box .vtp-uiinfo-anchor',
+            //     collision: 'none'
+            // }).hide("fade", 3000);
+            !$('#vtp-projectdata-box .vtp-uiinfo-info').length || $('#vtp-projectdata-box .vtp-uiinfo-info').hide("fade", 3000);
             liveButton.addClass('ui-state-active');
             editButton.removeClass('ui-state-active');
             editButton.on('click', function () {
