@@ -1,6 +1,6 @@
 <template>
     <button id="vtp-search-clear"
-            class="vtp-button ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only w-43"
+            class="vtp-button ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
             @click="clear"
             role="button"
             title="">

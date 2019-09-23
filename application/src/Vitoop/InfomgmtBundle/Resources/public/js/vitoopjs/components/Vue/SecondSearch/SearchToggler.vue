@@ -3,7 +3,7 @@
         <input type="checkbox"
                value="1"
                v-model="isOpened"/>
-        <span class="vtp-toggler ui-button ui-state-default ui-widget ui-corner-all ui-button-icon-only vtp-button w-43"
+        <span class="vtp-toggler ui-button ui-state-default ui-widget ui-corner-all ui-button-icon-only vtp-button"
               :class="[(isOpened || isHasNotEmptyFields)? 'vtp-toggler-active' : '']">
             <span class="ui-icon"
                   :class="[isOpened ? 'ui-icon-arrowthick-1-n' : 'ui-icon-arrowthick-1-s']">
