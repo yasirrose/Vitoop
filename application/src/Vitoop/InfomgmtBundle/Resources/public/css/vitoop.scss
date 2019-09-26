@@ -1185,6 +1185,51 @@ span.vtp-icon {
     padding: 0px 0px 0px 0.5em;
 }
 
+#vtp-projectdata-title {
+    display: flex;
+    align-items: center;
+    padding: 3px 10px 4px 15px !important;
+
+    .vtp-title {
+
+        &__text {
+            white-space: nowrap;
+            display: inline-block;
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        &__buttons {
+            display: flex;
+            align-items: center;
+
+            button {
+                position: static;
+                left: auto;
+                right: auto;
+                display: flex;
+                top: auto;
+                bottom: auto;
+                margin: 0;
+                align-items: center;
+                justify-content: center;
+                margin-left: 7px;
+
+                span {
+                    position: static;
+                    left: auto;
+                    right: auto;
+                    top: auto;
+                    bottom: auto;
+                    margin: 0;
+                    padding: 0;
+                }
+            }
+        }
+    }
+}
+
 #vtp-projectdata-title, #vtp-lexicondata-title {
     height: 24px;
     position: relative;
