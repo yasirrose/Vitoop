@@ -491,6 +491,7 @@ table input[disabled="disabled"].vtp-uiaction-coefficient {
 #vtp-search-bytags-taglistbox, #vtp-second-search-box{
     position: relative;
     border: $white-toolbar-frame-border;
+    border-width: 1px;
     padding: 1px 4px;
     margin-left: 0.5em;
 }

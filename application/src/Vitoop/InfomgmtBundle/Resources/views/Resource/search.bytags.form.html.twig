@@ -10,8 +10,18 @@
             <option value="">-</option>
             {% for i in 1..9 %}
                 <option value="{{ i }}" {{ ((tagcnt is defined) and (tagcnt == i) ) ? 'selected' : '' }}>{{ i }}</option>
-            {% endfor %}</select><button
-                id="vtp-search-bytags-form-submit" class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only" type="submit" name="submit" value="Suche"></button><span id="vtp-search-bytags-form-buttons-vue"><help-button></help-button><search-toggler></search-toggler></span>
+            {% endfor %}
+        </select>
+        <button id="vtp-search-bytags-form-submit"
+                class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only"
+                type="submit"
+                name="submit"
+                value="Suche">
+        </button>
+        <span id="vtp-search-bytags-form-buttons-vue">
+            <help-button></help-button>
+            <search-toggler></search-toggler>
+        </span>
     </div>
 
     {#{% endif %}#}

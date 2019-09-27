@@ -12,7 +12,7 @@
     <script type="text/javascript">
         vitoop = (function () {
             var baseUrl = '{{ path('_base_url') }}',
-                maxperpage = (document.cookie.match('(^|; )' + 'maxperpage' + '=([^;]*)') || 0)[2]; 
+                maxperpage = (document.cookie.match('(^|; )' + 'maxperpage' + '=([^;]*)') || 0)[2];
             if (typeof maxperpage === 'undefined') {
                 maxperpage = '10';
             }
@@ -31,7 +31,11 @@
     {% block includescript %}{% endblock %}
     {% block onloadscript %}{% endblock %}
 </head>
-<body id="vtp-application" ng-controller="MainController" {% if (without_js is not defined) and (app.user) and (not app.user.getIsAgreedWithTerms()) %} style="display: none" {% endif %}>
+<body id="vtp-application"
+      ng-controller="MainController"
+      {% if (without_js is not defined) and (app.user) and (not app.user.getIsAgreedWithTerms()) %}
+         style="display: none"
+      {% endif %}>
 <div id="vtp-wrapper">
     <div class="vtp-paddingbox">
         <div id="vtp-header" class="ui-corner-all">
@@ -107,10 +111,19 @@
                         </form><br/>
                 {% endif %}
             </div>
-            <div class="vtp-logo"><span class="beta-status">beta</span><a href="{{ path('_base_url') }}">vitoop<span>.org</span></a></div>
+            <div class="vtp-logo">
+                <span class="beta-status">
+                    beta
+                </span>
+                <a href="{{ path('_base_url') }}">
+                    vitoop<span>.org</span>
+                </a>
+            </div>
             {% if (not app.user) or (app.user.getIsAgreedWithTerms()) %}
                 <div id="vtp-nav" class="vtp-menu ui-helper-clearfix ui-corner-all">
-                    <input id="resourceInfo" type="hidden" ng-model="nav.resourceInfo" />
+                    <input id="resourceInfo"
+                           type="hidden"
+                           ng-model="nav.resourceInfo" />
                     <div style="width: 588px; float: left;">
                     <ul>
                         {% set ang = "click('')" %}
@@ -133,8 +146,13 @@
                             {% set href, home = path('_home'), 'Benutzer-Hauptseite' %}
                             {% set homeclass='vtp-resmenu-homelink-home ' %}
                         {% endif %}
-                        <li><a class="vtp-resmenu-homelink {{ homeclass }}{{ (restype == '') ? 'vtp-nav-active ui-state-active ' }}ui-state-default ui-corner-all"
-                               href="{{ href }}" ng-click="{{ ang }}">{{ home }}</a></li>
+                        <li>
+                            <a class="vtp-resmenu-homelink {{ homeclass }}{{ (restype == '') ? 'vtp-nav-active ui-state-active ' }}ui-state-default ui-corner-all"
+                               href="{{ href }}"
+                               ng-click="{{ ang }}">
+                                {{ home }}
+                            </a>
+                        </li>
                         {% set respath = {} %}
                         {# QUERYSTRING is set only on first page load or re-load#}
                         {% if taglist is defined %}
@@ -155,13 +173,14 @@
                         {% if flagged is defined %}
                             {% set respath = respath|merge({'flagged': 1}) %}
                         {% endif %}
-                        {% for every_restype, every_resfullname in {'prj' : 'Projekt',
-                        'lex' : 'Lexikon',
-                        'pdf' : 'Pdf',
-                        'teli' : 'Textlink',
-                        'book' : 'Buch',
-                        'adr' : 'Adresse',
-                        'link' : 'Link'
+                        {% for every_restype, every_resfullname in {
+                            'prj' : 'Projekt',
+                            'lex' : 'Lexikon',
+                            'pdf' : 'Pdf',
+                            'teli' : 'Textlink',
+                            'book' : 'Buch',
+                            'adr' : 'Adresse',
+                            'link' : 'Link'
                         } %}
                             {% set respath = respath|merge({'res_type': every_restype}) %}
                             {% if resourceInfo is defined %}
@@ -170,7 +189,13 @@
                                 {% set count = 1 %}
                             {% endif %}
                             <li>
-                                <a class="vtp-resmenu-reslink {{ (every_restype == restype) ? 'vtp-nav-active ui-state-active ' }}ui-state-default ui-corner-all {{ (count == 0) ? 'ui-state-no-content' }}" href="{{ path('_resource_list', respath) }}" ng-class="{'ui-state-no-content': nav.nocontent.{{every_restype}}c}" ng-click="click({{ every_resfullname }})" id="vtp-link-{{every_restype}}s">{{ every_resfullname }}</a>
+                                <a class="vtp-resmenu-reslink {{ (every_restype == restype) ? 'vtp-nav-active ui-state-active ' }}ui-state-default ui-corner-all {{ (count == 0) ? 'ui-state-no-content' }}"
+                                   href="{{ path('_resource_list', respath) }}"
+                                   ng-class="{'ui-state-no-content': nav.nocontent.{{every_restype}}c}"
+                                   ng-click="click({{ every_resfullname }})"
+                                   id="vtp-link-{{every_restype}}s">
+                                    {{ every_resfullname }}
+                                </a>
                             </li>
                         {% endfor %}
                     </ul>

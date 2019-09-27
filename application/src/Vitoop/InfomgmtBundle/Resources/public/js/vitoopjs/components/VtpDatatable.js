@@ -148,7 +148,6 @@ export default class VtpDatatable {
         if (json.length == 0) {
             $('.table-datatables').hide();
             $('.empty-datatables').show();
-
             return;
         }
 
@@ -160,7 +159,6 @@ export default class VtpDatatable {
             });
         }
     }
-
 
     getDatatableOptions() {
         let self = this;
@@ -190,7 +188,7 @@ export default class VtpDatatable {
                 }
             },
             search: {
-                search: vitoopState.secondSearch ? vitoopState.secondSearch.searchString : ''
+                search: vitoopState.state.secondSearch ? vitoopState.state.secondSearch.searchString : ''
             },
             order: this.getDefaultOrder(),
           //  dom: vitoopApp.secondSearch.getDomPrefix() + this.dtDomObject(),

@@ -11,7 +11,6 @@ export default class VitoopApp {
     constructor () {
         this.helpButton = new HelpButton();
         this.userService = new UserService();
-
         this.user = this.getUser();
     }
 

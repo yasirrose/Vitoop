@@ -15,21 +15,13 @@ import SendLinkWidget from './widgets/sendLinkWidget';
 window.resourceDetail = (function () {
 
     var tab_loaded = [ 0, 0, 0, 0, 0 ],
-
         tab_name = [ 'quickview', 'remark', 'remark_private', 'comments', 'assignments' ],
-
         res_type = '',
-
         res_id = 0, res_id_last = 0, prev_id = 0, next_id = 0,
-
         tr_res = null,
-
         arr_tr_res_attr_id = {},
-
         refresh_list = false,
-
         isShowRating = false,
-
         viewUrl = '',
 
         setResId = function (resId) {
