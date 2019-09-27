@@ -6,13 +6,12 @@ import TinyMCEInitializer from './components/TinyMCEInitializer';
 import HttpService from "./services/HttpService";
 
 window.resourceProject = (function () {
-
     var query = HttpService.prototype.parseParams(window.location.href);
-
-    var  queryEditMode = query.edit;
+    var queryEditMode = query.edit;
 
 
     var init = function () {
+        vitoopState.commit('hideSecondSearch');
         var tinyInit = new TinyMCEInitializer();
         var options = tinyInit.getCommonOptions();
         options.selector = 'textarea#project_data_sheet';
@@ -20,7 +19,6 @@ window.resourceProject = (function () {
         options.height = 600;
         options.plugins = ['textcolor', 'link', 'projecturl'];
         options.toolbar = 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink projecturl'
-
         tinymce.init(options);
 
         $('#project_data_save').button({
@@ -28,7 +26,6 @@ window.resourceProject = (function () {
                 primary: "ui-icon-disk"
             }
         });
-
 
         $('#vtp-projectdata-project-close').button({
             icons: {

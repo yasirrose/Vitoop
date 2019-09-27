@@ -1,21 +1,66 @@
 <template>
     <transition name="fade">
-        <div v-show="show" id="vtp-second-search-box" class="dataTables_filter ui-corner-all vtp-blue">
-            <div id="search_blue_box"><input id="search_blue" v-model="isBlue" type="checkbox" value="1" name="search_blue">
-                <div v-show="showDataRange" id="search_date_range"><input id="search_date_from" class="range-filter" type="text" value="" v-model="dateFrom" name="search_date_from" placeholder="Datum von"><input id="search_date_to" class="range-filter" type="text" value="" name="search_date_to"  v-model="dateTo" placeholder="Datum bis"><button class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only" @click="dateRangeSearch" v-bind:class="{ 'ui-state-active': isDateRangeChanged }" id="vtp_search_date"><span class="ui-icon ui-icon-search"></span><span class="ui-button-text"></span></button></div>
+        <div v-show="show"
+             id="vtp-second-search-box"
+             class="dataTables_filter ui-corner-all vtp-blue">
+            <div id="search_blue_box">
+                <input id="search_blue"
+                       v-model="isBlue"
+                       type="checkbox"
+                       value="1"
+                       name="search_blue">
+                <div v-show="showDataRange"
+                     id="search_date_range">
+                    <input id="search_date_from"
+                           class="range-filter"
+                           type="text"
+                           value=""
+                           v-model="dateFrom"
+                           name="search_date_from"
+                           placeholder="Datum von">
+                    <input id="search_date_to"
+                           class="range-filter"
+                           type="text"
+                           value=""
+                           name="search_date_to"
+                           v-model="dateTo"
+                           placeholder="Datum bis">
+                    <button class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only"
+                            @click="dateRangeSearch"
+                            :class="{ 'ui-state-active': isDateRangeChanged }"
+                            id="vtp_search_date">
+                        <span class="ui-icon ui-icon-search"></span>
+                        <span class="ui-button-text"></span>
+                    </button>
+                </div>
+
+                <v-select v-show="showArtSelect"
+                          :options="artOptions"
+                          v-model="artFilter"
+                          :clearable="false">
+                </v-select>
             </div>
             <div id="vtp-second-search-panel">
                 <div id="vtp-second-search-is-read">
                     <label>
-                        <input type="checkbox" value="1" v-model="isRead"><span class="ui-button ui-state-default ui-widget ui-corner-all vtp-button"  v-bind:class="{ 'ui-state-active': isRead }">{{ getReadButtonLabel }}</span>
+                        <input type="checkbox"
+                               value="1"
+                               v-model="isRead">
+                        <span class="ui-button ui-state-default ui-widget ui-corner-all vtp-button"
+                              :class="{ 'ui-state-active': isRead }">
+                            {{ getReadButtonLabel }}
+                        </span>
                     </label>
                 </div>
                 <label>
-                    <input type="search" class="vtp-second-search-input" placeholder="ergebnisliste durchsuchen" v-model="search" aria-controls="list-link">
+                    <input type="search"
+                           class="vtp-second-search-input"
+                           placeholder="ergebnisliste durchsuchen"
+                           v-model="search"
+                           aria-controls="list-link">
                 </label>
                 <search-clear></search-clear>
             </div>
-            <v-select v-show="showArtSelect" :options="artOptions" v-model="artFilter" :clearable="false"></v-select>
         </div>
     </transition>
 </template>
@@ -73,6 +118,7 @@
                 },
                 set(value) {
                     this.$store.commit('updateSecondSearch', value);
+                    vitoopApp.vtpDatatable.rowsPerPage.checkDOMState();
                     vitoopApp.vtpDatatable && vitoopApp.vtpDatatable.refreshTable();
                 }
             },
@@ -142,7 +188,6 @@
                 return filter;
             },
             dateRangeSearch () {
-
                 vitoopApp.vtpDatatable && vitoopApp.vtpDatatable.refreshTable();
             }
         }
@@ -176,13 +221,15 @@
             line-height: 17px;
             font-size: 90%;
             vertical-align: middle;
-            margin-bottom: 1px;
         }
     }
 
     #vtp-second-search-box::v-deep {
         height: 24px;
         margin-top: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
         .dropdown {
             &.v-select {
@@ -193,7 +240,7 @@
 
         .dropdown-toggle {
             height: 22px;
-            margin-top: 1px;
+            font-size: 13px;
             padding: 0px !important;
 
             .selected-tag {
@@ -204,23 +251,26 @@
 
     #vtp-second-search-panel {
         padding: 1px;
-        float: right;
+        display: flex;
+        align-items: center;
     }
 
     .vtp-second-search-input {
         width: 220px;
+        font-size: 13px;
     }
 
     #search_date_range {
         margin-left: 120px;
-        // margin-bottom: 1px;
-        //width: 35%;
-        // padding-top: 1px;
+        display: flex;
+        align-items: center;
+
         input {
             margin-top: 0px;
             margin-right: 6px;
             width: 130px;
             vertical-align: baseline;
+            font-size: 13px;
         }
         label {
             vertical-align: baseline;
@@ -228,14 +278,14 @@
 
         #vtp_search_date {
             height: 22px;
-            margin-bottom: 1px;
         }
     }
 
     #search_blue_box {
         height: $table-row-height;
-        float: left;
         padding-right: 20px;
+        display: flex;
+        align-items: center;
     }
 
     #search_blue {

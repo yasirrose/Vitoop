@@ -26,7 +26,6 @@ export default class TagSearch {
 
         this.loadTagsFromStorage();
         this.tags.forEach(function(tag) {
-
             let isHighlighted = self.highlightedTags.indexOf(tag) !== -1;
             self.decorateTag(tag, false, isHighlighted).appendTo(self.tagSearchAreaId);
         });
@@ -46,7 +45,6 @@ export default class TagSearch {
         });
 
         $(this.tagSearchFormId).on('submit', function(e, secondSuccessFunc) {
-
             resourceList.loadResourceListPage(e, secondSuccessFunc);
             $('#vtp-search-bytags-form-submit').removeClass('act').blur();
             self.isChanged = false;
@@ -56,7 +54,7 @@ export default class TagSearch {
         if (searchByTag.length > 0) {
             searchByTag.autocomplete({
                 source: vitoop.baseUrl + (['tag', 'suggest'].join('/')) + '?extended=1&ignore='+self.ignoredTags.join(),
-                minLength: 2,
+                minLength: 1,
                 autoFocus: false,
                 select: function (event, ui) {
                     // check if tag is selected by autocomplete (ui will be defined) or
@@ -73,6 +71,10 @@ export default class TagSearch {
                     $('#vtp-search-bytags-taglist').val('');
 
                     self.updateAutocomplete(searchByTag);
+
+                    if (self.tags.length > 0) {
+                        $(self.tagSearchFormId).submit();
+                    }
                 },
                 response: function (e, ui) {
                     if (0 === ui.content.length) {
@@ -116,6 +118,8 @@ export default class TagSearch {
             $('#vtp-search-bytags-form-submit').removeClass('act').blur();
             self.isChanged = false;
             resourceList.loadResourceListPage(e);
+
+            $(self.tagSearchFormId).submit();
         });
 
         //remove tag
@@ -141,6 +145,8 @@ export default class TagSearch {
             // remove span.vtp-...-tag @TODO detach it for undo?
             parent.remove();
             self.maintainCntTags();
+
+            $(self.tagSearchFormId).submit();
         });
 
         $('#vtp-search-bytags-tagcnt').on('selectmenuchange', function () {
@@ -152,6 +158,10 @@ export default class TagSearch {
         });
 
         self.maintainCntTags();
+
+        if (this.tags.length > 0) {
+            $(this.tagSearchFormId).submit();
+        }
     }
 
     loadTagsFromStorage() {

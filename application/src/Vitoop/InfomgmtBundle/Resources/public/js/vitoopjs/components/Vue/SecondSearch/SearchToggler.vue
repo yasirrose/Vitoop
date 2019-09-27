@@ -21,7 +21,7 @@
                     return this.$store.state.searchToggler.isOpened;
                 },
                 set (value) {
-                    this.$store.commit('updateSearchToggle', value == 1);
+                    this.$store.commit('updateSearchToggle', value);
                     vitoopApp.vtpDatatable.rowsPerPage.checkDOMState();
                 }
             },
