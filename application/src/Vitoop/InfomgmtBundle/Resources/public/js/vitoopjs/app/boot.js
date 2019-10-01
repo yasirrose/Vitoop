@@ -6,6 +6,10 @@ import SecondSearch from "../components/Vue/SecondSearch/SecondSearch.vue";
 import SearchToggler from "../components/Vue/SecondSearch/SearchToggler.vue";
 import HelpButton from "../components/Vue/SecondSearch/HelpButton.vue";
 
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
 window.Vue = Vue;
 window.UserSettings = UserSettings;
 window.SecondSearch = SecondSearch;
@@ -18,6 +22,10 @@ $(function () {
     resourceDetail.init();
     resourceProject.init();
     userInteraction.init();
+
+    library.add(faCheck);
+    Vue.component('font-awesome-icon', FontAwesomeIcon);
+    Vue.config.productionTip = false;
 
     new Vue({
         el: '#vtp-second-search',

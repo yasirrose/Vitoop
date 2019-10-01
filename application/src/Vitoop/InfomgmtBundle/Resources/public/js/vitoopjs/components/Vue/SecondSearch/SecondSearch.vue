@@ -4,11 +4,18 @@
              id="vtp-second-search-box"
              class="dataTables_filter ui-corner-all vtp-blue">
             <div id="search_blue_box">
-                <input id="search_blue"
-                       v-model="isBlue"
-                       type="checkbox"
-                       value="1"
-                       name="search_blue">
+                <label class="custom-checkbox__wrapper">
+                    <input class="valid-checkbox open-checkbox-link"
+                           id="search_blue"
+                           v-model="isBlue"
+                           value="1"
+                           name="search_blue"
+                           type="checkbox"/>
+                    <span class="custom-checkbox">
+                        <img class="custom-checkbox__check"
+                             src="/img/check.png" />
+                    </span>
+                </label>
                 <div v-show="showDataRange"
                      id="search_date_range">
                     <input id="search_date_from"
@@ -33,7 +40,6 @@
                         <span class="ui-button-text"></span>
                     </button>
                 </div>
-
                 <v-select v-show="showArtSelect"
                           :options="artOptions"
                           v-model="artFilter"
