@@ -45,7 +45,9 @@
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.releaseDate) }}</div>
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.lang) }}</div>
     </div>
-    {% include 'VitoopInfomgmtBundle:Resource:_userHook.field.html.twig' with {'fvdata': fvdata, 'res': res, 'fieldSuffix': ''} %}
+    {% include 'VitoopInfomgmtBundle:Resource:_userHook.field.html.twig'
+        with {'fvdata': fvdata, 'res': res, 'fieldSuffix': '', 'restype': 'teli'}
+    %}
     {% if isShowSave %}
     <div class="vtp-fh-bottom">
         <div class="vtp-fh-w70"></div>

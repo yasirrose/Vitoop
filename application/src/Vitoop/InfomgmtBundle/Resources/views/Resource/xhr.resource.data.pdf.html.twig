@@ -56,7 +56,7 @@
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.pdfDate) }}</div>
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.lang) }}</div>
     </div>
-    {% include 'VitoopInfomgmtBundle:Resource:_userHook.field.html.twig' with {'fvdata': fvdata, 'res': res, 'fieldSuffix': '-book'} %}
+    {% include 'VitoopInfomgmtBundle:Resource:_userHook.field.html.twig' with {'fvdata': fvdata, 'res': res, 'fieldSuffix': '-book', 'restype': 'pdf'} %}
     {% if isShowSave %}
     <div class="vtp-fh-bottom">
         <div class="vtp-fh-w70"></div>

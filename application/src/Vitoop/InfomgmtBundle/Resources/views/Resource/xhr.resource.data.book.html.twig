@@ -67,7 +67,9 @@
         {{ form_errors(fvdata.kind) }}
         {{ form_errors(fvdata.year) }}
     </div>
-    {% include 'VitoopInfomgmtBundle:Resource:_userHook.field.html.twig' with {'fvdata': fvdata, 'res': res, 'fieldSuffix': '-book'} %}
+    {% include 'VitoopInfomgmtBundle:Resource:_userHook.field.html.twig'
+        with {'fvdata': fvdata, 'res': res, 'fieldSuffix': '-book', 'restype': 'book'}
+    %}
     {% if isShowSave %}
     <div class="vtp-fh-bottom">
         <div class="vtp-fh-w70"></div>
