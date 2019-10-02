@@ -227,6 +227,7 @@
             line-height: 17px;
             font-size: 90%;
             vertical-align: middle;
+            margin-right: 4px;
         }
     }
 
@@ -264,6 +265,7 @@
     .vtp-second-search-input {
         width: 220px;
         font-size: 13px;
+        padding-left: 15px;
     }
 
     #search_date_range {
@@ -273,7 +275,8 @@
 
         input {
             margin-top: 0px;
-            margin-right: 6px;
+            margin: 0;
+            margin-right: 4px;
             width: 130px;
             vertical-align: baseline;
             font-size: 13px;

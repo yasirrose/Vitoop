@@ -2,6 +2,9 @@
  * GENERAL                                               *
  ************************************************************/
 
+@import "../../../../../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
+@import "../../../../../../node_modules/@fortawesome/fontawesome-free/scss/solid";
+
 $blue-frame-border: 1px solid #aed0ea;
 $blue-active-frame-border: 1px solid #2694e8;
 $white-frame-border: 1px solid #ffffff;
@@ -499,7 +502,7 @@ table input[disabled="disabled"].vtp-uiaction-coefficient {
 #vtp-icon-clear-taglistbox {
     display: inline-block;
     position: absolute;
-    border: $blue-frame-border;
+    //border: $blue-frame-border;
     top: 0px;
     right: 4px;
     margin: 2px;
@@ -907,6 +910,7 @@ span.vtp-icon {
     position: relative;
     top: -9px;
     width: 300px;
+    margin: -4px 0 0;
 }
 
 .vtp-logo a {
@@ -1361,7 +1365,6 @@ div.divider-wrapper {
 
 
     #vtp-search-bytags-form-submit {
-        margin-left: $menu-distance;
         margin-right: 0px;
 
         &.act {
@@ -1966,6 +1969,10 @@ a.vtp-uiaction-open-url:visited {
 
         &_length {
 
+            .ui-selectmenu-text {
+                padding: 4px 2.1em 4px 1em;
+            }
+
             select {
                 width: 72px;
                 height: 24px;
@@ -1979,6 +1986,7 @@ a.vtp-uiaction-open-url:visited {
 
         &_paginate {
             flex: 1;
+            margin-right: 5px;
         }
     }
 }

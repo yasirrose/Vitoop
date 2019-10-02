@@ -25,8 +25,6 @@
 
     #vtp-search-help {
         width: 34px;
-        margin-top: 1px;
-        margin-left: $menu-distance;
         margin-right: 0px;
     }
 </style>
