@@ -1364,7 +1364,6 @@ div.divider-wrapper {
 
 
     #vtp-search-bytags-form-submit {
-        margin-left: $menu-distance;
         margin-right: 0px;
 
         &.act {
@@ -1968,6 +1967,10 @@ a.vtp-uiaction-open-url:visited {
         }
 
         &_length {
+
+            .ui-selectmenu-text {
+                padding: 4px 2.1em 4px 1em;
+            }
 
             select {
                 width: 72px;

@@ -12,7 +12,7 @@ div#menu, ul, li {
 }
 
 .vtp-menu ul {
-    margin: 1px 0px 0px;
+    margin: 0;
     padding: 0;
     float: left;
 }
@@ -34,14 +34,16 @@ div#menu, ul, li {
     font-weight: normal !important;
     text-decoration: none;
     width: auto;
+    height: 22px;
+    line-height: 22px;
 }
 
 /* Vertical alignment ul and form*/
 .vtp-menu ul li a,
 .vtp-menu ul li strong,
 #vtp-search-bytags-form {
-    line-height: 22px;
-    height: 22px;
+    //line-height: 22px;
+    //height: 22px;
 }
 
 .vtp-menu ul li a:hover,

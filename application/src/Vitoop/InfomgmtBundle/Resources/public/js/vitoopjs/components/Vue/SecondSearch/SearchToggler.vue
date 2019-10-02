@@ -39,6 +39,7 @@
 
     label {
         vertical-align: baseline;
+        display: inline-block;
     }
 
     input[type=checkbox] {
