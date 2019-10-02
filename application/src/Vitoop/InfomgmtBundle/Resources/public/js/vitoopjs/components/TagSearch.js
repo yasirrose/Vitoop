@@ -130,18 +130,18 @@ export default class TagSearch {
             let parent = $(this).parent();
             let tagtext = parent.text().trim();
             let index;
+
             self.ignoreTag(tagtext, false);
-            self.updateAutocomplete($('#vtp-search-bytags-taglist'));
-            if (!parent.hasClass('vtp-search-bytags-tag-ignore')) {
-                index = self.highlightedTags.indexOf(tagtext);
-                if (index > -1) {
-                    self.highlightedTags.splice(index, 1);
-                }
-                index = self.tags.indexOf(tagtext);
-                if (index > -1) {
-                    self.tags.splice(index, 1);
-                }
+
+            index = self.highlightedTags.indexOf(tagtext);
+            if (index > -1) {
+                self.highlightedTags.splice(index, 1);
             }
+            index = self.tags.indexOf(tagtext);
+            if (index > -1) {
+                self.tags.splice(index, 1);
+            }
+            self.updateAutocomplete($('#vtp-search-bytags-taglist'));
             // remove span.vtp-...-tag @TODO detach it for undo?
             parent.remove();
             self.maintainCntTags();
@@ -310,7 +310,7 @@ export default class TagSearch {
         }
 
         if ((this.cnttags === 0) && (this.ignoredTags.length > 0)) {
-            $('#vtp-search-bytags-form-submit').attr("disabled", "disabled");
+            // $('#vtp-search-bytags-form-submit').attr("disabled", "disabled");
         } else {
             $('#vtp-search-bytags-form-submit').removeAttr("disabled");
         }
