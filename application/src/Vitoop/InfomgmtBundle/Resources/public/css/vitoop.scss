@@ -1631,6 +1631,8 @@ form#form-tag {
         height: 24px;
         width: 45px;
         float:left;
+        display: flex;
+        align-items: center;
     }
     .vtp-fh-infosave-box-right {
         @include blue-border-radius-right();

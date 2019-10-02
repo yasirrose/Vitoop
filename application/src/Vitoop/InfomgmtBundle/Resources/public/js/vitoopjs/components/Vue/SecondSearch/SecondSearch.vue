@@ -290,6 +290,7 @@
     #search_blue_box {
         height: $table-row-height;
         padding-right: 20px;
+        padding-left: 3px;
         display: flex;
         align-items: center;
     }

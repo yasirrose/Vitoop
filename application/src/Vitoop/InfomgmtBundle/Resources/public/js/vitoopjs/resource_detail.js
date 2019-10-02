@@ -857,7 +857,7 @@ window.resourceDetail = (function () {
 
             $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title')
                 .append(`
-                    <label class="custom-checkbox__wrapper">
+                    <label class="custom-checkbox__wrapper light">
                         <input type="checkbox" 
                                id="resource-check" 
                                class="valid-checkbox" 
