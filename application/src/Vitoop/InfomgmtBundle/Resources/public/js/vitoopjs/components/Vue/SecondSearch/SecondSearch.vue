@@ -264,6 +264,7 @@
     .vtp-second-search-input {
         width: 220px;
         font-size: 13px;
+        padding-left: 15px;
     }
 
     #search_date_range {
