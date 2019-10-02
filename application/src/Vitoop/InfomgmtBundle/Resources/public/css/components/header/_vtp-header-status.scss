@@ -9,3 +9,14 @@
 #vtp-user-userdata, #vtp-admin-toolbar-toggle {
   width: 34px;
 }
+
+#vtp-user-userdata {
+
+  i.fa, i.fas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 12px;
+  }
+}
