@@ -23,6 +23,13 @@
       }
     }
 
+    &.light-blue {
+
+      .custom-checkbox {
+        background: #bcddf7;
+      }
+    }
+
     &.no-title {
       padding-left: 0;
       position: static;

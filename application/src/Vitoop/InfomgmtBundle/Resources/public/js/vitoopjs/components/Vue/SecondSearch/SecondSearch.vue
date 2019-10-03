@@ -4,7 +4,7 @@
              id="vtp-second-search-box"
              class="dataTables_filter ui-corner-all vtp-blue">
             <div id="search_blue_box">
-                <label class="custom-checkbox__wrapper">
+                <label class="custom-checkbox__wrapper light-blue">
                     <input class="valid-checkbox open-checkbox-link"
                            id="search_blue"
                            v-model="isBlue"
@@ -293,7 +293,7 @@
     #search_blue_box {
         height: $table-row-height;
         padding-right: 20px;
-        padding-left: 3px;
+        padding-left: 7px;
         display: flex;
         align-items: center;
     }
