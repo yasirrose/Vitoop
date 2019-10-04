@@ -38,6 +38,11 @@
       {% endif %}>
 <div id="vtp-wrapper">
     <div class="vtp-paddingbox">
+        <div id="test">
+            <vtp-app download-size="{{ vsettings.getCurrentDownloadsSize.getValue|number_format(2, '.', ' ') }}"
+                     :invitation="{{ vsettings.getInvitation().getValue() }}">
+            </vtp-app>
+        </div>
         <div id="vtp-header" class="ui-corner-all">
             <div id="vtp-header-status">
                 {% if is_granted('ROLE_ADMIN') %}
@@ -47,14 +52,24 @@
                         <input id="vtp-tgl-flag" class="vtp-uiaction-toggle-flag" name="flagged" type="checkbox" value="1">
                         <button class="vtp-button" type="submit">{{'label.flags.edit'|trans}}</button>
                     </form>
-                    <button class="vtp-button vtp-admin-toolbar ui-widget ui-state-default ui-corner-all ui-button-text-only" id="button-terms-admin">
+                    <button class="vtp-button vtp-admin-toolbar ui-widget ui-state-default ui-corner-all ui-button-text-only"
+                            id="button-terms-admin">
                         <span class="ui-button-text">{{'label.terms'|trans}}</span>
                     </button>
-                    <button class="vtp-button vtp-admin-toolbar ui-widget ui-state-default ui-corner-all ui-button-text-only" id="button-data-p">
+                    <button class="vtp-button vtp-admin-toolbar ui-widget ui-state-default ui-corner-all ui-button-text-only"
+                            id="button-data-p">
                         <span class="ui-button-text">{{'label.datap'|trans}}</span>
                     </button>
-                    <button class="vtp-button vtp-admin-toolbar ui-widget ui-state-default ui-corner-all ui-button-text-only" id="invitations-toggle">
-                        {{'invitations.label'|trans}}: <span>{% if (vsettings.getInvitation().getValue()) %} {{'label.checkbox.on'|trans}} {% else %} {{'label.checkbox.off'|trans}} {% endif %}</span>
+                    <button class="vtp-button vtp-admin-toolbar ui-widget ui-state-default ui-corner-all ui-button-text-only"
+                            id="invitations-toggle">
+                        {{'invitations.label'|trans}}:
+                        <span>
+                            {% if (vsettings.getInvitation().getValue()) %}
+                                {{'label.checkbox.on'|trans}}
+                            {% else %}
+                                {{'label.checkbox.off'|trans}}
+                            {% endif %}
+                        </span>
                     </button>
                     <a class="vtp-button vtp-uiaction-goto-invite vtp-admin-toolbar ui-widget ui-state-default ui-corner-all ui-button-icons-only" href="{{ path('_invite') }}" role="button" title="{{'invitations.send'|trans}}">
                         <span class="ui-button-icon-primary ui-icon ui-icon-mail-closed"></span>
@@ -88,7 +103,6 @@
                        class="vtp-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
                        title="Einstellungen">
                         <i class="fas fa-bars"></i>
-{#                        <span class="ui-buttonui-button-text-icon-primary ui-icon ui-icon-newwin"></span>#}
                         <span class="ui-button-text"></span>
                     </a>
                 {% else %}

@@ -41,6 +41,7 @@
     "uglify-js": "^3.3.21",
     "uuid": "^3.1.0",
     "vue": "^2.6.8",
+    "vue-i18n": "^8.14.1",
     "vue-loader": "^15.7.0",
     "vue-select": "^2.6.3",
     "vue-template-compiler": "^2.6.8",
