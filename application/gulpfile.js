@@ -201,7 +201,7 @@ gulp.task('scss', function () {
 gulp.task('watch', () => {
     gulp.watch('src/Vitoop/InfomgmtBundle/Resources/public/css/**/*.scss', gulp.series('scss'));
     gulp.watch([
-        'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/components/Vue/*/*.vue',
+        'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/components/Vue/*/*/*.vue',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/components/Vue/*.vue',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/components/*.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/widgets/*.js',

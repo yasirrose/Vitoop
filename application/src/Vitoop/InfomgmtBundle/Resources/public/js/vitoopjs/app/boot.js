@@ -44,6 +44,7 @@ $(function () {
 
     new Vue({
         el: '#test',
+        store: vitoopState,
         i18n,
         components: {VtpApp}
     }).$mount('#test');

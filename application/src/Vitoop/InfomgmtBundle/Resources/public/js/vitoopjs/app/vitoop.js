@@ -18,7 +18,7 @@ export default class VitoopApp {
         this.secondSearch = new SecondSearch();
         this.tagSearch = new TagSearch();
         this.tagSearch.init();
-        new AdminToolbarButton();
+        // new AdminToolbarButton();
     }
 
     initTable(resType, isAdmin, isEdit, isCoef, url, resourceId) {

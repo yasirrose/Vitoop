@@ -1,4 +1,7 @@
 export default {
+    isAdmin(state) {
+        return state.admin;
+    },
     getListFontSize(state, getters) {
         let currentFontSize = 14;
         currentFontSize -= state.user ? state.user.decrease_font_size : 0;

@@ -74,6 +74,7 @@ export default class SendLinkWidget extends Widget {
             $('#button-checking-links__wrapper').css({
                 'opacity': 0,
                 'left': '-300px',
+                'margin-left': 0
             });
             setTimeout(() => {
                 if (!this.linkStorage.isNotEmpty()) {
@@ -89,7 +90,8 @@ export default class SendLinkWidget extends Widget {
 
             $('#button-checking-links__wrapper').css({
                 'opacity': 1,
-                'left': 0
+                'left': 0,
+                'margin-left': '4px'
             })
         }
     }

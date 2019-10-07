@@ -40,103 +40,110 @@
     <div class="vtp-paddingbox">
         <div id="test">
             <vtp-app download-size="{{ vsettings.getCurrentDownloadsSize.getValue|number_format(2, '.', ' ') }}"
+                     :agree-with-term="
+                     {% if app.user.getIsAgreedWithTerms() %}
+                        {{ app.user.getIsAgreedWithTerms() }}
+                     {% else %}
+                        false
+                     {% endif %}"
                      :invitation="{{ vsettings.getInvitation().getValue() }}">
             </vtp-app>
         </div>
         <div id="vtp-header" class="ui-corner-all">
             <div id="vtp-header-status">
                 {% if is_granted('ROLE_ADMIN') %}
-                    <span class="vtp-admin-toolbar" style="margin-right: 6px; color: #2779aa">{{'label.download.size'|trans}}: {{ vsettings.getCurrentDownloadsSize.getValue|number_format(2, '.', ' ') }} {{'label.download.mb'|trans}}</span>
-                    <form id="vtp-header-toggle-flag" class="vtp-admin-toolbar" style="display:none" action="{{ path('_home') }}" method="get" enctype="application/x-www-form-urlencoded">
-                        <label for="vtp-tgl-flag" class="vtp-button">{{'label.flags.edit'|trans}}</label>
-                        <input id="vtp-tgl-flag" class="vtp-uiaction-toggle-flag" name="flagged" type="checkbox" value="1">
-                        <button class="vtp-button" type="submit">{{'label.flags.edit'|trans}}</button>
-                    </form>
-                    <button class="vtp-button vtp-admin-toolbar ui-widget ui-state-default ui-corner-all ui-button-text-only"
-                            id="button-terms-admin">
-                        <span class="ui-button-text">{{'label.terms'|trans}}</span>
-                    </button>
-                    <button class="vtp-button vtp-admin-toolbar ui-widget ui-state-default ui-corner-all ui-button-text-only"
-                            id="button-data-p">
-                        <span class="ui-button-text">{{'label.datap'|trans}}</span>
-                    </button>
-                    <button class="vtp-button vtp-admin-toolbar ui-widget ui-state-default ui-corner-all ui-button-text-only"
-                            id="invitations-toggle">
-                        {{'invitations.label'|trans}}:
-                        <span>
-                            {% if (vsettings.getInvitation().getValue()) %}
-                                {{'label.checkbox.on'|trans}}
-                            {% else %}
-                                {{'label.checkbox.off'|trans}}
-                            {% endif %}
-                        </span>
-                    </button>
-                    <a class="vtp-button vtp-uiaction-goto-invite vtp-admin-toolbar ui-widget ui-state-default ui-corner-all ui-button-icons-only" href="{{ path('_invite') }}" role="button" title="{{'invitations.send'|trans}}">
-                        <span class="ui-button-icon-primary ui-icon ui-icon-mail-closed"></span>
-                        <span class="ui-button-icon-secondary ui-icon ui-icon-pencil"></span>
-                    </a>
-                    <a class="vtp-button vtp-uiaction-goto-edithome vtp-admin-toolbar ui-widget ui-state-default ui-corner-all ui-button-icons-only" href="{{ path('_edit_vitoop_blog') }}" title="{{'homepage.edit'|trans}}">
-                        <span class="ui-button-icon-primary ui-icon ui-icon-home"></span>
-                        <span class="ui-button-icon-secondary ui-icon ui-icon-pencil"></span>
-                    </a>
+{#                    <span class="vtp-admin-toolbar" style="margin-right: 6px; color: #2779aa">{{'label.download.size'|trans}}: {{ vsettings.getCurrentDownloadsSize.getValue|number_format(2, '.', ' ') }} {{'label.download.mb'|trans}}</span>#}
+{#                    <form id="vtp-header-toggle-flag" class="vtp-admin-toolbar" style="display:none" action="{{ path('_home') }}" method="get" enctype="application/x-www-form-urlencoded">#}
+{#                        <label for="vtp-tgl-flag" class="vtp-button">{{'label.flags.edit'|trans}}</label>#}
+{#                        <input id="vtp-tgl-flag" class="vtp-uiaction-toggle-flag" name="flagged" type="checkbox" value="1">#}
+{#                        <button class="vtp-button" type="submit">{{'label.flags.edit'|trans}}</button>#}
+{#                    </form>#}
+{#                    <button class="vtp-button vtp-admin-toolbar ui-widget ui-state-default ui-corner-all ui-button-text-only"#}
+{#                            id="button-terms-admin">#}
+{#                        <span class="ui-button-text">{{'label.terms'|trans}}</span>#}
+{#                    </button>#}
+{#                    <button class="vtp-button vtp-admin-toolbar ui-widget ui-state-default ui-corner-all ui-button-text-only"#}
+{#                            id="button-data-p">#}
+{#                        <span class="ui-button-text">{{'label.datap'|trans}}</span>#}
+{#                    </button>#}
+{#                    <button class="vtp-button vtp-admin-toolbar ui-widget ui-state-default ui-corner-all ui-button-text-only"#}
+{#                            id="invitations-toggle">#}
+{#                        {{'invitations.label'|trans}}:#}
+{#                        <span>#}
+{#                            {% if (vsettings.getInvitation().getValue()) %}#}
+{#                                {{'label.checkbox.on'|trans}}#}
+{#                            {% else %}#}
+{#                                {{'label.checkbox.off'|trans}}#}
+{#                            {% endif %}#}
+{#                        </span>#}
+{#                    </button>#}
+{#                    <a class="vtp-button vtp-uiaction-goto-invite vtp-admin-toolbar ui-widget ui-state-default ui-corner-all ui-button-icons-only" href="{{ path('_invite') }}" role="button" title="{{'invitations.send'|trans}}">#}
+{#                        <span class="ui-button-icon-primary ui-icon ui-icon-mail-closed"></span>#}
+{#                        <span class="ui-button-icon-secondary ui-icon ui-icon-pencil"></span>#}
+{#                    </a>#}
+{#                    <a class="vtp-button vtp-uiaction-goto-edithome vtp-admin-toolbar ui-widget ui-state-default ui-corner-all ui-button-icons-only" href="{{ path('_edit_vitoop_blog') }}" title="{{'homepage.edit'|trans}}">#}
+{#                        <span class="ui-button-icon-primary ui-icon ui-icon-home"></span>#}
+{#                        <span class="ui-button-icon-secondary ui-icon ui-icon-pencil"></span>#}
+{#                    </a>#}
                 {% endif %}
                 {% if app.user %}
-                    <div id="button-checking-links__wrapper">
-                        <button class="vtp-button" id="button-checking-links-remove" title="{{ 'label.remove.tooltip'|trans }}" style="display:none">x</button>
-                        <button class="vtp-button" id="button-checking-links" title="{{'label.open.tooltip'|trans}}" style="display:none">{{'label.open'|trans}}</button>
-                        <button class="vtp-button" id="button-checking-links-send" title="{{ 'label.send.tooltip'|trans }}" style="display:none">{{'label.send'|trans}}</button>
-                    </div>
-                    <form id="vtp-header-login" action="{{ path('_logout') }}" method="get" enctype="application/x-www-form-urlencoded">
-                        <button id="vtp-user-loginform-logout" class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-text-icon-secondary" role="button" title="{{'logout.message'|trans}}" value="{{'logout.label'|trans}}" type="submit">
-                            <span class="ui-button-text">{{  app.user.username }}</span>
-                            <span class="ui-button-icon-secondary ui-icon ui-icon-power"></span>
-                        </button>
-                    </form>
+{#                    <div id="button-checking-links__wrapper">#}
+{#                        <button class="vtp-button" id="button-checking-links-remove" title="{{ 'label.remove.tooltip'|trans }}" style="display:none">x</button>#}
+{#                        <button class="vtp-button" id="button-checking-links" title="{{'label.open.tooltip'|trans}}" style="display:none">{{'label.open'|trans}}</button>#}
+{#                        <button class="vtp-button" id="button-checking-links-send" title="{{ 'label.send.tooltip'|trans }}" style="display:none">{{'label.send'|trans}}</button>#}
+{#                    </div>#}
+{#                    <form id="vtp-header-login" action="{{ path('_logout') }}" method="get" enctype="application/x-www-form-urlencoded">#}
+{#                        <button id="vtp-user-loginform-logout" class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-text-icon-secondary" role="button" title="{{'logout.message'|trans}}" value="{{'logout.label'|trans}}" type="submit">#}
+{#                            <span class="ui-button-text">{{  app.user.username }}</span>#}
+{#                            <span class="ui-button-icon-secondary ui-icon ui-icon-power"></span>#}
+{#                        </button>#}
+{#                    </form>#}
                 {% if is_granted('ROLE_ADMIN') %}
-                    <button id="vtp-admin-toolbar-toggle" class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only">
-                        <span class="ui-button-icon-primary ui-icon ui-icon-notice"></span>
-                        <span class="ui-button-text"></span>
-                    </button>
+{#                    <button id="vtp-admin-toolbar-toggle" class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only">#}
+{#                        <span class="ui-button-icon-primary ui-icon ui-icon-notice"></span>#}
+{#                        <span class="ui-button-text"></span>#}
+{#                    </button>#}
                 {% endif %}
-                    <a href="{{ path('user_settings') }}"
-                       id="vtp-user-userdata"
-                       class="vtp-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-                       title="Einstellungen">
-                        <i class="fas fa-bars"></i>
-                        <span class="ui-button-text"></span>
-                    </a>
+{#                    <a href="{{ path('user_settings') }}"#}
+{#                       id="vtp-user-userdata"#}
+{#                       class="vtp-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"#}
+{#                       title="Einstellungen">#}
+{#                        <i class="fas fa-bars"></i>#}
+{#                        <span class="ui-button-text"></span>#}
+{#                    </a>#}
                 {% else %}
-                        <form id="vtp-header-login" action="{{ path('_login_check') }}" method="post" enctype="application/x-www-form-urlencoded">
-                            <div class="login-container">
-                                <div class="vtp-fh-w5">
-                                    <button id="vtp-user-loginform-login" class="vtp-button ui-state-default" value="login" tabindex="3" type="submit">
-                                        {% if app.user %}
-                                            {{'label.signin'|trans}}
-                                        {% endif %}
-                                    </button>
-                                </div>
-                                <div class="vtp-fh-w16 forgotPass" style="width: 167px">
-                                    <input id="password" name="_password" type="password" tabindex="2" placeholder="{{'label.password'|trans}}" style="width: 94%">
-                                    <a href="{{ path('forgot_password') }}">{{'label.forgot.password'|trans}}</a>
-                                </div>
-                                <div class="vtp-fh-w16" style="width: 167px">
-                                    <input id="username" style="width: 94%" name="_username" tabindex="1" type="text" placeholder="{{'label.username'|trans}}" {% if last_username is defined %}value="{{ last_username }}" {% endif %}>
-                                    {% if (vsettings.getInvitation().getValue() == true) %}
-                                        <a href="{{ path('new_invitation') }}">{{'label.signup'|trans}}</a>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </form><br/>
+{#                        <form id="vtp-header-login" action="{{ path('_login_check') }}" method="post" enctype="application/x-www-form-urlencoded">#}
+{#                            <div class="login-container">#}
+{#                                <div class="vtp-fh-w5">#}
+{#                                    <button id="vtp-user-loginform-login" class="vtp-button ui-state-default" value="login" tabindex="3" type="submit">#}
+{#                                        {% if app.user %}#}
+{#                                            {{'label.signin'|trans}}#}
+{#                                        {% endif %}#}
+{#                                    </button>#}
+{#                                </div>#}
+{#                                <div class="vtp-fh-w16 forgotPass" style="width: 167px">#}
+{#                                    <input id="password" name="_password" type="password" tabindex="2" placeholder="{{'label.password'|trans}}" style="width: 94%">#}
+{#                                    <a href="{{ path('forgot_password') }}">{{'label.forgot.password'|trans}}</a>#}
+{#                                </div>#}
+{#                                <div class="vtp-fh-w16" style="width: 167px">#}
+{#                                    <input id="username" style="width: 94%" name="_username" tabindex="1" type="text" placeholder="{{'label.username'|trans}}" {% if last_username is defined %}value="{{ last_username }}" {% endif %}>#}
+{#                                    {% if (vsettings.getInvitation().getValue() == true) %}#}
+{#                                        <a href="{{ path('new_invitation') }}">{{'label.signup'|trans}}</a>#}
+{#                                    {% endif %}#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </form><br/>#}
                 {% endif %}
             </div>
-            <div class="vtp-logo">
-                <span class="beta-status">
-                    beta
-                </span>
-                <a href="{{ path('_base_url') }}">
-                    vitoop<span>.org</span>
-                </a>
-            </div>
+{#            <div class="vtp-logo">#}
+{#                <span class="beta-status">#}
+{#                    beta#}
+{#                </span>#}
+{#                <a href="{{ path('_base_url') }}">#}
+{#                    vitoop<span>.org</span>#}
+{#                </a>#}
+{#            </div>#}
+            {{ app.user.getIsAgreedWithTerms() }}
             {% if (not app.user) or (app.user.getIsAgreedWithTerms()) %}
                 <div id="vtp-nav" class="vtp-menu ui-helper-clearfix ui-corner-all">
                     <input id="resourceInfo"

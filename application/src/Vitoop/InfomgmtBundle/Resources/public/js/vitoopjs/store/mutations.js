@@ -1,6 +1,9 @@
 import initialState from './state'
 
 export default {
+    setAdmin(state, status) {
+        state.admin = status;
+    },
     showSecondSearch: function (state) {
         state.secondSearch.show = true;
     },
