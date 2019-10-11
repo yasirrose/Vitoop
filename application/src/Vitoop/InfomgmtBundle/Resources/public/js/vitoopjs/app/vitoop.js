@@ -2,7 +2,6 @@ import VtpDatatable from '../components/VtpDatatable';
 import TinyMCEInitializer from '../components/TinyMCEInitializer';
 import SecondSearch from "../components/SecondSearch";
 import HelpButton from '../components/HelpButton';
-import AdminToolbarButton from '../components/AdminToolbarButton';
 import TagSearch from "../components/TagSearch";
 import ResourcePopup from "../components/ResourcePopup";
 import UserService from "../services/User/UserService";
@@ -18,7 +17,6 @@ export default class VitoopApp {
         this.secondSearch = new SecondSearch();
         this.tagSearch = new TagSearch();
         this.tagSearch.init();
-        // new AdminToolbarButton();
     }
 
     initTable(resType, isAdmin, isEdit, isCoef, url, resourceId) {

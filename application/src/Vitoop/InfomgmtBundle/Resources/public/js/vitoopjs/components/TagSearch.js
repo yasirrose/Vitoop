@@ -23,7 +23,6 @@ export default class TagSearch {
 
     init() {
         let self = this;
-
         this.loadTagsFromStorage();
         this.tags.forEach(function(tag) {
             let isHighlighted = self.highlightedTags.indexOf(tag) !== -1;
@@ -34,8 +33,7 @@ export default class TagSearch {
             self.decorateTag(tag, isIgnored, false).appendTo(self.tagSearchAreaId);
         });
         $(this.tagCntId).val(self.tagcnt);
-        $(this.tagCntId).selectmenu("refresh");
-
+        $(this.tagCntId).selectmenu().selectmenu("refresh", true);
         $(this.tagSearchFormId).on('keypress', this.tagSearchListId, function (e) {
             if (e.keyCode == 13) {
                 // prevent submitting the form by hitting the enter key (or
@@ -88,8 +86,8 @@ export default class TagSearch {
                             i -= 1;
                         }
                     }
-                }}
-            ).data("ui-autocomplete")._renderItem = function(ul, item) {
+                }
+            }).data("ui-autocomplete")._renderItem = function(ul, item) {
                 item.label = item.text;
                 let span = "<div class='vtp-search-bytags-item'>"+item.text + "</div><span>"+item.cnt+"</span>";
                 if (item.cnt == "") {

@@ -82,6 +82,15 @@ export default {
     setResource: function (state, value) {
         state.resource = value;
     },
+    setResourceInfo(state, info) {
+        state.resource.info = info;
+    },
+    setResourceId(state, id) {
+        state.resource.id = id;
+    },
+    setResourceType(state, type) {
+        state.resource.type = type;
+    },
     resetSecondSearch: function(state) {
         const secondSearch = initialState.secondSearch;
         Object.keys(secondSearch).forEach(key => {

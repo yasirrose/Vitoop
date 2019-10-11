@@ -2,7 +2,7 @@
     <button id="vtp-search-help"
             help-area="search"
             class="vtp-button vtp-help-area-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only"
-            @click="showHelp('search')">
+            @click="showHelp('search', $event)">
         <span class="ui-icon ui-icon-help"></span>
         <span class="ui-button-text"></span>
     </button>
@@ -12,7 +12,8 @@
     export default {
         name: "HelpButton",
         methods: {
-            showHelp: function (area) {
+            showHelp(area,event) {
+                event.preventDefault();
                 vitoopApp.helpButton.setHelpArea(area);
                 $('#vtp-res-dialog-help').dialog('open');
             }

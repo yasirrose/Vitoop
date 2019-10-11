@@ -1,7 +1,9 @@
 export default {
+    projectId: null,
     resource: {
         type: null,
-        id: null
+        id: null,
+        info: null
     },
     secondSearch: {
         show: false,

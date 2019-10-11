@@ -46,7 +46,8 @@
                 <span class="ui-button-icon-secondary ui-icon ui-icon-pencil"></span>
             </a>
         </div>
-        <div v-if="$store.state.user !== null" style="margin-right: 2px;">
+        <div v-if="$store.state.user !== null"
+             style="display: flex;align-items: center;">
             <div id="button-checking-links__wrapper">
                 <button class="vtp-button ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
                         id="button-checking-links-remove"
@@ -70,6 +71,7 @@
             <form id="vtp-header-login"
                   action="/logout"
                   method="get"
+                  style="margin: 0 3px;"
                   enctype="application/x-www-form-urlencoded">
                 <button id="vtp-user-loginform-logout"
                         class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-text-icon-secondary"
@@ -81,24 +83,22 @@
                     <span class="ui-button-icon-secondary ui-icon ui-icon-power"></span>
                 </button>
             </form>
-        </div>
-        <div v-if="isAdmin" style="margin-right: 2px;">
             <button id="vtp-admin-toolbar-toggle"
+                    v-if="isAdmin" style="margin-right: 3px;"
                     @click="adminToolBar.toggle()"
                     class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only">
                 <span class="ui-button-icon-primary ui-icon ui-icon-notice"></span>
                 <span class="ui-button-text"></span>
             </button>
+            <a href="/user/settings"
+               id="vtp-user-userdata"
+               class="vtp-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+               title="Einstellungen">
+                <i class="fas fa-bars"></i>
+                <span class="ui-button-text"></span>
+            </a>
         </div>
-        <a href="/user/settings"
-           v-if="$store.state.user !== null"
-           id="vtp-user-userdata"
-           class="vtp-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-           title="Einstellungen">
-            <i class="fas fa-bars"></i>
-            <span class="ui-button-text"></span>
-        </a>
-        <div v-if="$store.state.user === null">
+        <div v-else>
             <form id="vtp-header-login"
                   action="/login_check"
                   method="post"

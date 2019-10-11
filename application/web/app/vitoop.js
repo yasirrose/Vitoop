@@ -3,42 +3,42 @@
 var app = angular.module('vitoop', ['ui.tinymce', 'angucomplete', 'validation.match', 'as.sortable', 'ngScrollbars']);
 
 app.controller('MainController', function ($scope, $http, $compile) {
-    $scope.content = '';
-    $scope.nav = {
-        resourceInfo: '',
-        nocontent: {}
-    };
-    $scope.$watch('nav.resourceInfo', function (resourceInfo, oldval) {
-        $scope.nav.nocontent = {};
-        angular.forEach(resourceInfo, function(value, resType) {
-            if (value == 0) {
-                $scope.nav.nocontent[resType] = true;
-            } else {
-                $scope.nav.nocontent[resType] = false;
-            }
-        });
-    }, true);
-    $scope.click = function(text) {
-        //IE fix - before it user can't focus on inputs after TinyMCE was clicked
-        setTimeout(function() {
-            $('#vtp-search-bytags-taglist').focus();
-            $('#vtp-search-bytags-taglist').blur();
-        }, 1000);
-        if (text == 'home') {
-            location.href = vitoop.baseUrl + "userhome";
-            return false;
-        };
-        if (text == 'prjhome') {
-            $('#vtp-content').hide();
-            setTimeout(function () {
-                $compile(document.getElementById('prjcontroller'))($scope);
-            }, 1000);
-            setTimeout(function () {
-                $('#vtp-content').show();
-            }, 1200);
-
-        }
-    };
+    // $scope.content = '';
+    // $scope.nav = {
+    //     resourceInfo: '',
+    //     nocontent: {}
+    // };
+    // $scope.$watch('nav.resourceInfo', function (resourceInfo, oldval) {
+    //     $scope.nav.nocontent = {};
+    //     angular.forEach(resourceInfo, function(value, resType) {
+    //         if (value == 0) {
+    //             $scope.nav.nocontent[resType] = true;
+    //         } else {
+    //             $scope.nav.nocontent[resType] = false;
+    //         }
+    //     });
+    // }, true);
+    // $scope.click = function(text, x) {
+    //     //IE fix - before it user can't focus on inputs after TinyMCE was clicked
+    //     setTimeout(function() {
+    //         $('#vtp-search-bytags-taglist').focus();
+    //         $('#vtp-search-bytags-taglist').blur();
+    //     }, 1000);
+    //     if (text == 'home') {
+    //         location.href = vitoop.baseUrl + "userhome";
+    //         return false;
+    //     };
+    //     if (text == 'prjhome') {
+    //         $('#vtp-content').hide();
+    //         setTimeout(function () {
+    //             $compile(document.getElementById('prjcontroller'))($scope);
+    //         }, 1000);
+    //         setTimeout(function () {
+    //             $('#vtp-content').show();
+    //         }, 1200);
+    //
+    //     }
+    // };
 });
 
 app.controller('PrjController', function ($scope, $http, $filter, $timeout) {

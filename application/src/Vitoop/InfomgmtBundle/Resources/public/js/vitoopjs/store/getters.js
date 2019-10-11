@@ -19,5 +19,8 @@ export default {
         }
 
         return originalPageNumber - offset;
+    },
+    getResource: (state) => (key) => {
+        return state.resource[key];
     }
 }
