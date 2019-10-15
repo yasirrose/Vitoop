@@ -143,6 +143,8 @@
 
 <script>
     import {mapGetters} from 'vuex'
+    import SendLinkWidget from '../../../widgets/sendLinkWidget'
+
     export default {
         name: "AppHeaderStatus",
         inject: [
@@ -166,6 +168,77 @@
         },
         computed: {
             ...mapGetters(['isAdmin'])
+        },
+        mounted() {
+            this.sendLinkWidget = new SendLinkWidget();
+            this.sendLinkWidget.checkOpenButtonState();
+
+            $('#button-checking-links-remove').off().on('click', (e) => {
+                this.sendLinkWidget.clear();
+                e.stopPropagation();
+                return false;
+            });
+
+            $('#button-checking-links').off().on('click', (e) => {
+                let resourcesCount = this.sendLinkWidget.linkStorage.getAllResourcesSize();
+
+                if (resourcesCount >= 10 && vitoop.isCheckMaxLinks) {
+                    $('#vtp-res-dialog-prompt-links').dialog({
+                        autoOpen: false,
+                        width: 500,
+                        modal: true,
+                        position: { my: 'center top', at: 'center top', of: '#vtp-nav' },
+                        buttons: {
+                            "Abbrechen": function() {
+                                $(this).dialog("close");
+                                return;
+                            },
+                            "Öffnen": function() {
+                                this.sendLinkWidget.openAllLinks();
+                                $(this).dialog("close");
+                                return;
+                            }
+                        }
+                    });
+                    $('#vtp-res-dialog-prompt-links').dialog('open');
+                    $('#vtp-res-dialog-prompt-links').html("<p>Bist Du sicher, dass Du " + resourcesCount + " Tabs auf einmal öffen willst?</p>"+
+                        "<p><input type='checkbox' class='valid-checkbox' id='vtp-is-check-max-link' value='0' /> nicht nochmal fragen</p>");
+
+                    $('#vtp-is-check-max-link').on('change', () => {
+                        $.ajax({
+                            method: "PATCH",
+                            url: vitoop.baseUrl + "api/user/me",
+                            data:JSON.stringify({
+                                is_check_max_link: !$('#vtp-is-check-max-link').prop('checked')
+                            }),
+                            dataType: 'json',
+                            success: function(data) {
+                                vitoop.isCheckMaxLinks = data.is_check_max_link;
+                            }
+                        });
+                    });
+
+                } else {
+                    this.sendLinkWidget.openAllLinks();
+                }
+
+                e.stopPropagation();
+                return false;
+            });
+
+            $('#button-checking-links-send').off().on('click', (e) => {
+                $('#vtp-res-dialog-links').dialog({
+                    autoOpen: false,
+                    width: 720,
+                    modal: true,
+                    position: { my: 'center top', at: 'center top', of: '#vtp-nav' },
+                });
+                $('#vtp-res-dialog-links').dialog('open');
+                this.sendLinkWidget.getFormFromServer(document.getElementById('sendlink-url').value);
+
+                e.stopPropagation();
+                return false;
+            });
         },
         methods: {
             invitationValueText() {
