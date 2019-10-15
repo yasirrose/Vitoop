@@ -1,7 +1,7 @@
 <template>
     <div>
         <app-header :loading="loading" />
-<!--        <app-content />-->
+        <app-content />
     </div>
 </template>
 
@@ -13,25 +13,22 @@
     export default {
         name: "VtpApp",
         props: [
+            'project',
+            'lexicon',
             'downloadSize',
             'invitation',
             'agreeWithTerm',
-            'projectId',
-            'projectName',
-            'lexiconId',
-            'lexiconName',
             'resourceInfo',
             'asProjectOwner'
         ],
         provide() {
             return {
+                project: this.project,
+                lexicon: this.lexicon,
                 downloadSize: this.downloadSize,
                 invitationValue: this.invitation,
                 agreeWithTerm: this.agreeWithTerm,
-                projectId: this.projectId,
-                projectName: this.projectName,
-                lexiconId: this.lexiconId,
-                lexiconName: this.lexiconName,
+                resourceInfo: this.resourceInfo,
                 asProjectOwner: this.asProjectOwner
             }
         },
@@ -65,8 +62,8 @@
             resourceProject.init();
             userInteraction.init();
 
-            if (this.projectId || this.lexiconId) {
-                const id = this.projectId !== null ? this.projectId : this.lexiconId;
+            if (this.project.id || this.lexicon.id) {
+                const id = this.project.id !== null ? this.project.id : this.lexicon.id;
                 this.$store.commit('setResourceId', id);
             } else {
                 this.$store.commit('setResourceId', null);

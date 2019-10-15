@@ -39,11 +39,29 @@
 <div id="vtp-wrapper">
     <div class="vtp-paddingbox">
         <div id="vtp-app">
+{#            set projectObj#}
+            {% set prjCreatedAt = project.getCreatedAt|date('d.m.Y') %}
+            {% set projectObj = {
+                id: project.id,
+                name: project.name,
+                data: project.projectdata.sheet,
+                user_name: project.user.username,
+                created: prjCreatedAt
+            } %}
+{#            set lexiconObj#}
+            {% set lexiconObj = {
+                id: lexicon.id,
+                name: lexicon.name,
+                data: lexicon.getDescription,
+                wikiFullUrl: lexicon.wikifullurl,
+                wikiRedirects: lexicon.wikiredirects,
+                lexicons: lexicons
+            } %}
+            {{ editMode }}
             <vtp-app download-size="{{ vsettings.getCurrentDownloadsSize.getValue|number_format(2, '.', ' ') }}"
-                     :project-id="{{ project.id|json_encode() }}"
-                     :project-name="{{ project.name|json_encode() }}"
-                     :lexicon-id="{{ lexicon.id|json_encode() }}"
-                     :lexicon-name="{{ lexicon.name|json_encode() }}"
+                     :project="{{ projectObj|json_encode() }}"
+                     :lexicon="{{ lexiconObj|json_encode() }}"
+                     :edit-mode="{{ editMode|json_encode() }}"
                      :resource-info="{{ resourceInfo|json_encode() }}"
                      :agree-with-term="
                         {% if app.user.getIsAgreedWithTerms() %}
@@ -58,10 +76,10 @@
 {#        <div id="vtp-header" class="ui-corner-all">#}
 {#            <div id="vtp-cmstitle">{% block cmstitle %}{% endblock %}</div>#}
 {#        </div>#}
-        <div id="vtp-content">
-            {% block content %}
-            {% endblock %}
-        </div>
+{#        <div id="vtp-content">#}
+{#            {% block content %}#}
+{#            {% endblock %}#}
+{#        </div>#}
         <div id="vtp-footer-wrapper">
             <app-footer :agree-with-term="
                         {% if app.user.getIsAgreedWithTerms() %}

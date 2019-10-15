@@ -5,14 +5,14 @@
             <li>
                 <a class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
                    :class="{'vtp-nav-active ui-state-active': getResource('type') === ''}"
-                   :href="`/project/${projectId}`"
-                   v-if="projectId !== null">
+                   :href="`/project/${project.id}`"
+                   v-if="project.id !== null">
                     Projekt-Hauptseite
                 </a>
                 <a class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
                    :class="{'vtp-nav-active ui-state-active': getResource('type') === ''}"
-                   :href="`/lexicon/${lexiconId}`"
-                   v-else-if="lexiconId !== null">
+                   :href="`/lexicon/${lexicon.id}`"
+                   v-else-if="lexicon.id !== null">
                     {{ $t('page.lexicon') }}
                 </a>
                 <a class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
@@ -48,8 +48,8 @@
         components: { SearchByTags },
         inject: [
             'agreeWithTerm',
-            'projectId',
-            'lexiconId'
+            'project',
+            'lexicon'
         ],
         data() {
             return {
@@ -81,16 +81,16 @@
                 }
             },
             getProjectId() {
-                return this.projectId !== null ? `project=${this.projectId}` : '';
+                return this.project.id !== null ? `project=${this.project.id}` : '';
             },
             getLexiconId() {
-                return this.lexiconId !== null ? `lexicon=${this.lexiconId}` : '';
+                return this.lexicon.id !== null ? `lexicon=${this.lexicon.id}` : '';
             },
             isResource() {
-                if (this.projectId !== null) {
-                    return `project=${this.projectId}`;
-                } else if (this.lexiconId !== null) {
-                    return `lexicon=${this.lexiconId}`;
+                if (this.project.id !== null) {
+                    return `project=${this.project.id}`;
+                } else if (this.lexicon.id !== null) {
+                    return `lexicon=${this.lexicon.id}`;
                 }
             }
         },

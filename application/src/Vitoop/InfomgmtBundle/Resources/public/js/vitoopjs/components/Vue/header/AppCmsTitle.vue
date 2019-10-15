@@ -1,12 +1,12 @@
 <template>
     <div id="vtp-cmstitle">
-        <div v-if="projectId"
+        <div v-if="project.id"
              id="vtp-projectdata-title"
              class="ui-corner-all">
             <span class="vtp-title__text">
-                {{ $t('label.project') }}: {{ projectName }}
+                {{ $t('label.project') }}: {{ project.name }}
             </span>
-            <input type="hidden" id="projectID" :value="projectId"/>
+            <input type="hidden" id="projectID" :value="project.id"/>
             <div class="vtp-title__buttons">
                 <button id="vtp-projectdata-project-help"
                         help-area="project"
@@ -23,10 +23,10 @@
                         class=""></button>
             </div>
         </div>
-        <div v-else-if="lexiconId"
+        <div v-else-if="lexicon.id"
              id="vtp-lexicondata-title"
              class="ui-corner-all">
-            <span>{{ $t('label.lexicon') }}: {{ lexiconName }}</span>
+            <span>{{ $t('label.lexicon') }}: {{ lexicon.name }}</span>
             <button id="vtp-lexicondata-lexicon-help"
                     help-area="lexicon"
                     class="vtp-help-area-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only">
@@ -43,10 +43,8 @@
         name: "AppCmsTitle",
         inject: [
             'asProjectOwner',
-            'projectId',
-            'projectName',
-            'lexiconId',
-            'lexiconName'
+            'project',
+            'lexicon',
         ],
     }
 </script>
