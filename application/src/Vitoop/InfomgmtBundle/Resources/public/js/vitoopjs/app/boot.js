@@ -42,11 +42,4 @@ $(function () {
         i18n,
         components: {VtpApp}
     }).$mount('#vtp-app');
-
-    new Vue({
-        el: '#vtp-footer-wrapper',
-        store: vitoopState,
-        i18n,
-        components: {AppFooter}
-    }).$mount('#vtp-footer-wrapper');
 });

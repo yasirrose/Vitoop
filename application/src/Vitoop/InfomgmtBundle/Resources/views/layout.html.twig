@@ -74,21 +74,6 @@
                      :as-project-owner="{{ showasprojectowner|json_encode() }}">
             </vtp-app>
         </div>
-{#        <div id="vtp-header" class="ui-corner-all">#}
-{#            <div id="vtp-cmstitle">{% block cmstitle %}{% endblock %}</div>#}
-{#        </div>#}
-{#        <div id="vtp-content">#}
-{#            {% block content %}#}
-{#            {% endblock %}#}
-{#        </div>#}
-        <div id="vtp-footer-wrapper">
-            <app-footer :agree-with-term="
-                        {% if app.user.getIsAgreedWithTerms() %}
-                            {{ app.user.getIsAgreedWithTerms() }}
-                        {% else %}
-                            false
-                        {% endif %}" />
-        </div>
     </div>
     {% if app.user %}
         {% include 'VitoopInfomgmtBundle:Resource:dialogs.html.twig' %}

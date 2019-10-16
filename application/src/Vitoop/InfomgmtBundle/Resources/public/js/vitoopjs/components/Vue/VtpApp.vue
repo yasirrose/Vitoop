@@ -2,6 +2,7 @@
     <div>
         <app-header :loading="loading" />
         <app-content />
+        <app-footer />
     </div>
 </template>
 
@@ -9,6 +10,7 @@
     import VitoopApp from "../../app/vitoop";
     import AppHeader from './header/AppHeader.vue';
     import AppContent from "./components/AppContent.vue";
+    import AppFooter from "./footer/AppFooter.vue";
 
     // styles for quill text editor
     import 'quill/dist/quill.core.css'
@@ -39,7 +41,7 @@
                 editMode: this.editMode
             }
         },
-        components: { AppHeader, AppContent },
+        components: { AppFooter, AppHeader, AppContent },
         data() {
             return {
                 loading: true

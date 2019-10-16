@@ -6,7 +6,6 @@
                 <span class="vtp-icon ui-icon ui-icon-info"></span>{{ "infoprojectdata" }}
             </div>
 <!--            {% endif %}-->
-<!--            {% if editMode %}-->
             <div v-if="editProject">
 <!--                <input type="text"-->
 <!--                       style="display: none"-->
@@ -27,7 +26,7 @@
                         <div>
                             <button @click="save"
                                     class="ui-corner-all ui-state-default"
-                                    :class="{'ui-corner-all ui-state-need-to-save': false}"
+                                    :class="{'ui-corner-all ui-state-need-to-save': needToSave}"
                                     style="padding-bottom: 5px; padding-top: 5px; width: 100%">speichern</button>
                         </div>
                         <div style="vertical-align: bottom; text-align: left; color: #2779aa; font-size: 14px; padding-top: 10px;">
@@ -118,7 +117,6 @@
 <!--                    {%endif%}-->
                 </div>
             </div>
-<!--            {% endif %}-->
         </div>
     </div>
 </template>
@@ -141,7 +139,18 @@
                 tinymceOptions: null,
 
                 options: [],
-                user: null
+                user: null,
+                needToSave: false
+            }
+        },
+        watch: {
+            editProject: {
+                deep: true,
+                handler(val, oldVal) {
+                    if (oldVal !== null) {
+                        this.needToSave = true;
+                    }
+                }
             }
         },
         mounted() {
@@ -174,9 +183,10 @@
                     .catch(err => console.dir(err));
             },
             save() {
-                axios.post(`/api/project/${this.project.id}`)
+                axios.post(`/api/project/${this.project.id}`, this.editProject)
                     .then(response => {
                         console.log(response);
+                        this.needToSave = false;
                     })
                     .catch(err => console.dir(err));
             },
@@ -205,6 +215,26 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+    #vtp-projectdata-sheet-info-edit {
+        overflow: visible;
+    }
 
+    .dropdown {
+        margin-bottom: 7px;
+    }
+
+    .vtp-new-user-search {
+
+        &::v-deep {
+
+            .dropdown-toggle {
+                background: white;
+            }
+
+            .form-control {
+                margin-top: 0 !important;
+            }
+        }
+    }
 </style>
