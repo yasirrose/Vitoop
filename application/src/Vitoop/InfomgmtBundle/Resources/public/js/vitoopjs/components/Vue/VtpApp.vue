@@ -1,7 +1,7 @@
 <template>
     <div>
         <app-header :loading="loading" />
-        <app-content />
+<!--        <app-content />-->
     </div>
 </template>
 
@@ -19,7 +19,8 @@
             'invitation',
             'agreeWithTerm',
             'resourceInfo',
-            'asProjectOwner'
+            'asProjectOwner',
+            'editMode'
         ],
         provide() {
             return {
@@ -29,7 +30,8 @@
                 invitationValue: this.invitation,
                 agreeWithTerm: this.agreeWithTerm,
                 resourceInfo: this.resourceInfo,
-                asProjectOwner: this.asProjectOwner
+                asProjectOwner: this.asProjectOwner,
+                editMode: this.editMode
             }
         },
         components: { AppHeader, AppContent },

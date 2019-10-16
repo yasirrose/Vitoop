@@ -14,13 +14,14 @@
         components: {
             AppProject, AppProjectEdit
         },
+        inject: ['editMode'],
         data() {
             return {
                 edit: false
             }
         },
         mounted() {
-
+            this.edit = this.editMode === "1";
         }
     }
 </script>

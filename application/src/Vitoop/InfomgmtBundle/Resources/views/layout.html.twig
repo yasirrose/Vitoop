@@ -69,6 +69,7 @@
                         {% else %}
                             false
                         {% endif %}"
+                     :edit-mode="{{ editMode|json_encode }}"
                      :invitation="{{ vsettings.getInvitation().getValue() }}"
                      :as-project-owner="{{ showasprojectowner|json_encode() }}">
             </vtp-app>
@@ -76,10 +77,10 @@
 {#        <div id="vtp-header" class="ui-corner-all">#}
 {#            <div id="vtp-cmstitle">{% block cmstitle %}{% endblock %}</div>#}
 {#        </div>#}
-{#        <div id="vtp-content">#}
-{#            {% block content %}#}
-{#            {% endblock %}#}
-{#        </div>#}
+        <div id="vtp-content">
+            {% block content %}
+            {% endblock %}
+        </div>
         <div id="vtp-footer-wrapper">
             <app-footer :agree-with-term="
                         {% if app.user.getIsAgreedWithTerms() %}

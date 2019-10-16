@@ -8,7 +8,7 @@
 </template>
 
 <script>
-    import AppProject from "./project/AppProject.vue";
+    import AppProject from "./project/Index.vue";
     import AppLexicon from "./AppLexicon.vue";
 
     export default {
