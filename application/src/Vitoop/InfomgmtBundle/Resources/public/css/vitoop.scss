@@ -2205,7 +2205,6 @@ table.dataTable thead th:hover {
 
 .dropdown {
     &.v-select {
-        width: 190px;
         .dropdown-toggle {
             @include blue-border-radius();
             background: $vitoop-select-background;

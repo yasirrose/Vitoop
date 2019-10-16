@@ -40,11 +40,13 @@
                         <span class="ui-button-text"></span>
                     </button>
                 </div>
-                <v-select v-show="showArtSelect"
-                          :options="artOptions"
-                          v-model="artFilter"
-                          :clearable="false">
-                </v-select>
+                <div id="art-select">
+                    <v-select v-show="showArtSelect"
+                              :options="artOptions"
+                              v-model="artFilter"
+                              :clearable="false">
+                    </v-select>
+                </div>
             </div>
             <div id="vtp-second-search-panel">
                 <div id="vtp-second-search-is-read">
