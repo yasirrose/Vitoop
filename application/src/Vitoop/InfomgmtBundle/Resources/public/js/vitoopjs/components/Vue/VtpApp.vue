@@ -1,7 +1,7 @@
 <template>
     <div>
         <app-header :loading="loading" />
-<!--        <app-content />-->
+        <app-content />
     </div>
 </template>
 
@@ -9,6 +9,11 @@
     import VitoopApp from "../../app/vitoop";
     import AppHeader from './header/AppHeader.vue';
     import AppContent from "./components/AppContent.vue";
+
+    // styles for quill text editor
+    import 'quill/dist/quill.core.css'
+    import 'quill/dist/quill.snow.css'
+    import 'quill/dist/quill.bubble.css'
 
     export default {
         name: "VtpApp",

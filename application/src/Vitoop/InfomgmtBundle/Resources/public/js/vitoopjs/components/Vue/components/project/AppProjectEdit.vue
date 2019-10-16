@@ -7,17 +7,18 @@
             </div>
 <!--            {% endif %}-->
 <!--            {% if editMode %}-->
-            <div>
+            <div v-if="editProject">
 <!--                <input type="text"-->
 <!--                       style="display: none"-->
 <!--                       ng-init="projectId={{ project.getID }}"-->
 <!--                       v-model="projectId">-->
                 <div class="vtp-fh-w60">
-                    <form name="projectSheetForm">
-                    <textarea ui-tinymce="tinymceOptions"
-                              v-model="project.project_data.sheet"
-                              name="projectText"></textarea>
-                    </form>
+<!--                    <form name="projectSheetForm">-->
+<!--                        <textarea ui-tinymce="tinymceOptions"-->
+<!--                                  v-model="editProject.project_data.sheet"-->
+<!--                                  name="projectText"></textarea>-->
+<!--                    </form>-->
+                    <quill-editor v-model="editProject.project_data.sheet" />
                 </div>
                 <div id="vtp-projectdata-sheet-info-edit"
                      class="vtp-fh-w25 ui-corner-all"
@@ -27,21 +28,21 @@
                             <div>
                                 <button @click="save"
                                         :class="{
-                                        'ui-corner-all ui-state-default': projectDataForm.$pristine && projectSheetForm.projectText.$pristine,
-                                        'ui-corner-all ui-state-need-to-save': projectDataForm.$dirty || projectSheetForm.projectText.$dirty}"
+                                        'ui-corner-all ui-state-default': false,
+                                        'ui-corner-all ui-state-need-to-save': false}"
                                         style="padding-bottom: 5px; padding-top: 5px; width: 100%">speichern</button>
                             </div>
                             <div style="vertical-align: bottom; text-align: left; color: #2779aa; font-size: 14px; padding-top: 10px;">
                                 <div class="vtp-fh-w70">
                                     <input type="checkbox"
-                                           v-model="project.project_data.is_private"
+                                           v-model="editProject.project_data.is_private"
                                            name="projectIsPrivate"
                                            style="-webkit-appearance: checkbox"/>
                                     <label for="projectIsPrivate" id="sperren-vabel">Projekt sperren</label>
                                 </div>
                                 <div class="vtp-fh-w70">
                                     <input type="checkbox"
-                                           v-model="project.project_data.is_for_related_users"
+                                           v-model="editProject.project_data.is_for_related_users"
                                            name="projectForRelated" style="-webkit-appearance: checkbox"/>
                                     <label for="projectForRelated" id="verstecken-vabel">Projekt verstecken</label>
                                 </div>
@@ -49,7 +50,7 @@
                         </div>
 <!--                        {% if (showasprojectowner is not null) and (showasprojectowner) %}-->
                             <div class="vtp-fh-w100 vtp-ui-corner-all blau"
-                                 v-if="project.project_data.rel_users.length > 0"
+                                 v-if="editProject.project_data.rel_users.length > 0"
                                  style="vertical-align: top; margin-top: 20px; font-size: 14px">
                                 <div class="prj-edit-header">
                                     <div class="vtp-fh-w60">
@@ -60,7 +61,7 @@
                                     </div>
                                 </div>
 <!--                                {% verbatim %}-->
-                                <div v-for="rel in project.project_data.rel_users">
+                                <div v-for="rel in editProject.project_data.rel_users">
                                     <div class="vtp-fh-w60">
                                         <label :for="`userReadOnly-${rel.user.id}`"
                                                style="margin-right: 20px">{{ rel.user.username }}</label>
@@ -82,17 +83,17 @@
                             <label for="newUser"><strong>Neuer Benutzer:</strong></label>
                         </div>
                         <div class="vtp-fh-w100 vtp-new-user-search">
-                            <div angucomplete id="usernames-autocomplete"
-                                 placeholder="Search users"
-                                 pause="300"
-                                 selectedobject="user"
-                                 url="../api/project/{{ project.getId }}/user/find?s="
-                                 titlefield="username"
-                                 inputclass="vtp-fh-w97"
-                                 style="margin-bottom: 5px"></div>
-                            <button ng-click="addUser()"
+<!--                            <div angucomplete id="usernames-autocomplete"-->
+<!--                                 placeholder="Search users"-->
+<!--                                 pause="300"-->
+<!--                                 selectedobject="user"-->
+<!--                                 url="../api/project/{{ editProject.id }}/user/find?s="-->
+<!--                                 titlefield="username"-->
+<!--                                 inputclass="vtp-fh-w97"-->
+<!--                                 style="margin-bottom: 5px"></div>-->
+                            <button @click="addUser()"
                                     class="ui-corner-all vtp-fh-w60 ui-state-default vtp-button">verknüpfen</button>
-                            <button ng-click="removeUser()"
+                            <button @click="removeUser()"
                                     class="ui-corner-all vtp-fh-w40 ui-state-default vtp-button" style="float: right">löschen</button>
                         </div>
                         <span v-if="isError"
@@ -110,13 +111,13 @@
                         <p v-if="isDeleting">
                             Dieser Vorgang kann nicht rückgängig gemacht werden. Soll das Projekt wirklich gelöscht werden?
                         </p>
-                        <button ng-click="isDeleting = true"
+                        <button @click="isDeleting = true"
                                 v-if="!isDeleting"
                                 class="ui-corner-all vtp-button-light" style="margin-top: 20px; width: 100%">Projekt löschen</button>
-                        <button ng-click="delete()"
+                        <button @click="remove"
                                 v-if="isDeleting"
                                 class="ui-corner-all vtp-fh-w30 vtp-button-light">Ja</button>
-                        <button ng-click="isDeleting = false"
+                        <button @click="isDeleting = false"
                                 v-if="isDeleting"
                                 class="ui-corner-all vtp-fh-w30 vtp-button-light">Nein</button>
                     </div>
@@ -131,7 +132,67 @@
 
 <script>
     export default {
-        name: "AppProjectEdit"
+        name: "AppProjectEdit",
+        inject: ['project'],
+        data() {
+            return {
+                isError: false,
+                isSuccess: false,
+                isOwner: false,
+                isDeleting: false,
+                isLoaded: false,
+                editProject: null,
+                tinymceOptions: null
+            }
+        },
+        mounted() {
+            this.tinymceOptions = window.vitoopApp.getTinyMceOptions();
+            this.tinymceOptions.width = 800;
+            this.tinymceOptions.height = 550;
+            this.tinymceOptions.plugins = ['textcolor', 'link', 'media', 'resourceurl'];
+            this.tinymceOptions.toolbar = 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink resourceurl';
+
+            axios(`/api/project/${this.project.id}`)
+                .then(({data}) => {
+                    this.isLoaded = true;
+                    this.editProject = data.project;
+                    console.log(data);
+                })
+                .catch(err => {
+                    this.isLoaded = true;
+                    console.dir(err);
+                });
+        },
+        methods: {
+            save() {
+                axios.post(`api/project/${this.project.id}`)
+                    .then(response => {
+                        console.log(response);
+                    })
+                    .catch(err => console.dir(err));
+            },
+            remove() {
+                axios.delete(`api/project/${this.project.id}`)
+                    .then(response => {
+                        console.log(response);
+                    })
+                    .catch(err => console.dir(err));
+            },
+            addUser() {
+                axios(`api/project/${this.project.id}/user`)
+                    .then(response => {
+                        console.log(response);
+                    })
+                    .catch(err => console.dir(err));
+            },
+            removeUser() {
+                axios.delete(`api/project/${this.project.id}/user/${this.user.originalObject.id}`)
+                    .then(response => {
+                        console.log(response)
+                    })
+                    .catch(err => console.dir(err));
+            }
+        }
     }
 </script>
 
