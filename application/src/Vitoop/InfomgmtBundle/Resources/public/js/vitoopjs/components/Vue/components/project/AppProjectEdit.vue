@@ -6,7 +6,8 @@
 <!--                <span class="vtp-icon ui-icon ui-icon-info"></span>{{ "infoprojectdata" }}-->
 <!--            </div>-->
 <!--            {% endif %}-->
-            <div class="vtp-fh-w60" style="flex: 1;margin-right: 10px">
+            <div class="vtp-fh-w60"
+                 style="flex: 1;margin-right: 10px;border: 1px solid #aed0ea;border-radius: 6px;overflow: hidden">
                 <quill-editor v-model="editProject.project_data.sheet"
                               :options="editorOptions" />
             </div>
