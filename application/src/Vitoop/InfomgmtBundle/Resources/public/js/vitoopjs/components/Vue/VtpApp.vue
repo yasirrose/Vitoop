@@ -21,6 +21,7 @@
     export default {
         name: "VtpApp",
         props: [
+            'isCoef',
             'project',
             'lexicon',
             'downloadSize',
@@ -33,6 +34,7 @@
         ],
         provide() {
             return {
+                isCoef: this.isCoef,
                 project: this.project,
                 lexicon: this.lexicon,
                 downloadSize: this.downloadSize,
