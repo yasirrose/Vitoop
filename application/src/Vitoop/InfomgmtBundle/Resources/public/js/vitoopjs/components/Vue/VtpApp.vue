@@ -1,7 +1,8 @@
 <template>
-    <div>
+    <div v-if="!loading">
         <app-header :loading="loading" />
-        <app-content />
+<!--        <app-content />-->
+        <router-view />
         <app-footer />
     </div>
 </template>
@@ -27,7 +28,8 @@
             'agreeWithTerm',
             'resourceInfo',
             'asProjectOwner',
-            'editMode'
+            'editMode',
+            'infoProjectData'
         ],
         provide() {
             return {
@@ -38,7 +40,8 @@
                 agreeWithTerm: this.agreeWithTerm,
                 resourceInfo: this.resourceInfo,
                 asProjectOwner: this.asProjectOwner,
-                editMode: this.editMode
+                editMode: this.editMode,
+                infoProjectData: this.infoProjectData
             }
         },
         components: { AppFooter, AppHeader, AppContent },
@@ -63,12 +66,11 @@
                     this.loading = false;
                     console.dir(err);
                 });
-        },
-        mounted() {
+
             window.vitoopApp = new VitoopApp();
             vitoopApp.init();
-            resourceDetail.init();
-            resourceProject.init();
+        },
+        mounted() {
             userInteraction.init();
 
             if (this.project.id || this.lexicon.id) {

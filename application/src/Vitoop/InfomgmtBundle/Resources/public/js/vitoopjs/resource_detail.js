@@ -844,7 +844,7 @@ window.resourceDetail = (function () {
         /****************************************************************************
          * Eventhandler and jQuery initializing:call init() on Document ready
          ***************************************************************************/
-            init = function () {
+        init = function () {
             $('#vtp-res-dialog').dialog({
                 autoOpen: false,
                 width: 720,

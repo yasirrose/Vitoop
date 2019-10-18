@@ -1,11 +1,12 @@
 <template>
-    <div id="vtp-content">
+    <div>
+        Login
     </div>
 </template>
 
 <script>
     export default {
-        name: "AppContent",
+        name: "AppLogin"
     }
 </script>
 

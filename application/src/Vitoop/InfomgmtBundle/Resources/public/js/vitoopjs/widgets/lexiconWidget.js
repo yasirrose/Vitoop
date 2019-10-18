@@ -13,7 +13,6 @@ export default class LexiconWidget extends Widget {
 
     init() {
         let self = this;
-        debugger
         $(self.buttonSaveId).on('click', function() {
             $('#tab-title-rels').removeClass('ui-state-no-content');
         });

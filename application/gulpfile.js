@@ -207,6 +207,7 @@ gulp.task('watch', () => {
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/components/*.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/widgets/*.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/store/*.js',
+        'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/*/*.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/*.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/app/vitoop.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/app/boot.js'

@@ -69,6 +69,7 @@
                             false
                         {% endif %}"
                      :edit-mode="{{ editMode|json_encode }}"
+                     :info-project-data="{{ infoprojectdata|json_encode() }}"
                      :invitation="{{ vsettings.getInvitation().getValue() }}"
                      :as-project-owner="{{ showasprojectowner|json_encode() }}">
             </vtp-app>

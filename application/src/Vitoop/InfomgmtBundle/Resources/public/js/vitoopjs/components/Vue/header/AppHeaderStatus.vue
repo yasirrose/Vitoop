@@ -90,7 +90,7 @@
                 <span class="ui-button-icon-primary ui-icon ui-icon-notice"></span>
                 <span class="ui-button-text"></span>
             </button>
-            <a href="/user/settings"
+            <a @click.prevent="$router.push('/user/settings')"
                id="vtp-user-userdata"
                class="vtp-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
                title="Einstellungen">

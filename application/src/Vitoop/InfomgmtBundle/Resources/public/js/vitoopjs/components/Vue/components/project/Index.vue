@@ -21,6 +21,7 @@
             }
         },
         mounted() {
+            resourceProject.init();
             this.edit = this.editMode === "1";
         }
     }

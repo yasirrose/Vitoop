@@ -1,4 +1,5 @@
 .quill-editor {
+  background: white;
 
   .ql {
 
@@ -54,6 +55,8 @@
 
     &-container {
       border: none !important;
+      height: 600px;
+      overflow: auto;
     }
 
     &-formats {

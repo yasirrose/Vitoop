@@ -3,8 +3,8 @@
         <app-header-status v-if="!loading" />
         <app-logo />
         <app-nav />
-        <app-tag-list />
         <app-cms-title />
+        <app-tag-list v-if="$route.params.hasOwnProperty('restype') && $store.state.user !== null" />
         <div id="vtp-second-search">
             <second-search />
         </div>

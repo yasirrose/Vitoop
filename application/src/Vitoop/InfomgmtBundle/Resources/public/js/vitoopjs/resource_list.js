@@ -180,4 +180,6 @@ class ResourceList {
     };
 }
 
+export { ResourceList };
+
 window.resourceList = new ResourceList();
