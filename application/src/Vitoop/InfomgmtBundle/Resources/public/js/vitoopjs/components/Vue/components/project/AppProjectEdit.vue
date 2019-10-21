@@ -131,7 +131,6 @@
                 isDeleting: false,
                 isLoaded: false,
                 editProject: null,
-                tinymceOptions: null,
 
                 options: [],
                 user: null,
@@ -166,11 +165,6 @@
         },
         mounted() {
             resourceDetail.init();
-            this.tinymceOptions = window.vitoopApp.getTinyMceOptions();
-            this.tinymceOptions.width = 800;
-            this.tinymceOptions.height = 550;
-            this.tinymceOptions.plugins = ['textcolor', 'link', 'media', 'resourceurl'];
-            this.tinymceOptions.toolbar = 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink resourceurl';
 
             axios(`/api/project/${this.project.id}`)
                 .then(({data}) => {

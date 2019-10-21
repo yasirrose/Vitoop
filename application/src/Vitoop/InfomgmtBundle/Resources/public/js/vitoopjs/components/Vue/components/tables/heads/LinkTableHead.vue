@@ -2,14 +2,13 @@
     <tr :id="`${$route.params.restype}-table`" class="vtp-res-dialog-onclick">
         <th style="width:96px;"><span class="table-head">{{ dateTitle }}</span></th>
         <th style="width:20px"></th>
-        <th><span class="table-head">Titel</span></th>
-        <th style="width:21%;"><span class="table-head">Autor</span></th>
-        <th style="width:63px;"><span class="table-head">Seiten</span></th>
+        <th><span class="table-head">Bezeichnung</span></th>
+        <th style="width:22%;"><span class="table-head">URL</span></th>
+        <th style="width:50px;" data-b-searchable="false"><span class="table-head">HP</span></th>
         <th style="width:96px;" data-b-searchable="false"><span class="table-head">Bewertung</span></th>
         <th style="width:42px;" data-b-searchable="false"><span class="table-head">RR</span></th>
-        <th style="width:14%;"><span class="table-head">von</span></th>
-        <th style="width:54px;"
-            v-if="isEdit"
+        <th style="width:14%;" data-b-searchable="false"><span class="table-head">von</span></th>
+        <th style="width: 54px;"
             data-b-sortable="false"
             data-b-searchable="false">
             <span class="table-head">{{ linkTitle }}</span>
@@ -19,9 +18,8 @@
 
 <script>
     export default {
-        name: "BookTableHead",
+        name: "LinkTableHead",
         props: ['dateTitle','linkTitle'],
-        inject: ['isEdit']
     }
 </script>
 

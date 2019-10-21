@@ -27,13 +27,25 @@
 
 <script>
     import PdfTableHead from "./heads/PdfTableHead.vue";
+    import BookTableHead from "./heads/BookTableHead.vue";
+    import TextLinkTableHead from "./heads/TextLinkTableHead.vue";
+    import LinkTableHead from "./heads/LinkTableHead.vue";
+    import AddressTableHead from "./heads/AddressTableHead.vue";
+    import LexiconTableHead from "./heads/LexiconTableHead.vue";
+    import ProjectTableHead from "./heads/ProjectTableHead.vue";
 
     export default {
         name: "Table",
         components: {
-            PdfTableHead
+            PdfTableHead,
+            BookTableHead,
+            TextLinkTableHead,
+            LinkTableHead,
+            AddressTableHead,
+            LexiconTableHead,
+            ProjectTableHead
         },
-        inject: ['isCoef'],
+        inject: ['isCoef', 'isEdit'],
         computed: {
             activeTableHead() {
                 switch (this.$route.params.restype) {
@@ -47,10 +59,10 @@
                         return 'TextLinkTableHead';
                         break
                     case 'link':
-                        return 'linkTableHead';
+                        return 'LinkTableHead';
                         break
                     case 'adr':
-                        return 'AdressTableHead';
+                        return 'AddressTableHead';
                         break
                     case 'lex':
                         return 'LexiconTableHead';
@@ -70,7 +82,7 @@
                 }
             },
             linkTitle() {
-
+                return this.isEdit ? 'unlink' : 'link';
             },
         },
         mounted() {

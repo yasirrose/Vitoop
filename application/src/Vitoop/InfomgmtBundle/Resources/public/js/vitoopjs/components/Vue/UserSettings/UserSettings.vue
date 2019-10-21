@@ -1,91 +1,93 @@
 <template>
-    <fieldset class="ui-corner-all margin-top-3">
-        <div id="vtp-credentials" class="ui-corner-all">
-            <div class="vtp-fh-w100">
-                <h1>{{ user.username }}</h1>
-            </div>
-            <fieldset class="ui-corner-all margin-top-10">
-                <legend>Einstellungen</legend>
-                <div class="vtp-fh-w25">
-                    <p>Textgrösse in den Listen: </p>
-                    <v-select :options="fontSizeOptions" :clearable="false" v-model="dto.decreaseFontSize"></v-select>
-                </div>
-            </fieldset>
-            <fieldset class="ui-corner-all margin-top-10">
-                <legend>Account-Daten</legend>
+    <div id="vtp-content">
+        <fieldset class="ui-corner-all margin-top-3">
+            <div id="vtp-credentials" class="ui-corner-all">
                 <div class="vtp-fh-w100">
-                    <div class="vtp-fh-w25">
-                        <p>Passwort ändern</p>
-                        <form id="user_password" name="user_password">
-                            <div class="vtp-fh-w100">
-                                <input type="password" name="pass1" id="pass1" v-model="dto.pass1"/>
-                            </div>
-                            <div class="vtp-fh-w100">
-                                <input v-bind:class="dto.pass1 != dto.pass2 ? 'red-border': ''" type="password" name="pass2" id="pass2" v-model="dto.pass2"/>
-                            </div>
-                            <div class="vtp-fh-w100" v-show="dto.pass1 != dto.pass2">Die Eingaben müssen übereinstimmen.</div>
-                        </form>
-                    </div>
-                    <div class="vtp-fh-w25">
-                        <p>Email-Adresse ändern</p>
-                        <form id="user_email" name="user_email">
-                            <div class="vtp-fh-w100">
-                                <input type="email" name="email1" id="email1" v-model="dto.email1"/>
-                            </div>
-                            <div class="vtp-fh-w100">
-                                <input v-bind:class="dto.email1 != dto.email2 ? 'red-border': ''" type="email" name="email2" id="email2" v-model="dto.email2"/>
-                            </div>
-                            <div class="vtp-fh-w100" v-show="dto.email1 != dto.email2">Die Eingaben müssen übereinstimmen.</div>
-                        </form>
-                    </div>
-                    <div class="vtp-fh-w25">
-                        <p>Nutzername ändern</p>
-                        <form id="user_name" name="user_name">
-                            <div class="vtp-fh-w100">
-                                <input type="text" name="username1" id="username1" v-model="dto.username1" />
-                            </div>
-                            <div class="vtp-fh-w100">
-                                <input v-bind:class="dto.username1 != dto.username2 ? 'red-border': ''" type="text" name="username2" id="username2" v-model="dto.username2" />
-                            </div>
-                            <div class="vtp-fh-w100" v-show="dto.username1 != dto.username2">Die Eingaben müssen übereinstimmen.</div>
-                        </form>
-                    </div>
+                    <h1>{{ user.username }}</h1>
                 </div>
-            </fieldset>
-            <fieldset class="ui-corner-all margin-top-10">
-                <legend>Benutzer-Hauptseite</legend>
-                <div class="vtp-fh-w100">
+                <fieldset class="ui-corner-all margin-top-10">
+                    <legend>Einstellungen</legend>
                     <div class="vtp-fh-w25">
-                            <p>Höhe der Textbox in ToDo in Pixeln</p>
-                            <div class="vtp-fh-w100">
-                                <input type="number" name="todo-height" id="todo-height" v-model="user.heightOfTodoList"/>
-                            </div>
+                        <p>Textgrösse in den Listen: </p>
+                        <v-select :options="fontSizeOptions" :clearable="false" v-model="dto.decreaseFontSize"></v-select>
                     </div>
-                    <div class="vtp-fh-w25">
-                        <p>Anzahl der sichtbaren ToDo-Punkte</p>
-                        <div class="vtp-fh-w100">
-                            <input type="number" name="todo-count" id="todo-count" v-model="user.numberOfTodoElements"/>
+                </fieldset>
+                <fieldset class="ui-corner-all margin-top-10">
+                    <legend>Account-Daten</legend>
+                    <div class="vtp-fh-w100">
+                        <div class="vtp-fh-w25">
+                            <p>Passwort ändern</p>
+                            <form id="user_password" name="user_password">
+                                <div class="vtp-fh-w100">
+                                    <input type="password" name="pass1" id="pass1" v-model="dto.pass1"/>
+                                </div>
+                                <div class="vtp-fh-w100">
+                                    <input v-bind:class="dto.pass1 != dto.pass2 ? 'red-border': ''" type="password" name="pass2" id="pass2" v-model="dto.pass2"/>
+                                </div>
+                                <div class="vtp-fh-w100" v-show="dto.pass1 != dto.pass2">Die Eingaben müssen übereinstimmen.</div>
+                            </form>
+                        </div>
+                        <div class="vtp-fh-w25">
+                            <p>Email-Adresse ändern</p>
+                            <form id="user_email" name="user_email">
+                                <div class="vtp-fh-w100">
+                                    <input type="email" name="email1" id="email1" v-model="dto.email1"/>
+                                </div>
+                                <div class="vtp-fh-w100">
+                                    <input v-bind:class="dto.email1 != dto.email2 ? 'red-border': ''" type="email" name="email2" id="email2" v-model="dto.email2"/>
+                                </div>
+                                <div class="vtp-fh-w100" v-show="dto.email1 != dto.email2">Die Eingaben müssen übereinstimmen.</div>
+                            </form>
+                        </div>
+                        <div class="vtp-fh-w25">
+                            <p>Nutzername ändern</p>
+                            <form id="user_name" name="user_name">
+                                <div class="vtp-fh-w100">
+                                    <input type="text" name="username1" id="username1" v-model="dto.username1" />
+                                </div>
+                                <div class="vtp-fh-w100">
+                                    <input v-bind:class="dto.username1 != dto.username2 ? 'red-border': ''" type="text" name="username2" id="username2" v-model="dto.username2" />
+                                </div>
+                                <div class="vtp-fh-w100" v-show="dto.username1 != dto.username2">Die Eingaben müssen übereinstimmen.</div>
+                            </form>
                         </div>
                     </div>
-                </div>
-            </fieldset>
-            <fieldset class="ui-corner-all margin-top-10">
-                <div class="vtp-fh-w100">
-                    <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all" v-show="isSuccess" style="transition: 0s linear all;"><span class="vtp-icon ui-icon ui-icon-info"></span><span>{{ message }}</span></div>
-                    <div class="vtp-fh-w70">
-                        <p v-show="isDeleting">Soll das Nutzerkonto: "{{ user.username }}" endgültig gelöscht werden?</p>
-                        <button v-on:click="isDeleting = true" v-show="!isDeleting" class="ui-corner-all vtp-button-light">Benutzerkonto löschen</button>
-                        <button v-on:click="deactivate()" v-show="isDeleting" class="ui-corner-all vtp-fh-w30 vtp-button-light">Ja</button>
-                        <button v-on:click="isDeleting = false" v-show="isDeleting" class="ui-corner-all vtp-fh-w30 vtp-button-light">Nein</button>
+                </fieldset>
+                <fieldset class="ui-corner-all margin-top-10">
+                    <legend>Benutzer-Hauptseite</legend>
+                    <div class="vtp-fh-w100">
+                        <div class="vtp-fh-w25">
+                                <p>Höhe der Textbox in ToDo in Pixeln</p>
+                                <div class="vtp-fh-w100">
+                                    <input type="number" name="todo-height" id="todo-height" v-model="user.heightOfTodoList"/>
+                                </div>
+                        </div>
+                        <div class="vtp-fh-w25">
+                            <p>Anzahl der sichtbaren ToDo-Punkte</p>
+                            <div class="vtp-fh-w100">
+                                <input type="number" name="todo-count" id="todo-count" v-model="user.numberOfTodoElements"/>
+                            </div>
+                        </div>
                     </div>
-                    <div class="vtp-fh-w30" style="float: right; text-align: right">
-                        <button v-on:click="save()" v-show="!isDeleting" v-bind:class="isNeedToSave ? 'ui-state-need-to-save': ''" class="ui-corner-all vtp-fh-w30 vtp-button-light" style="margin-right: 15px">speichern</button>
-                        <span v-show="isError" id="error-span" class="form-error"><span>{{ errorMessage }}</span></span>
+                </fieldset>
+                <fieldset class="ui-corner-all margin-top-10">
+                    <div class="vtp-fh-w100">
+                        <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all" v-show="isSuccess" style="transition: 0s linear all;"><span class="vtp-icon ui-icon ui-icon-info"></span><span>{{ message }}</span></div>
+                        <div class="vtp-fh-w70">
+                            <p v-show="isDeleting">Soll das Nutzerkonto: "{{ user.username }}" endgültig gelöscht werden?</p>
+                            <button v-on:click="isDeleting = true" v-show="!isDeleting" class="ui-corner-all vtp-button-light">Benutzerkonto löschen</button>
+                            <button v-on:click="deactivate()" v-show="isDeleting" class="ui-corner-all vtp-fh-w30 vtp-button-light">Ja</button>
+                            <button v-on:click="isDeleting = false" v-show="isDeleting" class="ui-corner-all vtp-fh-w30 vtp-button-light">Nein</button>
+                        </div>
+                        <div class="vtp-fh-w30" style="float: right; text-align: right">
+                            <button v-on:click="save()" v-show="!isDeleting" v-bind:class="isNeedToSave ? 'ui-state-need-to-save': ''" class="ui-corner-all vtp-fh-w30 vtp-button-light" style="margin-right: 15px">speichern</button>
+                            <span v-show="isError" id="error-span" class="form-error"><span>{{ errorMessage }}</span></span>
+                        </div>
                     </div>
-                </div>
-            </fieldset>
-        </div>
-    </fieldset>
+                </fieldset>
+            </div>
+        </fieldset>
+    </div>
 </template>
 
 <script>

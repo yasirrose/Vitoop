@@ -3,30 +3,31 @@
          class="vtp-menu ui-helper-clearfix ui-corner-all">
         <ul>
             <li>
-                <a class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
-                   :class="{'vtp-nav-active ui-state-active': getResource('type') === ''}"
-                   :href="`/project/${project.id}`"
-                   v-if="project.id !== null">
+                <div class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
+                    :class="{'vtp-nav-active ui-state-active': $route.name === 'project'}"
+                    @click="$router.push({path: `/project/${project.id}`})"
+                    v-if="project.id !== null">
                     Projekt-Hauptseite
-                </a>
+                </div>
                 <a class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
                    :class="{'vtp-nav-active ui-state-active': getResource('type') === ''}"
                    :href="`/lexicon/${lexicon.id}`"
                    v-else-if="lexicon.id !== null">
                     {{ $t('page.lexicon') }}
                 </a>
-                <a class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
+                <div class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
                    v-else
-                   :class="{'vtp-nav-active ui-state-active': activeHomeLink}"
+                   :class="{'vtp-nav-active ui-state-active': $route.path === '/userhome'}"
                    @click="toHome">
                     Benutzer-Hauptseite
-                </a>
+                </div>
             </li>
             <li v-for="(value,name) in resources" :key="name">
                 <a class="vtp-resmenu-reslink ui-state-default ui-corner-all"
+                   @click="changeRoute(name)"
                    :class="{
                     'ui-state-no-content': noContent(name),
-                    'vtp-nav-active ui-state-active': getResource('type') === name
+                    'vtp-nav-active ui-state-active': $route.params.restype === name
                    }"
                    :href="`/${name}/?${isResource}`">
                     {{ value }}
@@ -69,12 +70,6 @@
             ...mapGetters([
                 'getResource'
             ]),
-            activeHomeLink() {
-                return this.getResource('type') === '' ||
-                    window.location.pathname === '/' ||
-                    window.location.pathname === '/login' ||
-                    window.location.pathname === '/userhome';
-            },
             noContent() {
                 return (name) => {
                     return this.getResource('info') !== null ?
@@ -92,6 +87,8 @@
                     return `project=${this.project.id}`;
                 } else if (this.lexicon.id !== null) {
                     return `lexicon=${this.lexicon.id}`;
+                } else {
+                    return null
                 }
             }
         },
@@ -105,12 +102,27 @@
         methods: {
             toHome() {
                 this.$store.commit('setResourceType', '');
-                window.location.pathname = "/userhome";
+                this.$router.push('/userhome');
             },
+            changeRoute(name) {
+                if (this.isResource !== null) {
+                    this.$router.push(`/${name}?${this.isResource}`);
+                } else {
+                    this.$router.push(`/${name}`);
+                }
+            }
         }
     }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+    .vtp-resmenu-homelink {
+        font-size: 1em;
+        padding: 0 0.5em;
+        font-weight: normal !important;
+        text-decoration: none;
+        width: auto;
+        height: 22px;
+        line-height: 22px;
+    }
 </style>

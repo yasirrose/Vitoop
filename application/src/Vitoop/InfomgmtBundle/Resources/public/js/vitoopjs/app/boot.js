@@ -12,7 +12,7 @@ import de from "../../translates/de/messages.json";
 const messages = {
     de
 };
-// import router from "../router"
+
 import VueRouter from "vue-router";
 import routes from "../router/routes";
 

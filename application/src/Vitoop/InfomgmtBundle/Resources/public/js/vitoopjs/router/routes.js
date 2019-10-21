@@ -7,20 +7,30 @@ import Table from "../components/Vue/components/tables/Table.vue";
 
 export default [
     {
+        path: '',
+        beforeEnter: (to,from,next) => {
+            vitoopState.state.user === null ? next('/login') : next('/userhome');
+        }
+    },
+    {
         path: '/userhome',
-        component: UserHome
+        component: UserHome,
     },
     {
         path: '/login',
-        component: Login
+        component: Login,
+        beforeEnter(to,from,next) {
+            vitoopState.state.user === null ? next() : next(`${from.path}`);
+        }
     },
     {
         path: '/:restype',
-        component: Table
+        component: Table,
     },
     {
         path: '/project/:projectId',
-        component: Index
+        component: Index,
+        name: 'project'
     },
     {
         path: '/lexicon/:lexiconId',

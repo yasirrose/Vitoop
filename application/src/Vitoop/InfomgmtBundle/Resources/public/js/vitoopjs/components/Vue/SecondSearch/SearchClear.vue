@@ -15,6 +15,7 @@
         methods: {
             clear() {
                 this.$store.commit('resetSecondSearch');
+                vitoopApp.vtpDatatable.rowsPerPage.checkDOMState();
                 vitoopApp.vtpDatatable && vitoopApp.vtpDatatable.refreshTable();
             }
         }

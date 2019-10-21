@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html ng-app="vitoop">
+<html>
 <head>
     <meta charset="utf-8"/>
     <title>vitoop</title>
     <link rel="stylesheet" type="text/css" href="{{ asset('css/vitoop.css') }}">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    {#<script src="{{ asset('js/vitoop-jquery.js') }}"></script>#}
     <script src="{{ asset('js/vitoop.js') }}"></script>
-    <script src="/build/old/angular.min.js"></script>
     {% block css %}{% endblock %}
     <script type="text/javascript">
         vitoop = (function () {
@@ -32,7 +30,6 @@
     {% block onloadscript %}{% endblock %}
 </head>
 <body id="vtp-application"
-      ng-controller="MainController"
       {% if (without_js is not defined) and (app.user) and (not app.user.getIsAgreedWithTerms()) %}
          style="display: none"
       {% endif %}>
@@ -62,6 +59,7 @@
                      :project="{{ projectObj|json_encode() }}"
                      :lexicon="{{ lexiconObj|json_encode() }}"
                      :edit-mode="{{ editMode|json_encode() }}"
+                     :is-edit="{{ isEdit|json_encode }}"
                      :resource-info="{{ resourceInfo|json_encode() }}"
                      :agree-with-term="
                         {% if app.user.getIsAgreedWithTerms() %}
@@ -87,10 +85,8 @@
     {%endif%}
 </div>
 {% block footerjs %}
-<script src="{{ asset('js/angular-modules.js') }}"></script>
 <script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
 <script src="{{ asset('js/datatables/datatables.js') }}"></script>
-<script src="{{ asset('app/vitoop.js') }}"></script>
 {% if (without_js is not defined) and (app.user) and (not app.user.getIsAgreedWithTerms()) %}
     <script type="text/javascript">
         window.location = "{{ path('user_agreement') }}";

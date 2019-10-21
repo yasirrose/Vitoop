@@ -17,7 +17,12 @@
                 </button>
                 <span v-if="asProjectOwner" style="display: flex">
                     <button id="vtp-projectdata-project-live"></button>
-                    <button id="vtp-projectdata-project-edit" class=""></button>
+                    <button id="vtp-projectdata-project-edit"
+                            class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
+                            :class="{'ui-state-focus ui-state-active': JSON.parse($route.query.edit)}"
+                            @click="projectEditMode">
+                        <span class="ui-button-icon-primary ui-icon ui-icon-wrench"></span>
+                    </button>
                 </span>
                 <button id="vtp-projectdata-project-close" :title="$t('label.close')"
                         class=""></button>
@@ -46,6 +51,18 @@
             'project',
             'lexicon',
         ],
+        methods: {
+            projectEditMode() {
+                if (this.$route.query.hasOwnProperty('edit')) {
+                    this.$router.push({
+                        path: `/project/${this.project.id}`,
+                        query: {edit: !JSON.parse(this.$route.query.edit)}
+                    });
+                } else {
+                    this.$router.push({path: `/project/${this.project.id}`, query: {edit: true}});
+                }
+            }
+        }
     }
 </script>
 

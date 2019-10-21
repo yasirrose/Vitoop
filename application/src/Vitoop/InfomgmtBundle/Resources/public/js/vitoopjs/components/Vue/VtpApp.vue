@@ -1,8 +1,8 @@
 <template>
     <div v-if="!loading">
         <app-header :loading="loading" />
-<!--        <app-content />-->
-        <router-view />
+        <router-view v-if="$store.state.user !== null || $route.path === '/userhome'" />
+        <app-login v-else />
         <app-footer />
     </div>
 </template>
@@ -12,6 +12,7 @@
     import AppHeader from './header/AppHeader.vue';
     import AppContent from "./components/AppContent.vue";
     import AppFooter from "./footer/AppFooter.vue";
+    import AppLogin from "./components/AppLogin.vue";
 
     // styles for quill text editor
     import 'quill/dist/quill.core.css'
@@ -30,6 +31,7 @@
             'resourceInfo',
             'asProjectOwner',
             'editMode',
+            'isEdit',
             'infoProjectData'
         ],
         provide() {
@@ -43,10 +45,11 @@
                 resourceInfo: this.resourceInfo,
                 asProjectOwner: this.asProjectOwner,
                 editMode: this.editMode,
+                isEdit: this.isEdit,
                 infoProjectData: this.infoProjectData
             }
         },
-        components: { AppFooter, AppHeader, AppContent },
+        components: { AppFooter, AppHeader, AppContent, AppLogin },
         data() {
             return {
                 loading: true
@@ -61,7 +64,11 @@
 
             axios('/api/user/me')
                 .then(({data}) => {
-                    this.$store.commit('setUser', data);
+                    if (typeof data !== "string") {
+                        this.$store.commit('setUser', data);
+                    } else {
+                        this.$store.commit('setUser', null);
+                    }
                     this.loading = false;
                 })
                 .catch(err => {

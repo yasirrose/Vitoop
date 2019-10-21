@@ -14,6 +14,19 @@ import SendLinkWidget from './widgets/sendLinkWidget';
 
 window.resourceDetail = (function () {
 
+    let customCheckboxWrapper = document.createElement('label');
+    customCheckboxWrapper.className = 'custom-checkbox__wrapper light';
+    customCheckboxWrapper.innerHTML = `
+        <input type="checkbox" 
+               id="resource-check" 
+               class="valid-checkbox" 
+               title="anhaken für weitere Verwendung: öffnen/mailen"/>
+        <span class="custom-checkbox">
+            <img class="custom-checkbox__check"
+                 src="../../img/check.png" />
+        </span>
+    `;
+
     var tab_loaded = [ 0, 0, 0, 0, 0 ],
         tab_name = [ 'quickview', 'remark', 'remark_private', 'comments', 'assignments' ],
         res_type = '',
@@ -549,6 +562,9 @@ window.resourceDetail = (function () {
         openDialog = function () {
             // check for init: call a widget-method before initialization throws an
             // error
+            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').append(customCheckboxWrapper);
+            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title .custom-checkbox__wrapper').append('<span id="resource-title"></span>');
+
             try {
                 $('#vtp-res-dialog-tabs').tabs("option");
             } catch (e) {
@@ -807,6 +823,7 @@ window.resourceDetail = (function () {
         },
 
         closeDialog = function () {
+            customCheckboxWrapper.remove();
             hardResetTabs();
             hideHelpWindow();
             
@@ -855,21 +872,6 @@ window.resourceDetail = (function () {
 
             window.vitoopApp.helpButton.loadContent();
 
-            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title')
-                .append(`
-                    <label class="custom-checkbox__wrapper light">
-                        <input type="checkbox" 
-                               id="resource-check" 
-                               class="valid-checkbox" 
-                               title="anhaken für weitere Verwendung: öffnen/mailen"/>
-                        <span class="custom-checkbox">
-                            <img class="custom-checkbox__check"
-                                 src="../../img/check.png" />
-                        </span>
-                    </label>
-                `);
-            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title .custom-checkbox__wrapper')
-                .append('<span id="resource-title"></span>');
             $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').after('<span id="resource-buttons"></span>');
 
             $('#vtp-res-dialog').before('<div id="resource-flags" style="display: none;"></div>');

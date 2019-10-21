@@ -14,15 +14,18 @@
         components: {
             AppProject, AppProjectEdit
         },
-        inject: ['editMode'],
         data() {
             return {
                 edit: false
             }
         },
+        beforeRouteUpdate(to,from,next) {
+            this.edit = to.query.edit;
+            next();
+        },
         mounted() {
             resourceProject.init();
-            this.edit = this.editMode === "1";
+            this.edit = this.$route.query.edit;
         }
     }
 </script>

@@ -599,7 +599,10 @@ export default class VtpDatatable {
     }
 
     getInternalUrlValue(url, type, row, meta) {
-        return '<a class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink" href="'+url+'"><span class="ui-icon ui-icon-extlink">-></span></a>';
+        return `<a class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink"
+                   href="${url}">
+                       <span class="ui-icon ui-icon-extlink">-></span>
+                </a>`;
     }
 
     getProjectUrlValue(data, type, row, meta) {
@@ -613,7 +616,6 @@ export default class VtpDatatable {
     getLexiconUrlValue(data, type, row, meta) {
         return VtpDatatable.prototype.getInternalUrlValue(vitoop.baseUrl+'lexicon/'+data, type, row, meta);
     }
-
 
     getPdfUrlValue() {
         if (this.isEdit) {

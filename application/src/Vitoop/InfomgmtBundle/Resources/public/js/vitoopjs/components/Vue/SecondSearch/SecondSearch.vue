@@ -99,7 +99,7 @@
             SearchClear
         },
         created() {
-            this.$store.dispatch("fetchCurrentUser");
+            // this.$store.dispatch("fetchCurrentUser");
         },
         computed: {
             isBlue: {

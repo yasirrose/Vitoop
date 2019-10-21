@@ -161,7 +161,7 @@ gulp.task('pdf-view', function () {
 });
 
 
-gulp.task('js', gulp.series(['angular-js', 'lexicon-js', 'tinymce-js', 'datatables-js', 'vitoop-app'] , function () {
+gulp.task('js', gulp.series(['lexicon-js', 'tinymce-js', 'datatables-js', 'vitoop-app'] , function () {
     return gulp.src([
         'src/Vitoop/InfomgmtBundle/Resources/public/js/jquery/*.js',
         'web/js/build/vitoop-app.js'])

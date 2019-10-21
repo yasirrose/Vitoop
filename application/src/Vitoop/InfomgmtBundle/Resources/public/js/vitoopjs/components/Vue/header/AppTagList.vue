@@ -9,7 +9,10 @@
 
 <script>
     export default {
-        name: "AppTagList"
+        name: "AppTagList",
+        mounted() {
+            vitoopApp.tagSearch.init();
+        }
     }
 </script>
 

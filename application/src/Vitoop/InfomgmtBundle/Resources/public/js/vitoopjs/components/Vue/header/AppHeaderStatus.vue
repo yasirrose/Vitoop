@@ -115,7 +115,7 @@
                         </button>
                     </div>
                     <div class="vtp-fh-w16 forgotPass" style="width: 167px">
-                        <input id="password"
+                        <input id="header_password"
                                name="_password"
                                type="password"
                                tabindex="2"
@@ -125,7 +125,7 @@
                         </a>
                     </div>
                     <div class="vtp-fh-w16" style="width: 167px">
-                        <input id="username" style="width: 94%"
+                        <input id="header_username" style="width: 94%"
                                name="_username"
                                tabindex="1"
                                type="text"

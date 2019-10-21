@@ -13,7 +13,9 @@ export default class HelpButton {
             position: { my: 'center top', at: 'center top', of: '#vtp-nav' },
             modal: true,
             open: function () {
-                self.scroll();
+                setTimeout(() => {
+                    self.scroll();
+                }, 1000)
             },
             close: function () {
                 if ('#vtp-help-tag' === self.currentElementId) {

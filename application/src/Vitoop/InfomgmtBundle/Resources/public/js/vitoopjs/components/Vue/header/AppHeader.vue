@@ -4,7 +4,7 @@
         <app-logo />
         <app-nav />
         <app-cms-title />
-        <app-tag-list v-if="$route.params.hasOwnProperty('restype') && $store.state.user !== null" />
+        <app-tag-list v-if="showTagList" />
         <div id="vtp-second-search">
             <second-search />
         </div>
@@ -34,6 +34,12 @@
             SecondSearch,
             AppTagList
         },
+        computed: {
+            showTagList() {
+                return this.$route.params.hasOwnProperty('restype') &&
+                    this.$store.state.user !== null && !Object.keys(this.$route.query).length;
+            }
+        }
     }
 </script>
 
