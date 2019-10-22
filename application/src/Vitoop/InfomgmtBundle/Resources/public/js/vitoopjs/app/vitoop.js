@@ -16,7 +16,6 @@ export default class VitoopApp {
     init() {
         this.secondSearch = new SecondSearch();
         this.tagSearch = new TagSearch();
-        this.tagSearch.init();
     }
 
     initTable(resType, isAdmin, isEdit, isCoef, url, resourceId) {

@@ -1,5 +1,4 @@
 export default {
-    projectId: null,
     resource: {
         type: null,
         id: null,

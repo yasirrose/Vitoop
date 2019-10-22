@@ -170,7 +170,6 @@
                 .then(({data}) => {
                     this.isLoaded = true;
                     this.editProject = data.project;
-                    console.log(data);
                 })
                 .catch(err => {
                     this.isLoaded = true;

@@ -827,7 +827,7 @@ window.resourceDetail = (function () {
             hardResetTabs();
             hideHelpWindow();
             
-            if ($('#vtp-res-list').length != 0) { 
+            if (refresh_list) {
                 //$('#vtp-res-list table').DataTable().off('draw.dt');
                 // "last seen" is maintained through arr_res_tr_attr_id[]
                 arr_tr_res_attr_id[res_type] = res_type + '-' + res_id;

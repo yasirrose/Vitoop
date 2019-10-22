@@ -34,20 +34,15 @@
                 </a>
             </li>
         </ul>
-        <search-by-tags v-if="$store.state.user !== null &&
-                              getResource('type') !== '' &&
-                              getResource('id') === null" />
     </div>
 </template>
 
 <script>
     import { mapGetters } from 'vuex'
-    import SearchByTags from "./SearchByTags.vue"
     import { ResourceList } from "../../../resource_list"
 
     export default {
         name: "AppNav",
-        components: { SearchByTags },
         inject: [
             'agreeWithTerm',
             'project',

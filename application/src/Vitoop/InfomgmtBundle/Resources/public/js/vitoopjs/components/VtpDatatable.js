@@ -11,10 +11,15 @@ export default class VtpDatatable {
         this.isEdit = isEdit;
         this.isCoef = isCoef;
         this.url = url;
-        this.datatableListId = 'table#list-'+resType;
+        this.datatableListId = 'table.table-datatables';
         this.datastorage = new DataStorage();
         this.rowsPerPage = new RowPerPageSelect();
         this.sendLinkWidget = new SendLinkWidget();
+    }
+
+    test() {
+        let datatable = $(this.datatableListId).DataTable(this.getDatatableOptions());
+        datatable.ajax.reload();
     }
 
     init() {
@@ -120,7 +125,6 @@ export default class VtpDatatable {
                     if (self.resType == 'book') {
                         data.art = vitoopState.state.secondSearch.artFilter
                     }
-
                     return data;
                 }
             },
@@ -298,7 +302,6 @@ export default class VtpDatatable {
 
         return 't'+'<"'+toolbar_prefix+'all"lip>';
     }
-
 
     getCurrentSearch() {
         return vitoopState.state.secondSearch.searchString;

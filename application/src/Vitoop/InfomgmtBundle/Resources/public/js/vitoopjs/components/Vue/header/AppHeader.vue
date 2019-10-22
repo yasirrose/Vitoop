@@ -3,8 +3,8 @@
         <app-header-status v-if="!loading" />
         <app-logo />
         <app-nav />
+        <search-by-tags v-if="showTags" />
         <app-cms-title />
-        <app-tag-list v-if="showTagList" />
         <div id="vtp-second-search">
             <second-search />
         </div>
@@ -18,6 +18,7 @@
     import AppTagList from "./AppTagList.vue";
     import AppCmsTitle from "./AppCmsTitle.vue";
     import SecondSearch from "../SecondSearch/SecondSearch.vue";
+    import SearchByTags from "./SearchByTags.vue";
 
     export default {
         name: "AppHeader",
@@ -32,12 +33,12 @@
             AppNav,
             AppCmsTitle,
             SecondSearch,
-            AppTagList
+            AppTagList,
+            SearchByTags
         },
         computed: {
-            showTagList() {
-                return this.$route.params.hasOwnProperty('restype') &&
-                    this.$store.state.user !== null && !Object.keys(this.$route.query).length;
+            showTags() {
+                return true
             }
         }
     }

@@ -116,14 +116,13 @@ export default class TagSearch {
             $('#vtp-search-bytags-form-submit').removeClass('act').blur();
             self.isChanged = false;
             resourceList.loadResourceListPage(e);
-
             $(self.tagSearchFormId).submit();
         });
 
         //remove tag
-        $('#vtp-search-bytags-taglistbox').on('click', '.vtp-uiaction-search-bytags-removetag', function(e) {
+        $('.vtp-uiaction-search-bytags-removetag').on('click', function(e) {
             if ((self.cnttags === 1) && (self.ignoredTags.length === 0)) {
-                $('.vtp-uiaction-search-bytags-clear-taglistbox').trigger('click');
+                // $('.vtp-uiaction-search-bytags-clear-taglistbox').trigger('click');
             }
             let parent = $(this).parent();
             let tagtext = parent.text().trim();
@@ -143,7 +142,6 @@ export default class TagSearch {
             // remove span.vtp-...-tag @TODO detach it for undo?
             parent.remove();
             self.maintainCntTags();
-
             $(self.tagSearchFormId).submit();
         });
 

@@ -92,7 +92,7 @@
                 this.$store.state.admin !== null,
                 0,
                 0,
-                `/api/resource/${this.$route.params.restype}`
+                `/api/resource/${this.$route.params.restype}`,
             );
         }
     }

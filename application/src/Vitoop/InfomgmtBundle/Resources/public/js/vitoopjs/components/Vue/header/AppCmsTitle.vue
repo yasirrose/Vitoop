@@ -19,7 +19,7 @@
                     <button id="vtp-projectdata-project-live"></button>
                     <button id="vtp-projectdata-project-edit"
                             class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
-                            :class="{'ui-state-focus ui-state-active': JSON.parse($route.query.edit)}"
+                            :class="{'ui-state-focus ui-state-active': isEdit}"
                             @click="projectEditMode">
                         <span class="ui-button-icon-primary ui-icon ui-icon-wrench"></span>
                     </button>
@@ -51,6 +51,15 @@
             'project',
             'lexicon',
         ],
+        computed: {
+            isEdit() {
+                if (this.$route.query.hasOwnProperty('edit')) {
+                    return JSON.parse(this.$route.query.edit);
+                } else {
+                    return false
+                }
+            }
+        },
         methods: {
             projectEditMode() {
                 if (this.$route.query.hasOwnProperty('edit')) {

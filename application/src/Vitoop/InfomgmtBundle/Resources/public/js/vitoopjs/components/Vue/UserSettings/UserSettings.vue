@@ -203,6 +203,7 @@
                     numberOfTodoElements: self.user.numberOfTodoElements,
                     decreaseFontSize: self.dto.decreaseFontSize.value
                 }).then(function (data) {
+                    vitoopState.commit('setUser', data.user);
                     self.isSuccess = true;
                     self.message = data.message;
                     setTimeout(function () {
