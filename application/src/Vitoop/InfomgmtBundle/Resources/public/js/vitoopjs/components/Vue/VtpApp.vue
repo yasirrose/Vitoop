@@ -58,7 +58,9 @@
         beforeCreate() {
             axios('/api/help')
                 .then(({data}) => {
+                    // data.isAdmin = false;
                     this.$store.commit('setAdmin', data.isAdmin);
+                    this.$store.commit('setHelpText', data.help.text);
                 })
                 .catch(err => console.dir(err));
 
@@ -75,7 +77,6 @@
                     this.loading = false;
                     console.dir(err);
                 });
-
             window.vitoopApp = new VitoopApp();
             vitoopApp.init();
         },

@@ -164,7 +164,7 @@
             }
         },
         mounted() {
-            resourceDetail.init();
+            // resourceDetail.init();
 
             axios(`/api/project/${this.project.id}`)
                 .then(({data}) => {

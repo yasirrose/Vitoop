@@ -870,8 +870,6 @@ window.resourceDetail = (function () {
                 close: closeDialog
             });
 
-            window.vitoopApp.helpButton.loadContent();
-
             $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').after('<span id="resource-buttons"></span>');
 
             $('#vtp-res-dialog').before('<div id="resource-flags" style="display: none;"></div>');

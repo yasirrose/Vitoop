@@ -2,6 +2,7 @@ import TinyMCEInitializer from "./TinyMCEInitializer";
 
 export default class HelpButton {
     constructor(){
+        this.inited = false;
         this.helpPopupId = '#vtp-res-dialog-help';
         this.isAdmin = false;
         this.resetScroll();
@@ -15,7 +16,7 @@ export default class HelpButton {
             open: function () {
                 setTimeout(() => {
                     self.scroll();
-                }, 1000)
+                }, 500)
             },
             close: function () {
                 if ('#vtp-help-tag' === self.currentElementId) {
@@ -44,9 +45,17 @@ export default class HelpButton {
             success: function(answer) {
                 self.isAdmin = answer.isAdmin;
                 if (answer.isAdmin) {
-                    let element = $('<input type="hidden" id="help-id" value="' + answer.help.id + '"><div class="vtp-fh-w100"><textarea id="help-text"></textarea></div><div class="vtp-fh-w100"><button class="ui-corner-all ui-state-default" id="button-help-save">speichern</button></div>');
+                    let element = $(`
+                        <input type="hidden" id="help-id" value="' + answer.help.id + '">
+                        <div class="vtp-fh-w100">
+                            <textarea id="help-text"></textarea>
+                        </div>
+                        <div class="vtp-fh-w100">
+                            <button class="ui-corner-all ui-state-default" id="button-help-save">speichern</button>
+                        </div>
+                    `);
                     $('#help-text', element).val(answer.help.text);
-                    $('#vtp-res-dialog-help').append(element);
+                    if (!self.inited) $('#vtp-res-dialog-help').append(element);
                     setTimeout(function() {
                         let tinyInit = new TinyMCEInitializer();
                         let options = tinyInit.getCommonOptions();
@@ -60,8 +69,11 @@ export default class HelpButton {
                         options.convert_urls = true;
                         options.toolbar = 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink | code';
 
-                        tinyMCE.init(options);
-                    }, 2000);
+                        tinyMCE.init(options)
+                            .then(() => {
+                                self.inited = true;
+                            });
+                    }, 500);
 
                     $('#button-help-save').on('click', function() {
                         tinyMCE.triggerSave();
@@ -74,7 +86,7 @@ export default class HelpButton {
                                 $('#button-help-save').before(elemSuccess);
                                 setTimeout(function() {
                                     elemSuccess.hide(400);
-                                }, 2000);
+                                }, 1000);
                             }
                         });
                     });
@@ -104,7 +116,8 @@ export default class HelpButton {
 
     scroll() {
         if (this.isAdmin) {
-            $(tinymce.activeEditor.getBody()).find(this.currentElementId).get(0).scrollIntoView();
+            const offset = $(tinymce.activeEditor.getBody()).find(this.currentElementId)[0].offsetTop;
+            $(tinymce.activeEditor.dom.doc.documentElement)[0].scrollTop = offset;
             return;
         }
 

@@ -51,15 +51,11 @@
         </div>
     </div>
 
-    <div id="vtp-res-dialog-help" title="Hilfe">
-
-    </div>
+    <div id="vtp-res-dialog-help" title="Hilfe"></div>
     <div id="vtp-res-dialog-links" style="display:none">
         {# render(controller('VitoopInfomgmtBundle:UserLink:userLinks')) #}
     </div>
-    <div id="vtp-res-dialog-prompt-links" style="display: none">
-
-    </div>
+    <div id="vtp-res-dialog-prompt-links" style="display: none"></div>
     {% if is_granted('ROLE_ADMIN') %}
         {% include 'VitoopInfomgmtBundle:User:termsTinyMce.html.twig' %}
         {% include 'VitoopInfomgmtBundle:User:datapTinyMce.html.twig' %}

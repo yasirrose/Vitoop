@@ -59,7 +59,7 @@
         inject: ['lexicon','resourceInfo'],
         mounted() {
             resourceProject.init();
-            resourceDetail.init();
+            // resourceDetail.init();
             this.init();
         },
         methods: {

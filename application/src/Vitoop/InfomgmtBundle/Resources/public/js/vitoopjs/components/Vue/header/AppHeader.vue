@@ -38,7 +38,9 @@
         },
         computed: {
             showTags() {
-                return true
+                return this.$route.params.hasOwnProperty('restype') &&
+                    this.$store.state.user !== null &&
+                    this.$store.state.resource.id === null;
             }
         }
     }

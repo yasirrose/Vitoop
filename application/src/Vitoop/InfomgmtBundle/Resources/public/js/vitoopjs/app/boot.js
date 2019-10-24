@@ -6,6 +6,7 @@ import SecondSearch from "../components/Vue/SecondSearch/SecondSearch.vue";
 import SearchToggler from "../components/Vue/SecondSearch/SearchToggler.vue";
 import axios from "axios"
 import VueQuillEditor from "vue-quill-editor";
+import lodash from "lodash"
 
 import VueI18n from "vue-i18n"
 import de from "../../translates/de/messages.json";
@@ -25,6 +26,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
+window._ = lodash;
 window.Vue = Vue;
 window.axios = axios;
 window.UserSettings = UserSettings;

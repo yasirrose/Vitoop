@@ -6,14 +6,11 @@ export default class TagSearch {
         this.tagcnt = 0;
         this.cnttags = 0;
         this.isChanged = false;
-
         this.resetTags();
-
         this.tagSearchListId = '#vtp-search-bytags-taglist';
         this.tagSearchAreaId = '#vtp-search-bytags-taglistbox';
         this.tagSearchFormId = '#vtp-search-bytags-form';
         this.tagCntId = '#vtp-search-bytags-tagcnt';
-
         this.datastorage = new DataStorage();
         this.tagsDSKey = 'dt-tags';
         this.ignoredTagsDSKey = 'dt-ignoredTags';
@@ -249,24 +246,24 @@ export default class TagSearch {
         this.saveTagsToStorage();
     }
 
-    decorateTag(tag, isIgnore, isHighlighted) {
-        if (typeof(isIgnore) === 'undefined') {
-            isIgnore = false;
-        }
-        if (typeof(isHighlighted) === 'undefined') {
-            isHighlighted = false;
-        }
-        let ignoredClass = (isIgnore)?(' vtp-search-bytags-tag-ignore'):('');
-        let highlightedClass = (isHighlighted)?(' vtp-search-bytags-tag-bulb'):('');
-
-        return $('<span class="vtp-search-bytags-tag ui-corner-all'+ignoredClass+highlightedClass+'"><span class="vtp-icon-tag ui-icon ui-icon-tag" onclick="vitoopApp.extendTag(event);"></span><span class="vtp-search-bytags-content" onclick="vitoopApp.extendTag(event);">'
-            + tag + '</span>' +
-            '<span title="in der Ergebnisliste nach oben sortieren" class="ui-icon ui-icon-lightbulb tag-icons-to-hide vtp-icon-bulb" style="display: none" onclick="vitoopApp.highlightTag(event)"></span>' +
-            '<span title="Datensätze mit diesem Tag aussortieren" class="ui-icon ui-icon-cancel tag-icons-to-hide vtp-icon-cancel" style="display: none" onclick="vitoopApp.ignoreTag(event)"></span>' +
-            '<span title="Tag entfernen" class="vtp-icon-close vtp-uiaction-search-bytags-removetag ui-icon ui-icon-close"></span>' +
-            '</span>'
-        );
-    }
+    // decorateTag(tag, isIgnore, isHighlighted) {
+    //     if (typeof(isIgnore) === 'undefined') {
+    //         isIgnore = false;
+    //     }
+    //     if (typeof(isHighlighted) === 'undefined') {
+    //         isHighlighted = false;
+    //     }
+    //     let ignoredClass = (isIgnore)?(' vtp-search-bytags-tag-ignore'):('');
+    //     let highlightedClass = (isHighlighted)?(' vtp-search-bytags-tag-bulb'):('');
+    //
+    //     return $('<span class="vtp-search-bytags-tag ui-corner-all'+ignoredClass+highlightedClass+'"><span class="vtp-icon-tag ui-icon ui-icon-tag" onclick="vitoopApp.extendTag(event);"></span><span class="vtp-search-bytags-content" onclick="vitoopApp.extendTag(event);">'
+    //         + tag + '</span>' +
+    //         '<span title="in der Ergebnisliste nach oben sortieren" class="ui-icon ui-icon-lightbulb tag-icons-to-hide vtp-icon-bulb" style="display: none" onclick="vitoopApp.highlightTag(event)"></span>' +
+    //         '<span title="Datensätze mit diesem Tag aussortieren" class="ui-icon ui-icon-cancel tag-icons-to-hide vtp-icon-cancel" style="display: none" onclick="vitoopApp.ignoreTag(event)"></span>' +
+    //         '<span title="Tag entfernen" class="vtp-icon-close vtp-uiaction-search-bytags-removetag ui-icon ui-icon-close"></span>' +
+    //         '</span>'
+    //     );
+    // }
 
     pushTag(tag) {
         if (tag == '') {

@@ -25,5 +25,6 @@ export default {
         show: false,
     },
     user: null,
-    admin: false
+    admin: false,
+    helpText: null
 }

@@ -37,7 +37,7 @@
         name: "AppProject",
         inject: ['project', 'resourceInfo', 'infoProjectData'],
         mounted() {
-            resourceDetail.init();
+            // resourceDetail.init();
         }
     }
 </script>

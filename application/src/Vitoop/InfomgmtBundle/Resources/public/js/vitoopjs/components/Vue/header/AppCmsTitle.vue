@@ -2,20 +2,14 @@
     <div id="vtp-cmstitle">
         <div v-if="project.id"
              id="vtp-projectdata-title"
-             class="ui-corner-all">
+             class="ui-corner-all vtp-cmstitle">
             <span class="vtp-title__text">
                 {{ $t('label.project') }}: {{ project.name }}
             </span>
             <input type="hidden" id="projectID" :value="project.id"/>
             <div class="vtp-title__buttons">
-                <button id="vtp-projectdata-project-help"
-                        help-area="project"
-                        :class="{'vtp-help-offset': asProjectOwner}"
-                        class="vtp-help-area-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only">
-                    <span class="ui-button-icon-primary ui-icon ui-icon-help"></span>
-                    <span class="ui-button-text"></span>
-                </button>
                 <span v-if="asProjectOwner" style="display: flex">
+                    <help-button help-area="project" />
                     <button id="vtp-projectdata-project-live"></button>
                     <button id="vtp-projectdata-project-edit"
                             class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
@@ -30,22 +24,26 @@
         </div>
         <div v-else-if="lexicon.id"
              id="vtp-lexicondata-title"
-             class="ui-corner-all">
-            <span>{{ $t('label.lexicon') }}: {{ lexicon.name }}</span>
-            <button id="vtp-lexicondata-lexicon-help"
-                    help-area="lexicon"
-                    class="vtp-help-area-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only">
-                <span class="ui-button-icon-primary ui-icon ui-icon-help"></span>
-                <span class="ui-button-text"></span>
-            </button>
-            <button id="vtp-lexicondata-lexicon-close" :title="$t('label.close')" class=""></button>
+             class="ui-corner-all vtp-cmstitle">
+            <span class="vtp-title__text">
+                {{ $t('label.lexicon') }}: {{ lexicon.name }}
+            </span>
+            <div class="vtp-title__buttons">
+                <span style="display: flex">
+                    <help-button help-area="lexicon" />
+                    <button id="vtp-lexicondata-lexicon-close" :title="$t('label.close')" class=""></button>
+                </span>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+    import HelpButton from "../SecondSearch/HelpButton.vue";
+
     export default {
         name: "AppCmsTitle",
+        components: { HelpButton },
         inject: [
             'asProjectOwner',
             'project',
@@ -75,6 +73,21 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
+    #vtp-lexicondata-title {
+        display: flex;
+        align-items: center;
+        padding: 3px 10px 4px 15px !important;
+    }
+
+    .vtp-title__buttons {
+
+        &::v-deep {
+
+            .vtp-help-area-button {
+                height: 19px;
+            }
+        }
+    }
 </style>
