@@ -1,5 +1,5 @@
 <template>
-    <tr :id="`${$route.params.restype}-table`" class="vtp-res-dialog-onclick">
+    <tr :id="`${$route.name}-table`" class="vtp-res-dialog-onclick">
         <th style="width:96px;"><span class="table-head">{{ dateTitle }}</span></th>
         <th style="width:20px"></th>
         <th style="width:34%;"><span class="table-head">Bezeichnung</span></th>

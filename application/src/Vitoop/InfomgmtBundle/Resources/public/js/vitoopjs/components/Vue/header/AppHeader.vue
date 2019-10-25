@@ -38,7 +38,7 @@
         },
         computed: {
             showTags() {
-                return this.$route.params.hasOwnProperty('restype') &&
+                return /prj|lex|pdf|teli|adr|book|link/.test(this.$route.name) &&
                     this.$store.state.user !== null &&
                     this.$store.state.resource.id === null;
             }

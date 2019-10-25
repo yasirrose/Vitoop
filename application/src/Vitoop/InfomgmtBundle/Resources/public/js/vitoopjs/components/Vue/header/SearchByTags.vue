@@ -138,7 +138,7 @@
             removeTag(tag) {
                 this.tags.splice(_.findIndex(this.tags, tag), 1);
                 this.ignoredTags.splice(_.findIndex(this.tags, tag), 1);
-                this.highlightedTags.splice(_.findIndex(this.tags, tag), 1);
+                this.highlightedTags.splice(_.findIndex(this.tags, tag.text), 1);
                 this.updateAutocomplete($('#vtp-search-bytags-taglist'));
                 this.maintainCntTags();
                 $(this.tagSearchFormId).submit();
@@ -157,8 +157,8 @@
                 this.loadTagsFromStorage();
                 this.tags.forEach(tag => {
                     tag.extended = false;
-                    tag.isHighlighted = _.findIndex(this.highlightedTags, tag) !== -1;
-                    tag.isIgnored = _.findIndex(this.ignoredTags, tag) !== -1;
+                    tag.isHighlighted = this.highlightedTags.indexOf(tag.text) !== -1;
+                    tag.isIgnored = this.ignoredTags.indexOf(tag.text) !== -1;
                 });
                 $(this.tagCntId).val(this.tagcnt);
                 $(this.tagCntId).selectmenu().selectmenu("refresh", true);
@@ -277,13 +277,13 @@
             },
             ignoreTag(tag) {
                 tag.isIgnored = !tag.isIgnored;
-                tag.isIgnored ? this.ignoredTags.push(tag) : this.ignoredTags.splice(_.findIndex(this.tags, tag), 1);
+                tag.isIgnored ? this.ignoredTags.push(tag.text) : this.ignoredTags.splice(_.findIndex(this.tags, tag.text), 1);
                 this.maintainCntTags();
                 this.saveTagsToStorage();
             },
             highlightTag(tag) {
                 tag.isHighlighted = !tag.isHighlighted;
-                tag.isHighlighted ? this.highlightedTags.push(tag) : this.highlightedTags.splice(_.findIndex(this.tags, tag), 1);
+                tag.isHighlighted ? this.highlightedTags.push(tag.text) : this.highlightedTags.splice(_.findIndex(this.tags, tag.text), 1);
                 this.maintainCntTags();
                 this.saveTagsToStorage();
             },

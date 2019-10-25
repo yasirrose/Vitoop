@@ -17,11 +17,6 @@ export default class VtpDatatable {
         this.sendLinkWidget = new SendLinkWidget();
     }
 
-    test() {
-        let datatable = $(this.datatableListId).DataTable(this.getDatatableOptions());
-        datatable.ajax.reload();
-    }
-
     init() {
         let self = this;
         vitoopState.commit('setResourceType', this.resType);
@@ -95,10 +90,6 @@ export default class VtpDatatable {
         if (json && json.resourceInfo) {
             vitoopState.commit('setResourceInfo', json.resourceInfo);
             window.resourceInfo = json.resourceInfo;
-            // let scope = angular.element($("#resourceInfo")).scope();
-            // scope.$apply(function(){
-            //     scope.nav.resourceInfo = window.resourceInfo;
-            // });
         }
     }
 

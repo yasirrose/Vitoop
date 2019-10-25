@@ -38,19 +38,6 @@ export default class VitoopApp {
         return tinyInit.getCommonOptions();
     }
 
-    // extendTag (event) {
-    //     let parent = $(event.target).parent();
-    //     if (parent.hasClass('vtp-search-bytags-tag-active')) {
-    //         $('.tag-icons-to-hide', parent).hide(400);
-    //         parent.removeClass('vtp-search-bytags-tag-active');
-    //     } else {
-    //         $('.tag-icons-to-hide').hide(400);
-    //         $('.vtp-search-bytags-tag').removeClass('vtp-search-bytags-tag-active');
-    //         $('.tag-icons-to-hide', parent).show(400);
-    //         parent.addClass('vtp-search-bytags-tag-active');
-    //     }
-    // }
-
     highlightTag(event) {
         let parent = $(event.target).parent();
         if (!parent.hasClass('vtp-search-bytags-tag-bulb')) {
@@ -61,7 +48,6 @@ export default class VitoopApp {
             parent.removeClass('vtp-search-bytags-tag-bulb');
             this.tagSearch.highlightTag(parent.text().trim(), false);
         }
-
     }
 
     ignoreTag(event) {

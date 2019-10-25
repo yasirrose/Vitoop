@@ -27,7 +27,7 @@
                    @click="changeRoute(name)"
                    :class="{
                     'ui-state-no-content': noContent(name),
-                    'vtp-nav-active ui-state-active': $route.params.restype === name
+                    'vtp-nav-active ui-state-active': $route.name === name
                    }"
                    :href="`/${name}/?${isResource}`">
                     {{ value }}

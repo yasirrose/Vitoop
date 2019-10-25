@@ -70,7 +70,8 @@
                      :edit-mode="{{ editMode|json_encode }}"
                      :info-project-data="{{ infoprojectdata|json_encode() }}"
                      :invitation="{{ vsettings.getInvitation().getValue() }}"
-                     :as-project-owner="{{ showasprojectowner|json_encode() }}">
+                     :as-project-owner="{{ showasprojectowner|json_encode() }}"
+                     :tags="{{ tags|json_encode }}">
             </vtp-app>
         </div>
     </div>

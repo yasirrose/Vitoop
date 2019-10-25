@@ -32,7 +32,8 @@
             'asProjectOwner',
             'editMode',
             'isEdit',
-            'infoProjectData'
+            'infoProjectData',
+            'tags'
         ],
         provide() {
             return {
@@ -46,7 +47,8 @@
                 asProjectOwner: this.asProjectOwner,
                 editMode: this.editMode,
                 isEdit: this.isEdit,
-                infoProjectData: this.infoProjectData
+                infoProjectData: this.infoProjectData,
+                tags: this.tags
             }
         },
         components: { AppFooter, AppHeader, AppContent, AppLogin },

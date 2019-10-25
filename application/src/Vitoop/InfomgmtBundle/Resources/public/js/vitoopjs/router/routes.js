@@ -5,6 +5,7 @@ import UserHome from "../components/Vue/components/UserHome.vue";
 import Login from "../components/Vue/components/AppLogin.vue";
 import Table from "../components/Vue/components/tables/Table.vue";
 import Impressum from "../components/Vue/components/Impressum.vue";
+import Tags from "../components/Vue/components/Tags.vue";
 
 export default [
     {
@@ -16,17 +17,50 @@ export default [
     {
         path: '/userhome',
         component: UserHome,
+        name: 'userhome'
     },
     {
         path: '/login',
         component: Login,
+        name: 'login',
         beforeEnter(to,from,next) {
             vitoopState.state.user === null ? next() : next(`${from.path}`);
         }
     },
     {
-        path: '/:restype',
+        path: '/prj',
         component: Table,
+        name: 'prj'
+    },
+    {
+        path: '/lex',
+        component: Table,
+        name: 'lex'
+    },
+    {
+        path: '/pdf',
+        component: Table,
+        name: 'pdf'
+    },
+    {
+        path: '/teli',
+        component: Table,
+        name: 'teli'
+    },
+    {
+        path: '/book',
+        component: Table,
+        name: 'book'
+    },
+    {
+        path: '/adr',
+        component: Table,
+        name: 'adr'
+    },
+    {
+        path: '/link',
+        component: Table,
+        name: 'link'
     },
     {
         path: '/project/:projectId',
@@ -35,15 +69,23 @@ export default [
     },
     {
         path: '/lexicon/:lexiconId',
-        component: AppLexicon
+        component: AppLexicon,
+        name: 'lexicon'
     },
     {
         path: '/user/settings',
-        component: UserSettings
+        component: UserSettings,
+        name: 'settings'
     },
     {
         path: '/impressum',
         component: Impressum,
+        name: 'impressum'
+    },
+    {
+        path: '/tags',
+        component: Tags,
+        name: 'tags'
     }
 ]
 

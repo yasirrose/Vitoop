@@ -11,9 +11,9 @@
                     </p>
                 </div>
             </fieldset>
-            <table :id="`list-${$route.params.restype}`"
+            <table :id="`list-${$route.name}`"
                    class="table-datatables"
-                   :data-restype="$route.params.restype">
+                   :data-restype="$route.name">
                 <thead>
                     <component :is="activeTableHead"
                                :date-title="dateTitle"
@@ -48,7 +48,7 @@
         inject: ['isCoef', 'isEdit'],
         computed: {
             activeTableHead() {
-                switch (this.$route.params.restype) {
+                switch (this.$route.name) {
                     case 'pdf':
                         return 'PdfTableHead';
                         break
@@ -75,7 +75,7 @@
             dateTitle() {
                 if (this.isCoef !== null) {
                     return 'Koeff.'
-                } else if (this.$route.params.restype === 'pdf' || this.$route.params.restype === 'teli') {
+                } else if (this.$route.name === 'pdf' || this.$route.name === 'teli') {
                     return 'Erschienen'
                 } else {
                     return 'Erstellt';
@@ -87,12 +87,12 @@
         },
         mounted() {
             resourceDetail.init();
-            window.vitoopApp.initTable(
-                this.$route.params.restype,
+            vitoopApp.initTable(
+                this.$route.name,
                 this.$store.state.admin !== null,
                 0,
                 0,
-                `/api/resource/${this.$route.params.restype}`,
+                `/api/resource/${this.$route.name}`,
             );
         }
     }
