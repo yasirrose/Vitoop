@@ -12,7 +12,10 @@
                 </a>
                 <button class="ui-corner-all ui-state-default" id="button-help">Hilfe</button>
             </span>
-            <a class="ui-corner-all ui-state-default" href="/impressum">Impressum</a>
+            <a class="ui-corner-all ui-state-default"
+               @click.prevent="$router.push('/impressum')">
+                Impressum
+            </a>
         </div>
     </div>
 </template>

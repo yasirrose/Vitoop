@@ -1,8 +1,8 @@
 import initialState from './state'
 
 export default {
-    setHelpText(state, text) {
-        state.helpText = text;
+    setHelp(state, payload) {
+        state.help[payload.key] = payload.value;
     },
     setAdmin(state, status) {
         state.admin = status;

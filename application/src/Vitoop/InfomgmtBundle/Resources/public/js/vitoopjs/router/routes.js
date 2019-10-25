@@ -4,6 +4,7 @@ import UserSettings from "../components/Vue/UserSettings/UserSettings.vue";
 import UserHome from "../components/Vue/components/UserHome.vue";
 import Login from "../components/Vue/components/AppLogin.vue";
 import Table from "../components/Vue/components/tables/Table.vue";
+import Impressum from "../components/Vue/components/Impressum.vue";
 
 export default [
     {
@@ -39,6 +40,10 @@ export default [
     {
         path: '/user/settings',
         component: UserSettings
+    },
+    {
+        path: '/impressum',
+        component: Impressum,
     }
 ]
 

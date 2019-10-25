@@ -60,7 +60,7 @@
                 .then(({data}) => {
                     // data.isAdmin = false;
                     this.$store.commit('setAdmin', data.isAdmin);
-                    this.$store.commit('setHelpText', data.help.text);
+                    this.$store.commit('setHelp', {key: 'text', value: data.help.text});
                 })
                 .catch(err => console.dir(err));
 

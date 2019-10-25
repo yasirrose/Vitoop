@@ -21,5 +21,8 @@ export default {
     },
     getResource: (state) => (key) => {
         return state.resource[key];
+    },
+    getHelp: (state) => (key) => {
+        return state.help[key];
     }
 }

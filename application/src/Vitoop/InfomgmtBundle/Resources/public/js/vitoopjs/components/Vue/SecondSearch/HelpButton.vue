@@ -10,6 +10,7 @@
 
 <script>
     import TinyMCEInitializer from "../../TinyMCEInitializer";
+    import {mapGetters} from 'vuex';
 
     export default {
         name: "HelpButton",
@@ -22,6 +23,9 @@
             return {
                 helpPopupId: '#vtp-res-dialog-help',
             }
+        },
+        computed: {
+            ...mapGetters(['getHelp','isAdmin'])
         },
         mounted() {
             tinyMCE.remove();
@@ -48,14 +52,14 @@
                 $(this.helpPopupId).dialog('open');
             },
             loadContent() {
-                if (this.$store.state.admin) {
+                if (this.isAdmin) {
                     let element = $(`
-                        <input type="hidden" id="help-id" value="' + answer.help.id + '">
                         <div class="vtp-fh-w100">
                             <textarea id="help-text"></textarea>
                         </div>
                         <div class="vtp-fh-w100">
-                            <button class="ui-corner-all ui-state-default" id="button-help-save">speichern</button>
+                            <button class="ui-corner-all ui-state-default"
+                                    id="button-help-save">speichern</button>
                         </div>
                     `);
                     $('#help-text', element).val(this.$store.state.helpText);
@@ -74,17 +78,16 @@
                     options.toolbar = 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink | code';
                     tinyMCE.init(options);
 
-                    $('#button-help-save').on('click', function() {
+                    $('#button-help-save').on('click', () => {
                         tinyMCE.triggerSave();
-                        // axios.post('/api/help')
-                        //     .then(() => {
-                        //
-                        //     })
                         $.ajax({
                             url: vitoop.baseUrl +'api/help',
                             method: 'POST',
-                            data: JSON.stringify({'id': $('#help-id').val(), 'text': $('#help-text').val()}),
-                            success: function(data) {
+                            data: JSON.stringify({
+                                id: this.getHelp('id'),
+                                text: this.getHelp('text')
+                            }),
+                            success: data => {
                                 let elemSuccess = $('<div class="vtp-uiinfo-info ui-state-highlight ui-corner-all"><span class="vtp-icon ui-icon ui-icon-info"></span>Help message saved!</div>');
                                 $('#button-help-save').before(elemSuccess);
                                 setTimeout(function() {
@@ -94,14 +97,14 @@
                         });
                     });
                 } else {
-                    $('#vtp-res-dialog-help').append(this.$store.state.helpText);
+                    $('#vtp-res-dialog-help').append(this.getHelp('text'));
                 }
             },
             resetScroll() {
                 this.currentElementId = 'p';
             },
             scroll() {
-                if (this.$store.state.admin) {
+                if (this.isAdmin) {
                     const offset = $(tinymce.activeEditor.getBody()).find(`#vtp-help-${this.helpArea}`)[0].offsetTop;
                     $(tinymce.activeEditor.dom.doc.documentElement)[0].scrollTop = offset;
                     return;
