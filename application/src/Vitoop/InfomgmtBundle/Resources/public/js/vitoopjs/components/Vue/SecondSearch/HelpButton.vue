@@ -28,7 +28,7 @@
             ...mapGetters(['getHelp','isAdmin'])
         },
         mounted() {
-            tinyMCE.remove();
+            // tinyMCE.remove();
             $('#vtp-res-dialog-help').empty();
             this.loadContent();
             $(this.helpPopupId).dialog({
@@ -62,7 +62,7 @@
                                     id="button-help-save">speichern</button>
                         </div>
                     `);
-                    $('#help-text', element).val(this.$store.state.helpText);
+                    $('#help-text', element).val(this.getHelp('text'));
                     $('#vtp-res-dialog-help').append(element);
 
                     let tinyInit = new TinyMCEInitializer();

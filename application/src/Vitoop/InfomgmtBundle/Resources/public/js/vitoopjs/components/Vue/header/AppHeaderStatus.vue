@@ -33,14 +33,13 @@
                 </span>
             </button>
             <a class="vtp-button vtp-uiaction-goto-invite vtp-admin-toolbar ui-widget ui-state-default ui-corner-all ui-button-icons-only"
-               href="/invite"
-               role="button"
+               @click.prevent="$router.push('/invite')"
                :title="$t('invitations.send')">
                 <span class="ui-button-icon-primary ui-icon ui-icon-mail-closed"></span>
                 <span class="ui-button-icon-secondary ui-icon ui-icon-pencil"></span>
             </a>
             <a class="vtp-button vtp-uiaction-goto-edithome vtp-admin-toolbar ui-widget ui-state-default ui-corner-all ui-button-icons-only"
-               href="/edit-vitoop-blog"
+               @click.prevent="$router.push('/edit-vitoop-blog')"
                :title="$t('homepage.edit')">
                 <span class="ui-button-icon-primary ui-icon ui-icon-home"></span>
                 <span class="ui-button-icon-secondary ui-icon ui-icon-pencil"></span>

@@ -6,6 +6,8 @@ import Login from "../components/Vue/components/AppLogin.vue";
 import Table from "../components/Vue/components/tables/Table.vue";
 import Impressum from "../components/Vue/components/Impressum.vue";
 import Tags from "../components/Vue/components/Tags.vue";
+import Invite from "../components/Vue/components/Invite.vue";
+import EditVitoopBlog from "../components/Vue/components/EditVitoopBlog.vue";
 
 export default [
     {
@@ -86,6 +88,16 @@ export default [
         path: '/tags',
         component: Tags,
         name: 'tags'
+    },
+    {
+        path: '/invite',
+        component: Invite,
+        name: 'invite'
+    },
+    {
+        path: '/edit-vitoop-blog',
+        component: EditVitoopBlog,
+        name: 'edit-vitoop-blog'
     }
 ]
 

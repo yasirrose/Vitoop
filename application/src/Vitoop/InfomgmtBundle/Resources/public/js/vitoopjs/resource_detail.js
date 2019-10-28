@@ -497,6 +497,7 @@ window.resourceDetail = (function () {
                     replaceContainer(container_name, html);
                 }
             });
+
             $('#vtp-res-dialog select').selectmenu({
                 select: function( event, ui ) {
                     $('span.ui-selectmenu-button').removeAttr('tabIndex');
