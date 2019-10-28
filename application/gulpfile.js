@@ -14,13 +14,6 @@ var path = require('path');
 var env = process.env.GULP_ENV;
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
-gulp.task('angular-js', function () {
-    return gulp.src(['src/Vitoop/InfomgmtBundle/Resources/public/js/angular/*.js'])
-        .pipe(concat('angular-modules.js'))
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('web/js'));
-});
-
 gulp.task('lexicon-js', function () {
     return gulp.src(['src/Vitoop/InfomgmtBundle/Resources/public/js/lexicon/lexicon-home.js'])
         .pipe(gulpif(env === 'prod', uglify()))
@@ -59,10 +52,6 @@ gulp.task('jquery-js', function () {
             },
             module: {
                 loaders: [
-                    /*{
-                        test: require.resolve('angular'),
-                        loader: "exports-loader?window.angular"
-                    },*/
                     {
                         test: require.resolve('jquery'),
                         loader: 'imports-loader?$=jquery'
@@ -84,8 +73,6 @@ gulp.task('jquery-js', function () {
                     jQuery: 'jquery',
                     'window.jQuery': 'jquery',
                     'window.$': 'jquery',
-                    /*angular: 'angular',
-                    DataTable: 'datatables.net'*/
                 }),
             ],
             devtool: 'source-map'
@@ -104,7 +91,7 @@ gulp.task('vitoop-app', function () {
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/app/boot.js'
         ])
         .pipe(webpack({
-            mode: 'development',
+            mode: 'production',
             output: {
                 publicPath: "/js/",
                 filename: 'vitoop-app.js'
@@ -225,7 +212,7 @@ gulp.task('img', function() {
 gulp.task('pdf', function () {
     return gulp.src('src/Vitoop/InfomgmtBundle/Resources/public/js/pdf.editor/pdf.editor.js')
         .pipe(webpack({
-            mode: 'development',
+            mode: 'production',
             output: {
                 publicPath: "/build/",
                 filename: 'pdf.editor.js'
@@ -245,7 +232,7 @@ gulp.task('pdf', function () {
 gulp.task('default', gulp.series(['img', 'tinymce-scss', 'scss', 'js', 'pdf', 'pdf-view-js']));
 
 gulp.task('set-prod', function() {
-    // return env = 'prod';
+    return env = 'prod';
 });
 
 gulp.task('prod', gulp.series(['set-prod', 'default']));

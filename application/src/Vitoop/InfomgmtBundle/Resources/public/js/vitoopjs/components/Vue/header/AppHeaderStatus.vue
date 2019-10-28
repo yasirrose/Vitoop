@@ -246,7 +246,7 @@
                 $('#vtp-res-dialog-terms').dialog('open');
                 setTimeout(function() {
                     tinymce.execCommand('mceFocus',false,'tiny-terms');
-                },400);   
+                },400);
             },
             showDataP() {
                 $('#vtp-res-dialog-datap').dialog('open');

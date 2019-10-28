@@ -189,7 +189,8 @@ export default class VtpDatatable {
                 method: 'GET',
                 success: function(data) {
                     dividers = data;
-                    var divider = "";
+                    let divider = "";
+                    const currentDividers = [];
                     $('.vtp-uiaction-coefficient.divider-wrapper').remove();
                     $('table > tbody > tr > td > input.vtp-uiaction-coefficient').each(function() {
                         currentCoefficient = Math.floor($(this).val());
@@ -199,6 +200,7 @@ export default class VtpDatatable {
                                 divider = "";
                             } else {
                                 divider = divider.text;
+                                currentDividers.push(divider);
                             }
                             if ((typeof(editMode) != "undefined") && (editMode)) {
                                 $(this).parent().parent().before($('<div class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 96px; padding-top: 4px"><span>'+ ~~ currentCoefficient+'</span></div><div style="width: 990px"><input class="divider" type="text" data-coef="'+(~~currentCoefficient)+'" value="'+divider+'" data-original="'+divider+'"></div></div>'));
@@ -234,6 +236,10 @@ export default class VtpDatatable {
                         }
                         upperCoefficient = currentCoefficient;
                     });
+                    // todo calculate difference and update Table
+                    // const pageSelect = new RowPerPageSelect();
+                    // const newPageLength = pageSelect.getPageLength() - currentDividers.length;
+                    // pageSelect.updatePageLength(newPageLength);
                 }
             });
         }

@@ -33,7 +33,8 @@
             'editMode',
             'isEdit',
             'infoProjectData',
-            'tags'
+            'tags',
+            'terms'
         ],
         provide() {
             return {
@@ -48,7 +49,8 @@
                 editMode: this.editMode,
                 isEdit: this.isEdit,
                 infoProjectData: this.infoProjectData,
-                tags: this.tags
+                tags: this.tags,
+                terms: this.terms
             }
         },
         components: { AppFooter, AppHeader, AppContent, AppLogin },

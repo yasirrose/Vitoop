@@ -1,13 +1,14 @@
 import Index from "../components/Vue/components/project/Index.vue";
 import AppLexicon from "../components/Vue/components/AppLexicon.vue";
 import UserSettings from "../components/Vue/UserSettings/UserSettings.vue";
-import UserHome from "../components/Vue/components/UserHome.vue";
+import UserHome from "../components/Vue/components/user/UserHome.vue";
 import Login from "../components/Vue/components/AppLogin.vue";
 import Table from "../components/Vue/components/tables/Table.vue";
 import Impressum from "../components/Vue/components/Impressum.vue";
 import Tags from "../components/Vue/components/Tags.vue";
 import Invite from "../components/Vue/components/Invite.vue";
 import EditVitoopBlog from "../components/Vue/components/EditVitoopBlog.vue";
+import UserAgreement from "../components/Vue/components/user/UserAgreement.vue";
 
 export default [
     {
@@ -98,6 +99,11 @@ export default [
         path: '/edit-vitoop-blog',
         component: EditVitoopBlog,
         name: 'edit-vitoop-blog'
+    },
+    {
+        path: '/user/agreement',
+        component: UserAgreement,
+        name: 'user-agreement'
     }
 ]
 

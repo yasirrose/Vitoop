@@ -26,8 +26,6 @@
             };
         }());
     </script>
-    {% block includescript %}{% endblock %}
-    {% block onloadscript %}{% endblock %}
 </head>
 <body id="vtp-application"
       {% if (without_js is not defined) and (app.user) and (not app.user.getIsAgreedWithTerms()) %}
@@ -71,7 +69,8 @@
                          :info-project-data="{{ infoprojectdata|json_encode() }}"
                          :invitation="{{ vsettings.getInvitation().getValue() }}"
                          :as-project-owner="{{ showasprojectowner|json_encode() }}"
-                         :tags="{{ tags|json_encode }}">
+                         :tags="{{ tags|json_encode }}"
+                         :terms="{{ terms|json_encode() }}">
                 </vtp-app>
             </div>
         </div>
