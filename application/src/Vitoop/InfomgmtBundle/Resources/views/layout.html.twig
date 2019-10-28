@@ -33,79 +33,79 @@
       {% if (without_js is not defined) and (app.user) and (not app.user.getIsAgreedWithTerms()) %}
          style="display: none"
       {% endif %}>
-<div id="vtp-wrapper">
-    <div class="vtp-paddingbox">
-        <div id="vtp-app">
-{#            set projectObj#}
-            {% set prjCreatedAt = project.getCreatedAt|date('d.m.Y') %}
-            {% set projectObj = {
-                id: project.id,
-                name: project.name,
-                data: project.projectdata.sheet,
-                user_name: project.user.username,
-                created: prjCreatedAt
-            } %}
-{#            set lexiconObj#}
-            {% set lexiconObj = {
-                id: lexicon.id,
-                name: lexicon.name,
-                data: lexicon.getDescription,
-                wikiFullUrl: lexicon.wikifullurl,
-                wikiRedirects: lexicon.wikiredirects,
-                lexicons: lexicons
-            } %}
-            <vtp-app download-size="{{ vsettings.getCurrentDownloadsSize.getValue|number_format(2, '.', ' ') }}"
-                     :is-coef="{{ isCoef|json_encode() }}"
-                     :project="{{ projectObj|json_encode() }}"
-                     :lexicon="{{ lexiconObj|json_encode() }}"
-                     :edit-mode="{{ editMode|json_encode() }}"
-                     :is-edit="{{ isEdit|json_encode }}"
-                     :resource-info="{{ resourceInfo|json_encode() }}"
-                     :agree-with-term="
-                        {% if app.user.getIsAgreedWithTerms() %}
-                            {{ app.user.getIsAgreedWithTerms() }}
-                        {% else %}
-                            false
-                        {% endif %}"
-                     :edit-mode="{{ editMode|json_encode }}"
-                     :info-project-data="{{ infoprojectdata|json_encode() }}"
-                     :invitation="{{ vsettings.getInvitation().getValue() }}"
-                     :as-project-owner="{{ showasprojectowner|json_encode() }}"
-                     :tags="{{ tags|json_encode }}">
-            </vtp-app>
+    <div id="vtp-wrapper">
+        <div class="vtp-paddingbox">
+            <div id="vtp-app">
+    {#            set projectObj#}
+                {% set prjCreatedAt = project.getCreatedAt|date('d.m.Y') %}
+                {% set projectObj = {
+                    id: project.id,
+                    name: project.name,
+                    data: project.projectdata.sheet,
+                    user_name: project.user.username,
+                    created: prjCreatedAt
+                } %}
+    {#            set lexiconObj#}
+                {% set lexiconObj = {
+                    id: lexicon.id,
+                    name: lexicon.name,
+                    data: lexicon.getDescription,
+                    wikiFullUrl: lexicon.wikifullurl,
+                    wikiRedirects: lexicon.wikiredirects,
+                    lexicons: lexicons
+                } %}
+                <vtp-app download-size="{{ vsettings.getCurrentDownloadsSize.getValue|number_format(2, '.', ' ') }}"
+                         :is-coef="{{ isCoef|json_encode() }}"
+                         :project="{{ projectObj|json_encode() }}"
+                         :lexicon="{{ lexiconObj|json_encode() }}"
+                         :edit-mode="{{ editMode|json_encode() }}"
+                         :is-edit="{{ isEdit|json_encode }}"
+                         :resource-info="{{ resourceInfo|json_encode() }}"
+                         :agree-with-term="
+                            {% if app.user.getIsAgreedWithTerms() %}
+                                {{ app.user.getIsAgreedWithTerms() }}
+                            {% else %}
+                                false
+                            {% endif %}"
+                         :edit-mode="{{ editMode|json_encode }}"
+                         :info-project-data="{{ infoprojectdata|json_encode() }}"
+                         :invitation="{{ vsettings.getInvitation().getValue() }}"
+                         :as-project-owner="{{ showasprojectowner|json_encode() }}"
+                         :tags="{{ tags|json_encode }}">
+                </vtp-app>
+            </div>
         </div>
+        {% if app.user %}
+            {% include 'VitoopInfomgmtBundle:Resource:dialogs.html.twig' %}
+            <div id="additional-info" style="display: none">
+                <input id="sendlink-url"
+                       name="sendlink-url"
+                       type="hidden"
+                       value="{{ path('vitoop_infomgmt_userlink_userlinks') }}">
+            </div>
+        {%endif%}
     </div>
-    {% if app.user %}
-        {% include 'VitoopInfomgmtBundle:Resource:dialogs.html.twig' %}
-        <div id="additional-info" style="display: none">
-            <input id="sendlink-url"
-                   name="sendlink-url"
-                   type="hidden"
-                   value="{{ path('vitoop_infomgmt_userlink_userlinks') }}">
-        </div>
-    {%endif%}
-</div>
-{% block footerjs %}
-<script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
-<script src="{{ asset('js/datatables/datatables.js') }}"></script>
-{% if (without_js is not defined) and (app.user) and (not app.user.getIsAgreedWithTerms()) %}
+    {% block footerjs %}
+    <script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
+    <script src="{{ asset('js/datatables/datatables.js') }}"></script>
+    {% if (without_js is not defined) and (app.user) and (not app.user.getIsAgreedWithTerms()) %}
+        <script type="text/javascript">
+            window.location = "{{ path('user_agreement') }}";
+        </script>
+    {% endif %}
     <script type="text/javascript">
-        window.location = "{{ path('user_agreement') }}";
+        //Firefox bugfixes
+        $(document).on('focusin', function(e) {
+            if ($(e.target).closest(".mce-window").length) {
+                e.stopImmediatePropagation();
+            }
+        });
+        $('select').selectmenu({
+            select: function( event, ui ) {
+                $('#vtp-search-bytags-form span.ui-selectmenu-button').removeAttr('tabIndex');
+            }
+        });
     </script>
-{% endif %}
-<script type="text/javascript">
-    //Firefox bugfixes
-    $(document).on('focusin', function(e) {
-        if ($(e.target).closest(".mce-window").length) {
-            e.stopImmediatePropagation();
-        }
-    });
-    $('select').selectmenu({
-        select: function( event, ui ) {
-            $('#vtp-search-bytags-form span.ui-selectmenu-button').removeAttr('tabIndex');
-        }
-    });
-</script>
-{% endblock footerjs %}
+    {% endblock footerjs %}
 </body>
 </html>

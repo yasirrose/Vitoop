@@ -17,10 +17,12 @@
                 <button class="vtp-button" type="submit">{{ $t('label.flags.edit') }}</button>
             </form>
             <button class="vtp-button vtp-admin-toolbar ui-widget ui-state-default ui-corner-all ui-button-text-only"
+                    @click="showTerms"
                     id="button-terms-admin">
                 <span class="ui-button-text">{{ $t('label.terms') }}</span>
             </button>
             <button class="vtp-button vtp-admin-toolbar ui-widget ui-state-default ui-corner-all ui-button-text-only"
+                    @click="showDataP"
                     id="button-data-p">
                 <span class="ui-button-text">{{ $t('label.datap') }}</span>
             </button>
@@ -240,6 +242,18 @@
             });
         },
         methods: {
+            showTerms() {
+                $('#vtp-res-dialog-terms').dialog('open');
+                setTimeout(function() {
+                    tinymce.execCommand('mceFocus',false,'tiny-terms');
+                },400);   
+            },
+            showDataP() {
+                $('#vtp-res-dialog-datap').dialog('open');
+                setTimeout(function() {
+                    tinymce.execCommand('mceFocus',false,'tiny-datap');
+                },400);
+            },
             invitationValueText() {
                 return this.invitation.value ? 'on' : 'off';
             },
