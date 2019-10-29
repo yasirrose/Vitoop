@@ -2,7 +2,6 @@ import VtpDatatable from '../components/VtpDatatable';
 import TinyMCEInitializer from '../components/TinyMCEInitializer';
 import SecondSearch from "../components/SecondSearch";
 import HelpButton from '../components/HelpButton';
-import AdminToolbarButton from '../components/AdminToolbarButton';
 import TagSearch from "../components/TagSearch";
 import ResourcePopup from "../components/ResourcePopup";
 import UserService from "../services/User/UserService";
@@ -17,8 +16,6 @@ export default class VitoopApp {
     init() {
         this.secondSearch = new SecondSearch();
         this.tagSearch = new TagSearch();
-        this.tagSearch.init();
-        new AdminToolbarButton();
     }
 
     initTable(resType, isAdmin, isEdit, isCoef, url, resourceId) {
@@ -41,19 +38,6 @@ export default class VitoopApp {
         return tinyInit.getCommonOptions();
     }
 
-    extendTag (event) {
-        let parent = $(event.target).parent();
-        if (parent.hasClass('vtp-search-bytags-tag-active')) {
-            $('.tag-icons-to-hide', parent).hide(400);
-            parent.removeClass('vtp-search-bytags-tag-active');
-        } else {
-            $('.tag-icons-to-hide').hide(400);
-            $('.vtp-search-bytags-tag').removeClass('vtp-search-bytags-tag-active');
-            $('.tag-icons-to-hide', parent).show(400);
-            parent.addClass('vtp-search-bytags-tag-active');
-        }
-    }
-
     highlightTag(event) {
         let parent = $(event.target).parent();
         if (!parent.hasClass('vtp-search-bytags-tag-bulb')) {
@@ -64,7 +48,6 @@ export default class VitoopApp {
             parent.removeClass('vtp-search-bytags-tag-bulb');
             this.tagSearch.highlightTag(parent.text().trim(), false);
         }
-
     }
 
     ignoreTag(event) {

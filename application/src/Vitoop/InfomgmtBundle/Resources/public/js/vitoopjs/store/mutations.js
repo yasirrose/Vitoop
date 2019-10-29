@@ -1,6 +1,12 @@
 import initialState from './state'
 
 export default {
+    setHelp(state, payload) {
+        state.help[payload.key] = payload.value;
+    },
+    setAdmin(state, status) {
+        state.admin = status;
+    },
     showSecondSearch: function (state) {
         state.secondSearch.show = true;
     },
@@ -78,6 +84,15 @@ export default {
     },
     setResource: function (state, value) {
         state.resource = value;
+    },
+    setResourceInfo(state, info) {
+        state.resource.info = info;
+    },
+    setResourceId(state, id) {
+        state.resource.id = id;
+    },
+    setResourceType(state, type) {
+        state.resource.type = type;
     },
     resetSecondSearch: function(state) {
         const secondSearch = initialState.secondSearch;

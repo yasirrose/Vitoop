@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html ng-app="vitoop">
+<html>
 <head>
     <meta charset="utf-8"/>
     <title>vitoop</title>
     <link rel="stylesheet" type="text/css" href="{{ asset('css/vitoop.css') }}">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    {#<script src="{{ asset('js/vitoop-jquery.js') }}"></script>#}
     <script src="{{ asset('js/vitoop.js') }}"></script>
-    <script src="/build/old/angular.min.js"></script>
     {% block css %}{% endblock %}
     <script type="text/javascript">
         vitoop = (function () {
@@ -28,309 +26,85 @@
             };
         }());
     </script>
-    {% block includescript %}{% endblock %}
-    {% block onloadscript %}{% endblock %}
 </head>
 <body id="vtp-application"
-      ng-controller="MainController"
       {% if (without_js is not defined) and (app.user) and (not app.user.getIsAgreedWithTerms()) %}
          style="display: none"
       {% endif %}>
-<div id="vtp-wrapper">
-    <div class="vtp-paddingbox">
-        <div id="vtp-header" class="ui-corner-all">
-            <div id="vtp-header-status">
-                {% if is_granted('ROLE_ADMIN') %}
-                    <span class="vtp-admin-toolbar" style="margin-right: 6px; color: #2779aa">{{'label.download.size'|trans}}: {{ vsettings.getCurrentDownloadsSize.getValue|number_format(2, '.', ' ') }} {{'label.download.mb'|trans}}</span>
-                    <form id="vtp-header-toggle-flag" class="vtp-admin-toolbar" style="display:none" action="{{ path('_home') }}" method="get" enctype="application/x-www-form-urlencoded">
-                        <label for="vtp-tgl-flag" class="vtp-button">{{'label.flags.edit'|trans}}</label>
-                        <input id="vtp-tgl-flag" class="vtp-uiaction-toggle-flag" name="flagged" type="checkbox" value="1">
-                        <button class="vtp-button" type="submit">{{'label.flags.edit'|trans}}</button>
-                    </form>
-                    <button class="vtp-button vtp-admin-toolbar ui-widget ui-state-default ui-corner-all ui-button-text-only" id="button-terms-admin">
-                        <span class="ui-button-text">{{'label.terms'|trans}}</span>
-                    </button>
-                    <button class="vtp-button vtp-admin-toolbar ui-widget ui-state-default ui-corner-all ui-button-text-only" id="button-data-p">
-                        <span class="ui-button-text">{{'label.datap'|trans}}</span>
-                    </button>
-                    <button class="vtp-button vtp-admin-toolbar ui-widget ui-state-default ui-corner-all ui-button-text-only" id="invitations-toggle">
-                        {{'invitations.label'|trans}}: <span>{% if (vsettings.getInvitation().getValue()) %} {{'label.checkbox.on'|trans}} {% else %} {{'label.checkbox.off'|trans}} {% endif %}</span>
-                    </button>
-                    <a class="vtp-button vtp-uiaction-goto-invite vtp-admin-toolbar ui-widget ui-state-default ui-corner-all ui-button-icons-only" href="{{ path('_invite') }}" role="button" title="{{'invitations.send'|trans}}">
-                        <span class="ui-button-icon-primary ui-icon ui-icon-mail-closed"></span>
-                        <span class="ui-button-icon-secondary ui-icon ui-icon-pencil"></span>
-                    </a>
-                    <a class="vtp-button vtp-uiaction-goto-edithome vtp-admin-toolbar ui-widget ui-state-default ui-corner-all ui-button-icons-only" href="{{ path('_edit_vitoop_blog') }}" title="{{'homepage.edit'|trans}}">
-                        <span class="ui-button-icon-primary ui-icon ui-icon-home"></span>
-                        <span class="ui-button-icon-secondary ui-icon ui-icon-pencil"></span>
-                    </a>
-                {% endif %}
-                {% if app.user %}
-                    <div id="button-checking-links__wrapper">
-                        <button class="vtp-button" id="button-checking-links-remove" title="{{ 'label.remove.tooltip'|trans }}" style="display:none">x</button>
-                        <button class="vtp-button" id="button-checking-links" title="{{'label.open.tooltip'|trans}}" style="display:none">{{'label.open'|trans}}</button>
-                        <button class="vtp-button" id="button-checking-links-send" title="{{ 'label.send.tooltip'|trans }}" style="display:none">{{'label.send'|trans}}</button>
-                    </div>
-                    <form id="vtp-header-login" action="{{ path('_logout') }}" method="get" enctype="application/x-www-form-urlencoded">
-                        <button id="vtp-user-loginform-logout" class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-text-icon-secondary" role="button" title="{{'logout.message'|trans}}" value="{{'logout.label'|trans}}" type="submit">
-                            <span class="ui-button-text">{{  app.user.username }}</span>
-                            <span class="ui-button-icon-secondary ui-icon ui-icon-power"></span>
-                        </button>
-                    </form>
-                {% if is_granted('ROLE_ADMIN') %}
-                    <button id="vtp-admin-toolbar-toggle" class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only">
-                        <span class="ui-button-icon-primary ui-icon ui-icon-notice"></span>
-                        <span class="ui-button-text"></span>
-                    </button>
-                {% endif %}
-                    <a href="{{ path('user_settings') }}"
-                       id="vtp-user-userdata"
-                       class="vtp-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-                       title="Einstellungen">
-                        <i class="fas fa-bars"></i>
-{#                        <span class="ui-buttonui-button-text-icon-primary ui-icon ui-icon-newwin"></span>#}
-                        <span class="ui-button-text"></span>
-                    </a>
-                {% else %}
-                        <form id="vtp-header-login" action="{{ path('_login_check') }}" method="post" enctype="application/x-www-form-urlencoded">
-                            <div class="login-container">
-                                <div class="vtp-fh-w5">
-                                    <button id="vtp-user-loginform-login" class="vtp-button ui-state-default" value="login" tabindex="3" type="submit">
-                                        {% if app.user %}
-                                            {{'label.signin'|trans}}
-                                        {% endif %}
-                                    </button>
-                                </div>
-                                <div class="vtp-fh-w16 forgotPass" style="width: 167px">
-                                    <input id="password" name="_password" type="password" tabindex="2" placeholder="{{'label.password'|trans}}" style="width: 94%">
-                                    <a href="{{ path('forgot_password') }}">{{'label.forgot.password'|trans}}</a>
-                                </div>
-                                <div class="vtp-fh-w16" style="width: 167px">
-                                    <input id="username" style="width: 94%" name="_username" tabindex="1" type="text" placeholder="{{'label.username'|trans}}" {% if last_username is defined %}value="{{ last_username }}" {% endif %}>
-                                    {% if (vsettings.getInvitation().getValue() == true) %}
-                                        <a href="{{ path('new_invitation') }}">{{'label.signup'|trans}}</a>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </form><br/>
-                {% endif %}
-            </div>
-            <div class="vtp-logo">
-                <span class="beta-status">
-                    beta
-                </span>
-                <a href="{{ path('_base_url') }}">
-                    vitoop<span>.org</span>
-                </a>
-            </div>
-            {% if (not app.user) or (app.user.getIsAgreedWithTerms()) %}
-                <div id="vtp-nav" class="vtp-menu ui-helper-clearfix ui-corner-all">
-                    <input id="resourceInfo"
-                           type="hidden"
-                           ng-model="nav.resourceInfo" />
-                    <div style="width: 588px; float: left;">
-                    <ul>
-                        {% set ang = "click('')" %}
-                        {% if restype is not defined %}
-                            {% set restype = '' %}
-                        {% endif %}
-                        {% set homeclass='' %}
-                        {% if project is defined %}
-                            {% if editMode is defined and editMode %}
-                                {% set href , home = path('_home_project', {'project_id': project.id, 'edit': 1 }), 'page.project'|trans %}
-                                {% set ang = "click('prjhome')" %}
+    <div id="vtp-wrapper">
+        <div class="vtp-paddingbox">
+            <div id="vtp-app">
+    {#            set projectObj#}
+                {% set prjCreatedAt = project.getCreatedAt|date('d.m.Y') %}
+                {% set projectObj = {
+                    id: project.id,
+                    name: project.name,
+                    data: project.projectdata.sheet,
+                    user_name: project.user.username,
+                    created: prjCreatedAt
+                } %}
+    {#            set lexiconObj#}
+                {% set lexiconObj = {
+                    id: lexicon.id,
+                    name: lexicon.name,
+                    data: lexicon.getDescription,
+                    wikiFullUrl: lexicon.wikifullurl,
+                    wikiRedirects: lexicon.wikiredirects,
+                    lexicons: lexicons
+                } %}
+                <vtp-app download-size="{{ vsettings.getCurrentDownloadsSize.getValue|number_format(2, '.', ' ') }}"
+                         :is-coef="{{ isCoef|json_encode() }}"
+                         :project="{{ projectObj|json_encode() }}"
+                         :lexicon="{{ lexiconObj|json_encode() }}"
+                         :edit-mode="{{ editMode|json_encode() }}"
+                         :is-edit="{{ isEdit|json_encode }}"
+                         :resource-info="{{ resourceInfo|json_encode() }}"
+                         :agree-with-term="
+                            {% if app.user.getIsAgreedWithTerms() %}
+                                {{ app.user.getIsAgreedWithTerms() }}
                             {% else %}
-                                {% set href , home = path('_home_project', {'project_id': project.id }), 'page.project'|trans %}
-                                {% set ang = "click('prj')" %}
-                            {% endif %}
-                        {% elseif lexicon is defined %}
-                            {% set href , home = path('_home_lexicon', {'lexicon_id': lexicon.id }), 'page.lexicon'|trans %}
-                        {% else %}
-                            {% set ang = "click('home')" %}
-                            {% set href, home = path('_home'), 'Benutzer-Hauptseite' %}
-                            {% set homeclass='vtp-resmenu-homelink-home ' %}
-                        {% endif %}
-                        <li>
-                            <a class="vtp-resmenu-homelink {{ homeclass }}{{ (restype == '') ? 'vtp-nav-active ui-state-active ' }}ui-state-default ui-corner-all"
-                               href="{{ href }}"
-                               ng-click="{{ ang }}">
-                                {{ home }}
-                            </a>
-                        </li>
-                        {% set respath = {} %}
-                        {# QUERYSTRING is set only on first page load or re-load#}
-                        {% if taglist is defined %}
-                            {% set respath = respath|merge({'taglist': taglist}) %}
-                        {% endif %}
-                        {% if tagcnt is defined %}
-                            {% set respath = respath|merge({'tagcnt': tagcnt}) %}
-                        {% endif %}
-                        {% if maxperpage is defined %}
-                            {% set respath = respath|merge({'maxperpage': maxperpage}) %}
-                        {% endif %}
-                        {% if project is defined %}
-                            {% set respath = respath|merge({'project': project.id}) %}
-                        {% endif %}
-                        {% if lexicon is defined %}
-                            {% set respath = respath|merge({'lexicon': lexicon.id}) %}
-                        {% endif %}
-                        {% if flagged is defined %}
-                            {% set respath = respath|merge({'flagged': 1}) %}
-                        {% endif %}
-                        {% for every_restype, every_resfullname in {
-                            'prj' : 'Projekt',
-                            'lex' : 'Lexikon',
-                            'pdf' : 'Pdf',
-                            'teli' : 'Textlink',
-                            'book' : 'Buch',
-                            'adr' : 'Adresse',
-                            'link' : 'Link'
-                        } %}
-                            {% set respath = respath|merge({'res_type': every_restype}) %}
-                            {% if resourceInfo is defined %}
-                                {% set count = resourceInfo[every_restype ~ 'c'] %}
-                            {% else %}
-                                {% set count = 1 %}
-                            {% endif %}
-                            <li>
-                                <a class="vtp-resmenu-reslink {{ (every_restype == restype) ? 'vtp-nav-active ui-state-active ' }}ui-state-default ui-corner-all {{ (count == 0) ? 'ui-state-no-content' }}"
-                                   href="{{ path('_resource_list', respath) }}"
-                                   ng-class="{'ui-state-no-content': nav.nocontent.{{every_restype}}c}"
-                                   ng-click="click({{ every_resfullname }})"
-                                   id="vtp-link-{{every_restype}}s">
-                                    {{ every_resfullname }}
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                    </div>
-                    {% block search_by_tags_form %}
-                        {% include 'VitoopInfomgmtBundle:Resource:search.bytags.form.html.twig' %}
-                    {% endblock %}
-                </div>
-
-            {% endif %}
-            <div id="vtp-cmstitle">{% block cmstitle %}{% endblock %}</div>
-            <div id="vtp-filterbox">
-                {% block filterbox %}
-                    {% include 'VitoopInfomgmtBundle:Resource:search.bytags.taglistbox.html.twig' %}
-                {% endblock %}
-            </div>
-            <div id="vtp-second-search">
-                <second-search></second-search>
+                                false
+                            {% endif %}"
+                         :edit-mode="{{ editMode|json_encode }}"
+                         :info-project-data="{{ infoprojectdata|json_encode() }}"
+                         :invitation="{{ vsettings.getInvitation().getValue() }}"
+                         :as-project-owner="{{ showasprojectowner|json_encode() }}"
+                         :tags="{{ tags|json_encode }}"
+                         :terms="{{ terms|json_encode() }}">
+                </vtp-app>
             </div>
         </div>
-        <div id="vtp-content">
-            {% block content %}
-            {% endblock %}
-        </div>
-        <div id="vtp-footer" class="ui-corner-all">
-            <div id="vtp-footer-homelink">© 2018 by <a class="vtp-homelink" href={{ path('_base_url') }}>vitoop<span>.org</span></a></div>
-            <div id="vtp-imprint">
-                {% if app.user %}
-                    {% if app.user.getIsAgreedWithTerms() %}
-                        <a class="ui-corner-all ui-state-default" href={{ path('_tags') }}>Tags</a>
-                    {% endif %}
-                    <button class="ui-corner-all ui-state-default" id="button-help">Hilfe</button>
-                {% endif %}
-                <a class="ui-corner-all ui-state-default" href={{ path('_imprint') }}>Impressum</a>
+        {% if app.user %}
+            {% include 'VitoopInfomgmtBundle:Resource:dialogs.html.twig' %}
+            <div id="additional-info" style="display: none">
+                <input id="sendlink-url"
+                       name="sendlink-url"
+                       type="hidden"
+                       value="{{ path('vitoop_infomgmt_userlink_userlinks') }}">
             </div>
-        </div>
+        {%endif%}
     </div>
-    {% if app.user %}
-        {% block dialogs %}
-            <div id="vtp-res-dialog" style="display:none">
-                <div id="vtp-res-dialog-tabs">
-                    <ul>
-                        <li><a href="#tabs-quickview">Übersicht</a></li>
-                        <li id="tab-title-remark"><a href="#tabs-remark">Anmerkungen</a></li>
-                        <li id="tab-title-remark-private"><a href="#tabs-remark_private">p</a></li>
-                        <li id="tab-title-comments"><a href="#tabs-comments">Kommentare</a></li>
-                        <li id="tab-title-rels"><a href="#tabs-assignments">Verknüpfungen</a></li>
-                    </ul>
-                    <div id="tabs-quickview">
-                        <div id="resource-quickview">
-                            <div id="resource-rating"></div>
-                            <div id="resource-data"></div>
-                            <div id="resource-tag"></div>
-                        </div>
-                        <div id="resource-help" style="display:none">
-                            <fieldset class="ui-corner-all">
-                                <legend>Wo wird welcher Datensatz eingetragen</legend>
-                                <div style="color: #3d80b3">
-                                    <p>Hier kannst Du einen neuen Datensatz eintragen <strong>(Klick auf den oberen Knopf)</strong>. Damit die Aufteilung zwischen Pdf, Textlink usw. Sinn macht, ist es wichtig, dass die Datensätze in der richtigen Kategorie eingetragen werden:</p>
-                                    <p><strong>Pdf:</strong> Hier kommen nur Pdfs rein mit der URL-Endung ".pdf"</p>
-                                    <p><strong>Texlink:</strong> Alle Seiten bei denen es hauptsächlich was zum Lesen gibt, außer Pdfs.</p>
-                                    <p><strong>Link:</strong> Startseiten einer Internetpräsenz und Seiten, die den eigentlichen Inhalt nicht selbst anzeigen, sondern eine große Anzahl von Links enthalten kommen hier rein.</p>
-                                    <p><strong>Projekt, Lexikon und Buch</strong> ist selbsterklärend. Wenn ein Datensatz falsch eingetragen ist, wird er möglicherweise gelöscht.</p>
-                                </div>
-                                <div style="text-align: right; color: #2779aa; margin: 15px 5px 5px;">
-                                    <p>
-                                        <input type="checkbox" name="user_show_help" {%if app.user and app.user.getIsShowHelp()%}checked{%endif%} id="user_show_help" style="-webkit-appearance: checkbox;">
-                                        <label for="user_show_help">Hinweis automatisch anzeigen</label>
-                                    </p>
-                                </div>
-                            </fieldset>
-                        </div>
-                    </div>
-                    <div id="tabs-remark">
-                        <div id="resource-remark"></div>
-                    </div>
-                    <div id="tabs-remark_private">
-                        <div id="resource-remark_private"></div>
-                    </div>
-                    <div id="tabs-comments">
-                        <div id="resource-comments"></div>
-                    </div>
-                    <div id="tabs-assignments">
-                        <div id="resource-assignments">
-                            <div id="resource-lexicon"></div>
-                            <div id="resource-project"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="vtp-res-dialog-help" title="Hilfe">
-
-            </div>
-            <div id="vtp-res-dialog-links" style="display:none">
-                {# render(controller('VitoopInfomgmtBundle:UserLink:userLinks')) #}
-            </div>
-            <div id="vtp-res-dialog-prompt-links" style="display: none">
-
-            </div>
-            {% if is_granted('ROLE_ADMIN') %}
-                {% include 'VitoopInfomgmtBundle:User:termsTinyMce.html.twig' %}
-                {% include 'VitoopInfomgmtBundle:User:datapTinyMce.html.twig' %}
-            {% endif %}
-        {% endblock %}
-        <div id="additional-info" style="display: none"><input id="sendlink-url" name="sendlink-url" type="hidden" value="{{ path('vitoop_infomgmt_userlink_userlinks') }}"></div>
-    {%endif%}
-</div>
-{% block footerjs %}
-<script src="{{ asset('js/angular-modules.js') }}"></script>
-<script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
-<script src="{{ asset('js/datatables/datatables.js') }}"></script>
-<script src="{{ asset('app/vitoop.js') }}"></script>
-{% if (without_js is not defined) and (app.user) and (not app.user.getIsAgreedWithTerms()) %}
+    {% block footerjs %}
+    <script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
+    <script src="{{ asset('js/datatables/datatables.js') }}"></script>
+    {% if (without_js is not defined) and (app.user) and (not app.user.getIsAgreedWithTerms()) %}
+        <script type="text/javascript">
+            window.location = "{{ path('user_agreement') }}";
+        </script>
+    {% endif %}
     <script type="text/javascript">
-        window.location = "{{ path('user_agreement') }}";
+        //Firefox bugfixes
+        $(document).on('focusin', function(e) {
+            if ($(e.target).closest(".mce-window").length) {
+                e.stopImmediatePropagation();
+            }
+        });
+        $('select').selectmenu({
+            select: function( event, ui ) {
+                $('#vtp-search-bytags-form span.ui-selectmenu-button').removeAttr('tabIndex');
+            }
+        });
     </script>
-{% endif %}
-<script type="text/javascript">
-    //Firefox bugfixes
-    $(document).on('focusin', function(e) {
-        if ($(e.target).closest(".mce-window").length) {
-            e.stopImmediatePropagation();
-        }
-    });
-    $('select').selectmenu({
-        select: function( event, ui ) {
-            $('#vtp-search-bytags-form span.ui-selectmenu-button').removeAttr('tabIndex');
-        }
-    });
-</script>
-{% endblock footerjs %}
+    {% endblock footerjs %}
 </body>
 </html>

@@ -1,6 +1,7 @@
 {% extends "VitoopInfomgmtBundle:Resource:layout.html.twig" %}
 {% block content %}
     {{ form_start(fvvitoopblog, {'attr': {'id': 'vtp-form-vitoop-blog', 'novalidate': 'novalidate' }}) }}
+    {{ fvvitoopblog|json_encode() }}
     <fieldset class="ui-corner-all">
         <legend>{{'label.news'|trans}}</legend>
         <div id="vtp-vitoopblog-box">

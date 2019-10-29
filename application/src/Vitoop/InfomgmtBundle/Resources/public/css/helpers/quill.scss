@@ -1,0 +1,77 @@
+.quill-editor {
+  background: white;
+
+  .ql {
+
+    &-toolbar {
+      border: none !important;
+      background-image: linear-gradient(to bottom, #fff, #cfe7f7);
+      padding: 0 2px !important;
+
+      button {
+        background-image: linear-gradient(to bottom, #cfe7f7, #f2f5f7) !important;
+        height: 30px !important;
+        padding: 5px 5px !important;
+        width: 30px !important;
+
+        &.ql-active {
+          background-image: linear-gradient(to bottom, #b9dcf3, #e2e9ed) !important;
+        }
+
+        &:first-child {
+          border-top-left-radius: 3px;
+          border-bottom-left-radius: 3px;
+        }
+
+        &:last-child {
+          border-top-right-radius: 3px;
+          border-bottom-right-radius: 3px;
+        }
+      }
+    }
+
+    &-picker {
+      height: 30px !important;
+    }
+
+    &-icon-picker {
+      width: 30px !important;
+    }
+
+    &-picker-label {
+      padding: 4px !important;
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+
+      svg {
+        width: 18px;
+      }
+    }
+
+    &-active {
+      background-image: linear-gradient(to bottom, #b9dcf3, #e2e9ed) !important;
+    }
+
+    &-container {
+      border: none !important;
+      height: 600px;
+      overflow: auto;
+    }
+
+    &-formats {
+      border: 1px solid #b3b3b3;
+      border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25) rgba(0,0,0,0.25);
+      margin: 2px 4px 2px 0 !important;
+      border-radius: 3px;
+    }
+
+    &-editor {
+      font-size: 14px;
+    }
+
+    &-color-picker {
+      width: 30px !important;
+    }
+  }
+}

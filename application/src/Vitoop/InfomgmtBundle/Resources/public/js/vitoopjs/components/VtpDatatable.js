@@ -11,7 +11,7 @@ export default class VtpDatatable {
         this.isEdit = isEdit;
         this.isCoef = isCoef;
         this.url = url;
-        this.datatableListId = 'table#list-'+resType;
+        this.datatableListId = 'table.table-datatables';
         this.datastorage = new DataStorage();
         this.rowsPerPage = new RowPerPageSelect();
         this.sendLinkWidget = new SendLinkWidget();
@@ -19,6 +19,7 @@ export default class VtpDatatable {
 
     init() {
         let self = this;
+        vitoopState.commit('setResourceType', this.resType);
         self.sendLinkWidget.checkOpenButtonState();
         let datatable = $(this.datatableListId).DataTable(this.getDatatableOptions());
         datatable
@@ -73,71 +74,6 @@ export default class VtpDatatable {
             self.sendLinkWidget.updateCheckedResources(self.resType, data.id, checkbox[0].checked, data);
             e.stopPropagation();
         });
-
-        $('#button-checking-links').off().on('click', function (e) {
-            let resourcesCount = self.sendLinkWidget.linkStorage.getAllResourcesSize();
-
-            if (resourcesCount >= 10 && vitoop.isCheckMaxLinks) {
-                $('#vtp-res-dialog-prompt-links').dialog({
-                    autoOpen: false,
-                    width: 500,
-                    modal: true,
-                    position: { my: 'center top', at: 'center top', of: '#vtp-nav' },
-                    buttons: {
-                        "Abbrechen": function() {
-                            $(this).dialog("close");
-                            return;
-                        },
-                        "Öffnen": function() {
-                            self.sendLinkWidget.openAllLinks();
-                            $(this).dialog("close");
-                            return;
-                        }
-                    }
-                });
-                $('#vtp-res-dialog-prompt-links').dialog('open');
-                $('#vtp-res-dialog-prompt-links').html("<p>Bist Du sicher, dass Du " + resourcesCount + " Tabs auf einmal öffen willst?</p>"+
-                    "<p><input type='checkbox' class='valid-checkbox' id='vtp-is-check-max-link' value='0' /> nicht nochmal fragen</p>");
-
-                $('#vtp-is-check-max-link').on('change', function () {
-                    $.ajax({
-                        method: "PATCH",
-                        url: vitoop.baseUrl + "api/user/me",
-                        data:JSON.stringify({
-                            is_check_max_link: !$('#vtp-is-check-max-link').prop('checked')
-                        }),
-                        dataType: 'json',
-                        success: function(data) {
-                            vitoop.isCheckMaxLinks = data.is_check_max_link;
-                        }
-                    });
-                });
-
-            } else {
-                self.sendLinkWidget.openAllLinks();
-            }
-
-            e.stopPropagation();
-            return false;
-        });
-        $('#button-checking-links-remove').off().on('click', function (e) {
-            self.sendLinkWidget.clear()
-            e.stopPropagation();
-            return false;
-        });
-        $('#button-checking-links-send').off().on('click', function (e) {
-            $('#vtp-res-dialog-links').dialog({
-                autoOpen: false,
-                width: 720,
-                modal: true,
-                position: { my: 'center top', at: 'center top', of: '#vtp-nav' },
-            });
-            $('#vtp-res-dialog-links').dialog('open');
-            self.sendLinkWidget.getFormFromServer(document.getElementById('sendlink-url').value);
-
-            e.stopPropagation();
-            return false;
-        });
     }
 
     changeFontSizeByUserSettings() {
@@ -152,11 +88,8 @@ export default class VtpDatatable {
         }
 
         if (json && json.resourceInfo) {
+            vitoopState.commit('setResourceInfo', json.resourceInfo);
             window.resourceInfo = json.resourceInfo;
-            let scope = angular.element($("#resourceInfo")).scope();
-            scope.$apply(function(){
-                scope.nav.resourceInfo = window.resourceInfo;
-            });
         }
     }
 
@@ -183,7 +116,6 @@ export default class VtpDatatable {
                     if (self.resType == 'book') {
                         data.art = vitoopState.state.secondSearch.artFilter
                     }
-
                     return data;
                 }
             },
@@ -257,7 +189,8 @@ export default class VtpDatatable {
                 method: 'GET',
                 success: function(data) {
                     dividers = data;
-                    var divider = "";
+                    let divider = "";
+                    const currentDividers = [];
                     $('.vtp-uiaction-coefficient.divider-wrapper').remove();
                     $('table > tbody > tr > td > input.vtp-uiaction-coefficient').each(function() {
                         currentCoefficient = Math.floor($(this).val());
@@ -267,6 +200,7 @@ export default class VtpDatatable {
                                 divider = "";
                             } else {
                                 divider = divider.text;
+                                currentDividers.push(divider);
                             }
                             if ((typeof(editMode) != "undefined") && (editMode)) {
                                 $(this).parent().parent().before($('<div class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 96px; padding-top: 4px"><span>'+ ~~ currentCoefficient+'</span></div><div style="width: 990px"><input class="divider" type="text" data-coef="'+(~~currentCoefficient)+'" value="'+divider+'" data-original="'+divider+'"></div></div>'));
@@ -302,6 +236,10 @@ export default class VtpDatatable {
                         }
                         upperCoefficient = currentCoefficient;
                     });
+                    // todo calculate difference and update Table
+                    // const pageSelect = new RowPerPageSelect();
+                    // const newPageLength = pageSelect.getPageLength() - currentDividers.length;
+                    // pageSelect.updatePageLength(newPageLength);
                 }
             });
         }
@@ -361,7 +299,6 @@ export default class VtpDatatable {
 
         return 't'+'<"'+toolbar_prefix+'all"lip>';
     }
-
 
     getCurrentSearch() {
         return vitoopState.state.secondSearch.searchString;
@@ -662,7 +599,10 @@ export default class VtpDatatable {
     }
 
     getInternalUrlValue(url, type, row, meta) {
-        return '<a class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink" href="'+url+'"><span class="ui-icon ui-icon-extlink">-></span></a>';
+        return `<a class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink"
+                   href="${url}">
+                       <span class="ui-icon ui-icon-extlink">-></span>
+                </a>`;
     }
 
     getProjectUrlValue(data, type, row, meta) {
@@ -676,7 +616,6 @@ export default class VtpDatatable {
     getLexiconUrlValue(data, type, row, meta) {
         return VtpDatatable.prototype.getInternalUrlValue(vitoop.baseUrl+'lexicon/'+data, type, row, meta);
     }
-
 
     getPdfUrlValue() {
         if (this.isEdit) {

@@ -14,6 +14,19 @@ import SendLinkWidget from './widgets/sendLinkWidget';
 
 window.resourceDetail = (function () {
 
+    let customCheckboxWrapper = document.createElement('label');
+    customCheckboxWrapper.className = 'custom-checkbox__wrapper light';
+    customCheckboxWrapper.innerHTML = `
+        <input type="checkbox" 
+               id="resource-check" 
+               class="valid-checkbox" 
+               title="anhaken für weitere Verwendung: öffnen/mailen"/>
+        <span class="custom-checkbox">
+            <img class="custom-checkbox__check"
+                 src="../../img/check.png" />
+        </span>
+    `;
+
     var tab_loaded = [ 0, 0, 0, 0, 0 ],
         tab_name = [ 'quickview', 'remark', 'remark_private', 'comments', 'assignments' ],
         res_type = '',
@@ -442,7 +455,7 @@ window.resourceDetail = (function () {
             }
             if (responseJSON['resource-metadata']) {
                 res_type = responseJSON['resource-metadata'].type;
-                vitoopState.commit('setResource', {type: res_type, id: null});
+                // vitoopState.commit('setResource', {type: res_type, id: null});
                 viewUrl = '';
                 if ('lex' === res_type) {
                     viewUrl = vitoop.baseUrl + 'lexicon/' +res_id;
@@ -484,6 +497,7 @@ window.resourceDetail = (function () {
                     replaceContainer(container_name, html);
                 }
             });
+
             $('#vtp-res-dialog select').selectmenu({
                 select: function( event, ui ) {
                     $('span.ui-selectmenu-button').removeAttr('tabIndex');
@@ -539,7 +553,7 @@ window.resourceDetail = (function () {
             // id="pdf-1">).
             res_type = (tr_res.attr('id').split('-'))[0];
             res_id = (tr_res.attr('id').split('-'))[1];
-            vitoopState.commit('setResource', {type: res_type, id: res_id});
+            // vitoopState.commit('setResource', {type: res_type, id: res_id});
 
             setNextId();
             setPrevId();
@@ -549,6 +563,9 @@ window.resourceDetail = (function () {
         openDialog = function () {
             // check for init: call a widget-method before initialization throws an
             // error
+            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').append(customCheckboxWrapper);
+            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title .custom-checkbox__wrapper').append('<span id="resource-title"></span>');
+
             try {
                 $('#vtp-res-dialog-tabs').tabs("option");
             } catch (e) {
@@ -807,10 +824,11 @@ window.resourceDetail = (function () {
         },
 
         closeDialog = function () {
+            customCheckboxWrapper.remove();
             hardResetTabs();
             hideHelpWindow();
             
-            if ($('#vtp-res-list').length != 0) { 
+            if (refresh_list) {
                 //$('#vtp-res-list table').DataTable().off('draw.dt');
                 // "last seen" is maintained through arr_res_tr_attr_id[]
                 arr_tr_res_attr_id[res_type] = res_type + '-' + res_id;
@@ -844,7 +862,7 @@ window.resourceDetail = (function () {
         /****************************************************************************
          * Eventhandler and jQuery initializing:call init() on Document ready
          ***************************************************************************/
-            init = function () {
+        init = function () {
             $('#vtp-res-dialog').dialog({
                 autoOpen: false,
                 width: 720,
@@ -853,23 +871,6 @@ window.resourceDetail = (function () {
                 close: closeDialog
             });
 
-            window.vitoopApp.helpButton.loadContent();
-
-            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title')
-                .append(`
-                    <label class="custom-checkbox__wrapper light">
-                        <input type="checkbox" 
-                               id="resource-check" 
-                               class="valid-checkbox" 
-                               title="anhaken für weitere Verwendung: öffnen/mailen"/>
-                        <span class="custom-checkbox">
-                            <img class="custom-checkbox__check"
-                                 src="../../img/check.png" />
-                        </span>
-                    </label>
-                `);
-            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title .custom-checkbox__wrapper')
-                .append('<span id="resource-title"></span>');
             $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').after('<span id="resource-buttons"></span>');
 
             $('#vtp-res-dialog').before('<div id="resource-flags" style="display: none;"></div>');

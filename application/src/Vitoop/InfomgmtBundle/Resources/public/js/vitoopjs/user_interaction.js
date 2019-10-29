@@ -102,16 +102,6 @@ window.userInteraction = (function () {
                 }
             });
         });
-
-        var tinyInit = new TinyMCEInitializer();
-        var options = tinyInit.getCommonOptions();
-        options.selector = 'textarea#vitoop_blog_sheet';
-        options.width = 615;
-        options.height = 600;
-        options.plugins = ['textcolor', 'link', 'media', 'code'];
-        options.toolbar = 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink | media | code'
-
-        tinymce.init(options);
     };
 
     return {

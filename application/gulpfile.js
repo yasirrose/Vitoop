@@ -14,13 +14,6 @@ var path = require('path');
 var env = process.env.GULP_ENV;
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
-gulp.task('angular-js', function () {
-    return gulp.src(['src/Vitoop/InfomgmtBundle/Resources/public/js/angular/*.js'])
-        .pipe(concat('angular-modules.js'))
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('web/js'));
-});
-
 gulp.task('lexicon-js', function () {
     return gulp.src(['src/Vitoop/InfomgmtBundle/Resources/public/js/lexicon/lexicon-home.js'])
         .pipe(gulpif(env === 'prod', uglify()))
@@ -59,10 +52,6 @@ gulp.task('jquery-js', function () {
             },
             module: {
                 loaders: [
-                    /*{
-                        test: require.resolve('angular'),
-                        loader: "exports-loader?window.angular"
-                    },*/
                     {
                         test: require.resolve('jquery'),
                         loader: 'imports-loader?$=jquery'
@@ -84,8 +73,6 @@ gulp.task('jquery-js', function () {
                     jQuery: 'jquery',
                     'window.jQuery': 'jquery',
                     'window.$': 'jquery',
-                    /*angular: 'angular',
-                    DataTable: 'datatables.net'*/
                 }),
             ],
             devtool: 'source-map'
@@ -161,7 +148,7 @@ gulp.task('pdf-view', function () {
 });
 
 
-gulp.task('js', gulp.series(['angular-js', 'lexicon-js', 'tinymce-js', 'datatables-js', 'vitoop-app'] , function () {
+gulp.task('js', gulp.series(['lexicon-js', 'tinymce-js', 'datatables-js', 'vitoop-app'] , function () {
     return gulp.src([
         'src/Vitoop/InfomgmtBundle/Resources/public/js/jquery/*.js',
         'web/js/build/vitoop-app.js'])
@@ -201,10 +188,14 @@ gulp.task('scss', function () {
 gulp.task('watch', () => {
     gulp.watch('src/Vitoop/InfomgmtBundle/Resources/public/css/**/*.scss', gulp.series('scss'));
     gulp.watch([
+        'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/components/Vue/*/*/*/*.vue',
+        'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/components/Vue/*/*/*.vue',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/components/Vue/*/*.vue',
+        'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/components/Vue/*.vue',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/components/*.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/widgets/*.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/store/*.js',
+        'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/*/*.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/*.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/app/vitoop.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/app/boot.js'
