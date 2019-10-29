@@ -19,7 +19,7 @@ export default {
         isOpened: false,
     },
     table: {
-        rowNumber: 7,
+        rowNumber: 12,
     },
     tagList: {
         show: false,
