@@ -7,11 +7,13 @@
                     <span class="vtp-icon ui-icon ui-icon-info"></span>{{ infoProjectData }}
                 </div>
                 <div class="vtp-fh-w60"
-                     style="flex: 1;margin-right: 30px;border: 1px solid #aed0ea;border-radius: 6px;overflow: hidden">
-                    <quill-editor v-model="editProject.project_data.sheet"
-                                  :options="editorOptions" />
+                     style="flex: 1;margin: 8px; margin-right: 30px">
+                    <textarea v-model="editProject.project_data.sheet"
+                              id="edit-project-textarea"
+                              name="edit-project-textarea">
+                    </textarea>
                 </div>
-                <div style="width: 26%">
+                <div style="width: 26%; margin: 8px">
                     <div id="vtp-projectdata-sheet-info-edit"
                          class="ui-corner-all"
                          v-if="isLoaded">
@@ -135,22 +137,6 @@
                 options: [],
                 user: null,
                 needToSave: false,
-
-                editorOptions: {
-                    modules: {
-                        toolbar: [
-                            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-                            ['bold', 'italic', 'underline', 'blockquote', 'strike', { 'script': 'super' }, { 'script': 'sub' }, 'code-block'],
-                            [{ 'align': [] }],
-                            [{ 'indent': '-1' }, { 'indent': '+1' }],
-                            ['link', 'image', 'video'],
-                            [{ 'color': [] }, { 'background': [] }]
-                        ],
-                        syntax: {
-                            highlight: text => hljs.highlightAuto(text).value
-                        }
-                    }
-                }
             }
         },
         watch: {
@@ -164,12 +150,21 @@
             }
         },
         mounted() {
-            // resourceDetail.init();
-
             axios(`/api/project/${this.project.id}`)
                 .then(({data}) => {
                     this.isLoaded = true;
                     this.editProject = data.project;
+                    return
+                })
+                .then(() => {
+                    tinymce.remove('#edit-project-textarea');
+                    let options = vitoopApp.getTinyMceOptions();
+                    options.mode = 'exact';
+                    options.selector = '#edit-project-textarea';
+                    options.height= 528;
+                    options.plugins = ['textcolor', 'link', 'code'];
+                    options.toolbar = 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink | code';
+                    tinymce.init(options);
                 })
                 .catch(err => {
                     this.isLoaded = true;

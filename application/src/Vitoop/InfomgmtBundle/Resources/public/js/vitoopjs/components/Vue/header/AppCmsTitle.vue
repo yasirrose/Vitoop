@@ -10,7 +10,12 @@
             <div class="vtp-title__buttons">
                 <span v-if="asProjectOwner" style="display: flex">
                     <help-button help-area="project" />
-                    <button id="vtp-projectdata-project-live"></button>
+                    <button id="vtp-projectdata-project-live"
+                            class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
+                            :class="{'ui-state-focus ui-state-active': !isEdit}"
+                            @click="projectLiveMode">
+                        <span class="ui-button-icon-primary ui-icon ui-icon-clipboard"></span>
+                    </button>
                     <button id="vtp-projectdata-project-edit"
                             class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
                             :class="{'ui-state-focus ui-state-active': isEdit}"
@@ -18,8 +23,9 @@
                         <span class="ui-button-icon-primary ui-icon ui-icon-wrench"></span>
                     </button>
                 </span>
-                <button id="vtp-projectdata-project-close" :title="$t('label.close')"
-                        class=""></button>
+                <button id="vtp-projectdata-project-close"
+                        :title="$t('label.close')">
+                </button>
             </div>
         </div>
         <div v-else-if="lexicon.id"
@@ -68,6 +74,9 @@
                 } else {
                     this.$router.push({path: `/project/${this.project.id}`, query: {edit: true}});
                 }
+            },
+            projectLiveMode() {
+                this.$router.push({path: `/project/${this.project.id}`, query: null});
             }
         }
     }
