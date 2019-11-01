@@ -42,6 +42,8 @@
     }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+    #vtp-projectdata-sheet-view {
+        height: 600px;
+    }
 </style>

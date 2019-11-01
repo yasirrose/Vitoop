@@ -7,11 +7,13 @@
                     <span class="vtp-icon ui-icon ui-icon-info"></span>{{ infoProjectData }}
                 </div>
                 <div class="vtp-fh-w60"
-                     style="flex: 1;margin-right: 30px;border: 1px solid #aed0ea;border-radius: 6px;overflow: hidden">
-                    <quill-editor v-model="editProject.project_data.sheet"
-                                  :options="editorOptions" />
+                     style="flex: 1;margin: 8px; margin-right: 30px">
+                    <textarea v-model="editProject.project_data.sheet"
+                              id="edit-project-textarea"
+                              name="edit-project-textarea">
+                    </textarea>
                 </div>
-                <div style="width: 26%">
+                <div style="width: 26%; margin: 8px">
                     <div id="vtp-projectdata-sheet-info-edit"
                          class="ui-corner-all"
                          v-if="isLoaded">
@@ -58,7 +60,9 @@
                                         </div>
                                         <div class="vtp-fh-w35" style="text-align: left">
                                             <input type="checkbox"
-                                                   v-model="rel.read_only"
+                                                   :value="!rel.read_only"
+                                                   :checked="!rel.read_only"
+                                                   @change="changeRight(rel,$event)"
                                                    :name="`userReadOnly-${rel.user.id}`"
                                                    class="valid-checkbox" />
                                         </div>
@@ -73,6 +77,7 @@
                             </div>
                             <div class="vtp-fh-w100 vtp-new-user-search">
                                 <v-select :options="options"
+                                          ref="v_select"
                                           label="username"
                                           @input="selectUser"
                                           @search="searchUser"/>
@@ -135,22 +140,6 @@
                 options: [],
                 user: null,
                 needToSave: false,
-
-                editorOptions: {
-                    modules: {
-                        toolbar: [
-                            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-                            ['bold', 'italic', 'underline', 'blockquote', 'strike', { 'script': 'super' }, { 'script': 'sub' }, 'code-block'],
-                            [{ 'align': [] }],
-                            [{ 'indent': '-1' }, { 'indent': '+1' }],
-                            ['link', 'image', 'video'],
-                            [{ 'color': [] }, { 'background': [] }]
-                        ],
-                        syntax: {
-                            highlight: text => hljs.highlightAuto(text).value
-                        }
-                    }
-                }
             }
         },
         watch: {
@@ -164,19 +153,42 @@
             }
         },
         mounted() {
-            // resourceDetail.init();
-
-            axios(`/api/project/${this.project.id}`)
-                .then(({data}) => {
-                    this.isLoaded = true;
-                    this.editProject = data.project;
-                })
-                .catch(err => {
-                    this.isLoaded = true;
-                    console.dir(err);
-                });
+            this.getProjectData();
         },
         methods: {
+            changeRight(rel,e) {
+                rel.read_only = JSON.parse(e.target.value);
+            },
+            getProjectData() {
+                axios(`/api/project/${this.project.id}`)
+                    .then(({data}) => {
+                        this.isLoaded = true;
+                        this.isOwner = data.isOwner;
+                        this.editProject = data.project;
+                        return
+                    })
+                    .then(() => {
+                        this.$refs.v_select.clearSelection();
+                        tinymce.remove('#edit-project-textarea');
+                        let options = vitoopApp.getTinyMceOptions();
+                        options.mode = 'exact';
+                        options.selector = '#edit-project-textarea';
+                        options.height= 528;
+                        options.plugins = ['textcolor', 'link', 'code'];
+                        options.toolbar = 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink | code';
+                        options.init_instance_callback = (editor) => {
+                            this.needToSave = false;
+                            editor.on('keyup', (e) => {
+                                this.editProject.project_data.sheet = e.target.innerHTML;
+                            })
+                        };
+                        tinymce.init(options);
+                    })
+                    .catch(err => {
+                        this.isLoaded = true;
+                        console.dir(err);
+                    });
+            },
             selectUser(user) {
                 this.user = user;
             },
@@ -190,7 +202,7 @@
             save() {
                 axios.post(`/api/project/${this.project.id}`, this.editProject)
                     .then(response => {
-                        console.log(response);
+                        this.getProjectData();
                         this.needToSave = false;
                     })
                     .catch(err => console.dir(err));
@@ -198,21 +210,22 @@
             remove() {
                 axios.delete(`/api/project/${this.project.id}`)
                     .then(response => {
-                        console.log(response);
+                        this.$router.push('/prj');
+                        VueBus.$emit('remove:project');
                     })
                     .catch(err => console.dir(err));
             },
             addUser() {
                 axios.post(`/api/project/${this.project.id}/user`, this.user)
                     .then(response => {
-                        console.log(response);
+                        this.getProjectData();
                     })
                     .catch(err => console.dir(err));
             },
             removeUser() {
                 axios.delete(`/api/project/${this.project.id}/user/${this.user.id}`)
                     .then(response => {
-                        console.log(response)
+                        this.getProjectData();
                     })
                     .catch(err => console.dir(err));
             }

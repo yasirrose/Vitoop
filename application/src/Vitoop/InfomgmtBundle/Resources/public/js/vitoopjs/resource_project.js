@@ -39,11 +39,11 @@ window.resourceProject = (function () {
         //     }
         // });
 
-        $('#vtp-projectdata-project-live').button({
-            icons: {
-                primary: "ui-icon-clipboard"
-            }
-        });
+        // $('#vtp-projectdata-project-live').button({
+        //     icons: {
+        //         primary: "ui-icon-clipboard"
+        //     }
+        // });
 
         $('#vtp-projectdata-project-close').on('click', function () {
             location.href = vitoop.baseUrl + 'prj/';

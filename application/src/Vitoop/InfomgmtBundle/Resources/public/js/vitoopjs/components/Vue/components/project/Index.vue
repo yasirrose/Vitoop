@@ -1,7 +1,7 @@
 <template>
     <div>
         <app-project v-if="!edit" />
-        <app-project-edit v-else />
+        <app-project-edit v-else-if="edit" />
     </div>
 </template>
 
