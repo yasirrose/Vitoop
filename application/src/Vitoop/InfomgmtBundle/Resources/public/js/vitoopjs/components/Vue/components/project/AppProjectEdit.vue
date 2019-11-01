@@ -177,7 +177,6 @@
                         options.plugins = ['textcolor', 'link', 'code'];
                         options.toolbar = 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink | code';
                         options.init_instance_callback = (editor) => {
-                            console.log(editor.startContent);
                             this.needToSave = false;
                             editor.on('keyup', (e) => {
                                 this.editProject.project_data.sheet = e.target.innerHTML;
