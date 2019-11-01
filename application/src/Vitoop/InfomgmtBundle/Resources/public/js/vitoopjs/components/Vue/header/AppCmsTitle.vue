@@ -1,6 +1,6 @@
 <template>
     <div id="vtp-cmstitle">
-        <div v-if="project.id"
+        <div v-if="project.id !== null"
              id="vtp-projectdata-title"
              class="ui-corner-all vtp-cmstitle">
             <span class="vtp-title__text">
@@ -63,6 +63,11 @@
                     return false
                 }
             }
+        },
+        mounted() {
+            VueBus.$on('remove:project', () => {
+                this.project.id = null;
+            })
         },
         methods: {
             projectEditMode() {

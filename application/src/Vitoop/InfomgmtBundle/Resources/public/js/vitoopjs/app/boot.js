@@ -32,6 +32,7 @@ window.axios = axios;
 window.UserSettings = UserSettings;
 window.SecondSearch = SecondSearch;
 window.SearchToggler = SearchToggler;
+window.VueBus = new Vue();
 
 $(function () {
     const i18n = new VueI18n({
