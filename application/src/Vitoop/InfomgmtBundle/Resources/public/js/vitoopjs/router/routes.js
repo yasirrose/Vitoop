@@ -9,6 +9,8 @@ import Tags from "../components/Vue/components/Tags.vue";
 import Invite from "../components/Vue/components/Invite.vue";
 import EditVitoopBlog from "../components/Vue/components/EditVitoopBlog.vue";
 import UserAgreement from "../components/Vue/components/user/UserAgreement.vue";
+import UserInvitation from "../components/Vue/components/user/UserInvitation.vue";
+import UserRegistrate from "../components/Vue/components/user/UserRegistrate.vue";
 
 export default [
     {
@@ -29,6 +31,16 @@ export default [
         beforeEnter(to,from,next) {
             vitoopState.state.user === null ? next() : next(`${from.path}`);
         }
+    },
+    {
+        path: '/register/:secret',
+        component: UserRegistrate,
+        name: 'register'
+    },
+    {
+        path: '/invitation/new',
+        component: UserInvitation,
+        name: 'invitation'
     },
     {
         path: '/prj',

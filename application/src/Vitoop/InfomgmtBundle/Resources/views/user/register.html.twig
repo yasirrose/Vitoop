@@ -1,0 +1,59 @@
+{% extends "VitoopInfomgmtBundle:Resource:layout.html.twig" %}
+{% block title %}Registrierung{% endblock %}
+{% block content %}
+    <fieldset class="ui-corner-all">
+        <legend>Registrierung</legend>
+        <div id="vtp-register">
+        {% if fv is not null %}
+            {{ form_start(fv, {'attr': {'id': 'vtp-form-register', 'novalidate': 'novalidate' }}) }}
+            <div class="vtp-uiinfo-form-error">{{ form_errors(fv) }}</div>
+            <div class="vtp-fh-top">
+                {{ form_label(fv.username, null, {'label_attr': {'class': 'vtp-fh-w20' }}) }}
+                {{ form_widget(fv.username, {'attr': {'class': 'vtp-fh-w30' }}) }}
+                <div class="vtp-uiinfo-form-error">{{ form_errors(fv.username) }}</div>
+            </div>
+            <div class="vtp-fh-middle">
+                {{ form_label(fv.email, null, {'label_attr': {'class': 'vtp-fh-w20' }}) }}
+                {{ form_widget(fv.email, {'attr': {'class': 'vtp-fh-w30' }}) }}
+                <div class="vtp-uiinfo-form-error">{{ form_errors(fv.email) }}</div>
+            </div>
+            <div class="vtp-fh-middle">
+                {{ form_label(fv.password.first, null, {'label_attr': {'class': 'vtp-fh-w20' }}) }}
+                {{ form_widget(fv.password.first, {'attr': {'class': 'vtp-fh-w30' }}) }}
+                <div class="vtp-uiinfo-form-error">{{ form_errors(fv.password.first) }}</div>
+            </div>
+            <div class="vtp-fh-bottom">
+                {{ form_label(fv.password.second, null, {'label_attr': {'class': 'vtp-fh-w20' }}) }}
+                {{ form_widget(fv.password.second, {'attr': {'class': 'vtp-fh-w30' }}) }}
+            </div>
+            <div class="vtp-fh-middle">
+                <input type="checkbox" value="1" name="user_registration_approve" id="user_registration_approve" tabindex="20" style="-webkit-appearance: checkbox; margin-left: 0px">
+                <label for="user_registration_approve">Ich habe die  <a href="{{ path('user_agreement')}}" target="_blank">Nutzungsbedienungen</a> und die <a href="{{ path('user_datap')}}" target="_blank">Datenschutzbedienungen</a> gelesen und akzeptiere sie.</label>
+                <div class="right">
+                    {{ form_widget(fv.save, {'attr': {'class': 'ui-button ui-widget ui-state-default' }}) }}
+                </div>
+            </div>
+            <div>
+                <h1>So klappt's mit der Registrierung:</h1>
+
+                <p>Dein Username sollte mindestens 5 Zeichen, höchstens jedoch 14 Zeichen haben.</p>
+
+                <p>Im Usernamen erlaubt sind alle Sonderzeichen (siehe unten), das Leerzeichen und alle Klein- und Großbuchstaben, Ziffern, Umlaute und das scharfe s.</p>
+
+                <p>Deine eMail-Adresse ist für andere User nicht sichtbar.</p>
+
+                <p>Dein Passwort sollte mindestens 8, höchstens jedoch 32 Zeichen haben. Erlaubt sind alle Zeichen wie beim Usernamen, jedoch ohne das Leerzeichen.</p>
+
+                <p>Ferner sollte das Passwort nicht nur aus Kleinbuchstaben, nur aus Großbuchstaben oder nur aus Zahlen bestehen. Bitte mische mindestens zwei davon und wenn Du willst gerne ein oder auch mehrere Sonderzeichen dazu.</p>
+
+                <p>Erlaubte Sonderzeichen: !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~</p>
+                
+                <p>Es besteht keine Klarnamen-Pflicht</p>
+            </div>
+            {{ form_end(fv) }}
+        {% else %}
+            <div>Deine Einladung ist leider abgelaufen. Sende ein Antwort auf Deine Einladungsmail um eine neue zu erhalten.</div>
+        {% endif %}
+        </div>
+    </fieldset>
+{% endblock %}

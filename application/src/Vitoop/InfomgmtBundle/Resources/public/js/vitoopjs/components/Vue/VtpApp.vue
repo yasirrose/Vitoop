@@ -1,7 +1,7 @@
 <template>
     <div v-if="!loading">
         <app-header :loading="loading" />
-        <router-view v-if="$store.state.user !== null || $route.path === '/userhome'" />
+        <router-view v-if="notLogin" />
         <app-login v-else />
         <app-footer />
     </div>
@@ -13,11 +13,6 @@
     import AppContent from "./components/AppContent.vue";
     import AppFooter from "./footer/AppFooter.vue";
     import AppLogin from "./components/AppLogin.vue";
-
-    // styles for quill text editor
-    import 'quill/dist/quill.core.css'
-    import 'quill/dist/quill.snow.css'
-    import 'quill/dist/quill.bubble.css'
 
     export default {
         name: "VtpApp",
@@ -54,6 +49,12 @@
             }
         },
         components: { AppFooter, AppHeader, AppContent, AppLogin },
+        computed: {
+            notLogin() {
+                return this.$store.state.user !== null ||
+                    /userhome|invitation|register/.test(this.$route.name)
+            }
+        },
         data() {
             return {
                 loading: true
@@ -113,10 +114,6 @@
 </script>
 
 <style lang="scss">
-    body {
-        /*background-color: #2b2b2b;*/
-    }
-
     .ui-button {
         margin-right: 0;
     }

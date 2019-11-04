@@ -5,7 +5,6 @@ import UserSettings from '../components/Vue/UserSettings/UserSettings.vue';
 import SecondSearch from "../components/Vue/SecondSearch/SecondSearch.vue";
 import SearchToggler from "../components/Vue/SecondSearch/SearchToggler.vue";
 import axios from "axios"
-import VueQuillEditor from "vue-quill-editor";
 import lodash from "lodash"
 
 import VueI18n from "vue-i18n"
@@ -46,7 +45,6 @@ $(function () {
     Vue.component('font-awesome-icon', FontAwesomeIcon);
     Vue.config.productionTip = false;
     Vue.use(VueI18n);
-    Vue.use(VueQuillEditor);
 
     new Vue({
         el: '#vtp-app',
