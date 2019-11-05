@@ -59,13 +59,19 @@
                         <div class="vtp-fh-w25">
                                 <p>Höhe der Textbox in ToDo in Pixeln</p>
                                 <div class="vtp-fh-w100">
-                                    <input type="number" name="todo-height" id="todo-height" v-model="user.heightOfTodoList"/>
+                                    <input type="number"
+                                           name="todo-height"
+                                           id="todo-height"
+                                           v-model="user.heightOfTodoList"/>
                                 </div>
                         </div>
                         <div class="vtp-fh-w25">
                             <p>Anzahl der sichtbaren ToDo-Punkte</p>
                             <div class="vtp-fh-w100">
-                                <input type="number" name="todo-count" id="todo-count" v-model="user.numberOfTodoElements"/>
+                                <input type="number"
+                                       name="todo-count"
+                                       id="todo-count"
+                                       v-model="user.numberOfTodoElements"/>
                             </div>
                         </div>
                     </div>
@@ -80,7 +86,11 @@
                             <button v-on:click="isDeleting = false" v-show="isDeleting" class="ui-corner-all vtp-fh-w30 vtp-button-light">Nein</button>
                         </div>
                         <div class="vtp-fh-w30" style="float: right; text-align: right">
-                            <button v-on:click="save()" v-show="!isDeleting" v-bind:class="isNeedToSave ? 'ui-state-need-to-save': ''" class="ui-corner-all vtp-fh-w30 vtp-button-light" style="margin-right: 15px">speichern</button>
+                            <button v-on:click="save()"
+                                    v-show="!isDeleting"
+                                    v-bind:class="isNeedToSave ? 'ui-state-need-to-save': ''"
+                                    class="ui-corner-all vtp-fh-w30 vtp-button-light"
+                                    style="margin-right: 15px">speichern</button>
                             <span v-show="isError" id="error-span" class="form-error"><span>{{ errorMessage }}</span></span>
                         </div>
                     </div>
@@ -104,6 +114,8 @@
         },
         data() {
             return {
+                n: 0,
+                isNeedToSave: false,
                 user: {
                     id: '',
                     username: '',
@@ -131,6 +143,26 @@
                 }
             }
         },
+        watch: {
+            user: {
+                handler() {
+                    this.n++;
+                    if (this.n > 2) {
+                        this.isNeedToSave = true;
+                    }
+                },
+                deep: true
+            },
+            dto: {
+                handler() {
+                    this.n++;
+                    if (this.n > 2) {
+                        this.isNeedToSave = true;
+                    }
+                },
+                deep: true
+            }
+        },
         created() {
             let self = this;
             let userService = new UserService();
@@ -144,38 +176,6 @@
                 userObj.decreaseFontSize = currentUser.decrease_font_size;
                 self.updateDtoDecreaseValue(userObj.decreaseFontSize);
             });
-        },
-        computed: {
-            isNeedToSave: function () {
-                let comparePropertyPrefixes = ['email', 'username', 'pass'];
-                if (
-                    !this.dto.email1 && !this.dto.email2 && !this.dto.pass1 && !this.dto.pass2 &&
-                    !this.dto.username1 && !this.dto.username2 && (this.user.decreaseFontSize === this.dto.decreaseFontSize.value)) {
-                    return false;
-                }
-
-                if (this.user.decreaseFontSize !== this.dto.decreaseFontSize.value) {
-                    return true;
-                }
-
-                let propertiesForSave = [];
-                for (let i = 0; i < comparePropertyPrefixes.length; i++) {
-                    let property = comparePropertyPrefixes[i];
-                    let firstField = property + '1';
-                    let secondField = property + '2';
-                    if ('' !== this.dto[firstField] && '' !== this.dto[secondField] &&
-                        this.dto[firstField] === this.dto[secondField]
-                    ) {
-                        propertiesForSave.push(property);
-                    }
-                }
-
-                if (propertiesForSave.length > 0) {
-                    return true;
-                }
-
-                return false;
-            }
         },
         methods: {
             deactivate() {

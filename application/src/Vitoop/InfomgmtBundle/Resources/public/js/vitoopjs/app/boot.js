@@ -6,9 +6,12 @@ import SecondSearch from "../components/Vue/SecondSearch/SecondSearch.vue";
 import SearchToggler from "../components/Vue/SecondSearch/SearchToggler.vue";
 import axios from "axios"
 import lodash from "lodash"
+import Vuelidate from 'vuelidate';
 
 import VueI18n from "vue-i18n"
-import de from "../../translates/de/messages.json";
+import messagesDE from "../../translates/de/messages";
+import validationsDE from "../../translates/de/validations";
+const de = Object.assign(messagesDE,validationsDE);
 const messages = {
     de
 };
@@ -39,12 +42,13 @@ $(function () {
         messages,
     });
 
-    Vue.use(VueRouter);
-
     library.add(faCheck);
+
+    Vue.use(VueRouter);
     Vue.component('font-awesome-icon', FontAwesomeIcon);
     Vue.config.productionTip = false;
     Vue.use(VueI18n);
+    Vue.use(Vuelidate);
 
     new Vue({
         el: '#vtp-app',
