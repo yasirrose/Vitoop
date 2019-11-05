@@ -504,7 +504,7 @@ table input[disabled="disabled"].vtp-uiaction-coefficient {
     position: absolute;
     //border: $blue-frame-border;
     top: 0px;
-    right: 4px;
+    right: 5px;
     margin: 2px;
     background-color: $vitoop-body-background-color;
     width: 34px;
@@ -1188,6 +1188,7 @@ span.vtp-icon {
  ************************************************************/
 #vtp-cmstitle {
     padding: 0px 0px 0px 0.5em;
+    margin-top: 4px !important;
 }
 
 .vtp-cmstitle {
@@ -1509,7 +1510,7 @@ span.vtp-icon-active {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfe7f7', endColorstr='#E5F1FA',GradientType=0 ); /* IE6-9 */
     color: $vitoop-blue-color;
     margin-top: 2px;
-    padding: 6px 18px 6px 7px;
+    padding: 6px 15px 6px 7px;
 }
 
 a.vtp-homelink {
