@@ -59,4 +59,8 @@ _login_check:
    
 _logout:
     path: /logout
-   
+
+v1:
+    resource: "@VitoopInfomgmtBundle/Controller/V1/"
+    type: annotation
+    prefix: api/v1

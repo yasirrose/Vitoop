@@ -96,6 +96,8 @@ services:
         arguments:
             - Vitoop\InfomgmtBundle\Entity\PdfAnnotation
 
+    Vitoop\InfomgmtBundle\Repository\VitoopBlogRepository: ~
+
     Vitoop\InfomgmtBundle\Validator\Constraints\User\UserUniqueValidator:
         tags:
             - { name: validator.constraint_validator }
@@ -107,5 +109,5 @@ services:
     Vitoop\InfomgmtBundle\Validator\Constraints\User\UserEmailValidator:
         tags:
             - { name: validator.constraint_validator }
- 
+
     Vitoop\InfomgmtBundle\Utils\Token\CommonGeneratorStrategy: ~

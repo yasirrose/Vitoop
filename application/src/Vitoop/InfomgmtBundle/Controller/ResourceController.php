@@ -311,6 +311,7 @@ class ResourceController extends ApiController
     }
 
     /**
+     * @deprecated
      * @Route("/edit-vitoop-blog", name="_edit_vitoop_blog")
      */
     public function editVitoopBlogAction(VitoopSecurity $vsec, Request $request)
@@ -356,6 +357,7 @@ class ResourceController extends ApiController
     }
 
     /**
+     * @deprecated use VitoopBlogController
      * @Route("/", name="_base_url")
      */
     public function guestAction()
