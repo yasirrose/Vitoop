@@ -1,5 +1,5 @@
 <template>
-    <label>
+    <label ref="cross-1">
         <input type="checkbox"
                value="1"
                v-model="isOpened"/>
@@ -30,7 +30,7 @@
                     return this.$store.state.searchToggler.isNotEmpty;
                 }
             }
-        },
+        }
     };
 </script>
 

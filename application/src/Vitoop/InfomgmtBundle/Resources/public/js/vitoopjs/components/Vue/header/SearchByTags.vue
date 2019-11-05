@@ -121,6 +121,7 @@
         },
         mounted() {
             this.init();
+            console.log(document.getElementById('vtp-icon-clear-taglistbox').getBoundingClientRect())
         },
         methods: {
             removeAllTags(e) {

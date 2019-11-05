@@ -24,7 +24,7 @@
             {{ form_widget(fvtag.showown, {'attr': {'id': 'vtp-tgl-tag-showown', 'class': 'vtp-uiaction-tag-showown' }}) }}
         </span>
         <div id="div-confirm-tagging" class="vtp-fh-w100" style="margin-top: 5px; display: none">
-            <p>
+            <p style="margin: 14px;">
                 <strong style="padding-right: 30px; display: inline-block; vertical-align: bottom;">Willst Du in der Tag-Liste ein neues Tag anlegen?</strong>
                 {{ form_widget(fvtag.save, {'attr': {'class': 'vtp-uiinfo-anchor vtp-tag-submit', 'style': 'width: 63px' }}) }}
                 <input type="button" id="tag_cancel_save" name="tag[cancel_save]" class="vtp-uiinfo-anchor vtp-tag-submit ui-button ui-widget ui-state-default ui-corner-all" style="height: 24px; padding-top: 0px; padding-bottom: 0px; font-weight: normal" value="Nein" role="button" aria-disabled="false">
@@ -32,7 +32,7 @@
             </p>
             <fieldset class="ui-corner-all vtp-tagbox-info" style="padding-top:10px;">
                 <legend>Bevor Du ein neues Tag anlegst, beachte bitte folgende Punkte:</legend>
-                <ul>
+                <ul style="margin-bottom: 12px">
                     <li>Wenn es schon ein Tag gibt, das den Datensatz treffend beschreibt, verwende bitte das schon bestehende Tag.</li>
                     <li> Wenn es irgendwie Sinn macht, verwende den Singular (z.B. Baum statt Bäume).</li>
                     <li> Bitte richtige Rechtschreibung beachten.</li>
