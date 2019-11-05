@@ -8,8 +8,8 @@
             </span>
             <input type="hidden" id="projectID" :value="project.id"/>
             <div class="vtp-title__buttons">
+                <help-button help-area="project" />
                 <span v-if="asProjectOwner" style="display: flex">
-                    <help-button help-area="project" />
                     <button id="vtp-projectdata-project-live"
                             class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
                             :class="{'ui-state-focus ui-state-active': !isEdit}"
@@ -37,7 +37,9 @@
             <div class="vtp-title__buttons">
                 <span style="display: flex">
                     <help-button help-area="lexicon" />
-                    <button id="vtp-lexicondata-lexicon-close" :title="$t('label.close')" class=""></button>
+                    <button id="vtp-lexicondata-lexicon-close"
+                            :title="$t('label.close')">
+                    </button>
                 </span>
             </div>
         </div>
