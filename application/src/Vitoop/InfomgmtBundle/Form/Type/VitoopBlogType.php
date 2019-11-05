@@ -6,6 +6,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class VitoopBlogType
+ * @package Vitoop\InfomgmtBundle\Form\Type
+ *
+ * @deprecated Remove after removing _edit_vitoop_blog
+ */
 class VitoopBlogType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)

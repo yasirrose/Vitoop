@@ -2,12 +2,13 @@
 namespace Vitoop\InfomgmtBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Vitoop\InfomgmtBundle\DTO\GetDTOInterface;
 
 /**
  * @ORM\Table(name="vitoop_blog")
  * @ORM\Entity(repositoryClass="Vitoop\InfomgmtBundle\Repository\VitoopBlogRepository")
  */
-class VitoopBlog
+class VitoopBlog implements GetDTOInterface
 {
     /**
      * @ORM\Column(name="id", type="integer")
@@ -64,5 +65,21 @@ class VitoopBlog
     public function getSheet()
     {
         return $this->sheet;
+    }
+
+    public function updateSheet($sheet)
+    {
+        $this->sheet = $sheet;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDTO()
+    {
+        return [
+            'id' => $this->id,
+            'sheet' => $this->sheet,
+        ];
     }
 }
