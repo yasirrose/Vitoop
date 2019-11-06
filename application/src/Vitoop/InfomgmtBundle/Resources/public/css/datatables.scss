@@ -297,6 +297,7 @@ table.dataTable td {
   }
 
   .dataTables_info {
+    height: 19px;
     float: left;
     border: 1px solid #aed0ea;
     background: #d7ebf9 url(../img/ui-bg_glass_80_d7ebf9_1x400.png) 50% 50% repeat-x;
@@ -508,9 +509,9 @@ table.dataTable tfoot th.ui-state-default:last-child {
   text-align: center;
   text-decoration: none !important;
   cursor: pointer;
-  *cursor: hand;
   color: #2779aa;
   font-size: 1em;
+  height: 24px;
 }
 
 .dataTables_wrapper .dataTables_paginate .fg-button:active {

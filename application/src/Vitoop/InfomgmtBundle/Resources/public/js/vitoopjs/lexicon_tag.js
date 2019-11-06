@@ -60,7 +60,7 @@ var init = function() {
                 return false;
             }
         });
-        console.log('tagExist: '+ tagExist);
+
         if (!tagExist) {
             $('div#vtp-tagbox-lexicon > span').each(function(index) {
                 var text = $(this).text().trim();

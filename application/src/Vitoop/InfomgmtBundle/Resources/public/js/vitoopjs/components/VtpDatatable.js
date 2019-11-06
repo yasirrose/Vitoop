@@ -156,7 +156,6 @@ export default class VtpDatatable {
             $('input.divider').off();
             var query = HttpService.prototype.parseParams(window.location.href),
                 editMode = query.edit;
-            console.log(query);
             var self = this;
             if (typeof(editMode) != 'undefined' && editMode == 1) {
                 $('.vtp-uiaction-coefficient').on('focusout', function() {
