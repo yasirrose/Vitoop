@@ -24,7 +24,6 @@ var UIAction = {
                     return false;
                 }
             });
-            console.log(action);
         }
     },
     init: function () {

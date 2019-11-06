@@ -92,7 +92,6 @@ function renderPdfByPageNum(pageNum, isNeedToScroll) {
     pdf.getPage(pageNum).then(function (page) {
         RENDER_OPTIONS.scale = (pdfWrapper.offsetWidth / page.getViewport(1).width)*0.9;
 
-        console.log('renderPdfByPageNum ' + pageNum);
         if (renderedPages.indexOf(pageNum) !== -1) {
             if (isNeedToScroll) {
                 document.querySelector('.page[data-page-number="'+pageNum+'"][data-loaded="true"]').scrollIntoView(true);
