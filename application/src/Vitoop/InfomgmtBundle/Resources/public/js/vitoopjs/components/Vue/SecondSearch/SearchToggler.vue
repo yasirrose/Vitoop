@@ -25,10 +25,8 @@
                     vitoopApp.vtpDatatable.rowsPerPage.checkDOMState();
                 }
             },
-            isHasNotEmptyFields: {
-                get() {
-                    return this.$store.state.searchToggler.isNotEmpty;
-                }
+            isHasNotEmptyFields() {
+                return this.$store.state.secondSearch.searchString !== '';
             }
         }
     };
