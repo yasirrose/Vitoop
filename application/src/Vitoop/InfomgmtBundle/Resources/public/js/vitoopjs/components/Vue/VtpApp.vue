@@ -29,7 +29,8 @@
             'isEdit',
             'infoProjectData',
             'tags',
-            'terms'
+            'terms',
+            'dataP'
         ],
         provide() {
             return {
@@ -45,14 +46,15 @@
                 isEdit: this.isEdit,
                 infoProjectData: this.infoProjectData,
                 tags: this.tags,
-                terms: this.terms
+                terms: this.terms,
+                dataP: this.dataP
             }
         },
         components: { AppFooter, AppHeader, AppContent, AppLogin },
         computed: {
             notLogin() {
                 return this.$store.state.user !== null ||
-                    /userhome|invitation|register/.test(this.$route.name)
+        /userhome|invitation|register|user-agreement|user-datap/.test(this.$route.name);
             }
         },
         data() {

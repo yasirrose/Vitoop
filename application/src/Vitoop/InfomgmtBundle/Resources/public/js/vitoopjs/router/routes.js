@@ -11,6 +11,7 @@ import EditVitoopBlog from "../components/Vue/components/EditVitoopBlog.vue";
 import UserAgreement from "../components/Vue/components/user/UserAgreement.vue";
 import UserInvitation from "../components/Vue/components/user/UserInvitation.vue";
 import UserRegistrate from "../components/Vue/components/user/UserRegistrate.vue";
+import UserDataP from "../components/Vue/components/user/UserDataP.vue";
 
 export default [
     {
@@ -116,6 +117,11 @@ export default [
         path: '/user/agreement',
         component: UserAgreement,
         name: 'user-agreement'
+    },
+    {
+        path: '/user/datap',
+        component: UserDataP,
+        name: 'user-datap'
     }
 ]
 
