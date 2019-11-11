@@ -15,17 +15,11 @@ export default class HelpButton {
             modal: true,
             open: function () {
                 self.loadContent();
-                // setTimeout(() => {
-                //     self.scroll();
-                // }, 500)
             },
             close: function () {
-                if ('#vtp-help-tag' === self.currentElementId) {
-                    $('#vtp-res-list tr td.ui-state-active:first').click();
-                   // $('#vtp-res-dialog').dialog('open');
-                }
                 tinyMCE.remove('textarea#help-text');
                 $('#vtp-res-dialog-help').empty();
+                $('#vtp-res-list tr td.ui-state-active:first').click();
             }
         });
 
