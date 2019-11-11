@@ -375,6 +375,13 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+    #vtp-search-bytags-taglistbox {
+        display: flex;
 
+        .vtp-search-bytags-tag {
+            display: flex;
+            align-items: center;
+        }
+    }
 </style>

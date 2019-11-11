@@ -2,11 +2,11 @@ import TinyMCEInitializer from "./TinyMCEInitializer";
 
 export default class HelpButton {
     constructor(){
-        this.inited = false;
         this.helpPopupId = '#vtp-res-dialog-help';
         this.isAdmin = false;
         this.resetScroll();
         let self = this;
+
         $(this.helpPopupId).dialog({
             autoOpen: false,
             width: 850,
@@ -14,15 +14,18 @@ export default class HelpButton {
             position: { my: 'center top', at: 'center top', of: '#vtp-nav' },
             modal: true,
             open: function () {
-                setTimeout(() => {
-                    self.scroll();
-                }, 500)
+                self.loadContent();
+                // setTimeout(() => {
+                //     self.scroll();
+                // }, 500)
             },
             close: function () {
                 if ('#vtp-help-tag' === self.currentElementId) {
                     $('#vtp-res-list tr td.ui-state-active:first').click();
                    // $('#vtp-res-dialog').dialog('open');
                 }
+                tinyMCE.remove('textarea#help-text');
+                $('#vtp-res-dialog-help').empty();
             }
         });
 
@@ -36,7 +39,6 @@ export default class HelpButton {
             $(self.helpPopupId).dialog('open');
         });
     }
-
     loadContent() {
         let self = this;
         $.ajax({
@@ -55,25 +57,23 @@ export default class HelpButton {
                         </div>
                     `);
                     $('#help-text', element).val(answer.help.text);
-                    if (!self.inited) $('#vtp-res-dialog-help').append(element);
-                    setTimeout(function() {
-                        let tinyInit = new TinyMCEInitializer();
-                        let options = tinyInit.getCommonOptions();
-                        options.mode = 'exact';
-                        options.selector = 'textarea#help-text';
-                        options.id = 'tiny-help';
-                        options.height = 400;
-                        options.plugins.push('code');
-                        options.relative_urls = false;
-                        options.remove_script_host = false;
-                        options.convert_urls = true;
-                        options.toolbar = 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink | code';
+                    $('#vtp-res-dialog-help').append(element);
+                    let tinyInit = new TinyMCEInitializer();
+                    let options = tinyInit.getCommonOptions();
+                    options.mode = 'exact';
+                    options.selector = 'textarea#help-text';
+                    options.id = 'tiny-help';
+                    options.height = 400;
+                    options.plugins.push('code');
+                    options.relative_urls = false;
+                    options.remove_script_host = false;
+                    options.convert_urls = true;
+                    options.toolbar = 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink | code';
 
-                        tinyMCE.init(options)
-                            .then(() => {
-                                self.inited = true;
-                            });
-                    }, 500);
+                    tinyMCE.init(options)
+                        .then(() => {
+                            self.scroll();
+                        });
 
                     $('#button-help-save').on('click', function() {
                         tinyMCE.triggerSave();
@@ -96,7 +96,6 @@ export default class HelpButton {
             }
         });
     }
-
     tagReinit() {
         let self = this;
         $('#form-tag .vtp-help-area-button').off().on('click', function () {
@@ -105,15 +104,12 @@ export default class HelpButton {
             $(self.helpPopupId).dialog('open');
         });
     }
-
     setHelpArea(helpArea) {
         this.currentElementId = '#vtp-help-' + helpArea;
     }
-
     resetScroll() {
         this.currentElementId = 'p';
     }
-
     scroll() {
         if (this.isAdmin) {
             const offset = $(tinymce.activeEditor.getBody()).find(this.currentElementId)[0].offsetTop;

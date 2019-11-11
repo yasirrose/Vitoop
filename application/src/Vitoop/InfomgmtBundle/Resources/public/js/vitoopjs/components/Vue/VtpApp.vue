@@ -59,7 +59,7 @@
         },
         data() {
             return {
-                loading: true
+                loading: true,
             }
         },
         beforeCreate() {
@@ -111,7 +111,7 @@
             });
 
             $('#vtp-header-toggle-flag button').hide();
-        }
+        },
     }
 </script>
 

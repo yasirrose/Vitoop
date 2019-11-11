@@ -10,7 +10,7 @@
                    href="/tags">
                     Tags
                 </a>
-                <button class="ui-corner-all ui-state-default" id="button-help">Hilfe</button>
+                <help-button help-area="search" text="Hilfe" />
             </span>
             <a class="ui-corner-all ui-state-default"
                @click.prevent="$router.push('/impressum')">
@@ -21,12 +21,33 @@
 </template>
 
 <script>
+    import HelpButton from "../SecondSearch/HelpButton.vue";
+
     export default {
         name: "AppFooter",
+        components: {HelpButton},
         inject: ['agreeWithTerm']
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+    #vtp-footer {
 
+        #vtp-imprint {
+            display: flex;
+
+            & > span {
+                display: flex;
+
+                & > * {
+                    margin-right: 4px;
+                }
+            }
+
+            .ui-state-default {
+                padding-left: 8px;
+                padding-right: 8px;
+            }
+        }
+    }
 </style>
