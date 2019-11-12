@@ -539,9 +539,9 @@ span.vtp-search-bytags-tag {
     height: 20px;
 
     &.vtp-search-bytags-tag-bulb {
-        background-color: #3baae3;
         color: #ffffff;
         border: $white-frame-border;
+        background: #3baae3 url(../img/ui-bg_glass_50_3baae3_1x400.png) 50% 50% repeat-x;
 
         > span.ui-icon {
             background-image: url("../img/ui-icons_ffffff_256x240.png");
@@ -1039,8 +1039,9 @@ span.vtp-icon {
 
 #vtp-rating-infobox-li {
     position: absolute;
-    top: 10px;
+    top: 58%;
     right: 2px;
+    transform: translateY(-50%);
 }
 
 .vtp-rating-infobox {
@@ -1720,11 +1721,21 @@ div#vtp-res-dialog-tabs > div {
 }
 
 #vtp-res-dialog-tabs.ui-tabs {
+
+    .ui-tabs-nav {
+        display: flex;
+        position: relative;
+    }
+
     .ui-tabs-nav .ui-tabs-anchor {
-        padding: 8px 14px 6px;
+        padding: 3px 8px;
     }
     .ui-tabs-nav li {
-        height: 32px;
+        float: initial;
+        display: flex;
+        align-items: center;
+        margin: 0 4px 0 0;
+        padding: 0;
     }
 }
 
@@ -1939,9 +1950,11 @@ a.vtp-uiaction-open-url:visited {
         .ui-dialog-titlebar {
             padding: 1px 14px;
             height: 24px;
+            display: flex;
+            align-items: center;
         }
         .ui-dialog-title {
-            line-height: 18px;
+            line-height: 17px;
             display: block;
             vertical-align: baseline;
             padding-top: 1px;
@@ -1985,8 +1998,13 @@ a.vtp-uiaction-open-url:visited {
         }
 
         &_paginate {
-            flex: 1;
             margin-right: 5px;
+            display: flex;
+            justify-content: flex-end;
+
+            & > span {
+                display: flex;
+            }
         }
     }
 }

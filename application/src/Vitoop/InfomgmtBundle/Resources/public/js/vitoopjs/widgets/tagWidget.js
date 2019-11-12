@@ -1,4 +1,5 @@
 import Widget from './widget';
+import HelpButton from "../components/HelpButton";
 
 export default class TagWidget extends Widget {
     constructor(resourceId, baseUrl) {
@@ -143,6 +144,11 @@ export default class TagWidget extends Widget {
             }
         });
 
-        window.vitoopApp.helpButton.tagReinit();
+        $('#vtp-tagbox-help').on('click', () => {
+            $('#vtp-res-dialog').dialog('close');
+            $('#vtp-res-dialog-help').dialog('open');
+        });
+
+        // window.vitoopApp.helpButton.tagReinit();
     }
 }

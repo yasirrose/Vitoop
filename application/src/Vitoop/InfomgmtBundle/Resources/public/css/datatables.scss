@@ -303,12 +303,16 @@ table.dataTable td {
     height: 17px;
     float: left;
     border: 1px solid #aed0ea;
-    background: #d7ebf9 url(../img/ui-bg_glass_80_d7ebf9_1x400.png) 50% 50% repeat-x;
+    //background: #d7ebf9 url(../img/ui-bg_glass_80_d7ebf9_1x400.png) 50% 50% repeat-x;
     font-weight: bold;
     color: #2779aa;
     border-radius: 6px;
     padding: 0 14px 3px;
-    margin: 0 0 0 68px;
+    margin: 0 15px 0 65px;
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }
 

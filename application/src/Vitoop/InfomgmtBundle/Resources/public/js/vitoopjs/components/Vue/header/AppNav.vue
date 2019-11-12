@@ -16,7 +16,7 @@
                     {{ $t('page.lexicon') }}
                 </a>
                 <div class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
-                   v-else
+                   v-else-if="$route.name !== 'settings'"
                    :class="{'vtp-nav-active ui-state-active': $route.path === '/userhome'}"
                    @click="toHome">
                     Benutzer-Hauptseite
