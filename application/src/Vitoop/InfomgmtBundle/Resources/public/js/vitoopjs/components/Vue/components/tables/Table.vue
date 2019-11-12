@@ -87,13 +87,15 @@
         },
         mounted() {
             resourceDetail.init();
-            vitoopApp.initTable(
-                this.$route.name,
-                this.$store.state.admin !== null,
-                0,
-                0,
-                `/api/resource/${this.$route.name}`,
-            );
+            window.addEventListener('load', () => {
+                vitoopApp.initTable(
+                    this.$route.name,
+                    this.$store.state.admin !== null,
+                    0,
+                    0,
+                    `/api/resource/${this.$route.name}`,
+                );
+            })
         }
     }
 </script>

@@ -21,6 +21,11 @@ export default class VtpDatatable {
         let self = this;
         vitoopState.commit('setResourceType', this.resType);
         self.sendLinkWidget.checkOpenButtonState();
+
+        if (this.isCoef) {
+            this.getCurrentDividers();
+        }
+
         let datatable = $(this.datatableListId).DataTable(this.getDatatableOptions());
         datatable
             .on('init.dt', function () {
@@ -91,6 +96,39 @@ export default class VtpDatatable {
             vitoopState.commit('setResourceInfo', json.resourceInfo);
             window.resourceInfo = json.resourceInfo;
         }
+    }
+
+    getCurrentDividers() {
+        let upperCoefficient = -1000;
+        let currentCoefficient = 0;
+        let dividers;
+        let currentDividers = [];
+        let coefficients;
+        let projectId = $('#projectID').val();
+        axios(`/api/project/${projectId}/divider`)
+            .then(({data}) => {
+                dividers = data;
+                axios(`${this.url}&length=${this.rowsPerPage.getPageLength()}`)
+                    .then(({data: {data}}) => {
+                        coefficients = data.map(item => {return item.coef});
+                        coefficients.forEach(coef => {
+                            currentCoefficient = Math.floor(coef);
+                            if (Math.floor(upperCoefficient)-currentCoefficient <= -1) {
+                                let divider = dividers[currentCoefficient];
+                                if (typeof(divider) == "undefined") {
+                                    divider = "";
+                                } else {
+                                    divider = divider.text;
+                                }
+                                currentDividers.push(divider);
+                            }
+                            upperCoefficient = currentCoefficient;
+                        });
+                    })
+            })
+            .catch(err => {
+                console.dir(err);
+            })
     }
 
     getDatatableOptions() {
@@ -189,7 +227,6 @@ export default class VtpDatatable {
                 success: function(data) {
                     dividers = data;
                     let divider = "";
-                    const currentDividers = [];
                     $('.vtp-uiaction-coefficient.divider-wrapper').remove();
                     $('table > tbody > tr > td > input.vtp-uiaction-coefficient').each(function() {
                         currentCoefficient = Math.floor($(this).val());
@@ -199,7 +236,6 @@ export default class VtpDatatable {
                                 divider = "";
                             } else {
                                 divider = divider.text;
-                                currentDividers.push(divider);
                             }
                             if ((typeof(editMode) != "undefined") && (editMode)) {
                                 $(this).parent().parent().before($('<div class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 96px; padding-top: 4px"><span>'+ ~~ currentCoefficient+'</span></div><div style="width: 990px"><input class="divider" type="text" data-coef="'+(~~currentCoefficient)+'" value="'+divider+'" data-original="'+divider+'"></div></div>'));
@@ -235,10 +271,6 @@ export default class VtpDatatable {
                         }
                         upperCoefficient = currentCoefficient;
                     });
-                    // todo calculate difference and update Table
-                    // const pageSelect = new RowPerPageSelect();
-                    // const newPageLength = pageSelect.getPageLength() - currentDividers.length;
-                    // pageSelect.updatePageLength(newPageLength);
                 }
             });
         }
