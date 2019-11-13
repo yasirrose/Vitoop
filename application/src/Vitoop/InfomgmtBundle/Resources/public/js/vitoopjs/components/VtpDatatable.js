@@ -22,10 +22,6 @@ export default class VtpDatatable {
         vitoopState.commit('setResourceType', this.resType);
         self.sendLinkWidget.checkOpenButtonState();
 
-        if (this.isCoef) {
-            this.getCurrentDividers();
-        }
-
         let datatable = $(this.datatableListId).DataTable(this.getDatatableOptions());
         datatable
             .on('init.dt', function () {
@@ -98,41 +94,7 @@ export default class VtpDatatable {
         }
     }
 
-    getCurrentDividers() {
-        let upperCoefficient = -1000;
-        let currentCoefficient = 0;
-        let dividers;
-        let currentDividers = [];
-        let coefficients;
-        let projectId = $('#projectID').val();
-        axios(`/api/project/${projectId}/divider`)
-            .then(({data}) => {
-                dividers = data;
-                axios(`${this.url}&length=${this.rowsPerPage.getPageLength()}`)
-                    .then(({data: {data}}) => {
-                        coefficients = data.map(item => {return item.coef});
-                        coefficients.forEach(coef => {
-                            currentCoefficient = Math.floor(coef);
-                            if (Math.floor(upperCoefficient)-currentCoefficient <= -1) {
-                                let divider = dividers[currentCoefficient];
-                                if (typeof(divider) == "undefined") {
-                                    divider = "";
-                                } else {
-                                    divider = divider.text;
-                                }
-                                currentDividers.push(divider);
-                            }
-                            upperCoefficient = currentCoefficient;
-                        });
-                    })
-            })
-            .catch(err => {
-                console.dir(err);
-            })
-    }
-
     getDatatableOptions() {
-        let self = this;
         let drawCallback = this.isCoef ? this.dtDrawCallbackCoef : this.dtDrawCallback;
         return {
             autoWidth: false,
@@ -143,16 +105,16 @@ export default class VtpDatatable {
             serverSide: true,
             retrieve: true,
             ajax: {
-                url:  self.url,
-                data: function (data) {
+                url:  this.url,
+                data: (data) => {
                     data.isUserHook = vitoopState.state.secondSearch.isBlueFilter;
                     data.isUserRead = vitoopState.state.secondSearch.isReadFilter;
-                    if (self.resType == 'pdf' || self.resType == 'teli') {
+                    if (this.resType == 'pdf' || this.resType == 'teli') {
                         data.dateFrom = vitoopState.state.secondSearch.dateFrom;
                         data.dateTo = vitoopState.state.secondSearch.dateTo;
                     }
-                    if (self.resType == 'book') {
-                        data.art = vitoopState.state.secondSearch.artFilter
+                    if (this.resType == 'book') {
+                        data.art = vitoopState.state.secondSearch.artFilter;
                     }
                     return data;
                 }
@@ -421,7 +383,6 @@ export default class VtpDatatable {
                 columns.push(this.getIsDownloadedColumn());
             }
             columns.push(this.getPdfUrlValue());
-
             return columns;
         }
         if (this.resType == 'teli') {
@@ -566,7 +527,6 @@ export default class VtpDatatable {
     getRes12Column() {
         return {"data": "res12count", orderSequence: [ "desc", "asc"]};
     }
-
 
     getRatingValue(data, type, row, meta) {
         let hint, image;
