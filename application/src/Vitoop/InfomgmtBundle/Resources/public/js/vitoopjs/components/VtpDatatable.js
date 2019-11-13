@@ -21,6 +21,7 @@ export default class VtpDatatable {
         let self = this;
         vitoopState.commit('setResourceType', this.resType);
         self.sendLinkWidget.checkOpenButtonState();
+
         let datatable = $(this.datatableListId).DataTable(this.getDatatableOptions());
         datatable
             .on('init.dt', function () {
@@ -94,7 +95,6 @@ export default class VtpDatatable {
     }
 
     getDatatableOptions() {
-        let self = this;
         let drawCallback = this.isCoef ? this.dtDrawCallbackCoef : this.dtDrawCallback;
         return {
             autoWidth: false,
@@ -105,16 +105,16 @@ export default class VtpDatatable {
             serverSide: true,
             retrieve: true,
             ajax: {
-                url:  self.url,
-                data: function (data) {
+                url:  this.url,
+                data: (data) => {
                     data.isUserHook = vitoopState.state.secondSearch.isBlueFilter;
                     data.isUserRead = vitoopState.state.secondSearch.isReadFilter;
-                    if (self.resType == 'pdf' || self.resType == 'teli') {
+                    if (this.resType == 'pdf' || this.resType == 'teli') {
                         data.dateFrom = vitoopState.state.secondSearch.dateFrom;
                         data.dateTo = vitoopState.state.secondSearch.dateTo;
                     }
-                    if (self.resType == 'book') {
-                        data.art = vitoopState.state.secondSearch.artFilter
+                    if (this.resType == 'book') {
+                        data.art = vitoopState.state.secondSearch.artFilter;
                     }
                     return data;
                 }
@@ -189,7 +189,6 @@ export default class VtpDatatable {
                 success: function(data) {
                     dividers = data;
                     let divider = "";
-                    const currentDividers = [];
                     $('.vtp-uiaction-coefficient.divider-wrapper').remove();
                     $('table > tbody > tr > td > input.vtp-uiaction-coefficient').each(function() {
                         currentCoefficient = Math.floor($(this).val());
@@ -199,7 +198,6 @@ export default class VtpDatatable {
                                 divider = "";
                             } else {
                                 divider = divider.text;
-                                currentDividers.push(divider);
                             }
                             if ((typeof(editMode) != "undefined") && (editMode)) {
                                 $(this).parent().parent().before($('<div class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 96px; padding-top: 4px"><span>'+ ~~ currentCoefficient+'</span></div><div style="width: 990px"><input class="divider" type="text" data-coef="'+(~~currentCoefficient)+'" value="'+divider+'" data-original="'+divider+'"></div></div>'));
@@ -235,10 +233,6 @@ export default class VtpDatatable {
                         }
                         upperCoefficient = currentCoefficient;
                     });
-                    // todo calculate difference and update Table
-                    // const pageSelect = new RowPerPageSelect();
-                    // const newPageLength = pageSelect.getPageLength() - currentDividers.length;
-                    // pageSelect.updatePageLength(newPageLength);
                 }
             });
         }
@@ -389,7 +383,6 @@ export default class VtpDatatable {
                 columns.push(this.getIsDownloadedColumn());
             }
             columns.push(this.getPdfUrlValue());
-
             return columns;
         }
         if (this.resType == 'teli') {
@@ -534,7 +527,6 @@ export default class VtpDatatable {
     getRes12Column() {
         return {"data": "res12count", orderSequence: [ "desc", "asc"]};
     }
-
 
     getRatingValue(data, type, row, meta) {
         let hint, image;
