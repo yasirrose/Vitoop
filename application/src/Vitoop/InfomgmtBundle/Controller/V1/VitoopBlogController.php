@@ -10,6 +10,7 @@ use Vitoop\InfomgmtBundle\Controller\ApiController;
 use Vitoop\InfomgmtBundle\DTO\VitoopBlog\UpdateBlogItem;
 use Vitoop\InfomgmtBundle\Entity\VitoopBlog;
 use Vitoop\InfomgmtBundle\Repository\VitoopBlogRepository;
+use Vitoop\InfomgmtBundle\Response\Json\ErrorResponse;
 
 /**
  * @Route("vitoop-blog")
@@ -63,13 +64,7 @@ class VitoopBlogController extends ApiController
         $dto = $this->getDTOFromRequest($request, UpdateBlogItem::class);
         $errors = $this->validator->validate($dto);
         if (count($errors) > 0) {
-            $response['success'] = false;
-            $response['messages'] = [];
-            foreach ($errors as $error) {
-                $response['messages'][] = $error->getPropertyPath() . ': '. $error->getMessage();
-            }
-
-            return new JsonResponse($response, 400);
+            return new JsonResponse(ErrorResponse::createFromValidator($errors), 400);
         }
 
         $vitoopBlog->updateSheet($dto->sheet);
