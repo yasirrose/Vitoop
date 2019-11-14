@@ -34,6 +34,7 @@ class InvitationController extends ApiController
     }
 
     /**
+     * @deprecated
      * @Route("/new", name="new_invitation")
      * @Method({"GET", "POST"})
      * @Template("VitoopInfomgmtBundle:User:invitation_for_user.html.twig")

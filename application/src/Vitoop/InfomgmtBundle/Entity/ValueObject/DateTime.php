@@ -1,0 +1,37 @@
+<?php
+
+namespace Vitoop\InfomgmtBundle\Entity\ValueObject;
+
+/**
+ * Class DateTime
+ * @package Vitoop\InfomgmtBundle\Entity\ValueObject
+ */
+class DateTime implements \JsonSerializable
+{
+    /**
+     * @var \DateTime
+     */
+    private $date;
+
+    /**
+     * DateTime constructor.
+     * @param \DateTime $date
+     */
+    public function __construct(\DateTime $date)
+    {
+        $this->date = $date;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDate(): \DateTime
+    {
+        return $this->date;
+    }
+
+    public function jsonSerialize()
+    {
+        return $this->date->format(\DateTime::ISO8601);
+    }
+}

@@ -156,6 +156,7 @@ class UserController extends ApiController
     }
 
     /**
+     * @deprecated
      * @Route("/invite", name="_invite")
      * @Template()
      */

@@ -2,33 +2,44 @@
 
 namespace Vitoop\InfomgmtBundle\Repository;
 
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Vitoop\InfomgmtBundle\Entity\Invitation;
 
 /**
  * InvitationRepository
  */
-class InvitationRepository
+class InvitationRepository extends ServiceEntityRepository
 {
-    private $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    /**
+     * InvitationRepository constructor.
+     * @param ManagerRegistry $registry
+     */
+    public function __construct(ManagerRegistry $registry)
     {
-        $this->entityManager = $entityManager;
+        parent::__construct($registry, Invitation::class);
     }
 
+    /**
+     * @param Invitation $invitation
+     */
     public function add(Invitation $invitation)
     {
-        $this->entityManager->persist($invitation);
+        $this->getEntityManager()->persist($invitation);
+    }
+
+    /**
+     * @param Invitation $invitation
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function save(Invitation $invitation)
+    {
+        $this->getEntityManager()->persist($invitation);
+        $this->getEntityManager()->flush($invitation);
     }
 
     public function remove(Invitation $invitation)
     {
-        $this->entityManager->remove($invitation);
-    }
-
-    public function findOneByEmail($email)
-    {
-        return $this->entityManager->getRepository(Invitation::class)->findOneByEmail($email);
+        $this->getEntityManager()->remove($invitation);
     }
 }
