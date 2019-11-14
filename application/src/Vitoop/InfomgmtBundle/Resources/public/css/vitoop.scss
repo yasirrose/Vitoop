@@ -1728,7 +1728,7 @@ div#vtp-res-dialog-tabs > div {
     }
 
     .ui-tabs-nav .ui-tabs-anchor {
-        padding: 3px 8px;
+        padding: 4px 8px;
     }
     .ui-tabs-nav li {
         float: initial;
@@ -1863,6 +1863,7 @@ td.vtp-blue.ui-state-active {
 }
 
 #comment_text {
+    padding: 5px;
     height: 55px;
 }
 
@@ -2016,6 +2017,7 @@ a.vtp-uiaction-open-url:visited {
 }
 
 #send_links_textBody {
+    padding: 5px;
     height: 100px;
 }
 

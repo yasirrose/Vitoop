@@ -36,6 +36,11 @@
         #vtp-imprint {
             display: flex;
 
+            a, button {
+                padding-top: 4px;
+                padding-bottom: 4px;
+            }
+
             & > span {
                 display: flex;
 

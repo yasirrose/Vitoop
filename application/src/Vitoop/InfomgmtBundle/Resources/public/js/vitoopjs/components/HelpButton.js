@@ -5,6 +5,7 @@ export default class HelpButton {
         this.helpPopupId = '#vtp-res-dialog-help';
         this.isAdmin = false;
         this.resetScroll();
+        this.inDialog = false;
         let self = this;
 
         $(this.helpPopupId).dialog({
@@ -13,23 +14,20 @@ export default class HelpButton {
             height: 570,
             position: { my: 'center top', at: 'center top', of: '#vtp-nav' },
             modal: true,
-            open: function () {
-                self.loadContent();
+            open: () => {
+                this.loadContent();
             },
-            close: function () {
+            close: () => {
                 tinyMCE.remove('textarea#help-text');
                 $('#vtp-res-dialog-help').empty();
-                $('#vtp-res-list tr td.ui-state-active:first').click();
+                if (this.inDialog) {
+                    $('#vtp-res-list tr td.ui-state-active:first').click();
+                }
             }
         });
 
         $('#button-help').on('click', function() {
             self.resetScroll();
-            $(self.helpPopupId).dialog('open');
-        });
-
-        $('.vtp-help-area-button').on('click', function () {
-            self.setHelpArea($(this).attr('help-area'));
             $(self.helpPopupId).dialog('open');
         });
     }

@@ -54,29 +54,6 @@
                     </div>
                 </fieldset>
                 <fieldset class="ui-corner-all margin-top-10">
-                    <legend>Benutzer-Hauptseite</legend>
-                    <div class="vtp-fh-w100">
-                        <div class="vtp-fh-w25">
-                                <p>Höhe der Textbox in ToDo in Pixeln</p>
-                                <div class="vtp-fh-w100">
-                                    <input type="number"
-                                           name="todo-height"
-                                           id="todo-height"
-                                           v-model="user.heightOfTodoList"/>
-                                </div>
-                        </div>
-                        <div class="vtp-fh-w25">
-                            <p>Anzahl der sichtbaren ToDo-Punkte</p>
-                            <div class="vtp-fh-w100">
-                                <input type="number"
-                                       name="todo-count"
-                                       id="todo-count"
-                                       v-model="user.numberOfTodoElements"/>
-                            </div>
-                        </div>
-                    </div>
-                </fieldset>
-                <fieldset class="ui-corner-all margin-top-10">
                     <div class="vtp-fh-w100">
                         <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all" v-show="isSuccess" style="transition: 0s linear all;"><span class="vtp-icon ui-icon ui-icon-info"></span><span>{{ message }}</span></div>
                         <div class="vtp-fh-w70">
