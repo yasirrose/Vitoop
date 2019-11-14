@@ -509,7 +509,7 @@ table.dataTable tfoot th.ui-state-default:last-child {
   box-sizing: border-box;
   display: inline-block;
   min-width: 1.5em;
-  padding: 0 6px 2px 5px;
+  padding: 0 6px 0 5px;
   border-radius: 6px;
   margin: 0 2px;
   font-weight: 400;
@@ -519,6 +519,8 @@ table.dataTable tfoot th.ui-state-default:last-child {
   color: #2779aa;
   font-size: 1em;
   height: 22px;
+  display: flex;
+  align-items: center;
 }
 
 .dataTables_wrapper .dataTables_paginate .fg-button:active {
