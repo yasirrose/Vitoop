@@ -90,7 +90,6 @@
 </script>
 
 <style scoped lang="scss">
-
     #vtp-lexicondata-title {
         display: flex;
         align-items: center;
@@ -100,6 +99,32 @@
     .vtp-title__buttons {
 
         &::v-deep {
+
+            .ui-icon-clipboard {
+                background-position: -160px -129px;
+            }
+
+            .ui-icon-wrench {
+                background-position: -176px -113px;
+            }
+
+            .ui-icon-help {
+                background-position: -48px -145px;
+            }
+
+            .ui-icon-close {
+                background-position: -80px -129px;
+            }
+
+            .ui-button {
+                width: 30px !important;
+                height: 17px !important;
+                margin: 0 0 0 4px !important;
+            }
+
+            .ui-icon-help {
+                margin: 0 !important;
+            }
 
             .vtp-help-area-button {
                 height: 19px;

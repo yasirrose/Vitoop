@@ -1195,7 +1195,7 @@ span.vtp-icon {
 .vtp-cmstitle {
     display: flex;
     align-items: center;
-    padding: 3px 10px 4px 15px !important;
+    padding: 0 10px 0 15px !important;
 
     .vtp-title {
 
@@ -1238,14 +1238,14 @@ span.vtp-icon {
 }
 
 #vtp-projectdata-title, #vtp-lexicondata-title {
-    height: 24px;
+    height: 23px;
     position: relative;
     margin: auto;
     border: $blue-frame-border;
     padding: 4px 30px 2px 15px;
     color: #222222;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 14px;
     background: $vitoop-even-background-color;
     background: -moz-linear-gradient(left,  #deedf7 0%, #cbebff 47%, #3999ca 100%);
     background: -webkit-gradient(linear, left top, right top, color-stop(0%,#deedf7), color-stop(47%,#cbebff), color-stop(100%,#3999ca));

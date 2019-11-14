@@ -1,7 +1,7 @@
 export default class RowPerPageSelect {
     constructor() {
         this.selectId = '.dataTables_length select';
-        this.defaultRowNum = 7;
+        this.defaultRowNum = 12;
     }
 
     getPageLength() {
