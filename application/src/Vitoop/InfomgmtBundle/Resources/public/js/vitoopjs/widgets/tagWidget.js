@@ -144,7 +144,9 @@ export default class TagWidget extends Widget {
             }
         });
 
-        $('#vtp-tagbox-help').on('click', () => {
+        $('#vtp-tagbox-help').on('click', function() {
+            vitoopApp.helpButton.inDialog = $(this).attr('help-area') === 'tag';
+            vitoopApp.helpButton.setHelpArea($(this).attr('help-area'));
             $('#vtp-res-dialog').dialog('close');
             $('#vtp-res-dialog-help').dialog('open');
         });
