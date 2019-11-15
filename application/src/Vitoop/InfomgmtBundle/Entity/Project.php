@@ -5,6 +5,7 @@ use Vitoop\InfomgmtBundle\DTO\GetDTOInterface;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Vitoop\InfomgmtBundle\DTO\Resource\ResourceDTO;
+use Vitoop\InfomgmtBundle\Entity\ValueObject\DateTime;
 
 /**
  * @ORM\Table(name="project")
@@ -139,7 +140,9 @@ class Project extends Resource implements GetDTOInterface
     {
         return [
             'id' => $this->id,
-            'project_data' => $this->project_data->getDTO()
+            'project_data' => $this->project_data->getDTO(),
+            'user' => $this->user->getDTO(),
+            'created' => new DateTime($this->created_at),
         ];
     }
 

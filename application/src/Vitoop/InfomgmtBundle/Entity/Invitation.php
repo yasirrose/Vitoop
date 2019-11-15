@@ -2,12 +2,14 @@
 namespace Vitoop\InfomgmtBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Vitoop\InfomgmtBundle\DTO\GetDTOInterface;
+use Vitoop\InfomgmtBundle\Entity\ValueObject\DateTime;
 
 /**
  * @ORM\Table(name="vitoop_user_invitation")
  * @ORM\Entity()
  */
-class Invitation
+class Invitation implements GetDTOInterface
 {
     /**
      * @ORM\Column(name="id", type="integer")
@@ -47,8 +49,9 @@ class Invitation
      */
     protected $until;
 
-    public function __construct()
+    public function __construct($email = null)
     {
+        $this->email = $email;
         $this->subject = 'Einladung zum Informationsportal vitoop';
         $this->secret = md5(bin2hex(random_bytes(22)));
         $this->updateUntil();
@@ -145,5 +148,14 @@ class Invitation
     public function isActual()
     {
         return (new \DateTime() <= $this->until);
+    }
+
+    public function getDTO()
+    {
+        return [
+            'id' => $this->id,
+            'email' => $this->email,
+            'until' => new DateTime($this->until),
+        ];
     }
 }

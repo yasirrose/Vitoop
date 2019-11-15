@@ -43,14 +43,15 @@ security:
       - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
       - { path: ^/impressum, roles: IS_AUTHENTICATED_ANONYMOUSLY }
       - { path: ^/invitation/new, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-      - { path: ^/invitation/, roles: ROLE_ADMIN }
+      - { path: ^/invitation/, roles: ROLE_ADMIN }  #deprecated
       - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
       - { path: '^/register/[a-z0-9]{32}$', roles: IS_AUTHENTICATED_ANONYMOUSLY }
-      - { path: ^/invite, roles: ROLE_ADMIN }
-      - { path: ^/edit-vitoop-blog, roles: ROLE_ADMIN }
+      - { path: ^/invite, roles: ROLE_ADMIN } #deprecated
+      - { path: ^/edit-vitoop-blog, roles: ROLE_ADMIN } #deprecated
       - { path: ^/api/help, roles: IS_AUTHENTICATED_ANONYMOUSLY }
       - { path: ^/user/(datap|agreement), roles: IS_AUTHENTICATED_ANONYMOUSLY }
       - { path: ^/api/v1/vitoop-blog$, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: GET}
       - { path: ^/api/v1/vitoop-blog, roles: ROLE_ADMIN, methods: PUT}
+      - { path: ^/api/v1/invitations, roles: ROLE_ADMIN, methods: POST}
       - { path: ^/, roles: ROLE_USER }
 
