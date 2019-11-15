@@ -14,6 +14,11 @@ use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
  */
 class ProjectRepository extends ResourceRepository
 {
+    public function getEntityClass()
+    {
+        return Project::class;
+    }
+
     public function getResourcesQuery(SearchResource $search)
     {
         $qb = $this->createQueryBuilder('r')

@@ -52,6 +52,7 @@ security:
       - { path: ^/user/(datap|agreement), roles: IS_AUTHENTICATED_ANONYMOUSLY }
       - { path: ^/api/v1/vitoop-blog$, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: GET}
       - { path: ^/api/v1/vitoop-blog, roles: ROLE_ADMIN, methods: PUT}
-      - { path: ^/api/v1/invitations, roles: ROLE_ADMIN, methods: POST}
+      - { path: ^/api/v1/invitations$, roles: ROLE_ADMIN, methods: POST}
+      - { path: ^/api/v1/invitations, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: GET}
       - { path: ^/, roles: ROLE_USER }
 

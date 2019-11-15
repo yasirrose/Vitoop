@@ -65,11 +65,14 @@ services:
             - Vitoop\InfomgmtBundle\Entity\UserConfig
 
     Vitoop\InfomgmtBundle\Repository\InvitationRepository: ~
-
-    Vitoop\InfomgmtBundle\Repository\ResourceRepository:
-        factory: ["@doctrine.orm.entity_manager", getRepository]
-        arguments:
-            - Vitoop\InfomgmtBundle\Entity\Resource
+    Vitoop\InfomgmtBundle\Repository\ResourceRepository: ~
+    Vitoop\InfomgmtBundle\Repository\LexiconRepository: ~
+    Vitoop\InfomgmtBundle\Repository\ProjectRepository: ~
+    Vitoop\InfomgmtBundle\Repository\AddressRepository: ~
+    Vitoop\InfomgmtBundle\Repository\PdfRepository: ~
+    Vitoop\InfomgmtBundle\Repository\TeliRepository: ~
+    Vitoop\InfomgmtBundle\Repository\BookRepository: ~
+    Vitoop\InfomgmtBundle\Repository\LinkRepository: ~
 
     Vitoop\InfomgmtBundle\Repository\TagRepository:
         factory: ["@doctrine.orm.entity_manager", getRepository]
@@ -86,10 +89,6 @@ services:
         arguments:
             - Vitoop\InfomgmtBundle\Entity\RelResourceTag
 
-    Vitoop\InfomgmtBundle\Repository\LexiconRepository:
-        factory: ["@doctrine.orm.entity_manager", getRepository]
-        arguments:
-            - Vitoop\InfomgmtBundle\Entity\Lexicon
 
     Vitoop\InfomgmtBundle\Repository\PdfAnnotationRepository:
         factory: ["@doctrine.orm.entity_manager", getRepository]

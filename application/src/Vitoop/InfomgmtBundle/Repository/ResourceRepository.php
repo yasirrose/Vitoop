@@ -1,6 +1,8 @@
 <?php
 namespace Vitoop\InfomgmtBundle\Repository;
 
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\Entity\Project;
 use Vitoop\InfomgmtBundle\Entity\Lexicon;
@@ -15,16 +17,31 @@ use Vitoop\InfomgmtBundle\Pagination\ResourceListAdapter;
 use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /*
  * ResourceRepository
  */
-class ResourceRepository extends EntityRepository
+class ResourceRepository extends ServiceEntityRepository
 {
+    /**
+     * ResourceRepository constructor.
+     * @param ManagerRegistry $registry
+     */
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, $this->getEntityClass());
+    }
+
+    /**
+     * @return string
+     */
+    public function getEntityClass()
+    {
+        return Resource::class;
+    }
+
     /**
      * @param SearchResource $search
      * @return QueryBuilder

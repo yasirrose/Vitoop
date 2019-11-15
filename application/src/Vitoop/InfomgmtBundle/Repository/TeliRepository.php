@@ -3,6 +3,7 @@
 namespace Vitoop\InfomgmtBundle\Repository;
 
 use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
+use Vitoop\InfomgmtBundle\Entity\Teli;
 use Vitoop\InfomgmtBundle\Entity\ValueObject\PublishedDate;
 
 /**
@@ -10,6 +11,11 @@ use Vitoop\InfomgmtBundle\Entity\ValueObject\PublishedDate;
  */
 class TeliRepository extends ResourceRepository
 {
+    public function getEntityClass()
+    {
+        return Teli::class;
+    }
+
     public function getResourcesQuery(SearchResource $search)
     {
         $qb = $this->createQueryBuilder('r')

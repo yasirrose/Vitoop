@@ -100,4 +100,22 @@ class InvitationController extends ApiController
 
         return $this->getApiResponse($invitation, 201);
     }
+
+    /**
+     * @Route("/{secret}", methods={"GET"})
+     */
+    public function getInvitationInfo($secret)
+    {
+        /**
+         * @var Invitation $invitation
+         */
+        $invitation = $this->invitationRepository->findOneBy([
+            'secret' => $secret
+        ]);
+        if (!$invitation || !$invitation->isActual()) {
+           throw $this->createNotFoundException();
+        }
+
+        return $this->getApiResponse($invitation);
+    }
 }
