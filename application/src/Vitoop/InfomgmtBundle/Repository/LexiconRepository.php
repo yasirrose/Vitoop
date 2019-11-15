@@ -3,12 +3,18 @@
 namespace Vitoop\InfomgmtBundle\Repository;
 
 use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
+use Vitoop\InfomgmtBundle\Entity\Lexicon;
 
 /**
  * LexiconRepository
  */
 class LexiconRepository extends ResourceRepository
 {
+    public function getEntityClass()
+    {
+        return Lexicon::class;
+    }
+
     public function getLexiconWithWikiRedirects($id)
     {
         $result = $this->getEntityManager()

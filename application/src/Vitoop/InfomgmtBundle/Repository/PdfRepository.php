@@ -2,6 +2,7 @@
 
 namespace Vitoop\InfomgmtBundle\Repository;
 
+use Vitoop\InfomgmtBundle\Entity\Pdf;
 use Vitoop\InfomgmtBundle\Entity\ValueObject\PublishedDate;
 use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
 
@@ -16,6 +17,11 @@ use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
  */
 class PdfRepository extends ResourceRepository
 {
+    public function getEntityClass()
+    {
+        return Pdf::class;
+    }
+
     /**
      * @param $count
      * @param $missing

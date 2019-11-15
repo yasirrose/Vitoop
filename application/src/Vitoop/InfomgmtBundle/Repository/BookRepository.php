@@ -3,6 +3,7 @@
 namespace Vitoop\InfomgmtBundle\Repository;
 
 use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
+use Vitoop\InfomgmtBundle\Entity\Book;
 
 /**
  * BookRepository
@@ -12,6 +13,11 @@ use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
  */
 class BookRepository extends ResourceRepository
 {
+    public function getEntityClass()
+    {
+        return Book::class;
+    }
+
     public function getResourcesQuery(SearchResource $search)
     {
         $qb = $this->createQueryBuilder('r')->select('r.author, r.tnop');
