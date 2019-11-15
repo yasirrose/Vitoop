@@ -6,16 +6,22 @@
                 {{ downloadSize }}
                 {{$t('label.download.mb')}}
             </span>
-            <form id="vtp-header-toggle-flag"
-                  class="vtp-admin-toolbar"
-                  style="display: none;"
-                  action="/userhome"
-                  method="get"
-                  enctype="application/x-www-form-urlencoded">
-                <label for="vtp-tgl-flag" class="vtp-button">{{ $t('label.flags.edit') }}</label>
-                <input id="vtp-tgl-flag" class="vtp-uiaction-toggle-flag" name="flagged" type="checkbox" value="1">
-                <button class="vtp-button" type="submit">{{ $t('label.flags.edit') }}</button>
-            </form>
+<!--            <form id="vtp-header-toggle-flag"-->
+<!--                  class="vtp-admin-toolbar"-->
+
+<!--                  action="/userhome"-->
+<!--                  method="get"-->
+<!--                  enctype="application/x-www-form-urlencoded">-->
+<!--                <label for="vtp-tgl-flag" class="vtp-button">{{ $t('label.flags.edit') }}</label>-->
+<!--                <input id="vtp-tgl-flag" class="vtp-uiaction-toggle-flag" name="flagged" type="checkbox" value="1">-->
+<!--                <button class="vtp-button" type="submit">{{ $t('label.flags.edit') }}</button>-->
+<!--            </form>-->
+            <button for="vtp-tgl-flag"
+                    class="vtp-button ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+                    title="Flags bearbeiten">
+                <span class="ui-button-icon-primary ui-icon ui-icon-flag"></span>
+                <span class="ui-button-text">Flags bearbeiten</span>
+            </button>
             <button class="vtp-button vtp-admin-toolbar ui-widget ui-state-default ui-corner-all ui-button-text-only"
                     @click="showTerms"
                     id="button-terms-admin">
@@ -178,6 +184,13 @@
                 this.sendLinkWidget.clear();
                 e.stopPropagation();
                 return false;
+            });
+
+            $('#vtp-header-toggle-flag input[type=checkbox]').button({
+                icons: {
+                    primary: "ui-icon-flag"
+                },
+                text: false
             });
 
             $('#button-checking-links').off().on('click', (e) => {

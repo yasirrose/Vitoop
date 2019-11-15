@@ -5,7 +5,7 @@
         <app-nav />
         <search-by-tags v-if="showTags" />
         <app-cms-title />
-        <div id="vtp-second-search">
+        <div id="vtp-second-search" v-if="showTags">
             <second-search />
         </div>
     </div>

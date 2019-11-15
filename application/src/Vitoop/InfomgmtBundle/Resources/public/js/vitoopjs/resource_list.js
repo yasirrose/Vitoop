@@ -13,7 +13,7 @@ class ResourceList {
     loadResourceListPage(e, secondSuccessFunc) {
         let url;
         let succ;
-        vitoopState.commit('checkIsNotEmptySearchToggle');
+        // vitoopState.commit('checkIsNotEmptySearchToggle');
         if (typeof e === 'string') {
             // called manually by resource_detail:[next/previous]Resource for background page flipping
             // while the resource_detail dialog is in foreground

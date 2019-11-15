@@ -66,7 +66,6 @@ window.resourceDetail = (function () {
 
         uifyContainer = function (container_name) {
             var action_icon_map;
-            
             if ('resource-buttons' == container_name) {
                 // jQueryUI-ify the received buttons
                 action_icon_map = {
