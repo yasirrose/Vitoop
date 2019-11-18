@@ -20,6 +20,7 @@ export default {
     },
     table: {
         rowNumber: 12,
+        flagged: false
     },
     tagList: {
         show: false,

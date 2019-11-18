@@ -107,6 +107,9 @@ export default class VtpDatatable {
             ajax: {
                 url:  this.url,
                 data: (data) => {
+                    if (vitoopState.state.table.flagged) {
+                        data.flagged = true;
+                    }
                     data.isUserHook = vitoopState.state.secondSearch.isBlueFilter;
                     data.isUserRead = vitoopState.state.secondSearch.isReadFilter;
                     if (this.resType == 'pdf' || this.resType == 'teli') {

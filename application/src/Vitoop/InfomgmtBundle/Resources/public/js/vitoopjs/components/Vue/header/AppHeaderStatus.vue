@@ -17,6 +17,8 @@
 <!--                <button class="vtp-button" type="submit">{{ $t('label.flags.edit') }}</button>-->
 <!--            </form>-->
             <button for="vtp-tgl-flag"
+                    @click="refreshWithFlagged"
+                    :class="{'ui-state-active': getFlagged}"
                     class="vtp-button ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
                     title="Flags bearbeiten">
                 <span class="ui-button-icon-primary ui-icon ui-icon-flag"></span>
@@ -174,7 +176,7 @@
             }
         },
         computed: {
-            ...mapGetters(['isAdmin'])
+            ...mapGetters(['isAdmin', 'getFlagged'])
         },
         mounted() {
             this.sendLinkWidget = new SendLinkWidget();
@@ -275,6 +277,10 @@
                     .then(({data: {invitation}}) => this.invitation.value = invitation)
                     .catch(err => console.dir(err));
             },
+            refreshWithFlagged() {
+                this.$store.commit('setFlagged', !this.getFlagged);
+                vitoopApp.vtpDatatable.refreshTable();
+            }
         }
     }
 </script>
