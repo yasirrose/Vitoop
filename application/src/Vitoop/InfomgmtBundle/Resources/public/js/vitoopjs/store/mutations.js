@@ -111,5 +111,8 @@ export default {
                 state[key] = s[key]
             }
         })
+    },
+    setFlagged(state, flagged) {
+        state.table.flagged = flagged;
     }
 }

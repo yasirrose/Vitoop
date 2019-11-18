@@ -24,5 +24,8 @@ export default {
     },
     getHelp: (state) => (key) => {
         return state.help[key];
+    },
+    getFlagged(state) {
+        return state.table.flagged;
     }
 }
