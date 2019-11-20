@@ -2,6 +2,8 @@
 
 namespace Vitoop\InfomgmtBundle\Repository;
 
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Vitoop\InfomgmtBundle\Entity\Resource;
@@ -12,8 +14,17 @@ use Vitoop\InfomgmtBundle\Entity\Tag;
 /**
  * TagRepository
  */
-class TagRepository extends EntityRepository
+class TagRepository extends ServiceEntityRepository
 {
+    /**
+     * TagRepository constructor.
+     * @param ManagerRegistry $registry
+     */
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Tag::class);
+    }
+
     /**
      * @param Tag $tag
      */

@@ -73,11 +73,7 @@ services:
     Vitoop\InfomgmtBundle\Repository\TeliRepository: ~
     Vitoop\InfomgmtBundle\Repository\BookRepository: ~
     Vitoop\InfomgmtBundle\Repository\LinkRepository: ~
-
-    Vitoop\InfomgmtBundle\Repository\TagRepository:
-        factory: ["@doctrine.orm.entity_manager", getRepository]
-        arguments:
-            - Vitoop\InfomgmtBundle\Entity\Tag
+    Vitoop\InfomgmtBundle\Repository\TagRepository: ~
 
     Vitoop\InfomgmtBundle\Repository\RelResourceResourceRepository:
         factory: ["@doctrine.orm.entity_manager", getRepository]

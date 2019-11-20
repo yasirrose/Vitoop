@@ -3,13 +3,15 @@ namespace Vitoop\InfomgmtBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Vitoop\InfomgmtBundle\DTO\GetDTOInterface;
 use Vitoop\InfomgmtBundle\DTO\Resource\ResourceDTO;
+use Vitoop\InfomgmtBundle\Entity\ValueObject\DateTime;
 
 /**
  * @ORM\Table(name="lexicon")
  * @ORM\Entity(repositoryClass="Vitoop\InfomgmtBundle\Repository\LexiconRepository")
  */
-class Lexicon extends Resource
+class Lexicon extends Resource implements GetDTOInterface
 {
     /**
      * @ORM\Column(name="id", type="integer")
@@ -262,5 +264,17 @@ class Lexicon extends Resource
     {
         parent::updateFromResourceDTO($dto);
         $this->wiki_fullurl = $dto->wikifullurl;
+    }
+
+    public function getDTO()
+    {
+        return [
+            'id' => $this->id,
+            'description' => $this->description,
+            'wiki_page_id' => $this->wiki_page_id,
+            'wiki_fullurl' => $this->wiki_fullurl,
+            'user' => $this->user->getDTO(),
+            'created' => new DateTime($this->created_at),
+        ];
     }
 }
