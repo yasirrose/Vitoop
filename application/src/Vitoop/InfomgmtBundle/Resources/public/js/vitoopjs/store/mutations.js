@@ -102,6 +102,9 @@ export default {
         // state.secondSearch = initialState.secondSearch;
         this.commit('checkIsNotEmptySearchToggle');
     },
+    secondSearchIsSearching(state,isSearching) {
+        state.secondSearch.isSearching = isSearching;
+    },
     reset(state) {
         // acquire initial state
         const s = initialState;

@@ -28,7 +28,10 @@ export default class VtpDatatable {
                 datatable.search(self.getCurrentSearch());
                 datatable.page.len(self.rowsPerPage.getPageLength());
             })
-            .on('xhr.dt', self.dtAjaxCallback);
+            .on('xhr.dt', self.dtAjaxCallback)
+            .on('draw', () => {
+                vitoopState.commit('secondSearchIsSearching', false);
+            });
 
         if (null !== self.resourceId) {
             datatable.on('draw.dt', function () {
@@ -312,7 +315,6 @@ export default class VtpDatatable {
                 .search(vitoopState.state.secondSearch.searchString)
                 .order(orderArray)
                 .draw();
-
             return;
         }
 

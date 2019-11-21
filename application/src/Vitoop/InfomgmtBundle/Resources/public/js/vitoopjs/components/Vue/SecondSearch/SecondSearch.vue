@@ -60,12 +60,15 @@
                         </span>
                     </label>
                 </div>
-                <label>
+                <label style="position: relative">
                     <input type="search"
                            class="vtp-second-search-input"
                            placeholder="ergebnisliste durchsuchen"
                            v-model="search"
                            aria-controls="list-link">
+                    <img src="/img/loader.gif"
+                         v-if="$store.state.secondSearch.isSearching"
+                         class="preloader" />
                 </label>
                 <search-clear></search-clear>
             </div>
@@ -81,6 +84,7 @@
         name: "SecondSearch",
         data: function() {
             return {
+
                 artOptions: [
                     {label: 'Bücher-Auswahl', value: ''},
                     {label: 'XX', value: 'auswählen'},
@@ -125,6 +129,7 @@
                     return this.$store.state.secondSearch.searchString;
                 },
                 set(value) {
+                    this.$store.commit('secondSearchIsSearching', true);
                     this.$store.commit('updateSecondSearch', value);
                     vitoopApp.vtpDatatable.rowsPerPage.checkDOMState();
                     vitoopApp.vtpDatatable && vitoopApp.vtpDatatable.refreshTable();
@@ -205,6 +210,14 @@
 <style lang="scss" scoped>
     $vitoop-body-background-color: #cfe7f7;
     $table-row-height: 25px;
+
+    .preloader {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        width: 16px;
+        transform: translateY(-50%);
+    }
 
     .vtp-blue {
         background: #7bc0f6; /* For browsers that do not support gradients */
