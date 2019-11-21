@@ -31,6 +31,7 @@ export default class VtpDatatable {
             .on('xhr.dt', self.dtAjaxCallback)
             .on('draw', () => {
                 vitoopState.commit('secondSearchIsSearching', false);
+                $('body').removeClass('overflow-hidden');
             });
 
         if (null !== self.resourceId) {

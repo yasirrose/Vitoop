@@ -191,6 +191,7 @@
                                 ui.item.isHighlighted = false;
                                 ui.item.isIgnored = false;
                                 ui.item.extended = false;
+                                $('body').addClass('overflow-hidden');
                                 this.pushTag(ui.item);
                                 event.preventDefault();
                             }
