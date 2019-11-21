@@ -29,9 +29,6 @@ export default class VtpDatatable {
                 datatable.page.len(self.rowsPerPage.getPageLength());
             })
             .on('xhr.dt', self.dtAjaxCallback)
-            .on('search.dt', () => {
-
-            })
             .on('draw', () => {
                 vitoopState.commit('secondSearchIsSearching', false);
             });
