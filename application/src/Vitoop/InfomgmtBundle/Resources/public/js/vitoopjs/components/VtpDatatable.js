@@ -17,22 +17,23 @@ export default class VtpDatatable {
         this.sendLinkWidget = new SendLinkWidget();
     }
 
+    destroy() {
+        $(this.datatableListId).DataTable().destroy();
+    }
+
     init() {
         let self = this;
         vitoopState.commit('setResourceType', this.resType);
         self.sendLinkWidget.checkOpenButtonState();
 
         let datatable = $(this.datatableListId).DataTable(this.getDatatableOptions());
+
         datatable
             .on('init.dt', function () {
                 datatable.search(self.getCurrentSearch());
                 datatable.page.len(self.rowsPerPage.getPageLength());
             })
-            .on('xhr.dt', self.dtAjaxCallback)
-            .on('draw', () => {
-                vitoopState.commit('secondSearchIsSearching', false);
-                $('body').removeClass('overflow-hidden');
-            });
+            .on('xhr.dt', self.dtAjaxCallback);
 
         if (null !== self.resourceId) {
             datatable.on('draw.dt', function () {
@@ -79,6 +80,8 @@ export default class VtpDatatable {
             self.sendLinkWidget.updateCheckedResources(self.resType, data.id, checkbox[0].checked, data);
             e.stopPropagation();
         });
+
+        return datatable;
     }
 
     changeFontSizeByUserSettings() {

@@ -46,6 +46,11 @@
             ProjectTableHead
         },
         inject: ['isCoef', 'isEdit'],
+        data() {
+            return {
+                datatable: null
+            }
+        },
         computed: {
             activeTableHead() {
                 switch (this.$route.name) {
@@ -85,15 +90,51 @@
                 return this.isEdit ? 'unlink' : 'link';
             },
         },
-        mounted() {
-            resourceDetail.init();
-            vitoopApp.initTable(
+        updated() {
+            this.datatable = null;
+            console.log('UPDATED');
+            vitoopApp.destroyTable();
+            $('.table-datatables').empty();
+
+            this.datatable = vitoopApp.initTable(
                 this.$route.name,
                 this.$store.state.admin !== null,
                 0,
                 0,
                 `/api/resource/${this.$route.name}`,
             );
+
+            this.datatable
+                .on('draw', () => {
+                    this.datatable.off('draw');
+                    this.onTableDraw();
+                });
+        },
+        mounted() {
+            resourceDetail.init();
+
+            this.datatable = vitoopApp.initTable(
+                this.$route.name,
+                this.$store.state.admin !== null,
+                0,
+                0,
+                `/api/resource/${this.$route.name}`,
+            );
+
+            this.datatable
+                .on('draw', () => {
+                    this.onTableDraw();
+                });
+        },
+        methods: {
+            onTableDraw() {
+                vitoopState.commit('secondSearchIsSearching', false);
+                $('body').removeClass('overflow-hidden');
+                $('.vtp-uiaction-open-extlink').on('click', (e) => {
+                    e.preventDefault();
+                    this.$router.push(e.currentTarget.pathname);
+                });
+            }
         }
     }
 </script>

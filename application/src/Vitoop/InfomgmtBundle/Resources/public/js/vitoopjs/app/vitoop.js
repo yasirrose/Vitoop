@@ -23,7 +23,7 @@ export default class VitoopApp {
         let self = this;
         if (vitoopState.state.user) {
             this.vtpDatatable.changeFontSizeByUserSettings();
-            this.vtpDatatable.init();
+            return this.vtpDatatable.init();
         } else {
             this.userService.getCurrentUser().then(function (currentUser) {
                 vitoopState.commit('setUser', currentUser);
@@ -31,6 +31,10 @@ export default class VitoopApp {
                 self.vtpDatatable.init();
             });
         }
+    }
+
+    destroyTable() {
+        this.vtpDatatable.destroy();
     }
 
     getTinyMceOptions () {

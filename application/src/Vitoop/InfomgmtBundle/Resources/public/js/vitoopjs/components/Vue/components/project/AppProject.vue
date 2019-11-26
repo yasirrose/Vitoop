@@ -1,18 +1,19 @@
 <template>
     <div id="vtp-content">
         <fieldset class="ui-corner-all margin-top-3">
-            <div id="vtp-projectdata-box">
-                <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all"
-                     v-if="infoProjectData !== null && infoProjectData !== ''">
-                    <span class="vtp-icon ui-icon ui-icon-info"></span>{{ infoProjectData }}
-                </div>
+            <div v-if="project !== null"
+                 id="vtp-projectdata-box">
+<!--                <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all"-->
+<!--                     v-if="infoProjectData !== null && infoProjectData !== ''">-->
+<!--                    <span class="vtp-icon ui-icon ui-icon-info"></span>{{ infoProjectData }}-->
+<!--                </div>-->
                 <div id="vtp-projectdata-sheet-view"
                      class="ui-corner-all vtp-fh-w75"
-                     v-html="project.data">
+                     v-html="project.project_data.sheet">
                 </div>
                 <div id="vtp-projectdata-sheet-info" class="ui-corner-all vtp-fh-w20">
                     <p>
-                        Erstellt von: <span>{{ project.user_name }}</span>
+                        Erstellt von: <span>{{ project.user.username }}</span>
                     </p>
                     <p>
                         Erstellt am: <span>{{ project.created }}</span>
@@ -35,9 +36,22 @@
 <script>
     export default {
         name: "AppProject",
-        inject: ['project', 'resourceInfo', 'infoProjectData'],
+        data() {
+            return {
+                project: null,
+                resourceInfo: null
+            }
+        },
+        beforeCreate() {
+            axios(`/api/v1/projects/${this.$route.params.projectId}`)
+                .then(({data}) => {
+                    this.project = data.project;
+                    this.resourceInfo = data.resourceInfo;
+                })
+                .catch(err => console.dir(err));
+        },
         mounted() {
-            // resourceDetail.init();
+
         }
     }
 </script>
