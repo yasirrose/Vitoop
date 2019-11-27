@@ -28,8 +28,7 @@
                    :class="{
                     'ui-state-no-content': noContent(name),
                     'vtp-nav-active ui-state-active': $route.name === name
-                   }"
-                   :href="`/${name}/?${isResource}`">
+                   }">
                     {{ value }}
                 </a>
             </li>
@@ -77,15 +76,6 @@
             getLexiconId() {
                 return this.lexicon.id !== null ? `lexicon=${this.lexicon.id}` : '';
             },
-            isResource() {
-                if (this.project.id !== null) {
-                    return `project=${this.project.id}`;
-                } else if (this.lexicon.id !== null) {
-                    return `lexicon=${this.lexicon.id}`;
-                } else {
-                    return null
-                }
-            }
         },
         mounted() {
             if (this.resourceInfo !== null) {
@@ -100,11 +90,7 @@
                 this.$router.push('/userhome');
             },
             changeRoute(name) {
-                if (this.isResource !== null) {
-                    this.$router.push(`/${name}?${this.isResource}`);
-                } else {
-                    this.$router.push(`/${name}`);
-                }
+                this.$router.push(`/${name}`);
             }
         }
     }

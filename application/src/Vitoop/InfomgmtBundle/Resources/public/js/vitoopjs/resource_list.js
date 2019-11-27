@@ -98,11 +98,11 @@ class ResourceList {
             return;
         }
 
-        $('.vtp-resmenu-reslink').each(function () {
-            let href = $(this).attr('href');
-            href = $.param.querystring(href, obj_partial_query, 0);
-            $(this).attr('href', href);
-        });
+        // $('.vtp-resmenu-reslink').each(function () {
+        //     let href = $(this).attr('href');
+        //     href = $.param.querystring(href, obj_partial_query, 0);
+        //     $(this).attr('href', href);
+        // });
     }
 
     toggleFlag(e) {
@@ -119,7 +119,7 @@ class ResourceList {
          **********************************/
 
         // #APR# Navgation resource links
-        $('#vtp-nav').on('click', 'a', this.loadResourceListPage);
+        // $('#vtp-nav').on('click', 'a', this.loadResourceListPage);
 
         // flags
         $('.vtp-uiaction-toggle-flag').on('click', this.toggleFlag);

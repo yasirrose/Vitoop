@@ -82,6 +82,8 @@ export default {
             this.commit('reset');
         }
     },
+
+    // state.resource
     setResource: function (state, value) {
         state.resource = value;
     },
@@ -94,6 +96,15 @@ export default {
     setResourceType(state, type) {
         state.resource.type = type;
     },
+    setResourceOwner(state, status) {
+        state.resource.owner = status;
+    },
+    resetResource(state) {
+        Object.keys(state.resource).forEach(item => {
+            state.resource[item] = null;
+        })
+    },
+
     resetSecondSearch: function(state) {
         const secondSearch = initialState.secondSearch;
         Object.keys(secondSearch).forEach(key => {

@@ -91,11 +91,11 @@
             },
         },
         updated() {
-            this.datatable = null;
+            // this.datatable = null;
             console.log('UPDATED');
-            vitoopApp.destroyTable();
-            $('.table-datatables').empty();
+            this.datatable.destroy();
 
+            $('.table-datatables tbody').empty();
             this.datatable = vitoopApp.initTable(
                 this.$route.name,
                 this.$store.state.admin !== null,
@@ -112,7 +112,6 @@
         },
         mounted() {
             resourceDetail.init();
-
             this.datatable = vitoopApp.initTable(
                 this.$route.name,
                 this.$store.state.admin !== null,

@@ -1,6 +1,6 @@
 <template>
     <div id="vtp-cmstitle">
-        <div v-if="project.id !== null"
+        <div v-if="getResource('id') !== null"
              id="vtp-projectdata-title"
              class="ui-corner-all vtp-cmstitle">
             <span class="vtp-title__text">
@@ -9,7 +9,7 @@
             <input type="hidden" id="projectID" :value="project.id"/>
             <div class="vtp-title__buttons">
                 <help-button help-area="project" />
-                <span v-if="asProjectOwner" style="display: flex">
+                <span v-if="getResource('owner')" style="display: flex">
                     <button id="vtp-projectdata-project-live"
                             class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
                             :class="{'ui-state-focus ui-state-active': !isEdit}"
@@ -24,7 +24,11 @@
                     </button>
                 </span>
                 <button id="vtp-projectdata-project-close"
-                        :title="$t('label.close')">
+                        :title="$t('label.close')"
+                        class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary"
+                        role="button" @click="resetResource">
+                    <span class="ui-button-icon-primary ui-icon ui-icon-close"></span>
+                    <span class="ui-button-text"></span>
                 </button>
             </div>
         </div>
@@ -47,6 +51,7 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex';
     import HelpButton from "../SecondSearch/HelpButton.vue";
 
     export default {
@@ -64,7 +69,8 @@
                 } else {
                     return false
                 }
-            }
+            },
+            ...mapGetters(['getResource'])
         },
         mounted() {
             VueBus.$on('remove:project', () => {
@@ -84,6 +90,10 @@
             },
             projectLiveMode() {
                 this.$router.push({path: `/project/${this.project.id}`, query: null});
+            },
+            resetResource() {
+                this.$store.commit('resetResource');
+                this.$router.push('/prj');
             }
         }
     }

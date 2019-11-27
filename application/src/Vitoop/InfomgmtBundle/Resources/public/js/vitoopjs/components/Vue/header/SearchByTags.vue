@@ -303,6 +303,7 @@
                 this.cnttags = this.tags.length;
                 this.saveTagsToStorage();
                 this.maintainTaglistbox();
+
                 $_options = $('#vtp-search-bytags-tagcnt option');
                 if ((($_options.length - 1) + 1 ) === this.cnttags) {
                     $('<option></option>').val(this.cnttags).text(this.cnttags).appendTo('#vtp-search-bytags-tagcnt');

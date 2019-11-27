@@ -126,6 +126,9 @@ export default class VtpDatatable {
                     if (this.resType == 'book') {
                         data.art = vitoopState.state.secondSearch.artFilter;
                     }
+                    if (vitoopState.state.resource.id !== null) {
+                        data.resource = vitoopState.state.resource.id;
+                    }
                     return data;
                 }
             },

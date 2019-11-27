@@ -2,7 +2,8 @@ export default {
     resource: {
         type: null,
         id: null,
-        info: null
+        info: null,
+        owner: false
     },
     secondSearch: {
         show: false,

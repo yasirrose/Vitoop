@@ -26,12 +26,12 @@ window.resourceProject = (function () {
             }
         });
 
-        $('#vtp-projectdata-project-close').button({
-            icons: {
-                primary: "ui-icon-close"
-            },
-            title: "schließen"
-        });
+        // $('#vtp-projectdata-project-close').button({
+        //     icons: {
+        //         primary: "ui-icon-close"
+        //     },
+        //     title: "schließen"
+        // });
 
         // $('#vtp-projectdata-project-edit').button({
         //     icons: {
@@ -45,9 +45,9 @@ window.resourceProject = (function () {
         //     }
         // });
 
-        $('#vtp-projectdata-project-close').on('click', function () {
-            location.href = vitoop.baseUrl + 'prj/';
-        });
+        // $('#vtp-projectdata-project-close').on('click', function () {
+        //     location.href = vitoop.baseUrl + 'prj/';
+        // });
 
         var editButton = $('#vtp-projectdata-project-edit');
         var liveButton = $('#vtp-projectdata-project-live');
