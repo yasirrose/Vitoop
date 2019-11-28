@@ -34,24 +34,55 @@
     <div id="vtp-wrapper">
         <div class="vtp-paddingbox">
             <div id="vtp-app">
-    {#            set projectObj#}
-                {% set prjCreatedAt = project.getCreatedAt|date('d.m.Y') %}
-                {% set projectObj = {
-                    id: project.id,
-                    name: project.name,
-                    data: project.projectdata.sheet,
-                    user_name: project.user.username,
-                    created: prjCreatedAt
-                } %}
-    {#            set lexiconObj#}
-                {% set lexiconObj = {
-                    id: lexicon.id,
-                    name: lexicon.name,
-                    data: lexicon.getDescription,
-                    wikiFullUrl: lexicon.wikifullurl,
-                    wikiRedirects: lexicon.wikiredirects,
-                    lexicons: lexicons
-                } %}
+                {% set projectObj = {} %}
+                {% if project is defined  %}
+                    {% set prjCreatedAt = project.getCreatedAt|date('d.m.Y') %}
+                    {% set projectObj = {
+                        id: project.id,
+                        name: project.name,
+                        data: project.projectdata.sheet,
+                        user_name: project.user.username,
+                        created: prjCreatedAt
+                    } %}
+                {% endif %}
+                {% set lexiconObj = {}  %}
+                {% if lexicon is defined %}
+                    {% set lexiconObj = {
+                        id: lexicon.id,
+                        name: lexicon.name,
+                        data: lexicon.getDescription,
+                        wikiFullUrl: lexicon.wikifullurl,
+                        wikiRedirects: lexicon.wikiredirects,
+                        lexicons: lexicons
+                    } %}
+                {% endif %}
+                {% if editMode is not defined %}
+                    {% set editMode = false %}
+                {% endif %}
+                {% if resourceInfo is not defined %}
+                    {% set resourceInfo = {} %}
+                {% endif %}
+                {% if infoprojectdata is not defined %}
+                    {% set infoprojectdata = {} %}
+                {% endif %}
+                {% if showasprojectowner is not defined %}
+                    {% set showasprojectowner = false %}
+                {% endif %}
+                {% if tags is not defined %}
+                    {% set tags = [] %}
+                {% endif %}
+                {% if terms is not defined %}
+                    {% set terms = false %}
+                {% endif %}
+                {% if datap is not defined %}
+                    {% set datap = false %}
+                {% endif %}
+                {% if isCoef is not defined %}
+                    {% set isCoef = false %}
+                {% endif %}
+                {% if isEdit is not defined %}
+                    {% set isEdit = false %}
+                {% endif %}
                 <vtp-app download-size="{{ vsettings.getCurrentDownloadsSize.getValue|number_format(2, '.', ' ') }}"
                          :is-coef="{{ isCoef|json_encode() }}"
                          :project="{{ projectObj|json_encode() }}"
@@ -60,7 +91,7 @@
                          :is-edit="{{ isEdit|json_encode }}"
                          :resource-info="{{ resourceInfo|json_encode() }}"
                          :agree-with-term="
-                            {% if app.user.getIsAgreedWithTerms() %}
+                            {% if app.user %}
                                 {{ app.user.getIsAgreedWithTerms() }}
                             {% else %}
                                 false
