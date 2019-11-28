@@ -270,6 +270,7 @@ class Lexicon extends Resource implements GetDTOInterface
     {
         return [
             'id' => $this->id,
+            'name' => $this->name,
             'description' => $this->description,
             'wiki_page_id' => $this->wiki_page_id,
             'wiki_fullurl' => $this->wiki_fullurl,

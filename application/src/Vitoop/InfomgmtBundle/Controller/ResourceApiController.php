@@ -30,7 +30,7 @@ class ResourceApiController extends ApiController
        $search = new SearchResource(
             new Paging(
                 $request->query->get('start', 0),
-                $request->query->get('length')
+                $request->query->get('length', 10)
             ),
             new SearchColumns(
                 $request->query->get('columns', array()),
