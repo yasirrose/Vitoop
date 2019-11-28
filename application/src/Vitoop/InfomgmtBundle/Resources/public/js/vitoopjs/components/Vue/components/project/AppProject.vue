@@ -50,6 +50,7 @@
                     this.$store.commit('setResourceOwner', data.isOwner);
                     this.$store.commit('setResourceInfo', data.resourceInfo);
                     this.$store.commit('setResourceId', this.$route.params.projectId);
+                    VueBus.$emit('project:loaded', data.project);
                 })
                 .catch(err => console.dir(err));
         },

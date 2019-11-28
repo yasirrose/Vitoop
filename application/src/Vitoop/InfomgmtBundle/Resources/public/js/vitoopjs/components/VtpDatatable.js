@@ -164,8 +164,9 @@ export default class VtpDatatable {
         if (this.api().page.info().recordsTotal === 0) {
             return;
         }
-        let projectElem = $('#projectID');
-        if ((typeof(projectElem) != 'undefined') && projectElem.val() > -1) {
+        // let projectElem = $('#projectID');
+        const projectElem = vitoopState.state.resource.id;
+        // if ((typeof(projectElem) != 'undefined') && projectElem.val() > -1) {
             $('input.divider').off();
             var query = HttpService.prototype.parseParams(window.location.href),
                 editMode = query.edit;
@@ -197,7 +198,7 @@ export default class VtpDatatable {
             let currentCoefficient = 0;
             let dividers = [];
             $.ajax({
-                url: vitoop.baseUrl +'api/project/' + projectElem.val() + '/divider',
+                url: vitoop.baseUrl +'api/project/' + projectElem + '/divider',
                 method: 'GET',
                 success: function(data) {
                     dividers = data;
@@ -224,7 +225,7 @@ export default class VtpDatatable {
                                             contentType: 'application/json',
                                             data: JSON.stringify({'text': $(this).val(), 'coefficient': $(this).data('coef')}),
                                             method: 'POST',
-                                            url: vitoop.baseUrl + 'api/project/' + projectElem.val() + '/divider',
+                                            url: vitoop.baseUrl + 'api/project/' + projectElem + '/divider',
                                             success: function () {
                                                 $('.vtp-uiaction-coefficient, input.divider').attr('disabled', false);
                                                 $(this).data('original', $(this).val());
@@ -248,7 +249,7 @@ export default class VtpDatatable {
                     });
                 }
             });
-        }
+        // }
     }
 
     dtRowCallback(row, data, index) {

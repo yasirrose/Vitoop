@@ -1,14 +1,14 @@
 <template>
     <div id="vtp-content">
         <div id="lexicon-main" class="ui-corner-all">
-            <div id="vtp-lexicondata-box">
+            <div id="vtp-lexicondata-box" v-if="lexicon !== null">
                 <div id="vtp-lexicondata-sheet-view" class="ui-corner-all vtp-fh-w70">
-                    <div v-html="lexicon.data"></div>
+                    <div v-html="lexicon.description"></div>
                     <hr/>
                     <div id="lexicon-rights">
                         {{ $t('This article based on the article') }}
-                        <a rel="nofollow" :href="lexicon.wikiFullUrl" target="_blank">
-                            {{ lexicon.name }}
+                        <a rel="nofollow" :href="lexicon.wiki_fullurl" target="_blank">
+                            {{ 'lexicon.name' }}
                         </a> {{ $t('from the free encyclopedia') }}
                         <a rel="nofollow"
                            href="http://de.wikipedia.org/wiki/Wikipedia:Hauptseite"
@@ -23,17 +23,17 @@
                             href="http://creativecommons.org/licenses/by-sa/3.0/de/legalcode"
                             target="_blank">{{ $t('Summary (de)') }}</a>). {{ $t('In the Wikipedia is a') }}
                         <a rel="nofollow"
-                           :href="`${lexicon.wikiFullUrl}?action=history`"
+                           :href="`${lexicon.wiki_fullurl}?action=history`"
                            target="_blank">{{ $t('List of Authors') }}</a> {{ $t('word.available') }}.
                     </div>
-                    <div v-if="Object.keys(lexicon.wikiRedirects).length > 0">
-                        <p>{{ $t('The following terms have been linked in Vitoop and forwarded in Wikipedia on this Encyclopedia Article') }}:</p>
-                        <ul>
-                            <li v-for="(value,name) in lexicon.wikiRedirects">
-                                {{ value.wikititle }}
-                            </li>
-                        </ul>
-                    </div>
+<!--                    <div v-if="Object.keys(lexicon.wikiRedirects).length > 0">-->
+<!--                        <p>{{ $t('The following terms have been linked in Vitoop and forwarded in Wikipedia on this Encyclopedia Article') }}:</p>-->
+<!--                        <ul>-->
+<!--                            <li v-for="(value,name) in lexicon.wikiRedirects">-->
+<!--                                {{ value.wikititle }}-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
                 </div>
                 <div id="vtp-lexicondata-sheet-info" class="ui-corner-all vtp-fh-w20">
                     <p>{{ $t('Linked Records') }}:</p>
@@ -46,9 +46,9 @@
                     <p>{{ $t('label.address') }}: <span>{{ resourceInfo.adrc }}</span></p>
                 </div>
             </div>
-            <div id="lexicon-tags"
-                 v-html="lexicon.lexicons">
-            </div>
+<!--            <div id="lexicon-tags"-->
+<!--                 v-html="lexicon.lexicons">-->
+<!--            </div>-->
         </div>
     </div>
 </template>
@@ -56,10 +56,25 @@
 <script>
     export default {
         name: "AppLexicon",
-        inject: ['lexicon','resourceInfo'],
+        data() {
+            return {
+                lexicon: null,
+                resourceInfo: null
+            }
+        },
+        beforeCreate() {
+            axios(`/api/v1/lexicons/${this.$route.params.lexiconId}`)
+                .then(({data}) => {
+                    this.lexicon = data.lexicon;
+                    this.resourceInfo = data.resourceInfo;
+                    this.$store.commit('setResourceInfo', data.resourceInfo);
+                    this.$store.commit('setResourceId', this.$route.params.lexiconId);
+                    VueBus.$emit('lexicon:loaded', data.lexicon);
+                })
+                .catch(err => console.dir(err));
+        },
         mounted() {
             resourceProject.init();
-            // resourceDetail.init();
             this.init();
         },
         methods: {

@@ -34,6 +34,8 @@
     import LexiconTableHead from "./heads/LexiconTableHead.vue";
     import ProjectTableHead from "./heads/ProjectTableHead.vue";
 
+    import {mapGetters} from "vuex";
+
     export default {
         name: "Table",
         components: {
@@ -52,6 +54,9 @@
             }
         },
         computed: {
+            ...mapGetters([
+                'isAdmin', 'getResource', 'getInProject', 'get'
+            ]),
             activeTableHead() {
                 switch (this.$route.name) {
                     case 'pdf':
@@ -89,21 +94,27 @@
             linkTitle() {
                 return this.isEdit ? 'unlink' : 'link';
             },
+            tagParams() {
+                const params = [];
+                if (this.get('tags').length > 0) {
+                    this.get('tags').forEach(tag => {
+                        params.push(`taglist=${tag}`);
+                    });
+                    this.get('tags_i').forEach(tag => {
+                        params.push(`taglist_i=${tag}`);
+                    });
+                    this.get('tags_h').forEach(tag => {
+                        params.push(`taglist_h=${tag}`);
+                    });
+                    return params.join('&');
+                }
+                return null
+            }
         },
         updated() {
-            // this.datatable = null;
-            console.log('UPDATED');
             this.datatable.destroy();
-
             $('.table-datatables tbody').empty();
-            this.datatable = vitoopApp.initTable(
-                this.$route.name,
-                this.$store.state.admin !== null,
-                0,
-                0,
-                `/api/resource/${this.$route.name}`,
-            );
-
+            this.datatable = this.initTable();
             this.datatable
                 .on('draw', () => {
                     this.datatable.off('draw');
@@ -112,18 +123,17 @@
         },
         mounted() {
             resourceDetail.init();
-            this.datatable = vitoopApp.initTable(
-                this.$route.name,
-                this.$store.state.admin !== null,
-                0,
-                0,
-                `/api/resource/${this.$route.name}`,
-            );
-
+            this.datatable = this.initTable();
             this.datatable
                 .on('draw', () => {
-                    this.onTableDraw();
+                    setTimeout(() => {
+                        this.onTableDraw();
+                    }, 100);
                 });
+
+            VueBus.$on('datatable:reload', () => {
+                this.datatable.ajax.url(`/api/resource/${this.$route.name}?${this.tagParams}`).load();
+            })
         },
         methods: {
             onTableDraw() {
@@ -133,6 +143,15 @@
                     e.preventDefault();
                     this.$router.push(e.currentTarget.pathname);
                 });
+            },
+            initTable() {
+                return vitoopApp.initTable(
+                    this.$route.name,
+                    this.isAdmin !== null,
+                    0,
+                    this.getResource('id') !== null && this.$store.state.inProject, // isCoef
+                    `/api/resource/${this.$route.name}?${this.tagParams}`,
+                );
             }
         }
     }

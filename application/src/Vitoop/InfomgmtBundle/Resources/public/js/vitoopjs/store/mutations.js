@@ -128,5 +128,13 @@ export default {
     },
     setFlagged(state, flagged) {
         state.table.flagged = flagged;
+    },
+
+    setInProject(state, status) {
+        state.inProject = status;
+    },
+
+    setTags(state, payload) {
+        state[payload.key] = payload.tags;
     }
 }

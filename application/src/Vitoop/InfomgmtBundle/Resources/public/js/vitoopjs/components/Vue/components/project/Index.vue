@@ -24,6 +24,7 @@
             next();
         },
         mounted() {
+            this.$store.commit('setInProject', true);
             resourceProject.init();
             this.edit = this.$route.query.edit;
         }

@@ -5,14 +5,14 @@
             <li>
                 <div class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
                     :class="{'vtp-nav-active ui-state-active': $route.name === 'project'}"
-                    @click="$router.push({path: `/project/${project.id}`})"
-                    v-if="project.id !== null">
+                    @click="$router.push({path: `/project/${getResource('id')}`})"
+                    v-if="getInProject">
                     Projekt-Hauptseite
                 </div>
                 <a class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
-                   :class="{'vtp-nav-active ui-state-active': getResource('type') === ''}"
-                   :href="`/lexicon/${lexicon.id}`"
-                   v-else-if="lexicon.id !== null">
+                   :class="{'vtp-nav-active ui-state-active': $route.name === 'lexicon'}"
+                   @click="$router.push(`/lexicon/${getResource('id')}`)"
+                   v-else-if="!getInProject && getResource('id')">
                     {{ $t('page.lexicon') }}
                 </a>
                 <div class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
@@ -62,7 +62,7 @@
         },
         computed: {
             ...mapGetters([
-                'getResource'
+                'getResource', 'getInProject'
             ]),
             noContent() {
                 return (name) => {
