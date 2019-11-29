@@ -54,9 +54,6 @@
                 })
                 .catch(err => console.dir(err));
         },
-        mounted() {
-
-        }
     }
 </script>
 
