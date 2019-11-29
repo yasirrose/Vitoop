@@ -140,6 +140,7 @@ class Project extends Resource implements GetDTOInterface
     {
         return [
             'id' => $this->id,
+            'name' => $this->name,
             'project_data' => $this->project_data->getDTO(),
             'user' => $this->user->getDTO(),
             'created' => new DateTime($this->created_at),
