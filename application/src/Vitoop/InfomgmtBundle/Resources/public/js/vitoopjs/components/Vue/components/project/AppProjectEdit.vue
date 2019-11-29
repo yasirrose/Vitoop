@@ -122,10 +122,11 @@
 
 <script>
     import vSelect from "vue-select";
+    import {mapGetters} from "vuex";
 
     export default {
         name: "AppProjectEdit",
-        inject: ['project','infoProjectData'],
+        inject: ['infoProjectData'],
         components: {vSelect},
         data() {
             return {
@@ -152,6 +153,9 @@
                 }
             }
         },
+        computed: {
+            ...mapGetters(['getResource'])
+        },
         mounted() {
             this.getProjectData();
         },
@@ -160,7 +164,7 @@
                 rel.read_only = JSON.parse(e.target.value);
             },
             getProjectData() {
-                axios(`/api/project/${this.project.id}`)
+                axios(`/api/project/${this.getResource('id')}`)
                     .then(({data}) => {
                         this.isLoaded = true;
                         this.isOwner = data.isOwner;
@@ -193,14 +197,14 @@
                 this.user = user;
             },
             searchUser(search) {
-                axios(`/api/project/${this.project.id}/user/find?s=${search}`)
+                axios(`/api/project/${this.getResource('id')}/user/find?s=${search}`)
                     .then(({data}) => {
                         this.options = data;
                     })
                     .catch(err => console.dir(err));
             },
             save() {
-                axios.post(`/api/project/${this.project.id}`, this.editProject)
+                axios.post(`/api/project/${this.getResource('id')}`, this.editProject)
                     .then(response => {
                         this.getProjectData();
                         this.needToSave = false;
@@ -208,7 +212,7 @@
                     .catch(err => console.dir(err));
             },
             remove() {
-                axios.delete(`/api/project/${this.project.id}`)
+                axios.delete(`/api/project/${this.getResource('id')}`)
                     .then(response => {
                         this.$router.push('/prj');
                         VueBus.$emit('remove:project');
@@ -216,14 +220,14 @@
                     .catch(err => console.dir(err));
             },
             addUser() {
-                axios.post(`/api/project/${this.project.id}/user`, this.user)
+                axios.post(`/api/project/${this.getResource('id')}/user`, this.user)
                     .then(response => {
                         this.getProjectData();
                     })
                     .catch(err => console.dir(err));
             },
             removeUser() {
-                axios.delete(`/api/project/${this.project.id}/user/${this.user.id}`)
+                axios.delete(`/api/project/${this.getResource('id')}/user/${this.user.id}`)
                     .then(response => {
                         this.getProjectData();
                     })

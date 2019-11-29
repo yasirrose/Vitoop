@@ -28,9 +28,8 @@
                 </select>
                 <button id="vtp-search-bytags-form-submit"
                         class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only"
-                        type="submit"
-                        name="submit"
-                        value="Suche">
+                        value="Suche"
+                        @click="reloadTable">
                     <span class="ui-button-icon-primary ui-icon ui-icon-refresh"></span>
                 </button>
                 <span id="vtp-search-bytags-form-buttons-vue">
@@ -304,7 +303,6 @@
                     tags: this.tags.filter(tag => !tag.isIgnored).map(tag => tag.text)
                 });
                 this.$store.commit('setTags', {key: 'tags_i', tags: this.ignoredTags});
-                VueBus.$emit('datatable:reload');
             },
             highlightTag(tag) {
                 tag.isHighlighted = !tag.isHighlighted;
@@ -312,7 +310,6 @@
                 this.maintainCntTags();
                 this.saveTagsToStorage();
                 this.$store.commit('setTags', {key: 'tags_h', tags: this.highlightedTags});
-                VueBus.$emit('datatable:reload');
             },
             pushTag(tag) {
                 if (tag == '') {
@@ -402,6 +399,9 @@
                     'source',
                     vitoop.baseUrl + (['tag', 'suggest'].join('/')) + '?extended=1&ignore='+this.tags.map(tag => tag.text).join()
                 );
+            },
+            reloadTable() {
+                VueBus.$emit('datatable:reload');
             }
         }
     }

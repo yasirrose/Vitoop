@@ -1,6 +1,6 @@
 <template>
     <div id="vtp-cmstitle">
-        <div v-if="getResource('id') !== null && $route.name === 'project'"
+        <div v-if="getResource('id') !== null"
              id="vtp-projectdata-title"
              class="ui-corner-all vtp-cmstitle">
             <span class="vtp-title__text" v-if="project !== null">
@@ -32,7 +32,7 @@
                 </button>
             </div>
         </div>
-        <div v-else-if="getResource('id') !== null && $route.name === 'lexicon'"
+        <div v-else-if="getResource('id') !== null"
              id="vtp-lexicondata-title"
              class="ui-corner-all vtp-cmstitle">
             <span class="vtp-title__text" v-if="lexicon !== null">

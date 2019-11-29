@@ -17,7 +17,7 @@
                 <thead>
                     <component :is="activeTableHead"
                                :date-title="dateTitle"
-                               :link-title="linkTitle"/>
+                               :link-title="linkTitle" />
                 </thead>
                 <tbody></tbody>
             </table>
@@ -98,13 +98,13 @@
                 const params = [];
                 if (this.get('tags').length > 0) {
                     this.get('tags').forEach(tag => {
-                        params.push(`taglist=${tag}`);
+                        params.push(`taglist[]=${tag}`);
                     });
                     this.get('tags_i').forEach(tag => {
-                        params.push(`taglist_i=${tag}`);
+                        params.push(`taglist_i[]=${tag}`);
                     });
                     this.get('tags_h').forEach(tag => {
-                        params.push(`taglist_h=${tag}`);
+                        params.push(`taglist_h[]=${tag}`);
                     });
                     return params.join('&');
                 }
@@ -112,24 +112,15 @@
             }
         },
         updated() {
+            this.datatable.off('draw');
+            this.datatable.off('page.dt');
             this.datatable.destroy();
             $('.table-datatables tbody').empty();
             this.datatable = this.initTable();
-            this.datatable
-                .on('draw', () => {
-                    this.datatable.off('draw');
-                    this.onTableDraw();
-                });
         },
         mounted() {
             resourceDetail.init();
             this.datatable = this.initTable();
-            this.datatable
-                .on('draw', () => {
-                    setTimeout(() => {
-                        this.onTableDraw();
-                    }, 100);
-                });
 
             VueBus.$on('datatable:reload', () => {
                 this.datatable.ajax.url(`/api/resource/${this.$route.name}?${this.tagParams}`).load();
@@ -139,10 +130,12 @@
             onTableDraw() {
                 vitoopState.commit('secondSearchIsSearching', false);
                 $('body').removeClass('overflow-hidden');
-                $('.vtp-uiaction-open-extlink').on('click', (e) => {
-                    e.preventDefault();
-                    this.$router.push(e.currentTarget.pathname);
-                });
+                if (/prj|lex/.test(this.$route.name)) {
+                    $('.vtp-uiaction-open-extlink').on('click', (e) => {
+                        e.preventDefault();
+                        this.$router.push(e.currentTarget.pathname);
+                    });
+                }
             },
             initTable() {
                 return vitoopApp.initTable(
@@ -151,7 +144,12 @@
                     0,
                     this.getResource('id') !== null && this.$store.state.inProject, // isCoef
                     `/api/resource/${this.$route.name}?${this.tagParams}`,
-                );
+                ).on('draw', () => {
+                    this.onTableDraw();
+                })
+                .on('page.dt', () => {
+                    this.onTableDraw();
+                });
             }
         }
     }
