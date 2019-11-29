@@ -45,7 +45,7 @@ class ResourceList {
                 // vitoopState.commit('checkIsNotEmptySearchToggle');
                 $('#vtp-nav .vtp-nav-active').removeClass('vtp-nav-active ui-state-active');
                 $(e.target).addClass('vtp-nav-active ui-state-active');
-                succ = [ResourceList.prototype.insertResourceList];
+                // succ = [ResourceList.prototype.insertResourceList];
             } else if ($(e.target).hasClass('vtp-resmenu-homelink')) {
                 if ($(e.target).hasClass('vtp-resmenu-homelink-home') && $('#vtp-nav .vtp-nav-active').hasClass('vtp-resmenu-reslink')) {
                     $('#vtp-search-bytags-form, #vtp-search-toggle, #vtp-search-help, #vtp-filterbox').hide('fade', 'slow');
@@ -65,17 +65,17 @@ class ResourceList {
         }
         if (typeof url !== 'undefined') {
             //in case of successful xhr call the currentUrl is updated
-            succ.unshift(function () {
-                ResourceList.prototype.currentUrl = url;
-            });
-            $.ajax({
-                url: url,
-                success: succ,
-                error: function (jqXHR, textStatus, errorthrown) {
-                    alert(textStatus + ' - ' + errorthrown);
-                },
-                dataType: 'html'
-            });
+            // succ.unshift(function () {
+            //     ResourceList.prototype.currentUrl = url;
+            // });
+            // $.ajax({
+            //     url: url,
+            //     success: succ,
+            //     error: function (jqXHR, textStatus, errorthrown) {
+            //         alert(textStatus + ' - ' + errorthrown);
+            //     },
+            //     dataType: 'html'
+            // });
         } else {
             console.log('The #APR#handler should be registered on a-elements only');
         }
@@ -98,11 +98,11 @@ class ResourceList {
             return;
         }
 
-        $('.vtp-resmenu-reslink').each(function () {
-            let href = $(this).attr('href');
-            href = $.param.querystring(href, obj_partial_query, 0);
-            $(this).attr('href', href);
-        });
+        // $('.vtp-resmenu-reslink').each(function () {
+        //     let href = $(this).attr('href');
+        //     href = $.param.querystring(href, obj_partial_query, 0);
+        //     $(this).attr('href', href);
+        // });
     }
 
     toggleFlag(e) {
@@ -119,7 +119,7 @@ class ResourceList {
          **********************************/
 
         // #APR# Navgation resource links
-        $('#vtp-nav').on('click', 'a', this.loadResourceListPage);
+        // $('#vtp-nav').on('click', 'a', this.loadResourceListPage);
 
         // flags
         $('.vtp-uiaction-toggle-flag').on('click', this.toggleFlag);

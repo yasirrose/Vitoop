@@ -27,5 +27,11 @@ export default {
     },
     getFlagged(state) {
         return state.table.flagged;
+    },
+    getInProject(state) {
+        return state.inProject;
+    },
+    get: (state) => (key) => {
+        return state[key];
     }
 }

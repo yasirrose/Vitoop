@@ -17,22 +17,23 @@ export default class VtpDatatable {
         this.sendLinkWidget = new SendLinkWidget();
     }
 
+    destroy() {
+        $(this.datatableListId).DataTable().destroy();
+    }
+
     init() {
         let self = this;
         vitoopState.commit('setResourceType', this.resType);
         self.sendLinkWidget.checkOpenButtonState();
 
         let datatable = $(this.datatableListId).DataTable(this.getDatatableOptions());
+
         datatable
             .on('init.dt', function () {
                 datatable.search(self.getCurrentSearch());
                 datatable.page.len(self.rowsPerPage.getPageLength());
             })
-            .on('xhr.dt', self.dtAjaxCallback)
-            .on('draw', () => {
-                vitoopState.commit('secondSearchIsSearching', false);
-                $('body').removeClass('overflow-hidden');
-            });
+            .on('xhr.dt', self.dtAjaxCallback);
 
         if (null !== self.resourceId) {
             datatable.on('draw.dt', function () {
@@ -79,6 +80,8 @@ export default class VtpDatatable {
             self.sendLinkWidget.updateCheckedResources(self.resType, data.id, checkbox[0].checked, data);
             e.stopPropagation();
         });
+
+        return datatable;
     }
 
     changeFontSizeByUserSettings() {
@@ -123,6 +126,9 @@ export default class VtpDatatable {
                     if (this.resType == 'book') {
                         data.art = vitoopState.state.secondSearch.artFilter;
                     }
+                    if (vitoopState.state.resource.id !== null) {
+                        data.resource = vitoopState.state.resource.id;
+                    }
                     return data;
                 }
             },
@@ -158,8 +164,9 @@ export default class VtpDatatable {
         if (this.api().page.info().recordsTotal === 0) {
             return;
         }
-        let projectElem = $('#projectID');
-        if ((typeof(projectElem) != 'undefined') && projectElem.val() > -1) {
+        // let projectElem = $('#projectID');
+        const projectElem = vitoopState.state.resource.id;
+        // if ((typeof(projectElem) != 'undefined') && projectElem.val() > -1) {
             $('input.divider').off();
             var query = HttpService.prototype.parseParams(window.location.href),
                 editMode = query.edit;
@@ -191,7 +198,7 @@ export default class VtpDatatable {
             let currentCoefficient = 0;
             let dividers = [];
             $.ajax({
-                url: vitoop.baseUrl +'api/project/' + projectElem.val() + '/divider',
+                url: vitoop.baseUrl +'api/project/' + projectElem + '/divider',
                 method: 'GET',
                 success: function(data) {
                     dividers = data;
@@ -218,7 +225,7 @@ export default class VtpDatatable {
                                             contentType: 'application/json',
                                             data: JSON.stringify({'text': $(this).val(), 'coefficient': $(this).data('coef')}),
                                             method: 'POST',
-                                            url: vitoop.baseUrl + 'api/project/' + projectElem.val() + '/divider',
+                                            url: vitoop.baseUrl + 'api/project/' + projectElem + '/divider',
                                             success: function () {
                                                 $('.vtp-uiaction-coefficient, input.divider').attr('disabled', false);
                                                 $(this).data('original', $(this).val());
@@ -242,7 +249,7 @@ export default class VtpDatatable {
                     });
                 }
             });
-        }
+        // }
     }
 
     dtRowCallback(row, data, index) {

@@ -5,14 +5,14 @@
             <li>
                 <div class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
                     :class="{'vtp-nav-active ui-state-active': $route.name === 'project'}"
-                    @click="$router.push({path: `/project/${project.id}`})"
-                    v-if="project.id !== null">
+                    @click="$router.push({path: `/project/${getResource('id')}`})"
+                    v-if="getInProject">
                     Projekt-Hauptseite
                 </div>
                 <a class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
-                   :class="{'vtp-nav-active ui-state-active': getResource('type') === ''}"
-                   :href="`/lexicon/${lexicon.id}`"
-                   v-else-if="lexicon.id !== null">
+                   :class="{'vtp-nav-active ui-state-active': $route.name === 'lexicon'}"
+                   @click="$router.push(`/lexicon/${getResource('id')}`)"
+                   v-else-if="!getInProject && getResource('id')">
                     {{ $t('page.lexicon') }}
                 </a>
                 <div class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
@@ -28,8 +28,7 @@
                    :class="{
                     'ui-state-no-content': noContent(name),
                     'vtp-nav-active ui-state-active': $route.name === name
-                   }"
-                   :href="`/${name}/?${isResource}`">
+                   }">
                     {{ value }}
                 </a>
             </li>
@@ -63,7 +62,7 @@
         },
         computed: {
             ...mapGetters([
-                'getResource'
+                'getResource', 'getInProject'
             ]),
             noContent() {
                 return (name) => {
@@ -77,15 +76,6 @@
             getLexiconId() {
                 return this.lexicon.id !== null ? `lexicon=${this.lexicon.id}` : '';
             },
-            isResource() {
-                if (this.project.id !== null) {
-                    return `project=${this.project.id}`;
-                } else if (this.lexicon.id !== null) {
-                    return `lexicon=${this.lexicon.id}`;
-                } else {
-                    return null
-                }
-            }
         },
         mounted() {
             if (this.resourceInfo !== null) {
@@ -100,11 +90,7 @@
                 this.$router.push('/userhome');
             },
             changeRoute(name) {
-                if (this.isResource !== null) {
-                    this.$router.push(`/${name}?${this.isResource}`);
-                } else {
-                    this.$router.push(`/${name}`);
-                }
+                this.$router.push(`/${name}`);
             }
         }
     }

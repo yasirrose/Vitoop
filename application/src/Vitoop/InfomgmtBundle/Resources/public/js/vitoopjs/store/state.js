@@ -2,8 +2,10 @@ export default {
     resource: {
         type: null,
         id: null,
-        info: null
+        info: null,
+        owner: false
     },
+    inProject: false,
     secondSearch: {
         show: false,
         showDataRange: false,
@@ -26,6 +28,9 @@ export default {
     tagList: {
         show: false,
     },
+    tags: [],
+    tags_h: [],
+    tags_i: [],
     user: null,
     admin: false,
     help: {

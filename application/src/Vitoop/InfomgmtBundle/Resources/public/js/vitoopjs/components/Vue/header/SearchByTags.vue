@@ -28,9 +28,8 @@
                 </select>
                 <button id="vtp-search-bytags-form-submit"
                         class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only"
-                        type="submit"
-                        name="submit"
-                        value="Suche">
+                        value="Suche"
+                        @click="reloadTable">
                     <span class="ui-button-icon-primary ui-icon ui-icon-refresh"></span>
                 </button>
                 <span id="vtp-search-bytags-form-buttons-vue">
@@ -133,15 +132,26 @@
                 $('#vtp-search-bytags-form-submit').removeClass('act').blur();
                 this.isChanged = false;
                 resourceList.loadResourceListPage(e);
-                $(this.tagSearchFormId).submit();
+                VueBus.$emit('datatable:reload');
             },
             removeTag(tag) {
                 this.tags.splice(_.findIndex(this.tags, tag), 1);
-                this.ignoredTags.splice(_.findIndex(this.tags, tag), 1);
-                this.highlightedTags.splice(_.findIndex(this.tags, tag.text), 1);
+                const index_i = this.ignoredTags.indexOf(tag.text);
+                const index_h = this.highlightedTags.indexOf(tag.text);
+
+                if (index_i > -1) this.ignoredTags.splice(index_i, 1);
+                if (index_h > -1) this.highlightedTags.splice(index_h, 1);
+
+                this.$store.commit('setTags', {
+                    key: 'tags',
+                    tags: this.tags.map(tag => tag.text)
+                });
+                this.$store.commit('setTags', {key: 'tags_i', tags: this.ignoredTags});
+                this.$store.commit('setTags', {key: 'tags_h', tags: this.highlightedTags});
+
                 this.updateAutocomplete($('#vtp-search-bytags-taglist'));
                 this.maintainCntTags();
-                $(this.tagSearchFormId).submit();
+                VueBus.$emit('datatable:reload');
             },
             extendTag(tag,event) {
                 let parent = $(event.target).parent();
@@ -198,7 +208,8 @@
                             $('#vtp-search-bytags-taglist').val('');
                             this.updateAutocomplete(searchByTag);
                             if (this.tags.length > 0) {
-                                $(this.tagSearchFormId).submit();
+                                // $(this.tagSearchFormId).submit();
+                                VueBus.$emit('datatable:reload');
                             }
                         },
                         response: (e, ui) => {
@@ -263,9 +274,15 @@
                 this.tags = [];
                 this.ignoredTags = [];
                 this.highlightedTags = [];
+
+                this.$store.commit('setTags', {key: 'tags', tags: []});
+                this.$store.commit('setTags', {key: 'tags_i', tags: []});
+                this.$store.commit('setTags', {key: 'tags_h', tags: []});
+
                 this.tagCount = 0;
                 this.igCount = 0;
                 this.hlCount = 0;
+                VueBus.$emit('datatable:reload');
             },
             changeColor() {
                 if ((!this.isChanged) && ((this.tagCount != this.tags.length) || (this.igCount != this.ignoredTags.length) || (this.hlCount != this.highlightedTags.length))) {
@@ -281,12 +298,20 @@
                 tag.isIgnored ? this.ignoredTags.push(tag.text) : this.ignoredTags.splice(_.findIndex(this.tags, tag.text), 1);
                 this.maintainCntTags();
                 this.saveTagsToStorage();
+                this.$store.commit('setTags', {
+                    key: 'tags',
+                    tags: this.tags.filter(tag => !tag.isIgnored).map(tag => tag.text)
+                });
+                this.$store.commit('setTags', {key: 'tags_i', tags: this.ignoredTags});
+                this.changeColor();
             },
             highlightTag(tag) {
                 tag.isHighlighted = !tag.isHighlighted;
                 tag.isHighlighted ? this.highlightedTags.push(tag.text) : this.highlightedTags.splice(_.findIndex(this.tags, tag.text), 1);
                 this.maintainCntTags();
                 this.saveTagsToStorage();
+                this.$store.commit('setTags', {key: 'tags_h', tags: this.highlightedTags});
+                this.changeColor();
             },
             pushTag(tag) {
                 if (tag == '') {
@@ -294,15 +319,20 @@
                 }
                 if (this.tags.indexOf(tag) === -1) {
                     this.tags.push(tag);
+                    this.$store.commit('setTags', {
+                        key: 'tags',
+                        tags: this.tags.filter(tag => !tag.isIgnored).map(tag => tag.text)
+                    });
                     this.maintainCntTags();
                 }
             },
             maintainCntTags() {
                 let $_options;
-                this.changeColor();
+                // this.changeColor();
                 this.cnttags = this.tags.length;
                 this.saveTagsToStorage();
                 this.maintainTaglistbox();
+
                 $_options = $('#vtp-search-bytags-tagcnt option');
                 if ((($_options.length - 1) + 1 ) === this.cnttags) {
                     $('<option></option>').val(this.cnttags).text(this.cnttags).appendTo('#vtp-search-bytags-tagcnt');
@@ -326,12 +356,12 @@
                 $('#vtp-search-bytags-tagcnt').val(this.tagcnt);
 
                 let tempCount = (this.tags.length == 1)?(1):(this.tagcnt);
-                resourceList.maintainResLinks({
-                    'taglist': this.tags.filter(tag => !tag.isIgnored).map(tag => tag.text),
-                    'taglist_i': this.tags.filter(tag => tag.isIgnored).map(tag => tag.text),
-                    'taglist_h': this.tags.filter(tag => tag.isHighlighted).map(tag => tag.text),
-                    'tagcnt': tempCount
-                });
+                // resourceList.maintainResLinks({
+                //     'taglist': this.tags.filter(tag => !tag.isIgnored).map(tag => tag.text),
+                //     'taglist_i': this.tags.filter(tag => tag.isIgnored).map(tag => tag.text),
+                //     'taglist_h': this.tags.filter(tag => tag.isHighlighted).map(tag => tag.text),
+                //     'tagcnt': tempCount
+                // });
                 if (typeof $('#vtp-search-bytags-tagcnt').selectmenu('instance') === 'undefined') {
                     $('select#vtp-search-bytags-tagcnt').selectmenu();
                 } else {
@@ -371,6 +401,9 @@
                     'source',
                     vitoop.baseUrl + (['tag', 'suggest'].join('/')) + '?extended=1&ignore='+this.tags.map(tag => tag.text).join()
                 );
+            },
+            reloadTable() {
+                VueBus.$emit('datatable:reload');
             }
         }
     }
