@@ -303,6 +303,7 @@
                     tags: this.tags.filter(tag => !tag.isIgnored).map(tag => tag.text)
                 });
                 this.$store.commit('setTags', {key: 'tags_i', tags: this.ignoredTags});
+                this.changeColor();
             },
             highlightTag(tag) {
                 tag.isHighlighted = !tag.isHighlighted;
@@ -310,6 +311,7 @@
                 this.maintainCntTags();
                 this.saveTagsToStorage();
                 this.$store.commit('setTags', {key: 'tags_h', tags: this.highlightedTags});
+                this.changeColor();
             },
             pushTag(tag) {
                 if (tag == '') {
@@ -326,7 +328,7 @@
             },
             maintainCntTags() {
                 let $_options;
-                this.changeColor();
+                // this.changeColor();
                 this.cnttags = this.tags.length;
                 this.saveTagsToStorage();
                 this.maintainTaglistbox();
