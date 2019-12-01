@@ -259,19 +259,20 @@ class ResourceRepository extends ServiceEntityRepository
      * @return array
      */
 
-    public function countAllResources1(Resource $resource2)
+    public function countAllResources1(Resource $resource2, User $user)
     {
         return $this->getEntityManager()
-                    ->createQuery('SELECT r.id, r.name, COUNT(r.id) AS cnt_res, 0 AS is_own
+                    ->createQuery('SELECT r.id, r.name, COUNT(r.id) AS cnt_res, (CASE WHEN rr.user = :user THEN 1 THEN 0 END) AS is_own
                         FROM ' . $this->getEntityName() . ' r
                         JOIN r.rel_resources1 rr
                         LEFT JOIN r.flags f
                         WHERE rr.resource2=:arg_resource2
                         AND f.id IS NULL
                         AND rr.deletedByUser is null
-                        GROUP BY r.id
+                        GROUP BY r.id, is_own
                         ORDER BY r.name ASC')
                     ->setParameter('arg_resource2', $resource2)
+                    ->setParameter('user', $user)
                     ->getResult();
     }
 
