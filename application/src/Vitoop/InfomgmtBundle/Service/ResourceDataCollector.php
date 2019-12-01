@@ -636,16 +636,16 @@ class ResourceDataCollector
             }
         }
 
-        $lexicons = $this->rm->getRepository('lex')->countAllResources1($this->res);
-        $lex_id_list_by_user = $this->rm->getRepository('lex')
-                                        ->getResource1IdListByUser($this->res, $this->vsec->getUser());
-        //print_r( $lex_id_list_by_user);die();
-        // Mark every "own" Resource1 setting the "is_own"-key to '1'
-        array_walk($lexicons, function (&$_resources, $key_tags, $_lex_id_list_by_user) {
-            if (in_array($_resources['id'], $_lex_id_list_by_user)) {
-                $_resources['is_own'] = '1';
-            }
-        }, $lex_id_list_by_user);
+        $lexicons = $this->rm->getRepository('lex')->countAllResources1($this->res, $this->vsec->getUser());
+//        $lex_id_list_by_user = $this->rm->getRepository('lex')
+//                                        ->getResource1IdListByUser($this->res, $this->vsec->getUser());
+//        //print_r( $lex_id_list_by_user);die();
+//        // Mark every "own" Resource1 setting the "is_own"-key to '1'
+//        array_walk($lexicons, function (&$_resources, $key_tags, $_lex_id_list_by_user) {
+//            if (in_array($_resources['id'], $_lex_id_list_by_user)) {
+//                $_resources['is_own'] = '1';
+//            }
+//        }, $lex_id_list_by_user);
 
         $fv_lex = $form_lex->createView();
 
