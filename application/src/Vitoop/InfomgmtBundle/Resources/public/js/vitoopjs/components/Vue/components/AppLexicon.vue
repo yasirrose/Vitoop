@@ -194,56 +194,19 @@
                     minLength: 2,
                     appendTo: 'body'
                 });
-                // $('form#form-assign-lexicon').ajaxForm({
-                //     delegation: true,
-                //     dataType: 'json',
-                //     success: [ data => {
-                //         $('#lexicon-tags').html(data['resource-lexicon']);
-                //         this.init();
-                //         $('#lexicon_name_name').focus();
-                //     }],
-                //     error: function (jqXHR, textStatus, errorThrown, $form) {
-                //         $form.empty().append('Vitoooops!: ' + textStatus + ' ' + jqXHR.status + ': ' + jqXHR.statusText);
-                //     }
-                // });
 
                 $('#lexicon-tags input[type=submit]').button({
                     icons: {
                         primary: "ui-icon-disk"
                     }
                 });
+
                 !$('#lexicon-tags .vtp-uiinfo-info').length || $('#lexicon-tags .vtp-uiinfo-info').position({
                     my: 'right top',
                     at: 'right bottom',
                     of: '#lexicon-tags .vtp-uiinfo-anchor',
                     collision: 'none'
                 }).hide("fade", 3000);
-
-                // $('.vtp-lexiconbox-item').click(function() {
-                //     $('#open_lexicon_link').attr('href', $(this).data('link')).show(400);
-                //     var text = $(this).text().trim();
-                //     var pos = text.search(new RegExp('\\(\\d+\\)'));
-                //     if (pos > -1) {
-                //         text = text.substring(0, pos).trim();
-                //     }
-                //     $('#lexicon_name_name').val(text);
-                // });
-                // $('.vtp-lexicon-submit').click(function(event) {
-                //     var input = $('#lexicon_name_name');
-                //     if (input.val() == "") {
-                //         input.focus();
-                //         event.preventDefault();
-                //     }
-                // });
-                // $('#lexicon_name_name').on("input", function() {
-                //     $('#open_lexicon_link').hide(400);
-                // });
-                // if ($('#lexicon_name_can_add').val() != "1") {
-                //     $('#lexicon_name_save').button('disable');
-                // }
-                // if ($('#lexicon_name_can_remove').val() != "1") {
-                //     $('#lexicon_name_remove').button('disable');
-                // }
             }
         }
     }
