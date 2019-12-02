@@ -1,7 +1,7 @@
 <template>
     <div id="vtp-content">
-        <div id="lexicon-main" class="ui-corner-all">
-            <div id="vtp-lexicondata-box" v-if="lexicon !== null">
+        <div id="lexicon-main" class="ui-corner-all" v-if="lexicon !== null">
+            <div id="vtp-lexicondata-box">
                 <div id="vtp-lexicondata-sheet-view" class="ui-corner-all vtp-fh-w70">
                     <div v-html="lexicon.description"></div>
                     <hr/>
@@ -46,9 +46,46 @@
                     <p>{{ $t('label.address') }}: <span>{{ resourceInfo.adrc }}</span></p>
                 </div>
             </div>
-<!--            <div id="lexicon-tags"-->
-<!--                 v-html="lexicon.lexicons">-->
-<!--            </div>-->
+            <div id="lexicon-tags"
+                 v-if="lexiconTags.length > 0">
+                <div id="form-assign-lexicon">
+                    <fieldset class="ui-corner-all">
+                        <legend>Verknüpfungen mit Lexikonartikel</legend>
+                        <div class="autocomplete-wrapper">
+                            <input ref="autocomplete_input"
+                                   type="text"
+                                   id="lexicon_name_name"
+                                   required="required"
+                                   maxlength="128"
+                                   v-model.trim="autocomplete"
+                                   class="vtp-fh-w40 ui-autocomplete-input" autocomplete="off">
+                            <button @click="add"
+                                    ref="add"
+                                    class="vtp-uiinfo-anchor vtp-lexicon-submit ui-button ui-widget ui-state-default ui-corner-all">+</button>
+                            <button @click="remove"
+                                    class="vtp-uiinfo-anchor vtp-lexicon-submit ui-button ui-widget ui-state-default ui-corner-all">-</button>
+                            <a class="vtp-uiinfo-anchor vtp-lexicon-submit ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+                               v-if="currentTag !== null && autocomplete.length > 0"
+                               @click="openLexicon"
+                               id="open_lexicon_link" role="button">
+                                öffnen
+                            </a>
+                            <div class="vtp-uiinfo-form-error"></div>
+                        </div>
+                        <div id="vtp-lexiconbox" class="vtp-collectionbox ui-corner-all">
+                            <span v-for="tag in lexiconTags"
+                                  :key="tag.id"
+                                  @click="selectLexicon(tag)"
+                                  class="vtp-lexiconbox-item ui-corner-all"
+                                  :data-link="`http://localhost:8080/lexicon/${tag.id}`">
+                                <span class="vtp-icon-lex ui-icon ui-icon-document-b"></span>
+                                {{ tag.name }}
+                                <span class="vtp-lexiconbox-cntres">(1)</span>
+                            </span>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -58,26 +95,73 @@
         name: "AppLexicon",
         data() {
             return {
+                autocomplete: null,
                 lexicon: null,
+                currentTag: null,
+                lexiconTags: [],
                 resourceInfo: null
             }
         },
-        beforeCreate() {
-            axios(`/api/v1/lexicons/${this.$route.params.lexiconId}`)
-                .then(({data}) => {
-                    this.lexicon = data.lexicon;
-                    this.resourceInfo = data.resourceInfo;
-                    this.$store.commit('setResourceInfo', data.resourceInfo);
-                    this.$store.commit('setResourceId', this.$route.params.lexiconId);
-                    VueBus.$emit('lexicon:loaded', data.lexicon);
-                })
-                .catch(err => console.dir(err));
-        },
         mounted() {
             resourceProject.init();
-            this.init();
+            this.loadLexicon();
+            this.getLexicons();
         },
         methods: {
+            openLexicon() {
+                this.$router.push(`/lexicon/${this.currentTag.id}`);
+                this.loadLexicon();
+                this.getLexicons();
+            },
+            loadLexicon() {
+                axios(`/api/v1/lexicons/${this.$route.params.lexiconId}`)
+                    .then(({data}) => {
+                        this.lexicon = data.lexicon;
+                        this.resourceInfo = data.resourceInfo;
+                        this.$store.commit('setResourceInfo', data.resourceInfo);
+                        this.$store.commit('setResourceId', this.$route.params.lexiconId);
+                        VueBus.$emit('lexicon:loaded', data.lexicon);
+                    })
+                    .catch(err => console.dir(err));
+            },
+            reset() {
+                this.autocomplete = null;
+                this.currentTag = null;
+                this.$refs.autocomplete_input.focus();
+            },
+            add() {
+                axios.post(`/api/v1/lexicons/${this.lexicon.id}/assignments`, {
+                    name: this.autocomplete
+                })
+                .then(response => {
+                    this.reset();
+                    this.getLexicons();
+                })
+                .catch(err => console.dir(err));
+            },
+            remove() {
+                axios.delete(`/api/v1/lexicons/${this.lexicon.id}/assignments/${this.currentTag.id}`)
+                    .then(() => {
+                        this.reset();
+                        this.getLexicons();
+                    })
+                    .catch(err => console.dir(err));
+            },
+            selectLexicon(lexicon) {
+                this.autocomplete = lexicon.name;
+                this.currentTag = lexicon;
+                this.$refs.add.focus();
+            },
+            getLexicons() {
+                axios(`/api/v1/lexicons/${this.$route.params.lexiconId}/assignments`)
+                    .then(({data}) => {
+                        this.lexiconTags = data;
+                        setTimeout(() => {
+                            this.init();
+                        }, 100);
+                    })
+                    .catch(err => console.dir(err));
+            },
             init() {
                 $('#open_lexicon_link').button();
                 $('#lexicon_name_save').on('click', function() {
@@ -103,64 +187,55 @@
                             }
                         });
                     },
+                    select: (e,ui) => {
+                        this.autocomplete = ui.item.value;
+                        this.$refs.add.focus();
+                    },
                     minLength: 2,
                     appendTo: 'body'
                 });
-                $('form#form-assign-lexicon').ajaxForm({
-                    delegation: true,
-                    dataType: 'json',
-                    success: [ data => {
-                        $('#lexicon-tags').html(data['resource-lexicon']);
-                        this.init();
-                        $('#lexicon_name_name').focus();
-                    }],
-                    error: function (jqXHR, textStatus, errorThrown, $form) {
-                        $form.empty().append('Vitoooops!: ' + textStatus + ' ' + jqXHR.status + ': ' + jqXHR.statusText);
-                    }
 
-                });
                 $('#lexicon-tags input[type=submit]').button({
                     icons: {
                         primary: "ui-icon-disk"
                     }
                 });
+
                 !$('#lexicon-tags .vtp-uiinfo-info').length || $('#lexicon-tags .vtp-uiinfo-info').position({
                     my: 'right top',
                     at: 'right bottom',
                     of: '#lexicon-tags .vtp-uiinfo-anchor',
                     collision: 'none'
                 }).hide("fade", 3000);
-
-                $('.vtp-lexiconbox-item').click(function() {
-                    $('#open_lexicon_link').attr('href', $(this).data('link')).show(400);
-                    var text = $(this).text().trim();
-                    var pos = text.search(new RegExp('\\(\\d+\\)'));
-                    if (pos > -1) {
-                        text = text.substring(0, pos).trim();
-                    }
-                    $('#lexicon_name_name').val(text);
-                });
-                $('.vtp-lexicon-submit').click(function(event) {
-                    var input = $('#lexicon_name_name');
-                    if (input.val() == "") {
-                        input.focus();
-                        event.preventDefault();
-                    }
-                });
-                $('#lexicon_name_name').on("input", function() {
-                    $('#open_lexicon_link').hide(400);
-                });
-                if ($('#lexicon_name_can_add').val() != "1") {
-                    $('#lexicon_name_save').button('disable');
-                }
-                if ($('#lexicon_name_can_remove').val() != "1") {
-                    $('#lexicon_name_remove').button('disable');
-                }
             }
         }
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+    .ui-button {
+        padding: .2em 1em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+    }
 
+    .autocomplete-wrapper {
+        display: flex;
+        align-items: center;
+
+        .ui-autocomplete-input {
+            margin-right: 4px;
+
+            + button {
+                margin-right: 4px;
+            }
+        }
+    }
+
+    #open_lexicon_link {
+        padding: 3px 15px;
+        margin: 0 0 0 4px;
+    }
 </style>

@@ -7,7 +7,7 @@
             <span v-if="$store.state.user !== null">
                 <a v-if="agreeWithTerm"
                    class="ui-corner-all ui-state-default"
-                   href="/tags">
+                   @click="$router.push('/tags')">
                     Tags
                 </a>
                 <help-button help-area="search" text="Hilfe" />
