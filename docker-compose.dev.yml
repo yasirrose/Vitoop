@@ -39,6 +39,8 @@ services:
 
   php:
     build: ./devops/docker/php
+    environment:
+      XDEBUG_CONFIG: 'remote_enable=On remote_connect_back=Off remote_autostart=1 idekey=PHPSTORM max_nesting_level=512 remote_host=${DOCKER_HOST_IP} remote_port=9000'
     depends_on:
       - vitoopdb
     networks:

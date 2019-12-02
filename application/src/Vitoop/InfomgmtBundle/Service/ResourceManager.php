@@ -167,13 +167,13 @@ class ResourceManager
             throw new \Exception('Es können pro Datensatz nur zwei Lexicons gelöscht werden.');
         }
         $rel = $this->em->getRepository('VitoopInfomgmtBundle:RelResourceResource')->getOneFirstRel($lexicon, $res);
-        if (is_null($rel)) {
+        if (null === $rel) {
             throw new \Exception('There is not such lexicon on this resource');
-        } else {
-            $rel->setDeletedByUser($this->vsec->getUser());
-            $this->em->merge($rel);
-            $this->em->flush();
         }
+
+        $rel->setDeletedByUser($this->vsec->getUser());
+        $this->em->merge($rel);
+        $this->em->flush();
 
         return $lexicon->getName();
     }
