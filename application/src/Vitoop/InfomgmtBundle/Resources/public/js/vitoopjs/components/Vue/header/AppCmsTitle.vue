@@ -1,6 +1,6 @@
 <template>
     <div id="vtp-cmstitle">
-        <div v-if="getResource('id') !== null && $route.name === 'project'"
+        <div v-if="getResource('id') !== null && get('inProject')"
              id="vtp-projectdata-title"
              class="ui-corner-all vtp-cmstitle">
             <span class="vtp-title__text" v-if="project !== null">
@@ -26,13 +26,14 @@
                 <button id="vtp-projectdata-project-close"
                         :title="$t('label.close')"
                         class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary"
-                        role="button" @click="resetResource('/prj')">
+                        role="button"
+                        @click="resetResource('/prj')">
                     <span class="ui-button-icon-primary ui-icon ui-icon-close"></span>
                     <span class="ui-button-text"></span>
                 </button>
             </div>
         </div>
-        <div v-else-if="getResource('id') !== null && $route.name === 'lexicon'"
+        <div v-else-if="getResource('id') !== null && !get('inProject')"
              id="vtp-lexicondata-title"
              class="ui-corner-all vtp-cmstitle">
             <span class="vtp-title__text" v-if="lexicon !== null">
@@ -79,7 +80,7 @@
                     return false
                 }
             },
-            ...mapGetters(['getResource'])
+            ...mapGetters(['getResource','get'])
         },
         mounted() {
             VueBus.$on('remove:project', () => {
@@ -108,7 +109,10 @@
             },
             resetResource(redirectTo) {
                 this.$store.commit('resetResource');
-                this.$router.push(redirectTo);
+                if (redirectTo !== this.$route.path)
+                    this.$router.push(redirectTo)
+                else
+                    VueBus.$emit('datatable:reload');
                 if (redirectTo === '/prj') this.$store.commit('setInProject', false);
             }
         }
@@ -119,7 +123,6 @@
     #vtp-lexicondata-title {
         display: flex;
         align-items: center;
-        padding: 3px 10px 4px 15px !important;
     }
 
     .vtp-title__buttons {

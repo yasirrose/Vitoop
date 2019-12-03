@@ -43,9 +43,7 @@
     export default {
         name: "AppNav",
         inject: [
-            'agreeWithTerm',
-            'project',
-            'lexicon'
+            'agreeWithTerm'
         ],
         data() {
             return {
@@ -69,12 +67,6 @@
                     return this.getResource('info') !== null ?
                         this.getResource('info')[`${name}c`] === '0' : false
                 }
-            },
-            getProjectId() {
-                return this.project.id !== null ? `project=${this.project.id}` : '';
-            },
-            getLexiconId() {
-                return this.lexicon.id !== null ? `lexicon=${this.lexicon.id}` : '';
             },
         },
         mounted() {

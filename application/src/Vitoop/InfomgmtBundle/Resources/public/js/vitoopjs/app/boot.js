@@ -7,6 +7,7 @@ import SearchToggler from "../components/Vue/SecondSearch/SearchToggler.vue";
 import axios from "axios"
 import lodash from "lodash"
 import Vuelidate from 'vuelidate';
+import moment from "moment";
 
 import VueI18n from "vue-i18n"
 import messagesDE from "../../translates/de/messages";
@@ -35,6 +36,7 @@ window.UserSettings = UserSettings;
 window.SecondSearch = SecondSearch;
 window.SearchToggler = SearchToggler;
 window.VueBus = new Vue();
+window.moment = moment;
 
 $(function () {
     const i18n = new VueI18n({

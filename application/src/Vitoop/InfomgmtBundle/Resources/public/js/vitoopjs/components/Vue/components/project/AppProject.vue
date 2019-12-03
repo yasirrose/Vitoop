@@ -16,7 +16,7 @@
                         Erstellt von: <span>{{ project.user.username }}</span>
                     </p>
                     <p>
-                        Erstellt am: <span>{{ project.created }}</span>
+                        Erstellt am: <span>{{ getDate(project.created) }}</span>
                     </p>
                     <br/>
                     <p>{{ $t('Linked Records') }}:</p>
@@ -28,6 +28,9 @@
                     <p>{{ $t('label.book') }}: <span>{{ resourceInfo.bookc }}</span></p>
                     <p>{{ $t('label.address') }}: <span>{{ resourceInfo.adrc }}</span></p>
                 </div>
+            </div>
+            <div v-else>
+                Projekt ist für diesen Benutzer nicht verfügbar
             </div>
         </fieldset>
     </div>
@@ -42,17 +45,30 @@
                 resourceInfo: null
             }
         },
+        computed: {
+            getDate: () => {
+                return (date) => {
+                    return moment(date).format('DD.MM.YYYY');
+                }
+            }
+        },
         beforeCreate() {
             axios(`/api/v1/projects/${this.$route.params.projectId}`)
                 .then(({data}) => {
-                    this.project = data.project;
-                    this.resourceInfo = data.resourceInfo;
-                    this.$store.commit('setResourceOwner', data.isOwner);
-                    this.$store.commit('setResourceInfo', data.resourceInfo);
-                    this.$store.commit('setResourceId', this.$route.params.projectId);
-                    VueBus.$emit('project:loaded', data.project);
+                    if (!data.hasOwnProperty('success')) {
+                        this.project = data.project;
+                        this.resourceInfo = data.resourceInfo;
+                        this.$store.commit('setResourceOwner', data.isOwner);
+                        this.$store.commit('setResourceInfo', data.resourceInfo);
+                        this.$store.commit('setResourceId', this.$route.params.projectId);
+                        VueBus.$emit('project:loaded', data.project);
+                    } else {
+                        this.$store.commit('resetResource');
+                    }
                 })
-                .catch(err => console.dir(err));
+                .catch(err => {
+                    console.dir(err);
+                });
         },
     }
 </script>
