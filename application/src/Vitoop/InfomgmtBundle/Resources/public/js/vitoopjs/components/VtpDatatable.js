@@ -392,7 +392,7 @@ export default class VtpDatatable {
                 this.getRes12Column(),
                 this.getOwnerColumn()
             ];
-            if (this.isAdmin) {
+            if (vitoopState.state.admin) {
                 columns.push(this.getIsDownloadedColumn());
             }
             columns.push(this.getPdfUrlValue());
@@ -408,7 +408,7 @@ export default class VtpDatatable {
                 this.getRes12Column(),
                 this.getOwnerColumn()
             ];
-            if (this.isAdmin) {
+            if (vitoopState.state.admin) {
                 columns.push(this.getIsDownloadedColumn());
             }
 

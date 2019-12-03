@@ -19,7 +19,11 @@
                                :date-title="dateTitle"
                                :link-title="linkTitle" />
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                    <div class="preloader">
+                        <img src="/img/loader.gif" />
+                    </div>
+                </tbody>
             </table>
         </div>
     </div>
@@ -112,19 +116,18 @@
             }
         },
         updated() {
-            this.datatable.off('draw');
-            this.datatable.off('page.dt');
-            this.datatable.destroy();
-            $('.table-datatables tbody').empty();
-            this.datatable = this.initTable();
+            this.reinitTable();
+            $('.DataTables_sort_icon').addClass('css_right ui-icon ui-icon-carat-2-n-s');
         },
         mounted() {
             resourceDetail.init();
             this.datatable = this.initTable();
+            $('.DataTables_sort_icon').addClass('css_right ui-icon ui-icon-carat-2-n-s');
 
             VueBus.$on('datatable:reload', () => {
-                this.datatable.ajax.url(`/api/resource/${this.$route.name}?${this.tagParams}`).load();
-            })
+                $('.DataTables_sort_icon').remove();
+                this.reinitTable();
+            });
         },
         methods: {
             onTableDraw() {
@@ -150,11 +153,29 @@
                 .on('page.dt', () => {
                     this.onTableDraw();
                 });
+            },
+            reinitTable() {
+                this.datatable.off('draw');
+                this.datatable.off('page.dt');
+                this.datatable.destroy();
+                $('.table-datatables tbody').empty();
+                this.datatable = this.initTable();
             }
         }
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+    .preloader {
+        height: 100px;
+        display: table-row;
 
+        img {
+            width: 40px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
 </style>

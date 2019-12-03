@@ -25,10 +25,10 @@ export default class VitoopApp {
             this.vtpDatatable.changeFontSizeByUserSettings();
             return this.vtpDatatable.init();
         } else {
-            this.userService.getCurrentUser().then(function (currentUser) {
+            return this.userService.getCurrentUser().then( currentUser => {
                 vitoopState.commit('setUser', currentUser);
-                self.vtpDatatable.changeFontSizeByUserSettings();
-                self.vtpDatatable.init();
+                this.vtpDatatable.changeFontSizeByUserSettings();
+                return this.vtpDatatable.init();
             });
         }
     }

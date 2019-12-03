@@ -8,7 +8,7 @@
         <th style="width:96px;" data-b-searchable="false"><span class="table-head">Bewertung</span></th>
         <th style="width:42px;" data-b-searchable="false"><span class="table-head">RR</span></th>
         <th style="width:12%;"><span class="table-head">von</span></th>
-        <th style="width:8%;" data-b-searchable="false" v-if="$store.state.admin !== null"><span class="table-head">Stored</span></th>
+        <th style="width:8%;" data-b-searchable="false" v-if="$store.state.admin"><span class="table-head">Stored</span></th>
         <th style="width: 54px"
             data-b-sortable="false"
             data-b-searchable="false">
