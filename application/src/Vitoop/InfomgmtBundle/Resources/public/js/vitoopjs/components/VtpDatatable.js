@@ -4,11 +4,10 @@ import RowPerPageSelect from '../components/RowPerPageSelect';
 import HttpService from "../services/HttpService";
 
 export default class VtpDatatable {
-    constructor(resType, isAdmin, isEdit, isCoef, url, resourceId) {
+    constructor(resType, isAdmin, isCoef, url, resourceId) {
         this.resType = resType;
         this.resourceId = resourceId;
         this.isAdmin = isAdmin;
-        this.isEdit = isEdit;
         this.isCoef = isCoef;
         this.url = url;
         this.datatableListId = 'table.table-datatables';
@@ -168,10 +167,9 @@ export default class VtpDatatable {
         const projectElem = vitoopState.state.resource.id;
         // if ((typeof(projectElem) != 'undefined') && projectElem.val() > -1) {
             $('input.divider').off();
-            var query = HttpService.prototype.parseParams(window.location.href),
-                editMode = query.edit;
+            const editMode = vitoopState.state.edit;
             var self = this;
-            if (typeof(editMode) != 'undefined' && editMode == 1) {
+            if (editMode) {
                 $('.vtp-uiaction-coefficient').on('focusout', function() {
                     if ((isNaN($(this).val())) || ($(this).val() < 0)) {
                         $(this).val($(this).data('original'));
@@ -213,7 +211,7 @@ export default class VtpDatatable {
                             } else {
                                 divider = divider.text;
                             }
-                            if ((typeof(editMode) != "undefined") && (editMode)) {
+                            if (editMode) {
                                 $(this).parent().parent().before($('<div class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 96px; padding-top: 4px"><span>'+ ~~ currentCoefficient+'</span></div><div style="width: 990px"><input class="divider" type="text" data-coef="'+(~~currentCoefficient)+'" value="'+divider+'" data-original="'+divider+'"></div></div>'));
                                 $('input.divider').on('focusout', function() {
                                     if ($(this).val() != $(this).data('original')) {
@@ -440,7 +438,7 @@ export default class VtpDatatable {
                 this.getRes12Column(),
                 this.getOwnerColumn()
             ];
-            if (this.isEdit) {
+            if (vitoopState.state.edit) {
                 columns.push(this.getUnlinkColumn());
             }
             return columns;
@@ -499,7 +497,7 @@ export default class VtpDatatable {
     }
 
     getCoefColumn() {
-        if (this.isEdit) {
+        if (vitoopState.state.edit) {
             return {"data": "coef", "render": this.getCoefEditValue};
         }
         return {"data": "coef", "render": this.getCoefValue};
@@ -622,7 +620,7 @@ export default class VtpDatatable {
     }
 
     getPdfUrlValue() {
-        if (this.isEdit) {
+        if (vitoopState.state.edit) {
             return this.getUnlinkColumn();
         }
 
@@ -630,7 +628,7 @@ export default class VtpDatatable {
     }
 
     getUrlColumn() {
-        if (this.isEdit) {
+        if (vitoopState.state.edit) {
             return this.getUnlinkColumn();
         }
 
@@ -638,7 +636,7 @@ export default class VtpDatatable {
     }
 
     getLexiconUrlColumn() {
-        if (this.isEdit) {
+        if (vitoopState.state.edit) {
             return this.getUnlinkColumn();
         }
 
@@ -670,7 +668,7 @@ export default class VtpDatatable {
     }
 
     getMapsLinkColumn() {
-        if (this.isEdit) {
+        if (vitoopState.state.edit) {
             return this.getUnlinkColumn();
         }
 

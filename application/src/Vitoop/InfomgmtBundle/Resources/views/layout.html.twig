@@ -80,15 +80,11 @@
                 {% if isCoef is not defined %}
                     {% set isCoef = false %}
                 {% endif %}
-                {% if isEdit is not defined %}
-                    {% set isEdit = false %}
-                {% endif %}
                 <vtp-app download-size="{{ vsettings.getCurrentDownloadsSize.getValue|number_format(2, '.', ' ') }}"
                          :is-coef="{{ isCoef|json_encode() }}"
                          :project="{{ projectObj|json_encode() }}"
                          :lexicon="{{ lexiconObj|json_encode() }}"
                          :edit-mode="{{ editMode|json_encode() }}"
-                         :is-edit="{{ isEdit|json_encode }}"
                          :resource-info="{{ resourceInfo|json_encode() }}"
                          :agree-with-term="
                             {% if app.user %}
@@ -96,7 +92,6 @@
                             {% else %}
                                 false
                             {% endif %}"
-                         :edit-mode="{{ editMode|json_encode }}"
                          :info-project-data="{{ infoprojectdata|json_encode() }}"
                          :invitation="{{ vsettings.getInvitation().getValue() }}"
                          :as-project-owner="{{ showasprojectowner|json_encode() }}"

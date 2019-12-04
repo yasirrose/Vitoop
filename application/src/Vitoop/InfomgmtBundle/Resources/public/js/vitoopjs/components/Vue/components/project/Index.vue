@@ -1,13 +1,14 @@
 <template>
     <div>
-        <app-project v-if="!edit" />
-        <app-project-edit v-else-if="edit" />
+        <app-project v-if="!get('edit')"/>
+        <app-project-edit v-else />
     </div>
 </template>
 
 <script>
     import AppProject from "./AppProject.vue";
     import AppProjectEdit from "./AppProjectEdit.vue";
+    import {mapGetters} from "vuex";
 
     export default {
         name: "Index",
@@ -16,17 +17,16 @@
         },
         data() {
             return {
-                edit: false
+                project: null,
+                resourceInfo: null
             }
         },
-        beforeRouteUpdate(to,from,next) {
-            this.edit = to.query.edit;
-            next();
+        computed: {
+            ...mapGetters(['get'])
         },
         mounted() {
             this.$store.commit('setInProject', true);
             resourceProject.init();
-            this.edit = this.$route.query.edit;
         }
     }
 </script>

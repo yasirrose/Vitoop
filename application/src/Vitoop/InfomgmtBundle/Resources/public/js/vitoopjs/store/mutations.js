@@ -100,6 +100,7 @@ export default {
         state.resource.owner = status;
     },
     resetResource(state) {
+        state.edit = false;
         Object.keys(state.resource).forEach(item => {
             state.resource[item] = null;
         })
@@ -136,5 +137,9 @@ export default {
 
     setTags(state, payload) {
         state[payload.key] = payload.tags;
+    },
+
+    set(state,payload) {
+        state[payload.key] = payload.value;
     }
 }

@@ -164,7 +164,7 @@
                 rel.read_only = JSON.parse(e.target.value);
             },
             getProjectData() {
-                axios(`/api/project/${this.getResource('id')}`)
+                axios(`/api/project/${this.$route.params.projectId}`)
                     .then(({data}) => {
                         this.isLoaded = true;
                         this.isOwner = data.isOwner;
@@ -182,9 +182,13 @@
                         options.toolbar = 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink | code';
                         options.init_instance_callback = (editor) => {
                             this.needToSave = false;
-                            editor.on('keyup', (e) => {
-                                this.editProject.project_data.sheet = e.target.innerHTML;
-                            })
+                            // editor.on('keyup', (e) => {
+                            //     this.editProject.project_data.sheet = e.target.innerHTML;
+                            // });
+
+                            editor.on('MouseLeave', (e) => {
+                                this.editProject.project_data.sheet = e.target.querySelector('.mce-content-body ').innerHTML;
+                            });
                         };
                         tinymce.init(options);
                     })

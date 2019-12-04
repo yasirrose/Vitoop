@@ -5,6 +5,7 @@ export default {
         info: null,
         owner: false
     },
+    edit: false,
     inProject: false,
     secondSearch: {
         show: false,

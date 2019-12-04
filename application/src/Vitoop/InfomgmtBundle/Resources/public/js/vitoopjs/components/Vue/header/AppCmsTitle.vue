@@ -12,13 +12,13 @@
                 <span v-if="getResource('owner')" style="display: flex">
                     <button id="vtp-projectdata-project-live"
                             class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
-                            :class="{'ui-state-focus ui-state-active': !isEdit}"
+                            :class="{'ui-state-focus ui-state-active': !get('edit')}"
                             @click="projectLiveMode">
                         <span class="ui-button-icon-primary ui-icon ui-icon-clipboard"></span>
                     </button>
                     <button id="vtp-projectdata-project-edit"
                             class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
-                            :class="{'ui-state-focus ui-state-active': isEdit}"
+                            :class="{'ui-state-focus ui-state-active': get('edit')}"
                             @click="projectEditMode">
                         <span class="ui-button-icon-primary ui-icon ui-icon-wrench"></span>
                     </button>
@@ -73,13 +73,6 @@
             }
         },
         computed: {
-            isEdit() {
-                if (this.$route.query.hasOwnProperty('edit')) {
-                    return JSON.parse(this.$route.query.edit);
-                } else {
-                    return false
-                }
-            },
             ...mapGetters(['getResource','get'])
         },
         mounted() {
@@ -95,17 +88,10 @@
         },
         methods: {
             projectEditMode() {
-                if (this.$route.query.hasOwnProperty('edit')) {
-                    this.$router.push({
-                        path: `/project/${this.getResource('id')}`,
-                        query: {edit: !JSON.parse(this.$route.query.edit)}
-                    });
-                } else {
-                    this.$router.push({path: `/project/${this.getResource('id')}`, query: {edit: true}});
-                }
+                this.$store.commit('set', {key: 'edit', value: true});
             },
             projectLiveMode() {
-                this.$router.push({path: `/project/${this.getResource('id')}`, query: null});
+                this.$store.commit('set', {key: 'edit', value: false});
             },
             resetResource(redirectTo) {
                 this.$store.commit('resetResource');

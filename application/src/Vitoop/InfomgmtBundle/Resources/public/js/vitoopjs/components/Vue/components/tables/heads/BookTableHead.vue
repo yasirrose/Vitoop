@@ -9,7 +9,7 @@
         <th style="width:42px;" data-b-searchable="false"><span class="table-head">RR</span></th>
         <th style="width:14%;"><span class="table-head">von</span></th>
         <th style="width:54px;"
-            v-if="isEdit"
+            v-if="get('edit')"
             data-b-sortable="false"
             data-b-searchable="false">
             <span class="table-head">{{ linkTitle }}</span>
@@ -18,10 +18,13 @@
 </template>
 
 <script>
+    import {mapGetters} from "vuex"
     export default {
         name: "BookTableHead",
         props: ['dateTitle','linkTitle'],
-        inject: ['isEdit']
+        computed: {
+            ...mapGetters(['get'])
+        }
     }
 </script>
 

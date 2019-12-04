@@ -1,8 +1,7 @@
 <template>
     <div id="vtp-content">
         <fieldset class="ui-corner-all margin-top-3">
-            <div v-if="project !== null"
-                 id="vtp-projectdata-box">
+            <div id="vtp-projectdata-box" v-if="project !== null">
 <!--                <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all"-->
 <!--                     v-if="infoProjectData !== null && infoProjectData !== ''">-->
 <!--                    <span class="vtp-icon ui-icon ui-icon-info"></span>{{ infoProjectData }}-->
@@ -52,7 +51,7 @@
                 }
             }
         },
-        beforeCreate() {
+        created() {
             axios(`/api/v1/projects/${this.$route.params.projectId}`)
                 .then(({data}) => {
                     if (!data.hasOwnProperty('success')) {
@@ -69,7 +68,7 @@
                 .catch(err => {
                     console.dir(err);
                 });
-        },
+        }
     }
 </script>
 
