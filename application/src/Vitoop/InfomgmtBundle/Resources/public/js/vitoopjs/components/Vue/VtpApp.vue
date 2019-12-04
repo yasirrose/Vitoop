@@ -26,7 +26,6 @@
             'resourceInfo',
             'asProjectOwner',
             'editMode',
-            'isEdit',
             'infoProjectData',
             'tags',
             'terms',
@@ -43,7 +42,6 @@
                 resourceInfo: this.resourceInfo,
                 asProjectOwner: this.asProjectOwner,
                 editMode: this.editMode,
-                isEdit: this.isEdit,
                 infoProjectData: this.infoProjectData,
                 tags: this.tags,
                 terms: this.terms,
@@ -63,6 +61,7 @@
             }
         },
         beforeCreate() {
+            this.$store.commit('set', {key: 'edit', value: false});
             axios('/api/help')
                 .then(({data}) => {
                     // data.isAdmin = false;

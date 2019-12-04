@@ -51,7 +51,7 @@
             LexiconTableHead,
             ProjectTableHead
         },
-        inject: ['isCoef', 'isEdit'],
+        inject: ['isCoef'],
         data() {
             return {
                 datatable: null
@@ -96,7 +96,7 @@
                 }
             },
             linkTitle() {
-                return this.isEdit ? 'unlink' : 'link';
+                return this.get('edit') ? 'unlink' : 'link';
             },
             tagParams() {
                 const params = [];
@@ -117,7 +117,8 @@
         },
         updated() {
             this.reinitTable();
-            $('.DataTables_sort_icon').addClass('css_right ui-icon ui-icon-carat-2-n-s');
+            if (!$('.DataTables_sort_icon').hasClass('css_right ui-icon ui-icon-carat-2-n-s'))
+                $('.DataTables_sort_icon').addClass('css_right ui-icon ui-icon-carat-2-n-s');
         },
         mounted() {
             resourceDetail.init();
@@ -144,7 +145,6 @@
                 return vitoopApp.initTable(
                     this.$route.name,
                     this.isAdmin !== null,
-                    0,
                     this.getResource('id') !== null && this.$store.state.inProject, // isCoef
                     `/api/resource/${this.$route.name}?${this.tagParams}`,
                 ).on('draw', () => {

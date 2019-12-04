@@ -18,8 +18,8 @@ export default class VitoopApp {
         this.tagSearch = new TagSearch();
     }
 
-    initTable(resType, isAdmin, isEdit, isCoef, url, resourceId) {
-        this.vtpDatatable = new VtpDatatable(resType, isAdmin, isEdit, isCoef, url, resourceId);
+    initTable(resType, isAdmin, isCoef, url, resourceId) {
+        this.vtpDatatable = new VtpDatatable(resType, isAdmin, isCoef, url, resourceId);
         let self = this;
         if (vitoopState.state.user) {
             this.vtpDatatable.changeFontSizeByUserSettings();
