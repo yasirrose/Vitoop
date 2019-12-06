@@ -22,7 +22,7 @@ export default class VtpDatatable {
 
     init() {
         let self = this;
-        vitoopState.commit('setResourceType', this.resType);
+        // vitoopState.commit('setResourceType', this.resType);
         self.sendLinkWidget.checkOpenButtonState();
 
         let datatable = $(this.datatableListId).DataTable(this.getDatatableOptions());
@@ -212,7 +212,7 @@ export default class VtpDatatable {
                                 divider = divider.text;
                             }
                             if (editMode) {
-                                $(this).parent().parent().before($('<div class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 96px; padding-top: 4px"><span>'+ ~~ currentCoefficient+'</span></div><div style="width: 990px"><input class="divider" type="text" data-coef="'+(~~currentCoefficient)+'" value="'+divider+'" data-original="'+divider+'"></div></div>'));
+                                // $(this).parent().parent().before($('<div class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 96px; padding-top: 4px"><span>'+ ~~ currentCoefficient+'</span></div><div style="width: 990px"><input class="divider" type="text" data-coef="'+(~~currentCoefficient)+'" value="'+divider+'" data-original="'+divider+'"></div></div>'));
                                 $('input.divider').on('focusout', function() {
                                     if ($(this).val() != $(this).data('original')) {
                                         $('.vtp-uiaction-coefficient, input.divider').attr('disabled', true);
@@ -240,7 +240,7 @@ export default class VtpDatatable {
                                     }
                                 });
                             } else {
-                                $(this).parent().parent().before($('<div style="height: 18px; padding-top: 4px;" class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 116px; padding-left: 15px"><span>'+ ~~ currentCoefficient+'</span></div><div><span class="divider">'+divider+'</span></span></div></div>'));
+                                // $(this).parent().parent().before($('<div style="height: 18px; padding-top: 4px;" class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 116px; padding-left: 15px"><span>'+ ~~ currentCoefficient+'</span></div><div><span class="divider">'+divider+'</span></span></div></div>'));
                             }
                         }
                         upperCoefficient = currentCoefficient;
@@ -253,6 +253,12 @@ export default class VtpDatatable {
     dtRowCallback(row, data, index) {
         let apiPage = this.api().page;
         let resType = $(this.api().table().node()).data('restype');
+        if (data.id === null) {
+            $(row).addClass('divider-wrapper');
+        }
+        if (vitoopState.state.edit) {
+            $(row).addClass('edit-mode');
+        }
         $(row).removeClass('vtp-list-first vtp-list-end vtp-list-last vtp-list-start');
         $(row).addClass('ui-corner-all vtp-uiaction-list-showdetail');
         $(row).attr('id', resType+'-'+data.id);
@@ -393,7 +399,7 @@ export default class VtpDatatable {
             if (vitoopState.state.admin) {
                 columns.push(this.getIsDownloadedColumn());
             }
-            columns.push(this.getPdfUrlValue());
+            columns.push(this.getUrlColumn());
             return columns;
         }
         if (this.resType == 'teli') {
@@ -461,24 +467,28 @@ export default class VtpDatatable {
     getCheckboxColumn() {
         let self = this;
         return {
-            'searchable':false,
-            'orderable':false,
-            'width':'20px',
-            'render': function (data, type, full, meta) {
-                let checkedResources = self.datastorage.getObject(self.resType +'-checked');
-                return `
-                    <label class="custom-checkbox__wrapper no-title light">
-                        <input 
-                            class="valid-checkbox open-checkbox-link" 
-                            title="anhaken für weitere Verwendung: öffnen/mailen"
-                            type="checkbox"
-                            ${full.id in checkedResources ? 'checked': ''} />
-                            <span class="custom-checkbox">
-                                <img class="custom-checkbox__check"
-                                     src="../../img/check.png" />
-                            </span>
-                    </label>
-                `;
+            searchable:false,
+            orderable:false,
+            width:'20px',
+            render: (data, type, full, meta) => {
+                if (full.id !== null) {
+                    let checkedResources = this.datastorage.getObject(this.resType + '-checked');
+                    return `
+                        <label class="custom-checkbox__wrapper no-title light">
+                            <input 
+                                class="valid-checkbox open-checkbox-link" 
+                                title="anhaken für weitere Verwendung: öffnen/mailen"
+                                type="checkbox"
+                                ${full.id in checkedResources ? 'checked' : ''} />
+                                <span class="custom-checkbox">
+                                    <img class="custom-checkbox__check"
+                                         src="../../img/check.png" />
+                                </span>
+                        </label>
+                    `;
+                } else {
+                    return null;
+                }
             }
         };
     }
@@ -516,19 +526,36 @@ export default class VtpDatatable {
     }
 
     getDateValue(data, type, row, meta) {
-        return moment(data).format('DD.MM.YYYY');
+        return row.id !== null ? moment(data).format('DD.MM.YYYY') : null;
     }
 
-    getWrapperForTextValue(data, type, row, meta) {
-        return '<div class="vtp-teasefader-wrapper">'+data+'<div class="vtp-teasefader"></div></div>';
+    getWrapperForTextValue(data, type, row) {
+        if (row.id !== null)
+            return '<div class="vtp-teasefader-wrapper">'+data+'<div class="vtp-teasefader"></div></div>'
+        else
+            return this.getDividerName(row)
+    }
+
+    getDividerName(row) {
+        return !vitoopState.state.edit ? row.text :
+            `<input class="divider" type="text" data-coef="${row.coef}" value="${row.text}" data-original="${row.text}">`
     }
 
     getNameColumn() {
-        return {"data": "name", "render": this.getWrapperForTextValue};
+        return {
+            data: "name",
+            className: 'name-column',
+            render: (data, type, row) => this.getWrapperForTextValue(data, type, row)
+        }
     }
 
     getAuthorColumn() {
-        return {"data": "author", "render": this.getWrapperForTextValue};
+        return {
+            data: "author",
+            render: (data,type,row) => {
+                return row.id !== null ? this.getWrapperForTextValue(data,type,row) : null;
+            }
+        };
     }
 
     getTnopColumn() {
@@ -539,7 +566,7 @@ export default class VtpDatatable {
         return {"data": "res12count", orderSequence: [ "desc", "asc"]};
     }
 
-    getRatingValue(data, type, row, meta) {
+    getRatingValue(data, type) {
         let hint, image;
         if (type == "display") {
             if (data == null) {
@@ -554,27 +581,31 @@ export default class VtpDatatable {
                     image = 'm' + Math.abs(image);
                 }
             }
-
             return '<div class="vtp-rating-image-small" title="'+hint+'" style="background-image: url(\'/img/rating/rating_'+image+'.png\')"><span>&nbsp;</span></div>';
         } else {
             let temp = 0;
             if (data != null) {
                 temp = data;
             }
-
             return temp;
         }
     }
 
     getRatingColumn() {
-        return {"data": "avgmark", "render": this.getRatingValue, orderSequence: [ "desc", "asc"]};
+        return {
+            data: "avgmark",
+            render: (data,type,row) => row.id !== null ? this.getRatingValue(data,type) : null,
+            orderSequence: [ "desc", "asc"]};
     }
 
     getOwnerColumn() {
-        return {"data": "username", "render": this.getWrapperForTextValue};
+        return {
+            "data": "username",
+            render: (data,type,row) => row.id !== null ? this.getWrapperForTextValue(data,type,row) : null
+        };
     }
 
-    getIsDownloadedValue(data, type, row, meta) {
+    getIsDownloadedValue(data, type) {
         if (type == "display") {
             if (data == 0) {
                 return 'Soon';
@@ -589,10 +620,10 @@ export default class VtpDatatable {
     }
 
     getIsDownloadedColumn() {
-        return {"data": "isDownloaded", "render": this.getIsDownloadedValue};
+        return {"data": "isDownloaded", "render": (data,type,row) => row.id !== null ? this.getIsDownloadedValue(data,type) : null};
     }
 
-    getUrlValue(url, type, row, meta) {
+    getUrlValue(url) {
         return '<a class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink" href="'+url+'" target="_blank"><span class="ui-icon ui-icon-extlink">-></span></a>';
     }
 
@@ -612,27 +643,24 @@ export default class VtpDatatable {
             return VtpDatatable.prototype.getInternalUrlValue(vitoop.baseUrl+'project/'+data, type, row, meta);
         }
 
-        return '<span class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink"  style="background-color: #DDDDDD"><span class="ui-icon ui-icon-extlink">-></span></span>';
+        return `<span class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink disabled"
+                    style="background-color: #DDDDDD">
+                    <span class="ui-icon ui-icon-extlink">-></span>
+                </span>`;
     }
 
     getLexiconUrlValue(data, type, row, meta) {
         return VtpDatatable.prototype.getInternalUrlValue(vitoop.baseUrl+'lexicon/'+data, type, row, meta);
     }
 
-    getPdfUrlValue() {
-        if (vitoopState.state.edit) {
-            return this.getUnlinkColumn();
-        }
-
-        return {"data": "url", "render": this.getUrlValue}; //getResourceViewValue
-    }
-
     getUrlColumn() {
         if (vitoopState.state.edit) {
-            return this.getUnlinkColumn();
+            return {
+                render: (data,type,row) => row.id !== null ? this.getUnlinkColumn() : null
+            }
         }
 
-        return {"data": "url", "render": this.getUrlValue};
+        return {"data": "url", render: (url,type,row) => row.id !== null ? this.getUrlValue(url) : null};
     }
 
     getLexiconUrlColumn() {
@@ -644,14 +672,22 @@ export default class VtpDatatable {
     }
 
     getProjectUrlColumn() {
-        return {"data": "id", "render": this.getProjectUrlValue};
+        return {
+            "data": "id",
+            render: (data,type,row,meta) => row.id !== null ? this.getProjectUrlValue(data, type, row, meta) : null
+        };
     }
 
     getUrlTextColumn() {
-        return {"data": "url", "render": this.getWrapperForTextValue};
+        return {
+            "data": "url",
+            render: (data,type,row) => {
+                return row.id !== null ? this.getWrapperForTextValue(data,type,row) : null;
+            }
+        };
     }
 
-    getIsHpValue(data, type, row, meta) {
+    getIsHpValue(data) {
         if (data) {
             return 'ja';
         }
@@ -660,7 +696,10 @@ export default class VtpDatatable {
     }
 
     getIsHpColumn() {
-        return {"data": "is_hp", "render": this.getIsHpValue};
+        return {
+            data: "is_hp",
+            render: (data,type,row) => row.id !== null ? this.getIsHpValue : null
+        };
     }
 
     getMapsLinkValue(data, type, row, meta) {
@@ -676,11 +715,13 @@ export default class VtpDatatable {
     }
 
     getCityColumn() {
-        return {"data": "city", "render": this.getWrapperForTextValue};
+        return {"data": "city", "render": (data,type,row) => row.id !== null ? this.getWrapperForTextValue(data,type,row) : null};
     }
 
     getZipColumn() {
-        return {"data": "zip"};
+        return {
+            "data": "zip"
+        };
     }
 
     getUnlinkValue(data, type, row, meta) {

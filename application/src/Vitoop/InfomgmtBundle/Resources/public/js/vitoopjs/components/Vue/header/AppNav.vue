@@ -82,6 +82,7 @@
                 this.$router.push('/userhome');
             },
             changeRoute(name) {
+                vitoopState.commit('setResourceType', name);
                 this.$router.push(`/${name}`);
             }
         }

@@ -84,7 +84,8 @@ class ProjectController extends ApiController
         $total = $resourceManager->getRepository($resType)->getResourcesTotal($search);
 
         return $this->getApiResponse([
-            'total' => $total,
+            'recordsTotal' => $total,
+            'recordsFiltered' => $total,
             'data' => $resources,
             'resourceInfo' => $this->resourceRepository->getCountByTags($search)
         ]);

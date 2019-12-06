@@ -62,6 +62,7 @@
         },
         beforeCreate() {
             this.$store.commit('set', {key: 'edit', value: false});
+            this.$store.commit('set', {key: 'inProject', value: false});
             axios('/api/help')
                 .then(({data}) => {
                     // data.isAdmin = false;

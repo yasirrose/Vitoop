@@ -1316,22 +1316,41 @@ input.divider {
     padding-left: 35px;
 }
 
-div.divider-wrapper {
-    background: $vitoop-even-background-color;
-    background: -moz-linear-gradient(right,  #deedf7 0%, #cbebff 47%, #a3d4f0 100%);
-    background: -webkit-gradient(linear, right top, left top, color-stop(0%,#deedf7), color-stop(47%,#cbebff), color-stop(100%,#a3d4f0));
-    background: -webkit-linear-gradient(right,  #deedf7 0%,#cbebff 47%,#a3d4f0 100%);
-    background: -o-linear-gradient(right,  #deedf7 0%,#cbebff 47%,#a3d4f0 100%);
-    background: -ms-linear-gradient(right,  #deedf7 0%,#cbebff 47%,#a3d4f0 100%);
-    background: linear-gradient(to left,  #deedf7 0%,#cbebff 47%,#a3d4f0 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a3d4f0', endColorstr='#deedf7',GradientType=1 );
-    border: $blue-frame-border;
-    width: 1125px;
-    padding-left: 14px;
-    font-size: 12px;
-    font-weight: bolder;
-    height: 21px;
-    display: inline-flex
+#vtp-res-list {
+    .divider-wrapper {
+        background: $vitoop-even-background-color;
+        background: -moz-linear-gradient(right,  #deedf7 0%, #cbebff 47%, #a3d4f0 100%);
+        background: -webkit-gradient(linear, right top, left top, color-stop(0%,#deedf7), color-stop(47%,#cbebff), color-stop(100%,#a3d4f0));
+        background: -webkit-linear-gradient(right,  #deedf7 0%,#cbebff 47%,#a3d4f0 100%);
+        background: -o-linear-gradient(right,  #deedf7 0%,#cbebff 47%,#a3d4f0 100%);
+        background: -ms-linear-gradient(right,  #deedf7 0%,#cbebff 47%,#a3d4f0 100%);
+        background: linear-gradient(to left,  #deedf7 0%,#cbebff 47%,#a3d4f0 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a3d4f0', endColorstr='#deedf7',GradientType=1 );
+        border: $blue-frame-border;
+        padding-left: 14px;
+        font-size: 12px;
+        font-weight: bolder;
+        height: 21px;
+
+        td {
+            background: transparent !important;
+            border-top: $blue-frame-border !important;
+            border-bottom: $blue-frame-border !important;
+        }
+
+        &:not(.edit-mode) {
+
+            td.name-column {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: block;
+                height: 20px;
+                width: 750px;
+                padding-top: 4px;
+            }
+        }
+    }
 }
 
 #vtp-search-bytags-form {

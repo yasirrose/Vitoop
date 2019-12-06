@@ -95,11 +95,11 @@
             },
             resetResource(redirectTo) {
                 this.$store.commit('resetResource');
+                if (redirectTo === '/prj') this.$store.commit('setInProject', false);
                 if (redirectTo !== this.$route.path)
                     this.$router.push(redirectTo)
                 else
                     VueBus.$emit('datatable:reload');
-                if (redirectTo === '/prj') this.$store.commit('setInProject', false);
             }
         }
     }

@@ -113,6 +113,11 @@
                     return params.join('&');
                 }
                 return null
+            },
+            currentURL() {
+                return this.get('inProject') ?
+                    `/api/v1/projects/${this.getResource('id')}/${this.getResource('type')}` :
+                    `/api/resource/${this.$route.name}`;
             }
         },
         updated() {
@@ -137,7 +142,7 @@
                 if (/prj|lex/.test(this.$route.name)) {
                     $('.vtp-uiaction-open-extlink').on('click', (e) => {
                         e.preventDefault();
-                        this.$router.push(e.currentTarget.pathname);
+                        if (!e.currentTarget.classList.contains('disabled')) this.$router.push(e.currentTarget.pathname);
                     });
                 }
             },
@@ -146,7 +151,7 @@
                     this.$route.name,
                     this.isAdmin !== null,
                     this.getResource('id') !== null && this.$store.state.inProject, // isCoef
-                    `/api/resource/${this.$route.name}?${this.tagParams}`,
+                    `${this.currentURL}?${this.tagParams}`,
                 ).on('draw', () => {
                     this.onTableDraw();
                 })
