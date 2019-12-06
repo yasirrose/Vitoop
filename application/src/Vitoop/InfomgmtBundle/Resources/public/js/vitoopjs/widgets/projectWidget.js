@@ -13,6 +13,9 @@ export default class ProjectWidget extends Widget {
 
     init() {
         let self = this;
+        const userProjectsNumber = $('#project_name_name option').length;
+        const noProjectsElm = document.querySelector('#vtp-projectbox-no-project');
+        if (noProjectsElm !== null) noProjectsElm.style.display = userProjectsNumber > 1 ? 'none' : 'block';
         $(self.buttonSaveId).on('click', function() {
             $('#tab-title-rels').removeClass('ui-state-no-content');
         });

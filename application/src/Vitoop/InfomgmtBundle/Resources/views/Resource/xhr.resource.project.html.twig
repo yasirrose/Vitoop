@@ -18,11 +18,11 @@
     <div id="vtp-projectbox" class="vtp-collectionbox ui-corner-all">
         {% for everyproject in projects %}
             <span class="vtp-projectbox-project ui-corner-all">
-               <span class="vtp-icon-prj ui-icon ui-icon-folder-open"></span>
+                <span class="vtp-icon-prj ui-icon ui-icon-folder-open"></span>
                 {{ everyproject.name }}
             </span>
         {% else %}
-            {{ 'You don\'t have a project jet'|trans }}
+            <div id="vtp-projectbox-no-project">{{ 'You don\'t have a project jet'|trans }}</div>
         {% endfor %}
     </div>
 </fieldset>
