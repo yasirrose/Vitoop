@@ -533,6 +533,10 @@ window.resourceDetail = (function () {
         showDialog = function (e) {
             var current_tr_res;
             current_tr_res = $(e.target).parentsUntil('.vtp-uiaction-list-listener', '.vtp-uiaction-list-showdetail');
+            if (current_tr_res.hasClass('divider-wrapper')) {
+                e.preventDefault();
+                return
+            }
             if (current_tr_res.length === 0) {
                 return true;
             }
