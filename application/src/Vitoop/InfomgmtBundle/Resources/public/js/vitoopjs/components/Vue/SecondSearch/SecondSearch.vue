@@ -49,17 +49,12 @@
                 </div>
             </div>
             <div id="vtp-second-search-panel">
-                <div id="vtp-second-search-is-read">
-                    <label>
-                        <input type="checkbox"
-                               value="1"
-                               v-model="isRead">
-                        <span class="ui-button ui-state-default ui-widget ui-corner-all vtp-button"
-                              :class="{ 'ui-state-active': isRead }">
-                            {{ getReadButtonLabel }}
-                        </span>
-                    </label>
-                </div>
+                    <span class="ui-button ui-state-default ui-widget ui-corner-all vtp-button"
+                          id="vtp-second-search-is-read"
+                          @click="isReadToggle"
+                          :class="{ 'ui-state-active': $store.state.secondSearch.isReadFilter }">
+                        {{ getReadButtonLabel }}
+                    </span>
                 <label style="position: relative">
                     <input type="search"
                            class="vtp-second-search-input"
@@ -84,7 +79,6 @@
         name: "SecondSearch",
         data: function() {
             return {
-
                 artOptions: [
                     {label: 'Bücher-Auswahl', value: ''},
                     {label: 'XX', value: 'auswählen'},
@@ -112,15 +106,6 @@
                 },
                 set(value) {
                     this.$store.commit('updateBlueFilter', value ? 1 : 0);
-                    vitoopApp.vtpDatatable && vitoopApp.vtpDatatable.refreshTable();
-                }
-            },
-            isRead: {
-                get() {
-                    return this.$store.state.secondSearch.isReadFilter;
-                },
-                set(value) {
-                    this.$store.commit('updateReadFilter', value ? 1 : 0);
                     vitoopApp.vtpDatatable && vitoopApp.vtpDatatable.refreshTable();
                 }
             },
@@ -181,6 +166,10 @@
             }
         },
         methods: {
+            isReadToggle() {
+                this.$store.commit('updateReadFilter', !this.$store.state.secondSearch.isReadFilter ? 1 : 0);
+                vitoopApp.vtpDatatable && vitoopApp.vtpDatatable.refreshTable();
+            },
             getLabelForArtFilterOption(value) {
                 for (let i = 0; i < this.artOptions.length; i++) {
                     if (this.artOptions[i].value == value) {
@@ -230,20 +219,13 @@
     }
 
     #vtp-second-search-is-read{
-        float: left;
-
-        input[type=checkbox] {
-            display: none;
-        }
-
-        span {
-            height: 22px;
-            padding: 0px 13px;
-            line-height: 17px;
-            font-size: 90%;
-            vertical-align: middle;
-            margin-right: 4px;
-        }
+        height: 22px;
+        padding: 0px 15px;
+        font-size: 90%;
+        margin-right: 4px;
+        display: flex;
+        align-items: center;
+        line-height: 1.3;
     }
 
     #vtp-second-search-box::v-deep {

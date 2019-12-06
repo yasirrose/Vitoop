@@ -62,6 +62,7 @@
                         this.$store.commit('setResourceId', this.$route.params.projectId);
                         VueBus.$emit('project:loaded', data.project);
                     } else {
+                        this.$store.commit('set', {key: 'inProject', value: false});
                         this.$store.commit('resetResource');
                     }
                 })

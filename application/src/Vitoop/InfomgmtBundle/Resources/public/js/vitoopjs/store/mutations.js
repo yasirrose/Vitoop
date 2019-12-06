@@ -37,23 +37,23 @@ export default {
     },
     updateBlueFilter: function (state, value) {
         state.secondSearch.isBlueFilter = value;
-        this.commit('checkIsNotEmptySearchToggle');
+        // this.commit('checkIsNotEmptySearchToggle');
     },
     updateReadFilter: function (state, value) {
         state.secondSearch.isReadFilter = value;
-        this.commit('checkIsNotEmptySearchToggle');
+        // this.commit('checkIsNotEmptySearchToggle');
     },
     updateArtFilter: function (state, value) {
         state.secondSearch.artFilter = value;
-        this.commit('checkIsNotEmptySearchToggle');
+        // this.commit('checkIsNotEmptySearchToggle');
     },
     updateDateFrom: function (state, value) {
         state.secondSearch.dateFrom = value;
-        this.commit('checkIsNotEmptySearchToggle');
+        // this.commit('checkIsNotEmptySearchToggle');
     },
     updateDateTo: function (state, value) {
         state.secondSearch.dateTo = value;
-        this.commit('checkIsNotEmptySearchToggle');
+        // this.commit('checkIsNotEmptySearchToggle');
     },
     updateSearchToggle: function (state, value) {
         state.searchToggler.isOpened = value;
