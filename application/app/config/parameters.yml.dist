@@ -16,3 +16,5 @@ parameters:
 
     download_folder:   ~
     wkhtmltopdf_bin:   ~
+
+    max_idle_time: 7200
