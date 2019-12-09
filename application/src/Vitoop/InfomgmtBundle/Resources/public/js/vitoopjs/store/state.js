@@ -32,6 +32,7 @@ export default {
     tags: [],
     tags_h: [],
     tags_i: [],
+    tagcnt: null,
     user: null,
     admin: false,
     help: {

@@ -113,6 +113,7 @@ export default class VtpDatatable {
             ajax: {
                 url:  this.url,
                 data: (data) => {
+                    data.tagcnt = vitoopState.state.tagcnt;
                     if (vitoopState.state.table.flagged) {
                         data.flagged = true;
                     }

@@ -22,6 +22,7 @@
                         size="1"
                         style="width: 52px">
                     <option value="">-</option>
+<!--                    <option :value="i" v-for="i in []">{{ i }}</option>-->
     <!--                {% for i in 1..9 %}-->
     <!--                <option value="{{ i }}" {{ ((tagcnt is defined) and (tagcnt == i) ) ? 'selected' : '' }}>{{ i }}</option>-->
     <!--                {% endfor %}-->
@@ -245,8 +246,8 @@
                 $('#vtp-search-bytags-tagcnt').on('selectmenuchange', () => {
                     this.tagcnt = +$('#vtp-search-bytags-tagcnt').val();
                     $('#vtp-search-bytags-form-submit').addClass('act');
+                    this.$store.commit('set', {key: 'tagcnt', value: this.tagcnt});
                     this.saveTagsToStorage();
-                    resourceList.maintainResLinks({'tagcnt': this.tagcnt});
                 });
 
                 this.maintainCntTags();
@@ -412,6 +413,8 @@
 <style scoped lang="scss">
     #vtp-search-bytags-taglistbox {
         display: flex;
+        padding-right: 45px;
+        flex-wrap: wrap;
 
         .vtp-search-bytags-tag {
             display: flex;
