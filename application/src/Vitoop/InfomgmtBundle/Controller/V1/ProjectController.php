@@ -80,8 +80,19 @@ class ProjectController extends ApiController
             $request->query->get('art', null)
         );
 
-        $resources = $resourceManager->getRepository($resType)->getResourcesWithDividers($search);
-        $total = $resourceManager->getRepository($resType)->getResourcesTotal($search);
+        $resourceRepository = $resourceManager->getRepository($resType);
+        $resources = $resourceRepository->getResourcesWithDividers($search);
+        $total = $resourceRepository->getResourcesTotal($search);
+
+        if ('prj' === $resType) {
+            foreach ($resources as &$resource) {
+                if (null === $resource['id']) {
+                    continue;
+                }
+                $project = $resourceRepository->find($resource['id']);
+                $resource['canRead'] = $project->getProjectData()->availableForReading($this->getUser());
+            }
+        }
 
         return $this->getApiResponse([
             'recordsTotal' => $total,
