@@ -126,6 +126,8 @@
                 $('.DataTables_sort_icon').addClass('css_right ui-icon ui-icon-carat-2-n-s');
         },
         mounted() {
+            if (this.getResource('id') !== null)
+                this.$store.commit('updateTableRowNumber', +this.$store.state.table.rowNumber - 1);
             resourceDetail.init();
             this.datatable = this.initTable();
             $('.DataTables_sort_icon').addClass('css_right ui-icon ui-icon-carat-2-n-s');
