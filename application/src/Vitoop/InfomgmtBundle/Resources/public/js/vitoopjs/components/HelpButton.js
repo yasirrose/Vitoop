@@ -1,4 +1,5 @@
 import TinyMCEInitializer from "./TinyMCEInitializer";
+import MarkJs from "mark.js/dist/mark.min"
 
 export default class HelpButton {
     constructor(){
@@ -7,8 +8,14 @@ export default class HelpButton {
         this.resetScroll();
         this.inDialog = false;
         let self = this;
+        this.search = document.createElement('div');
+        this.markNum = 0;
+
+        this.search.innerHTML = '<input type="text" /><i class="fas fa-search"></i>';
+        this.search.setAttribute('id', 'vtp-search-input');
 
         $(this.helpPopupId).dialog({
+            draggable: false,
             autoOpen: false,
             width: 850,
             height: 570,
@@ -18,6 +25,8 @@ export default class HelpButton {
                 this.loadContent();
             },
             close: () => {
+                this.search.querySelector('input').value = null;
+                this.search.remove();
                 tinyMCE.remove('textarea#help-text');
                 $('#vtp-res-dialog-help').empty();
                 if (this.inDialog) {
@@ -32,12 +41,13 @@ export default class HelpButton {
         });
     }
     loadContent() {
-        let self = this;
         $.ajax({
             url: vitoop.baseUrl +'api/help',
             method: 'GET',
-            success: function(answer) {
-                self.isAdmin = answer.isAdmin;
+            success: answer => {
+                this.isAdmin = answer.isAdmin;
+                document.querySelector('#ui-id-1').after(this.search);
+
                 if (answer.isAdmin) {
                     let element = $(`
                         <input type="hidden" id="help-id" value="' + answer.help.id + '">
@@ -62,9 +72,16 @@ export default class HelpButton {
                     options.convert_urls = true;
                     options.toolbar = 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink | code';
 
+                    options.setup = (editor) => {
+                        editor.on('init', (e) => {
+                            const context = e.target.dom.doc.querySelector('html');
+                            this.searchText(context);
+                        })
+                    };
+
                     tinyMCE.init(options)
                         .then(() => {
-                            self.scroll();
+                            this.scroll();
                         });
 
                     $('#button-help-save').on('click', function() {
@@ -84,6 +101,8 @@ export default class HelpButton {
                     });
                 } else {
                     $('#vtp-res-dialog-help').append(answer.help.text);
+                    const context = document.querySelector('#vtp-res-dialog-help');
+                    this.searchText(context);
                 }
             }
         });
@@ -110,5 +129,27 @@ export default class HelpButton {
         }
 
         $(this.helpPopupId).find(this.currentElementId).get(0).scrollIntoView();
+    }
+    searchText(context) {
+        const instance = new MarkJs(context);
+        this.search.addEventListener('input', (e) => {
+            instance.unmark({
+                done: () => {
+                    instance.mark(e.target.value, {separateWordSearch: false});
+                    this.markNum = 0;
+                }
+            });
+        });
+
+        this.search.addEventListener('keyup', (e) => {
+            const marks = context.querySelectorAll('mark');
+            if (e.key === 'Enter' && !e.shiftKey && marks.length > 0 && this.markNum < marks.length) {
+                context.scrollTop = marks[this.markNum].offsetTop;
+                this.markNum++;
+            } else if (e.shiftKey && this.markNum > 0) {
+                this.markNum--;
+                context.scrollTop = marks[this.markNum].offsetTop;
+            }
+        });
     }
 }

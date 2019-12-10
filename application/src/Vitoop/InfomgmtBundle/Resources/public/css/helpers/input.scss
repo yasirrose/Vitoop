@@ -64,3 +64,29 @@
     opacity: 0;
   }
 }
+
+#vtp-search-input {
+  input {
+    height: 18px;
+    background: #ffffff8f;
+    margin-right: 23px;
+    border-radius: 5px;
+    padding: 0 20px 0 5px;
+    width: 100px;
+    color: #3d80b3;
+  }
+
+  i.fa-search {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 43px;
+    font-size: 11px;
+    color: #3d80b3;
+  }
+}
+
+mark {
+  background-color: #3d80b3;
+  color: white;
+}
