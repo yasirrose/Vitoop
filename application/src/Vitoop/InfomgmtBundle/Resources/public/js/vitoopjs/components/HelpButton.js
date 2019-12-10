@@ -11,7 +11,7 @@ export default class HelpButton {
         this.search = document.createElement('div');
         this.markNum = 0;
 
-        this.search.innerHTML = '<input type="text" /><i class="fas fa-search"></i>';
+        this.search.innerHTML = '<input type="text" placeholder="Geben Sie den zu durchsuchenden Text ein..." /><i class="fas fa-search"></i>';
         this.search.setAttribute('id', 'vtp-search-input');
 
         $(this.helpPopupId).dialog({
