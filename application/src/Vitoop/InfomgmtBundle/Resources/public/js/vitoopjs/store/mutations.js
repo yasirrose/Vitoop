@@ -101,6 +101,7 @@ export default {
     },
     resetResource(state) {
         state.edit = false;
+        state.table.rowNumber++;
         Object.keys(state.resource).forEach(item => {
             state.resource[item] = null;
         })

@@ -1336,6 +1336,14 @@ input.divider {
             background: transparent !important;
             border-top: $blue-frame-border !important;
             border-bottom: $blue-frame-border !important;
+
+            &:first-child {
+                border-left: $blue-frame-border !important;
+            }
+
+            &:last-child {
+                border-right: $blue-frame-border !important;
+            }
         }
 
         &:not(.edit-mode) {
@@ -1345,10 +1353,14 @@ input.divider {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 display: block;
-                height: 20px;
+                height: 19px;
                 width: 750px;
-                padding-top: 4px;
+                padding-top: 3px;
             }
+        }
+
+        input.vtp-uiaction-coefficient {
+            height: 22px;
         }
     }
 }
