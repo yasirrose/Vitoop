@@ -52,13 +52,6 @@
             }
         },
         created() {
-
-            axios(`/api/project/${this.$route.params.projectId}`)
-                .then(response => {
-                    console.log(response);
-                })
-            .catch(err => console.dir(err));
-
             axios(`/api/v1/projects/${this.$route.params.projectId}`)
                 .then(({data}) => {
                     if (!data.hasOwnProperty('success')) {
