@@ -57,7 +57,6 @@ window.resourceDetail = (function () {
                         if (dateParts[0] < 10) {
                             dateParts[0] = '0' + parseInt(dateParts[0]);
                         }
-                        ;
                     }
                     $(elementId).val(dateParts.join('.'));
                 });
@@ -386,10 +385,10 @@ window.resourceDetail = (function () {
         },
 
         clearTabsClasses = function() {
-                clearTabsNoContent();
+            clearTabsNoContent();
 
-                //reset tinymce
-                resetTinyMce();
+            //reset tinymce
+            resetTinyMce();
         },
 
         clearTabsNoContent = function () {
@@ -591,6 +590,9 @@ window.resourceDetail = (function () {
                 loadTab(undefined, 0);
             }
             clearTabsClasses();
+
+            $('#vtp-res-dialog').dialog();
+
             $('#vtp-res-dialog').dialog('option', 'closeText', 'schließen');
             $('#vtp-res-dialog').dialog('open');
         },
