@@ -62,16 +62,14 @@
                         this.$store.commit('setResourceId', this.$route.params.projectId);
                         VueBus.$emit('project:loaded', data.project);
 
-                        setTimeout(() => {
-                            $('#vtp-projectdata-sheet-view').on('click', 'a', function (e) {
-                                let resourcesParts = this.href.match(/\/(\d+)/);
-                                if (resourcesParts !== null) {
-                                    e.preventDefault();
-                                    vitoopApp.openResourcePopup(resourcesParts[1]);
-                                    return false;
-                                }
-                            });
-                        }, 1000);
+                        $('#vtp-projectdata-sheet-view').on('click', 'a', function (e) {
+                            let resourcesParts = this.href.match(/\/(\d+)/);
+                            if (resourcesParts !== null) {
+                                e.preventDefault();
+                                vitoopApp.openResourcePopup(resourcesParts[1]);
+                                return false;
+                            }
+                        });
                     } else {
                         this.$store.commit('set', {key: 'inProject', value: false});
                         this.$store.commit('resetResource');
