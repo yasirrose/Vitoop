@@ -1,5 +1,5 @@
 <template>
-    <transition name="fade">
+    <transition name="slide">
         <div v-show="show"
              id="vtp-second-search-box"
              class="dataTables_filter ui-corner-all vtp-blue">
@@ -234,6 +234,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        transition: .3s;
 
         .dropdown {
             &.v-select {

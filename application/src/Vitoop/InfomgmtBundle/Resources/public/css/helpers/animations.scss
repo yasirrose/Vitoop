@@ -1,0 +1,31 @@
+.slide {
+
+  &-enter {
+    height: 0 !important;
+    opacity: 0 !important;
+    overflow: hidden !important;
+
+    &-to {
+      height: 24px !important;
+      opacity: 1 !important;
+    }
+
+    &-active {
+      transition: .3s !important;
+    }
+  }
+
+  &-leave {
+    opacity: 1 !important;
+
+    &-to {
+      height: 0 !important;
+      opacity: 0 !important;
+    }
+
+    &-active {
+      transition: .3s !important;
+      overflow: hidden !important;
+    }
+  }
+}
