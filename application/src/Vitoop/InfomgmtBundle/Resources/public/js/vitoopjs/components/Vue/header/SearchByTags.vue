@@ -411,6 +411,10 @@
 </script>
 
 <style scoped lang="scss">
+    #vtp-filterbox {
+        margin-top: 6px;
+    }
+
     #vtp-search-bytags-taglistbox {
         display: flex;
         padding-right: 45px;

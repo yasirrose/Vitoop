@@ -71,7 +71,7 @@
         },
         mounted() {
             if (this.resourceInfo !== null) {
-                this.$store.commit('setResourceType', '')
+                // this.$store.commit('setResourceType', '')
             }
             const resourceList = new ResourceList();
             resourceList.init();
