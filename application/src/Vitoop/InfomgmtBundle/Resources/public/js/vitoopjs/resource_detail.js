@@ -802,13 +802,7 @@ window.resourceDetail = (function () {
                     $(elemSuccess, '#vtp-context').hide("fade", 5000);
                 }, 2000);
             }
-            $('#vtp-uiaction-close-flagform').button({
-                icons: {
-                    primary: "ui-icon-close"
-                },
-                text: false,
-                label: "verwerfen"
-            });
+
             $('#vtp-res-flag-form form input[type=submit]').button({
                 icons: {
                     primary: "ui-icon-trash"

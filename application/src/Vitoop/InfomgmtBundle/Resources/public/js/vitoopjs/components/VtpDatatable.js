@@ -242,7 +242,6 @@ export default class VtpDatatable {
 
     dtRowCallback(row, data, index) {
         let apiPage = this.api().page;
-        let resType = $(this.api().table().node()).data('restype');
         if (data.id === null) {
             $(row).addClass('divider-wrapper');
         }
@@ -251,7 +250,8 @@ export default class VtpDatatable {
         }
         $(row).removeClass('vtp-list-first vtp-list-end vtp-list-last vtp-list-start');
         $(row).addClass('ui-corner-all vtp-uiaction-list-showdetail');
-        $(row).attr('id', resType+'-'+data.id);
+
+        row.setAttribute('id', `${vitoopState.state.resource.type}-${data.id}`);
 
         if (typeof(resourceId) != 'undefined' && resourceId == data.id) {
             $(row).addClass('show-popup');
@@ -688,7 +688,7 @@ export default class VtpDatatable {
     getIsHpColumn() {
         return {
             data: "is_hp",
-            render: (data,type,row) => row.id !== null ? this.getIsHpValue : null
+            render: (data,type,row) => row.id !== null ? this.getIsHpValue(data) : null
         };
     }
 
