@@ -28,9 +28,6 @@
                     <p>{{ $t('label.address') }}: <span>{{ resourceInfo.adrc }}</span></p>
                 </div>
             </div>
-            <div v-else>
-                Projekt ist für diesen Benutzer nicht verfügbar
-            </div>
         </fieldset>
     </div>
 </template>
@@ -62,13 +59,15 @@
                         this.$store.commit('setResourceId', this.$route.params.projectId);
                         VueBus.$emit('project:loaded', data.project);
 
-                        $('#vtp-projectdata-sheet-view').on('click', 'a', function (e) {
-                            let resourcesParts = this.href.match(/\/(\d+)/);
-                            if (resourcesParts !== null) {
-                                e.preventDefault();
-                                vitoopApp.openResourcePopup(resourcesParts[1]);
-                                return false;
-                            }
+                        setTimeout(() => {
+                            $('#vtp-projectdata-sheet-view').on('click', 'a', function (e) {
+                                let resourcesParts = this.href.match(/\/(\d+)/);
+                                if (resourcesParts !== null) {
+                                    e.preventDefault();
+                                    vitoopApp.openResourcePopup(resourcesParts[1]);
+                                    return false;
+                                }
+                            });
                         });
                     } else {
                         this.$store.commit('set', {key: 'inProject', value: false});
