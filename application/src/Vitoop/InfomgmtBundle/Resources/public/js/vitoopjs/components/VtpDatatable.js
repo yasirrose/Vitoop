@@ -227,16 +227,8 @@ export default class VtpDatatable {
                                             success: function () {
                                                 $('.vtp-uiaction-coefficient, input.divider').attr('disabled', false);
                                                 $(this).data('original', $(this).val());
-                                                // $('#vtp-projectdata-project-live').show(600);
                                             }
                                         });
-                                    }
-                                });
-                                $('input.divider').on('change keyup', function() {
-                                    if ($(this).val() != $(this).data('original')) {
-                                        // $('#vtp-projectdata-project-live').hide(600);
-                                    } else {
-                                        // $('#vtp-projectdata-project-live').show(600);
                                     }
                                 });
                             }
