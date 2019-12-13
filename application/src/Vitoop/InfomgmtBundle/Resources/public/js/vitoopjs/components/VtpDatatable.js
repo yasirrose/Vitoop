@@ -213,7 +213,6 @@ export default class VtpDatatable {
                                 divider = divider.text;
                             }
                             if (editMode) {
-                                // $(this).parent().parent().before($('<div class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 96px; padding-top: 4px"><span>'+ ~~ currentCoefficient+'</span></div><div style="width: 990px"><input class="divider" type="text" data-coef="'+(~~currentCoefficient)+'" value="'+divider+'" data-original="'+divider+'"></div></div>'));
                                 $('input.divider').on('focusout', function() {
                                     if ($(this).val() != $(this).data('original')) {
                                         $('.vtp-uiaction-coefficient, input.divider').attr('disabled', true);
@@ -228,20 +227,18 @@ export default class VtpDatatable {
                                             success: function () {
                                                 $('.vtp-uiaction-coefficient, input.divider').attr('disabled', false);
                                                 $(this).data('original', $(this).val());
-                                                $('#vtp-projectdata-project-live').show(600);
+                                                // $('#vtp-projectdata-project-live').show(600);
                                             }
                                         });
                                     }
                                 });
                                 $('input.divider').on('change keyup', function() {
                                     if ($(this).val() != $(this).data('original')) {
-                                        $('#vtp-projectdata-project-live').hide(600);
+                                        // $('#vtp-projectdata-project-live').hide(600);
                                     } else {
-                                        $('#vtp-projectdata-project-live').show(600);
+                                        // $('#vtp-projectdata-project-live').show(600);
                                     }
                                 });
-                            } else {
-                                // $(this).parent().parent().before($('<div style="height: 18px; padding-top: 4px;" class="vtp-uiaction-coefficient ui-corner-all divider-wrapper"><div style="width: 116px; padding-left: 15px"><span>'+ ~~ currentCoefficient+'</span></div><div><span class="divider">'+divider+'</span></span></div></div>'));
                             }
                         }
                         upperCoefficient = currentCoefficient;
