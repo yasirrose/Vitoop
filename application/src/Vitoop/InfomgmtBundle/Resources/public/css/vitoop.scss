@@ -1320,13 +1320,13 @@ input.divider {
 
 #vtp-res-list {
     .divider-wrapper {
-        background: $vitoop-even-background-color;
-        background: -moz-linear-gradient(right,  #deedf7 0%, #cbebff 47%, #a3d4f0 100%);
-        background: -webkit-gradient(linear, right top, left top, color-stop(0%,#deedf7), color-stop(47%,#cbebff), color-stop(100%,#a3d4f0));
-        background: -webkit-linear-gradient(right,  #deedf7 0%,#cbebff 47%,#a3d4f0 100%);
-        background: -o-linear-gradient(right,  #deedf7 0%,#cbebff 47%,#a3d4f0 100%);
-        background: -ms-linear-gradient(right,  #deedf7 0%,#cbebff 47%,#a3d4f0 100%);
-        background: linear-gradient(to left,  #deedf7 0%,#cbebff 47%,#a3d4f0 100%);
+        //background: $vitoop-even-background-color;
+        //background: -moz-linear-gradient(right,  #deedf7 0%, #cbebff 47%, #a3d4f0 100%);
+        //background: -webkit-gradient(linear, right top, left top, color-stop(0%,#deedf7), color-stop(47%,#cbebff), color-stop(100%,#a3d4f0));
+        //background: -webkit-linear-gradient(right,  #deedf7 0%,#cbebff 47%,#a3d4f0 100%);
+        //background: -o-linear-gradient(right,  #deedf7 0%,#cbebff 47%,#a3d4f0 100%);
+        //background: -ms-linear-gradient(right,  #deedf7 0%,#cbebff 47%,#a3d4f0 100%);
+        //background: linear-gradient(to left,  #deedf7 0%,#cbebff 47%,#a3d4f0 100%);
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a3d4f0', endColorstr='#deedf7',GradientType=1 );
         border: $blue-frame-border;
         padding-left: 14px;
@@ -1335,12 +1335,21 @@ input.divider {
         height: 21px;
 
         td {
-            background: transparent !important;
+            background: #deedf7 !important;
             border-top: $blue-frame-border !important;
             border-bottom: $blue-frame-border !important;
 
             &:first-child {
                 border-left: $blue-frame-border !important;
+                background: #a3d4f0 !important;
+
+                & + td {
+                    background: #a3d4f0 !important;
+
+                    & + td {
+                        background: linear-gradient(to left, #deedf7 0%,#cbebff 47%,#a3d4f0 100%) !important;
+                    }
+                }
             }
 
             &:last-child {
@@ -1356,8 +1365,12 @@ input.divider {
                 text-overflow: ellipsis;
                 display: block;
                 height: 19px;
-                width: 750px;
+                width: 770px;
                 padding-top: 3px;
+
+                & + td {
+                    background: transparent !important;
+                }
             }
         }
 
