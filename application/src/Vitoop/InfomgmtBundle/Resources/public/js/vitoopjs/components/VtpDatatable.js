@@ -435,7 +435,8 @@ export default class VtpDatatable {
                 this.getOwnerColumn()
             ];
             if (vitoopState.state.edit) {
-                columns.push(this.getUnlinkColumn());
+                // columns.push(this.getUnlinkColumn());
+                columns.push(this.getUrlColumn());
             }
             return columns;
         }
@@ -646,19 +647,29 @@ export default class VtpDatatable {
     getUrlColumn() {
         if (vitoopState.state.edit) {
             return {
-                render: (data,type,row) => row.id !== null ? this.getUnlinkColumn() : null
+                render: (data,type,row) => row.id !== null ? this.getUnlinkColumn(row.id) : null
             }
         }
 
         return {"data": "url", render: (url,type,row) => row.id !== null ? this.getUrlValue(url) : null};
     }
 
+    getUnlinkColumn(id) {
+        // return {"data": "id", "render": (data,type,row) => row.id !== null ? this.getUnlinkValue(data) : null};
+        return this.getUnlinkValue(id)
+    }
+
+    getUnlinkValue(data, type, row, meta) {
+        return '<span class="vtp-projectdata-unlink ui-icon ui-icon-close ui-corner-all" onclick="unlinkRes('+data+')"></span>';
+    }
+
     getLexiconUrlColumn() {
         if (vitoopState.state.edit) {
-            return this.getUnlinkColumn();
+            // return this.getUnlinkColumn();
+            return this.getUrlColumn();
         }
 
-        return {"data": "id", "render": this.getLexiconUrlValue};
+        return {data: "id", render: (data,type,row,meta) => row.id !== null ? this.getLexiconUrlValue(data,type,row,meta) : null};
     }
 
     getProjectUrlColumn() {
@@ -698,10 +709,11 @@ export default class VtpDatatable {
 
     getMapsLinkColumn() {
         if (vitoopState.state.edit) {
-            return this.getUnlinkColumn();
+            // return this.getUnlinkColumn();
+            return this.getUrlColumn();
         }
 
-        return {"data": "id", "render": this.getMapsLinkValue};
+        return {"data": "id", "render": (data,type,row) => row.id !== null ? this.getMapsLinkValue(data,type,row) : null};
     }
 
     getCityColumn() {
@@ -712,13 +724,5 @@ export default class VtpDatatable {
         return {
             "data": "zip"
         };
-    }
-
-    getUnlinkValue(data, type, row, meta) {
-        return '<span class="vtp-projectdata-unlink ui-icon ui-icon-close ui-corner-all" onclick="unlinkRes('+data+')"></span>';
-    }
-
-    getUnlinkColumn() {
-        return {"data": "id", "render": this.getUnlinkValue};
     }
 }
