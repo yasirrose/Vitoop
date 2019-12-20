@@ -51,6 +51,12 @@ class UrlCheckCommand extends Command
     {
         $linkClasses = [Pdf::class, Teli::class, Link::class];
 
+        $validUrl = 'http://www.bbaw.de/publikationen/neuerscheinungen/pdf/social-media';
+        $isValidUrl = $this->urlChecker->isAvailableUrl($validUrl);
+        $output->writeln('Blamed:  ' .$isValidUrl);
+
+        return 0;
+
         foreach ($linkClasses as $class) {
             $resourcesForCheck = $this->entityManager
                 ->getRepository($class)
@@ -59,6 +65,7 @@ class UrlCheckCommand extends Command
             foreach ($resourcesForCheck as $resource) {
                 $resource->updateLastCheck();
                 if (!$this->urlChecker->isAvailableUrl($resource->getUrl())) {
+                    $output->writeln('Blamed:  ' .$resource->getUrl());
                     $resource->blame('URL not exist anymore');
                 }
             }

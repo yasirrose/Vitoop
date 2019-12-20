@@ -358,10 +358,10 @@ class ResourceManager
     {
         try {
             $this->relResourceLinker->linkLexiconToResource($lexicon, $resource);
+            $this->em->flush();
         } catch (\Exception $ex) {
 
         }
-        $this->em->flush();
 
         return $lexicon->getName();
     }
