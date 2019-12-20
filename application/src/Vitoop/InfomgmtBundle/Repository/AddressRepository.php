@@ -40,8 +40,10 @@ class AddressRepository extends ResourceRepository
                         select FLOOR(rrr.coefficient) 
                           from rel_resource_resource rrr
                           inner join address adr on adr.id = rrr.id_resource2
+                          left JOIN flag fadr ON adr.id = fadr.id_resource
                          WHERE rrr.id_resource1 = p.id
                           AND rrr.deleted_by_id_user IS NULL
+                          AND fadr.id IS NULL
                     )
             ) base
             ORDER BY base.coef asc, base.coefId asc

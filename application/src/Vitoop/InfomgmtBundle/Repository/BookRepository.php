@@ -48,8 +48,10 @@ class BookRepository extends ResourceRepository
                         select FLOOR(rrr.coefficient) 
                           from rel_resource_resource rrr
                           inner join book b on b.id = rrr.id_resource2
+                          left JOIN flag fbook ON b.id = fbook.id_resource
                          WHERE rrr.id_resource1 = p.id
                           AND rrr.deleted_by_id_user IS NULL
+                          AND fbook.id IS NULL
                     )
             ) base
             ORDER BY base.coef asc, base.coefId asc

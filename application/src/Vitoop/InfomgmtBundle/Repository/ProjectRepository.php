@@ -83,8 +83,10 @@ class ProjectRepository extends ResourceRepository
                         select FLOOR(rrr.coefficient) 
                           from rel_resource_resource rrr
                           inner join project pr on pr.id = rrr.id_resource2
+                          left JOIN flag fpr ON pr.id = fpr.id_resource
                          WHERE rrr.id_resource1 = p.id
                           AND rrr.deleted_by_id_user IS NULL
+                          AND fpr.id IS NULL
                     )
             ) base
             ORDER BY base.coef asc, base.coefId asc

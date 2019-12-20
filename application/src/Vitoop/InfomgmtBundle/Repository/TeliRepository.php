@@ -70,8 +70,10 @@ class TeliRepository extends ResourceRepository
                         select FLOOR(rrr.coefficient) 
                           from rel_resource_resource rrr
                           inner join teli t on t.id = rrr.id_resource2
+                          left JOIN flag ft ON t.id = ft.id_resource
                          WHERE rrr.id_resource1 = p.id
                           AND rrr.deleted_by_id_user IS NULL
+                          AND ft.id IS NULL
                     )
             ) base
             ORDER BY base.coef asc, base.coefId asc
