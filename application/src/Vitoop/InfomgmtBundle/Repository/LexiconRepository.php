@@ -60,8 +60,10 @@ class LexiconRepository extends ResourceRepository
                         select FLOOR(rrr.coefficient) 
                           from rel_resource_resource rrr
                           inner join lexicon lex on lex.id = rrr.id_resource2
+                          left JOIN flag flex ON lex.id = flex.id_resource
                          WHERE rrr.id_resource1 = p.id
                           AND rrr.deleted_by_id_user IS NULL
+                          AND flex.id IS NULL
                     )
             ) base
             ORDER BY base.coef asc, base.coefId asc

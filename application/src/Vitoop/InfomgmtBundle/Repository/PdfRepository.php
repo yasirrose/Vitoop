@@ -86,8 +86,10 @@ class PdfRepository extends ResourceRepository
                         select FLOOR(rrr.coefficient) 
                           from rel_resource_resource rrr
                           inner join pdf on pdf.id = rrr.id_resource2
+                          left JOIN flag fpdf ON pdf.id = fpdf.id_resource
                          WHERE rrr.id_resource1 = p.id
                           AND rrr.deleted_by_id_user IS NULL
+                          AND fpdf.id IS NULL
                     )
             ) base
             ORDER BY base.coef asc, base.coefId asc
