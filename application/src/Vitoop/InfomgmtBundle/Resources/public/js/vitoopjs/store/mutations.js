@@ -101,7 +101,6 @@ export default {
     },
     resetResource(state) {
         state.edit = false;
-        // state.table.rowNumber++;
         Object.keys(state.resource).forEach(item => {
             state.resource[item] = null;
         })
@@ -131,15 +130,12 @@ export default {
     setFlagged(state, flagged) {
         state.table.flagged = flagged;
     },
-
     setInProject(state, status) {
         state.inProject = status;
     },
-
     setTags(state, payload) {
         state[payload.key] = payload.tags;
     },
-
     set(state,payload) {
         state[payload.key] = payload.value;
     }

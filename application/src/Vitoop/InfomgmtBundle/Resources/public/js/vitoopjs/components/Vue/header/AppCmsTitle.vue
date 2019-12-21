@@ -73,7 +73,7 @@
             }
         },
         computed: {
-            ...mapGetters(['getResource','get'])
+            ...mapGetters(['getResource','get','getTableRowNumber'])
         },
         mounted() {
             VueBus.$on('remove:project', () => {
@@ -95,6 +95,7 @@
             },
             resetResource(redirectTo) {
                 this.$store.commit('resetResource');
+                this.$store.commit('updateTableRowNumber', this.getTableRowNumber + 1);
                 if (redirectTo === '/prj') this.$store.commit('setInProject', false);
                 redirectTo !== this.$route.path ? this.$router.push(redirectTo) : VueBus.$emit('datatable:reload');
             }

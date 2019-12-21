@@ -8,14 +8,11 @@ export default {
         return currentFontSize;
     },
     getTableRowNumber(state, getters) {
-        let originalPageNumber = state.table.rowNumber ? state.table.rowNumber : 7;
+        let originalPageNumber = state.table.rowNumber ? state.table.rowNumber : 12;
         let offset = 0;
-        if (true === state.secondSearch.show) {
-            offset++;
-        }
-        if (true === state.tagList.show) {
-            offset++;
-        }
+        if (state.secondSearch.show) offset++;
+        if (state.tagList.show) offset++;
+        // if (state.resource.id !== null) offset++;
 
         return originalPageNumber - offset;
     },
