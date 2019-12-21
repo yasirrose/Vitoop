@@ -164,80 +164,52 @@ export default class VtpDatatable {
         if (this.api().page.info().recordsTotal === 0) {
             return;
         }
-        // let projectElem = $('#projectID');
         const projectElem = vitoopState.state.resource.id;
-        // if ((typeof(projectElem) != 'undefined') && projectElem.val() > -1) {
-            $('input.divider').off();
-            const editMode = vitoopState.state.edit;
-            var self = this;
-            if (editMode) {
-                $('.vtp-uiaction-coefficient').on('focusout', function() {
-                    if ((isNaN($(this).val())) || ($(this).val() < 0)) {
-                        $(this).val($(this).data('original'));
-                        return false;
-                    }
-                    if ($(this).val() != $(this).data('original')) {
-                        $('.vtp-uiaction-coefficient').attr('disabled', true);
-                        $.ajax({
-                            dataType: 'json',
-                            delegate: true,
-                            data: JSON.stringify({'value': $(this).val()}),
-                            method: 'POST',
-                            url: '../api/rrr/' + $(this).data('rel_id') + '/coefficient',
-                            success: function (jqXHR) {
-                                self.api().clear();
-                                self.api().ajax.reload();
-                                $('.vtp-uiaction-coefficient').attr('disabled', false);
-                            }
-                        });
-                    }
-                });
-            }
-            let upperCoefficient = -1000;
-            let currentCoefficient = 0;
-            let dividers = [];
-            $.ajax({
-                url: vitoop.baseUrl +'api/project/' + projectElem + '/divider',
-                method: 'GET',
-                success: function(data) {
-                    dividers = data;
-                    let divider = "";
-                    $('.vtp-uiaction-coefficient.divider-wrapper').remove();
-                    $('table > tbody > tr > td > input.vtp-uiaction-coefficient').each(function() {
-                        currentCoefficient = Math.floor($(this).val());
-                        if (Math.floor(upperCoefficient)-currentCoefficient <= -1) {
-                            divider = dividers[currentCoefficient];
-                            if (typeof(divider) == "undefined") {
-                                divider = "";
-                            } else {
-                                divider = divider.text;
-                            }
-                            if (editMode) {
-                                $('input.divider').on('focusout', function() {
-                                    if ($(this).val() != $(this).data('original')) {
-                                        $('.vtp-uiaction-coefficient, input.divider').attr('disabled', true);
-                                        $.ajax({
-                                            dataType: 'json',
-                                            delegate: true,
-                                            context: this,
-                                            contentType: 'application/json',
-                                            data: JSON.stringify({'text': $(this).val(), 'coefficient': $(this).data('coef')}),
-                                            method: 'POST',
-                                            url: vitoop.baseUrl + 'api/project/' + projectElem + '/divider',
-                                            success: function () {
-                                                $('.vtp-uiaction-coefficient, input.divider').attr('disabled', false);
-                                                $(this).data('original', $(this).val());
-                                            }
-                                        });
-                                    }
-                                });
-                            }
+        $('input.divider').off();
+        const editMode = vitoopState.state.edit;
+        const self = this;
+        if (editMode) {
+            $('.vtp-uiaction-coefficient').on('focusout', function() {
+                if ((isNaN($(this).val())) || ($(this).val() < 0)) {
+                    $(this).val($(this).data('original'));
+                    return false;
+                }
+                if ($(this).val() != $(this).data('original')) {
+                    $('.vtp-uiaction-coefficient').attr('disabled', true);
+                    $.ajax({
+                        dataType: 'json',
+                        delegate: true,
+                        data: JSON.stringify({'value': $(this).val()}),
+                        method: 'POST',
+                        url: '../api/rrr/' + $(this).data('rel_id') + '/coefficient',
+                        success: function (jqXHR) {
+                            self.api().clear();
+                            self.api().ajax.reload();
+                            $('.vtp-uiaction-coefficient').attr('disabled', false);
                         }
-                        upperCoefficient = currentCoefficient;
                     });
                 }
             });
-        // }
+
+            $('input.divider').on('focusout', function() {
+                if ($(this).val() != $(this).data('original')) {
+                    $('.vtp-uiaction-coefficient, input.divider').attr('disabled', true);
+                    $.ajax({
+                        dataType: 'json',
+                        delegate: true,
+                        context: this,
+                        contentType: 'application/json',
+                        data: JSON.stringify({'text': $(this).val(), 'coefficient': $(this).data('coef')}),
+                        method: 'POST',
+                        url: vitoop.baseUrl + 'api/project/' + projectElem + '/divider',
+                        success: function () {
+                            $('.vtp-uiaction-coefficient, input.divider').attr('disabled', false);
+                            $(this).data('original', $(this).val());
+                        }
+                    });
+                }
+            });
+        }
     }
 
     dtRowCallback(row, data, index) {
