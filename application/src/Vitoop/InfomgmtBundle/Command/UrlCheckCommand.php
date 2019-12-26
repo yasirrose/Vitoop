@@ -59,10 +59,10 @@ class UrlCheckCommand extends Command
             foreach ($resourcesForCheck as $resource) {
                 $resource->updateLastCheck();
                 if (!$this->urlChecker->isAvailableUrl($resource->getUrl())) {
-                    $output->writeln('Blamed:  ' .$resource->getUrl());
+                    $output->writeln('Blamed:  ' .$resource->getUrl(). ' res id = '.$resource->getId());
                     $resource->blame('URL not exist anymore');
                 } else {
-                    $output->writeln('Unblamed:  ' .$resource->getUrl());
+                    $output->writeln('Unblamed:  ' .$resource->getUrl(). ' res id = '.$resource->getId());
                     $resource->unblame();
                 }
             }
