@@ -175,7 +175,7 @@ class ResourceRepository extends ServiceEntityRepository
            ->setParameter('tags', $search->tags);
 
         if ($search->countTags != 0) {
-            $qb->having('COUNT(DISTINCT t.text) = :tag_cnt');
+            $qb->having('COUNT(DISTINCT t.text) >= :tag_cnt');
             $qb->setParameter('tag_cnt', $search->countTags);
         }
 
