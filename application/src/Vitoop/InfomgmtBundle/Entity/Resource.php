@@ -73,7 +73,7 @@ class Resource
     protected $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="Flag", mappedBy="resource", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Flag", mappedBy="resource", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     protected $flags;
 
@@ -577,6 +577,10 @@ class Resource
 
     public function blame($info, User $user = null)
     {
+        if (0 < $this->flags->matching($this->getFlagBlamedCriteria())->count()) {
+            return;
+        }
+
         $flag = new Flag();
         $flag->setType(Flag::FLAG_BLAME);
         $flag->setResource($this);
@@ -735,5 +739,13 @@ class Resource
             ->where($expr->eq('user', $user));
 
         return $userCriteria;
+    }
+
+    protected function getFlagBlamedCriteria(): Criteria
+    {
+        $criteria = Criteria::create();
+        $criteria->where(Criteria::expr()->eq('type', Flag::FLAG_BLAME));
+
+        return $criteria;
     }
 }
