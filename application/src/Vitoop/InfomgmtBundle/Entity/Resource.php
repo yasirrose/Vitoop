@@ -586,6 +586,18 @@ class Resource
         $this->addFlag($flag);
     }
 
+    public function unblame()
+    {
+        /**
+         * @var Flag $flag
+         */
+        foreach ($this->flags as $flag) {
+            if ($flag->isBlamed()) {
+                $this->flags->removeElement($flag);
+            }
+        }
+    }
+
     public function hook(User $user)
     {
         $userHooks = $this->findUserHook($user);
