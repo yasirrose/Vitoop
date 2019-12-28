@@ -114,13 +114,13 @@ export default class SendLinkWidget extends Widget {
     openAllLinks() {
         let resources = this.linkStorage.getAllResorces();
 
-        for (var i = 0; i < resources.length; i++) {
-            for (var property in resources[i]) {
-                if (resources[i].hasOwnProperty(property) && 'url' in resources[i][property]) {
-                    window.open(resources[i][property].url);
+        Object.values(resources).forEach(resource => {
+            Object.values(resource).forEach(res => {
+                if (res.hasOwnProperty('url')) {
+                    window.open(res.url);
                 }
-            }
-        }
+            })
+        })
     }
 
     clear() {
