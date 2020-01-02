@@ -32,7 +32,9 @@ export default class VtpDatatable {
                 datatable.search(self.getCurrentSearch());
                 datatable.page.len(self.rowsPerPage.getPageLength());
             })
-            .on('xhr.dt', self.dtAjaxCallback);
+            .on('xhr.dt', () => {
+                self.dtAjaxCallback;
+            });
 
         if (null !== self.resourceId) {
             datatable.on('draw.dt', function () {

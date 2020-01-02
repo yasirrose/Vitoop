@@ -51,7 +51,6 @@
             LexiconTableHead,
             ProjectTableHead
         },
-        inject: ['isCoef'],
         data() {
             return {
                 datatable: null
@@ -86,13 +85,18 @@
                         break
                 }
             },
+            isCoef() {
+                return this.getResource('id') !== null && this.$store.state.inProject
+            },
             dateTitle() {
-                if (this.isCoef !== null) {
+                if (this.isCoef) {
                     return 'Koeff.'
-                } else if (this.$route.name === 'pdf' || this.$route.name === 'teli') {
+                } else if (this.getResource('id') !== null) {
                     return 'Erschienen'
+                } else if (/pdf|teli/.test(this.$route.name)) {
+                    return 'Erschienen';
                 } else {
-                    return 'Erstellt';
+                    return 'Eingetragen';
                 }
             },
             linkTitle() {
@@ -153,7 +157,11 @@
                     this.isAdmin !== null,
                     this.getResource('id') !== null && this.$store.state.inProject, // isCoef
                     `${this.currentURL}?${this.tagParams}`,
-                ).on('draw', () => {
+                )
+                .on('xhr.dt', (e, settings, json, xhr) => {
+                    this.$store.commit('setResourceInfo', json.resourceInfo);
+                })
+                .on('draw', () => {
                     this.onTableDraw();
                 })
                 .on('page.dt', () => {

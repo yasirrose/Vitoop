@@ -13,7 +13,6 @@ import LexiconWidget from './widgets/lexiconWidget';
 import SendLinkWidget from './widgets/sendLinkWidget';
 
 window.resourceDetail = (function () {
-
     let customCheckboxWrapper = document.createElement('label');
     customCheckboxWrapper.className = 'custom-checkbox__wrapper light';
     customCheckboxWrapper.innerHTML = `
@@ -113,7 +112,7 @@ window.resourceDetail = (function () {
                 $('.vtp-uiaction-detail-blame').on('click', blameResource);
                 $('.vtp-uiaction-detail-help').on('click', helpWindow);
                 $('#vtp-bigclosehelp').on('click', hideHelpWindow);
-                
+
             }
             /*************************************************************************
              * UIfy: data
@@ -172,7 +171,7 @@ window.resourceDetail = (function () {
 
                 addDateModificator('#teli_release_date');
                 //addDateModificator('#pdf_pdf_date');
-               
+
                 if (res_type == "prj") {
                     var nameOrigin = $('#prj_name').val();
                     var textOrigin = $('#prj_description').val();
@@ -397,7 +396,7 @@ window.resourceDetail = (function () {
             $('#tab-title-remark-private').removeClass('ui-state-no-content');
             $('#tab-title-rels').removeClass('ui-state-no-content');
         },
-        
+
         resetTinyMce = function () {
             tinymce.execCommand('mceRemoveEditor', true, "remark_text");
             tinymce.execCommand('mceRemoveEditor', true, "remark_private_text");
@@ -448,7 +447,7 @@ window.resourceDetail = (function () {
                     $('#vtp-res-dialog-tabs').tabs('enable');
                     // Disable the Navigation Buttons (uifyContainer() will grey it out). New resource has no prev/next
                     prev_id = next_id = -1;
-                    
+
                 }
             }
             if (responseJSON['resource-metadata']) {
@@ -463,13 +462,13 @@ window.resourceDetail = (function () {
                 var info = responseJSON['tabs-info'];
                 var storage = new DataStorage();
                 var checkedResources = storage.getObject(res_type +'-checked');
-             
+
                 if (res_id in checkedResources) {
                     $('#resource-check').prop("checked", "checked");
                 } else {
                     $('#resource-check').removeProp("checked");
                 }
-                
+
                 if (info.comments == 0) {
                     $('#tab-title-comments').addClass('ui-state-no-content');
                 }
@@ -505,13 +504,13 @@ window.resourceDetail = (function () {
             if (vitoop.isShowHelp == true && isNewResource) {
                 $('#vtp-detail-help').click();
             }
-            
+
             //show rating tabs if need
             if (isShowRating) {
                 isShowRating = false;
                 $('#vtp-rating-panel').show('blind', 'slow');
             }
-            
+
             //show lexicon button and scrollbars
             $('.vtp-extlink-lexicon').remove();
             if ('lex' === res_type ) {
@@ -541,21 +540,20 @@ window.resourceDetail = (function () {
             }
 
             //tr_res is initialized with null
-            if (tr_res != null) {
-                tgl();
-            }
+            // if (tr_res != null) {
+            //     tgl();
+            // }
             tr_res = current_tr_res;
-            tgl();
-
             if ($(e.target).hasClass('vtp-uiaction-open-extlink') || $(e.target).parent().hasClass('vtp-uiaction-open-extlink') || $(e.target).hasClass('vtp-projectdata-unlink') || $(e.target).hasClass('vtp-projectdata-unlink-coefficient') || $(e.target).hasClass('vtp-uiaction-coefficient')) {
+
                 return;
             }
-
             // res_id is retrieved from the tablerow id (e.g. <tr
             // id="pdf-1">).
+
             res_type = (tr_res.attr('id').split('-'))[0];
             res_id = (tr_res.attr('id').split('-'))[1];
-            // vitoopState.commit('setResource', {type: res_type, id: res_id});
+            tgl();
 
             setNextId();
             setPrevId();
@@ -611,14 +609,14 @@ window.resourceDetail = (function () {
                 hideHelpWindow();
             }
         },
-        
+
         showHelpWindow = function () {
             $('#resource-quickview').hide();
             $('#resource-help').show();
             //$(this).removeClass("ui-state-focus ui-state-hover");
             $('#vtp-detail-help').removeClass('ui-state-default');
             $('#vtp-detail-help').addClass('vtp-active');
-           
+
         },
         hideHelpWindow = function () {
             $('#resource-help').hide();
@@ -629,7 +627,11 @@ window.resourceDetail = (function () {
 
         tgl = function () {
             $('td.ui-state-active').removeClass('ui-state-active');
-            tr_res.children().toggleClass('ui-state-active');
+            document.querySelectorAll('tr').forEach(tr => {
+                if (tr.getAttribute('id') === `${res_type}-${res_id}`) {
+                    tr.querySelectorAll('td').forEach(td => td.classList.add('ui-state-active'))
+                }
+            })
         },
 
         tgl_ls = function () {
@@ -653,28 +655,26 @@ window.resourceDetail = (function () {
                 let rows = $('#vtp-res-list table').DataTable().page('next').draw('page');
                 rows.on('draw.dt', function () {
                     tr_res = $('.vtp-list-first');
-                    tgl();
                     res_id = (tr_res.attr('id').split('-'))[1];
                     prev_id = 0;
-                    
+
                     setNextId();
+                    tgl();
                     hardResetTabs();
                     loadTab(undefined, 0);
                 });
             } else { // flip to NEXT resource
-                tgl();
                 var nextElement = tr_res.next('tr');
                 if (nextElement.length == 0) {
                     nextElement = tr_res.next().next('tr');
                 }
                 tr_res = nextElement;
-                tgl();
                 prev_id = res_id;
                 res_id = next_id;
                 setNextId();
+                tgl();
                 hardResetTabs();
                 loadTab(undefined, 0);
-
             }
             return true;
         },
@@ -686,8 +686,9 @@ window.resourceDetail = (function () {
                 next_id = 0;
             } else {
                 var nextElement = tr_res.next('tr');
-                if (nextElement.length == 0) {
-                    nextElement = tr_res.next().next('tr');
+                if (nextElement.hasClass('divider-wrapper')) {
+                    next_id = (nextElement.next().attr('id').split('-'))[1];
+                    return
                 }
                 next_id = (nextElement.attr('id').split('-'))[1];
             }
@@ -699,32 +700,30 @@ window.resourceDetail = (function () {
                 return;
             }
             if (prev_id == 0) {// load PREVious listpage
-                rows = $('#vtp-res-list table').DataTable().page('previous').draw('page');
+                let rows = $('#vtp-res-list table').DataTable().page('previous').draw('page');
                 rows.on('draw.dt', function () {
                     tr_res = $('.vtp-list-last');
-                    tgl();
                     res_id = (tr_res.attr('id').split('-'))[1];
                     next_id = 0;
                     setPrevId();
+                    tgl();
                     // We are still in an asynchronous callback: Tab Maintenance must be
                     // done here
                     hardResetTabs();
                     loadTab(undefined, 0);
                 });
             } else { // flip to PREVious resource
-                tgl();
                 var prevElement = tr_res.prev('tr');
                 if (prevElement.length == 0) {
                     prevElement = tr_res.prev().prev('tr');
                 }
                 tr_res = prevElement;
-                tgl();
                 next_id = res_id;
                 res_id = prev_id;
                 setPrevId();
+                tgl();
                 hardResetTabs();
                 loadTab(undefined, 0);
-
             }
             return true;
         },
@@ -736,8 +735,14 @@ window.resourceDetail = (function () {
                 prev_id = 0;
             } else {
                 var prevElement = tr_res.prev('tr');
-                if (prevElement.length == 0) {
-                    prevElement = tr_res.prev().prev('tr');
+                if (prevElement.hasClass('divider-wrapper')) {
+                    if (prevElement.prev().length > 0) {
+                        prev_id = (prevElement.prev().attr('id').split('-'))[1];
+                        return
+                    } else {
+                        prev_id = -1;
+                        return;
+                    }
                 }
                 prev_id = (prevElement.attr('id').split('-'))[1];
             }
@@ -826,7 +831,7 @@ window.resourceDetail = (function () {
             customCheckboxWrapper.remove();
             hardResetTabs();
             hideHelpWindow();
-            
+
             if (refresh_list) {
                 //$('#vtp-res-list table').DataTable().off('draw.dt');
                 // "last seen" is maintained through arr_res_tr_attr_id[]
@@ -923,7 +928,7 @@ window.resourceDetail = (function () {
             // @TODO Handler
             // vtp-content is the root for event delegation inside this 'box'
             $('#vtp-content').on('click', '.vtp-uiaction-list-listener', showDialog);
-           
+
             $('#vtp-application').on('click', '#vtp-uiaction-close-flagform', function () {
                 $('#resource-flags').hide('blind', 'fast');
                 $('#resource-flags').empty();
