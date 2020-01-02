@@ -3,7 +3,7 @@
         <fieldset class="ui-corner-all margin-top-3">
             <div id="vtp-projectdata-box" v-if="editProject">
                 <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all"
-                     v-if="infoProjectData !== null && infoProjectData !== ''">
+                     v-if="infoProjectData !== null && infoProjectData !== '' && infoProjectData.length > 0">
                     <span class="vtp-icon ui-icon ui-icon-info"></span>{{ infoProjectData }}
                 </div>
                 <div class="vtp-fh-w60"
