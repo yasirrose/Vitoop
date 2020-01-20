@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Vitoop\InfomgmtBundle\Controller;
+namespace Vitoop\InfomgmtBundle\Controller\V1;
 
 use http\Message;
 use phpDocumentor\Reflection\Types\Integer;
@@ -10,24 +10,20 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Vitoop\InfomgmtBundle\Controller\ApiController;
 use Vitoop\InfomgmtBundle\Entity\Conversation;
 use Vitoop\InfomgmtBundle\Entity\ConversationMessage;
-use Vitoop\InfomgmtBundle\Entity\Pdf;
-use Vitoop\InfomgmtBundle\Entity\Project;
-use Vitoop\InfomgmtBundle\Entity\User;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Vitoop\InfomgmtBundle\Repository\ConversationRepository;
 use Vitoop\InfomgmtBundle\Service\MessageService;
 use Vitoop\InfomgmtBundle\Service\VitoopSecurity;
 
 /**
- * @Route("api/conversation/{id}")
- * @ParamConverter("conversation", class="Vitoop\InfomgmtBundle\Entity\Conversation", options={"id" = "id"})
+ * @Route("conversation/{id}", requirements={"id": "\d+"})
  */
 
-class ConversationApiController extends ApiController
+class ConversationController extends ApiController
 {
     public $messageService;
 
@@ -37,30 +33,30 @@ class ConversationApiController extends ApiController
     }
 
     /**
-     * @Route("", name="get_conversation_api", methods={"GET"})
+     * @Route("", methods={"GET"})
      * @param $conversation Conversation
      * @return object
      */
     public function getConversationById(Conversation $conversation, VitoopSecurity $vitoopSecurity)
     {
-        $userId = $vitoopSecurity->getUser()->getId();
+        $this->checkAccess($conversation, $vitoopSecurity);
 
+        $userId = $vitoopSecurity->getUser()->getId();
         $this->messageService->setChannel($conversation->getId());
         $this->messageService->setUserId($userId);
 
-        $this->checkAccess($conversation, $vitoopSecurity);
-
-        return $this->getApiResponse([
-            'conversation' => $conversation->getDTO(),
-            'isOwner' => $conversation->getConversationData()->availableForDelete($this->getUser()),
-            'token' => $this->messageService->token,
-            'channel' => $this->messageService->channel,
-            'userId' => $userId
+       return $this->getApiResponse([
+           'conversation' => $conversation->getDTO(),
+           'isOwner' => $conversation->getConversationData()->availableForDelete($this->getUser()),
+           'token' => $this->messageService->getToken(),
+           'channel' => $this->messageService->channel,
+           'userId' => $userId
         ]);
+
     }
 
     /**
-     * @Route("/send", methods={"POST"})
+     * @Route("/send", methods={"POST"}, requirements={"id": "\d+"})
      *
      * @param $conversation Conversation
      * @param $request Request
@@ -92,7 +88,7 @@ class ConversationApiController extends ApiController
     }
 
     /**
-     * @Route("/delete/{messageId}", methods={"DELETE"})
+     * @Route("/message/{messageId}", methods={"DELETE"})
      *
      * @param $conversation Conversation
      * @param $vitoopSecurity VitoopSecurity
@@ -101,7 +97,7 @@ class ConversationApiController extends ApiController
      */
     public function deleteMessage(Conversation $conversation,  VitoopSecurity $vitoopSecurity)
     {
-
+        //To do
     }
 
     private function checkAccess(Conversation $conversation, VitoopSecurity $vitoopSecurity)

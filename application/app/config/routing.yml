@@ -60,10 +60,6 @@ _login_check:
 _logout:
     path: /logout
 
-_conversation_api:
-    resource: "@VitoopInfomgmtBundle/Controller/ConversationApiController.php"
-    type:     annotation
-
 v1:
     resource: "@VitoopInfomgmtBundle/Controller/V1/"
     type: annotation
