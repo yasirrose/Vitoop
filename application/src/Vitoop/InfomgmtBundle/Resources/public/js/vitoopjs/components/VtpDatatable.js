@@ -32,7 +32,9 @@ export default class VtpDatatable {
                 datatable.search(self.getCurrentSearch());
                 datatable.page.len(self.rowsPerPage.getPageLength());
             })
-            .on('xhr.dt', self.dtAjaxCallback);
+            .on('xhr.dt', () => {
+                self.dtAjaxCallback;
+            });
 
         if (null !== self.resourceId) {
             datatable.on('draw.dt', function () {
@@ -71,7 +73,7 @@ export default class VtpDatatable {
         });
 
         // Handle click on checkbox
-        $('table#list-'+self.resType).on('click', 'label.custom-checkbox__wrapper', function(e) {
+        $('table#list-'+self.resType).off().on('click', 'label.custom-checkbox__wrapper', function(e) {
             let $row = $(this).closest('tr');
             const checkbox = $(this).find('input[type="checkbox"]');
             // Get row data

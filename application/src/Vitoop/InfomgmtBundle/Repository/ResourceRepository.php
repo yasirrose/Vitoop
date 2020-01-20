@@ -3,6 +3,7 @@ namespace Vitoop\InfomgmtBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Vitoop\InfomgmtBundle\Entity\Flag;
 use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\Entity\Project;
 use Vitoop\InfomgmtBundle\Entity\Lexicon;
@@ -176,7 +177,7 @@ class ResourceRepository extends ServiceEntityRepository
            ->setParameter('tags', $search->tags);
 
         if ($search->countTags != 0) {
-            $qb->having('COUNT(DISTINCT t.text) = :tag_cnt');
+            $qb->having('COUNT(DISTINCT t.text) >= :tag_cnt');
             $qb->setParameter('tag_cnt', $search->countTags);
         }
 
@@ -522,11 +523,13 @@ class ResourceRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('r')
             ->innerJoin('r.user', 'u')
             ->leftJoin('r.flags', 'f')
-            ->where('f.id IS NULL')
+            ->where('f.id IS NULL or (f.type = :blamed and r.lastCheckAt <= :yesterday)')
             ->andWhere('r.isSkip = :isSkip')
             ->orderBy('r.lastCheckAt', 'ASC')
             ->setMaxResults($limit)
             ->setParameter('isSkip', false)
+            ->setParameter('blamed', Flag::FLAG_BLAME)
+            ->setParameter('yesterday', new \DateTime('yesterday'))
             ->getQuery()
             ->getResult()
         ;
