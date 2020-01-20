@@ -79,6 +79,8 @@ services:
     Vitoop\InfomgmtBundle\Repository\BookRepository: ~
     Vitoop\InfomgmtBundle\Repository\LinkRepository: ~
     Vitoop\InfomgmtBundle\Repository\TagRepository: ~
+    Vitoop\InfomgmtBundle\Repository\ConversationRepository: ~
+    Vitoop\InfomgmtBundle\Repository\ConversationDataRepository: ~
 
     Vitoop\InfomgmtBundle\Repository\RelResourceResourceRepository:
         factory: ["@doctrine.orm.entity_manager", getRepository]

@@ -162,6 +162,16 @@ class User implements EquatableInterface, AdvancedUserInterface, \Serializable, 
     protected $relProject;
 
     /**
+     * @ORM\OneToMany(targetEntity="RelConversationUser", mappedBy="user")
+     */
+    protected $relConversation;
+
+    /**
+     * @ORM\OneToMany(targetEntity="ConversationMessage", mappedBy="user")
+     */
+    protected $conversationMessage;
+
+    /**
      * @ORM\Column(name="last_logined_at", type="datetime", nullable=true)
      */
     protected $lastLoginedAt;
@@ -173,6 +183,8 @@ class User implements EquatableInterface, AdvancedUserInterface, \Serializable, 
 
         $this->resources = new ArrayCollection();
         $this->relProject = new ArrayCollection();
+        $this->relConversation = new ArrayCollection();
+        $this->conversationMessage = new ArrayCollection();
         $this->toDoItems = new ArrayCollection();
         $this->ratings = new ArrayCollection();
         $this->remarks = new ArrayCollection();
@@ -819,6 +831,72 @@ class User implements EquatableInterface, AdvancedUserInterface, \Serializable, 
     public function getRelProject()
     {
         return $this->relProject;
+    }
+
+    /**
+     * Add relConversation
+     *
+     * @param \Vitoop\InfomgmtBundle\Entity\RelConversationUser $relConversation
+     * @return User
+     */
+    public function addRelConversation(\Vitoop\InfomgmtBundle\Entity\RelConversationUser $relConversation)
+    {
+        $this->relConversation[] = $relConversation;
+
+        return $this;
+    }
+
+    /**
+     * Remove relConversation
+     *
+     * @param \Vitoop\InfomgmtBundle\Entity\RelConversationUser $relConversation
+     */
+    public function removeConversation(\Vitoop\InfomgmtBundle\Entity\RelConversationUser $relConversation)
+    {
+        $this->relConversation->removeElement($relConversation);
+    }
+
+    /**
+     * Get relConversation
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRelConversation()
+    {
+        return $this->relConversation;
+    }
+
+    /**
+     * Add conversationMessage
+     *
+     * @param \Vitoop\InfomgmtBundle\Entity\ConversationMessage $message
+     * @return User
+     */
+    public function addConversationMessage(\Vitoop\InfomgmtBundle\Entity\ConversationMessage $message)
+    {
+        $this->conversationMessage[] = $message;
+
+        return $this;
+    }
+
+    /**
+     * Remove conversationMessage
+     *
+     * @param \Vitoop\InfomgmtBundle\Entity\ConversationMessage $message
+     */
+    public function removeConversationMessage(\Vitoop\InfomgmtBundle\Entity\ConversationMessage $message)
+    {
+        $this->conversationMessage->removeElement($message);
+    }
+
+    /**
+     * Get conversationMessage
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getConversationMessage()
+    {
+        return $this->conversationMessage;
     }
 
     public function getResetPasswordToken()

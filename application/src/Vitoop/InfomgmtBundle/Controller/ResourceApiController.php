@@ -20,7 +20,7 @@ use Vitoop\InfomgmtBundle\Service\ResourceManager;
 class ResourceApiController extends ApiController
 {
     /**
-     * @Route("resource/{resType}", name="api_resource_list", requirements={"resType": "pdf|adr|link|teli|lex|prj|book"})
+     * @Route("resource/{resType}", name="api_resource_list", requirements={"resType": "pdf|adr|link|teli|lex|prj|book|conversation"})
      * @Method({"GET"})
      *
      * @return array

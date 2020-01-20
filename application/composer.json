@@ -29,7 +29,8 @@
         "doctrine/doctrine-migrations-bundle": "1.1.1",
         "jms/serializer-bundle": "1.5.0",
         "knplabs/knp-snappy-bundle": "^1.4",
-        "beberlei/DoctrineExtensions": "^1.0"
+        "beberlei/DoctrineExtensions": "^1.0",
+        "centrifugal/phpcent": "~3.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.1.2",

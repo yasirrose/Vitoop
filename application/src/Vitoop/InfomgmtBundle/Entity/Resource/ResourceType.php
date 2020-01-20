@@ -10,6 +10,7 @@ use Vitoop\InfomgmtBundle\Entity\Teli;
 use Vitoop\InfomgmtBundle\Entity\Lexicon;
 use Vitoop\InfomgmtBundle\Entity\Project;
 use Vitoop\InfomgmtBundle\Entity\Book;
+use Vitoop\InfomgmtBundle\Entity\Conversation;
 
 class ResourceType
 {
@@ -21,7 +22,8 @@ class ResourceType
         'teli' => Teli::class,
         'lex' => Lexicon::class,
         'prj' => Project::class,
-        'book' => Book::class
+        'book' => Book::class,
+        'conversation' => Conversation::class
     ];
 
     const RESOURCE_INDEXES = [
@@ -32,7 +34,8 @@ class ResourceType
         4 => 'teli',
         5 => 'lex',
         6 => 'prj',
-        7 => 'book'
+        7 => 'book',
+        8 => 'conversation'
     ];
 
     const RESOURCE_NAMES = [
@@ -43,7 +46,8 @@ class ResourceType
         "4" => "Textlink",
         "5" => "Lexikon",
         "6" => "Projekt",
-        "7" => "Buch"
+        "7" => "Buch",
+        "8" => "Conversation"
     ];
 
     /**
