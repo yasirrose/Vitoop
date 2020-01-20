@@ -159,6 +159,10 @@
                     `${this.currentURL}?${this.tagParams}`,
                 )
                 .on('xhr.dt', (e, settings, json, xhr) => {
+                    if (json === null) {
+                        this.$store.commit('reset');
+                        return;
+                    }
                     this.$store.commit('setResourceInfo', json.resourceInfo);
                 })
                 .on('draw', () => {
