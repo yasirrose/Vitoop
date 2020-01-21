@@ -17,4 +17,8 @@ parameters:
     download_folder:   ~
     wkhtmltopdf_bin:   ~
 
+    centrifugo_url: ~
+    centrifugo_secret: ~
+    centrifugo_api: ~
+
     max_idle_time: 7200

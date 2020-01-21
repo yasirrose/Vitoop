@@ -11,7 +11,7 @@ use Vitoop\InfomgmtBundle\DTO\GetDTOInterface;
 
 /**
  * @ORM\Table(name="conversation_messages")
- * @ORM\Entity(repositoryClass="Vitoop\InfomgmtBundle\Repository\ConversationRepository")
+ * @ORM\Entity(repositoryClass="Vitoop\InfomgmtBundle\Repository\ConversationMessageRepository")
  */
 class ConversationMessage implements GetDTOInterface
 {
@@ -49,6 +49,14 @@ class ConversationMessage implements GetDTOInterface
      * @Serializer\Groups({"get_conversation"})
      */
     protected $conversationData;
+
+    public function __construct($text = null, $user = null, $conversationData = null)
+    {
+        $this->setText($text);
+        $this->setUser($user);
+        $this->setConversationData($conversationData);
+        $this->setCreated(new \DateTime());
+    }
 
     /**
      * Set id
@@ -157,5 +165,4 @@ class ConversationMessage implements GetDTOInterface
             'date' => $this->created
         ];
     }
-
 }

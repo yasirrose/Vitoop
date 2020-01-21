@@ -81,6 +81,7 @@ services:
     Vitoop\InfomgmtBundle\Repository\TagRepository: ~
     Vitoop\InfomgmtBundle\Repository\ConversationRepository: ~
     Vitoop\InfomgmtBundle\Repository\ConversationDataRepository: ~
+    Vitoop\InfomgmtBundle\Repository\ConversationMessageRepository: ~
 
     Vitoop\InfomgmtBundle\Repository\RelResourceResourceRepository:
         factory: ["@doctrine.orm.entity_manager", getRepository]
@@ -113,3 +114,7 @@ services:
             - { name: validator.constraint_validator }
 
     Vitoop\InfomgmtBundle\Utils\Token\CommonGeneratorStrategy: ~
+
+    vitoop:message_service:
+        class: Vitoop\InfomgmtBundle\Service\MessageService
+        arguments: ["@service_container"]
