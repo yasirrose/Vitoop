@@ -78,16 +78,19 @@ class ConversationController extends ApiController
     }
 
     /**
-     * @Route("/messages/{id}", methods={"DELETE"})
+     * @Route("/messages/{messageID}", methods={"DELETE"})
      *
      * @param $conversation Conversation
      * @param $vitoopSecurity VitoopSecurity
-     * @ParamConverter("message", class="Vitoop\InfomgmtBundle\Entity\ConversationMessage", options={"id" = "messageId"})
-     * @return object
+     * @ParamConverter("message", class="Vitoop\InfomgmtBundle\Entity\ConversationMessage", options={"id" = "messageID"})
      */
-    public function deleteMessage(Conversation $conversation,  VitoopSecurity $vitoopSecurity)
+    public function deleteMessage(Conversation $conversation, ConversationMessage $message, VitoopSecurity $vitoopSecurity)
     {
-        //To do
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($message);
+        $em->flush();
+
+        return $this->getApiResponse(['success' => 'success']);
     }
 
     private function checkAccess(Conversation $conversation, VitoopSecurity $vitoopSecurity)
@@ -96,5 +99,4 @@ class ConversationController extends ApiController
             throw new AccessDeniedHttpException;
         }
     }
-
 }

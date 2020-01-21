@@ -37,7 +37,7 @@ class ConversationMessage implements GetDTOInterface
     protected $created;
 
     /**
-     * @ORM\OneToOne(targetEntity="User", inversedBy="conversationMessage")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="conversationMessage")
      * @ORM\JoinColumn(name="id_user", referencedColumnName="id")
      * @Serializer\Groups({"get_conversation"})
      */
