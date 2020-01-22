@@ -13,7 +13,7 @@ use Vitoop\InfomgmtBundle\Entity\Resource\ResourceType;
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="doctrine2_dc", type="smallint")
  * @ORM\DiscriminatorMap({"0" = "Resource", "1" = "Pdf", "2"="Address", "3" =
- * "Link", "4" = "Teli", "5" = "Lexicon", "6" = "Project", "7" = "Book"})
+ * "Link", "4" = "Teli", "5" = "Lexicon", "6" = "Project", "7" = "Book", "8" = "Conversation"})
  */
 class Resource
 {

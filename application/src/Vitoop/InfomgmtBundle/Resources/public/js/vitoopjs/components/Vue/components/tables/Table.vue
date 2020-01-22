@@ -37,6 +37,7 @@
     import AddressTableHead from "./heads/AddressTableHead.vue";
     import LexiconTableHead from "./heads/LexiconTableHead.vue";
     import ProjectTableHead from "./heads/ProjectTableHead.vue";
+    import ConversationTableHead from "./heads/ConversationTableHead.vue";
 
     import {mapGetters} from "vuex";
 
@@ -49,7 +50,8 @@
             LinkTableHead,
             AddressTableHead,
             LexiconTableHead,
-            ProjectTableHead
+            ProjectTableHead,
+            ConversationTableHead
         },
         data() {
             return {
@@ -82,6 +84,9 @@
                         break
                     case 'prj':
                         return 'ProjectTableHead';
+                        break
+                    case 'conversation':
+                        return 'ConversationTableHead';
                         break
                 }
             },

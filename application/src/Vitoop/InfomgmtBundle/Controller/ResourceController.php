@@ -198,7 +198,7 @@ class ResourceController extends ApiController
     }
 
     /**
-     * @Route("/{res_type}/", name="_resource_list", requirements={"res_type": "pdf|adr|link|teli|lex|prj|book"})
+     * @Route("/{res_type}/", name="_resource_list", requirements={"res_type": "pdf|adr|link|teli|lex|prj|book|conversation"})
      */
     public function listAction(ResourceManager $rm, VitoopSecurity $vsec, Request $request, $res_type)
     {
@@ -433,7 +433,7 @@ class ResourceController extends ApiController
     }
 
     /**
-     * @Route("/{res_type}/{res_id}/rating", name="_xhr_resource_rating", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
+     * @Route("/{res_type}/{res_id}/rating", name="_xhr_resource_rating", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book|conversation"})
      */
     public function ratingAction(ResourceDataCollector $rdc, $res_type, $res_id)
     {
@@ -446,7 +446,7 @@ class ResourceController extends ApiController
     }
 
     /**
-     * @Route("/{res_type}/{res_id}/quickview", name="_xhr_resource_quickview", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
+     * @Route("/{res_type}/{res_id}/quickview", name="_xhr_resource_quickview", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book|conversation"})
      */
     public function quickviewAction(ResourceDataCollector $rdc, $res_type, $res_id)
     {
@@ -482,7 +482,7 @@ class ResourceController extends ApiController
     }
 
     /**
-     * @Route("/{res_type}/{res_id}/remark", name="_xhr_resource_remark", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
+     * @Route("/{res_type}/{res_id}/remark", name="_xhr_resource_remark", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book|conversation"})
      */
     public function remarkAction(ResourceDataCollector $rdc, $res_type, $res_id)
     {
@@ -495,7 +495,7 @@ class ResourceController extends ApiController
     }
 
     /**
-     * @Route("/{res_type}/{res_id}/remark_private", name="_xhr_resource_remark_private", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
+     * @Route("/{res_type}/{res_id}/remark_private", name="_xhr_resource_remark_private", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book|conversation"})
      */
     public function remarkPrivateAction(ResourceDataCollector $rdc, $res_type, $res_id)
     {
@@ -508,7 +508,7 @@ class ResourceController extends ApiController
     }
 
     /**
-     * @Route("/{res_type}/{res_id}/comments", name="_xhr_resource_comments", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
+     * @Route("/{res_type}/{res_id}/comments", name="_xhr_resource_comments", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book|conversation"})
      */
     public function commentAction(ResourceDataCollector $rdc, $res_type, $res_id)
     {
@@ -546,8 +546,8 @@ class ResourceController extends ApiController
 
 
     /**
-     * @Route("/{res_type}/{res_id}/lexicons", name="_xhr_resource_lexicons", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
-     * @Route("/{res_type}/{res_id}/lexicons/{isLexiconHome}", name="_xhr_resource_lexicons_lexicon", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book", "isLexiconHome": "1"})
+     * @Route("/{res_type}/{res_id}/lexicons", name="_xhr_resource_lexicons", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book|conversation"})
+     * @Route("/{res_type}/{res_id}/lexicons/{isLexiconHome}", name="_xhr_resource_lexicons_lexicon", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book|conversation", "isLexiconHome": "1"})
      */
     public function lexiconAction(ResourceDataCollector $rdc, $res_type, $res_id, $isLexiconHome = false)
     {
@@ -560,7 +560,7 @@ class ResourceController extends ApiController
     }
 
     /**
-     * @Route("/{res_type}/{res_id}/projects", name="_xhr_resource_projects", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
+     * @Route("/{res_type}/{res_id}/projects", name="_xhr_resource_projects", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book|conversation"})
      */
     public function projectAction(ResourceDataCollector $rdc, $res_type, $res_id)
     {
@@ -573,7 +573,7 @@ class ResourceController extends ApiController
     }
 
     /**
-     * @Route("/{res_type}/{res_id}/assignments", name="_xhr_resource_assignments", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
+     * @Route("/{res_type}/{res_id}/assignments", name="_xhr_resource_assignments", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book|conversation"})
      */
     public function assignmentAction(ResourceDataCollector $rdc, $res_type, $res_id)
     {
@@ -587,7 +587,7 @@ class ResourceController extends ApiController
     }
 
     /**
-     * @Route("/{res_type}/{res_id}/flag/{flag_type}", name="_xhr_resource_flag", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book", "flag_type": "delete|blame"})
+     * @Route("/{res_type}/{res_id}/flag/{flag_type}", name="_xhr_resource_flag", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book|conversation", "flag_type": "delete|blame"})
      */
     public function flagAction(ResourceDataCollector $rdc, ResourceManager $rm, Request $request, $res_type, $res_id, $flag_type)
     {
@@ -641,7 +641,7 @@ class ResourceController extends ApiController
     }
 
     /**
-     * @Route("/{res_type}/{res_id}/flaginfo", name="_xhr_resource_flaginfo", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
+     * @Route("/{res_type}/{res_id}/flaginfo", name="_xhr_resource_flaginfo", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book|conversation"})
      */
     public function flagInfoAction(ResourceDataCollector $rdc, $res_type, $res_id)
     {
@@ -652,7 +652,7 @@ class ResourceController extends ApiController
 
     /**
      * @Method("POST")
-     * @Route("/{resType}/{resId}/user-hooks", name="_xhr_resource_user_hook", requirements={"resId": "\d+", "resType": "pdf|adr|link|teli|lex|prj|book"})
+     * @Route("/{resType}/{resId}/user-hooks", name="_xhr_resource_user_hook", requirements={"resId": "\d+", "resType": "pdf|adr|link|teli|lex|prj|book|conversation"})
      */
     public function userHookAction(string $resType, int $resId, Request $request)
     {
@@ -678,7 +678,7 @@ class ResourceController extends ApiController
 
     /**
      * @Method("POST")
-     * @Route("/{resType}/{resId}/user-reads", name="_xhr_resource_user_read", requirements={"resId": "\d+", "resType": "pdf|adr|link|teli|lex|prj|book"})
+     * @Route("/{resType}/{resId}/user-reads", name="_xhr_resource_user_read", requirements={"resId": "\d+", "resType": "pdf|adr|link|teli|lex|prj|book|conversation"})
      */
     public function userReadsAction(Request $request, $resType, $resId)
     {

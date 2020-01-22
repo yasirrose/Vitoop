@@ -63,7 +63,8 @@ class ResourceRepository extends ServiceEntityRepository
             'teli' => 'Teli',
             'lex' => 'Lexicon',
             'prj' => 'Project',
-            'book' => 'Book'
+            'book' => 'Book',
+            'conversation' => 'Conversation'
         );
 
         return $map_resource_type_to_classname_arr[$resource_type];

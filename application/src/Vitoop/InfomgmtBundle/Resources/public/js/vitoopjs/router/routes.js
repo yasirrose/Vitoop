@@ -122,6 +122,11 @@ export default [
         path: '/user/datap',
         component: UserDataP,
         name: 'user-datap'
-    }
+    },
+    {
+        path: '/conversation',
+        component: Table,
+        name: 'conversation'
+    },
 ]
 

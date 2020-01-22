@@ -2,6 +2,7 @@
 namespace Vitoop\InfomgmtBundle\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Vitoop\InfomgmtBundle\Entity\Conversation;
 use Vitoop\InfomgmtBundle\Entity\Flag;
 use Vitoop\InfomgmtBundle\Entity\ProjectData;
 use Vitoop\InfomgmtBundle\Entity\Tag;
@@ -31,7 +32,8 @@ class ResourceManager
         'teli' => 'Teli',
         'lex' => 'Lexicon',
         'prj' => 'Project',
-        'book' => 'Book'
+        'book' => 'Book',
+        'conversation' => "Conversation"
     );
 
     protected $arr_resource_type_idx_to_entityname = array(
@@ -42,7 +44,8 @@ class ResourceManager
         4 => "Teli",
         5 => "Lexicon",
         6 => "Project",
-        7 => "Book"
+        7 => "Book",
+        8 => "Conversation"
     );
 
     protected $arr_resource_type_idx_to_resource_type = array(
@@ -53,7 +56,8 @@ class ResourceManager
         4 => "teli",
         5 => "lex",
         6 => "prj",
-        7 => "book"
+        7 => "book",
+        8 => "conversation"
     );
 
     /*
