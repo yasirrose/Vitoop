@@ -12,13 +12,9 @@ class MessageService
 {
     protected $client;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct($url, $api, $secret)
     {
-        $this->client = new Client(
-            $container->getParameter('centrifugo_url'),
-            $container->getParameter('centrifugo_secret'),
-            $container->getParameter('centrifugo_secret')
-        );
+        $this->client = new Client($url, $api, $secret);
     }
 
     public function getToken($userId)

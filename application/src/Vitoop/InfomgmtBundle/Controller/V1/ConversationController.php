@@ -15,6 +15,7 @@ use Vitoop\InfomgmtBundle\Entity\Conversation;
 use Vitoop\InfomgmtBundle\Entity\ConversationMessage;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Vitoop\InfomgmtBundle\Repository\ConversationMessageRepository;
 use Vitoop\InfomgmtBundle\Repository\ConversationRepository;
 use Vitoop\InfomgmtBundle\Repository\UserRepository;
 use Vitoop\InfomgmtBundle\Service\MessageService;
@@ -52,7 +53,7 @@ class ConversationController extends ApiController
     }
 
     /**
-     * @Route("/send", methods={"POST"}, requirements={"id": "\d+"})
+     * @Route("/messages", methods={"POST"}, requirements={"id": "\d+"})
      *
      * @param $conversation Conversation
      * @param $request Request
@@ -60,17 +61,15 @@ class ConversationController extends ApiController
      *
      * @return object
      */
-    public function sendMessage(Conversation $conversation, Request $request, VitoopSecurity $vitoopSecurity, UserRepository $userRepository)
+    public function sendMessage(
+        Conversation $conversation,
+        Request $request,
+        VitoopSecurity $vitoopSecurity,
+        ConversationMessageRepository $messageRepository
+    )
     {
-        $em = $this->getDoctrine()->getManager();
-        $user = $userRepository->find($vitoopSecurity->getUser()->getId());
-        $conversationDataProxy = $conversation->getConversationData();
-        $em->detach($conversationDataProxy);
-        $conversationData = $em->find('VitoopInfomgmtBundle:ConversationData', $conversationDataProxy->getId());
-
-        $message = new ConversationMessage($request->get('message'), $user, $conversationData);
-        $em->merge($message);
-        $em->flush();
+        $message = new ConversationMessage($request->get('message'), $vitoopSecurity->getUser(), $conversation->getConversationData());
+        $messageRepository->save($message);
 
         return $this->getApiResponse([
             'message' => 'Success sending message - ' . $request->get('message'),
@@ -84,11 +83,11 @@ class ConversationController extends ApiController
      * @param $vitoopSecurity VitoopSecurity
      * @ParamConverter("message", class="Vitoop\InfomgmtBundle\Entity\ConversationMessage", options={"id" = "messageID"})
      */
-    public function deleteMessage(Conversation $conversation, ConversationMessage $message, VitoopSecurity $vitoopSecurity)
+    public function deleteMessage(ConversationMessage $message, VitoopSecurity $vitoopSecurity, ConversationMessageRepository $messageRepository)
     {
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($message);
-        $em->flush();
+        $this->checkAccessForDelete($message, $vitoopSecurity);
+
+        $messageRepository->remove($message);
 
         return $this->getApiResponse(['success' => 'success']);
     }
@@ -96,6 +95,13 @@ class ConversationController extends ApiController
     private function checkAccess(Conversation $conversation, VitoopSecurity $vitoopSecurity)
     {
         if (!$conversation->getConversationData()->availableForReading($vitoopSecurity->getUser())) {
+            throw new AccessDeniedHttpException;
+        }
+    }
+
+    private function checkAccessForDelete(ConversationMessage $message, VitoopSecurity $vitoopSecurity)
+    {
+        if (!$message->availableForDelete($vitoopSecurity->getUser())) {
             throw new AccessDeniedHttpException;
         }
     }

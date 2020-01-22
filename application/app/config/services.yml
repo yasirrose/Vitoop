@@ -114,3 +114,9 @@ services:
             - { name: validator.constraint_validator }
 
     Vitoop\InfomgmtBundle\Utils\Token\CommonGeneratorStrategy: ~
+
+    Vitoop\InfomgmtBundle\Service\MessageService:
+        arguments:
+            - '%centrifugo_url%'
+            - '%centrifugo_api%'
+            - '%centrifugo_secret%'
