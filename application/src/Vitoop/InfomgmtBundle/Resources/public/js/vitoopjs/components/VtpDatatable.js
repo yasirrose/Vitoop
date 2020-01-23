@@ -327,6 +327,15 @@ export default class VtpDatatable {
 
     getColumns() {
         let columns = [];
+        if (this.resType === 'conversation') {
+            return [
+                this.getFirstColumn(),
+                this.getNameColumn(),
+                this.getOwnerColumn(),
+                this.getRatingColumn(),
+                this.getProjectUrlColumn()
+            ]
+        }
         if (this.resType == 'prj') {
             return [
                 this.getFirstColumn(),

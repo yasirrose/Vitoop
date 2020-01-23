@@ -44,6 +44,11 @@ export default [
         name: 'invitation'
     },
     {
+        path: '/conversation',
+        component: Table,
+        name: 'conversation'
+    },
+    {
         path: '/prj',
         component: Table,
         name: 'prj'
@@ -122,11 +127,6 @@ export default [
         path: '/user/datap',
         component: UserDataP,
         name: 'user-datap'
-    },
-    {
-        path: '/conversation',
-        component: Table,
-        name: 'conversation'
     },
 ]
 

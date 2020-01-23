@@ -54,7 +54,8 @@
                     teli: 'Textlink',
                     book: 'Buch',
                     adr: 'Adresse',
-                    link: 'Link'
+                    link: 'Link',
+                    conversation: 'conversation'
                 }
             }
         },

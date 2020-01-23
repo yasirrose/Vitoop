@@ -416,22 +416,34 @@ window.resourceDetail = (function () {
             } else {
                 console.log('No TabIndex provided!');
             }
-            var urlResourceType = (res_type && 0 !==tab_nr) ?res_type:'resources';
-            url = vitoop.baseUrl + ([urlResourceType, res_id, tab_name[tab_nr]].join('/'));
-            // if the tab is already loaded then return without any action
-            /*if (1 == tab_loaded[tab_nr]) {
-                return;
-            }*/
 
-            if ('new' == res_id) {
-                url = vitoop.baseUrl + ([res_type, 'new'].join('/'));
+            if (res_type === 'conversation' && tab_name[tab_nr] === 'quickview') {
+                url = `/api/v1/conversations/${res_id}`;
+                axios(url)
+                    .then(response => {
+                        console.log(response);
+                    })
+                    .catch(err => console.dir(err));
+            } else {
+                var urlResourceType = (res_type && 0 !==tab_nr) ?res_type:'resources';
+                url = vitoop.baseUrl + ([urlResourceType, res_id, tab_name[tab_nr]].join('/'));
+                // if the tab is already loaded then return without any action
+                /*if (1 == tab_loaded[tab_nr]) {
+                    return;
+                }*/
+
+                if ('new' == res_id) {
+                    url = vitoop.baseUrl + ([res_type, 'new'].join('/'));
+                }
+
+                $.ajax({
+                    url: url,
+                    success: loadTabSuccess,
+                    dataType: 'json'
+                });
             }
+
             tab_loaded[tab_nr] = 1;
-            $.ajax({
-                url: url,
-                success: loadTabSuccess,
-                dataType: 'json'
-            });
         },
 
         loadTabSuccess = function (responseJSON, textStatus, jqXHR, form) {
@@ -544,8 +556,11 @@ window.resourceDetail = (function () {
             //     tgl();
             // }
             tr_res = current_tr_res;
-            if ($(e.target).hasClass('vtp-uiaction-open-extlink') || $(e.target).parent().hasClass('vtp-uiaction-open-extlink') || $(e.target).hasClass('vtp-projectdata-unlink') || $(e.target).hasClass('vtp-projectdata-unlink-coefficient') || $(e.target).hasClass('vtp-uiaction-coefficient')) {
-
+            if ($(e.target).hasClass('vtp-uiaction-open-extlink') ||
+                $(e.target).parent().hasClass('vtp-uiaction-open-extlink') ||
+                $(e.target).hasClass('vtp-projectdata-unlink') ||
+                $(e.target).hasClass('vtp-projectdata-unlink-coefficient') ||
+                $(e.target).hasClass('vtp-uiaction-coefficient')) {
                 return;
             }
             // res_id is retrieved from the tablerow id (e.g. <tr
@@ -560,7 +575,18 @@ window.resourceDetail = (function () {
             openDialog();
         },
 
+        hideConnectionAndRemark = () => {
+            if (vitoopState.state.resource.type === 'conversation') {
+                $('#tab-title-remark').css('display','none');
+                $('#tab-title-rels').css('display','none');
+            } else {
+                $('#tab-title-remark').css('display','block');
+                $('#tab-title-rels').css('display','block');
+            }
+        },
+
         openDialog = function () {
+            hideConnectionAndRemark();
             // check for init: call a widget-method before initialization throws an
             // error
             $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').append(customCheckboxWrapper);
@@ -757,7 +783,8 @@ window.resourceDetail = (function () {
             $('#resource-comments').empty();
             $('#resource-lexicon').empty();
             $('#resource-project').empty();
-            $('#resource-title').empty();
+            $('#resource-title').remove();
+
             $('#resource-buttons').empty();
             $('#resource-flags').empty();
             $('.vtp-extlink-lexicon').remove();
