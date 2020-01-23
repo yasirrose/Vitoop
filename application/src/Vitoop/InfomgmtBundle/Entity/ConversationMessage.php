@@ -11,7 +11,7 @@ use Vitoop\InfomgmtBundle\DTO\GetDTOInterface;
 
 /**
  * @ORM\Table(name="conversation_messages")
- * @ORM\Entity(repositoryClass="Vitoop\InfomgmtBundle\Repository\ConversationRepository")
+ * @ORM\Entity(repositoryClass="Vitoop\InfomgmtBundle\Repository\ConversationMessageRepository")
  */
 class ConversationMessage implements GetDTOInterface
 {
@@ -37,7 +37,7 @@ class ConversationMessage implements GetDTOInterface
     protected $created;
 
     /**
-     * @ORM\OneToOne(targetEntity="User", inversedBy="conversationMessage")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="conversationMessage")
      * @ORM\JoinColumn(name="id_user", referencedColumnName="id")
      * @Serializer\Groups({"get_conversation"})
      */
@@ -49,6 +49,15 @@ class ConversationMessage implements GetDTOInterface
      * @Serializer\Groups({"get_conversation"})
      */
     protected $conversationData;
+
+    public function __construct($text = null, $user = null, $conversationData = null)
+    {
+        $conversationData->__load();
+        $this->setText($text);
+        $this->setUser($user);
+        $this->setConversationData($conversationData);
+        $this->setCreated(new \DateTime());
+    }
 
     /**
      * Set id
@@ -158,4 +167,12 @@ class ConversationMessage implements GetDTOInterface
         ];
     }
 
+    public function availableForDelete(User $user)
+    {
+        if ($user->isAdmin() || $user === $this->getUser()) {
+            return true;
+        }
+
+        return false;
+    }
 }

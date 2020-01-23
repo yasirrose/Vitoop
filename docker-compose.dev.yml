@@ -9,7 +9,7 @@ networks:
 
 services:
   vitoopdb:
-    image: mysql:5.7
+    image: mariadb:10.3.18
     volumes:
       - type: bind
         source: ./devops/docker/states/db/vitoop

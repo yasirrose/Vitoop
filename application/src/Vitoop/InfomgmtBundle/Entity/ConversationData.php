@@ -45,16 +45,16 @@ class ConversationData implements GetDTOInterface
     protected $relUsers;
 
     /**
-     * @ORM\OneToMany(targetEntity="ConversationMessage", mappedBy="conversationData")
+     * @ORM\OneToMany(targetEntity="ConversationMessage", mappedBy="conversationData", cascade={"merge", "remove"})
      */
-    protected $message;
+    protected $messages;
 
     public function __construct()
     {
         $this->sheet = '<h1>Leeres Conversation.</h1>';
         $this->isForRelatedUsers = false;
         $this->relUsers = new ArrayCollection();
-        $this->message = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
     /**
@@ -125,7 +125,9 @@ class ConversationData implements GetDTOInterface
      */
     public function addMessage(\Vitoop\InfomgmtBundle\Entity\ConversationMessage $message)
     {
-        $this->message[] = $message;
+        if ($this->messages->contains($message)) {
+            $this->messages->add($message);
+        }
 
         return $this;
     }
@@ -135,9 +137,9 @@ class ConversationData implements GetDTOInterface
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getMessage()
+    public function getMessages()
     {
-        return $this->message;
+        return $this->messages;
     }
 
     /**
@@ -147,18 +149,24 @@ class ConversationData implements GetDTOInterface
      */
     public function removeMessage(\Vitoop\InfomgmtBundle\Entity\ConversationMessage $message)
     {
-        $this->message->removeElement($message);
+        if ($this->messages->contains($message)) {
+            $this->messages->removeElement($message);
+        }
+
+        return $this;
     }
 
     /**
      * Add relUsers
      *
-     * @param \Vitoop\InfomgmtBundle\Entity\RelConversationUser $relUsers
+     * @param \Vitoop\InfomgmtBundle\Entity\RelConversationUser $relUser
      * @return ConversationData
      */
-    public function addRelUser(\Vitoop\InfomgmtBundle\Entity\RelConversationUser $relUsers)
+    public function addRelUser(\Vitoop\InfomgmtBundle\Entity\RelConversationUser $relUser)
     {
-        $this->relUsers[] = $relUsers;
+        if ($this->relUsers->contains($relUser)) {
+            $this->relUsers->add($relUser);
+        }
 
         return $this;
     }
@@ -166,11 +174,14 @@ class ConversationData implements GetDTOInterface
     /**
      * Remove relUsers
      *
-     * @param \Vitoop\InfomgmtBundle\Entity\RelConversationUser $relUsers
+     * @param \Vitoop\InfomgmtBundle\Entity\RelConversationUser $relUser
      */
-    public function removeRelUser(\Vitoop\InfomgmtBundle\Entity\RelConversationUser $relUsers)
+    public function removeRelUser(\Vitoop\InfomgmtBundle\Entity\RelConversationUser $relUser)
     {
-        $this->relUsers->removeElement($relUsers);
+        if ($this->messages->contains($relUser)) {
+            $this->relUsers->removeElement($relUser);
+        }
+
     }
 
     /**
@@ -224,12 +235,11 @@ class ConversationData implements GetDTOInterface
 
     public function getDTO()
     {
-
         return [
             'id' => $this->id,
             'sheet' => $this->sheet,
             'is_for_related_users' => $this->isForRelatedUsers,
-            'messages' => $this->message->map(function (ConversationMessage $messages) {
+            'messages' => $this->messages->map(function (ConversationMessage $messages) {
                 return $messages->getDTO();
             })->toArray(),
             'rel_users' => $this->relUsers->map(function (RelConversationUser $user) {

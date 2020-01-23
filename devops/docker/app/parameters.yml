@@ -14,3 +14,6 @@ parameters:
     secret: ThisTokenIsNotSoSecretChangeIt
     download_folder: /srv/downloads
     wkhtmltopdf_bin: 'xvfb-run /usr/local/bin/wkhtmltopdf'
+    centrifugo_url: 'https://centrifugal.vitoop.de:8000/api'
+    centrifugo_secret: bd0a6d03-cd8c-4ee7-b6e6-b9d6cdc7383a
+    centrifugo_api: b5dd67ab-fde9-4578-b7ff-f63180434980

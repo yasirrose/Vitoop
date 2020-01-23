@@ -4,52 +4,21 @@
 namespace Vitoop\InfomgmtBundle\Service;
 
 use phpcent\Client;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Vitoop\InfomgmtBundle\Entity\Resource;
+use phpDocumentor\Reflection\Types\Self_;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class MessageService extends Resource
+
+class MessageService
 {
     protected $client;
 
-    public $token;
-
-    public $channel;
-
-    public $userId;
-
-    public function __construct()
+    public function __construct($url, $api, $secret)
     {
-        $this->client = new Client("https://centrifugo2.herokuapp.com/api", "api_key", 'secret');
-
-        //$this->client = new Client("https://centrifugal.vitoop.de:8000/api", "b5dd67ab-fde9-4578-b7ff-f63180434980", 'bd0a6d03-cd8c-4ee7-b6e6-b9d6cdc7383a');
-
-        $this->token = $this->client->generatePrivateChannelToken($this->userId, $this->channel);
-
+        $this->client = new Client($url, $api, $secret);
     }
 
-    public function setToken($token)
+    public function getToken($userId)
     {
-        $this->token = $token;
+        return $this->client->generateConnectionToken($userId, time() + 3600 * 24);
     }
-
-    private function getToken()
-    {
-        return $this->token;
-    }
-
-    public function setChannel($channel)
-    {
-        $this->channel = $channel;
-    }
-
-    private function getChannel()
-    {
-        return $this->channel;
-    }
-
-    public function setUserId($userId)
-    {
-        $this->userId = $userId;
-    }
-
 }
