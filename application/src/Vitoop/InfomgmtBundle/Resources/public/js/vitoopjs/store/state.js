@@ -38,5 +38,6 @@ export default {
     help: {
         text: null,
         id: null
-    }
+    },
+    conversation: null
 }

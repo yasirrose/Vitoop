@@ -48,14 +48,14 @@
         data() {
             return {
                 resources: {
+                    conversation: 'conversation',
                     prj: 'Projekt',
                     lex: 'Lexikon',
                     pdf: 'Pdf',
                     teli: 'Textlink',
                     book: 'Buch',
                     adr: 'Adresse',
-                    link: 'Link',
-                    conversation: 'conversation'
+                    link: 'Link'
                 }
             }
         },

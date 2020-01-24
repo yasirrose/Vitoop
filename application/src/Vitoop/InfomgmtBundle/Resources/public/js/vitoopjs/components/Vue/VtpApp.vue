@@ -4,6 +4,7 @@
         <router-view v-if="notLogin" />
         <app-login v-else />
         <app-footer />
+        <app-dialogs></app-dialogs>
     </div>
 </template>
 
@@ -13,6 +14,7 @@
     import AppContent from "./components/AppContent.vue";
     import AppFooter from "./footer/AppFooter.vue";
     import AppLogin from "./components/AppLogin.vue";
+    import AppDialogs from "./components/dialogs/AppDialogs.vue";
 
     export default {
         name: "VtpApp",
@@ -48,7 +50,7 @@
                 dataP: this.dataP
             }
         },
-        components: { AppFooter, AppHeader, AppContent, AppLogin },
+        components: { AppFooter, AppHeader, AppContent, AppLogin, AppDialogs },
         computed: {
             notLogin() {
                 return this.$store.state.user !== null ||

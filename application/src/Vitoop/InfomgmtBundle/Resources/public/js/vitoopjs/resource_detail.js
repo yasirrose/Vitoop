@@ -322,8 +322,8 @@ window.resourceDetail = (function () {
              * UIfy: tag
              ************************************************************************/
             if ('resource-tag' == container_name) {
-               var tagWidget = new TagWidget(res_id, vitoop.baseUrl);
-               tagWidget.init();
+                var tagWidget = new TagWidget(res_id, vitoop.baseUrl);
+                tagWidget.init();
             }
 
             /*************************************************************************
@@ -405,6 +405,27 @@ window.resourceDetail = (function () {
             $('#vtp-remark-private-box').hide();
         },
 
+        conversationQuickView = () => {
+            axios(`/api/v1/conversations/${res_id}`)
+                .then(response => {
+                    $('#resource-title').text(response.data.conversation.name);
+                    addButtons();
+                    uifyContainer('resource-buttons');
+                    uifyContainer('resource-rating');
+                    vitoopState.commit('set',{key: 'conversation', value: response.data.conversation});
+                })
+                .catch(err => console.dir(err));
+
+            function addButtons() {
+                $('#resource-buttons').html(`
+                    <button class="vtp-uistyle-iconbutton vtp-uiaction-detail-previous vtp-wide-iconbutton" title="zurück"></button>
+                    <button class="vtp-uistyle-iconbutton vtp-uiaction-detail-next vtp-wide-iconbutton" title="vor"></button>
+                    <button class="vtp-uistyle-iconbutton vtp-uiaction-detail-new vtp-wide-iconbutton" title="neu"></button>
+                    <button class="vtp-uistyle-iconbutton vtp-uiaction-detail-blame" title="beschweren"></button>
+                `);
+            }
+        },
+
         loadTab = function (event, ui) {
             var tab_nr;
             var url;
@@ -418,12 +439,7 @@ window.resourceDetail = (function () {
             }
 
             if (res_type === 'conversation' && tab_name[tab_nr] === 'quickview') {
-                url = `/api/v1/conversations/${res_id}`;
-                axios(url)
-                    .then(response => {
-                        console.log(response);
-                    })
-                    .catch(err => console.dir(err));
+                conversationQuickView();
             } else {
                 var urlResourceType = (res_type && 0 !==tab_nr) ?res_type:'resources';
                 url = vitoop.baseUrl + ([urlResourceType, res_id, tab_name[tab_nr]].join('/'));
@@ -576,7 +592,7 @@ window.resourceDetail = (function () {
         },
 
         hideConnectionAndRemark = () => {
-            if (vitoopState.state.resource.type === 'conversation') {
+            if (res_type === 'conversation') {
                 $('#tab-title-remark').css('display','none');
                 $('#tab-title-rels').css('display','none');
             } else {
@@ -585,12 +601,16 @@ window.resourceDetail = (function () {
             }
         },
 
+        addCheckboxWrapperWithResourceTitle = () => {
+            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').append(customCheckboxWrapper);
+            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title .custom-checkbox__wrapper').append('<span id="resource-title"></span>');
+        },
+
         openDialog = function () {
             hideConnectionAndRemark();
             // check for init: call a widget-method before initialization throws an
             // error
-            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').append(customCheckboxWrapper);
-            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title .custom-checkbox__wrapper').append('<span id="resource-title"></span>');
+            addCheckboxWrapperWithResourceTitle();
 
             try {
                 $('#vtp-res-dialog-tabs').tabs("option");
@@ -672,7 +692,7 @@ window.resourceDetail = (function () {
             }
         },
 
-        nextResource = function () {
+        nextResource = function () { // toDo needs to refactor
             // tr_res is current (jqueryfied) tr-element
             if (next_id == -1) {// no NEXT page avaiable
                 return;
@@ -687,6 +707,7 @@ window.resourceDetail = (function () {
                     setNextId();
                     tgl();
                     hardResetTabs();
+                    addCheckboxWrapperWithResourceTitle();
                     loadTab(undefined, 0);
                 });
             } else { // flip to NEXT resource
@@ -700,6 +721,7 @@ window.resourceDetail = (function () {
                 setNextId();
                 tgl();
                 hardResetTabs();
+                addCheckboxWrapperWithResourceTitle();
                 loadTab(undefined, 0);
             }
             return true;
@@ -720,7 +742,7 @@ window.resourceDetail = (function () {
             }
         },
 
-        previousResource = function () {
+        previousResource = function () { // toDo needs to refactor
             // tr_res is current (jqueryfied) tr-element
             if (prev_id == -1) {// no PREVious page avaiable
                 return;
@@ -736,6 +758,7 @@ window.resourceDetail = (function () {
                     // We are still in an asynchronous callback: Tab Maintenance must be
                     // done here
                     hardResetTabs();
+                    addCheckboxWrapperWithResourceTitle();
                     loadTab(undefined, 0);
                 });
             } else { // flip to PREVious resource
@@ -749,6 +772,7 @@ window.resourceDetail = (function () {
                 setPrevId();
                 tgl();
                 hardResetTabs();
+                addCheckboxWrapperWithResourceTitle();
                 loadTab(undefined, 0);
             }
             return true;
@@ -775,6 +799,9 @@ window.resourceDetail = (function () {
         },
 
         hardResetTabs = function () {
+            vitoopState.commit('set', {key: 'conversation', value: null});
+            $('#resource-title').remove();
+            customCheckboxWrapper.remove();
             $('#resource-data').empty();
             $('#resource-rating').empty();
             $('#resource-tag').empty();
@@ -783,8 +810,6 @@ window.resourceDetail = (function () {
             $('#resource-comments').empty();
             $('#resource-lexicon').empty();
             $('#resource-project').empty();
-            $('#resource-title').remove();
-
             $('#resource-buttons').empty();
             $('#resource-flags').empty();
             $('.vtp-extlink-lexicon').remove();
@@ -855,7 +880,6 @@ window.resourceDetail = (function () {
         },
 
         closeDialog = function () {
-            customCheckboxWrapper.remove();
             hardResetTabs();
             hideHelpWindow();
 
