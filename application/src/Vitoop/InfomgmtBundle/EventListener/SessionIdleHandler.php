@@ -61,7 +61,7 @@ class SessionIdleHandler
      */
     public function onKernelRequest(GetResponseEvent $event)
     {
-        if (HttpKernelInterface::MASTER_REQUEST != $event->getRequestType()) {
+        if (!$event->isMasterRequest()) {
             return;
         }
         if ($this->maxIdleTime > 0) {
