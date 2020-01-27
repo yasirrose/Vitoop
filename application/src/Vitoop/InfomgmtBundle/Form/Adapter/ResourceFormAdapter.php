@@ -2,6 +2,7 @@
 
 namespace Vitoop\InfomgmtBundle\Form\Adapter;
 
+use Vitoop\InfomgmtBundle\Form\Type\ConversationType;
 use Vitoop\InfomgmtBundle\Form\Type\ResourceType;
 use Vitoop\InfomgmtBundle\Form\Type\AddressType;
 use Vitoop\InfomgmtBundle\Form\Type\BookType;
@@ -23,7 +24,8 @@ class ResourceFormAdapter
         'book' => BookType::class,
         'teli' => TeliType::class,
         'lex' => LexiconType::class,
-        'prj' => ProjectType::class
+        'prj' => ProjectType::class,
+        'conversation' => ConversationType::class,
     ];
 
     public static function getFormType($type)
