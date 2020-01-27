@@ -71,9 +71,6 @@
                 {% if tags is not defined %}
                     {% set tags = [] %}
                 {% endif %}
-                {% if terms is not defined %}
-                    {% set terms = false %}
-                {% endif %}
                 {% if datap is not defined %}
                     {% set datap = false %}
                 {% endif %}
@@ -96,7 +93,7 @@
                          :invitation="{{ vsettings.getInvitation().getValue() }}"
                          :as-project-owner="{{ showasprojectowner|json_encode() }}"
                          :tags="{{ tags|json_encode }}"
-                         :terms="{{ terms|json_encode() }}"
+                         :terms="{{ vsettings.getTerms().getValue()|json_encode() }}"
                          :data-p="{{ datap|json_encode() }}">
                 </vtp-app>
             </div>
