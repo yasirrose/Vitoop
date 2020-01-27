@@ -26,7 +26,8 @@ class ProjectRepository extends ResourceRepository
             ->leftJoin('r.lang', 'la')
             ->leftJoin('r.project_data', 'projectData')
             ->leftJoin('projectData.relUsers', 'relUsers', 'WITH', 'relUsers.user = :currentUser')
-            ->andWhere('projectData.isForRelatedUsers = false OR (projectData.isForRelatedUsers = true AND (relUsers.user = :currentUser OR r.user = :currentUser))')
+            ->andWhere('projectData.isForRelatedUsers = false OR (projectData.isForRelatedUsers = true AND (relUsers.user = :currentUser OR r.user = :currentUser)) OR true = :isAdmin')
+            ->setParameter('isAdmin', $search->user->isAdmin())
         ;
         $this->prepareListQueryBuilder($qb, $search);
 
