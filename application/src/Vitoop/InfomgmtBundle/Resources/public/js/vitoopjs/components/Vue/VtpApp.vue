@@ -87,6 +87,13 @@
             window.vitoopApp = new VitoopApp();
             vitoopApp.init();
         },
+        updated() {
+            if (!this.agreeWithTerm &&
+                this.$store.state.user !== null &&
+                !/invitation|register|user-agreement|user-datap/.test(this.$route.name)) {
+                this.$router.push('/user/agreement');
+            }
+        },
         mounted() {
             userInteraction.init();
             resourceDetail.init();

@@ -99,12 +99,6 @@
                 <span class="ui-button-icon-primary ui-icon ui-icon-notice"></span>
                 <span class="ui-button-text"></span>
             </button>
-            <button v-else
-                    style="margin-right: 3px;"
-                    class="vtp-button vtp-admin-toolbar ui-widget ui-state-default ui-corner-all ui-button-text-only"
-                    @click="$router.push('/user/agreement')">
-                <span class="ui-button-text">{{ $t('label.terms') }}</span>
-            </button>
             <a @click.prevent="$router.push('/user/settings')"
                id="vtp-user-userdata"
                class="vtp-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
