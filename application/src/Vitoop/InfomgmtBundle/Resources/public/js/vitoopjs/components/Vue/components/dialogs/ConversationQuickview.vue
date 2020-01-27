@@ -1,17 +1,6 @@
 <template>
     <div>
         <form id="vtp-form-data" v-if="get('conversation')">
-
-            <fieldset class="ui-corner-all">
-                <legend>Rating</legend>
-                <div id="vtp-rating-slider">
-                    <div id="vtp-rating-slider-container">
-                        <div id="vtp-rating-slider-slider"></div>
-                    </div>
-                    <div class="vtp-uiinfo-form-error"></div>
-                </div>
-            </fieldset>
-
             <fieldset class="ui-corner-all">
                 <legend>Nachricht</legend>
                 <div class="vtp-fh-top">
@@ -25,9 +14,15 @@
                 </div>
                 <div class="flex">
                     <label class="required" style="width: 22%">Status:</label>
-                    <select id="conversation_status" v-model="status">
-                        <option value="public">öffentlich</option>
-                        <option value="privat">privat</option>
+                    <select id="conversation_status">
+                        <option value="false"
+                                :selected="!get('conversation').conversation_data.is_for_related_users">
+                            öffentlich
+                        </option>
+                        <option value="true"
+                                :selected="get('conversation').conversation_data.is_for_related_users">
+                            privat
+                        </option>
                     </select>
                 </div>
                 <div class="vtp-fh-middle flex w-100">
@@ -42,6 +37,13 @@
                               rows="10">{{ get('conversation').conversation_data.messages[0] }}
                     </textarea>
                     <div class="vtp-uiinfo-form-error"></div>
+                </div>
+                <div style="text-align: right">
+                    <input type="submit"
+                           @click="saveConversation"
+                           class="vtp-uiinfo-anchor ui-button ui-widget ui-state-default ui-corner-all"
+                           value="speichern"
+                           role="button">
                 </div>
             </fieldset>
         </form>
@@ -64,6 +66,9 @@
         methods: {
             changeStatus(status) {
                 console.log(status);
+            },
+            saveConversation() {
+                console.log('save');
             }
         }
     }
@@ -72,6 +77,13 @@
 <style lang="scss">
     #resource-buttons {
         font-size: 0;
+    }
+
+    #resource-quickview {
+        span.ui-selectmenu-button {
+            width: 100px !important;
+            margin-bottom: 0 !important;
+        }
     }
 </style>
 
@@ -84,10 +96,10 @@
         width: 100%;
     }
 
-    #conversation_status {
-        padding: 0 5px;
-        width: 100px;
-        background-color: #62bbe9;
-        color: white;
-    }
+    /*#conversation_status {*/
+    /*    padding: 0 5px;*/
+    /*    width: 100px;*/
+    /*    background-color: #62bbe9;*/
+    /*    color: white;*/
+    /*}*/
 </style>

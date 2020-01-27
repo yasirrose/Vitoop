@@ -11,8 +11,8 @@
                 </ul>
                 <div id="tabs-quickview">
                     <div id="resource-quickview">
-                        <conversation-quickview v-if="showConversation" />
                         <div id="resource-rating"></div>
+                        <conversation-quickview v-if="showConversation" />
                         <div id="resource-data"></div>
                         <div id="resource-tag"></div>
                     </div>

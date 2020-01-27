@@ -205,8 +205,9 @@ window.resourceDetail = (function () {
                 // Move the rating-infobox to the header, but remove the old one if
                 // exists
                 $('#vtp-rating-infobox-li').remove();
-                $('<li id="vtp-rating-infobox-li"></li>').insertAfter('#vtp-res-dialog-tabs>ul>li:last').append(
-                    $('#vtp-rating-infobox-wrapper'));
+                $('<li id="vtp-rating-infobox-li"></li>')
+                    .insertAfter('#vtp-res-dialog-tabs>ul>li:last')
+                    .append($('#vtp-rating-infobox-wrapper'));
                 // left/right-buttons
                 cnt_rating_infobox = $('.vtp-rating-infobox').length;
                 if (cnt_rating_infobox == 1) {
@@ -405,14 +406,22 @@ window.resourceDetail = (function () {
             $('#vtp-remark-private-box').hide();
         },
 
+        conversationResourceRating = () => {
+            axios(`/conversation/${res_id}/rating`)
+                .then(({data}) => {
+                    replaceContainer('resource-rating', data['resource-rating']);
+                })
+                .catch(err => console.dir(err));
+        },
+
         conversationQuickView = () => {
-            axios(`/api/v1/conversations/${res_id}`)
+            return axios(`/api/v1/conversations/${res_id}`)
                 .then(response => {
+                    vitoopState.commit('set',{key: 'conversation', value: response.data.conversation});
                     $('#resource-title').text(response.data.conversation.name);
                     addButtons();
                     uifyContainer('resource-buttons');
-                    uifyContainer('resource-rating');
-                    vitoopState.commit('set',{key: 'conversation', value: response.data.conversation});
+                    return;
                 })
                 .catch(err => console.dir(err));
 
@@ -438,32 +447,46 @@ window.resourceDetail = (function () {
                 console.log('No TabIndex provided!');
             }
 
-            if (res_type === 'conversation' && tab_name[tab_nr] === 'quickview') {
-                conversationQuickView();
-            } else {
-                var urlResourceType = (res_type && 0 !==tab_nr) ?res_type:'resources';
-                url = vitoop.baseUrl + ([urlResourceType, res_id, tab_name[tab_nr]].join('/'));
-                // if the tab is already loaded then return without any action
-                /*if (1 == tab_loaded[tab_nr]) {
-                    return;
-                }*/
+            var urlResourceType = (res_type && 0 !==tab_nr) ?res_type:'resources';
+            url = vitoop.baseUrl + ([urlResourceType, res_id, tab_name[tab_nr]].join('/'));
+            // if the tab is already loaded then return without any action
+            /*if (1 == tab_loaded[tab_nr]) {
+                return;
+            }*/
 
-                if ('new' == res_id) {
-                    url = vitoop.baseUrl + ([res_type, 'new'].join('/'));
-                }
-
-                $.ajax({
-                    url: url,
-                    success: loadTabSuccess,
-                    dataType: 'json'
-                });
+            if ('new' == res_id) {
+                url = vitoop.baseUrl + ([res_type, 'new'].join('/'));
             }
+
+            if (res_type === 'conversation' && tab_name[tab_nr] === 'quickview') {
+                url = `/api/v1/conversations/${res_id}`;
+            }
+
+            $.ajax({
+                url: url,
+                success: (responseJSON) => {
+                    if (res_type === 'conversation' && tab_name[tab_nr] === 'quickview') {
+                        conversationResourceRating();
+                        conversationQuickView()
+                            .then(() => loadTabSuccess(responseJSON))
+                            .catch(err => console.dir(err));
+                    }
+                    loadTabSuccess(responseJSON);
+                },
+                dataType: 'json'
+            });
 
             tab_loaded[tab_nr] = 1;
         },
 
-        loadTabSuccess = function (responseJSON, textStatus, jqXHR, form) {
+        loadTabSuccess = function (responseJSON,tab) {
             var isNewResource = false;
+
+            if (res_type === 'conversation' && tab === 'quickview') {
+                conversationResourceRating();
+                conversationQuickView();
+            }
+
             if ('new' == res_id) {
                 isNewResource = true;
                 if (responseJSON['resource-metadata'] && !responseJSON['resource-metadata'].isNewValid) {
@@ -525,6 +548,9 @@ window.resourceDetail = (function () {
 
             $('#vtp-res-dialog select').selectmenu({
                 select: function( event, ui ) {
+                    if (event.target.id === 'conversation_status') {
+                        vitoopState.commit('isForRelatedUser', ui.item.value);
+                    }
                     $('span.ui-selectmenu-button').removeAttr('tabIndex');
                 }
             });
