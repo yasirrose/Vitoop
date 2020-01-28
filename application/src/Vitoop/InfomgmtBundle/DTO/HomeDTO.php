@@ -8,12 +8,15 @@ class HomeDTO
 
     public $lexicon = null;
 
+    public $conversation = null;
+
     public $isEditMode = false;
 
-    public function __construct($project, $lexicon, $isEditMode)
+    public function __construct($project, $lexicon, $conversation, $isEditMode)
     {
         $this->project = $project;
         $this->lexicon = $lexicon;
+        $this->conversation = $conversation;
         $this->isEditMode = $isEditMode;
     }
 
@@ -25,5 +28,10 @@ class HomeDTO
     public function isNotEmptyLexicon()
     {
         return !empty($this->lexicon);
+    }
+
+    public function isNotEmptyConversation()
+    {
+        return !empty($this->conversation);
     }
 }

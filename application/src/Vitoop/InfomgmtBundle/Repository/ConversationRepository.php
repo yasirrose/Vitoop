@@ -30,4 +30,12 @@ class ConversationRepository extends ResourceRepository
 
         return $qb;
     }
+
+    public function getConversationById($id)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT c FROM ' . $this->getEntityName() . ' c WHERE c.id=:arg_id')
+            ->setParameter('arg_id', $id)
+            ->getResult();
+    }
 }
