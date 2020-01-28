@@ -383,7 +383,7 @@ class ResourceController extends ApiController
     }
 
     /**
-     * @Route("/{res_type}/{res_id}/data", name="_xhr_resource_data", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
+     * @Route("/{res_type}/{res_id}/data", name="_xhr_resource_data", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book|conversation"})
      */
     public function dataAction(ResourceDataCollector $rdc, $res_type, $res_id)
     {
@@ -399,7 +399,7 @@ class ResourceController extends ApiController
     }
 
     /**
-     * @Route("/{res_type}/new", name="_xhr_resource_new", requirements={"res_type": "pdf|adr|link|teli|lex|prj|book"})
+     * @Route("/{res_type}/new", name="_xhr_resource_new", requirements={"res_type": "pdf|adr|link|teli|lex|prj|book|conversation"})
      */
     public function newAction(ResourceDataCollector $rdc, $res_type)
     {
@@ -420,7 +420,7 @@ class ResourceController extends ApiController
     }
 
     /**
-     * @Route("/{res_type}/{res_id}/tags", name="_xhr_resource_tags", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book"})
+     * @Route("/{res_type}/{res_id}/tags", name="_xhr_resource_tags", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book|conversation"})
      */
     public function tagAction(ResourceDataCollector $rdc, $res_type, $res_id)
     {
