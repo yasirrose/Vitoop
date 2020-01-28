@@ -37,7 +37,7 @@ class ProjectController extends ApiController
      */
     public function getProjectById(Project $project)
     {
-        if (!$project->getProjectData()->availableForWriting($this->getUser())) {
+        if (!$project->getProjectData()->availableForReading($this->getUser())) {
             return $this->getApiResponse(new ErrorResponse(['Not available project'], 403));
         }
 

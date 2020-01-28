@@ -3,6 +3,8 @@ namespace Vitoop\InfomgmtBundle\Twig\Extension;
 
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 class VitoopExtension extends AbstractExtension
 {
@@ -14,17 +16,17 @@ class VitoopExtension extends AbstractExtension
     public function getFilters()
     {
         return array(
-            new \Twig_SimpleFilter('teaseTitle', array($this, 'teaseTitle')),
-            new \Twig_SimpleFilter('teaseUrl', array($this, 'teaseUrl')),
-            new \Twig_SimpleFilter('teaseAuthor', array($this, 'teaseAuthor')),
-            new \Twig_SimpleFilter('avgmarkhint', array($this, 'avgmarkhint'))
+            new TwigFilter('teaseTitle', array($this, 'teaseTitle')),
+            new TwigFilter('teaseUrl', array($this, 'teaseUrl')),
+            new TwigFilter('teaseAuthor', array($this, 'teaseAuthor')),
+            new TwigFilter('avgmarkhint', array($this, 'avgmarkhint'))
         );
     }
 
     public function getFunctions()
     {
         return array(
-            new \Twig_SimpleFunction('avgimg', array($this, 'avgimg'))
+            new TwigFunction('avgimg', array($this, 'avgimg'))
         );
     }
 

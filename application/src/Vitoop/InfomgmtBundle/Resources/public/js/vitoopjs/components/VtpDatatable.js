@@ -613,7 +613,7 @@ export default class VtpDatatable {
     }
 
     getProjectUrlValue(data, type, row, meta) {
-        if (row.canRead && row.username === vitoopState.state.user.username || vitoopState.state.admin) {
+        if (row.canRead || vitoopState.state.admin) {
             return VtpDatatable.prototype.getInternalUrlValue(vitoop.baseUrl+'project/'+data, type, row, meta);
         }
 
