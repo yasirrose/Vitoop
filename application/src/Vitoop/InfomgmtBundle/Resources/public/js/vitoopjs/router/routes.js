@@ -1,5 +1,6 @@
 import Index from "../components/Vue/components/project/Index.vue";
 import AppLexicon from "../components/Vue/components/AppLexicon.vue";
+import AppConversation from "../components/Vue/components/AppConversation.vue";
 import UserSettings from "../components/Vue/UserSettings/UserSettings.vue";
 import UserHome from "../components/Vue/components/user/UserHome.vue";
 import Login from "../components/Vue/components/AppLogin.vue";
@@ -92,6 +93,11 @@ export default [
         path: '/lexicon/:lexiconId',
         component: AppLexicon,
         name: 'lexicon'
+    },
+    {
+        path: '/conversation/:conversationId',
+        component: AppConversation,
+        name: 'conversation-item'
     },
     {
         path: '/user/settings',

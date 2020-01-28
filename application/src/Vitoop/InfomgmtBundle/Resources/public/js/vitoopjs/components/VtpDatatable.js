@@ -333,7 +333,7 @@ export default class VtpDatatable {
                 this.getNameColumn(),
                 this.getOwnerColumn(),
                 this.getRatingColumn(),
-                this.getProjectUrlColumn()
+                this.getConversationUrlColumn()
             ]
         }
         if (this.resType == 'prj') {
@@ -435,6 +435,15 @@ export default class VtpDatatable {
                 this.getOwnerColumn(),
                 this.getMapsLinkColumn()
             ];
+        }
+    }
+
+    getConversationUrlColumn() {
+        return {
+            render: (data,type,row,meta) => {
+                const url = `/conversation/${row.id}`;
+                return this.getInternalUrlValue(url);
+            }
         }
     }
 

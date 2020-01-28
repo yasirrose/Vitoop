@@ -382,6 +382,8 @@ window.resourceDetail = (function () {
             /*************************************************************************
              * UIfy: END
              ************************************************************************/
+
+            hideConnectionAndRemark();
         },
 
         clearTabsClasses = function() {
@@ -404,35 +406,6 @@ window.resourceDetail = (function () {
 
             $('#vtp-remark-box').hide();
             $('#vtp-remark-private-box').hide();
-        },
-
-        conversationResourceRating = () => {
-            axios(`/conversation/${res_id}/rating`)
-                .then(({data}) => {
-                    replaceContainer('resource-rating', data['resource-rating']);
-                })
-                .catch(err => console.dir(err));
-        },
-
-        conversationQuickView = () => {
-            return axios(`/api/v1/conversations/${res_id}`)
-                .then(response => {
-                    vitoopState.commit('set',{key: 'conversation', value: response.data.conversation});
-                    $('#resource-title').text(response.data.conversation.name);
-                    addButtons();
-                    uifyContainer('resource-buttons');
-                    return;
-                })
-                .catch(err => console.dir(err));
-
-            function addButtons() {
-                $('#resource-buttons').html(`
-                    <button class="vtp-uistyle-iconbutton vtp-uiaction-detail-previous vtp-wide-iconbutton" title="zurück"></button>
-                    <button class="vtp-uistyle-iconbutton vtp-uiaction-detail-next vtp-wide-iconbutton" title="vor"></button>
-                    <button class="vtp-uistyle-iconbutton vtp-uiaction-detail-new vtp-wide-iconbutton" title="neu"></button>
-                    <button class="vtp-uistyle-iconbutton vtp-uiaction-detail-blame" title="beschweren"></button>
-                `);
-            }
         },
 
         loadTab = function (event, ui) {
@@ -458,34 +431,17 @@ window.resourceDetail = (function () {
                 url = vitoop.baseUrl + ([res_type, 'new'].join('/'));
             }
 
-            if (res_type === 'conversation' && tab_name[tab_nr] === 'quickview') {
-                url = `/api/v1/conversations/${res_id}`;
-            }
-
             $.ajax({
                 url: url,
-                success: (responseJSON) => {
-                    if (res_type === 'conversation' && tab_name[tab_nr] === 'quickview') {
-                        conversationResourceRating();
-                        conversationQuickView()
-                            .then(() => loadTabSuccess(responseJSON))
-                            .catch(err => console.dir(err));
-                    }
-                    loadTabSuccess(responseJSON);
-                },
+                success: loadTabSuccess,
                 dataType: 'json'
             });
 
             tab_loaded[tab_nr] = 1;
         },
 
-        loadTabSuccess = function (responseJSON,tab) {
+        loadTabSuccess = function (responseJSON) {
             var isNewResource = false;
-
-            if (res_type === 'conversation' && tab === 'quickview') {
-                conversationResourceRating();
-                conversationQuickView();
-            }
 
             if ('new' == res_id) {
                 isNewResource = true;
@@ -503,7 +459,6 @@ window.resourceDetail = (function () {
             }
             if (responseJSON['resource-metadata']) {
                 res_type = responseJSON['resource-metadata'].type;
-                // vitoopState.commit('setResource', {type: res_type, id: null});
                 viewUrl = '';
                 if ('lex' === res_type) {
                     viewUrl = vitoop.baseUrl + 'lexicon/' +res_id;
@@ -618,7 +573,7 @@ window.resourceDetail = (function () {
         },
 
         hideConnectionAndRemark = () => {
-            if (res_type === 'conversation') {
+            if (vitoopState.state.resource.type === 'conversation') {
                 $('#tab-title-remark').css('display','none');
                 $('#tab-title-rels').css('display','none');
             } else {
@@ -633,7 +588,6 @@ window.resourceDetail = (function () {
         },
 
         openDialog = function () {
-            hideConnectionAndRemark();
             // check for init: call a widget-method before initialization throws an
             // error
             addCheckboxWrapperWithResourceTitle();

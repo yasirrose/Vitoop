@@ -1,3 +1,10 @@
 .overflow-hidden {
   overflow: hidden;
 }
+
+.bordered-box {
+  overflow: auto;
+  margin: 8px;
+  padding:1em;
+  border: 1px solid #aed0ea;
+}
