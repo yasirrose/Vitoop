@@ -6,6 +6,7 @@ use Vitoop\InfomgmtBundle\DTO\Paging;
 use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
 use Vitoop\InfomgmtBundle\DTO\Resource\SearchColumns;
 use Vitoop\InfomgmtBundle\Entity\Comment;
+use Vitoop\InfomgmtBundle\Entity\Conversation;
 use Vitoop\InfomgmtBundle\Entity\Pdf;
 use Vitoop\InfomgmtBundle\Entity\Flag;
 use Vitoop\InfomgmtBundle\Entity\UserConfig;
@@ -724,5 +725,19 @@ class ResourceController extends ApiController
             $resource->getId() . '.pdf',
             $this->get('vitoop.url_getter')->getBinaryContentFromUrl($resource->getUrl())
         );
+    }
+
+    /**
+     * @Route("/conversation/{conversationId}", methods={"GET"})
+     * @ParamConverter("conversation", class="Vitoop\InfomgmtBundle\Entity\Conversation", options={"id" = "conversationId"})
+     * @param Conversation $conversation
+     * @return object
+     */
+    public function getConversation(Conversation $conversation)
+    {
+        return $this->getApiResponse([
+            'name' => $conversation->getName(),
+            'description' => $conversation->getDescription(),
+        ]);
     }
 }

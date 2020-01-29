@@ -71,9 +71,7 @@ class ConversationController extends ApiController
         $message = new ConversationMessage($request->get('message'), $vitoopSecurity->getUser(), $conversation->getConversationData());
         $messageRepository->save($message);
 
-        return $this->getApiResponse([
-            'message' => 'Success sending message - ' . $request->get('message'),
-        ]);
+        return $this->getApiResponse($message);
     }
 
     /**
