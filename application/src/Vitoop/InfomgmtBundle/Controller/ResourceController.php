@@ -6,6 +6,7 @@ use Vitoop\InfomgmtBundle\DTO\Paging;
 use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
 use Vitoop\InfomgmtBundle\DTO\Resource\SearchColumns;
 use Vitoop\InfomgmtBundle\Entity\Comment;
+use Vitoop\InfomgmtBundle\Entity\Conversation;
 use Vitoop\InfomgmtBundle\Entity\Pdf;
 use Vitoop\InfomgmtBundle\Entity\Flag;
 use Vitoop\InfomgmtBundle\Entity\UserConfig;
@@ -40,7 +41,6 @@ class ResourceController extends ApiController
      * @Route("/userhome", name="_home")
      * @Route("/project/{project_id}", name="_home_project", requirements={"project_id": "\d+"})
      * @Route("/lexicon/{lexicon_id}", name="_home_lexicon", requirements={"lexicon_id": "\d+"})
-     * @Route("/conversation/{conversation_id}", name="_home_conversation", requirements={"conversation_id": "\d+"})
      */
     public function homeAction(
         ResourceManager $rm,
@@ -49,8 +49,7 @@ class ResourceController extends ApiController
         LexiconQueryManager $lexiconQueryManager,
         Request $request,
         $project_id = 0,
-        $lexicon_id = 0,
-        $conversation_id = 0
+        $lexicon_id = 0
     ) {
         //@TODO: Fat controller - need refactoring
         $em = $this->getDoctrine()->getManager();
@@ -59,7 +58,6 @@ class ResourceController extends ApiController
         $dto = new HomeDTO(
             $request->query->get('project', $project_id),
             $request->query->get('lexicon', $lexicon_id),
-            $request->query->get('conversation', $conversation_id),
             $request->query->get('edit', false)
         );
         
@@ -83,14 +81,6 @@ class ResourceController extends ApiController
                 ->getLexiconWithWikiRedirects($dto->lexicon);
             if (null !== $lexicon) {
                 $is_lexicon_home = true;
-                $is_user_home = false;
-            }
-        } elseif ($dto->isNotEmptyConversation()) {
-            $conversation = $this->getDoctrine()
-                ->getRepository('VitoopInfomgmtBundle:Conversation')
-                ->getConversationById($dto->conversation);
-            if (null !== $conversation) {
-                $is_conversation_home = true;
                 $is_user_home = false;
             }
         }
@@ -197,11 +187,6 @@ class ResourceController extends ApiController
             $tpl_vars['lexicons'] = $lexiconsPart;
 
             $home_content_tpl = 'VitoopInfomgmtBundle:Resource:home.lexicon.html.twig';
-        } elseif ($is_conversation_home) {
-            $tpl_vars = array_merge($tpl_vars, array(
-                'conversation' => $conversation,
-            ));
-            $home_content_tpl = 'VitoopInfomgmtBundle:Resource:home.conversation.html.twig';
         }
 
         $home_tpl = $home_content_tpl;
@@ -740,5 +725,19 @@ class ResourceController extends ApiController
             $resource->getId() . '.pdf',
             $this->get('vitoop.url_getter')->getBinaryContentFromUrl($resource->getUrl())
         );
+    }
+
+    /**
+     * @Route("/conversation/{conversationId}", methods={"GET"})
+     * @ParamConverter("conversation", class="Vitoop\InfomgmtBundle\Entity\Conversation", options={"id" = "conversationId"})
+     * @param Conversation $conversation
+     * @return object
+     */
+    public function getConversation(Conversation $conversation)
+    {
+        return $this->getApiResponse([
+            'name' => $conversation->getName(),
+            'description' => $conversation->getDescription(),
+        ]);
     }
 }
