@@ -2,11 +2,25 @@
 
 namespace Vitoop\InfomgmtBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Vitoop\InfomgmtBundle\Entity\User;
 
-class UserRepository extends EntityRepository
+/**
+ * Class UserRepository
+ * @package Vitoop\InfomgmtBundle\Repository
+ */
+class UserRepository extends ServiceEntityRepository
 {
+    /**
+     * UserRepository constructor.
+     * @param ManagerRegistry $registry
+     */
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, User::class);
+    }
+
     /**
      * @param User $user
      */

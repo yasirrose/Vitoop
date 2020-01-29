@@ -59,11 +59,6 @@ services:
     Buzz\Browser: ~
 
     # Repositories
-    Vitoop\InfomgmtBundle\Repository\UserRepository:
-        factory: ['@doctrine.orm.entity_manager', getRepository]
-        arguments:
-            - Vitoop\InfomgmtBundle\Entity\User
-
     Vitoop\InfomgmtBundle\Repository\UserConfigRepository:
         factory: ["@doctrine.orm.entity_manager", getRepository]
         arguments:
@@ -79,10 +74,12 @@ services:
     Vitoop\InfomgmtBundle\Repository\BookRepository: ~
     Vitoop\InfomgmtBundle\Repository\LinkRepository: ~
     Vitoop\InfomgmtBundle\Repository\TagRepository: ~
+    Vitoop\InfomgmtBundle\Repository\UserRepository: ~
     Vitoop\InfomgmtBundle\Repository\ConversationRepository: ~
     Vitoop\InfomgmtBundle\Repository\ConversationDataRepository: ~
     Vitoop\InfomgmtBundle\Repository\ConversationMessageRepository: ~
 
+    Vitoop\InfomgmtBundle\Repository\RelProjectUserRepository: ~
     Vitoop\InfomgmtBundle\Repository\RelResourceResourceRepository:
         factory: ["@doctrine.orm.entity_manager", getRepository]
         arguments:

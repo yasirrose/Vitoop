@@ -125,6 +125,22 @@ class RelProjectUser implements GetDTOInterface
         return $this->user;
     }
 
+    /**
+     * @param ProjectData $projectData
+     * @param User $user
+     * @param bool $readOnly
+     * @return RelProjectUser
+     */
+    public static function create(ProjectData $projectData, User $user, $readOnly = true): RelProjectUser
+    {
+        $projectUser = new RelProjectUser();
+        $projectUser->projectData = $projectData;
+        $projectUser->user = $user;
+        $projectUser->readOnly = $readOnly;
+
+        return $projectUser;
+    }
+
     public function getDTO()
     {
         return [
