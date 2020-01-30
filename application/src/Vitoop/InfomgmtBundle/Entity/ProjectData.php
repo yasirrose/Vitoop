@@ -220,6 +220,20 @@ class ProjectData implements GetDTOInterface
         return false;
     }
 
+    /**
+     * @param User $user
+     * @return bool
+     */
+    public function inRelUsers(User $user)
+    {
+        foreach ($this->relUsers as $relUser) {
+            if ($user->getUsername() == $relUser->getUser()->getUsername()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     /**
      * Add dividers
