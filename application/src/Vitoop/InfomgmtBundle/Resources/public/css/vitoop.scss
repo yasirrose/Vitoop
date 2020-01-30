@@ -1239,7 +1239,7 @@ span.vtp-icon {
     }
 }
 
-#vtp-projectdata-title, #vtp-lexicondata-title {
+#vtp-projectdata-title, #vtp-lexicondata-title, #vtp-conversation-title {
     height: 23px;
     position: relative;
     margin: auto;
@@ -1884,7 +1884,7 @@ td.vtp-blue.ui-state-active {
     color: #3d80b3;
 }
 
-#prj_description {
+#prj_description, #conversation_description {
     height: 115px;
 }
 

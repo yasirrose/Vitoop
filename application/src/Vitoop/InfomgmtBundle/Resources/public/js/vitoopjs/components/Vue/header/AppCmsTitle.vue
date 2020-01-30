@@ -53,6 +53,26 @@
                 </span>
             </div>
         </div>
+        <div v-else-if="get('conversation') !== null"
+             id="vtp-conversation-title"
+             class="ui-corner-all vtp-cmstitle">
+            <span class="vtp-title__text">
+                {{ $t('label.lexicon') }}: {{ get('conversation').name }}
+            </span>
+            <div class="vtp-title__buttons">
+                <span style="display: flex">
+                    <help-button help-area="lexicon" />
+                    <button id="vtp-projectdata-project-close"
+                            :title="$t('label.close')"
+                            class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary"
+                            role="button"
+                            @click="resetResource('/conversation')">
+                    <span class="ui-button-icon-primary ui-icon ui-icon-close"></span>
+                    <span class="ui-button-text"></span>
+                </button>
+                </span>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -94,6 +114,7 @@
                 this.$store.commit('set', {key: 'edit', value: false});
             },
             resetResource(redirectTo) {
+                this.$store.commit('set',{key:'conversation',value:null});
                 this.$store.commit('resetResource');
                 this.$store.commit('updateTableRowNumber', this.getTableRowNumber + 1);
                 if (redirectTo === '/prj') this.$store.commit('setInProject', false);
