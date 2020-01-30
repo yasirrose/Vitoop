@@ -993,6 +993,10 @@ class User implements EquatableInterface, AdvancedUserInterface, \Serializable, 
 
     public function getDTO()
     {
+        if (null === $this->user_config) {
+            $this->user_config = new UserConfig($this);
+        }
+
         return [
             'id' => $this->id,
             'username' => $this->username,
