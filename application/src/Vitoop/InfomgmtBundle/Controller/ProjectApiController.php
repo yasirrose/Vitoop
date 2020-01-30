@@ -145,13 +145,13 @@ class ProjectApiController extends ApiController
 
         $user = $this->userRepository->find($userDto->id);
         if (null === $user) {
-            return $this->getApiResponse(['status' => 'error', 'message' => 'User is not found']);
+            return $this->getApiResponse(['status' => 'error', 'message' => 'User is not found'], 400);
         }
         if ($user->getUsername() == $currentUser->getUsername()) {
-            return $this->getApiResponse(['status' => 'error', 'message' => 'User is equal to current']);
+            return $this->getApiResponse(['status' => 'error', 'message' => 'User is equal to current'],400);
         }
         if ($project->getProjectData()->inRelUsers($user)) {
-            return $this->getApiResponse(['status' => 'error', 'message' => 'User is already added']);
+            return $this->getApiResponse(['status' => 'error', 'message' => 'User is already added'], 400);
         }
 
         $projectUser = RelProjectUser::create($project->getProjectData(), $user, true);
