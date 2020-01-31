@@ -327,6 +327,15 @@ export default class VtpDatatable {
 
     getColumns() {
         let columns = [];
+        if (this.resType === 'conversation') {
+            return [
+                this.getFirstColumn(),
+                this.getNameColumn(),
+                this.getOwnerColumn(),
+                this.getRatingColumn(),
+                this.getConversationUrlColumn()
+            ]
+        }
         if (this.resType == 'prj') {
             return [
                 this.getFirstColumn(),
@@ -426,6 +435,15 @@ export default class VtpDatatable {
                 this.getOwnerColumn(),
                 this.getMapsLinkColumn()
             ];
+        }
+    }
+
+    getConversationUrlColumn() {
+        return {
+            render: (data,type,row,meta) => {
+                const url = `/conversation/${row.id}`;
+                return this.getInternalUrlValue(url);
+            }
         }
     }
 

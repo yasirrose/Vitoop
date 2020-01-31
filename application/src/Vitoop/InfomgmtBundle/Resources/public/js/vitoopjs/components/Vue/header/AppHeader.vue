@@ -19,6 +19,7 @@
     import AppCmsTitle from "./AppCmsTitle.vue";
     import SecondSearch from "../SecondSearch/SecondSearch.vue";
     import SearchByTags from "./SearchByTags.vue";
+    import {mapGetters} from 'vuex';
 
     export default {
         name: "AppHeader",
@@ -37,10 +38,11 @@
             SearchByTags
         },
         computed: {
+            ...mapGetters(['getResource','get']),
             showTags() {
-                return /prj|lex|pdf|teli|adr|book|link/.test(this.$route.name) &&
-                    this.$store.state.user !== null &&
-                    this.$store.state.resource.id === null;
+                return /conversation|prj|lex|pdf|teli|adr|book|link/.test(this.$route.name) &&
+                    this.get('user') !== null &&
+                    this.getResource('id') === null && this.get('conversation') === null;
             }
         }
     }

@@ -19,6 +19,7 @@ export default {
         },
         "close": "schließen",
         "comments": "Kommentare",
+        "conversation": "Konversation",
         "created": "erstellt",
         "credentials": "Credentials",
         "datap": "data-P",

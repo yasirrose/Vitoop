@@ -125,8 +125,7 @@
             },
             currentURL() {
                 return this.get('inProject') ?
-                    `/api/v1/projects/${this.getResource('id')}/${this.getResource('type')}` :
-                    `/api/resource/${this.$route.name}`;
+                    `/api/v1/projects/${this.getResource('id')}/${this.getResource('type')}` : `/api/resource/${this.$route.name}`;
             }
         },
         updated() {
@@ -135,6 +134,7 @@
                 $('.DataTables_sort_icon').addClass('css_right ui-icon ui-icon-carat-2-n-s');
         },
         mounted() {
+            this.$store.commit('setResourceType', this.$route.name);
             resourceDetail.init();
             this.datatable = this.initTable();
             $('.DataTables_sort_icon').addClass('css_right ui-icon ui-icon-carat-2-n-s');
@@ -148,7 +148,7 @@
             onTableDraw() {
                 vitoopState.commit('secondSearchIsSearching', false);
                 $('body').removeClass('overflow-hidden');
-                if (/prj|lex/.test(this.$route.name)) {
+                if (/prj|lex|conversation/.test(this.$route.name)) {
                     $('.vtp-uiaction-open-extlink').on('click', (e) => {
                         e.preventDefault();
                         this.$store.commit('updateTableRowNumber', +this.$store.state.table.rowNumber - 1);

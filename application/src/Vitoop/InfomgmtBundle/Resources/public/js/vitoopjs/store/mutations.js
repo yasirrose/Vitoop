@@ -138,5 +138,9 @@ export default {
     },
     set(state,payload) {
         state[payload.key] = payload.value;
+    },
+
+    isForRelatedUser(state,payload) {
+        state.conversation.conversation_data.is_for_related_users = payload;
     }
 }

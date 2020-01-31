@@ -1,5 +1,6 @@
 import Index from "../components/Vue/components/project/Index.vue";
 import AppLexicon from "../components/Vue/components/AppLexicon.vue";
+import AppConversation from "../components/Vue/components/AppConversation.vue";
 import UserSettings from "../components/Vue/UserSettings/UserSettings.vue";
 import UserHome from "../components/Vue/components/user/UserHome.vue";
 import Login from "../components/Vue/components/AppLogin.vue";
@@ -42,6 +43,11 @@ export default [
         path: '/invitation/new',
         component: UserInvitation,
         name: 'invitation'
+    },
+    {
+        path: '/conversation',
+        component: Table,
+        name: 'conversation'
     },
     {
         path: '/prj',
@@ -89,6 +95,11 @@ export default [
         name: 'lexicon'
     },
     {
+        path: '/conversation/:conversationId',
+        component: AppConversation,
+        name: 'conversation-item'
+    },
+    {
         path: '/user/settings',
         component: UserSettings,
         name: 'settings'
@@ -122,11 +133,6 @@ export default [
         path: '/user/datap',
         component: UserDataP,
         name: 'user-datap'
-    },
-    {
-        path: '/conversation',
-        component: Table,
-        name: 'conversation'
     },
 ]
 
