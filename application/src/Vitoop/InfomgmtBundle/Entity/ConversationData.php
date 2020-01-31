@@ -224,6 +224,15 @@ class ConversationData implements GetDTOInterface
         return false;
     }
 
+    public function availableForRelUserAction(User $user)
+    {
+        if (($user->getId() === $this->getConversation()->getUser()->getId()) || $user->isAdmin()) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function availableForDelete(User $user)
     {
         if ($user->isAdmin() || $user == $this->conversation->getUser()) {

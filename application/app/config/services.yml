@@ -78,6 +78,7 @@ services:
     Vitoop\InfomgmtBundle\Repository\ConversationRepository: ~
     Vitoop\InfomgmtBundle\Repository\ConversationDataRepository: ~
     Vitoop\InfomgmtBundle\Repository\ConversationMessageRepository: ~
+    Vitoop\InfomgmtBundle\Repository\RelConversationUserRepository: ~
 
     Vitoop\InfomgmtBundle\Repository\RelProjectUserRepository: ~
     Vitoop\InfomgmtBundle\Repository\RelResourceResourceRepository:
