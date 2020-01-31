@@ -735,9 +735,11 @@ class ResourceController extends ApiController
      */
     public function getConversation(Conversation $conversation)
     {
-        return $this->getApiResponse([
+        $data = [
             'name' => $conversation->getName(),
             'description' => $conversation->getDescription(),
-        ]);
+        ];
+
+        return $this->render('VitoopInfomgmtBundle:Resource:home.html.twig', $data);
     }
 }
