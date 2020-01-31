@@ -75,7 +75,7 @@
                 }
             },
             showConversation() {
-                return !(this.getResource('id') !== null && /prj|lex/.test(this.getResource('type')))
+                return !(this.getResource('id') !== null)
             }
         },
         mounted() {
