@@ -57,11 +57,16 @@
              id="vtp-conversation-title"
              class="ui-corner-all vtp-cmstitle">
             <span class="vtp-title__text">
-                {{ $t('label.lexicon') }}: {{ get('conversation').name }}
+                {{ $t('label.conversation') }}: {{ get('conversation').name }}
             </span>
             <div class="vtp-title__buttons">
                 <span style="display: flex">
-                    <help-button help-area="lexicon" />
+                    <button id="vtp-projectdata-project-edit"
+                            class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
+                            :class="{'ui-state-focus ui-state-active': get('conversationEditMode')}"
+                            @click="conversationEditMode">
+                        <span class="ui-button-icon-primary ui-icon ui-icon-wrench"></span>
+                    </button>
                     <button id="vtp-projectdata-project-close"
                             :title="$t('label.close')"
                             class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary"
@@ -112,6 +117,12 @@
             },
             projectLiveMode() {
                 this.$store.commit('set', {key: 'edit', value: false});
+            },
+            conversationEditMode() {
+                this.$store.commit('set',{
+                    key: 'conversationEditMode',
+                    value: !this.get('conversationEditMode')
+                })
             },
             resetResource(redirectTo) {
                 this.$store.commit('set',{key:'conversation',value:null});
