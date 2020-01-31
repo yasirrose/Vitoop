@@ -82,6 +82,7 @@ services:
     Vitoop\InfomgmtBundle\Repository\ConversationRepository: ~
     Vitoop\InfomgmtBundle\Repository\ConversationDataRepository: ~
     Vitoop\InfomgmtBundle\Repository\ConversationMessageRepository: ~
+    Vitoop\InfomgmtBundle\Repository\RelConversationUserRepository: ~
 
     Vitoop\InfomgmtBundle\Repository\RelResourceResourceRepository:
         factory: ["@doctrine.orm.entity_manager", getRepository]
