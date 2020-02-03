@@ -433,14 +433,14 @@ window.resourceDetail = (function () {
 
             $.ajax({
                 url: url,
-                success: loadTabSuccess,
+                success: (responseJSON) => loadTabSuccess(responseJSON,tab_name[tab_nr]),
                 dataType: 'json'
             });
 
             tab_loaded[tab_nr] = 1;
         },
 
-        loadTabSuccess = function (responseJSON) {
+        loadTabSuccess = function (responseJSON,tabName) {
             var isNewResource = false;
 
             if ('new' == res_id) {
@@ -495,7 +495,7 @@ window.resourceDetail = (function () {
                 }
             }
 
-            $.each(responseJSON, function (container_name, html) {
+            $.each(responseJSON, (container_name, html) => {
                 if ('resource-metadata' !== container_name && 'tabs-info' !== container_name) {
                     replaceContainer(container_name, html);
                 }
@@ -503,12 +503,24 @@ window.resourceDetail = (function () {
 
             $('#vtp-res-dialog select').selectmenu({
                 select: function( event, ui ) {
-                    if (event.target.id === 'conversation_status') {
-                        vitoopState.commit('isForRelatedUser', ui.item.value);
+                    if (event.target.id === 'conversationStatus') {
+                        // toDo make backend request to save status
                     }
                     $('span.ui-selectmenu-button').removeAttr('tabIndex');
                 }
             });
+
+            $('#conversationStatus').selectmenu({
+                create: () => {
+                    axios(`/api/v1/conversations/${res_id}`)
+                        .then(({data: {conversation: {conversation_data}}}) => {
+                            let status = null;
+                            status = conversation_data.is_for_related_users ? 'privat' : 'öffentlich';
+                            $( "#conversationStatus" ).val(status).selectmenu("refresh");
+                        });
+                }
+            });
+
             $('span.ui-selectmenu-button').removeAttr('tabIndex');
             if (vitoop.isShowHelp == true && isNewResource) {
                 $('#vtp-detail-help').click();

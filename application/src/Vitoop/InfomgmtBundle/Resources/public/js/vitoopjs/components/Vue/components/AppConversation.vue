@@ -224,6 +224,9 @@
 
             toggleNewMessageArea() {
                 this.newMessageArea.opened = !this.newMessageArea.opened;
+                if (this.newMessageArea.opened) {
+                    document.querySelector('.conversation__messages').scrollTop = 0;
+                }
             },
             postMessage() {
                 const formData = new FormData();
