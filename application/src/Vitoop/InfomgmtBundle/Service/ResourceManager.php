@@ -176,7 +176,7 @@ class ResourceManager
         }
 
         $rel->setDeletedByUser($this->vsec->getUser());
-        $this->em->merge($rel);
+        $this->em->persist($rel);
         $this->em->flush();
 
         return $lexicon->getName();
@@ -360,12 +360,8 @@ class ResourceManager
      */
     public function linkLexiconToResource(Lexicon $lexicon, Resource $resource)
     {
-        try {
-            $this->relResourceLinker->linkLexiconToResource($lexicon, $resource);
-            $this->em->flush();
-        } catch (\Exception $ex) {
-
-        }
+        $this->relResourceLinker->linkLexiconToResource($lexicon, $resource);
+        $this->em->flush();
 
         return $lexicon->getName();
     }

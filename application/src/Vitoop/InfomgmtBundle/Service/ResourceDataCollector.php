@@ -607,7 +607,7 @@ class ResourceDataCollector
                 try {
                     $lexicon = $this->rm->getRepository('lex')->findOneBy(array('name' => $lex->getName()));
                     if ($form_lex->get('remove')->isEmpty()) {
-                        if (is_null($lexicon) || ($lexicon && strlen($lexicon->getDescription()<5))) {
+                        if (null === $lexicon || ($lexicon && strlen($lexicon->getDescription()<5))) {
                             $lexicon = $this->lqm->getLexiconFromSuggestTerm($lex->getName());
                             // @TODO SaveLexicon and setResource1 should be combined for
                             // atomic DB <Transaction. Otherwise a Lexicon is created but
