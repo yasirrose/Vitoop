@@ -201,7 +201,6 @@ class ConversationData implements GetDTOInterface
         }
 
         foreach ($this->relUsers as $rel) {
-            var_dump($rel->getUser()->getId());
             if ($rel->getUser()->getId() === $user->getId()) {
                 return true;
             }

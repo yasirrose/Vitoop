@@ -35,11 +35,17 @@ class RelConversationUser implements GetDTOInterface
      */
     protected $user;
 
+    /**
+     * @ORM\Column(name="read_only", type="boolean", options={"default":false})
+     * @Serializer\Groups({"get_conversation"})
+     */
+    protected $readOnly;
 
-    public function __construct($projectData = null, $user = null)
+    public function __construct($projectData = null, $user = null, $readOnly = false)
     {
         $this->setConversationData($projectData);
         $this->setUser($user);
+        $this->setReadOnly($readOnly);
     }
 
     /**
@@ -98,11 +104,35 @@ class RelConversationUser implements GetDTOInterface
         return $this->user;
     }
 
+    /**
+     * Set readOnly
+     *
+     * @param boolean $readOnly
+     * @return RelConversationUser
+     */
+    public function setReadOnly($readOnly)
+    {
+        $this->readOnly = $readOnly;
+
+        return $this;
+    }
+
+    /**
+     * Get readOnly
+     *
+     * @return boolean
+     */
+    public function getReadOnly()
+    {
+        return $this->readOnly;
+    }
+
     public function getDTO()
     {
         return [
             'id'=> $this->id,
             'user' => $this->user->getDTO(),
+            'read_only' => $this->readOnly
         ];
     }
 }
