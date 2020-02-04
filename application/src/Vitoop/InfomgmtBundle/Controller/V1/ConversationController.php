@@ -202,10 +202,8 @@ class ConversationController extends ApiController
         $letter = $request->get('symbol');
         $currentUser = $vitoopSecurity->getUser();
         $names = $userRepository->getNames($letter, $currentUser, $conversation->getUser());
-        $serializer = $this->get('jms_serializer');
-        $response = $serializer->serialize($names, 'json');
 
-        return new Response($response);
+        return $this->getApiResponse($names);
     }
 
     private function checkAccess(Conversation $conversation, VitoopSecurity $vitoopSecurity)
