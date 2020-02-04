@@ -160,6 +160,54 @@ class ConversationController extends ApiController
         return $this->getApiResponse($relConversationUser);
     }
 
+    /**
+     * @Route("/read", methods={"POST"} , requirements={"id": "\d+"})
+     * @param VitoopSecurity $vitoopSecurity
+     * @param Conversation $conversation
+     * @param Request $request
+     * @param UserRepository $userRepository
+     * @param RelConversationUserRepository $conversationUserRepository
+     * @return object
+     */
+    public function updateUserPermissionForConversation(
+        VitoopSecurity $vitoopSecurity,
+        Conversation $conversation,
+        Request $request,
+        UserRepository $userRepository,
+        RelConversationUserRepository $conversationUserRepository
+    )
+    {
+        $this->checkAccessForRelUserAction($conversation, $vitoopSecurity);
+        $user = $userRepository->find($request->get('userId'));
+
+        $relConversationUser = $conversationUserRepository->getRel($user, $conversation);
+        $relConversationUser->setReadOnly($request->get('read'));
+
+        $conversationUserRepository->addUser($relConversationUser);
+
+        return $this->getApiResponse(['status' => 'success']);
+    }
+
+    /**
+     * @Route("/user/find", methods={"POST"})
+     * @param Conversation $conversation
+     * @param Request $request
+     * @param VitoopSecurity $vitoopSecurity
+     * @param UserRepository $userRepository
+     *
+     * @return object
+     */
+    public function getUserNamesForConversation(Conversation $conversation, Request $request, VitoopSecurity $vitoopSecurity, UserRepository $userRepository)
+    {
+        $letter = $request->get('symbol');
+        $currentUser = $vitoopSecurity->getUser();
+        $names = $userRepository->getNames($letter, $currentUser, $conversation->getUser());
+        $serializer = $this->get('jms_serializer');
+        $response = $serializer->serialize($names, 'json');
+
+        return new Response($response);
+    }
+
     private function checkAccess(Conversation $conversation, VitoopSecurity $vitoopSecurity)
     {
         if (!$conversation->getConversationData()->availableForReading($vitoopSecurity->getUser())) {

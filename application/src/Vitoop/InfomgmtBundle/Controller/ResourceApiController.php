@@ -63,6 +63,14 @@ class ResourceApiController extends ApiController
             }
         }
 
+        if ($resType == 'conversation') {
+            $repo = $this->getDoctrine()->getRepository('VitoopInfomgmtBundle:Conversation');
+            foreach ($resources as &$resource) {
+                $conversation = $repo->find($resource['id']);
+                $resource['canRead'] = $conversation->getConversationData()->availableForReading($this->getUser());
+            }
+        }
+
         return $this->getApiResponse(array(
             'draw' => $request->query->get('draw'),
             'recordsTotal' => $total,
