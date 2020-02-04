@@ -94,9 +94,18 @@
                                   @input="selectUser"
                                   @search="searchUser"/>
                         <button @click="addUser()"
-                                class="ui-corner-all vtp-fh-w60 ui-state-default vtp-button">verknüpfen</button>
+                                :disabled="this.user === null"
+                                :title="UserButtonTitle"
+                                class="ui-corner-all vtp-fh-w60 ui-state-default vtp-button">
+                            verknüpfen
+                        </button>
                         <button @click="removeUser()"
-                                class="ui-corner-all vtp-fh-w40 ui-state-default vtp-button" style="float: right">löschen</button>
+                                :disabled="this.user === null"
+                                :title="UserButtonTitle"
+                                class="ui-corner-all vtp-fh-w40 ui-state-default vtp-button"
+                                style="float: right">
+                            löschen
+                        </button>
                     </div>
 <!--                    <span v-if="isError"-->
 <!--                          id="error-span"-->
@@ -142,6 +151,9 @@
             ...mapGetters(['get','getResource']),
             conversationStatus() {
                 return this.conversation.conversation_data.is_for_related_users ? 'privat' : 'public';
+            },
+            UserButtonTitle() {
+                return this.user === null ? 'Benutzer auswählen' : null
             }
         },
         mounted() {
@@ -149,16 +161,9 @@
                 sockjs: SockJS
             });
 
-            axios(`/api/v1/conversations/${this.$route.params.conversationId}`)
-                .then(({data}) => {
-                    this.$store.commit('set', {
-                        key: 'conversation',
-                        value: data.conversation
-                    });
-
+            this.getConversation()
+                .then(data => {
                     this.centrifuge.setToken(data.token);
-                    this.conversation = data.conversation;
-
                     this.centrifuge.subscribe(`${this.conversation.id}`, ({data}) => {
                         const pushNewMessage = new Promise((resolve,reject) => {
                             this.conversation.conversation_data.messages.push(data);
@@ -186,6 +191,18 @@
                 .catch(err => console.dir(err));
         },
         methods: {
+            getConversation() {
+                return axios(`/api/v1/conversations/${this.$route.params.conversationId}`)
+                .then(({data}) => {
+                    this.$store.commit('set', {
+                        key: 'conversation',
+                        value: data.conversation
+                    });
+                    this.conversation = data.conversation;
+                    return data;
+                })
+                .catch(err => console.dir(err));
+            },
             changeRight(rel,e) {
                 rel.read_only = JSON.parse(e.target.value);
             },
@@ -207,21 +224,18 @@
                 formData.append("userId", this.user.id);
                 formData.append("username", this.user.username);
                 axios.post(`/api/v1/conversations/${this.conversation.id}/user`, formData)
-                    .then(response => {
-                        console.log(response)
-                        // this.getProjectData();
+                    .then(({data}) => {
+                        this.getConversation();
                     })
                     .catch(err => console.dir(err));
             },
             removeUser() {
-                axios.delete(`/api/v1/conversations/${this.conversation.id}/user/${this.user.userId}`)
-                    .then(response => {
-                        console.log(response);
-                        // this.getProjectData();
+                axios.delete(`/api/v1/conversations/${this.conversation.id}/user/${this.user.id}`)
+                    .then(({data}) => {
+                        this.getConversation();
                     })
                     .catch(err => console.dir(err));
             },
-
             toggleNewMessageArea() {
                 this.newMessageArea.opened = !this.newMessageArea.opened;
                 if (this.newMessageArea.opened) {
