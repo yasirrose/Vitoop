@@ -186,27 +186,27 @@
                 .catch(err => console.dir(err));
         },
         methods: {
-
             changeRight(rel,e) {
                 rel.read_only = JSON.parse(e.target.value);
             },
             selectUser(user) {
-                this.user.userId = user.id;
-                this.user.username = user.username;
+                this.user = user;
             },
             searchUser(search) {
                 // toDo Waiting for back-end
-                // axios(`/api/project/${this.getResource('id')}/user/find?s=${search}`)
-                //     .then(({data}) => {
-                //         this.options = data;
-                //     })
-                //     .catch(err => console.dir(err));
+                const formData = new FormData();
+                formData.append('symbol', search);
+                axios.post(`/api/v1/conversations/${this.conversation.id}/user/find`, formData)
+                    .then(({data}) => {
+                        this.options = data;
+                    })
+                    .catch(err => console.dir(err));
             },
             addUser() {
-                axios.post(`/api/v1/conversations/${this.conversation.id}/user`, {
-                    userId: 87,
-                    username: 'test3'
-                })
+                const formData = new FormData();
+                formData.append("userId", this.user.id);
+                formData.append("username", this.user.username);
+                axios.post(`/api/v1/conversations/${this.conversation.id}/user`, formData)
                     .then(response => {
                         console.log(response)
                         // this.getProjectData();
