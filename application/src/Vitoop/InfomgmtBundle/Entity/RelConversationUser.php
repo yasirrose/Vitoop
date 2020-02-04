@@ -36,12 +36,12 @@ class RelConversationUser implements GetDTOInterface
     protected $user;
 
     /**
-     * @ORM\Column(name="read_only", type="boolean", options={"default":false})
+     * @ORM\Column(name="read_only", type="boolean", options={"default":true})
      * @Serializer\Groups({"get_conversation"})
      */
     protected $readOnly;
 
-    public function __construct($projectData = null, $user = null, $readOnly = false)
+    public function __construct($projectData = null, $user = null, $readOnly = true)
     {
         $this->setConversationData($projectData);
         $this->setUser($user);
