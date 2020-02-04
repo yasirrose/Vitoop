@@ -8,6 +8,8 @@ class HomeDTO
 
     public $lexicon = null;
 
+    public $conversation = null;
+
     public $isEditMode = false;
 
     public function __construct($project, $lexicon, $isEditMode)

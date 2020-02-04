@@ -1,12 +1,13 @@
 <?php
 namespace Vitoop\InfomgmtBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Vitoop\InfomgmtBundle\DTO\User\ProjectUserDTO;
 use Vitoop\InfomgmtBundle\Entity\RelProjectUser;
 use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\Entity\User;
@@ -14,6 +15,9 @@ use JMS\Serializer\DeserializationContext;
 use JMS\Serializer\SerializationContext;
 use Vitoop\InfomgmtBundle\Entity\Project;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Vitoop\InfomgmtBundle\Repository\RelProjectUserRepository;
+use Vitoop\InfomgmtBundle\Repository\UserRepository;
+use Vitoop\InfomgmtBundle\Response\Json\ErrorResponse;
 use Vitoop\InfomgmtBundle\Service\VitoopSecurity;
 
 /**
@@ -23,8 +27,38 @@ use Vitoop\InfomgmtBundle\Service\VitoopSecurity;
 class ProjectApiController extends ApiController
 {
     /**
-     * @Route("", name="get_project_api")
-     * @Method({"GET"})
+     * @var ValidatorInterface
+     */
+    private $validator;
+
+    /**
+     * @var UserRepository
+     */
+    private $userRepository;
+
+    /**
+     * @var RelProjectUserRepository
+     */
+    private $relProjectUserRepository;
+
+    /**
+     * ProjectApiController constructor.
+     * @param ValidatorInterface $validator
+     * @param UserRepository $userRepository
+     * @param RelProjectUserRepository $relProjectUserRepository
+     */
+    public function __construct(
+        ValidatorInterface $validator,
+        UserRepository $userRepository,
+        RelProjectUserRepository $relProjectUserRepository
+    ) {
+        $this->validator = $validator;
+        $this->userRepository = $userRepository;
+        $this->relProjectUserRepository = $relProjectUserRepository;
+    }
+
+    /**
+     * @Route("", name="get_project_api", methods={"GET"})
      *
      * @return array
      */
@@ -39,8 +73,7 @@ class ProjectApiController extends ApiController
     }
 
     /**
-     * @Route("", name="delete_project_api")
-     * @Method({"DELETE"})
+     * @Route("", name="delete_project_api", methods={"DELETE"})
      *
      * @return array
      */
@@ -64,8 +97,7 @@ class ProjectApiController extends ApiController
     }
 
     /**
-     * @Route("", name="save_project_api")
-     * @Method({"POST"})
+     * @Route("", name="save_project_api", methods={"POST"})
      *
      * @return array
      */
@@ -96,8 +128,7 @@ class ProjectApiController extends ApiController
     }
 
     /**
-     * @Route("/user", name="add_user_to_project")
-     * @Method({"POST"})
+     * @Route("/user", name="add_user_to_project", methods={"POST"})
      *
      * @return array
      */
@@ -106,49 +137,31 @@ class ProjectApiController extends ApiController
         $currentUser = $vitoopSecurity->getUser();
         $this->checkAccess($project);
 
-        $response = null;
-        $serializer = $this->get('jms_serializer');
-        $em = $this->getDoctrine()->getManager();
-        $serializerContext = DeserializationContext::create()
-            ->setGroups(array('get_project'));
-        $user = $serializer->deserialize(
-            $request->getContent(),
-            'Vitoop\InfomgmtBundle\Entity\User',
-            'json',
-            $serializerContext
-        );
-        $user = $em->getRepository('VitoopInfomgmtBundle:User')->find($user->getId());
-        if (is_null($user)) {
-            $response = array('status' => 'error', 'message' => 'User is not found');
-        } elseif ($user->getUsername() == $currentUser->getUsername()) {
-            $response = array('status' => 'error', 'message' => 'User is equal to current');
-        } else {
-            foreach ($project->getProjectData()->getRelUsers() as $relUser) {
-                if ($user->getUsername() == $relUser->getUser()->getUsername()) {
-                    $response = array('status' => 'error', 'message' => 'User is already added');
-                    break;
-                }
-            }
+        $userDto = $this->getDTOFromRequest($request, ProjectUserDTO::class);
+        $errors = $this->validator->validate($userDto);
+        if (count($errors) > 0) {
+            return $this->getApiResponse(ErrorResponse::createFromValidator($errors), 400);
         }
-        if (is_null($response)) {
-            $rpu = new RelProjectUser();
-            $rpu->setProjectData($project->getProjectData());
-            $rpu->setUser($user);
-            $rpu->setReadOnly(true);
-            $em->persist($rpu);
-            $em->flush();
-            $response = array('status' => 'success', 'rel' => $rpu, 'message' => 'User added!');
-        }
-        $serializerContext = SerializationContext::create()
-            ->setGroups(array('get_project'));
-        $response = $serializer->serialize($response, 'json', $serializerContext);
 
-        return new Response($response);
+        $user = $this->userRepository->find($userDto->id);
+        if (null === $user) {
+            return $this->getApiResponse(['status' => 'error', 'message' => 'User is not found'], 400);
+        }
+        if ($user->getUsername() == $currentUser->getUsername()) {
+            return $this->getApiResponse(['status' => 'error', 'message' => 'User is equal to current'],400);
+        }
+        if ($project->getProjectData()->inRelUsers($user)) {
+            return $this->getApiResponse(['status' => 'error', 'message' => 'User is already added'], 400);
+        }
+
+        $projectUser = RelProjectUser::create($project->getProjectData(), $user, true);
+        $this->relProjectUserRepository->save($projectUser);
+
+        return $this->getApiResponse(['status' => 'success', 'rel' => $projectUser->getDTO(), 'message' => 'User added!']);
     }
 
     /**
-     * @Route("/user/{userID}", name="remove_user_from_project")
-     * @Method({"DELETE"})
+     * @Route("/user/{userID}", name="remove_user_from_project", methods={"DELETE"})
      * @ParamConverter("user", class="Vitoop\InfomgmtBundle\Entity\User", options={"id" = "userID"})
      *
      * @return array
@@ -183,8 +196,7 @@ class ProjectApiController extends ApiController
     }
 
     /**
-     * @Route("/resource/{resourceID}", name="remove_resource_from_project")
-     * @Method({"DELETE"})
+     * @Route("/resource/{resourceID}", name="remove_resource_from_project", methods={"DELETE"})
      * @ParamConverter("resource", class="Vitoop\InfomgmtBundle\Entity\Resource", options={"id" = "resourceID"})
      *
      * @return array

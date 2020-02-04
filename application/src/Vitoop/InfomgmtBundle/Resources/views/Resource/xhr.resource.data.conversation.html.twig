@@ -13,6 +13,15 @@
         {{ form_widget(fvdata.name, {'attr': {'class': 'vtp-fh-w80 vtp-right' }}) }}
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.name) }}</div>
     </div>
+    <div class="vtp-fh-top">
+        <label class="vtp-fh-w20">Status:</label>
+        <div class="vtp-fh-w80 vtp-right">
+            <select id="conversationStatus">
+                <option>privat</option>
+                <option>öffentlich</option>
+            </select>
+        </div>
+    </div>
     <div class="vtp-fh-middle">
         {{ form_label(fvdata.description, null, {'label_attr': {'class': 'vtp-fh-w20', 'style': 'vertical-align: middle;' }}) }}
         {{ form_widget(fvdata.description, {'attr': {'class': 'vtp-fh-w80 vtp-right', 'rows': '10' }}) }}

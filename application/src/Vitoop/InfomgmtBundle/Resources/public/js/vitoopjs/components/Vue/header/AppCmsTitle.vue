@@ -53,6 +53,31 @@
                 </span>
             </div>
         </div>
+        <div v-else-if="get('conversation') !== null"
+             id="vtp-conversation-title"
+             class="ui-corner-all vtp-cmstitle">
+            <span class="vtp-title__text">
+                {{ $t('label.conversation') }}: {{ get('conversation').name }}
+            </span>
+            <div class="vtp-title__buttons">
+                <span style="display: flex">
+                    <button id="vtp-projectdata-project-edit"
+                            class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
+                            :class="{'ui-state-focus ui-state-active': get('conversationEditMode')}"
+                            @click="conversationEditMode">
+                        <span class="ui-button-icon-primary ui-icon ui-icon-wrench"></span>
+                    </button>
+                    <button id="vtp-projectdata-project-close"
+                            :title="$t('label.close')"
+                            class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary"
+                            role="button"
+                            @click="resetResource('/conversation')">
+                    <span class="ui-button-icon-primary ui-icon ui-icon-close"></span>
+                    <span class="ui-button-text"></span>
+                </button>
+                </span>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -93,7 +118,14 @@
             projectLiveMode() {
                 this.$store.commit('set', {key: 'edit', value: false});
             },
+            conversationEditMode() {
+                this.$store.commit('set',{
+                    key: 'conversationEditMode',
+                    value: !this.get('conversationEditMode')
+                })
+            },
             resetResource(redirectTo) {
+                this.$store.commit('resetConversation');
                 this.$store.commit('resetResource');
                 this.$store.commit('updateTableRowNumber', this.getTableRowNumber + 1);
                 if (redirectTo === '/prj') this.$store.commit('setInProject', false);

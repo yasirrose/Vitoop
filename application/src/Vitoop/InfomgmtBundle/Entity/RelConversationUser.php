@@ -36,9 +36,10 @@ class RelConversationUser implements GetDTOInterface
     protected $user;
 
 
-    public function construct()
+    public function __construct($projectData = null, $user = null)
     {
-
+        $this->setConversationData($projectData);
+        $this->setUser($user);
     }
 
     /**

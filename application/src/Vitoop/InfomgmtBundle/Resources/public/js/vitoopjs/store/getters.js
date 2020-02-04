@@ -30,5 +30,5 @@ export default {
     },
     get: (state) => (key) => {
         return state[key];
-    }
+    },
 }

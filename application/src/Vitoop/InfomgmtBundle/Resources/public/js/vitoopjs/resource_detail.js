@@ -205,8 +205,9 @@ window.resourceDetail = (function () {
                 // Move the rating-infobox to the header, but remove the old one if
                 // exists
                 $('#vtp-rating-infobox-li').remove();
-                $('<li id="vtp-rating-infobox-li"></li>').insertAfter('#vtp-res-dialog-tabs>ul>li:last').append(
-                    $('#vtp-rating-infobox-wrapper'));
+                $('<li id="vtp-rating-infobox-li"></li>')
+                    .insertAfter('#vtp-res-dialog-tabs>ul>li:last')
+                    .append($('#vtp-rating-infobox-wrapper'));
                 // left/right-buttons
                 cnt_rating_infobox = $('.vtp-rating-infobox').length;
                 if (cnt_rating_infobox == 1) {
@@ -322,8 +323,8 @@ window.resourceDetail = (function () {
              * UIfy: tag
              ************************************************************************/
             if ('resource-tag' == container_name) {
-               var tagWidget = new TagWidget(res_id, vitoop.baseUrl);
-               tagWidget.init();
+                var tagWidget = new TagWidget(res_id, vitoop.baseUrl);
+                tagWidget.init();
             }
 
             /*************************************************************************
@@ -381,6 +382,8 @@ window.resourceDetail = (function () {
             /*************************************************************************
              * UIfy: END
              ************************************************************************/
+
+            hideConnectionAndRemark();
         },
 
         clearTabsClasses = function() {
@@ -416,6 +419,7 @@ window.resourceDetail = (function () {
             } else {
                 console.log('No TabIndex provided!');
             }
+
             var urlResourceType = (res_type && 0 !==tab_nr) ?res_type:'resources';
             url = vitoop.baseUrl + ([urlResourceType, res_id, tab_name[tab_nr]].join('/'));
             // if the tab is already loaded then return without any action
@@ -426,16 +430,19 @@ window.resourceDetail = (function () {
             if ('new' == res_id) {
                 url = vitoop.baseUrl + ([res_type, 'new'].join('/'));
             }
-            tab_loaded[tab_nr] = 1;
+
             $.ajax({
                 url: url,
-                success: loadTabSuccess,
+                success: (responseJSON) => loadTabSuccess(responseJSON,tab_name[tab_nr]),
                 dataType: 'json'
             });
+
+            tab_loaded[tab_nr] = 1;
         },
 
-        loadTabSuccess = function (responseJSON, textStatus, jqXHR, form) {
+        loadTabSuccess = function (responseJSON,tabName) {
             var isNewResource = false;
+
             if ('new' == res_id) {
                 isNewResource = true;
                 if (responseJSON['resource-metadata'] && !responseJSON['resource-metadata'].isNewValid) {
@@ -452,7 +459,6 @@ window.resourceDetail = (function () {
             }
             if (responseJSON['resource-metadata']) {
                 res_type = responseJSON['resource-metadata'].type;
-                // vitoopState.commit('setResource', {type: res_type, id: null});
                 viewUrl = '';
                 if ('lex' === res_type) {
                     viewUrl = vitoop.baseUrl + 'lexicon/' +res_id;
@@ -489,7 +495,7 @@ window.resourceDetail = (function () {
                 }
             }
 
-            $.each(responseJSON, function (container_name, html) {
+            $.each(responseJSON, (container_name, html) => {
                 if ('resource-metadata' !== container_name && 'tabs-info' !== container_name) {
                     replaceContainer(container_name, html);
                 }
@@ -497,9 +503,24 @@ window.resourceDetail = (function () {
 
             $('#vtp-res-dialog select').selectmenu({
                 select: function( event, ui ) {
+                    if (event.target.id === 'conversationStatus') {
+                        // toDo make backend request to save status
+                    }
                     $('span.ui-selectmenu-button').removeAttr('tabIndex');
                 }
             });
+
+            $('#conversationStatus').selectmenu({
+                create: () => {
+                    axios(`/api/v1/conversations/${res_id}`)
+                        .then(({data: {conversation: {conversation_data}}}) => {
+                            let status = null;
+                            status = conversation_data.is_for_related_users ? 'privat' : 'öffentlich';
+                            $( "#conversationStatus" ).val(status).selectmenu("refresh");
+                        });
+                }
+            });
+
             $('span.ui-selectmenu-button').removeAttr('tabIndex');
             if (vitoop.isShowHelp == true && isNewResource) {
                 $('#vtp-detail-help').click();
@@ -544,8 +565,11 @@ window.resourceDetail = (function () {
             //     tgl();
             // }
             tr_res = current_tr_res;
-            if ($(e.target).hasClass('vtp-uiaction-open-extlink') || $(e.target).parent().hasClass('vtp-uiaction-open-extlink') || $(e.target).hasClass('vtp-projectdata-unlink') || $(e.target).hasClass('vtp-projectdata-unlink-coefficient') || $(e.target).hasClass('vtp-uiaction-coefficient')) {
-
+            if ($(e.target).hasClass('vtp-uiaction-open-extlink') ||
+                $(e.target).parent().hasClass('vtp-uiaction-open-extlink') ||
+                $(e.target).hasClass('vtp-projectdata-unlink') ||
+                $(e.target).hasClass('vtp-projectdata-unlink-coefficient') ||
+                $(e.target).hasClass('vtp-uiaction-coefficient')) {
                 return;
             }
             // res_id is retrieved from the tablerow id (e.g. <tr
@@ -560,11 +584,25 @@ window.resourceDetail = (function () {
             openDialog();
         },
 
+        hideConnectionAndRemark = () => {
+            if (vitoopState.state.resource.type === 'conversation') {
+                $('#tab-title-remark').css('display','none');
+                $('#tab-title-rels').css('display','none');
+            } else {
+                $('#tab-title-remark').css('display','block');
+                $('#tab-title-rels').css('display','block');
+            }
+        },
+
+        addCheckboxWrapperWithResourceTitle = () => {
+            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').append(customCheckboxWrapper);
+            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title .custom-checkbox__wrapper').append('<span id="resource-title"></span>');
+        },
+
         openDialog = function () {
             // check for init: call a widget-method before initialization throws an
             // error
-            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').append(customCheckboxWrapper);
-            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title .custom-checkbox__wrapper').append('<span id="resource-title"></span>');
+            addCheckboxWrapperWithResourceTitle();
 
             try {
                 $('#vtp-res-dialog-tabs').tabs("option");
@@ -646,7 +684,7 @@ window.resourceDetail = (function () {
             }
         },
 
-        nextResource = function () {
+        nextResource = function () { // toDo needs to refactor
             // tr_res is current (jqueryfied) tr-element
             if (next_id == -1) {// no NEXT page avaiable
                 return;
@@ -661,6 +699,7 @@ window.resourceDetail = (function () {
                     setNextId();
                     tgl();
                     hardResetTabs();
+                    addCheckboxWrapperWithResourceTitle();
                     loadTab(undefined, 0);
                 });
             } else { // flip to NEXT resource
@@ -674,6 +713,7 @@ window.resourceDetail = (function () {
                 setNextId();
                 tgl();
                 hardResetTabs();
+                addCheckboxWrapperWithResourceTitle();
                 loadTab(undefined, 0);
             }
             return true;
@@ -694,7 +734,7 @@ window.resourceDetail = (function () {
             }
         },
 
-        previousResource = function () {
+        previousResource = function () { // toDo needs to refactor
             // tr_res is current (jqueryfied) tr-element
             if (prev_id == -1) {// no PREVious page avaiable
                 return;
@@ -710,6 +750,7 @@ window.resourceDetail = (function () {
                     // We are still in an asynchronous callback: Tab Maintenance must be
                     // done here
                     hardResetTabs();
+                    addCheckboxWrapperWithResourceTitle();
                     loadTab(undefined, 0);
                 });
             } else { // flip to PREVious resource
@@ -723,6 +764,7 @@ window.resourceDetail = (function () {
                 setPrevId();
                 tgl();
                 hardResetTabs();
+                addCheckboxWrapperWithResourceTitle();
                 loadTab(undefined, 0);
             }
             return true;
@@ -749,6 +791,9 @@ window.resourceDetail = (function () {
         },
 
         hardResetTabs = function () {
+            vitoopState.commit('set', {key: 'conversation', value: null});
+            $('#resource-title').remove();
+            customCheckboxWrapper.remove();
             $('#resource-data').empty();
             $('#resource-rating').empty();
             $('#resource-tag').empty();
@@ -757,7 +802,6 @@ window.resourceDetail = (function () {
             $('#resource-comments').empty();
             $('#resource-lexicon').empty();
             $('#resource-project').empty();
-            $('#resource-title').empty();
             $('#resource-buttons').empty();
             $('#resource-flags').empty();
             $('.vtp-extlink-lexicon').remove();
@@ -828,7 +872,6 @@ window.resourceDetail = (function () {
         },
 
         closeDialog = function () {
-            customCheckboxWrapper.remove();
             hardResetTabs();
             hideHelpWindow();
 
