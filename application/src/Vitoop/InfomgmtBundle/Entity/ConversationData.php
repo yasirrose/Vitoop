@@ -98,6 +98,26 @@ class ConversationData implements GetDTOInterface
     }
 
     /**
+     * Set isForRelatedUsers
+     *
+     * @param boolean $isForRelatedUsers
+     */
+    public function setIsForRelatedUsers($isForRelatedUsers)
+    {
+        $this->isForRelatedUsers = $isForRelatedUsers;
+    }
+
+    /**
+     * Get isForRelatedUsers
+     *
+     * @return string
+     */
+    public function getIsForRelatedUsers()
+    {
+        return $this->isForRelatedUsers;
+    }
+
+    /**
      * Set conversation
      *
      * @param Conversation $conversation
