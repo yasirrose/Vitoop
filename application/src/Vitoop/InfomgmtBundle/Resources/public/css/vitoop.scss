@@ -402,6 +402,11 @@ input[type="submit"], .vtp-button {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     vertical-align: middle;
+
+    &:disabled {
+        filter: grayscale(.7);
+        cursor: not-allowed;
+    }
 }
 
 .vtp-button {
