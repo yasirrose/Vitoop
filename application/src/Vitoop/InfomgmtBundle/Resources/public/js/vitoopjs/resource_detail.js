@@ -35,6 +35,7 @@ window.resourceDetail = (function () {
         refresh_list = false,
         isShowRating = false,
         viewUrl = '',
+        canRead,
 
         setResId = function (resId) {
             res_id = resId;
@@ -457,6 +458,7 @@ window.resourceDetail = (function () {
 
                 }
             }
+
             if (responseJSON['resource-metadata']) {
                 res_type = responseJSON['resource-metadata'].type;
                 viewUrl = '';
@@ -502,6 +504,16 @@ window.resourceDetail = (function () {
             });
 
             $('#vtp-res-dialog select').selectmenu({
+                create: (event, ui) => {
+                    if (event.target.id === 'conversationStatus' && res_id !== 'new' && canRead) {
+                        axios(`/api/v1/conversations/${res_id}`)
+                            .then(({data: {conversation: {conversation_data}}}) => {
+                                let status = null;
+                                status = conversation_data.is_for_related_users ? 'privat' : 'öffentlich';
+                                $( "#conversationStatus" ).val(status).selectmenu("refresh");
+                            });
+                    }
+                },
                 select: function( event, ui ) {
                     if (event.target.id === 'conversationStatus') {
                         // toDo make backend request to save status
@@ -510,16 +522,7 @@ window.resourceDetail = (function () {
                 }
             });
 
-            $('#conversationStatus').selectmenu({
-                create: () => {
-                    axios(`/api/v1/conversations/${res_id}`)
-                        .then(({data: {conversation: {conversation_data}}}) => {
-                            let status = null;
-                            status = conversation_data.is_for_related_users ? 'privat' : 'öffentlich';
-                            $( "#conversationStatus" ).val(status).selectmenu("refresh");
-                        });
-                }
-            });
+            if (!isNewResource) $('#conversationStatus').selectmenu('option','disabled',true);
 
             $('span.ui-selectmenu-button').removeAttr('tabIndex');
             if (vitoop.isShowHelp == true && isNewResource) {
@@ -552,6 +555,7 @@ window.resourceDetail = (function () {
         showDialog = function (e) {
             var current_tr_res;
             current_tr_res = $(e.target).parentsUntil('.vtp-uiaction-list-listener', '.vtp-uiaction-list-showdetail');
+            canRead = current_tr_res[0].classList.contains('canRead');
             if (current_tr_res.hasClass('divider-wrapper')) {
                 e.preventDefault();
                 return
@@ -791,7 +795,7 @@ window.resourceDetail = (function () {
         },
 
         hardResetTabs = function () {
-            vitoopState.commit('set', {key: 'conversation', value: null});
+            vitoopState.commit('set', {key: 'conversationInstance', value: null});
             $('#resource-title').remove();
             customCheckboxWrapper.remove();
             $('#resource-data').empty();

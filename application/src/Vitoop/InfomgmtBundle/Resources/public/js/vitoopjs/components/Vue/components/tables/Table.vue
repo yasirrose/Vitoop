@@ -151,8 +151,10 @@
                 if (/prj|lex|conversation/.test(this.$route.name)) {
                     $('.vtp-uiaction-open-extlink').on('click', (e) => {
                         e.preventDefault();
-                        this.$store.commit('updateTableRowNumber', +this.$store.state.table.rowNumber - 1);
-                        if (!e.currentTarget.classList.contains('disabled')) this.$router.push(e.currentTarget.pathname);
+                        if (!e.currentTarget.classList.contains('disabled')) {
+                            this.$store.commit('updateTableRowNumber', +this.$store.state.table.rowNumber - 1);
+                            this.$router.push(e.currentTarget.pathname);
+                        }
                     });
                 }
             },

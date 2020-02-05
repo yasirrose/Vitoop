@@ -1,12 +1,12 @@
 <template>
     <div>
-        <form id="vtp-form-data" v-if="get('conversation')">
+        <form id="vtp-form-data" v-if="get('conversationInstance')">
             <fieldset class="ui-corner-all">
                 <legend>Nachricht</legend>
                 <div class="vtp-fh-top">
                     <label class="vtp-fh-w20 required" for="conversation_name">Titel:</label>
                     <input type="text"
-                           :value="get('conversation').name"
+                           :value="get('conversationInstance').conversation.name"
                            id="conversation_name"
                            maxlength="160"
                            class="vtp-fh-w80 vtp-right">
@@ -16,11 +16,11 @@
                     <label class="required" style="width: 22%">Status:</label>
                     <select id="conversation_status">
                         <option value="false"
-                                :selected="!get('conversation').conversation_data.is_for_related_users">
+                                :selected="!get('conversationInstance').conversation.conversation_data.is_for_related_users">
                             öffentlich
                         </option>
                         <option value="true"
-                                :selected="get('conversation').conversation_data.is_for_related_users">
+                                :selected="get('conversationInstance').conversation.conversation_data.is_for_related_users">
                             privat
                         </option>
                     </select>
@@ -34,7 +34,7 @@
                               required="required"
                               class="vtp-fh-w80 vtp-right"
                               style="height: 115px"
-                              rows="10">{{ get('conversation').conversation_data.messages[0] }}
+                              rows="10">{{ get('conversationInstance').conversation.conversation_data.messages[0] }}
                     </textarea>
                     <div class="vtp-uiinfo-form-error"></div>
                 </div>

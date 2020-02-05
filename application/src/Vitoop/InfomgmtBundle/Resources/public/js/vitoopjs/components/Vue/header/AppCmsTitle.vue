@@ -53,16 +53,17 @@
                 </span>
             </div>
         </div>
-        <div v-else-if="get('conversation') !== null"
+        <div v-else-if="get('conversationInstance') !== null"
              id="vtp-conversation-title"
              class="ui-corner-all vtp-cmstitle">
             <span class="vtp-title__text">
-                {{ $t('label.conversation') }}: {{ get('conversation').name }}
+                {{ $t('label.conversation') }}: {{ get('conversationInstance').conversation.name }}
             </span>
             <div class="vtp-title__buttons">
                 <span style="display: flex">
                     <button id="vtp-projectdata-project-edit"
                             class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
+                            v-if="get('conversationInstance').canEdit"
                             :class="{'ui-state-focus ui-state-active': get('conversationEditMode')}"
                             @click="conversationEditMode">
                         <span class="ui-button-icon-primary ui-icon ui-icon-wrench"></span>

@@ -216,6 +216,7 @@ export default class VtpDatatable {
 
     dtRowCallback(row, data, index) {
         let apiPage = this.api().page;
+        if (data.canRead) $(row).addClass('canRead');
         if (data.id === null) {
             $(row).addClass('divider-wrapper');
         }
@@ -442,7 +443,10 @@ export default class VtpDatatable {
         return {
             render: (data,type,row,meta) => {
                 const url = `/conversation/${row.id}`;
-                return this.getInternalUrlValue(url);
+                return row.canRead ? this.getInternalUrlValue(url) : `<span class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink disabled"
+                    style="background-color: #DDDDDD">
+                    <span class="ui-icon ui-icon-extlink">-></span>
+                </span>`;
             }
         }
     }
