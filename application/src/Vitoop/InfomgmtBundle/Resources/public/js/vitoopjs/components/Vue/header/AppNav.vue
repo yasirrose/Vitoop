@@ -15,14 +15,20 @@
                    v-else-if="!getInProject && getResource('id')">
                     {{ $t('page.lexicon') }}
                 </a>
-                <div class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
-                   v-else
-                   :class="{'vtp-nav-active ui-state-active': $route.path === '/userhome'}"
-                   @click="toHome">
-                    Benutzer-Hauptseite
-                </div>
             </li>
-            <li v-for="(value,name) in resources" :key="name">
+            <li v-if="showConversation">
+                <a class="vtp-resmenu-reslink ui-state-default ui-corner-all"
+                   @click="changeRoute('conversation')"
+                   :class="{
+                    'ui-state-no-content': noContent('conversation'),
+                    'vtp-nav-active ui-state-active': /conversation/.test($route.name)
+                   }">
+                    Nachrichten
+                </a>
+            </li>
+            <li v-for="(value,name) in resources"
+                v-if="get('conversation') === null"
+                :key="name">
                 <a class="vtp-resmenu-reslink ui-state-default ui-corner-all"
                    @click="changeRoute(name)"
                    :class="{
@@ -60,7 +66,7 @@
         },
         computed: {
             ...mapGetters([
-                'getResource', 'getInProject'
+                'getResource', 'getInProject', 'get'
             ]),
             noContent() {
                 return (name) => {
@@ -68,11 +74,11 @@
                         this.getResource('info')[`${name}c`] === '0' : false
                 }
             },
+            showConversation() {
+                return !(this.getResource('id') !== null)
+            }
         },
         mounted() {
-            if (this.resourceInfo !== null) {
-                // this.$store.commit('setResourceType', '')
-            }
             const resourceList = new ResourceList();
             resourceList.init();
         },

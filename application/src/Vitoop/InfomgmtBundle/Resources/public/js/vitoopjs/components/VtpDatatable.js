@@ -32,7 +32,9 @@ export default class VtpDatatable {
                 datatable.search(self.getCurrentSearch());
                 datatable.page.len(self.rowsPerPage.getPageLength());
             })
-            .on('xhr.dt', self.dtAjaxCallback);
+            .on('xhr.dt', () => {
+                self.dtAjaxCallback;
+            });
 
         if (null !== self.resourceId) {
             datatable.on('draw.dt', function () {
@@ -71,7 +73,7 @@ export default class VtpDatatable {
         });
 
         // Handle click on checkbox
-        $('table#list-'+self.resType).on('click', 'label.custom-checkbox__wrapper', function(e) {
+        $('table#list-'+self.resType).off().on('click', 'label.custom-checkbox__wrapper', function(e) {
             let $row = $(this).closest('tr');
             const checkbox = $(this).find('input[type="checkbox"]');
             // Get row data
@@ -325,6 +327,15 @@ export default class VtpDatatable {
 
     getColumns() {
         let columns = [];
+        if (this.resType === 'conversation') {
+            return [
+                this.getFirstColumn(),
+                this.getNameColumn(),
+                this.getOwnerColumn(),
+                this.getRatingColumn(),
+                this.getConversationUrlColumn()
+            ]
+        }
         if (this.resType == 'prj') {
             return [
                 this.getFirstColumn(),
@@ -424,6 +435,15 @@ export default class VtpDatatable {
                 this.getOwnerColumn(),
                 this.getMapsLinkColumn()
             ];
+        }
+    }
+
+    getConversationUrlColumn() {
+        return {
+            render: (data,type,row,meta) => {
+                const url = `/conversation/${row.id}`;
+                return this.getInternalUrlValue(url);
+            }
         }
     }
 
@@ -602,7 +622,7 @@ export default class VtpDatatable {
     }
 
     getProjectUrlValue(data, type, row, meta) {
-        if (row.canRead && row.username === vitoopState.state.user.username || vitoopState.state.admin) {
+        if (row.canRead || vitoopState.state.admin) {
             return VtpDatatable.prototype.getInternalUrlValue(vitoop.baseUrl+'project/'+data, type, row, meta);
         }
 

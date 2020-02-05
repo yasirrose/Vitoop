@@ -3,7 +3,7 @@
         <fieldset class="ui-corner-all margin-top-3">
             <div id="vtp-projectdata-box" v-if="editProject">
                 <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all"
-                     v-if="infoProjectData !== null && infoProjectData !== ''">
+                     v-if="infoProjectData !== null && infoProjectData !== '' && infoProjectData.length > 0">
                     <span class="vtp-icon ui-icon ui-icon-info"></span>{{ infoProjectData }}
                 </div>
                 <div class="vtp-fh-w60"
@@ -40,37 +40,32 @@
                                 </div>
                             </div>
                         </div>
-        <!--                    {% if (showasprojectowner is not null) and (showasprojectowner) %}-->
-                            <div class="vtp-fh-w100 vtp-ui-corner-all blau"
-                                 v-if="editProject.project_data.rel_users.length > 0"
-                                 style="vertical-align: top; margin-top: 20px; font-size: 14px">
-                                <div class="prj-edit-header">
-                                    <div class="vtp-fh-w60">
-                                        <span><strong>Benutzer</strong></span>
-                                    </div>
-                                    <div class="vtp-fh-w35">
-                                        <span><strong>Rechte</strong></span>
-                                    </div>
+                        <div class="vtp-fh-w100 vtp-ui-corner-all blau"
+                             v-if="editProject.project_data.rel_users.length > 0"
+                             style="vertical-align: top; margin-top: 20px; font-size: 14px">
+                            <div class="prj-edit-header">
+                                <div class="vtp-fh-w60">
+                                    <span><strong>Benutzer</strong></span>
                                 </div>
-        <!--                            {% verbatim %}-->
-                                    <div v-for="rel in editProject.project_data.rel_users">
-                                        <div class="vtp-fh-w60">
-                                            <label :for="`userReadOnly-${rel.user.id}`"
-                                                   style="margin-right: 20px">{{ rel.user.username }}</label>
-                                        </div>
-                                        <div class="vtp-fh-w35" style="text-align: left">
-                                            <input type="checkbox"
-                                                   :value="!rel.read_only"
-                                                   :checked="!rel.read_only"
-                                                   @change="changeRight(rel,$event)"
-                                                   :name="`userReadOnly-${rel.user.id}`"
-                                                   class="valid-checkbox" />
-                                        </div>
-                                    </div>
-        <!--                            {% endverbatim %}-->
+                                <div class="vtp-fh-w35">
+                                    <span><strong>Rechte</strong></span>
+                                </div>
                             </div>
-        <!--                    {%endif%}-->
-        <!--                    {% if (showasprojectowner is not null) and (showasprojectowner) %}-->
+                            <div v-for="rel in editProject.project_data.rel_users">
+                                <div class="vtp-fh-w60">
+                                    <label :for="`userReadOnly-${rel.user.id}`"
+                                           style="margin-right: 20px">{{ rel.user.username }}</label>
+                                </div>
+                                <div class="vtp-fh-w35" style="text-align: left">
+                                    <input type="checkbox"
+                                           :value="!rel.read_only"
+                                           :checked="!rel.read_only"
+                                           @change="changeRight(rel,$event)"
+                                           :name="`userReadOnly-${rel.user.id}`"
+                                           class="valid-checkbox" />
+                                </div>
+                            </div>
+                        </div>
                         <div class="vtp-fh-w100" style="vertical-align: top; margin-top: 20px; color: #2779aa; font-size: 14px">
                             <div class="vtp-fh-w100" style="vertical-align: top; margin-bottom: 5px">
                                 <label for="newUser"><strong>Neuer Benutzer:</strong></label>
@@ -112,7 +107,6 @@
                                     class="ui-corner-all vtp-fh-w30 vtp-button-light">Nein</button>
                         </div>
                         <div class="vtp-fh-w100 vtp-new-user-info"></div>
-        <!--                    {%endif%}-->
                     </div>
                 </div>
             </div>
@@ -182,10 +176,6 @@
                         options.toolbar = 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink | code';
                         options.init_instance_callback = (editor) => {
                             this.needToSave = false;
-                            // editor.on('keyup', (e) => {
-                            //     this.editProject.project_data.sheet = e.target.innerHTML;
-                            // });
-
                             editor.on('MouseLeave', (e) => {
                                 this.editProject.project_data.sheet = e.target.querySelector('.mce-content-body ').innerHTML;
                             });

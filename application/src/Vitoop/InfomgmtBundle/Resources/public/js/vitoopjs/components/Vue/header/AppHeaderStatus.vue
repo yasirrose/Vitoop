@@ -205,13 +205,13 @@
                         modal: true,
                         position: { my: 'center top', at: 'center top', of: '#vtp-nav' },
                         buttons: {
-                            "Abbrechen": function() {
-                                $(this).dialog("close");
+                            "Abbrechen": () => {
+                                $('#vtp-res-dialog-prompt-links').dialog("close");
                                 return;
                             },
-                            "Öffnen": function() {
+                            "Öffnen": () => {
                                 this.sendLinkWidget.openAllLinks();
-                                $(this).dialog("close");
+                                $$('#vtp-res-dialog-prompt-links').dialog("close");
                                 return;
                             }
                         }

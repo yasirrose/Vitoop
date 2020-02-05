@@ -53,7 +53,6 @@
             ProjectTableHead,
             ConversationTableHead
         },
-        inject: ['isCoef'],
         data() {
             return {
                 datatable: null
@@ -91,13 +90,18 @@
                         break
                 }
             },
+            isCoef() {
+                return this.getResource('id') !== null && this.$store.state.inProject
+            },
             dateTitle() {
-                if (this.isCoef !== null) {
+                if (this.isCoef) {
                     return 'Koeff.'
-                } else if (this.$route.name === 'pdf' || this.$route.name === 'teli') {
+                } else if (this.getResource('id') !== null) {
                     return 'Erschienen'
+                } else if (/pdf|teli/.test(this.$route.name)) {
+                    return 'Erschienen';
                 } else {
-                    return 'Erstellt';
+                    return 'Eingetragen';
                 }
             },
             linkTitle() {
@@ -121,8 +125,7 @@
             },
             currentURL() {
                 return this.get('inProject') ?
-                    `/api/v1/projects/${this.getResource('id')}/${this.getResource('type')}` :
-                    `/api/resource/${this.$route.name}`;
+                    `/api/v1/projects/${this.getResource('id')}/${this.getResource('type')}` : `/api/resource/${this.$route.name}`;
             }
         },
         updated() {
@@ -131,6 +134,7 @@
                 $('.DataTables_sort_icon').addClass('css_right ui-icon ui-icon-carat-2-n-s');
         },
         mounted() {
+            this.$store.commit('setResourceType', this.$route.name);
             resourceDetail.init();
             this.datatable = this.initTable();
             $('.DataTables_sort_icon').addClass('css_right ui-icon ui-icon-carat-2-n-s');
@@ -144,7 +148,7 @@
             onTableDraw() {
                 vitoopState.commit('secondSearchIsSearching', false);
                 $('body').removeClass('overflow-hidden');
-                if (/prj|lex/.test(this.$route.name)) {
+                if (/prj|lex|conversation/.test(this.$route.name)) {
                     $('.vtp-uiaction-open-extlink').on('click', (e) => {
                         e.preventDefault();
                         this.$store.commit('updateTableRowNumber', +this.$store.state.table.rowNumber - 1);
@@ -158,7 +162,15 @@
                     this.isAdmin !== null,
                     this.getResource('id') !== null && this.$store.state.inProject, // isCoef
                     `${this.currentURL}?${this.tagParams}`,
-                ).on('draw', () => {
+                )
+                .on('xhr.dt', (e, settings, json, xhr) => {
+                    if (json === null) {
+                        this.$store.commit('reset');
+                        return;
+                    }
+                    this.$store.commit('setResourceInfo', json.resourceInfo);
+                })
+                .on('draw', () => {
                     this.onTableDraw();
                 })
                 .on('page.dt', () => {

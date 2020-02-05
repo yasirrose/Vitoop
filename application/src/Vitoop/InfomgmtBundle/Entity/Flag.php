@@ -188,5 +188,13 @@ class Flag
 
         return false;
     }
+
+    /**
+     * @return bool
+     */
+    public function isBlamed()
+    {
+        return self::FLAG_BLAME === $this->type;
+    }
 }
    

@@ -138,5 +138,14 @@ export default {
     },
     set(state,payload) {
         state[payload.key] = payload.value;
+    },
+
+    // Conversation
+    isForRelatedUser(state,payload) {
+        state.conversation.conversation_data.is_for_related_users = payload;
+    },
+    resetConversation(state) {
+        state.conversation = null;
+        state.conversationEditMode = false;
     }
 }

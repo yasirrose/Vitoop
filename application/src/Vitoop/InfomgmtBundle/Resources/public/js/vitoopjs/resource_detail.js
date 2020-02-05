@@ -13,7 +13,6 @@ import LexiconWidget from './widgets/lexiconWidget';
 import SendLinkWidget from './widgets/sendLinkWidget';
 
 window.resourceDetail = (function () {
-
     let customCheckboxWrapper = document.createElement('label');
     customCheckboxWrapper.className = 'custom-checkbox__wrapper light';
     customCheckboxWrapper.innerHTML = `
@@ -113,7 +112,7 @@ window.resourceDetail = (function () {
                 $('.vtp-uiaction-detail-blame').on('click', blameResource);
                 $('.vtp-uiaction-detail-help').on('click', helpWindow);
                 $('#vtp-bigclosehelp').on('click', hideHelpWindow);
-                
+
             }
             /*************************************************************************
              * UIfy: data
@@ -172,7 +171,7 @@ window.resourceDetail = (function () {
 
                 addDateModificator('#teli_release_date');
                 //addDateModificator('#pdf_pdf_date');
-               
+
                 if (res_type == "prj") {
                     var nameOrigin = $('#prj_name').val();
                     var textOrigin = $('#prj_description').val();
@@ -206,8 +205,9 @@ window.resourceDetail = (function () {
                 // Move the rating-infobox to the header, but remove the old one if
                 // exists
                 $('#vtp-rating-infobox-li').remove();
-                $('<li id="vtp-rating-infobox-li"></li>').insertAfter('#vtp-res-dialog-tabs>ul>li:last').append(
-                    $('#vtp-rating-infobox-wrapper'));
+                $('<li id="vtp-rating-infobox-li"></li>')
+                    .insertAfter('#vtp-res-dialog-tabs>ul>li:last')
+                    .append($('#vtp-rating-infobox-wrapper'));
                 // left/right-buttons
                 cnt_rating_infobox = $('.vtp-rating-infobox').length;
                 if (cnt_rating_infobox == 1) {
@@ -323,8 +323,8 @@ window.resourceDetail = (function () {
              * UIfy: tag
              ************************************************************************/
             if ('resource-tag' == container_name) {
-               var tagWidget = new TagWidget(res_id, vitoop.baseUrl);
-               tagWidget.init();
+                var tagWidget = new TagWidget(res_id, vitoop.baseUrl);
+                tagWidget.init();
             }
 
             /*************************************************************************
@@ -382,6 +382,8 @@ window.resourceDetail = (function () {
             /*************************************************************************
              * UIfy: END
              ************************************************************************/
+
+            hideConnectionAndRemark();
         },
 
         clearTabsClasses = function() {
@@ -397,7 +399,7 @@ window.resourceDetail = (function () {
             $('#tab-title-remark-private').removeClass('ui-state-no-content');
             $('#tab-title-rels').removeClass('ui-state-no-content');
         },
-        
+
         resetTinyMce = function () {
             tinymce.execCommand('mceRemoveEditor', true, "remark_text");
             tinymce.execCommand('mceRemoveEditor', true, "remark_private_text");
@@ -417,6 +419,7 @@ window.resourceDetail = (function () {
             } else {
                 console.log('No TabIndex provided!');
             }
+
             var urlResourceType = (res_type && 0 !==tab_nr) ?res_type:'resources';
             url = vitoop.baseUrl + ([urlResourceType, res_id, tab_name[tab_nr]].join('/'));
             // if the tab is already loaded then return without any action
@@ -427,16 +430,19 @@ window.resourceDetail = (function () {
             if ('new' == res_id) {
                 url = vitoop.baseUrl + ([res_type, 'new'].join('/'));
             }
-            tab_loaded[tab_nr] = 1;
+
             $.ajax({
                 url: url,
-                success: loadTabSuccess,
+                success: (responseJSON) => loadTabSuccess(responseJSON,tab_name[tab_nr]),
                 dataType: 'json'
             });
+
+            tab_loaded[tab_nr] = 1;
         },
 
-        loadTabSuccess = function (responseJSON, textStatus, jqXHR, form) {
+        loadTabSuccess = function (responseJSON,tabName) {
             var isNewResource = false;
+
             if ('new' == res_id) {
                 isNewResource = true;
                 if (responseJSON['resource-metadata'] && !responseJSON['resource-metadata'].isNewValid) {
@@ -448,12 +454,11 @@ window.resourceDetail = (function () {
                     $('#vtp-res-dialog-tabs').tabs('enable');
                     // Disable the Navigation Buttons (uifyContainer() will grey it out). New resource has no prev/next
                     prev_id = next_id = -1;
-                    
+
                 }
             }
             if (responseJSON['resource-metadata']) {
                 res_type = responseJSON['resource-metadata'].type;
-                // vitoopState.commit('setResource', {type: res_type, id: null});
                 viewUrl = '';
                 if ('lex' === res_type) {
                     viewUrl = vitoop.baseUrl + 'lexicon/' +res_id;
@@ -463,13 +468,13 @@ window.resourceDetail = (function () {
                 var info = responseJSON['tabs-info'];
                 var storage = new DataStorage();
                 var checkedResources = storage.getObject(res_type +'-checked');
-             
+
                 if (res_id in checkedResources) {
                     $('#resource-check').prop("checked", "checked");
                 } else {
                     $('#resource-check').removeProp("checked");
                 }
-                
+
                 if (info.comments == 0) {
                     $('#tab-title-comments').addClass('ui-state-no-content');
                 }
@@ -490,7 +495,7 @@ window.resourceDetail = (function () {
                 }
             }
 
-            $.each(responseJSON, function (container_name, html) {
+            $.each(responseJSON, (container_name, html) => {
                 if ('resource-metadata' !== container_name && 'tabs-info' !== container_name) {
                     replaceContainer(container_name, html);
                 }
@@ -498,20 +503,35 @@ window.resourceDetail = (function () {
 
             $('#vtp-res-dialog select').selectmenu({
                 select: function( event, ui ) {
+                    if (event.target.id === 'conversationStatus') {
+                        // toDo make backend request to save status
+                    }
                     $('span.ui-selectmenu-button').removeAttr('tabIndex');
                 }
             });
+
+            $('#conversationStatus').selectmenu({
+                create: () => {
+                    axios(`/api/v1/conversations/${res_id}`)
+                        .then(({data: {conversation: {conversation_data}}}) => {
+                            let status = null;
+                            status = conversation_data.is_for_related_users ? 'privat' : 'öffentlich';
+                            $( "#conversationStatus" ).val(status).selectmenu("refresh");
+                        });
+                }
+            });
+
             $('span.ui-selectmenu-button').removeAttr('tabIndex');
             if (vitoop.isShowHelp == true && isNewResource) {
                 $('#vtp-detail-help').click();
             }
-            
+
             //show rating tabs if need
             if (isShowRating) {
                 isShowRating = false;
                 $('#vtp-rating-panel').show('blind', 'slow');
             }
-            
+
             //show lexicon button and scrollbars
             $('.vtp-extlink-lexicon').remove();
             if ('lex' === res_type ) {
@@ -541,32 +561,48 @@ window.resourceDetail = (function () {
             }
 
             //tr_res is initialized with null
-            if (tr_res != null) {
-                tgl();
-            }
+            // if (tr_res != null) {
+            //     tgl();
+            // }
             tr_res = current_tr_res;
-            tgl();
-
-            if ($(e.target).hasClass('vtp-uiaction-open-extlink') || $(e.target).parent().hasClass('vtp-uiaction-open-extlink') || $(e.target).hasClass('vtp-projectdata-unlink') || $(e.target).hasClass('vtp-projectdata-unlink-coefficient') || $(e.target).hasClass('vtp-uiaction-coefficient')) {
+            if ($(e.target).hasClass('vtp-uiaction-open-extlink') ||
+                $(e.target).parent().hasClass('vtp-uiaction-open-extlink') ||
+                $(e.target).hasClass('vtp-projectdata-unlink') ||
+                $(e.target).hasClass('vtp-projectdata-unlink-coefficient') ||
+                $(e.target).hasClass('vtp-uiaction-coefficient')) {
                 return;
             }
-
             // res_id is retrieved from the tablerow id (e.g. <tr
             // id="pdf-1">).
+
             res_type = (tr_res.attr('id').split('-'))[0];
             res_id = (tr_res.attr('id').split('-'))[1];
-            // vitoopState.commit('setResource', {type: res_type, id: res_id});
+            tgl();
 
             setNextId();
             setPrevId();
             openDialog();
         },
 
+        hideConnectionAndRemark = () => {
+            if (vitoopState.state.resource.type === 'conversation') {
+                $('#tab-title-remark').css('display','none');
+                $('#tab-title-rels').css('display','none');
+            } else {
+                $('#tab-title-remark').css('display','block');
+                $('#tab-title-rels').css('display','block');
+            }
+        },
+
+        addCheckboxWrapperWithResourceTitle = () => {
+            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').append(customCheckboxWrapper);
+            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title .custom-checkbox__wrapper').append('<span id="resource-title"></span>');
+        },
+
         openDialog = function () {
             // check for init: call a widget-method before initialization throws an
             // error
-            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').append(customCheckboxWrapper);
-            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title .custom-checkbox__wrapper').append('<span id="resource-title"></span>');
+            addCheckboxWrapperWithResourceTitle();
 
             try {
                 $('#vtp-res-dialog-tabs').tabs("option");
@@ -611,14 +647,14 @@ window.resourceDetail = (function () {
                 hideHelpWindow();
             }
         },
-        
+
         showHelpWindow = function () {
             $('#resource-quickview').hide();
             $('#resource-help').show();
             //$(this).removeClass("ui-state-focus ui-state-hover");
             $('#vtp-detail-help').removeClass('ui-state-default');
             $('#vtp-detail-help').addClass('vtp-active');
-           
+
         },
         hideHelpWindow = function () {
             $('#resource-help').hide();
@@ -629,7 +665,11 @@ window.resourceDetail = (function () {
 
         tgl = function () {
             $('td.ui-state-active').removeClass('ui-state-active');
-            tr_res.children().toggleClass('ui-state-active');
+            document.querySelectorAll('tr').forEach(tr => {
+                if (tr.getAttribute('id') === `${res_type}-${res_id}`) {
+                    tr.querySelectorAll('td').forEach(td => td.classList.add('ui-state-active'))
+                }
+            })
         },
 
         tgl_ls = function () {
@@ -644,7 +684,7 @@ window.resourceDetail = (function () {
             }
         },
 
-        nextResource = function () {
+        nextResource = function () { // toDo needs to refactor
             // tr_res is current (jqueryfied) tr-element
             if (next_id == -1) {// no NEXT page avaiable
                 return;
@@ -653,28 +693,28 @@ window.resourceDetail = (function () {
                 let rows = $('#vtp-res-list table').DataTable().page('next').draw('page');
                 rows.on('draw.dt', function () {
                     tr_res = $('.vtp-list-first');
-                    tgl();
                     res_id = (tr_res.attr('id').split('-'))[1];
                     prev_id = 0;
-                    
+
                     setNextId();
+                    tgl();
                     hardResetTabs();
+                    addCheckboxWrapperWithResourceTitle();
                     loadTab(undefined, 0);
                 });
             } else { // flip to NEXT resource
-                tgl();
                 var nextElement = tr_res.next('tr');
                 if (nextElement.length == 0) {
                     nextElement = tr_res.next().next('tr');
                 }
                 tr_res = nextElement;
-                tgl();
                 prev_id = res_id;
                 res_id = next_id;
                 setNextId();
+                tgl();
                 hardResetTabs();
+                addCheckboxWrapperWithResourceTitle();
                 loadTab(undefined, 0);
-
             }
             return true;
         },
@@ -686,45 +726,46 @@ window.resourceDetail = (function () {
                 next_id = 0;
             } else {
                 var nextElement = tr_res.next('tr');
-                if (nextElement.length == 0) {
-                    nextElement = tr_res.next().next('tr');
+                if (nextElement.hasClass('divider-wrapper')) {
+                    next_id = (nextElement.next().attr('id').split('-'))[1];
+                    return
                 }
                 next_id = (nextElement.attr('id').split('-'))[1];
             }
         },
 
-        previousResource = function () {
+        previousResource = function () { // toDo needs to refactor
             // tr_res is current (jqueryfied) tr-element
             if (prev_id == -1) {// no PREVious page avaiable
                 return;
             }
             if (prev_id == 0) {// load PREVious listpage
-                rows = $('#vtp-res-list table').DataTable().page('previous').draw('page');
+                let rows = $('#vtp-res-list table').DataTable().page('previous').draw('page');
                 rows.on('draw.dt', function () {
                     tr_res = $('.vtp-list-last');
-                    tgl();
                     res_id = (tr_res.attr('id').split('-'))[1];
                     next_id = 0;
                     setPrevId();
+                    tgl();
                     // We are still in an asynchronous callback: Tab Maintenance must be
                     // done here
                     hardResetTabs();
+                    addCheckboxWrapperWithResourceTitle();
                     loadTab(undefined, 0);
                 });
             } else { // flip to PREVious resource
-                tgl();
                 var prevElement = tr_res.prev('tr');
                 if (prevElement.length == 0) {
                     prevElement = tr_res.prev().prev('tr');
                 }
                 tr_res = prevElement;
-                tgl();
                 next_id = res_id;
                 res_id = prev_id;
                 setPrevId();
+                tgl();
                 hardResetTabs();
+                addCheckboxWrapperWithResourceTitle();
                 loadTab(undefined, 0);
-
             }
             return true;
         },
@@ -736,14 +777,23 @@ window.resourceDetail = (function () {
                 prev_id = 0;
             } else {
                 var prevElement = tr_res.prev('tr');
-                if (prevElement.length == 0) {
-                    prevElement = tr_res.prev().prev('tr');
+                if (prevElement.hasClass('divider-wrapper')) {
+                    if (prevElement.prev().length > 0) {
+                        prev_id = (prevElement.prev().attr('id').split('-'))[1];
+                        return
+                    } else {
+                        prev_id = -1;
+                        return;
+                    }
                 }
                 prev_id = (prevElement.attr('id').split('-'))[1];
             }
         },
 
         hardResetTabs = function () {
+            vitoopState.commit('set', {key: 'conversation', value: null});
+            $('#resource-title').remove();
+            customCheckboxWrapper.remove();
             $('#resource-data').empty();
             $('#resource-rating').empty();
             $('#resource-tag').empty();
@@ -752,7 +802,6 @@ window.resourceDetail = (function () {
             $('#resource-comments').empty();
             $('#resource-lexicon').empty();
             $('#resource-project').empty();
-            $('#resource-title').empty();
             $('#resource-buttons').empty();
             $('#resource-flags').empty();
             $('.vtp-extlink-lexicon').remove();
@@ -823,10 +872,9 @@ window.resourceDetail = (function () {
         },
 
         closeDialog = function () {
-            customCheckboxWrapper.remove();
             hardResetTabs();
             hideHelpWindow();
-            
+
             if (refresh_list) {
                 //$('#vtp-res-list table').DataTable().off('draw.dt');
                 // "last seen" is maintained through arr_res_tr_attr_id[]
@@ -923,7 +971,7 @@ window.resourceDetail = (function () {
             // @TODO Handler
             // vtp-content is the root for event delegation inside this 'box'
             $('#vtp-content').on('click', '.vtp-uiaction-list-listener', showDialog);
-           
+
             $('#vtp-application').on('click', '#vtp-uiaction-close-flagform', function () {
                 $('#resource-flags').hide('blind', 'fast');
                 $('#resource-flags').empty();

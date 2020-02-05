@@ -2,12 +2,14 @@
 
 namespace Vitoop\InfomgmtBundle\EventListener;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Vitoop\InfomgmtBundle\Response\Json\ErrorResponse;
 
 /**
  * Class SessionIdleHandler
@@ -59,7 +61,7 @@ class SessionIdleHandler
      */
     public function onKernelRequest(GetResponseEvent $event)
     {
-        if (HttpKernelInterface::MASTER_REQUEST != $event->getRequestType()) {
+        if (!$event->isMasterRequest()) {
             return;
         }
         if ($this->maxIdleTime > 0) {
@@ -67,7 +69,11 @@ class SessionIdleHandler
             $lapse = time() - $this->session->getMetadataBag()->getLastUsed();
             if ($lapse > $this->maxIdleTime && null !== $this->tokenStorage->getToken()) {
                 $this->tokenStorage->setToken(null);
-                $event->setResponse(new RedirectResponse($this->router->generate('_login')));
+                if ($event->getRequest()->isXmlHttpRequest()) {
+                    $event->setResponse(new JsonResponse(new ErrorResponse(['Session expired']), 401));
+                } else {
+                    $event->setResponse(new RedirectResponse($this->router->generate('_login')));
+                }
                 $this->session->clear();
             }
         }

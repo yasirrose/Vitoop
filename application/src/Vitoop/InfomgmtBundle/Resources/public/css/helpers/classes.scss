@@ -1,3 +1,22 @@
 .overflow-hidden {
   overflow: hidden;
 }
+
+.bordered-box {
+  overflow: auto;
+  margin: 8px;
+  padding:1em;
+  border: 1px solid #aed0ea;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.w-50 {
+  width: 50%;
+}
+
+.text-right {
+  text-align: right;
+}

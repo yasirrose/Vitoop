@@ -28,7 +28,7 @@ class Conversation extends Resource implements GetDTOInterface
     protected $description;
 
     /**
-     * @ORM\Column(name="conversation_data_id", type="text", length=4096)
+     * @ORM\Column(name="conversation_data_id", type="integer")
      */
     protected $conversationDataId;
 
