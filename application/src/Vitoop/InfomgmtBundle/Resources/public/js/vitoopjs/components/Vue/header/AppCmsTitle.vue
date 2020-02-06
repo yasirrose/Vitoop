@@ -1,15 +1,15 @@
 <template>
     <div id="vtp-cmstitle">
-        <div v-if="getResource('id') !== null && get('inProject')"
+        <div v-if="project !== null"
              id="vtp-projectdata-title"
              class="ui-corner-all vtp-cmstitle">
-            <span class="vtp-title__text" v-if="project !== null">
+<!--            getResource('id') !== null && get('inProject')-->
+            <span class="vtp-title__text">
                 {{ $t('label.project') }}: {{ project.name }}
             </span>
-<!--            <input type="hidden" id="projectID" :value="project.id"/>-->
             <div class="vtp-title__buttons">
                 <help-button help-area="project" />
-                <span v-if="getResource('owner')" style="display: flex">
+                <span v-if="canEdit" style="display: flex">
                     <button id="vtp-projectdata-project-live"
                             class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
                             :class="{'ui-state-focus ui-state-active': !get('edit')}"
@@ -53,16 +53,17 @@
                 </span>
             </div>
         </div>
-        <div v-else-if="get('conversation') !== null"
+        <div v-else-if="get('conversationInstance') !== null"
              id="vtp-conversation-title"
              class="ui-corner-all vtp-cmstitle">
             <span class="vtp-title__text">
-                {{ $t('label.conversation') }}: {{ get('conversation').name }}
+                {{ $t('label.conversation') }}: {{ get('conversationInstance').conversation.name }}
             </span>
             <div class="vtp-title__buttons">
                 <span style="display: flex">
                     <button id="vtp-projectdata-project-edit"
                             class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
+                            v-if="get('conversationInstance').canEdit"
                             :class="{'ui-state-focus ui-state-active': get('conversationEditMode')}"
                             @click="conversationEditMode">
                         <span class="ui-button-icon-primary ui-icon ui-icon-wrench"></span>
@@ -72,9 +73,9 @@
                             class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary"
                             role="button"
                             @click="resetResource('/conversation')">
-                    <span class="ui-button-icon-primary ui-icon ui-icon-close"></span>
-                    <span class="ui-button-text"></span>
-                </button>
+                        <span class="ui-button-icon-primary ui-icon ui-icon-close"></span>
+                        <span class="ui-button-text"></span>
+                    </button>
                 </span>
             </div>
         </div>
@@ -98,7 +99,13 @@
             }
         },
         computed: {
-            ...mapGetters(['getResource','get','getTableRowNumber'])
+            ...mapGetters(['getResource','get','getTableRowNumber']),
+            canEdit() { //getResource('owner')
+                const userRelated = this.project.project_data.rel_users.some(relUser => {
+                    return (relUser.user.id === this.get('user').id && !relUser.read_only);
+                });
+                return this.get('admin') || userRelated;
+            }
         },
         mounted() {
             VueBus.$on('remove:project', () => {
@@ -125,6 +132,8 @@
                 })
             },
             resetResource(redirectTo) {
+                this.project = null;
+                this.lexicon = null;
                 this.$store.commit('resetConversation');
                 this.$store.commit('resetResource');
                 this.$store.commit('updateTableRowNumber', this.getTableRowNumber + 1);

@@ -27,7 +27,7 @@
                 </a>
             </li>
             <li v-for="(value,name) in resources"
-                v-if="get('conversation') === null"
+                v-if="get('conversationInstance') === null"
                 :key="name">
                 <a class="vtp-resmenu-reslink ui-state-default ui-corner-all"
                    @click="changeRoute(name)"

@@ -39,6 +39,6 @@ export default {
         text: null,
         id: null
     },
-    conversation: null,
+    conversationInstance: null,
     conversationEditMode: false
 }
