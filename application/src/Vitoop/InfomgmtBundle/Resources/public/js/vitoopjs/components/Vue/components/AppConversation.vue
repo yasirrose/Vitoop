@@ -5,16 +5,30 @@
                  ref="messagesWrapper">
                 <fieldset v-for="(message,index) in conversationInstance.conversation.conversation_data.messages"
                           class="conversation__message ui-corner-all"
-                          :class="{'mb-0': index === conversationInstance.conversation.conversation_data.messages.length-1}">
+                          :class="{
+                            'mb-0': index === conversationInstance.conversation.conversation_data.messages.length-1,
+                            'edit': get('admin')
+                          }">
                     <legend>
                         {{ message.user.username }} |
                         {{ moment(message.date.date).format('DD.MM.YYYY') }} |
                         {{ moment(message.date.date).format('kk:mm') }}
                     </legend>
                     <div class="conversation__message__text" v-html="message.message"></div>
+                    <div v-if="get('admin')" class="conversation__message__edit">
+                        <button class="ui-state-default"
+                                @click="editMessage(message)">
+                            <span class="ui-button-icon-primary ui-icon ui-icon-wrench"></span>
+                        </button>
+                        <button
+                                :title="$t('label.close')"
+                                class="ui-state-default"
+                                @click="deleteMessage(message.id)">
+                            <span class="ui-button-icon-primary ui-icon ui-icon-close"></span>
+                        </button>
+                    </div>
                 </fieldset>
-                <div v-if="!conversationInstance.conversation.conversation_data.messages.length"
-                     style="padding: 10px 0">
+                <div v-if="!conversationInstance.conversation.conversation_data.messages.length">
                     Es gibt keine Nachrichten
                 </div>
                 <div class="conversation__new-message" :class="{opened: newMessageArea.opened}">
@@ -150,6 +164,7 @@
                     opened: false,
                     message: null
                 },
+                editMessageMode: false,
                 conversationInstance: null
             }
         },
@@ -178,13 +193,13 @@
                             this.conversationInstance.conversation.conversation_data.messages.push(data);
                             resolve();
                         });
-                        pushNewMessage.then(() => this.scrollToBottom());
+                        pushNewMessage.then(() => this.scrollToBottom(400));
                     });
                     this.centrifuge.connect();
                     return
                 })
                 .then(() => {
-                    this.scrollToBottom();
+                    this.scrollToBottom(400);
                     tinyMCE.remove('#new-message-textarea');
                     const tinyMceOptions = new tinyMCEInitializer().getCommonOptions();
                     tinyMceOptions.selector = '#new-message-textarea';
@@ -199,6 +214,20 @@
                 .catch(err => console.dir(err));
         },
         methods: {
+            editMessage(message) {
+                this.newMessageArea.opened = true;
+                console.log(message);
+                this.editMessageMode = true;
+                this.scrollToBottom(400);
+                tinyMCE.activeEditor.setContent(message.message);
+            },
+            deleteMessage(messageID) {
+                axios.delete(`/api/v1/conversations/${this.conversation.id}/messages/${messageID}`)
+                    .then(response => {
+                        console.log(response)
+                    })
+                    .catch(err => console.dir(err))
+            },
             getConversation() {
                 return axios(`/api/v1/conversations/${this.$route.params.conversationId}`)
                 .then(({data}) => {
@@ -253,29 +282,37 @@
                     .catch(err => console.dir(err));
             },
             toggleNewMessageArea() {
+                tinyMCE.activeEditor.setContent('');
                 this.newMessageArea.opened = !this.newMessageArea.opened;
-                setTimeout(() => {
-                    this.scrollToBottom();
-                }, 400);
+                this.scrollToBottom(400);
             },
             postMessage() {
                 const formData = new FormData();
-                formData.append('message', this.newMessageArea.message);
-                axios.post(`/api/v1/conversations/${this.conversationInstance.conversation.id}/messages`, formData)
-                    .then(({data}) => {
-                        this.newMessageArea.opened = false;
-                        this.centrifuge.publish(`${this.conversationInstance.conversation.id}`, data)
-                            .then(res => {
-                                console.log('successfully published',res);
-                            })
-                            .catch(err => console.dir(err));
-                    })
-                    .catch(err => console.dir(err))
+                if (!this.editMessageMode) {
+                    formData.append('message', this.newMessageArea.message);
+                    axios.post(`/api/v1/conversations/${this.conversationInstance.conversation.id}/messages`, formData)
+                        .then(({data}) => {
+                            this.newMessageArea.opened = false;
+                            this.centrifuge.publish(`${this.conversationInstance.conversation.id}`, data)
+                                .then(res => {
+                                    console.log('successfully published', res);
+                                })
+                                .catch(err => console.dir(err));
+                        })
+                        .catch(err => console.dir(err))
+                } else {
+                    // toDo back-end not ready
+                    this.editMessageMode = false;
+                    this.newMessageArea.opened = false;
+                }
             },
-            scrollToBottom() {
-                // const lastMsgElement = document.querySelector('.conversation__message:last-child');
-                // if (lastMsgElement) lastMsgElement.scrollIntoView(false);
-                document.querySelector('.conversation__new-message').scrollIntoView(false);
+            scrollToBottom(timeout) {
+                const newMessageArea = document.querySelector('.conversation__new-message');
+                setTimeout(() => newMessageArea.scrollIntoView({
+                    block: 'end',
+                    inline: 'nearest',
+                    behavior: 'smooth'
+                }), timeout);
             }
         }
     }
@@ -330,11 +367,14 @@
 
         &__new-message {
             overflow: hidden;
+            opacity: 0;
             height: 0;
             transition: .4s;
 
             &.opened {
                 /*height: auto;*/
+                opacity: 1;
+                margin-top: 10px;
                 height: 265px;
             }
         }
@@ -366,8 +406,30 @@
                 margin: 0 10px;
             }
 
+            &.edit {
+                display: flex;
+                position: relative;
+
+                .conversation__message__text {
+                    padding-right: 70px;
+                }
+
+                .conversation__message__edit {
+                    position: absolute;
+                    right: 5px;
+                    bottom: 5px;
+                }
+            }
+
             &__text {
                 padding: 0 5px 5px;
+            }
+
+            &__edit {
+
+                button {
+                    border-radius: 6px;
+                }
             }
         }
 

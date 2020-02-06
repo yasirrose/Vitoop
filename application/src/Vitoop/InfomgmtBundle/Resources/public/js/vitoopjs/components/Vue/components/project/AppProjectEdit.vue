@@ -158,7 +158,7 @@
                 rel.read_only = JSON.parse(e.target.value);
             },
             getProjectData() {
-                axios(`/api/project/${this.$route.params.projectId}`)
+                axios(`/api/v1/projects/${this.$route.params.projectId}`)
                     .then(({data}) => {
                         this.isLoaded = true;
                         this.isOwner = data.isOwner;
