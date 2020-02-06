@@ -4,6 +4,7 @@
 namespace Vitoop\InfomgmtBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,9 +16,14 @@ class ConversationType extends AbstractType
     {
         $builder->remove('country')
             ->remove('lang')
-            ->add('description', TextareaType::class, array('label' => 'Conversation:'));
-        $builder->get('description')
-            ->addModelTransformer(new EmptyStringToNullTransformer());
+            ->add('description', TextareaType::class, array('label' => 'First message:'))
+            ->add('status', ChoiceType::class, [
+                'choices' => [
+                    'öffentlich' => '0',
+                    'private' => '1',
+                ],
+                'label' => 'Status:'
+            ]);
     }
 
     public function getParent()

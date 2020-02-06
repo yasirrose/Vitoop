@@ -171,6 +171,8 @@ class ResourceDTO
 
     public $description;
 
+    public $status;
+
     public function getIsbnLength()
     {
         return mb_strlen($this->isbn);

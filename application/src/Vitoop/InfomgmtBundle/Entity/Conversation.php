@@ -178,6 +178,7 @@ class Conversation extends Resource implements GetDTOInterface
     {
         $dto = parent::toResourceDTO($user);
         $dto->description = $this->description;
+        $dto->status = $this->conversation_data->getIsForRelatedUsers();
 
         return $dto;
     }
@@ -194,5 +195,6 @@ class Conversation extends Resource implements GetDTOInterface
     {
         parent::updateFromResourceDTO($dto);
         $this->description = $dto->description;
+        $this->conversation_data->setIsForRelatedUsers($dto->status);
     }
 }
