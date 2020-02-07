@@ -76,13 +76,13 @@ class ConversationController extends ApiController
         $conversationData = $conversation->getConversationData();
         $conversationData->__load();
         $message = new ConversationMessage($request->get('message'), $vitoopSecurity->getUser(), $conversationData);
-        $messageRepository->save($message);
+        $newMessage = $messageRepository->save($message);
 
-        return $this->getApiResponse($message);
+        return $this->getApiResponse($newMessage);
     }
 
     /**
-     * @Route("/messages/{messageID}", methods={"PUT"})
+     * @Route("/messages/{messageID}", methods={"POST"})
      *
      * @param ConversationMessage $message
      * @param $vitoopSecurity VitoopSecurity
