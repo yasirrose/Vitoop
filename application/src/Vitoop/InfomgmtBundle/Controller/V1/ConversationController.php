@@ -85,16 +85,16 @@ class ConversationController extends ApiController
      * @Route("/messages/{messageID}", methods={"PUT"})
      *
      * @param ConversationMessage $message
-     * @param $request Request
      * @param $vitoopSecurity VitoopSecurity
+     * @param ConversationMessageRepository $messageRepository
      * @param Request $request
-     *
+     * @ParamConverter("message", class="Vitoop\InfomgmtBundle\Entity\ConversationMessage", options={"id" = "messageID"})
      * @return object
      */
     public function updateMessage(ConversationMessage $message, VitoopSecurity $vitoopSecurity, ConversationMessageRepository $messageRepository, Request $request)
     {
         $this->checkAccessForDelete($message, $vitoopSecurity);
-        $message->setText($request->get('message'));
+        $message->setText($request->get('updatedMessage'));
         $messageRepository->save($message);
 
         return $this->getApiResponse(['success' => 'success']);
