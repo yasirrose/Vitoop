@@ -73,10 +73,31 @@ class ConversationController extends ApiController
         ConversationMessageRepository $messageRepository
     )
     {
-        $message = new ConversationMessage($request->get('message'), $vitoopSecurity->getUser(), $conversation->getConversationData());
+        $conversationData = $conversation->getConversationData();
+        $conversationData->__load();
+        $message = new ConversationMessage($request->get('message'), $vitoopSecurity->getUser(), $conversationData);
         $messageRepository->save($message);
 
         return $this->getApiResponse($message);
+    }
+
+    /**
+     * @Route("/messages/{messageID}", methods={"PUT"})
+     *
+     * @param ConversationMessage $message
+     * @param $vitoopSecurity VitoopSecurity
+     * @param ConversationMessageRepository $messageRepository
+     * @param Request $request
+     * @ParamConverter("message", class="Vitoop\InfomgmtBundle\Entity\ConversationMessage", options={"id" = "messageID"})
+     * @return object
+     */
+    public function updateMessage(ConversationMessage $message, VitoopSecurity $vitoopSecurity, ConversationMessageRepository $messageRepository, Request $request)
+    {
+        $this->checkAccessForDelete($message, $vitoopSecurity);
+        $message->setText($request->get('updatedMessage'));
+        $messageRepository->save($message);
+
+        return $this->getApiResponse(['success' => 'success']);
     }
 
     /**
@@ -116,7 +137,7 @@ class ConversationController extends ApiController
         $this->checkAccessForRelUserAction($conversation, $vitoopSecurity);
         $response = null;
 
-        $user = $userRepository->find($request->get('userId'));
+        $user = $userRepository->find((integer)$request->get('userId'));
         if (is_null($user)) {
             $response = ['status' => 'error', 'message' => 'User is not found'];
         } elseif ($user->getUsername() == $currentUser->getUsername()) {
@@ -180,10 +201,10 @@ class ConversationController extends ApiController
     )
     {
         $this->checkAccessForRelUserAction($conversation, $vitoopSecurity);
-        $user = $userRepository->find($request->get('userId'));
+        $user = $userRepository->find((integer)$request->get('userId'));
 
         $relConversationUser = $conversationUserRepository->getRel($user, $conversation);
-        $relConversationUser->setReadOnly($request->get('read'));
+        $relConversationUser->setReadOnly((integer)$request->get('read'));
 
         $conversationUserRepository->addUser($relConversationUser);
 
@@ -226,7 +247,7 @@ class ConversationController extends ApiController
     {
         $this->checkAccessForRelUserAction($conversation, $vitoopSecurity);
         $conversationData = $conversation->getConversationData();
-        $conversationData->setIsForRelatedUsers($request->get('status'));
+        $conversationData->setIsForRelatedUsers((integer)$request->get('status'));
         $conversationDataRepository->changeStatus($conversationData);
 
         return $this->getApiResponse($conversationData);
