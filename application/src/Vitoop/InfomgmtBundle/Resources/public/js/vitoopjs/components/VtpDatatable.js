@@ -43,7 +43,6 @@ export default class VtpDatatable {
         }
 
         if ((self.resType == 'pdf' || self.resType == 'teli')/* && !vitoopApp.isElementExists('search_date_range'*/) {
-            vitoopState.commit('showDataRange');
             $('.range-filter').off()
                 .on('change', function () {
                     vitoopApp.secondSearch.dateRange.updateRangeFromDOM();
@@ -304,7 +303,7 @@ export default class VtpDatatable {
         if (this.resType == 'pdf' || this.resType == 'teli') {
             let dateRangeFilter = vitoopApp.secondSearch.dateRange;
             if (!dateRangeFilter.isEmpty()) {
-                return [0, 'asc'];
+                return [0, 'desc'];
             }
         }
 
@@ -461,7 +460,7 @@ export default class VtpDatatable {
                 if (full.id !== null) {
                     let checkedResources = this.datastorage.getObject(this.resType + '-checked');
                     return `
-                        <label class="custom-checkbox__wrapper no-title light">
+                        <label class="custom-checkbox__wrapper no-title light square-checkbox">
                             <input 
                                 class="valid-checkbox open-checkbox-link" 
                                 title="anhaken für weitere Verwendung: öffnen/mailen"

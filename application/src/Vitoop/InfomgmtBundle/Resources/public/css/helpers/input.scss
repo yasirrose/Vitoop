@@ -40,6 +40,23 @@
       }
     }
 
+    &.square-checkbox {
+
+      .custom-checkbox {
+        background-color: #f2f2f2;
+        border-color: #9dcff7;
+        border-radius: 2px;
+      }
+
+      input[type="checkbox"] {
+
+        &:checked + .custom-checkbox {
+          background-color: white;
+          border-color: #2779aa;
+        }
+      }
+    }
+
     input[type="checkbox"] {
       opacity: 0;
       height: 0;

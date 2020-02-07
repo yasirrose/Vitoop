@@ -21,7 +21,10 @@
                     return this.$store.state.searchToggler.isOpened;
                 },
                 set(value) {
-                    if (value) $('body').addClass('overflow-hidden');
+                    if (value) {
+                        $('body').addClass('overflow-hidden');
+
+                    }
                     this.$store.commit('updateSearchToggle', value);
                     vitoopApp.vtpDatatable.rowsPerPage.checkDOMState();
                 }
