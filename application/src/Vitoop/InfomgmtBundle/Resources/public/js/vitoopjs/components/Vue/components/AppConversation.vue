@@ -32,10 +32,10 @@
                 <div v-if="!conversationInstance.conversation.conversation_data.messages.length">
                     Es gibt keine Nachrichten
                 </div>
-                <div class="conversation__new-message" :class="{opened: newMessageArea.opened}">
+                <div class="conversation__new-message" :class="{opened: newMessage.opened}">
                     <textarea placeholder="type message..."
                               id="new-message-textarea"
-                              v-model="newMessageArea.message"></textarea>
+                              v-model="newMessage.message"></textarea>
                     <div style="text-align: right">
                         <button @click="postMessage"
                                 class="conversation__save-message ui-corner-all ui-state-default">
@@ -158,15 +158,14 @@
             return {
                 options: [],
                 user: null,
-
                 centrifuge: null,
                 moment: window.moment,
-                newMessageArea: {
+                newMessage: {
                     opened: false,
-                    message: null
+                    message: null,
+                    edit: false,
+                    id: null
                 },
-                editMessageMode: false,
-                editingMessageId: null,
                 conversationInstance: null
             }
         },
@@ -208,7 +207,7 @@
                     tinyMceOptions.height = 150;
                     tinyMceOptions.init_instance_callback = editor => {
                         editor.on('keyup', e => {
-                            this.newMessageArea.message = e.target.innerHTML;
+                            this.newMessage.message = e.target.innerHTML;
                         });
                     };
                     tinyMCE.init(tinyMceOptions);
@@ -217,10 +216,10 @@
         },
         methods: {
             editMessage(message) {
-                this.newMessageArea.opened = true;
-                this.newMessageArea.message = message.message;
-                this.editMessageMode = true;
-                this.editingMessageId = message.id;
+                this.newMessage.opened = true;
+                this.newMessage.message = message.message;
+                this.newMessage.edit = true;
+                this.newMessage.id = message.id;
                 console.log(message);
                 this.scrollToBottom(400);
                 tinyMCE.activeEditor.setContent(message.message);
@@ -231,6 +230,9 @@
                         const deletedMessageIndex = _.findIndex(this.conversationInstance.conversation.conversation_data.messages, {id: messageID});
                         document.querySelectorAll('.conversation__message')[deletedMessageIndex].classList.add('delete-animation');
                         setTimeout(() => this.conversationInstance.conversation.conversation_data.messages.splice(deletedMessageIndex, 1),500);
+                        tinyMCE.activeEditor.setContent('');
+                        this.newMessage.opened = false;
+                        this.newMessage.edit = false;
                     })
                     .catch(err => console.dir(err))
             },
@@ -289,16 +291,17 @@
             },
             toggleNewMessageArea() {
                 tinyMCE.activeEditor.setContent('');
-                this.newMessageArea.opened = !this.newMessageArea.opened;
+                this.newMessage.opened = !this.newMessage.opened;
+                this.newMessage.edit = false;
                 this.scrollToBottom(400);
             },
             postMessage() {
                 const formData = new FormData();
-                if (!this.editMessageMode) { // post mew message
-                    formData.append('message', this.newMessageArea.message);
+                if (!this.newMessage.edit) { // post mew message
+                    formData.append('message', this.newMessage.message);
                     axios.post(`/api/v1/conversations/${this.conversationInstance.conversation.id}/messages`, formData)
                         .then(({data}) => {
-                            this.newMessageArea.opened = false;
+                            this.newMessage.opened = false;
                             this.centrifuge.publish(`${this.conversationInstance.conversation.id}`, data)
                                 .then(res => {
                                     console.log('successfully published', res);
@@ -307,15 +310,15 @@
                         })
                         .catch(err => console.dir(err))
                 } else { // update selected message
-                    // toDo Error 500 back-end doesn't work
-                    formData.append('updatedMessage', this.newMessageArea.message);
-                    axios.put(`/api/v1/conversations/${this.conversationInstance.conversation.id}/messages/${this.editingMessageId}`, formData)
-                    .then((response) => {
-                        console.log(response);
-                    })
-                    .catch(err => console.dir(err));
-                    this.editMessageMode = false;
-                    this.newMessageArea.opened = false;
+                    formData.append('updatedMessage', this.newMessage.message);
+                    axios.post(`/api/v1/conversations/${this.conversationInstance.conversation.id}/messages/${this.newMessage.id}`, formData)
+                        .then((response) => {
+                            const updatedMessageIndex = _.findIndex(this.conversationInstance.conversation.conversation_data.messages, {id: this.newMessage.id});
+                            this.conversationInstance.conversation.conversation_data.messages[updatedMessageIndex].message = this.newMessage.message;
+                            this.newMessage.edit = false;
+                            this.newMessage.opened = false;
+                        })
+                        .catch(err => console.dir(err));
                 }
             },
             scrollToBottom(timeout) {
