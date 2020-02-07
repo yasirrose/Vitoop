@@ -15,12 +15,6 @@
         components: {
             AppProject, AppProjectEdit
         },
-        data() {
-            return {
-                project: null,
-                resourceInfo: null
-            }
-        },
         computed: {
             ...mapGetters(['get'])
         },

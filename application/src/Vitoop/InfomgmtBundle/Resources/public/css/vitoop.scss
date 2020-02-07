@@ -839,6 +839,15 @@ input[type=number].vtp-uiaction-coefficient::-webkit-inner-spin-button, input[ty
     width: 8px;
 }
 
+#conversationStatus-menu {
+
+    li.ui-menu-item {
+        box-sizing: border-box;
+        width: 100%;
+        margin: 0;
+    }
+}
+
 #vtp-res-dialog-tabs form {
     position : relative;
 }

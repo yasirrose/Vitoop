@@ -21,4 +21,10 @@ class ConversationDataRepository extends ResourceRepository
     {
         return ConversationData::class;
     }
+
+    public function changeStatus(ConversationData $conversationData)
+    {
+        $this->getEntityManager()->merge($conversationData);
+        $this->getEntityManager()->flush();
+    }
 }

@@ -142,10 +142,10 @@ export default {
 
     // Conversation
     isForRelatedUser(state,payload) {
-        state.conversation.conversation_data.is_for_related_users = payload;
+        state.conversationInstance.conversation.conversation_data.is_for_related_users = payload;
     },
     resetConversation(state) {
-        state.conversation = null;
+        state.conversationInstance = null;
         state.conversationEditMode = false;
     }
 }

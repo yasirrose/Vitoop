@@ -17,6 +17,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Vitoop\InfomgmtBundle\Entity\RelConversationUser;
 use Vitoop\InfomgmtBundle\Entity\User;
+use Vitoop\InfomgmtBundle\Repository\ConversationDataRepository;
 use Vitoop\InfomgmtBundle\Repository\ConversationMessageRepository;
 use Vitoop\InfomgmtBundle\Repository\ConversationRepository;
 use Vitoop\InfomgmtBundle\Repository\RelConversationUserRepository;
@@ -50,6 +51,7 @@ class ConversationController extends ApiController
        return $this->getApiResponse([
             'conversation' => $conversation->getDTO(),
             'isOwner' => $conversation->getConversationData()->availableForDelete($this->getUser()),
+            'canEdit' => $conversation->getConversationData()->availableForWriting($this->getUser()),
             'token' => $this->messageService->getToken($userId),
             'userId' => $userId
         ]);
@@ -153,7 +155,7 @@ class ConversationController extends ApiController
         RelConversationUserRepository $conversationUserRepository
     )
     {
-        $this->checkAccessForRelUserAction($conversation, $vitoopSecurity);
+        $this->checkAccessForDeleteUser($conversation, $vitoopSecurity);
         $relConversationUser = $conversationUserRepository->getRel($user, $conversation);
         $conversationUserRepository->removeUser($relConversationUser);
 
@@ -206,6 +208,30 @@ class ConversationController extends ApiController
         return $this->getApiResponse($names);
     }
 
+    /**
+     * @Route("/status", methods={"POST"})
+     * @param Conversation $conversation
+     * @param Request $request
+     * @param VitoopSecurity $vitoopSecurity
+     * @param ConversationDataRepository $conversationDataRepository
+     *
+     * @return object
+     */
+    public function changeConversationStatus(
+        Conversation $conversation,
+        Request $request,
+        VitoopSecurity $vitoopSecurity,
+        ConversationDataRepository $conversationDataRepository
+    )
+    {
+        $this->checkAccessForRelUserAction($conversation, $vitoopSecurity);
+        $conversationData = $conversation->getConversationData();
+        $conversationData->setIsForRelatedUsers($request->get('status'));
+        $conversationDataRepository->changeStatus($conversationData);
+
+        return $this->getApiResponse($conversationData);
+    }
+
     private function checkAccess(Conversation $conversation, VitoopSecurity $vitoopSecurity)
     {
         if (!$conversation->getConversationData()->availableForReading($vitoopSecurity->getUser())) {
@@ -222,7 +248,14 @@ class ConversationController extends ApiController
 
     private function checkAccessForRelUserAction(Conversation $conversation, VitoopSecurity $vitoopSecurity)
     {
-        if (!$conversation->getConversationData()->availableForRelUserAction($vitoopSecurity->getUser())) {
+        if (!$conversation->getConversationData()->availableForWriting($vitoopSecurity->getUser())) {
+            throw new AccessDeniedHttpException;
+        }
+    }
+
+    private function checkAccessForDeleteUser(Conversation $conversation, VitoopSecurity $vitoopSecurity)
+    {
+        if (!$conversation->getConversationData()->availableForDelete($vitoopSecurity->getUser())) {
             throw new AccessDeniedHttpException;
         }
     }

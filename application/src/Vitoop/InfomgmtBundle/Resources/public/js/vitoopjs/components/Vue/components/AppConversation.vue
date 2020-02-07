@@ -1,8 +1,36 @@
 <template>
     <div id="vtp-content" class="conversation">
-        <fieldset class="ui-corner-all margin-top-3" v-if="conversation">
+        <fieldset class="ui-corner-all margin-top-3" v-if="conversationInstance">
             <div class="conversation__messages ui-corner-all bordered-box vtp-fh-w75"
                  ref="messagesWrapper">
+                <fieldset v-for="(message,index) in conversationInstance.conversation.conversation_data.messages"
+                          class="conversation__message ui-corner-all"
+                          :class="{
+                            'mb-0': index === conversationInstance.conversation.conversation_data.messages.length-1,
+                            'edit': get('admin')
+                          }">
+                    <legend>
+                        {{ message.user.username }} |
+                        {{ moment(message.date.date).format('DD.MM.YYYY') }} |
+                        {{ moment(message.date.date).format('kk:mm') }}
+                    </legend>
+                    <div class="conversation__message__text" v-html="message.message"></div>
+                    <div v-if="get('admin')" class="conversation__message__edit">
+                        <button class="ui-state-default"
+                                @click="editMessage(message)">
+                            <span class="ui-button-icon-primary ui-icon ui-icon-wrench"></span>
+                        </button>
+                        <button
+                                :title="$t('label.close')"
+                                class="ui-state-default"
+                                @click="deleteMessage(message.id)">
+                            <span class="ui-button-icon-primary ui-icon ui-icon-close"></span>
+                        </button>
+                    </div>
+                </fieldset>
+                <div v-if="!conversationInstance.conversation.conversation_data.messages.length">
+                    Es gibt keine Nachrichten
+                </div>
                 <div class="conversation__new-message" :class="{opened: newMessageArea.opened}">
                     <textarea placeholder="type message..."
                               id="new-message-textarea"
@@ -14,28 +42,16 @@
                         </button>
                     </div>
                 </div>
-                <fieldset v-for="message in conversation.conversation_data.messages"
-                          class="conversation__message ui-corner-all">
-                    <legend>
-                        {{ message.user.username }} |
-                        {{ moment(message.date.date).format('DD MM YYYY') }} |
-                        {{ moment(message.date.date).format('hh:mm') }}
-                    </legend>
-                    <div class="conversation__message__text" v-html="message.message"></div>
-                </fieldset>
-                <div v-if="!conversation.conversation_data.messages.length">
-                    Es gibt keine Nachrichten
-                </div>
             </div>
             <div class="conversation__info">
                 <div class="ui-corner-all bordered-box">
                     <div class="d-flex" style="margin-bottom: 5px">
                         <span class="w-50">Erstellt von:</span>
-                        <span class="w-50 text-right">{{ conversation.user.username }}</span>
+                        <span class="w-50 text-right">{{ conversationInstance.conversation.user.username }}</span>
                     </div>
                     <div class="d-flex" style="margin-bottom: 5px">
                         <span class="w-50">Erstellt am:</span>
-                        <span class="w-50 text-right">{{ moment(conversation.created).format('DD.MM.YYYY') }}</span>
+                        <span class="w-50 text-right">{{ moment(conversationInstance.conversation.created).format('DD.MM.YYYY') }}</span>
                     </div>
                     <div class="d-flex" style="margin-bottom: 5px">
                         <span class="w-50">Status:</span>
@@ -52,9 +68,9 @@
                     </button>
                 </div>
                 <div class="ui-corner-all bordered-box"
-                     v-if="!get('conversationEditMode') && conversation.conversation_data.rel_users.length">
+                     v-if="!get('conversationEditMode') && conversationInstance.conversation.conversation_data.rel_users.length">
                     <h3>Benutzer</h3>
-                    <div v-for="rel_user in conversation.conversation_data.rel_users">
+                    <div v-for="rel_user in conversationInstance.conversation.conversation_data.rel_users">
                         {{ rel_user.user.username }}
                     </div>
                 </div>
@@ -62,26 +78,30 @@
                 <div v-if="get('conversationEditMode')"
                      class="ui-corner-all bordered-box"
                      style="overflow: visible">
-                    <div class="prj-edit-header">
-                        <div class="vtp-fh-w60">
-                            <span><strong>Benutzer</strong></span>
+                    <div v-if="conversationInstance.conversation.conversation_data.rel_users.length">
+                        <div class="prj-edit-header">
+                            <div class="vtp-fh-w60">
+                                <span><strong>Benutzer</strong></span>
+                            </div>
+                            <div class="vtp-fh-w35">
+                                <span><strong>Rechte</strong></span>
+                            </div>
                         </div>
-                        <div class="vtp-fh-w35">
-                            <span><strong>Rechte</strong></span>
-                        </div>
-                    </div>
-                    <div v-for="rel in conversation.conversation_data.rel_users">
-                        <div class="vtp-fh-w60">
-                            <label :for="`userReadOnly-${rel.user.id}`"
-                                   style="margin-right: 20px">{{ rel.user.username }}</label>
-                        </div>
-                        <div class="vtp-fh-w35" style="text-align: left">
-                            <input type="checkbox"
-                                   :value="!rel.read_only"
-                                   :checked="!rel.read_only"
-                                   @change="changeRight(rel,$event)"
-                                   :name="`userReadOnly-${rel.user.id}`"
-                                   class="valid-checkbox" />
+                        <div style="margin-bottom: 15px">
+                            <div v-for="rel in conversationInstance.conversation.conversation_data.rel_users">
+                                <div class="vtp-fh-w60">
+                                    <label :for="`userReadOnly-${rel.user.id}`"
+                                           style="margin-right: 20px">{{ rel.user.username }}</label>
+                                </div>
+                                <div class="vtp-fh-w35" style="text-align: left">
+                                    <input type="checkbox"
+                                           :value="!rel.read_only"
+                                           :checked="!rel.read_only"
+                                           @change="changeRight(rel,$event)"
+                                           :name="`userReadOnly-${rel.user.id}`"
+                                           class="valid-checkbox" />
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="vtp-fh-w100 vtp-new-user-search">
@@ -100,7 +120,7 @@
                             verknüpfen
                         </button>
                         <button @click="removeUser()"
-                                :disabled="this.user === null"
+                                :disabled="!canRemoveUser"
                                 :title="UserButtonTitle"
                                 class="ui-corner-all vtp-fh-w40 ui-state-default vtp-button"
                                 style="float: right">
@@ -144,16 +164,20 @@
                     opened: false,
                     message: null
                 },
-                conversation: null
+                editMessageMode: false,
+                conversationInstance: null
             }
         },
         computed: {
             ...mapGetters(['get','getResource']),
             conversationStatus() {
-                return this.conversation.conversation_data.is_for_related_users ? 'privat' : 'public';
+                return this.conversationInstance.conversation.conversation_data.is_for_related_users ? 'privat' : 'public';
             },
             UserButtonTitle() {
                 return this.user === null ? 'Benutzer auswählen' : null
+            },
+            canRemoveUser() {
+                return this.user !== null && (this.get('admin') || this.conversationInstance.isOwner);
             }
         },
         mounted() {
@@ -164,23 +188,22 @@
             this.getConversation()
                 .then(data => {
                     this.centrifuge.setToken(data.token);
-                    this.centrifuge.subscribe(`${this.conversation.id}`, ({data}) => {
+                    this.centrifuge.subscribe(`${this.conversationInstance.conversation.id}`, ({data}) => {
                         const pushNewMessage = new Promise((resolve,reject) => {
-                            this.conversation.conversation_data.messages.push(data);
+                            this.conversationInstance.conversation.conversation_data.messages.push(data);
                             resolve();
                         });
-                        pushNewMessage.then(() => this.scrollToLastMessage());
+                        pushNewMessage.then(() => this.scrollToBottom(400));
                     });
                     this.centrifuge.connect();
                     return
                 })
                 .then(() => {
-                    this.scrollToLastMessage();
+                    this.scrollToBottom(400);
                     tinyMCE.remove('#new-message-textarea');
                     const tinyMceOptions = new tinyMCEInitializer().getCommonOptions();
                     tinyMceOptions.selector = '#new-message-textarea';
                     tinyMceOptions.height = 150;
-                    tinyMceOptions.toolbar = 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor';
                     tinyMceOptions.init_instance_callback = editor => {
                         editor.on('keyup', e => {
                             this.newMessageArea.message = e.target.innerHTML;
@@ -191,20 +214,42 @@
                 .catch(err => console.dir(err));
         },
         methods: {
+            editMessage(message) {
+                this.newMessageArea.opened = true;
+                console.log(message);
+                this.editMessageMode = true;
+                this.scrollToBottom(400);
+                tinyMCE.activeEditor.setContent(message.message);
+            },
+            deleteMessage(messageID) {
+                axios.delete(`/api/v1/conversations/${this.conversation.id}/messages/${messageID}`)
+                    .then(response => {
+                        console.log(response)
+                    })
+                    .catch(err => console.dir(err))
+            },
             getConversation() {
                 return axios(`/api/v1/conversations/${this.$route.params.conversationId}`)
                 .then(({data}) => {
                     this.$store.commit('set', {
-                        key: 'conversation',
-                        value: data.conversation
+                        key: 'conversationInstance',
+                        value: data
                     });
-                    this.conversation = data.conversation;
+                    this.conversationInstance = data;
                     return data;
                 })
                 .catch(err => console.dir(err));
             },
             changeRight(rel,e) {
                 rel.read_only = JSON.parse(e.target.value);
+                const formData = new FormData();
+                formData.append('userId', rel.user.id);
+                formData.append('read_only', rel.read_only);
+                axios.post(`/api/v1/conversations/${this.conversationInstance.conversation.id}/read`, formData)
+                    .then(response => {
+
+                    })
+                    .catch(err => console.dir(err));
             },
             selectUser(user) {
                 this.user = user;
@@ -213,7 +258,7 @@
                 // toDo Waiting for back-end
                 const formData = new FormData();
                 formData.append('symbol', search);
-                axios.post(`/api/v1/conversations/${this.conversation.id}/user/find`, formData)
+                axios.post(`/api/v1/conversations/${this.conversationInstance.conversation.id}/user/find`, formData)
                     .then(({data}) => {
                         this.options = data;
                     })
@@ -223,42 +268,51 @@
                 const formData = new FormData();
                 formData.append("userId", this.user.id);
                 formData.append("username", this.user.username);
-                axios.post(`/api/v1/conversations/${this.conversation.id}/user`, formData)
+                axios.post(`/api/v1/conversations/${this.conversationInstance.conversation.id}/user`, formData)
                     .then(({data}) => {
                         this.getConversation();
                     })
                     .catch(err => console.dir(err));
             },
             removeUser() {
-                axios.delete(`/api/v1/conversations/${this.conversation.id}/user/${this.user.id}`)
+                axios.delete(`/api/v1/conversations/${this.conversationInstance.conversation.id}/user/${this.user.id}`)
                     .then(({data}) => {
                         this.getConversation();
                     })
                     .catch(err => console.dir(err));
             },
             toggleNewMessageArea() {
+                tinyMCE.activeEditor.setContent('');
                 this.newMessageArea.opened = !this.newMessageArea.opened;
-                if (this.newMessageArea.opened) {
-                    document.querySelector('.conversation__messages').scrollTop = 0;
-                }
+                this.scrollToBottom(400);
             },
             postMessage() {
                 const formData = new FormData();
-                formData.append('message', this.newMessageArea.message);
-                axios.post(`/api/v1/conversations/${this.conversation.id}/messages`, formData)
-                    .then(({data}) => {
-                        this.newMessageArea.opened = false;
-                        this.centrifuge.publish(`${this.conversation.id}`, data)
-                            .then(res => {
-                                console.log('successfully published',res);
-                            })
-                            .catch(err => console.dir(err));
-                    })
-                    .catch(err => console.dir(err))
+                if (!this.editMessageMode) {
+                    formData.append('message', this.newMessageArea.message);
+                    axios.post(`/api/v1/conversations/${this.conversationInstance.conversation.id}/messages`, formData)
+                        .then(({data}) => {
+                            this.newMessageArea.opened = false;
+                            this.centrifuge.publish(`${this.conversationInstance.conversation.id}`, data)
+                                .then(res => {
+                                    console.log('successfully published', res);
+                                })
+                                .catch(err => console.dir(err));
+                        })
+                        .catch(err => console.dir(err))
+                } else {
+                    // toDo back-end not ready
+                    this.editMessageMode = false;
+                    this.newMessageArea.opened = false;
+                }
             },
-            scrollToLastMessage() {
-                const lastMsgElement = document.querySelector('.conversation__message:last-child');
-                if (lastMsgElement) lastMsgElement.scrollIntoView(false);
+            scrollToBottom(timeout) {
+                const newMessageArea = document.querySelector('.conversation__new-message');
+                setTimeout(() => newMessageArea.scrollIntoView({
+                    block: 'end',
+                    inline: 'nearest',
+                    behavior: 'smooth'
+                }), timeout);
             }
         }
     }
@@ -268,6 +322,10 @@
 
     .dropdown {
         margin-bottom: 5px;
+    }
+
+    .prj-edit-header {
+        margin-bottom: 15px;
     }
 
     .vtp-new-user-search {
@@ -309,11 +367,14 @@
 
         &__new-message {
             overflow: hidden;
+            opacity: 0;
             height: 0;
             transition: .4s;
 
             &.opened {
                 /*height: auto;*/
+                opacity: 1;
+                margin-top: 10px;
                 height: 265px;
             }
         }
@@ -334,8 +395,8 @@
         &__message {
             border-color: #517c95;
 
-            &:not(:last-child) {
-                margin-bottom: 1rem;
+            &:not(:first-child) {
+                margin-top: 1rem;
             }
 
             legend {
@@ -345,8 +406,30 @@
                 margin: 0 10px;
             }
 
+            &.edit {
+                display: flex;
+                position: relative;
+
+                .conversation__message__text {
+                    padding-right: 70px;
+                }
+
+                .conversation__message__edit {
+                    position: absolute;
+                    right: 5px;
+                    bottom: 5px;
+                }
+            }
+
             &__text {
                 padding: 0 5px 5px;
+            }
+
+            &__edit {
+
+                button {
+                    border-radius: 6px;
+                }
             }
         }
 
