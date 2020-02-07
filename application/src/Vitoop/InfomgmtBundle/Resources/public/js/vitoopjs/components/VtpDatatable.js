@@ -231,7 +231,7 @@ export default class VtpDatatable {
             $(row).addClass('show-popup');
         }
 
-        if (data.isUserHook != 0) {
+        if (data.isUserHook != 0 && data.id !== null) {
             $(row).find('td:first').addClass('vtp-blue');
         }
 
