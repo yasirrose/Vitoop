@@ -244,7 +244,7 @@
                 rel.read_only = JSON.parse(e.target.value);
                 const formData = new FormData();
                 formData.append('userId', rel.user.id);
-                formData.append('read_only', rel.read_only);
+                formData.append('read', rel.read_only);
                 axios.post(`/api/v1/conversations/${this.conversationInstance.conversation.id}/read`, formData)
                     .then(response => {
 
