@@ -264,14 +264,14 @@ class ResourceRepository extends ServiceEntityRepository
     public function countAllResources1(Resource $resource2, User $user)
     {
         return $this->getEntityManager()
-                    ->createQuery('SELECT r.id, r.name, COUNT(r.id) AS cnt_res, (CASE WHEN rr.user = :user THEN 1 ELSE 0 END) AS is_own
+                    ->createQuery('SELECT r.id, r.name, COUNT(r.id) AS cnt_res, MAX(CASE WHEN rr.user = :user THEN 1 ELSE 0 END) AS is_own
                         FROM ' . $this->getEntityName() . ' r
                         JOIN r.rel_resources1 rr
                         LEFT JOIN r.flags f
                         WHERE rr.resource2=:arg_resource2
                         AND f.id IS NULL
                         AND rr.deletedByUser is null
-                        GROUP BY r.id, is_own
+                        GROUP BY r.id
                         ORDER BY r.name ASC')
                     ->setParameter('arg_resource2', $resource2)
                     ->setParameter('user', $user)
@@ -336,11 +336,15 @@ class ResourceRepository extends ServiceEntityRepository
             ->setParameter('currentUser', $search->user);
         $rootEntity = $query->getRootEntities();
         $rootEntity = $rootEntity[0];
-        if (($rootEntity == 'Vitoop\InfomgmtBundle\Entity\Lexicon') || ($rootEntity == 'Vitoop\InfomgmtBundle\Entity\Project')) {
+        $isLexiconAndProject = \in_array($rootEntity, [Lexicon::class, Project::class]);
+        if ($isLexiconAndProject) {
             $query->leftJoin('r.rel_resources1', 'rrr');
+        } elseif (null !== $search->resource) {
+            $query->leftJoin('r.rel_resources2', 'rrr', 'WITH', 'rrr.deletedByUser is null');
         } else {
             $query->leftJoin('r.rel_resources2', 'rrr');
         }
+
         if ($search->flagged) {
             $query->andWhere('f.id IS NOT NULL')
                 ->andWhere('f.type != 128');
@@ -369,7 +373,7 @@ class ResourceRepository extends ServiceEntityRepository
                 );
         }
         
-        if (!is_null($search->resource)) {
+        if (null !== $search->resource) {
             $this->prepareListByResourceQueryBuilder($query, $search->resource);
         } elseif (!empty($search->tags)) {
             $this->prepareListByTagsQueryBuilder($query, $search);
@@ -402,13 +406,11 @@ class ResourceRepository extends ServiceEntityRepository
      */
     protected function prepareListByResourceQueryBuilder(QueryBuilder $query, $resource)
     {
-        return $query->innerJoin('r.rel_resources2', 'rr2', 'WITH', 'rr2.deletedByUser is null')
-            ->addSelect('rr2.coefficient as coef')
-            ->addSelect('rr2.id as coefId')
-            ->andWhere('rr2.resource1 = :resource')
-            ->addGroupBy('rr2.id')
-            ->addGroupBy('rr2.coefficient')
-            ->addOrderBy('rr2.coefficient', 'ASC')
+        return $query
+            ->addSelect('rrr.coefficient as coef')
+            ->addSelect('rrr.id as coefId')
+            ->andWhere('rrr.resource1 = :resource')
+            ->addOrderBy('rrr.coefficient', 'ASC')
             ->addOrderBy('r.created_at', 'DESC')
             ->setParameter('resource', $resource);
     }
