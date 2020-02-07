@@ -20,8 +20,10 @@ class ConversationMessageRepository extends ResourceRepository
 
     public function save(ConversationMessage $message)
     {
-        $this->getEntityManager()->merge($message);
+        $message = $this->getEntityManager()->merge($message);
         $this->getEntityManager()->flush();
+
+        return $message;
     }
 
     public function remove(ConversationMessage $message)
