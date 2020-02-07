@@ -4,6 +4,7 @@
             <div class="conversation__messages ui-corner-all bordered-box vtp-fh-w75"
                  ref="messagesWrapper">
                 <fieldset v-for="(message,index) in conversationInstance.conversation.conversation_data.messages"
+                          :key="message.id"
                           class="conversation__message ui-corner-all"
                           :class="{
                             'mb-0': index === conversationInstance.conversation.conversation_data.messages.length-1,
@@ -165,6 +166,7 @@
                     message: null
                 },
                 editMessageMode: false,
+                editingMessageId: null,
                 conversationInstance: null
             }
         },
@@ -216,15 +218,19 @@
         methods: {
             editMessage(message) {
                 this.newMessageArea.opened = true;
-                console.log(message);
+                this.newMessageArea.message = message.message;
                 this.editMessageMode = true;
+                this.editingMessageId = message.id;
+                console.log(message);
                 this.scrollToBottom(400);
                 tinyMCE.activeEditor.setContent(message.message);
             },
             deleteMessage(messageID) {
-                axios.delete(`/api/v1/conversations/${this.conversation.id}/messages/${messageID}`)
+                axios.delete(`/api/v1/conversations/${this.conversationInstance.conversation.id}/messages/${messageID}`)
                     .then(response => {
-                        console.log(response)
+                        const deletedMessageIndex = _.findIndex(this.conversationInstance.conversation.conversation_data.messages, {id: messageID});
+                        document.querySelectorAll('.conversation__message')[deletedMessageIndex].classList.add('delete-animation');
+                        setTimeout(() => this.conversationInstance.conversation.conversation_data.messages.splice(deletedMessageIndex, 1),500);
                     })
                     .catch(err => console.dir(err))
             },
@@ -288,7 +294,7 @@
             },
             postMessage() {
                 const formData = new FormData();
-                if (!this.editMessageMode) {
+                if (!this.editMessageMode) { // post mew message
                     formData.append('message', this.newMessageArea.message);
                     axios.post(`/api/v1/conversations/${this.conversationInstance.conversation.id}/messages`, formData)
                         .then(({data}) => {
@@ -300,8 +306,14 @@
                                 .catch(err => console.dir(err));
                         })
                         .catch(err => console.dir(err))
-                } else {
-                    // toDo back-end not ready
+                } else { // update selected message
+                    // toDo Error 500 back-end doesn't work
+                    formData.append('updatedMessage', this.newMessageArea.message);
+                    axios.put(`/api/v1/conversations/${this.conversationInstance.conversation.id}/messages/${this.editingMessageId}`, formData)
+                    .then((response) => {
+                        console.log(response);
+                    })
+                    .catch(err => console.dir(err));
                     this.editMessageMode = false;
                     this.newMessageArea.opened = false;
                 }
@@ -394,6 +406,13 @@
 
         &__message {
             border-color: #517c95;
+            transition: .5s;
+
+            &.delete-animation {
+                background: #d9ecfa;
+                transform: scale(0);
+                /*height: 0;*/
+            }
 
             &:not(:first-child) {
                 margin-top: 1rem;
