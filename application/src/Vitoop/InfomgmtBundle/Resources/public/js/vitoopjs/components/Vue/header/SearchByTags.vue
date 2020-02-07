@@ -21,7 +21,7 @@
                         name="tagcnt"
                         size="1"
                         style="width: 52px">
-                    <option value="">-</option>
+                    <option value="0">-</option>
 <!--                    <option :value="i" v-for="i in []">{{ i }}</option>-->
     <!--                {% for i in 1..9 %}-->
     <!--                <option value="{{ i }}" {{ ((tagcnt is defined) and (tagcnt == i) ) ? 'selected' : '' }}>{{ i }}</option>-->
@@ -127,6 +127,7 @@
                 this.resetTags();
                 this.cnttags = 0;
                 this.tagcnt = 0;
+                this.$store.commit('set', {key: 'tagcnt', value: this.tagcnt});
                 this.saveTagsToStorage();
                 this.updateAutocomplete($('#vtp-search-bytags-taglist'));
                 this.maintainCntTags();

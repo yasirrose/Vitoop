@@ -14,7 +14,7 @@ import SendLinkWidget from './widgets/sendLinkWidget';
 
 window.resourceDetail = (function () {
     let customCheckboxWrapper = document.createElement('label');
-    customCheckboxWrapper.className = 'custom-checkbox__wrapper light';
+    customCheckboxWrapper.className = 'custom-checkbox__wrapper light square-checkbox';
     customCheckboxWrapper.innerHTML = `
         <input type="checkbox" 
                id="resource-check" 
@@ -564,11 +564,11 @@ window.resourceDetail = (function () {
                 return true;
             }
 
-            //tr_res is initialized with null
-            // if (tr_res != null) {
-            //     tgl();
-            // }
             tr_res = current_tr_res;
+            res_type = (tr_res.attr('id').split('-'))[0];
+            res_id = (tr_res.attr('id').split('-'))[1];
+            tgl();
+
             if ($(e.target).hasClass('vtp-uiaction-open-extlink') ||
                 $(e.target).parent().hasClass('vtp-uiaction-open-extlink') ||
                 $(e.target).hasClass('vtp-projectdata-unlink') ||
@@ -576,12 +576,7 @@ window.resourceDetail = (function () {
                 $(e.target).hasClass('vtp-uiaction-coefficient')) {
                 return;
             }
-            // res_id is retrieved from the tablerow id (e.g. <tr
-            // id="pdf-1">).
 
-            res_type = (tr_res.attr('id').split('-'))[0];
-            res_id = (tr_res.attr('id').split('-'))[1];
-            tgl();
 
             setNextId();
             setPrevId();
