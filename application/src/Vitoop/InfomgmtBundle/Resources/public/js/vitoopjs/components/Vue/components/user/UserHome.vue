@@ -1,6 +1,6 @@
 <template>
     <div id="vtp-content">
-        <div v-html="welcome_text" class="blue-bordered"></div>
+        <div v-html="welcome_text" class="blue-bordered" style="padding: 30px"></div>
     </div>
 </template>
 

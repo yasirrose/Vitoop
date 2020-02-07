@@ -1,6 +1,6 @@
 <template>
     <transition name="slide">
-        <div v-show="show"
+        <div v-show="get('secondSearch').show"
              id="vtp-second-search-box"
              class="dataTables_filter ui-corner-all vtp-blue">
             <div id="search_blue_box">
@@ -16,7 +16,7 @@
                              src="/img/check.png" />
                     </span>
                 </label>
-                <div v-show="showDataRange"
+                <div v-show="/pdf|teli/.test(get('resource').type)"
                      id="search_date_range">
                     <input id="search_date_from"
                            class="range-filter"
@@ -41,7 +41,7 @@
                     </button>
                 </div>
                 <div id="art-select">
-                    <v-select v-show="showArtSelect"
+                    <v-select v-show="get('secondSearch').showArtSelect"
                               :options="artOptions"
                               v-model="artFilter"
                               :clearable="false">
@@ -73,12 +73,14 @@
 
 <script>
     import vSelect from 'vue-select/src/components/Select.vue';
-    import SearchClear from './SearchClear.vue'
+    import SearchClear from './SearchClear.vue';
+    import {mapGetters} from 'vuex';
 
     export default {
         name: "SecondSearch",
         data: function() {
             return {
+                isDateRangeChanged: false,
                 artOptions: [
                     {label: 'Bücher-Auswahl', value: ''},
                     {label: 'XX', value: 'auswählen'},
@@ -96,10 +98,8 @@
             vSelect,
             SearchClear
         },
-        created() {
-            // this.$store.dispatch("fetchCurrentUser");
-        },
         computed: {
+            ...mapGetters(['get']),
             isBlue: {
                 get() {
                     return this.$store.state.secondSearch.isBlueFilter;
@@ -134,6 +134,7 @@
                     return this.$store.state.secondSearch.dateFrom;
                 },
                 set (value) {
+                    this.isDateRangeChanged = true;
                     this.$store.commit('updateDateFrom', value);
                 }
             },
@@ -142,20 +143,9 @@
                     return this.$store.state.secondSearch.dateTo;
                 },
                 set (value) {
+                    this.isDateRangeChanged = true;
                     this.$store.commit('updateDateTo', value);
                 }
-            },
-            isDateRangeChanged: function() {
-                return ;
-            },
-            showDataRange: function () {
-                return this.$store.state.secondSearch.showDataRange;
-            },
-            showArtSelect: function () {
-                return this.$store.state.secondSearch.showArtSelect;
-            },
-            show: function () {
-                return this.$store.state.secondSearch.show;
             },
             getReadButtonLabel: function () {
                 if (this.$store.state.secondSearch.isReadFilter) {
@@ -191,6 +181,7 @@
             },
             dateRangeSearch () {
                 vitoopApp.vtpDatatable && vitoopApp.vtpDatatable.refreshTable();
+                this.isDateRangeChanged = false;
             }
         }
     }
