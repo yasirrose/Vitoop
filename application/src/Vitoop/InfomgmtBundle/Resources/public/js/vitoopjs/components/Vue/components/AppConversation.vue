@@ -220,7 +220,6 @@
                 this.newMessage.message = message.message;
                 this.newMessage.edit = true;
                 this.newMessage.id = message.id;
-                console.log(message);
                 this.scrollToBottom(400);
                 tinyMCE.activeEditor.setContent(message.message);
             },
