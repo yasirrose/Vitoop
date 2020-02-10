@@ -577,7 +577,6 @@ window.resourceDetail = (function () {
                 return;
             }
 
-
             setNextId();
             setPrevId();
             openDialog();
@@ -702,7 +701,7 @@ window.resourceDetail = (function () {
                     loadTab(undefined, 0);
                 });
             } else { // flip to NEXT resource
-                var nextElement = tr_res.next('tr');
+                var nextElement = tr_res.next('tr').hasClass('divider-wrapper') ? tr_res.next().next('tr') : tr_res.next('tr');
                 if (nextElement.length == 0) {
                     nextElement = tr_res.next().next('tr');
                 }
@@ -753,7 +752,7 @@ window.resourceDetail = (function () {
                     loadTab(undefined, 0);
                 });
             } else { // flip to PREVious resource
-                var prevElement = tr_res.prev('tr');
+                var prevElement = tr_res.prev('tr').hasClass('divider-wrapper') ? tr_res.prev().prev('tr') : tr_res.prev('tr');
                 if (prevElement.length == 0) {
                     prevElement = tr_res.prev().prev('tr');
                 }

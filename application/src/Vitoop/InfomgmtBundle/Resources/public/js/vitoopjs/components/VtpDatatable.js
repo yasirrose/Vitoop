@@ -235,13 +235,28 @@ export default class VtpDatatable {
             $(row).find('td:first').addClass('vtp-blue');
         }
 
-        if (index == 0) {
+        if (index === 0 && data.id !== null) {
             row.className += " vtp-list-first";
             if (apiPage.info() && apiPage.info().page == 0) {
                 row.className += " vtp-list-start";
             }
         }
-        if ((index == (apiPage.len()-1)) || (apiPage.info() && (apiPage.info().page == (apiPage.info().pages - 1)) && (index == (apiPage.info().recordsDisplay % apiPage.len() - 1)))) {
+
+        if (index === 1 && this.api().rows().data()[0].id === null) {
+            row.className += " vtp-list-first";
+            if (apiPage.info() && apiPage.info().page == 0) {
+                row.className += " vtp-list-start";
+            }
+        }
+
+        if ((index == (apiPage.len()-1)) && data.id !== null || (apiPage.info() && (apiPage.info().page == (apiPage.info().pages - 1)) && (index == (apiPage.info().recordsDisplay % apiPage.len() - 1)))) {
+            row.className += " vtp-list-last";
+            if (apiPage.info() && (apiPage.info().page == (apiPage.info().pages - 1))) {
+                row.className += " vtp-list-end";
+            }
+        }
+
+        if (index === (apiPage.len()-2) && this.api().rows().data()[apiPage.len()-1].id === null) {
             row.className += " vtp-list-last";
             if (apiPage.info() && (apiPage.info().page == (apiPage.info().pages - 1))) {
                 row.className += " vtp-list-end";
