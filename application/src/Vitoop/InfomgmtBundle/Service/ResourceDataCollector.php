@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Vitoop\InfomgmtBundle\DTO\Resource\ResourceDTO;
+use Vitoop\InfomgmtBundle\Entity\ConversationMessage;
 use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\Entity\Resource\ResourceFactory;
 use Vitoop\InfomgmtBundle\Entity\Resource\ResourceType;
@@ -24,6 +25,7 @@ use Vitoop\InfomgmtBundle\Form\Type\FlagInfoType;
 use Vitoop\InfomgmtBundle\Form\Type\RatingType;
 use Vitoop\InfomgmtBundle\Form\Type\RemarkType;
 use Vitoop\InfomgmtBundle\Form\Type\RemarkPrivateType;
+use Vitoop\InfomgmtBundle\Repository\ConversationMessageRepository;
 use Vitoop\InfomgmtBundle\Service\FormCreator;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -61,6 +63,8 @@ class ResourceDataCollector
 
     protected $handleData;
 
+    protected $conversationMessageRepository;
+
     public function __construct(
         ResourceManager $rm,
         VitoopSecurity $vsec,
@@ -68,7 +72,8 @@ class ResourceDataCollector
         FormFactoryInterface $ff,
         \Twig_Environment $twig,
         UrlGeneratorInterface $router,
-        FormCreator $formCreator
+        FormCreator $formCreator,
+        ConversationMessageRepository $conversationMessageRepository
     ) {
         $this->rm = $rm;
         $this->vsec = $vsec;
@@ -80,6 +85,7 @@ class ResourceDataCollector
 
         $this->initialized = false;
         $this->isNewValid = true;
+        $this->conversationMessageRepository = $conversationMessageRepository;
     }
 
     public function prepare($res_type, Request $request)
@@ -192,7 +198,6 @@ class ResourceDataCollector
         $newResource = ResourceFactory::create($res_type);
         $dto = new ResourceDTO();
         $dto->user = $this->vsec->getUser();
-        
         $formData = $this->ff->create($this->rm->getResourceFormTypeClassname($res_type), $dto, array(
             'action' => $this->router->generate('_xhr_resource_new', array('res_type' => $res_type)),
             'method' => 'POST'
@@ -206,7 +211,12 @@ class ResourceDataCollector
                     $newResource = $class::createFromResourceDTO($dto);
                     $this->rm->checkUniqueResourceName($dto, $newResource->getResourceTypeIdx());
                     $new_id = $this->rm->save($newResource);
-                    
+
+                    if ($res_type == 'conversation') {
+                        $conversationMessage = new ConversationMessage($dto->description, $dto->user, $newResource->getConversationData());
+                        $this->conversationMessageRepository->save($conversationMessage);
+                    }
+
                     $info_data = $newResource->getResourceName() . ' # ' . $new_id . ' erfolgreich neu angelegt!';
                     // Hmmm. No redirect after POS..... what to do?
                     // Here is the trick: Initialize the RDC with the new Resource

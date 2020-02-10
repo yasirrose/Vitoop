@@ -52,7 +52,6 @@ class ConversationMessage implements GetDTOInterface
 
     public function __construct($text = null, $user = null, $conversationData = null)
     {
-        $conversationData->__load();
         $this->setText($text);
         $this->setUser($user);
         $this->setConversationData($conversationData);
@@ -161,6 +160,7 @@ class ConversationMessage implements GetDTOInterface
     public function getDTO()
     {
         return [
+            'id' => $this->getId(),
             'message' => $this->getText(),
             'user' => $this->user->getDTO(),
             'date' => $this->created
