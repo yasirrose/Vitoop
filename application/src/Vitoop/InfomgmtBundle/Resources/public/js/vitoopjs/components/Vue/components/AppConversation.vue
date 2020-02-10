@@ -4,6 +4,7 @@
             <div class="conversation__messages ui-corner-all bordered-box vtp-fh-w75"
                  ref="messagesWrapper">
                 <fieldset v-for="(message,index) in conversationInstance.conversation.conversation_data.messages"
+                          :key="message.id"
                           class="conversation__message ui-corner-all"
                           :class="{
                             'mb-0': index === conversationInstance.conversation.conversation_data.messages.length-1,
@@ -31,10 +32,10 @@
                 <div v-if="!conversationInstance.conversation.conversation_data.messages.length">
                     Es gibt keine Nachrichten
                 </div>
-                <div class="conversation__new-message" :class="{opened: newMessageArea.opened}">
+                <div class="conversation__new-message" :class="{opened: newMessage.opened}">
                     <textarea placeholder="type message..."
                               id="new-message-textarea"
-                              v-model="newMessageArea.message"></textarea>
+                              v-model="newMessage.message"></textarea>
                     <div style="text-align: right">
                         <button @click="postMessage"
                                 class="conversation__save-message ui-corner-all ui-state-default">
@@ -157,14 +158,14 @@
             return {
                 options: [],
                 user: null,
-
                 centrifuge: null,
                 moment: window.moment,
-                newMessageArea: {
+                newMessage: {
                     opened: false,
-                    message: null
+                    message: null,
+                    edit: false,
+                    id: null
                 },
-                editMessageMode: false,
                 conversationInstance: null
             }
         },
@@ -204,27 +205,28 @@
                     const tinyMceOptions = new tinyMCEInitializer().getCommonOptions();
                     tinyMceOptions.selector = '#new-message-textarea';
                     tinyMceOptions.height = 150;
-                    tinyMceOptions.init_instance_callback = editor => {
-                        editor.on('keyup', e => {
-                            this.newMessageArea.message = e.target.innerHTML;
-                        });
-                    };
                     tinyMCE.init(tinyMceOptions);
                 })
                 .catch(err => console.dir(err));
         },
         methods: {
             editMessage(message) {
-                this.newMessageArea.opened = true;
-                console.log(message);
-                this.editMessageMode = true;
+                this.newMessage.opened = true;
+                this.newMessage.message = message.message;
+                this.newMessage.edit = true;
+                this.newMessage.id = message.id;
                 this.scrollToBottom(400);
                 tinyMCE.activeEditor.setContent(message.message);
             },
             deleteMessage(messageID) {
-                axios.delete(`/api/v1/conversations/${this.conversation.id}/messages/${messageID}`)
+                axios.delete(`/api/v1/conversations/${this.conversationInstance.conversation.id}/messages/${messageID}`)
                     .then(response => {
-                        console.log(response)
+                        const deletedMessageIndex = _.findIndex(this.conversationInstance.conversation.conversation_data.messages, {id: messageID});
+                        document.querySelectorAll('.conversation__message')[deletedMessageIndex].classList.add('delete-animation');
+                        setTimeout(() => this.conversationInstance.conversation.conversation_data.messages.splice(deletedMessageIndex, 1),500);
+                        tinyMCE.activeEditor.setContent('');
+                        this.newMessage.opened = false;
+                        this.newMessage.edit = false;
                     })
                     .catch(err => console.dir(err))
             },
@@ -283,16 +285,17 @@
             },
             toggleNewMessageArea() {
                 tinyMCE.activeEditor.setContent('');
-                this.newMessageArea.opened = !this.newMessageArea.opened;
+                this.newMessage.opened = !this.newMessage.opened;
+                this.newMessage.edit = false;
                 this.scrollToBottom(400);
             },
             postMessage() {
                 const formData = new FormData();
-                if (!this.editMessageMode) {
-                    formData.append('message', this.newMessageArea.message);
+                if (!this.newMessage.edit) { // post mew message
+                    formData.append('message', tinyMCE.get('new-message-textarea').getContent());
                     axios.post(`/api/v1/conversations/${this.conversationInstance.conversation.id}/messages`, formData)
                         .then(({data}) => {
-                            this.newMessageArea.opened = false;
+                            this.newMessage.opened = false;
                             this.centrifuge.publish(`${this.conversationInstance.conversation.id}`, data)
                                 .then(res => {
                                     console.log('successfully published', res);
@@ -300,10 +303,16 @@
                                 .catch(err => console.dir(err));
                         })
                         .catch(err => console.dir(err))
-                } else {
-                    // toDo back-end not ready
-                    this.editMessageMode = false;
-                    this.newMessageArea.opened = false;
+                } else { // update selected message
+                    formData.append('updatedMessage', tinyMCE.get('new-message-textarea').getContent());
+                    axios.post(`/api/v1/conversations/${this.conversationInstance.conversation.id}/messages/${this.newMessage.id}`, formData)
+                        .then((response) => {
+                            const updatedMessageIndex = _.findIndex(this.conversationInstance.conversation.conversation_data.messages, {id: this.newMessage.id});
+                            this.conversationInstance.conversation.conversation_data.messages[updatedMessageIndex].message = tinyMCE.get('new-message-textarea').getContent();
+                            this.newMessage.edit = false;
+                            this.newMessage.opened = false;
+                        })
+                        .catch(err => console.dir(err));
                 }
             },
             scrollToBottom(timeout) {
@@ -394,6 +403,13 @@
 
         &__message {
             border-color: #517c95;
+            transition: .5s;
+
+            &.delete-animation {
+                background: #d9ecfa;
+                transform: scale(0);
+                /*height: 0;*/
+            }
 
             &:not(:first-child) {
                 margin-top: 1rem;

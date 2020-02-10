@@ -1348,55 +1348,40 @@ input.divider {
         height: 21px;
 
         td {
-            background: transparent !important;
-            border-top: $blue-frame-border !important;
-            border-bottom: $blue-frame-border !important;
+            border-top: 1px solid #517c95 !important;
+            border-bottom: 1px solid #517c95 !important;
 
             &:first-child {
-                border-left: $blue-frame-border !important;
-                background: #a3d4f0 !important;
-
-                & + td {
-                    background: #a3d4f0 !important;
-
-                    & + td {
-                        background: linear-gradient(to left, #deedf7 0%,#cbebff 47%,#a3d4f0 100%) !important;
-                    }
-                }
+                border-left: 1px solid #517c95 !important;
             }
 
             &:last-child {
-                border-right: $blue-frame-border !important;
+                border-right: 1px solid #517c95 !important;
             }
         }
 
-        & {
+        td.name-column {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+            height: 19px;
+            width: 980px;
+            padding-top: 3px;
 
-            td.name-column {
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                display: block;
-                height: 19px;
-                width: 984px;
-                padding-top: 3px;
-
-                & + td {
-                    background: transparent !important;
-                }
+            & + td {
+                background: transparent !important;
             }
         }
     }
 }
 
 #vtp-search-bytags-form {
-    //float: right;
     margin-left: 631px;
     display: flex;
 
     #vtp-search-bytags-taglist {
         height: 20px;
-        //width: 235px;
         margin-right: 0px;
         width: calc(100% - 22px);
         padding-left: 15px;
@@ -1407,7 +1392,7 @@ input.divider {
         flex-shrink: 0;
 
         #text {
-            width: 0px;
+            width: 0;
             display: none;
         }
     }
