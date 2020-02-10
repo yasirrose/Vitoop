@@ -5,6 +5,7 @@ namespace Vitoop\InfomgmtBundle\Service\RelResource;
 use Vitoop\InfomgmtBundle\Entity\Lexicon;
 use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\Entity\RelResourceResource;
+use Vitoop\InfomgmtBundle\Exception\Tag\TagRelationExistsException;
 use Vitoop\InfomgmtBundle\Repository\LexiconRepository;
 use Vitoop\InfomgmtBundle\Repository\RelResourceResourceRepository;
 use Vitoop\InfomgmtBundle\Service\Tag\ResourceTagLinker;
@@ -104,7 +105,11 @@ class RelResourceLinker
         //Ignore max tags check
         $this->tagLinker->addTagToResource($resource, $lexicon->getName());
         //add tag to lexicon if not exists
-        $this->tagLinker->addTagToResource($lexicon, $lexicon->getName());
+        try {
+            $this->tagLinker->addTagToResource($lexicon, $lexicon->getName());
+        } catch (TagRelationExistsException $ex) {
+            // It is ok, if lexicon has the tag.
+        }
 
         return $relation;
     }
