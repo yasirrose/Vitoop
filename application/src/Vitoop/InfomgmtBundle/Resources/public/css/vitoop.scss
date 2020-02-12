@@ -848,6 +848,20 @@ input[type=number].vtp-uiaction-coefficient::-webkit-inner-spin-button, input[ty
     }
 }
 
+#conversation_status {
+    &-button {
+        width: 120px !important;
+    }
+
+    &-menu {
+        .ui-menu-item {
+            box-sizing: border-box;
+            width: 100% !important;
+            margin: 0 !important;
+        }
+    }
+}
+
 #vtp-res-dialog-tabs form {
     position : relative;
 }

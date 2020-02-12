@@ -188,6 +188,20 @@
 
             this.getConversation()
                 .then(data => {
+
+                    setTimeout(() => {
+                        $('.conversation__message__text').on('click', 'a', function (e) {
+                            e.preventDefault();
+                            let resourcesParts = this.href.match(/\/(\d+)/);
+                            if (resourcesParts !== null) {
+                                e.preventDefault();
+                                resourceDetail.init();
+                                vitoopApp.openResourcePopup(resourcesParts[1]);
+                                return false;
+                            }
+                        });
+                    });
+
                     this.centrifuge.setToken(data.token);
                     this.centrifuge.subscribe(`${this.conversationInstance.conversation.id}`, ({data}) => {
                         const pushNewMessage = new Promise((resolve,reject) => {
@@ -200,7 +214,7 @@
                     return
                 })
                 .then(() => {
-                    this.scrollToBottom(400);
+                    // this.scrollToBottom(400);
                     tinyMCE.remove('#new-message-textarea');
                     const tinyMceOptions = new tinyMCEInitializer().getCommonOptions();
                     tinyMceOptions.selector = '#new-message-textarea';
