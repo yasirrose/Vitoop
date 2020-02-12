@@ -12,7 +12,6 @@
                 <div id="tabs-quickview">
                     <div id="resource-quickview">
                         <div id="resource-rating"></div>
-                        <conversation-quickview v-if="showConversation" />
                         <div id="resource-data"></div>
                         <div id="resource-tag"></div>
                     </div>
@@ -63,18 +62,8 @@
 </template>
 
 <script>
-    import ConversationQuickview from "./ConversationQuickview.vue";
-    import {mapGetters} from 'vuex';
-
     export default {
         name: "AppDialogs",
-        components: { ConversationQuickview },
-        computed: {
-            ...mapGetters(['getResource','get']),
-            showConversation() {
-                return this.getResource('type') === 'conversation';
-            }
-        }
     }
 </script>
 

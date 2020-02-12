@@ -789,7 +789,7 @@ window.resourceDetail = (function () {
         },
 
         hardResetTabs = function () {
-            vitoopState.commit('set', {key: 'conversationInstance', value: null});
+            // vitoopState.commit('set', {key: 'conversationInstance', value: null});
             $('#resource-title').remove();
             customCheckboxWrapper.remove();
             $('#resource-data').empty();
