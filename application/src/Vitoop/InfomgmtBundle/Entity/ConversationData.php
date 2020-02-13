@@ -216,7 +216,7 @@ class ConversationData implements GetDTOInterface
 
     public function availableForReading(User $user)
     {
-        if ((!$this->isForRelatedUsers) || $user->isAdmin()) {
+        if ((!$this->isForRelatedUsers) || ($user->getId() === $this->getConversation()->getUser()->getId()) || $user->isAdmin()) {
             return true;
         }
 
