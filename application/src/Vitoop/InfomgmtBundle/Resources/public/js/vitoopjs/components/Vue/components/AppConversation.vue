@@ -188,6 +188,20 @@
 
             this.getConversation()
                 .then(data => {
+
+                    setTimeout(() => {
+                        $('.conversation__message__text').on('click', 'a', function (e) {
+                            e.preventDefault();
+                            let resourcesParts = this.href.match(/\/(\d+)/);
+                            if (resourcesParts !== null) {
+                                e.preventDefault();
+                                resourceDetail.init();
+                                vitoopApp.openResourcePopup(resourcesParts[1]);
+                                return false;
+                            }
+                        });
+                    });
+
                     this.centrifuge.setToken(data.token);
                     this.centrifuge.subscribe(`${this.conversationInstance.conversation.id}`, ({data}) => {
                         const pushNewMessage = new Promise((resolve,reject) => {
@@ -200,16 +214,11 @@
                     return
                 })
                 .then(() => {
-                    this.scrollToBottom(400);
+                    // this.scrollToBottom(400);
                     tinyMCE.remove('#new-message-textarea');
                     const tinyMceOptions = new tinyMCEInitializer().getCommonOptions();
                     tinyMceOptions.selector = '#new-message-textarea';
                     tinyMceOptions.height = 150;
-                    tinyMceOptions.init_instance_callback = editor => {
-                        editor.on('keyup', e => {
-                            this.newMessage.message = e.target.innerHTML;
-                        });
-                    };
                     tinyMCE.init(tinyMceOptions);
                 })
                 .catch(err => console.dir(err));
@@ -297,7 +306,7 @@
             postMessage() {
                 const formData = new FormData();
                 if (!this.newMessage.edit) { // post mew message
-                    formData.append('message', this.newMessage.message);
+                    formData.append('message', tinyMCE.get('new-message-textarea').getContent());
                     axios.post(`/api/v1/conversations/${this.conversationInstance.conversation.id}/messages`, formData)
                         .then(({data}) => {
                             this.newMessage.opened = false;
@@ -309,11 +318,11 @@
                         })
                         .catch(err => console.dir(err))
                 } else { // update selected message
-                    formData.append('updatedMessage', this.newMessage.message);
+                    formData.append('updatedMessage', tinyMCE.get('new-message-textarea').getContent());
                     axios.post(`/api/v1/conversations/${this.conversationInstance.conversation.id}/messages/${this.newMessage.id}`, formData)
                         .then((response) => {
                             const updatedMessageIndex = _.findIndex(this.conversationInstance.conversation.conversation_data.messages, {id: this.newMessage.id});
-                            this.conversationInstance.conversation.conversation_data.messages[updatedMessageIndex].message = this.newMessage.message;
+                            this.conversationInstance.conversation.conversation_data.messages[updatedMessageIndex].message = tinyMCE.get('new-message-textarea').getContent();
                             this.newMessage.edit = false;
                             this.newMessage.opened = false;
                         })

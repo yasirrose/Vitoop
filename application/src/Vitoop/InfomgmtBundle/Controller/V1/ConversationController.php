@@ -74,11 +74,10 @@ class ConversationController extends ApiController
     )
     {
         $conversationData = $conversation->getConversationData();
-        $conversationData->__load();
         $message = new ConversationMessage($request->get('message'), $vitoopSecurity->getUser(), $conversationData);
-        $newMessage = $messageRepository->save($message);
+        $messageRepository->save($message);
 
-        return $this->getApiResponse($newMessage);
+        return $this->getApiResponse($message);
     }
 
     /**

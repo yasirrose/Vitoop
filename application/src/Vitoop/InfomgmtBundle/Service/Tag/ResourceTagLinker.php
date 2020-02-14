@@ -4,6 +4,7 @@ namespace Vitoop\InfomgmtBundle\Service\Tag;
 
 use Vitoop\InfomgmtBundle\Entity\RelResourceTag;
 use Vitoop\InfomgmtBundle\Entity\Resource;
+use Vitoop\InfomgmtBundle\Exception\Tag\TagRelationExistsException;
 use Vitoop\InfomgmtBundle\Repository\RelResourceTagRepository;
 use Vitoop\InfomgmtBundle\Service\VitoopSecurity;
 
@@ -77,7 +78,7 @@ class ResourceTagLinker
             throw new \Exception('You had already added this tag, but it was removed by another user.');
         }
         if ($linkedRelation) {
-            throw new \Exception('Du hast den Datensatz schon mit '.$tagName.' getagt.');
+            throw new TagRelationExistsException('Du hast den Datensatz schon mit '.$tagName.' getagt.');
         }
 
         return $tagName;
