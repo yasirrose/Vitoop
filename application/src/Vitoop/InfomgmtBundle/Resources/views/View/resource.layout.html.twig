@@ -15,10 +15,11 @@
 <div id="vtp-view-container">
     <div id="vtp-view-meta">
         <div class="vtp-fh-top vtp-mb-15">
-            <p class="vtp-title">
-                <span class="vtp-view-label">{{ 'label.title'|trans }}:</span> <b>{{resource.name}}</b></p>
-            <p class="vtp-title">
-                <span class="vtp-view-label">{{ 'label.author'|trans }}:</span> <span class="vtp-view-description">{{resource.author}}</span>
+            <div class="vtp-title">
+                <div>{{ 'label.title'|trans }}:</div>
+                <div style="margin-bottom: 5px"><b>{{resource.name}}</b></div>
+                <div>{{ 'label.author'|trans }}:</div>
+                <div style="margin-bottom: 7px"><b>{{resource.author}}</b></div>
                 <span class="vtp-view-label">{{ 'label.tnop'|trans }}:</span> <span class="vtp-view-description">{{resource.tnop}}</span>
                 <span class="vtp-view-label">{{ 'label.pdf_date'|trans }}:</span> <span class="vtp-view-description">{{ resource.pdfDate}}</span>
                 <span class="vtp-view-label">{{ 'label.lang'|trans }}: </span> <span class="vtp-view-description">{{resource.lang.name}}</span>
