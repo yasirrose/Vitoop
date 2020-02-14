@@ -1354,6 +1354,7 @@ input.divider {
     }
 
     .divider-wrapper {
+        $divider-wrapper-border-color: #8fc9e9;
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a3d4f0', endColorstr='#deedf7',GradientType=1 );
         border: $blue-frame-border;
         padding-left: 14px;
@@ -1362,15 +1363,15 @@ input.divider {
         height: 21px;
 
         td {
-            border-top: 1px solid #517c95 !important;
-            border-bottom: 1px solid #517c95 !important;
+            border-top: 1px solid $divider-wrapper-border-color !important;
+            border-bottom: 1px solid $divider-wrapper-border-color !important;
 
             &:first-child {
-                border-left: 1px solid #517c95 !important;
+                border-left: 1px solid $divider-wrapper-border-color !important;
             }
 
             &:last-child {
-                border-right: 1px solid #517c95 !important;
+                border-right: 1px solid $divider-wrapper-border-color !important;
             }
         }
 
