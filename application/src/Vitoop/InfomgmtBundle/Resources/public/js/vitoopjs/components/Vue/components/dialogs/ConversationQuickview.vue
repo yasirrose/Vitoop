@@ -40,7 +40,6 @@
                 </div>
                 <div style="text-align: right">
                     <input type="submit"
-                           @click="saveConversation"
                            class="vtp-uiinfo-anchor ui-button ui-widget ui-state-default ui-corner-all"
                            value="speichern"
                            role="button">
@@ -63,14 +62,6 @@
                 status: null
             }
         },
-        methods: {
-            changeStatus(status) {
-                console.log(status);
-            },
-            saveConversation() {
-                console.log('save');
-            }
-        }
     }
 </script>
 

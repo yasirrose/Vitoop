@@ -2,7 +2,9 @@
     <div id="vtp-content">
         <div id="lexicon-main" class="ui-corner-all" v-if="lexicon !== null">
             <div id="vtp-lexicondata-box">
-                <div id="vtp-lexicondata-sheet-view" class="ui-corner-all vtp-fh-w70">
+                <div id="vtp-lexicondata-sheet-view"
+                     class="ui-corner-all vtp-fh-w70"
+                     :style="{height: `${get('contentHeight')-32}px`}">
                     <div v-html="lexicon.description"></div>
                     <hr/>
                     <div id="lexicon-rights">
@@ -91,6 +93,8 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex'
+
     export default {
         name: "AppLexicon",
         data() {
@@ -101,6 +105,9 @@
                 lexiconTags: [],
                 resourceInfo: null
             }
+        },
+        computed: {
+            ...mapGetters(['get'])
         },
         mounted() {
             resourceProject.init();

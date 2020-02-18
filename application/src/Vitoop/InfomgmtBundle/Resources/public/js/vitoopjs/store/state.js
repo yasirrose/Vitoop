@@ -23,6 +23,7 @@ export default {
         isOpened: false,
     },
     table: {
+        data: 0,
         rowNumber: 12,
         flagged: false
     },
@@ -40,5 +41,6 @@ export default {
         id: null
     },
     conversationInstance: null,
-    conversationEditMode: false
+    conversationEditMode: false,
+    contentHeight: 342 // 12 rows
 }
