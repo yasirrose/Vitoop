@@ -42,5 +42,5 @@ export default {
     },
     conversationInstance: null,
     conversationEditMode: false,
-    contentHeight: 0
+    contentHeight: 342 // 12 rows
 }
