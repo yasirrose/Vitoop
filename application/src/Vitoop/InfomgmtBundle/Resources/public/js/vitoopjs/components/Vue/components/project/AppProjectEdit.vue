@@ -148,7 +148,7 @@
             }
         },
         computed: {
-            ...mapGetters(['getResource'])
+            ...mapGetters(['getResource','get'])
         },
         mounted() {
             this.getProjectData();
@@ -171,7 +171,7 @@
                         let options = vitoopApp.getTinyMceOptions();
                         options.mode = 'exact';
                         options.selector = '#edit-project-textarea';
-                        options.height= 528;
+                        options.height= this.get('contentHeight')-32-71;
                         options.plugins = ['textcolor', 'link', 'code'];
                         options.toolbar = 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink | code';
                         options.init_instance_callback = (editor) => {

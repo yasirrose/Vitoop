@@ -29,6 +29,11 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
+// global mixins
+import ResizeContentHeightMixin from '../components/Vue/mixins/ResizeContentHeightMixin'
+
+Vue.mixin(ResizeContentHeightMixin);
+
 window._ = lodash;
 window.Vue = Vue;
 window.axios = axios;

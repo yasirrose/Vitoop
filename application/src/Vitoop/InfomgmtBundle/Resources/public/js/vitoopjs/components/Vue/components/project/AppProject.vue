@@ -2,14 +2,12 @@
     <div id="vtp-content">
         <fieldset class="ui-corner-all margin-top-3">
             <div id="vtp-projectdata-box" v-if="project !== null">
-<!--                <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all"-->
-<!--                     v-if="infoProjectData !== null && infoProjectData !== ''">-->
-<!--                    <span class="vtp-icon ui-icon ui-icon-info"></span>{{ infoProjectData }}-->
-<!--                </div>-->
-                <div id="vtp-projectdata-sheet-view"
-                     class="ui-corner-all vtp-fh-w75"
-                     v-html="project.project_data.sheet">
-                </div>
+                <resizable-block id="vtp-projectdata-sheet-view"
+                                 :height="get('contentHeight')-32"
+                                 @resize-stop="resizeContentHeight"
+                                 class="ui-corner-all vtp-fh-w75">
+                    <div v-html="project.project_data.sheet"></div>
+                </resizable-block>
                 <div id="vtp-projectdata-sheet-info" class="ui-corner-all vtp-fh-w20">
                     <p>
                         Erstellt von: <span>{{ project.user.username }}</span>
@@ -33,8 +31,12 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex'
+    import ResizableBlock from "../helpers/ResizableBlock.vue";
+
     export default {
         name: "AppProject",
+        components: { ResizableBlock },
         data() {
             return {
                 project: null,
@@ -42,6 +44,7 @@
             }
         },
         computed: {
+            ...mapGetters(['get']),
             getDate: () => {
                 return (date) => {
                     return moment(date).format('DD.MM.YYYY');

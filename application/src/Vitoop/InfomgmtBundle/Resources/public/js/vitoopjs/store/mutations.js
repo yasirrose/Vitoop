@@ -28,6 +28,9 @@ export default {
     updateTableRowNumber(state, value) {
         state.table.rowNumber = value;
     },
+    updateTableData(state, value) {
+        state.table.data = value;
+    },
     updateTagListShowing(state, value) {
         state.tagList.show = value
     },

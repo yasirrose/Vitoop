@@ -146,6 +146,10 @@
         },
         methods: {
             onTableDraw() {
+                const content = document.querySelector('#vtp-content');
+                if (this.get('table').data.length >= this.get('table').rowNumber) {
+                    this.$store.commit('set', {key: 'contentHeight', value: content.clientHeight});
+                }
                 vitoopState.commit('secondSearchIsSearching', false);
                 $('body').removeClass('overflow-hidden');
                 if (/prj|lex|conversation/.test(this.$route.name)) {
@@ -170,6 +174,7 @@
                         this.$store.commit('reset');
                         return;
                     }
+                    this.$store.commit('updateTableData', json.data);
                     this.$store.commit('setResourceInfo', json.resourceInfo);
                 })
                 .on('draw', () => {
