@@ -1,54 +1,6 @@
 <template>
     <div id="vtp-content" class="conversation">
         <fieldset class="ui-corner-all margin-top-3" v-if="conversationInstance">
-<!--            <div class="conversation__messages ui-corner-all bordered-box vtp-fh-w75 app-block-resizer"-->
-<!--                 ref="messagesWrapper"-->
-<!--                 :style="{height: `${get('contentHeight')-32}px`}">-->
-<!--                <fieldset v-for="(message,index) in conversationInstance.conversation.conversation_data.messages"-->
-<!--                          :key="message.id"-->
-<!--                          class="conversation__message ui-corner-all"-->
-<!--                          :class="{-->
-<!--                            'mb-0': index === conversationInstance.conversation.conversation_data.messages.length-1,-->
-<!--                            'edit': get('admin')-->
-<!--                          }">-->
-<!--                    <legend>-->
-<!--                        {{ message.user.username }} |-->
-<!--                        {{ moment(message.date.date).format('DD.MM.YYYY') }} |-->
-<!--                        {{ moment(message.date.date).format('kk:mm') }}-->
-<!--                    </legend>-->
-<!--                    <div class="conversation__message__text" v-html="message.message"></div>-->
-<!--                    <div v-if="get('admin')" class="conversation__message__edit">-->
-<!--                        <button class="ui-state-default"-->
-<!--                                @click="editMessage(message)">-->
-<!--                            <span class="ui-button-icon-primary ui-icon ui-icon-wrench"></span>-->
-<!--                        </button>-->
-<!--                        <button-->
-<!--                                :title="$t('label.close')"-->
-<!--                                class="ui-state-default"-->
-<!--                                @click="deleteMessage(message.id)">-->
-<!--                            <span class="ui-button-icon-primary ui-icon ui-icon-close"></span>-->
-<!--                        </button>-->
-<!--                    </div>-->
-<!--                </fieldset>-->
-<!--                <div v-if="!conversationInstance.conversation.conversation_data.messages.length">-->
-<!--                    Es gibt keine Nachrichten-->
-<!--                </div>-->
-<!--                <div class="conversation__new-message" :class="{opened: newMessage.opened}">-->
-<!--                    <textarea placeholder="type message..."-->
-<!--                              id="new-message-textarea"-->
-<!--                              v-model="newMessage.message"></textarea>-->
-<!--                    <div style="text-align: right">-->
-<!--                        <button @click="postMessage"-->
-<!--                                class="conversation__save-message ui-corner-all ui-state-default">-->
-<!--                            speichern-->
-<!--                        </button>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="app-block-resizer__trigger"-->
-<!--                     @mousedown="resizeStart">-->
-<!--                    <i class="fas fa-arrows-alt-v"></i>-->
-<!--                </div>-->
-<!--            </div>-->
             <resizable-block @resize-stop="resizeContentHeight"
                              :height="get('contentHeight')-32"
                              class="conversation__messages ui-corner-all bordered-box vtp-fh-w75">
