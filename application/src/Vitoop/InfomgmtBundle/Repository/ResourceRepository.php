@@ -3,6 +3,7 @@ namespace Vitoop\InfomgmtBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Vitoop\InfomgmtBundle\Entity\Conversation;
 use Vitoop\InfomgmtBundle\Entity\Flag;
 use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\Entity\Project;
@@ -476,6 +477,7 @@ class ResourceRepository extends ServiceEntityRepository
             ->addSelect('count(link.id) as linkc')
             ->addSelect('count(adr.id) as adrc')
             ->addSelect('count(book.id) as bookc')
+            ->addSelect('count(conv.id) as convc')
             ->from('VitoopInfomgmtBundle:RelResourceResource', 'rrr')
             ->leftJoin('VitoopInfomgmtBundle:Project', 'prj', 'WITH', 'rrr.resource2 = prj.id')
             ->leftJoin('VitoopInfomgmtBundle:Lexicon', 'lex', 'WITH', 'rrr.resource2 = lex.id')
@@ -484,6 +486,7 @@ class ResourceRepository extends ServiceEntityRepository
             ->leftJoin('VitoopInfomgmtBundle:Link', 'link', 'WITH', 'rrr.resource2 = link.id')
             ->leftJoin('VitoopInfomgmtBundle:Address', 'adr', 'WITH', 'rrr.resource2 = adr.id')
             ->leftJoin('VitoopInfomgmtBundle:Book', 'book', 'WITH', 'rrr.resource2 = book.id')
+            ->leftJoin(Conversation::class, 'conv', 'WITH', 'rrr.resource2 = conv.id')
             ->where('rrr.resource1 = :resource')
             ->setParameter('resource', $resource)
             ->getQuery()
@@ -499,7 +502,8 @@ class ResourceRepository extends ServiceEntityRepository
             'telic' => $this->getSearchTotal($search, Teli::class, Teli::getSearcheableColumns()),
             'linkc' => $this->getSearchTotal($search, Link::class, Link::getSearcheableColumns()),
             'adrc' => $this->getSearchTotal($search, Address::class, Address::getSearcheableColumns()),
-            'bookc' => $this->getSearchTotal($search, Book::class, Book::getSearcheableColumns())
+            'bookc' => $this->getSearchTotal($search, Book::class, Book::getSearcheableColumns()),
+            'convc' => $this->getSearchTotal($search, Conversation::class, Conversation::getSearcheableColumns()),
         ];
     }
 
