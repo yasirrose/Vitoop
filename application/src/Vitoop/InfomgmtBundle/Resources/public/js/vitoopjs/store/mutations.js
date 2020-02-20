@@ -31,6 +31,9 @@ export default {
     updateTableData(state, value) {
         state.table.data = value;
     },
+    updateTableBlinker(state, blinkerStatus) {
+        state.table.rowNumberBlinker = blinkerStatus;
+    },
     updateTagListShowing(state, value) {
         state.tagList.show = value
     },

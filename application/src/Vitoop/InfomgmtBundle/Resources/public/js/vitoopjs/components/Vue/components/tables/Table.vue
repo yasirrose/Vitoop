@@ -137,6 +137,7 @@
             this.$store.commit('setResourceType', this.$route.name);
             resourceDetail.init();
             this.datatable = this.initTable();
+
             $('.DataTables_sort_icon').addClass('css_right ui-icon ui-icon-carat-2-n-s');
 
             VueBus.$on('datatable:reload', () => {
@@ -194,6 +195,23 @@
         }
     }
 </script>
+
+<style lang="scss">
+    @keyframes blinking {
+        0% {background: #d7ebf9 url(/../img/ui-bg_glass_80_d7ebf9_1x400.png) 50% 50% repeat-x;}
+        50% {
+            background: #3baae3 url(/../img/ui-bg_glass_50_3baae3_1x400.png) 50% 50% repeat-x;
+            color: white;
+            transform: scale(1.1);
+        }
+        100% {background: #d7ebf9 url(/../img/ui-bg_glass_80_d7ebf9_1x400.png) 50% 50% repeat-x;}
+    }
+    .blinking {
+        animation-name: blinking;
+        animation-duration: 1.5s;
+        animation-iteration-count: 5;
+    }
+</style>
 
 <style scoped lang="scss">
     .preloader {

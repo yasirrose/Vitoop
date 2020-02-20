@@ -64,6 +64,17 @@ export default class VtpDatatable {
 
         $('.dataTables_length select').selectmenu({
             appendTo: ".dataTables_length",
+            create: () => {
+                const rowRerPageSelector = document.querySelector('.dataTables_length .ui-selectmenu-button');
+                if (vitoopState.state.table.rowNumberBlinker) {
+                    rowRerPageSelector.classList.add('blinking');
+                    vitoopState.commit('updateTableBlinker', false);
+                }
+            },
+            open: () => {
+                const rowRerPageSelector = document.querySelector('.dataTables_length .ui-selectmenu-button');
+                rowRerPageSelector.classList.remove('blinking');
+            },
             change: function( event, ui ) {
                 self.rowsPerPage.updatePageLength(ui.item.value);
                 datatable.page.len(ui.item.value);
@@ -345,6 +356,7 @@ export default class VtpDatatable {
         if (this.resType === 'conversation') {
             return [
                 this.getFirstColumn(),
+                this.getCheckboxColumn(),
                 this.getNameColumn(),
                 this.getOwnerColumn(),
                 this.getRatingColumn(),
