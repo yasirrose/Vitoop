@@ -13,7 +13,7 @@
                         <label for="username" class="vtp-fh-w40">{{ $t('label.username') }}:</label>
                         <input id="username" class="vtp-fh-w55" name="_username" type="text">
                     </div>
-                    <div class="vtp-fh-bottom">
+                    <div class="vtp-fh-bottom" style="margin-top: 10px">
                         <label for="password" class="vtp-fh-w40">{{ $t('label.password') }}:</label>
                         <input id="password" class="vtp-fh-w55" name="_password" type="password">
                     </div>

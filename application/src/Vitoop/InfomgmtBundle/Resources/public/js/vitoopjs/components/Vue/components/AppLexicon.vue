@@ -10,7 +10,7 @@
                     <div id="lexicon-rights">
                         {{ $t('This article based on the article') }}
                         <a rel="nofollow" :href="lexicon.wiki_fullurl" target="_blank">
-                            {{ 'lexicon.name' }}
+                            {{ lexicon.name }}
                         </a> {{ $t('from the free encyclopedia') }}
                         <a rel="nofollow"
                            href="http://de.wikipedia.org/wiki/Wikipedia:Hauptseite"

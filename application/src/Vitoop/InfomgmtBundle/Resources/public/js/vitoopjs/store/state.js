@@ -25,7 +25,8 @@ export default {
     table: {
         data: 0,
         rowNumber: 12,
-        flagged: false
+        flagged: false,
+        rowNumberBlinker: true
     },
     tagList: {
         show: false,

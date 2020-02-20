@@ -6,16 +6,6 @@
                 {{ downloadSize }}
                 {{$t('label.download.mb')}}
             </span>
-<!--            <form id="vtp-header-toggle-flag"-->
-<!--                  class="vtp-admin-toolbar"-->
-
-<!--                  action="/userhome"-->
-<!--                  method="get"-->
-<!--                  enctype="application/x-www-form-urlencoded">-->
-<!--                <label for="vtp-tgl-flag" class="vtp-button">{{ $t('label.flags.edit') }}</label>-->
-<!--                <input id="vtp-tgl-flag" class="vtp-uiaction-toggle-flag" name="flagged" type="checkbox" value="1">-->
-<!--                <button class="vtp-button" type="submit">{{ $t('label.flags.edit') }}</button>-->
-<!--            </form>-->
             <button for="vtp-tgl-flag"
                     @click="refreshWithFlagged"
                     :class="{'ui-state-active': getFlagged}"
