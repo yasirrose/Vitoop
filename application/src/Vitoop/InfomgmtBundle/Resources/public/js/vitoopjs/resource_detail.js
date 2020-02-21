@@ -567,6 +567,7 @@ window.resourceDetail = (function () {
             tr_res = current_tr_res;
             res_type = (tr_res.attr('id').split('-'))[0];
             res_id = (tr_res.attr('id').split('-'))[1];
+
             tgl();
 
             if ($(e.target).hasClass('vtp-uiaction-open-extlink') ||
@@ -601,6 +602,7 @@ window.resourceDetail = (function () {
             // check for init: call a widget-method before initialization throws an
             // error
             addCheckboxWrapperWithResourceTitle();
+            resourceCheckOnChange();
 
             try {
                 $('#vtp-res-dialog-tabs').tabs("option");
@@ -904,6 +906,19 @@ window.resourceDetail = (function () {
             refresh_list = true;
         },
 
+        resourceCheckOnChange = function() {
+            $('#resource-check').on('change', function(e) {
+                let rowId = '#'+res_type+'-'+res_id;
+                let data = $('#vtp-res-list table').DataTable().row(rowId).data();
+                if (!res_type) {
+                    res_type = vitoopState.state.resource.type;
+                }
+                let sendLinkWidget = new SendLinkWidget();
+                sendLinkWidget.updateCheckedResources(res_type, res_id, this.checked, data);
+                e.stopPropagation();
+            });
+        },
+
         /****************************************************************************
          * Eventhandler and jQuery initializing:call init() on Document ready
          ***************************************************************************/
@@ -920,16 +935,7 @@ window.resourceDetail = (function () {
 
             $('#vtp-res-dialog').before('<div id="resource-flags" style="display: none;"></div>');
 
-            $('#resource-check').on('click', function(e) {
-                let rowId = '#'+res_type+'-'+res_id;
-                let data = $('#vtp-res-list table').DataTable().row(rowId).data();
-                if (!res_type) {
-                    res_type = vitoopState.state.resource.type;
-                }
-                let sendLinkWidget = new SendLinkWidget();
-                sendLinkWidget.updateCheckedResources(res_type, res_id, this.checked, data);
-                e.stopPropagation();
-            });
+            resourceCheckOnChange();
 
             $('#vtp-res-dialog-tabs form:not(#form-tag)').ajaxForm({
                 delegation: true,

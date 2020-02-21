@@ -96,10 +96,14 @@ export default class SendLinkWidget extends Widget {
         }
     }
 
+    checkResourseListDOM(resType, resId, isNeedToSave) {
+        const input = document.querySelector(`#${resType}-${resId} .custom-checkbox__wrapper input`);
+        input.checked = isNeedToSave;
+    }
+
     updateCheckedResources(resType, resId, isNeedToSave, data) {
         let linkStorageKey = resType+'-checked';
         let resourceChecked = this.linkStorage.getObject(linkStorageKey);
-
         data.resType = resType;
         let storageKey = resId + '';
         if(isNeedToSave) {
@@ -108,6 +112,7 @@ export default class SendLinkWidget extends Widget {
             delete resourceChecked[storageKey];
         }
         this.linkStorage.setObject(linkStorageKey, resourceChecked);
+        this.checkResourseListDOM(resType, resId, isNeedToSave);
         this.checkOpenButtonState();
     }
 
