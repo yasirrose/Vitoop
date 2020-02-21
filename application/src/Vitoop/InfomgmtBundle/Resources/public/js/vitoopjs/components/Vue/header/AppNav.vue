@@ -20,7 +20,7 @@
                 <a class="vtp-resmenu-reslink ui-state-default ui-corner-all"
                    @click="changeRoute('conversation')"
                    :class="{
-                    'ui-state-no-content': noContent('conversation'),
+                    'ui-state-no-content': noContent('conv'),
                     'vtp-nav-active ui-state-active': /conversation/.test($route.name)
                    }">
                     Nachrichten
