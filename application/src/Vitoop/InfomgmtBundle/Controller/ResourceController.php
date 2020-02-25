@@ -13,8 +13,7 @@ use Vitoop\InfomgmtBundle\Entity\UserConfig;
 use Vitoop\InfomgmtBundle\Entity\UserData;
 use Vitoop\InfomgmtBundle\Entity\VitoopBlog;
 use Vitoop\InfomgmtBundle\Entity\Resource;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Vitoop\InfomgmtBundle\Entity\Lexicon;
@@ -529,9 +528,9 @@ class ResourceController extends ApiController
      *          "res_id": "\d+",
      *          "res_type": "pdf|adr|link|teli|lex|prj|book",
      *          "comment": "\d+"
-     *      }
+     *      },
+     *     methods={"PATCH"}
      * )
-     * @Method({"PATCH"})
      */
     public function removeCommentAction(VitoopSecurity $vsec, Comment $comment, $resType, $resId, Request $request)
     {
@@ -652,8 +651,7 @@ class ResourceController extends ApiController
     }
 
     /**
-     * @Method("POST")
-     * @Route("/{resType}/{resId}/user-hooks", name="_xhr_resource_user_hook", requirements={"resId": "\d+", "resType": "pdf|adr|link|teli|lex|prj|book|conversation"})
+     * @Route("/{resType}/{resId}/user-hooks", name="_xhr_resource_user_hook", requirements={"resId": "\d+", "resType": "pdf|adr|link|teli|lex|prj|book|conversation"}, methods={"POST"})
      */
     public function userHookAction(string $resType, int $resId, Request $request)
     {
@@ -678,8 +676,7 @@ class ResourceController extends ApiController
     }
 
     /**
-     * @Method("POST")
-     * @Route("/{resType}/{resId}/user-reads", name="_xhr_resource_user_read", requirements={"resId": "\d+", "resType": "pdf|adr|link|teli|lex|prj|book|conversation"})
+     * @Route("/{resType}/{resId}/user-reads", name="_xhr_resource_user_read", requirements={"resId": "\d+", "resType": "pdf|adr|link|teli|lex|prj|book|conversation"}, methods={"POST"})
      */
     public function userReadsAction(Request $request, $resType, $resId)
     {
@@ -704,8 +701,7 @@ class ResourceController extends ApiController
     }
 
     /**
-     * @Route("resources/{id}/meta")
-     * @Method("GET")
+     * @Route("resources/{id}/meta", methods={"GET"})
      */
     public function metaAction(Pdf $resource)
     {
@@ -716,8 +712,7 @@ class ResourceController extends ApiController
     }
 
     /**
-     * @Route("resource-files/{id}.pdf")
-     * @Method("GET")
+     * @Route("resource-files/{id}.pdf", methods={"GET"})
      */
     public function pdfAction(Pdf $resource)
     {

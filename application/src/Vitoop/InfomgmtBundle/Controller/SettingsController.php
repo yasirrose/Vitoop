@@ -2,10 +2,9 @@
 namespace Vitoop\InfomgmtBundle\Controller;
 
 use JMS\Serializer\DeserializationContext;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Vitoop\InfomgmtBundle\Service\SettingsService;
 use Vitoop\InfomgmtBundle\Service\VitoopSecurity;
@@ -13,8 +12,7 @@ use Vitoop\InfomgmtBundle\Service\VitoopSecurity;
 class SettingsController extends ApiController
 {
     /**
-     * @Route("/api/terms", name="get_terms")
-     * @Method({"GET"})
+     * @Route("/api/terms", name="get_terms", methods={"GET"})
      *
      * @return array
      */
@@ -27,8 +25,7 @@ class SettingsController extends ApiController
     }
 
     /**
-     * @Route("/api/terms", name="edit_terms")
-     * @Method({"POST"})
+     * @Route("/api/terms", name="edit_terms", methods={"POST"})
      *
      * @return array
      */
@@ -44,8 +41,7 @@ class SettingsController extends ApiController
     }
 
     /**
-     * @Route("/api/datap", name="api_datap_edit")
-     * @Method({"POST"})
+     * @Route("/api/datap", name="api_datap_edit", methods={"POST"})
      *
      * @return array
      */
@@ -62,8 +58,7 @@ class SettingsController extends ApiController
     }
 
     /**
-     * @Route("/api/help", name="get_help")
-     * @Method({"GET"})
+     * @Route("/api/help", name="get_help", methods={"GET"})
      *
      * @return array
      */
@@ -78,8 +73,7 @@ class SettingsController extends ApiController
     }
 
     /**
-     * @Route("/api/help", name="edit_help")
-     * @Method({"POST"})
+     * @Route("/api/help", name="edit_help", methods={"POST"})
      *
      * @return array
      */

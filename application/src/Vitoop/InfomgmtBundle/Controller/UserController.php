@@ -4,8 +4,7 @@ namespace Vitoop\InfomgmtBundle\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -30,8 +29,7 @@ use Vitoop\InfomgmtBundle\Service\VitoopSecurity;
 class UserController extends ApiController
 {
     /**
-     * @Route("api/user/{userID}", name="user_delete")
-     * @Method({"DELETE"})
+     * @Route("api/user/{userID}", name="user_delete", methods={"DELETE"})
      * @ParamConverter("user", class="Vitoop\InfomgmtBundle\Entity\User", options={"id" = "userID"})
      *
      * @return array
@@ -69,8 +67,7 @@ class UserController extends ApiController
     }
 
     /**
-     * @Route("user/agreement", name="user_agreement")
-     * @Method({"POST", "GET"})
+     * @Route("user/agreement", name="user_agreement", methods={"POST", "GET"})
      * @Template("VitoopInfomgmtBundle:User:agreement.html.twig")
      *
      * @return array
@@ -95,8 +92,7 @@ class UserController extends ApiController
     }
 
     /**
-     * @Route("user/datap", name="user_datap")
-     * @Method({"GET"})
+     * @Route("user/datap", name="user_datap", methods={"GET"})
      * @Template("VitoopInfomgmtBundle:User:datap.html.twig")
      */
     public function dataPAction(SettingsService $settings)
@@ -344,8 +340,7 @@ EOT;
     }
 
     /**
-     * @Method("GET")
-     * @Route("user/settings", name="user_settings")
+     * @Route("user/settings", name="user_settings", methods={"GET"})
      * @Template("@VitoopInfomgmt/User/credentials.html.twig")
      */
     public function userDataAction()
@@ -356,8 +351,7 @@ EOT;
     }
 
     /**
-     * @Route("api/user/{id}/credentials",  requirements={"userID": "\d+"})
-     * @Method({"GET"})
+     * @Route("api/user/{id}/credentials",  requirements={"userID": "\d+"}, methods={"GET"})
      */
     public function getCredentialsAction(User $user)
     {
@@ -365,8 +359,7 @@ EOT;
     }
 
     /**
-     * @Route("api/user/{userID}/credentials", requirements={"userID": "\d+"}, name="user_new_credentials")
-     * @Method({"POST"})
+     * @Route("api/user/{userID}/credentials", requirements={"userID": "\d+"}, name="user_new_credentials", methods={"POST"})
      * @ParamConverter("user", class="Vitoop\InfomgmtBundle\Entity\User", options={"id" = "userID"})
      *
      * @return array
@@ -401,8 +394,7 @@ EOT;
     }
 
     /**
-     * @Route("api/user/me", name="user_profile_patch")
-     * @Method({"PATCH"})
+     * @Route("api/user/me", name="user_profile_patch", methods={"PATCH"})
      */
     public function patchUserProfileAction(Request $request)
     {
@@ -421,8 +413,7 @@ EOT;
     }
 
      /**
-     * @Route("api/user/me", name="user_profile_get")
-     * @Method({"GET"})
+     * @Route("api/user/me", name="user_profile_get", methods={"GET"})
      */
     public function getUserProfileAction(Request $request)
     {

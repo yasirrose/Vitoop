@@ -76,9 +76,9 @@ class CredentialsDTO implements CreateFromRequestInterface
      * @var int
      * @Assert\Range(
      *      min = 0,
-     *      max = 1,
+     *      max = 2,
      *      minMessage = "Font size decreasing must be more than 0",
-     *      maxMessage = "Font size decreasing be less than 2",
+     *      maxMessage = "Font size decreasing be less than 3",
      *      invalidMessage="Height must be a number"
      * )
      */

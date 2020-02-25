@@ -31,6 +31,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Vitoop\InfomgmtBundle\Service\RelResource\RelResourceLinker;
+use Vitoop\InfomgmtBundle\Service\Tag\ResourceTagLinker;
 use Vitoop\InfomgmtBundle\Utils\Title\PopupTitle;
 
 class ResourceDataCollector
@@ -64,6 +65,14 @@ class ResourceDataCollector
     protected $handleData;
 
     protected $conversationMessageRepository;
+    /**
+     * @var ResourceTagLinker
+     */
+    private $tagLinker;
+    /**
+     * @var RelResourceLinker
+     */
+    private $relResourceLinker;
 
     public function __construct(
         ResourceManager $rm,
@@ -73,7 +82,9 @@ class ResourceDataCollector
         \Twig_Environment $twig,
         UrlGeneratorInterface $router,
         FormCreator $formCreator,
-        ConversationMessageRepository $conversationMessageRepository
+        ConversationMessageRepository $conversationMessageRepository,
+        ResourceTagLinker $tagLinker,
+        RelResourceLinker $relResourceLinker
     ) {
         $this->rm = $rm;
         $this->vsec = $vsec;
@@ -86,6 +97,8 @@ class ResourceDataCollector
         $this->initialized = false;
         $this->isNewValid = true;
         $this->conversationMessageRepository = $conversationMessageRepository;
+        $this->tagLinker = $tagLinker;
+        $this->relResourceLinker = $relResourceLinker;
     }
 
     public function prepare($res_type, Request $request)
@@ -305,15 +318,8 @@ class ResourceDataCollector
             ->getRepository('VitoopInfomgmtBundle:Tag')
             ->countAllTagsFromResource($this->res);
 
-        $tagsAddedCount = $this->rm->getEntityManager()
-            ->getRepository('VitoopInfomgmtBundle:RelResourceTag')
-            ->getCountOfAddedTags($this->vsec->getUser()->getId(), $this->res->getId());
-        $tagsRestAddedCount = (RelResourceLinker::RESOURCE_MAX_ALLOWED_ADDING - $tagsAddedCount);
-
-        $tagsRemovedCount = $this->rm->getEntityManager()
-            ->getRepository('VitoopInfomgmtBundle:RelResourceTag')
-            ->getCountOfRemovedTags($this->vsec->getUser()->getId(), $this->res->getId());
-        $tagsRestRemovedCount = (RelResourceLinker::RESOURCE_MAX_ALLOWED_REMOVING - $tagsRemovedCount);
+        $tagsRestAddedCount = $this->tagLinker->getTagRestForAddingCount($this->res, $this->vsec->getUser());
+        $tagsRestRemovedCount = $this->tagLinker->getTagRestForRemovingCount($this->res, $this->vsec->getUser());
 
         $tag_id_list_by_user = $this->rm->getEntityManager()
             ->getRepository('VitoopInfomgmtBundle:Tag')
@@ -659,7 +665,19 @@ class ResourceDataCollector
 
         $fv_lex = $form_lex->createView();
 
-        return $this->twig->render($template, array('lexname' => $lex_name, 'fvassignlexicon' => $fv_lex, 'lexicons' => $lexicons, 'infoassignlexicon' => $info_lex));
+        $relResourceRestAddingCount = $this->relResourceLinker->getResourceForAddingCount($this->res, $this->vsec->getUser());
+        $relResourceRestRemovingCount = $this->relResourceLinker->getResourceForRemovingCount($this->res, $this->vsec->getUser());
+
+        return $this->twig->render(
+            $template, [
+                'lexname' => $lex_name,
+                'fvassignlexicon' => $fv_lex,
+                'lexicons' => $lexicons,
+                'infoassignlexicon' => $info_lex,
+                'relsRestAddedCount' => !empty($relResourceRestAddingCount)?$relResourceRestAddingCount:'',
+                'relsRestRemovedCount' => !empty($relResourceRestRemovingCount)?$relResourceRestRemovingCount:''
+            ]
+        );
     }
 
     public function getProject()
