@@ -5,6 +5,7 @@ namespace Vitoop\InfomgmtBundle\Service\RelResource;
 use Vitoop\InfomgmtBundle\Entity\Lexicon;
 use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\Entity\RelResourceResource;
+use Vitoop\InfomgmtBundle\Entity\User;
 use Vitoop\InfomgmtBundle\Exception\Tag\TagRelationExistsException;
 use Vitoop\InfomgmtBundle\Repository\LexiconRepository;
 use Vitoop\InfomgmtBundle\Repository\RelResourceResourceRepository;
@@ -13,8 +14,8 @@ use Vitoop\InfomgmtBundle\Service\VitoopSecurity;
 
 class RelResourceLinker
 {
-    const RESOURCE_MAX_ALLOWED_ADDING = 5;
-    const RESOURCE_MAX_ALLOWED_REMOVING = 2;
+    const RESOURCE_MAX_ALLOWED_ADDING = 3;
+    const RESOURCE_MAX_ALLOWED_REMOVING = 1;
 
     /**
      * @var RelResourceResourceRepository
@@ -69,6 +70,18 @@ class RelResourceLinker
 
     /**
      * @param Resource $resource
+     * @param User $user
+     * @return int
+     */
+    public function getResourceForAddingCount(Resource $resource, User $user): int
+    {
+        $relResourceAdded = $this->relResourceRepository->getCountOfAddedResources($user->getId(), $resource->getId());
+
+        return self::RESOURCE_MAX_ALLOWED_ADDING - $relResourceAdded;
+    }
+
+    /**
+     * @param Resource $resource
      * @return bool
      */
     public function isResourcesRemovingAvailable(Resource $resource)
@@ -76,6 +89,18 @@ class RelResourceLinker
         $user = $this->vitoopSecurity->getUser();
 
         return ($this->relResourceRepository->getCountOfRemovedResources($user->getId(), $resource->getId()) < self::RESOURCE_MAX_ALLOWED_REMOVING);
+    }
+
+    /**
+     * @param Resource $resource
+     * @param User $user
+     * @return int
+     */
+    public function getResourceForRemovingCount(Resource $resource, User $user): int
+    {
+        $relResourceDeleted = $this->relResourceRepository->getCountOfRemovedResources($user->getId(), $resource->getId());
+
+        return self::RESOURCE_MAX_ALLOWED_REMOVING - $relResourceDeleted;
     }
 
     /**

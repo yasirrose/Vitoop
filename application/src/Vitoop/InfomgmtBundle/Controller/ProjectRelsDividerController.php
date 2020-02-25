@@ -1,10 +1,9 @@
 <?php
 namespace Vitoop\InfomgmtBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Vitoop\InfomgmtBundle\Entity\ProjectRelsDivider;
 use JMS\Serializer\DeserializationContext;
@@ -18,8 +17,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 class ProjectRelsDividerController extends ApiController
 {
     /**
-     * @Route("", name="get_dividers")
-     * @Method({"GET"})
+     * @Route("", name="get_dividers", methods={"GET"})
      *
      * @return array
      */
@@ -44,8 +42,7 @@ class ProjectRelsDividerController extends ApiController
     }
 
     /**
-     * @Route("", name="add_or_edit_divider")
-     * @Method({"POST"})
+     * @Route("", name="add_or_edit_divider", methods={"POST"})
      *
      * @return array
      */

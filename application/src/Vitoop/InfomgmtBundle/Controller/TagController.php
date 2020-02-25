@@ -2,8 +2,7 @@
 namespace Vitoop\InfomgmtBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Vitoop\InfomgmtBundle\Entity\Pdf;
@@ -13,8 +12,7 @@ use Symfony\Component\Form\Exception;
 class TagController extends Controller
 {
     /**
-     * @Route("api/tag/tags_info", name="get_tags_info")
-     * @Method({"GET"})
+     * @Route("api/tag/tags_info", name="get_tags_info", methods={"GET"})
      *
      * @return array
      */

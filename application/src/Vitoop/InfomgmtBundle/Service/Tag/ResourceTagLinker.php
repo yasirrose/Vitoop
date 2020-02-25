@@ -4,6 +4,7 @@ namespace Vitoop\InfomgmtBundle\Service\Tag;
 
 use Vitoop\InfomgmtBundle\Entity\RelResourceTag;
 use Vitoop\InfomgmtBundle\Entity\Resource;
+use Vitoop\InfomgmtBundle\Entity\User;
 use Vitoop\InfomgmtBundle\Exception\Tag\TagRelationExistsException;
 use Vitoop\InfomgmtBundle\Repository\RelResourceTagRepository;
 use Vitoop\InfomgmtBundle\Service\VitoopSecurity;
@@ -30,7 +31,7 @@ class ResourceTagLinker
 
     /**
      * ResourceTagLinker constructor.
-     * @param RelResourceResourceRepository $relResourceRepository
+     * @param RelResourceTagRepository $relResourceRepository
      * @param TagCreator $tagCreator
      * @param VitoopSecurity $vitoopSecurity
      */
@@ -126,5 +127,29 @@ class ResourceTagLinker
         $user = $this->vitoopSecurity->getUser();
 
         return ($this->relResourceRepository->getCountOfRemovedTags($user->getId(), $resource->getId()) < self::TAG_MAX_ALLOWED_REMOVING);
+    }
+
+    /**
+     * @param Resource $resource
+     * @param User $user
+     * @return int
+     */
+    public function getTagRestForAddingCount(Resource $resource, User $user): int
+    {
+        $tagsAddedCount = $this->relResourceRepository->getCountOfAddedTags($user->getId(), $resource->getId());
+
+        return self::TAG_MAX_ALLOWED_ADDING - $tagsAddedCount;
+    }
+
+    /**
+     * @param Resource $resource
+     * @param User $user
+     * @return int
+     */
+    public function getTagRestForRemovingCount(Resource $resource, User $user): int
+    {
+        $tagRemovedCount = $this->relResourceRepository->getCountOfRemovedTags($user->getId(), $resource->getId());
+
+        return self::TAG_MAX_ALLOWED_REMOVING - $tagRemovedCount;
     }
 }
