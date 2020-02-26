@@ -14,8 +14,8 @@
         {{ form_widget(fvassignlexicon.can_add) }}
         {{ form_widget(fvassignlexicon.can_remove) }}
         {{ form_widget(fvassignlexicon.name, {'attr': {'class': 'vtp-fh-w40' }}) }}
-        {{ form_widget(fvassignlexicon.save, {'attr': {'class': 'vtp-uiinfo-anchor vtp-lexicon-submit' }}) }}
-        {{ form_widget(fvassignlexicon.remove, {'attr': {'class': 'vtp-uiinfo-anchor vtp-lexicon-submit' }}) }}
+        {{ form_widget(fvassignlexicon.save, {'value' : '+'~relsRestAddedCount, 'attr': {'class': 'vtp-uiinfo-anchor vtp-lexicon-submit' }}) }}
+        {{ form_widget(fvassignlexicon.remove, {'value' : '-'~relsRestRemovedCount, 'attr': {'class': 'vtp-uiinfo-anchor vtp-lexicon-submit' }}) }}
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvassignlexicon.name) }}</div>
     </div>
     <div id="vtp-lexiconbox" class="vtp-collectionbox ui-corner-all">
