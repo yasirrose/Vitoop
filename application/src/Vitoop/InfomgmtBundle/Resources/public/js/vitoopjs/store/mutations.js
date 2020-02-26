@@ -19,6 +19,11 @@ export default {
     hideArtSelect: function (state) {
         state.secondSearch.showArtSelect = false;
     },
+
+    // Table
+    setTablePage(state, page) {
+        state.table.page = page;
+    },
     updateTableRowNumber(state, value) {
         state.table.rowNumber = value;
     },
@@ -28,6 +33,7 @@ export default {
     updateTableBlinker(state, blinkerStatus) {
         state.table.rowNumberBlinker = blinkerStatus;
     },
+
     updateTagListShowing(state, value) {
         state.tagList.show = value
     },

@@ -18,6 +18,6 @@ export default class RowPerPageSelect {
 
     reloadSelect() {
         $(this.selectId + ' option[value="'+parseInt(vitoopState.state.table.rowNumber)+'"]').prop('selected', true);
-        $(this.selectId).selectmenu('refresh').trigger('change');
+        $(this.selectId).selectmenu('refresh').trigger('select');
     }
 }

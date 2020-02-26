@@ -76,10 +76,10 @@ export default class VtpDatatable {
                 const rowRerPageSelector = document.querySelector('.dataTables_length .ui-selectmenu-button');
                 rowRerPageSelector.classList.remove('blinking');
             },
-            change: function( event, ui ) {
-                self.rowsPerPage.updatePageLength(+ui.item.value);
+            select: (event, ui) => {
+                vitoopState.commit('updateTableRowNumber', +ui.item.value);
                 datatable.page.len(+ui.item.value);
-                self.refreshTable();
+                datatable.page(vitoopState.state.table.page).draw('page');
             }
         });
 
@@ -126,6 +126,9 @@ export default class VtpDatatable {
             ajax: {
                 url:  this.url,
                 data: (data) => {
+                    console.log($(this.datatableListId).DataTable().page());
+                    vitoopState.commit('setTablePage', $(this.datatableListId).DataTable().page());
+                    // data.start = $(this.datatableListId).DataTable().page() * this.rowsPerPage.getPageLength();
                     data.tagcnt = vitoopState.state.tagcnt;
                     if (vitoopState.state.table.flagged) {
                         data.flagged = true;

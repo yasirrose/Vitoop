@@ -27,7 +27,9 @@
                 this.$store.commit('updateSearchToggler', !this.get('searchToggler').isOpened);
                 const rowNumberDiff = this.get('searchToggler').isOpened ? -1 : 1;
                 this.$store.commit('updateTableRowNumber', this.get('table').rowNumber + rowNumberDiff);
-                vitoopApp.vtpDatatable.rowsPerPage.reloadSelect();
+                setTimeout(() => {
+                    vitoopApp.vtpDatatable.rowsPerPage.reloadSelect();
+                }, 300);
             }
         }
     };
