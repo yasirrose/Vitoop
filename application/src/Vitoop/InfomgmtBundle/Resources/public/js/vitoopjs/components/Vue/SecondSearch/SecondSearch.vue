@@ -116,7 +116,7 @@
                 set(value) {
                     this.$store.commit('secondSearchIsSearching', true);
                     this.$store.commit('updateSecondSearch', value);
-                    vitoopApp.vtpDatatable.rowsPerPage.checkDOMState();
+                    vitoopApp.vtpDatatable.rowsPerPage.reloadSelect();
                     vitoopApp.vtpDatatable && vitoopApp.vtpDatatable.refreshTable();
                 }
             },

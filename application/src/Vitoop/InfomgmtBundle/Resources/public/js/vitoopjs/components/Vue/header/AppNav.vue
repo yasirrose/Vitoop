@@ -23,7 +23,7 @@
                     'ui-state-no-content': noContent('conv'),
                     'vtp-nav-active ui-state-active': /conversation/.test($route.name)
                    }">
-                    Nachrichten
+                    Nachricht
                 </a>
             </li>
             <li v-for="(value,name) in resources"

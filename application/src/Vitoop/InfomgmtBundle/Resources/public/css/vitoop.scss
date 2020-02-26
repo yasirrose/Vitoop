@@ -1706,7 +1706,7 @@ form#form-tag {
     @extend .created-info;
 }
 
-.created-info-project {
+.created-info-project, .created-info-conversation {
     @extend .created-info;
     padding-left: 75px;
 }

@@ -10,12 +10,18 @@
 </template>
 
 <script>
+    import {mapGetters} from "vuex";
+
     export default {
         name: "SearchClear",
+        computed: {
+            ...mapGetters(['get'])
+        },
         methods: {
             clear() {
                 this.$store.commit('resetSecondSearch');
-                vitoopApp.vtpDatatable.rowsPerPage.checkDOMState();
+                this.$store.commit('updateTableRowNumber', this.get('table').rowNumber + 1);
+                vitoopApp.vtpDatatable.rowsPerPage.reloadSelect();
                 vitoopApp.vtpDatatable && vitoopApp.vtpDatatable.refreshTable();
             }
         }

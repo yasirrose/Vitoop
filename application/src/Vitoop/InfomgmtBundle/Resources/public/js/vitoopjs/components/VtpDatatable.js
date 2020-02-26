@@ -2,6 +2,7 @@ import SendLinkWidget from '../widgets/sendLinkWidget';
 import DataStorage from '../datastorage';
 import RowPerPageSelect from '../components/RowPerPageSelect';
 import HttpService from "../services/HttpService";
+import {target} from "vuelidate/lib/params";
 
 export default class VtpDatatable {
     constructor(resType, isAdmin, isCoef, url, resourceId) {
@@ -76,8 +77,8 @@ export default class VtpDatatable {
                 rowRerPageSelector.classList.remove('blinking');
             },
             change: function( event, ui ) {
-                self.rowsPerPage.updatePageLength(ui.item.value);
-                datatable.page.len(ui.item.value);
+                self.rowsPerPage.updatePageLength(+ui.item.value);
+                datatable.page.len(+ui.item.value);
                 self.refreshTable();
             }
         });
@@ -480,11 +481,11 @@ export default class VtpDatatable {
     getCheckboxColumn() {
         let self = this;
         return {
-            searchable:false,
-            orderable:false,
+            searchable: false,
+            orderable: false,
             width:'20px',
             render: (data, type, full, meta) => {
-                if (full.id !== null) {
+                if (full.id !== null && !/prj|lex|conversation/.test(this.resType)) {
                     let checkedResources = this.datastorage.getObject(this.resType + '-checked');
                     return `
                         <label class="custom-checkbox__wrapper no-title light square-checkbox">

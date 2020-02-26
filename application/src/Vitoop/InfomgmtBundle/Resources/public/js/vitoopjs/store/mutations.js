@@ -7,12 +7,6 @@ export default {
     setAdmin(state, status) {
         state.admin = status;
     },
-    showSecondSearch: function (state) {
-        state.secondSearch.show = true;
-    },
-    hideSecondSearch: function (state) {
-        state.secondSearch.show = false;
-    },
     showDataRange: function (state) {
         state.secondSearch.showDataRange = true;
     },
@@ -39,38 +33,25 @@ export default {
     },
     updateSecondSearch: function (state, value) {
         state.secondSearch.searchString = value;
-        // this.commit('checkIsNotEmptySearchToggle');
+    },
+    updateSearchToggler(state,status) {
+        state.searchToggler.isOpened = status;
+        state.secondSearch.show = status;
     },
     updateBlueFilter: function (state, value) {
         state.secondSearch.isBlueFilter = value;
-        // this.commit('checkIsNotEmptySearchToggle');
     },
     updateReadFilter: function (state, value) {
         state.secondSearch.isReadFilter = value;
-        // this.commit('checkIsNotEmptySearchToggle');
     },
     updateArtFilter: function (state, value) {
         state.secondSearch.artFilter = value;
-        // this.commit('checkIsNotEmptySearchToggle');
     },
     updateDateFrom: function (state, value) {
         state.secondSearch.dateFrom = value;
-        // this.commit('checkIsNotEmptySearchToggle');
     },
     updateDateTo: function (state, value) {
         state.secondSearch.dateTo = value;
-        // this.commit('checkIsNotEmptySearchToggle');
-    },
-    updateSearchToggle: function (state, value) {
-        state.searchToggler.isOpened = value;
-        if (value && !state.secondSearch.show) {
-            this.commit('showSecondSearch');
-            return;
-        }
-        if (!value && state.secondSearch.show) {
-            this.commit('hideSecondSearch');
-            return;
-        }
     },
     checkIsNotEmptySearchToggle: function (state) {
         state.searchToggler.isNotEmpty =
@@ -80,7 +61,7 @@ export default {
             '' !== state.secondSearch.searchString ||
             '' !== state.secondSearch.dateFrom ||
             '' !== state.secondSearch.dateTo;
-        this.commit('updateSearchToggle', state.searchToggler.isNotEmpty);
+        this.commit('updateSearchToggler', state.searchToggler.isNotEmpty);
     },
     setUser: function(state, value) {
         state.user = value;
@@ -111,13 +92,11 @@ export default {
             state.resource[item] = null;
         })
     },
-
     resetSecondSearch: function(state) {
         const secondSearch = initialState.secondSearch;
         Object.keys(secondSearch).forEach(key => {
             state.secondSearch[key] = secondSearch[key]
         });
-        // state.secondSearch = initialState.secondSearch;
         this.commit('checkIsNotEmptySearchToggle');
     },
     secondSearchIsSearching(state,isSearching) {

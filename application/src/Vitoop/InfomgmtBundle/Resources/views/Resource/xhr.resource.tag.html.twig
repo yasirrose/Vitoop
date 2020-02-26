@@ -14,7 +14,15 @@
         {{ form_widget(fvtag.can_add) }}
         {{ form_widget(fvtag.can_remove) }}
         {{ form_widget(fvtag.text, {'attr': {'class': 'vtp-fh-w40'}}) }}
-        <input type="button" id="tag_confirm_save" title="{{ 'label.tag.add'|trans }}" name="tag[confirm_save]" class="vtp-uiinfo-anchor vtp-tag-submit ui-button ui-widget ui-state-default ui-corner-all" style="font-weight: normal; height: 24px; padding-top: 0px; padding-bottom: 0px;" value="+{{tagsRestAddedCount}}" role="button" aria-disabled="false">
+        <input type="button"
+               id="tag_confirm_save"
+               title="{{ 'label.tag.add'|trans }}"
+               name="tag[confirm_save]"
+               class="vtp-uiinfo-anchor vtp-tag-submit ui-button ui-widget ui-state-default ui-corner-all"
+               style="font-weight: normal; height: 24px; padding-top: 0px; padding-bottom: 0px;"
+               value="+{{tagsRestAddedCount}}"
+               role="button"
+               aria-disabled="false">
         {{ form_widget(fvtag.remove, {'value': '-'~tagsRestRemovedCount, 'attr': {'class': 'vtp-uiinfo-anchor vtp-tag-submit' }}) }}
         <span style="float: right;">
             <button id="vtp-tagbox-help" help-area="tag" class="vtp-help-area-button vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only" type="button">
@@ -51,7 +59,7 @@
     </div>
     <div id="vtp-tagbox" class="ui-corner-all">
         {% for everytag in tags %}
-            <span id="spanTag_{{everytag.id}}" class="vtp-tagbox-tag {% if everytag.is_own %}vtp-owntag {% endif %}ui-corner-all">                
+            <span id="spanTag_{{everytag.id}}" class="vtp-tagbox-tag {% if everytag.is_own %}vtp-owntag {% endif %}ui-corner-all">
                 <span class="vtp-icon-tag ui-icon ui-icon-tag"></span>
                 {{ everytag.text }}
                 <span class="vtp-tagbox-cnttag">({{ everytag.cnt_tag }})</span>

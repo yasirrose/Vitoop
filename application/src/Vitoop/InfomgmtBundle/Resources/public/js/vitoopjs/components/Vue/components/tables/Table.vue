@@ -152,7 +152,6 @@
                     this.$store.commit('set', {key: 'contentHeight', value: content.clientHeight});
                 }
                 vitoopState.commit('secondSearchIsSearching', false);
-                $('body').removeClass('overflow-hidden');
                 if (/prj|lex|conversation/.test(this.$route.name)) {
                     $('.vtp-uiaction-open-extlink').on('click', (e) => {
                         e.preventDefault();
@@ -162,6 +161,7 @@
                         }
                     });
                 }
+                $('body').removeClass('overflow-hidden');
             },
             initTable() {
                 return vitoopApp.initTable(
@@ -206,10 +206,18 @@
         }
         100% {background: #d7ebf9 url(/../img/ui-bg_glass_80_d7ebf9_1x400.png) 50% 50% repeat-x;}
     }
+
     .blinking {
         animation-name: blinking;
         animation-duration: 1.5s;
         animation-iteration-count: 5;
+    }
+
+    .sorting_disabled {
+
+        .DataTables_sort_wrapper {
+            display: none;
+        }
     }
 </style>
 
