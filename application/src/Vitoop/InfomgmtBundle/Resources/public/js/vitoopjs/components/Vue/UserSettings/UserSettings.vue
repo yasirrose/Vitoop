@@ -9,7 +9,10 @@
                     <legend>Einstellungen</legend>
                     <div class="vtp-fh-w25">
                         <p>Textgrösse in den Listen: </p>
-                        <v-select :options="fontSizeOptions" :clearable="false" v-model="dto.decreaseFontSize"></v-select>
+                        <v-select :options="fontSizeOptions"
+                                  :clearable="false"
+                                  v-model="dto.decreaseFontSize">
+                        </v-select>
                     </div>
                 </fieldset>
                 <fieldset class="ui-corner-all margin-top-10">
@@ -105,7 +108,20 @@
                 isSuccess: false,
                 message: '',
                 errorMessage: '',
-                fontSizeOptions: [{label: 'klein', value: '1'}, {label: 'gross', value: '0'}],
+                fontSizeOptions: [
+                    {
+                        label: 'klein',
+                        value: '2'
+                    },
+                    {
+                        label: 'mittel',
+                        value: '1'
+                    },
+                    {
+                        label: 'gross',
+                        value: '0'
+                    }
+                ],
                 dto: {
                     pass1: '',
                     pass2: '',
@@ -115,7 +131,7 @@
                     username2: '',
                     decreaseFontSize: {
                         value: 1,
-                        label: 'klein'
+                        label: 'mittel'
                     }
                 }
             }
@@ -141,18 +157,18 @@
             }
         },
         created() {
-            let self = this;
             let userService = new UserService();
             let userObj = this.user;
             let dto = this.dto;
-            userService.getCurrentUser().then(function (currentUser) {
-                userObj.id = currentUser.id;
-                userObj.username = currentUser.username;
-                userObj.heightOfTodoList = currentUser.height_of_todo_list;
-                userObj.numberOfTodoElements = currentUser.number_of_todo_elements;
-                userObj.decreaseFontSize = currentUser.decrease_font_size;
-                self.updateDtoDecreaseValue(userObj.decreaseFontSize);
-            });
+            userService.getCurrentUser()
+                .then(currentUser => {
+                    userObj.id = currentUser.id;
+                    userObj.username = currentUser.username;
+                    userObj.heightOfTodoList = currentUser.height_of_todo_list;
+                    userObj.numberOfTodoElements = currentUser.number_of_todo_elements;
+                    userObj.decreaseFontSize = currentUser.decrease_font_size;
+                    this.updateDtoDecreaseValue(userObj.decreaseFontSize);
+                });
         },
         methods: {
             deactivate() {

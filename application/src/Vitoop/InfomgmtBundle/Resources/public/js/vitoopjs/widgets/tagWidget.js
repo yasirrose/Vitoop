@@ -19,7 +19,7 @@ export default class TagWidget extends Widget {
         });
         $('#tag_text').autocomplete({
             source: self.baseUrl + (['tag', 'suggest'].join('/')) + '?id=' + self.resourceId,
-            minLength: 2,
+            minLength: 1,
             appendTo: 'body',
             response: function (e, ui) {
                 if (0 === ui.content.length) {

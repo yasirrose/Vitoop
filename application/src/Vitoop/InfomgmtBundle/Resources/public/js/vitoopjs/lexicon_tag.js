@@ -16,7 +16,7 @@ var init = function() {
     });
     $('#tag_lexicon_text').autocomplete({
         source: vitoop.baseUrl + (['tag', 'suggest'].join('/')) + '?id=' + getResId(),
-        minLength: 2,
+        minLength: 1,
         appendTo: 'body'
     });
     $('.vtp-uiaction-tag-lexicon-showown').button({

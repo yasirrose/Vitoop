@@ -36,7 +36,7 @@ export default class LexiconWidget extends Widget {
                     }
                 });
             },
-            minLength: 2,
+            minLength: 1,
             appendTo: 'body'
         });
         $(self.containerId + ' input[type=submit]').button({

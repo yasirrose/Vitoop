@@ -23,7 +23,7 @@ var init = function() {
                 }
             });
         },
-        minLength: 2,
+        minLength: 1,
         appendTo: 'body'
     });
     $('form#form-assign-lexicon').ajaxForm({

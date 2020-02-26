@@ -1,36 +1,35 @@
 <template>
     <label ref="cross-1">
-        <input type="checkbox"
-               value="1"
-               v-model="isOpened"/>
         <span class="vtp-toggler ui-button ui-state-default ui-widget ui-corner-all ui-button-icon-only vtp-button"
-              :class="[(isOpened || isHasNotEmptyFields)? 'vtp-toggler-active' : '']">
+              @click="toggle"
+              :class="[(get('searchToggler').isOpened || isHasNotEmptyFields)? 'vtp-toggler-active' : '']">
             <span class="ui-icon"
-                  :class="[isOpened ? 'ui-icon-arrowthick-1-n' : 'ui-icon-arrowthick-1-s']">
+                  :class="[get('searchToggler').isOpened ? 'ui-icon-arrowthick-1-n' : 'ui-icon-arrowthick-1-s']">
             </span>
         </span>
     </label>
 </template>
 
 <script>
+    import {mapGetters} from "vuex";
+
     export default {
         name: "SearchToggler",
         computed: {
-            isOpened: {
-                get() {
-                    return this.$store.state.searchToggler.isOpened;
-                },
-                set(value) {
-                    if (value) {
-                        $('body').addClass('overflow-hidden');
-
-                    }
-                    this.$store.commit('updateSearchToggle', value);
-                    vitoopApp.vtpDatatable.rowsPerPage.checkDOMState();
-                }
-            },
+            ...mapGetters(['get']),
             isHasNotEmptyFields() {
-                return this.$store.state.secondSearch.searchString !== '';
+                return this.get('secondSearch').searchString !== '';
+            }
+        },
+        methods: {
+            toggle() {
+                $('body').addClass('overflow-hidden');
+                this.$store.commit('updateSearchToggler', !this.get('searchToggler').isOpened);
+                const rowNumberDiff = this.get('searchToggler').isOpened ? -1 : 1;
+                this.$store.commit('updateTableRowNumber', this.get('table').rowNumber + rowNumberDiff);
+                setTimeout(() => {
+                    vitoopApp.vtpDatatable.rowsPerPage.reloadSelect();
+                }, 300);
             }
         }
     };

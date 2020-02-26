@@ -10,7 +10,7 @@ window.resourceProject = (function () {
     var queryEditMode = query.edit;
 
     var init = function () {
-        vitoopState.commit('hideSecondSearch');
+        vitoopState.commit('updateSearchToggler', false);
         var tinyInit = new TinyMCEInitializer();
         var options = tinyInit.getCommonOptions();
         options.selector = 'textarea#project_data_sheet';
@@ -80,7 +80,7 @@ window.resourceProject = (function () {
         //     });
         // }
 
-        
+
         $('#vtp-lexicondata-lexicon-close').button({
             icons: {
                 primary: "ui-icon-close"

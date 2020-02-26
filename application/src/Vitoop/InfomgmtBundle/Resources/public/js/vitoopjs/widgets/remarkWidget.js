@@ -17,14 +17,15 @@ export default class RemarkWidget extends Widget {
 
     init() {
         let self = this;
+        $(self.buttonSaveId).addClass('ui-state-disabled');
 
         if ($(self.remarkAcceptedId).length) {
-            $(self.remarkAcceptedId).on('change', self.changeClassOfButton);
+            document.querySelector(this.remarkAcceptedId).addEventListener('change', e => this.changeClassOfButton(e, this))
         }
 
-        let setIntervalForText = function() {
-            return setInterval(self.changeClassOfButton, 2000);
-        };
+        // let setIntervalForText = function() {
+        //     return setInterval(self.changeClassOfButton, 2000);
+        // };
 
         $(self.remarkFormId).on('submit', function(event) {
             if (($(self.remarkAcceptedId).length > 0) && ($(self.remarkAcceptedId).prop('checked') == false)) {
@@ -42,14 +43,7 @@ export default class RemarkWidget extends Widget {
 
         self.initTinyMCE();
         self.initLockButton();
-        setTimeout(setIntervalForText, 2000);
-
-        // submitbutton and fadein info
-        $(self.containerId + ' input[type=submit]').button({
-            icons: {
-                primary: "ui-icon-pencil"
-            }
-        });
+        // setTimeout(setIntervalForText, 2000);
 
         $(self.remarkFormId).ajaxForm({
             delegation: true,
@@ -65,7 +59,13 @@ export default class RemarkWidget extends Widget {
         });
     }
 
-    changeClassOfButton() {
+    changeClassOfButton(e) {
+        if (e.target.checked) {
+            $(this.buttonSaveId).removeClass('ui-state-disabled');
+        } else {
+            $(this.buttonSaveId).addClass('ui-state-disabled');
+        }
+
         if (tinyMCE.activeEditor && tinyMCE.activeEditor.isDirty() &&
             (($(RemarkWidget.remarkAcceptedId).length == 0) ||
                 ($(RemarkWidget.remarkAcceptedId).prop('checked')))

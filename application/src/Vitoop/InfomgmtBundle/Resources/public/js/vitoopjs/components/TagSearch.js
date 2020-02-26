@@ -330,7 +330,7 @@ export default class TagSearch {
 
         let displayCallback = function () {
             let rowPerPage = new RowPerPageSelect();
-            rowPerPage.checkDOMState();
+            rowPerPage.reloadSelect();
         };
 
         if (force_hide) {

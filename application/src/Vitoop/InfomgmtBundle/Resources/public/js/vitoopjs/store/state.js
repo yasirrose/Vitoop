@@ -24,6 +24,7 @@ export default {
     },
     table: {
         data: 0,
+        page: 0,
         rowNumber: 12,
         flagged: false,
         rowNumberBlinker: true

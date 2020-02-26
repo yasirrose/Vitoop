@@ -198,7 +198,7 @@
                         this.autocomplete = ui.item.value;
                         this.$refs.add.focus();
                     },
-                    minLength: 2,
+                    minLength: 1,
                     appendTo: 'body'
                 });
 
