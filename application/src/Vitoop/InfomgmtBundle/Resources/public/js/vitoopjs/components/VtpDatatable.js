@@ -126,7 +126,6 @@ export default class VtpDatatable {
             ajax: {
                 url:  this.url,
                 data: (data) => {
-                    console.log($(this.datatableListId).DataTable().page());
                     vitoopState.commit('setTablePage', $(this.datatableListId).DataTable().page());
                     // data.start = $(this.datatableListId).DataTable().page() * this.rowsPerPage.getPageLength();
                     data.tagcnt = vitoopState.state.tagcnt;
