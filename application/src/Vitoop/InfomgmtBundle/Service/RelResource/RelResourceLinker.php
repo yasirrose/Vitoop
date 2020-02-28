@@ -12,6 +12,10 @@ use Vitoop\InfomgmtBundle\Repository\RelResourceResourceRepository;
 use Vitoop\InfomgmtBundle\Service\Tag\ResourceTagLinker;
 use Vitoop\InfomgmtBundle\Service\VitoopSecurity;
 
+/**
+ * Class RelResourceLinker
+ * @package Vitoop\InfomgmtBundle\Service\RelResource
+ */
 class RelResourceLinker
 {
     const RESOURCE_MAX_ALLOWED_ADDING = 3;
@@ -76,8 +80,9 @@ class RelResourceLinker
     public function getResourceForAddingCount(Resource $resource, User $user): int
     {
         $relResourceAdded = $this->relResourceRepository->getCountOfAddedResources($user->getId(), $resource->getId());
+        $resourceCount = self::RESOURCE_MAX_ALLOWED_ADDING - $relResourceAdded;
 
-        return self::RESOURCE_MAX_ALLOWED_ADDING - $relResourceAdded;
+        return $resourceCount > 0 ? $resourceCount : 0;
     }
 
     /**
@@ -99,8 +104,9 @@ class RelResourceLinker
     public function getResourceForRemovingCount(Resource $resource, User $user): int
     {
         $relResourceDeleted = $this->relResourceRepository->getCountOfRemovedResources($user->getId(), $resource->getId());
+        $resourceCount = self::RESOURCE_MAX_ALLOWED_REMOVING - $relResourceDeleted;
 
-        return self::RESOURCE_MAX_ALLOWED_REMOVING - $relResourceDeleted;
+        return $resourceCount > 0 ? $resourceCount : 0;
     }
 
     /**
