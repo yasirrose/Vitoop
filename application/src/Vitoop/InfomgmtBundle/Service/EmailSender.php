@@ -5,6 +5,7 @@ namespace Vitoop\InfomgmtBundle\Service;
 use Swift_Mailer;
 use Symfony\Component\Templating\EngineInterface;
 use Vitoop\InfomgmtBundle\DTO\Links\SendLinksDTO;
+use Vitoop\InfomgmtBundle\Entity\ConversationMessage;
 use Vitoop\InfomgmtBundle\Entity\Invitation;
 use Vitoop\InfomgmtBundle\Entity\User;
 
@@ -106,6 +107,25 @@ class EmailSender
                 [
                     'size'  => $folderSize,
                     'message' => $message
+                ]
+            )
+        );
+
+        return $this->mailer->send($message);
+    }
+
+    public function sendConversationMessageNotification(
+        string $email,
+        ConversationMessage $conversationMessage
+    ) {
+        $conversationData = $conversationMessage->getConversationData();
+        $message = $this->createMessage(
+            'vitoop: '. $conversationData->getConversation()->getName(),
+            $email,
+            $this->templater->render(
+                'email/conversationNotification.html.twig',
+                [
+                    'message' => $conversationMessage
                 ]
             )
         );

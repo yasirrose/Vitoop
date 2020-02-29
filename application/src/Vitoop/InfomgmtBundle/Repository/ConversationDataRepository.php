@@ -24,7 +24,7 @@ class ConversationDataRepository extends ResourceRepository
 
     public function changeStatus(ConversationData $conversationData)
     {
-        $this->getEntityManager()->merge($conversationData);
+        $this->getEntityManager()->persist($conversationData);
         $this->getEntityManager()->flush();
     }
 }

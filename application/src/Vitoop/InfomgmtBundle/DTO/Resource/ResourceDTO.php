@@ -173,6 +173,10 @@ class ResourceDTO
 
     public $status;
 
+    public $isNotify;
+
+    public $isResourceUser;
+
     public function getIsbnLength()
     {
         return mb_strlen($this->isbn);

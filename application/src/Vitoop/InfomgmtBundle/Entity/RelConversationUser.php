@@ -41,9 +41,15 @@ class RelConversationUser implements GetDTOInterface
      */
     protected $readOnly;
 
-    public function __construct($projectData = null, $user = null, $readOnly = true)
+    /**
+     * RelConversationUser constructor.
+     * @param ConversationData|null $conversationData
+     * @param User|null $user
+     * @param bool $readOnly
+     */
+    public function __construct(ConversationData $conversationData = null, User $user = null, $readOnly = true)
     {
-        $this->setConversationData($projectData);
+        $this->setConversationData($conversationData);
         $this->setUser($user);
         $this->setReadOnly($readOnly);
     }
@@ -122,17 +128,20 @@ class RelConversationUser implements GetDTOInterface
      *
      * @return boolean
      */
-    public function getReadOnly()
+    public function getReadOnly(): bool
     {
         return $this->readOnly;
     }
 
-    public function getDTO()
+    /**
+     * @return array
+     */
+    public function getDTO(): array
     {
         return [
             'id'=> $this->id,
             'user' => $this->user->getDTO(),
-            'read_only' => $this->readOnly
+            'read_only' => $this->readOnly,
         ];
     }
 }

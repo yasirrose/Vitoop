@@ -1,0 +1,9 @@
+<html>
+<head></head>
+<body>
+<p>{{ message.user.username }} | {{ message.created|date('d.m.Y') }} | {{ message.created|date('H.i.s') }}</p>
+<p>{{ message.text|raw }} </p>
+{% set conversationUrl = app.request.getSchemeAndHttpHost() ~ '/conversation/'~ message.conversationData.conversation.id %}
+<p><a href="{{ conversationUrl }}">{{ conversationUrl }}</a></p>
+</body>
+</html>

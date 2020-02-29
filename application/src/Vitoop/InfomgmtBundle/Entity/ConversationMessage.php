@@ -1,13 +1,10 @@
 <?php
 
-
 namespace Vitoop\InfomgmtBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Vitoop\InfomgmtBundle\DTO\GetDTOInterface;
-
-
 
 /**
  * @ORM\Table(name="conversation_messages")
@@ -44,7 +41,7 @@ class ConversationMessage implements GetDTOInterface
     protected $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ConversationData", inversedBy="message")
+     * @ORM\ManyToOne(targetEntity="ConversationData", inversedBy="messages")
      * @ORM\JoinColumn(name="id_conversation_data", referencedColumnName="id")
      * @Serializer\Groups({"get_conversation"})
      */
