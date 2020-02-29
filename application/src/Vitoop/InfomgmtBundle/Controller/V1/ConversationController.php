@@ -22,6 +22,7 @@ use Vitoop\InfomgmtBundle\Repository\ConversationMessageRepository;
 use Vitoop\InfomgmtBundle\Repository\ConversationRepository;
 use Vitoop\InfomgmtBundle\Repository\RelConversationUserRepository;
 use Vitoop\InfomgmtBundle\Repository\UserRepository;
+use Vitoop\InfomgmtBundle\Service\Conversation\ConversationNotificator;
 use Vitoop\InfomgmtBundle\Service\MessageService;
 use Vitoop\InfomgmtBundle\Service\VitoopSecurity;
 
@@ -70,12 +71,15 @@ class ConversationController extends ApiController
         Conversation $conversation,
         Request $request,
         VitoopSecurity $vitoopSecurity,
-        ConversationMessageRepository $messageRepository
-    )
-    {
+        ConversationMessageRepository $messageRepository,
+        ConversationNotificator $conversationNotificator
+    ) {
         $conversationData = $conversation->getConversationData();
         $message = new ConversationMessage($request->get('message'), $vitoopSecurity->getUser(), $conversationData);
         $messageRepository->save($message);
+
+        //send notification
+        $conversationNotificator->notify($message);
 
         return $this->getApiResponse($message);
     }
@@ -90,8 +94,12 @@ class ConversationController extends ApiController
      * @ParamConverter("message", class="Vitoop\InfomgmtBundle\Entity\ConversationMessage", options={"id" = "messageID"})
      * @return object
      */
-    public function updateMessage(ConversationMessage $message, VitoopSecurity $vitoopSecurity, ConversationMessageRepository $messageRepository, Request $request)
-    {
+    public function updateMessage(
+        ConversationMessage $message,
+        VitoopSecurity $vitoopSecurity,
+        ConversationMessageRepository $messageRepository,
+        Request $request
+    ) {
         $this->checkAccessForDelete($message, $vitoopSecurity);
         $message->setText($request->get('updatedMessage'));
         $messageRepository->save($message);
@@ -106,8 +114,11 @@ class ConversationController extends ApiController
      * @param $vitoopSecurity VitoopSecurity
      * @ParamConverter("message", class="Vitoop\InfomgmtBundle\Entity\ConversationMessage", options={"id" = "messageID"})
      */
-    public function deleteMessage(ConversationMessage $message, VitoopSecurity $vitoopSecurity, ConversationMessageRepository $messageRepository)
-    {
+    public function deleteMessage(
+        ConversationMessage $message,
+        VitoopSecurity $vitoopSecurity,
+        ConversationMessageRepository $messageRepository
+    ) {
         $this->checkAccessForDelete($message, $vitoopSecurity);
 
         $messageRepository->remove($message);
@@ -130,8 +141,7 @@ class ConversationController extends ApiController
         Request $request,
         UserRepository $userRepository,
         RelConversationUserRepository $conversationUserRepository
-    )
-    {
+    ) {
         $currentUser = $vitoopSecurity->getUser();
         $this->checkAccessForRelUserAction($conversation, $vitoopSecurity);
         $response = null;
@@ -173,8 +183,7 @@ class ConversationController extends ApiController
         Conversation $conversation,
         User $user,
         RelConversationUserRepository $conversationUserRepository
-    )
-    {
+    ) {
         $this->checkAccessForDeleteUser($conversation, $vitoopSecurity);
         $relConversationUser = $conversationUserRepository->getRel($user, $conversation);
         $conversationUserRepository->removeUser($relConversationUser);
@@ -197,8 +206,7 @@ class ConversationController extends ApiController
         Request $request,
         UserRepository $userRepository,
         RelConversationUserRepository $conversationUserRepository
-    )
-    {
+    ) {
         $this->checkAccessForRelUserAction($conversation, $vitoopSecurity);
         $user = $userRepository->find((integer)$request->get('userId'));
 
@@ -242,8 +250,7 @@ class ConversationController extends ApiController
         Request $request,
         VitoopSecurity $vitoopSecurity,
         ConversationDataRepository $conversationDataRepository
-    )
-    {
+    ) {
         $this->checkAccessForRelUserAction($conversation, $vitoopSecurity);
         $conversationData = $conversation->getConversationData();
         $conversationData->setIsForRelatedUsers((integer)$request->get('status'));
