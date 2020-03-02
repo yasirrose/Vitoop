@@ -125,7 +125,7 @@ gulp.task('vitoop-app', function () {
                 new VueLoaderPlugin(),
             ],
             performance: {
-                ts: false
+                hints: false
             }
         }))
         .pipe(concat('vitoop-app.js'))
