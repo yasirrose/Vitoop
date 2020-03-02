@@ -117,7 +117,16 @@
             }
         },
         computed: {
-            ...mapGetters(['getResource'])
+            ...mapGetters(['getResource','get','getTagListShow'])
+        },
+        watch: {
+            getTagListShow(show) {
+                if (show) {
+                    this.$store.commit('updateTableRowNumber', this.get('table').rowNumber - 1);
+                } else {
+                    this.$store.commit('updateTableRowNumber', this.get('table').rowNumber + 1);
+                }
+            }
         },
         mounted() {
             this.init();
