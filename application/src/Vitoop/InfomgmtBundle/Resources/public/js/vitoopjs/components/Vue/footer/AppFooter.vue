@@ -5,7 +5,7 @@
         </div>
         <div id="vtp-imprint">
             <span v-if="$store.state.user !== null">
-                <a v-if="agreeWithTerm"
+                <a v-if="agreeWithTerm && get('admin')"
                    class="ui-corner-all ui-state-default"
                    @click="$router.push('/tags')">
                     Tags
@@ -22,11 +22,15 @@
 
 <script>
     import HelpButton from "../SecondSearch/HelpButton.vue";
+    import {mapGetters} from "vuex"
 
     export default {
         name: "AppFooter",
         components: {HelpButton},
-        inject: ['agreeWithTerm']
+        inject: ['agreeWithTerm'],
+        computed: {
+            ...mapGetters(['get'])
+        }
     }
 </script>
 

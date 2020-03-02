@@ -48,8 +48,7 @@
                     <p>{{ $t('label.address') }}: <span>{{ resourceInfo.adrc }}</span></p>
                 </div>
             </div>
-            <div id="lexicon-tags"
-                 v-if="lexiconTags.length > 0">
+            <div id="lexicon-tags">
                 <div id="form-assign-lexicon">
                     <fieldset class="ui-corner-all">
                         <legend>Verknüpfungen mit Lexikonartikel</legend>

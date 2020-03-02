@@ -1,16 +1,18 @@
 <template>
-    <div class="app-block-resizer" :style="{height: `${height}px`}">
+    <vue-perfect-scrollbar class="app-block-resizer" :style="{height: `${height}px`}">
         <slot></slot>
         <div class="app-block-resizer__trigger"
              @mousedown="resizeStart">
             <i class="fas fa-sort"></i>
         </div>
-    </div>
+    </vue-perfect-scrollbar>
 </template>
 
 <script>
+    import VuePerfectScrollbar from 'vue-perfect-scrollbar'
     export default {
         name: "ResizableBlock",
+        components: {VuePerfectScrollbar},
         props: {
             height: {
                 type: Number
@@ -74,6 +76,7 @@
             position: absolute;
             bottom: 1px;
             right: 4px;
+            z-index: 1;
         }
     }
 </style>
