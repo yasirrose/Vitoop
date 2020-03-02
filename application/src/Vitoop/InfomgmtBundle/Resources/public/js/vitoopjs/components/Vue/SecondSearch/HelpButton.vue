@@ -9,6 +9,8 @@
 </template>
 
 <script>
+    import HelpButton from "../../HelpButton";
+
     export default {
         name: "HelpButton",
         props: {
@@ -21,6 +23,7 @@
             }
         },
         mounted() {
+            new HelpButton();
             $('.vtp-help-area-button').on('click', function () {
                 vitoopApp.helpButton.setHelpArea($(this).attr('help-area'));
                 $(vitoopApp.helpButton.helpPopupId).dialog('open');
