@@ -1,10 +1,12 @@
 <?php
 namespace Vitoop\InfomgmtBundle\Entity;
 
+use Doctrine\Common\Collections\Criteria;
 use Vitoop\InfomgmtBundle\DTO\GetDTOInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Vitoop\InfomgmtBundle\Entity\Criteria\UserCriteriaTrait;
 
 /**
  * @ORM\Table(name="conversation_data")
@@ -12,6 +14,8 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class ConversationData implements GetDTOInterface
 {
+    use UserCriteriaTrait;
+
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id()
@@ -28,6 +32,7 @@ class ConversationData implements GetDTOInterface
     protected $sheet;
 
     /**
+     * @var Conversation
      * @ORM\OneToOne(targetEntity="Conversation", mappedBy="conversation_data")
      */
     protected $conversation;
@@ -49,12 +54,22 @@ class ConversationData implements GetDTOInterface
      */
     protected $messages;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Vitoop\InfomgmtBundle\Entity\User", cascade = {"persist", "merge", "remove"}, fetch="EXTRA_LAZY")
+     * @ORM\JoinTable(name="conversation_data_notification",
+     *    joinColumns={@ORM\JoinColumn(name="conversation_data_id", referencedColumnName="id")},
+     *    inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
+     * )
+     */
+    protected $conversationNotifications;
+
     public function __construct()
     {
         $this->sheet = '<h1>Leeres Conversation.</h1>';
         $this->isForRelatedUsers = false;
         $this->relUsers = new ArrayCollection();
         $this->messages = new ArrayCollection();
+        $this->conversationNotifications = new ArrayCollection();
     }
 
     /**
@@ -259,6 +274,56 @@ class ConversationData implements GetDTOInterface
         }
 
         return false;
+    }
+
+    /**
+     * @param User $user
+     * @return bool
+     */
+    public function isUserNotify(User $user): bool
+    {
+        return $this->conversationNotifications->contains($user);
+    }
+
+    /**
+     * @param User $user
+     * @param bool $isNotify
+     * @return bool
+     */
+    public function userNotify(User $user, bool $isNotify): bool
+    {
+        $isUserEnableNotification = $this->isUserNotify($user);
+        if (true === $isNotify) {
+            if (!$isUserEnableNotification) {
+                $this->conversationNotifications->add($user);
+            }
+
+            return true;
+        }
+
+        if ($isUserEnableNotification) {
+            $this->conversationNotifications->remove($user);
+        }
+
+        return false;
+    }
+
+    /**
+     * @param User $user
+     * @return bool
+     */
+    public function isRelatedUser(User $user): bool
+    {
+        if (!$this->isForRelatedUsers || $this->conversation->getUser() === $user) {
+            return true;
+        }
+
+        return 0 !== $this->relUsers->matching($this->getUserCriteria($user))->count();
+    }
+
+    public function getConversationNotifications()
+    {
+        return $this->conversationNotifications;
     }
 
     public function getDTO()

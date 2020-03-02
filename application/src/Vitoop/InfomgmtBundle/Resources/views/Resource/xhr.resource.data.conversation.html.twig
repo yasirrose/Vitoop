@@ -1,4 +1,4 @@
-{# VitoopInfomgmtBundle:Resource:xhr.resource.data.prj.html.twig #}
+{# VitoopInfomgmtBundle:Resource:xhr.resource.data.conversation.html.twig #}
 {{ form_start(fvdata, {'attr': {'id': 'vtp-form-data', 'novalidate': 'novalidate' }}) }}
 <fieldset class="ui-corner-all">
     <legend>{{ res.resourcename }}</legend>
@@ -19,6 +19,15 @@
             {{ form_widget(fvdata.status, {'attr': {'class': 'vtp-fh-w80 vtp-right' }}) }}
         </div>
     </div>
+    {% if true == dto.isResourceUser %}
+    <div class="vtp-fh-middle">
+        <label class="vtp-fh-w20"></label>
+        <div class="vtp-fh-w80 vtp-right">
+            {{ form_widget(fvdata.isNotify, {'attr': {'class': 'vtp-left valid-checkbox' }}) }}
+            {{ form_label(fvdata.isNotify, null, {'label_attr': {'class': 'vtp-fh-w80', 'style': 'vertical-align: middle;' }}) }}
+        </div>
+    </div>
+    {% endif %}
     <div class="vtp-fh-middle">
         {{ form_label(fvdata.description, null, {'label_attr': {'class': 'vtp-fh-w20', 'style': 'vertical-align: middle;' }}) }}
         {{ form_widget(fvdata.description, {'attr': {'class': 'vtp-fh-w80 vtp-right', 'rows': '10' }}) }}

@@ -5,6 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Vitoop\InfomgmtBundle\DTO\Resource\ResourceDTO;
+use Vitoop\InfomgmtBundle\Entity\Criteria\UserCriteriaTrait;
 use Vitoop\InfomgmtBundle\Entity\Resource\ResourceType;
 
 /**
@@ -17,6 +18,8 @@ use Vitoop\InfomgmtBundle\Entity\Resource\ResourceType;
  */
 class Resource
 {
+    use UserCriteriaTrait;
+
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id()
@@ -727,19 +730,6 @@ class Resource
         return $this->userReads->matching($this->getUserCriteria($user));
     }
 
-    /**
-     * @param User $user
-     * @return Criteria
-     */
-    protected function getUserCriteria(User $user) : Criteria
-    {
-        $expr = Criteria::expr();
-        $userCriteria = Criteria::create();
-        $userCriteria
-            ->where($expr->eq('user', $user));
-
-        return $userCriteria;
-    }
 
     protected function getFlagBlamedCriteria(): Criteria
     {
