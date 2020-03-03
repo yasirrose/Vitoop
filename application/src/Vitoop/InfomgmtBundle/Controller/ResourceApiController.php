@@ -1,14 +1,9 @@
 <?php
+
 namespace Vitoop\InfomgmtBundle\Controller;
 
-use JMS\Serializer\SerializationContext;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Doctrine\ORM\Tools\Pagination\Paginator;
-use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
 use Vitoop\InfomgmtBundle\DTO\Resource\SearchColumns;
 use Vitoop\InfomgmtBundle\DTO\Paging;
@@ -20,8 +15,7 @@ use Vitoop\InfomgmtBundle\Service\ResourceManager;
 class ResourceApiController extends ApiController
 {
     /**
-     * @Route("resource/{resType}", name="api_resource_list", requirements={"resType": "pdf|adr|link|teli|lex|prj|book|conversation"})
-     * @Method({"GET"})
+     * @Route("resource/{resType}", methods={"GET"}, name="api_resource_list", requirements={"resType": "pdf|adr|link|teli|lex|prj|book|conversation"})
      *
      * @return array
      */
@@ -83,10 +77,12 @@ class ResourceApiController extends ApiController
     }
 
     /**
-     * @Route("{resource_type}/url/check",
-     * requirements={"resource_type"="pdf|link|teli"},
-     * name="check_unique_url")
-     * @Method({"POST"})
+     * @Route(
+     *     "{resource_type}/url/check",
+     *      requirements={"resource_type"="pdf|link|teli"},
+     *      name="check_unique_url",
+     *     methods={"POST"}
+     * )
      *
      * @return array
      */
@@ -114,8 +110,7 @@ class ResourceApiController extends ApiController
     }
 
     /**
-     * @Route("book/isbn/check", name="check_unique_book__url")
-     * @Method({"POST"})
+     * @Route("book/isbn/check", name="check_unique_book__url", methods={"POST"})
      *
      * @return array
      */
@@ -140,8 +135,7 @@ class ResourceApiController extends ApiController
     }
 
     /**
-     * @Route("address/institution/check", name="check_unique_address__url")
-     * @Method({"POST"})
+     * @Route("address/institution/check", name="check_unique_address__url", methods={"POST"})
      *
      * @return array
      */

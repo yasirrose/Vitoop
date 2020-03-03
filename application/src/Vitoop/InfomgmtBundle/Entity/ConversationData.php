@@ -302,7 +302,7 @@ class ConversationData implements GetDTOInterface
         }
 
         if ($isUserEnableNotification) {
-            $this->conversationNotifications->remove($user);
+            $this->conversationNotifications->removeElement($user);
         }
 
         return false;
