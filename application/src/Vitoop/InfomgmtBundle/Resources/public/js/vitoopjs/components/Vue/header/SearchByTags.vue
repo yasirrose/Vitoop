@@ -123,8 +123,10 @@
             getTagListShow(show) {
                 if (show) {
                     this.$store.commit('updateTableRowNumber', this.get('table').rowNumber - 1);
+                    VueBus.$emit('datatable:reload');
                 } else {
                     this.$store.commit('updateTableRowNumber', this.get('table').rowNumber + 1);
+                    VueBus.$emit('datatable:reload');
                 }
             }
         },
@@ -143,7 +145,6 @@
                 $('#vtp-search-bytags-form-submit').removeClass('act').blur();
                 this.isChanged = false;
                 resourceList.loadResourceListPage(e);
-                VueBus.$emit('datatable:reload');
             },
             removeTag(tag) {
                 this.tags.splice(_.findIndex(this.tags, tag), 1);
@@ -162,7 +163,7 @@
 
                 this.updateAutocomplete($('#vtp-search-bytags-taglist'));
                 this.maintainCntTags();
-                VueBus.$emit('datatable:reload');
+                if (this.tags.length > 0) VueBus.$emit('datatable:reload');
             },
             extendTag(tag,event) {
                 let parent = $(event.target).parent();
@@ -218,7 +219,7 @@
                             }
                             $('#vtp-search-bytags-taglist').val('');
                             this.updateAutocomplete(searchByTag);
-                            if (this.tags.length > 0) {
+                            if (this.tags.length > 1) {
                                 // $(this.tagSearchFormId).submit();
                                 VueBus.$emit('datatable:reload');
                             }
@@ -293,7 +294,6 @@
                 this.tagCount = 0;
                 this.igCount = 0;
                 this.hlCount = 0;
-                VueBus.$emit('datatable:reload');
             },
             changeColor() {
                 if ((!this.isChanged) && ((this.tagCount != this.tags.length) || (this.igCount != this.ignoredTags.length) || (this.hlCount != this.highlightedTags.length))) {
