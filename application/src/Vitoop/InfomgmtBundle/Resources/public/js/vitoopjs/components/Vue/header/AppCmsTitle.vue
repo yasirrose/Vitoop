@@ -100,11 +100,11 @@
         },
         computed: {
             ...mapGetters(['getResource','get','getTableRowNumber']),
-            canEdit() { //getResource('owner')
+            canEdit() { // getResource('owner')
                 const userRelated = this.project.project_data.rel_users.some(relUser => {
                     return (relUser.user.id === this.get('user').id && !relUser.read_only);
                 });
-                return this.get('admin') || userRelated;
+                return this.get('admin') || userRelated || this.get('resource').owner;
             },
             cmsTitleShows() {
                 return this.project !== null ||
