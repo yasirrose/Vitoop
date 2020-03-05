@@ -413,7 +413,24 @@
     }
 </script>
 
+<style lang="scss">
+    .ui-menu-item {
+        display: flex !important;
+        box-sizing: border-box;
+
+        &.ui-state-focus {
+            width: 100% !important;
+        }
+
+        .vtp-search-bytags-item {
+            flex: 1;
+            width: auto !important;
+        }
+    }
+</style>
+
 <style scoped lang="scss">
+
     #vtp-filterbox {
         margin-top: 6px;
     }
