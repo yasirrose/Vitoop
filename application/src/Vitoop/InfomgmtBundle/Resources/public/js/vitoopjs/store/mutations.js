@@ -25,7 +25,6 @@ export default {
         state.table.page = page;
     },
     updateTableRowNumber(state, value) {
-        console.log(`updateTableRowNumber ${value}`);
         state.table.rowNumber = value;
     },
     updateTableData(state, value) {
