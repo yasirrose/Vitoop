@@ -33,10 +33,12 @@
 <script>
     import {mapGetters} from 'vuex'
     import ResizableBlock from "../helpers/ResizableBlock.vue";
+    import openResourcePopupMixin from "../../mixins/openResourcePopupMixin";
 
     export default {
         name: "AppProject",
         components: { ResizableBlock },
+        mixins: [openResourcePopupMixin],
         data() {
             return {
                 project: null,
@@ -63,14 +65,7 @@
                         VueBus.$emit('project:loaded', data.project);
 
                         setTimeout(() => {
-                            $('#vtp-projectdata-sheet-view').on('click', 'a', function (e) {
-                                let resourcesParts = this.href.match(/\/(\d+)/);
-                                if (resourcesParts !== null) {
-                                    e.preventDefault();
-                                    vitoopApp.openResourcePopup(resourcesParts[1]);
-                                    return false;
-                                }
-                            });
+                            this.openResourcePopup('#vtp-projectdata-sheet-view')
                         });
                     } else {
                         this.$store.commit('set', {key: 'inProject', value: false});
