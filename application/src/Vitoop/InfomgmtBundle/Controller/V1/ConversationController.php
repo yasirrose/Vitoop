@@ -3,12 +3,7 @@
 
 namespace Vitoop\InfomgmtBundle\Controller\V1;
 
-use http\Message;
-use phpDocumentor\Reflection\Types\Integer;
-use Proxies\__CG__\Vitoop\InfomgmtBundle\Entity\ConversationData;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Vitoop\InfomgmtBundle\Controller\ApiController;
 use Vitoop\InfomgmtBundle\Entity\Conversation;
@@ -19,7 +14,6 @@ use Vitoop\InfomgmtBundle\Entity\RelConversationUser;
 use Vitoop\InfomgmtBundle\Entity\User;
 use Vitoop\InfomgmtBundle\Repository\ConversationDataRepository;
 use Vitoop\InfomgmtBundle\Repository\ConversationMessageRepository;
-use Vitoop\InfomgmtBundle\Repository\ConversationRepository;
 use Vitoop\InfomgmtBundle\Repository\RelConversationUserRepository;
 use Vitoop\InfomgmtBundle\Repository\UserRepository;
 use Vitoop\InfomgmtBundle\Service\Conversation\ConversationNotificator;
