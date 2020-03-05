@@ -153,10 +153,12 @@
     import SockJS from 'sockjs-client';
     import tinyMCEInitializer from '../../TinyMCEInitializer';
     import ResizableBlock from "./helpers/ResizableBlock.vue";
+    import openResourcePopupMixin from "../mixins/openResourcePopupMixin";
 
     export default {
         name: "AppConversation",
         components: {ResizableBlock, vSelect},
+        mixins: [openResourcePopupMixin],
         data() {
             return {
                 options: [],
@@ -192,16 +194,7 @@
             this.getConversation()
                 .then(data => {
                     setTimeout(() => {
-                        $('.conversation__message__text').on('click', 'a', function (e) {
-                            e.preventDefault();
-                            let resourcesParts = this.href.match(/\/(\d+)/);
-                            if (resourcesParts !== null) {
-                                e.preventDefault();
-                                resourceDetail.init();
-                                vitoopApp.openResourcePopup(resourcesParts[1]);
-                                return false;
-                            }
-                        });
+                        this.openResourcePopup('.conversation__message__text');
                     });
                     this.centrifuge.setToken(data.token);
                     this.centrifuge.subscribe(`${this.conversationInstance.conversation.id}`, ({data}) => {
@@ -314,6 +307,7 @@
                             this.centrifuge.publish(`${this.conversationInstance.conversation.id}`, data)
                                 .then(res => {
                                     console.log('successfully published', res);
+                                    this.openResourcePopup('.conversation__message__text');
                                 })
                                 .catch(err => console.dir(err));
                         })
