@@ -248,7 +248,39 @@ class ConversationController extends ApiController
         $this->checkAccessForRelUserAction($conversation, $vitoopSecurity);
         $conversationData = $conversation->getConversationData();
         $conversationData->setIsForRelatedUsers((integer)$request->get('status'));
-        $conversationDataRepository->changeStatus($conversationData);
+        $conversationDataRepository->save($conversationData);
+
+        return $this->getApiResponse($conversationData);
+    }
+
+    /**
+     * @Route("/notifications", methods={"POST"})
+     */
+    public function createNotificationSubscription(
+        Conversation $conversation,
+        VitoopSecurity $vitoopSecurity,
+        ConversationDataRepository $conversationDataRepository
+    ) {
+        $this->checkAccess($conversation, $vitoopSecurity);
+        $conversationData = $conversation->getConversationData();
+        $conversationData->userNotify($vitoopSecurity->getUser(), true);
+        $conversationDataRepository->save($conversationData);
+
+        return $this->getApiResponse($conversationData);
+    }
+
+    /**
+     * @Route("/notifications", methods={"DELETE"})
+     */
+    public function deleteNotificationSubscription(
+        Conversation $conversation,
+        VitoopSecurity $vitoopSecurity,
+        ConversationDataRepository $conversationDataRepository
+    ) {
+        $this->checkAccess($conversation, $vitoopSecurity);
+        $conversationData = $conversation->getConversationData();
+        $conversationData->userNotify($vitoopSecurity->getUser(), false);
+        $conversationDataRepository->save($conversationData);
 
         return $this->getApiResponse($conversationData);
     }

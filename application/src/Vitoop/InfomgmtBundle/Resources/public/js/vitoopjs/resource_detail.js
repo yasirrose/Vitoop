@@ -194,7 +194,17 @@ window.resourceDetail = (function () {
 
                     $('#prj_name').on('change keyup', changeClassOfButton);
                     $('#prj_description').on('change keyup', changeClassOfButton);
-                };
+                }
+
+                if (res_type == 'conversation') {
+                    $('#conversation_isNotify').on('click', function () {
+                        if (true === $(this).prop("checked")) {
+                            axios.post(`/api/v1/conversations/${res_id}/notifications`);
+                        } else {
+                            axios.delete(`/api/v1/conversations/${res_id}/notifications`);
+                        }
+                    });
+                }
             }
             /*************************************************************************
              * UIfy: rating
