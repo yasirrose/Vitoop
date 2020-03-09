@@ -18,7 +18,7 @@ export default [
     {
         path: '',
         beforeEnter: (to,from,next) => {
-            vitoopState.state.user === null ? next('/login') : next('/userhome');
+            next('/userhome');
         }
     },
     {

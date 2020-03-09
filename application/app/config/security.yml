@@ -34,13 +34,13 @@ security:
             #target_path_parameter: the parameter in the hidden form field value="...
          logout:
             path:    /logout
-            target:  /
+            target:  /userhome
          anonymous:  ~
 
    access_control:      
       - { path: ^/password/forgotPassword, roles: IS_AUTHENTICATED_ANONYMOUSLY }
       - { path: ^/password/new, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-      - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: ^/(login|userhome), roles: IS_AUTHENTICATED_ANONYMOUSLY }
       - { path: ^/impressum, roles: IS_AUTHENTICATED_ANONYMOUSLY }
       - { path: ^/invitation/new, roles: IS_AUTHENTICATED_ANONYMOUSLY }
       - { path: ^/invitation/, roles: ROLE_ADMIN }  #deprecated

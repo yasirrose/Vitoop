@@ -72,7 +72,7 @@ class SessionIdleHandler
                 if ($event->getRequest()->isXmlHttpRequest()) {
                     $event->setResponse(new JsonResponse(new ErrorResponse(['Session expired']), 401));
                 } else {
-                    $event->setResponse(new RedirectResponse($this->router->generate('_login')));
+                    $event->setResponse(new RedirectResponse($this->router->generate('userhome')));
                 }
                 $this->session->clear();
             }
