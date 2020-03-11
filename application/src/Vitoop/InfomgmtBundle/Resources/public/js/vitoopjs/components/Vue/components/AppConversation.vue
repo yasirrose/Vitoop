@@ -298,11 +298,7 @@
                 tinyMCE.activeEditor.setContent('');
                 this.newMessage.opened = !this.newMessage.opened;
                 this.newMessage.edit = false;
-                if (this.newMessage.opened) {
-                    this.scrollToBottom(400)
-                } else {
-                    this.hideNewMessageArea();
-                }
+                this.newMessage.opened ? this.scrollToBottom(400) : this.hideNewMessageArea();
             },
             postMessage() {
                 const formData = new FormData();
