@@ -156,6 +156,7 @@
                     $('.vtp-uiaction-open-extlink').on('click', (e) => {
                         e.preventDefault();
                         if (!e.currentTarget.classList.contains('disabled')) {
+                            this.$store.commit('resetSecondSearch');
                             this.$store.commit('updateTableRowNumber', +this.$store.state.table.rowNumber - 1);
                             this.$router.push(e.currentTarget.pathname);
                         }
