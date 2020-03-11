@@ -1,5 +1,7 @@
 <template>
-    <vue-perfect-scrollbar class="app-block-resizer" :style="{height: `${height}px`}">
+    <vue-perfect-scrollbar class="app-block-resizer"
+                           ref="perfect_scrollbar"
+                           :style="{height: `${height}px`}">
         <slot></slot>
         <div class="app-block-resizer__trigger"
              @mousedown="resizeStart">
@@ -24,6 +26,11 @@
             const bottom = getComputedStyle(trigger).bottom;
             block.addEventListener('scroll', (e) => {
                 trigger.style.bottom = `calc(${bottom} - ${e.target.scrollTop}px)`;
+            });
+            VueBus.$on('perfect-scroll:resize', () => {
+                setTimeout(() => {
+                    this.$refs.perfect_scrollbar.update();
+                }, 500);
             });
         },
         methods: {
@@ -59,9 +66,6 @@
                     this.$emit('resize-stop', blockHeight + diff);
                 });
             },
-            triggerPositioningWhenScroll() {
-
-            }
         }
     }
 </script>

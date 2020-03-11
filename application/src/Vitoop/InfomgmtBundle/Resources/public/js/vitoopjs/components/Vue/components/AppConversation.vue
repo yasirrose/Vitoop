@@ -62,6 +62,8 @@
                     </div>
                     <button class="ui-corner-all ui-state-default"
                             @click="toggleNewMessageArea"
+                            :disabled="toggleNewMessageAreaDisabled"
+                            :class="{'ui-state-disabled': toggleNewMessageAreaDisabled}"
                             style="
                                 margin-top: 10px;
                                 padding-bottom: 5px;
@@ -77,7 +79,6 @@
                         {{ rel_user.user.username }}
                     </div>
                 </div>
-
                 <div v-if="get('conversationEditMode')"
                      class="ui-corner-all bordered-box"
                      style="overflow: visible">
@@ -171,6 +172,7 @@
                     edit: false,
                     id: null
                 },
+                toggleNewMessageAreaDisabled: false,
                 conversationInstance: null
             }
         },
@@ -292,21 +294,26 @@
                     .catch(err => console.dir(err));
             },
             toggleNewMessageArea() {
+                this.toggleNewMessageAreaDisabled = true;
                 tinyMCE.activeEditor.setContent('');
                 this.newMessage.opened = !this.newMessage.opened;
                 this.newMessage.edit = false;
-                this.scrollToBottom(400);
+                if (this.newMessage.opened) {
+                    this.scrollToBottom(400)
+                } else {
+                    this.hideNewMessageArea();
+                }
             },
             postMessage() {
                 const formData = new FormData();
-                if (!this.newMessage.edit) { // post mew message
+                if (!this.newMessage.edit) { // post new message
                     formData.append('message', tinyMCE.get('new-message-textarea').getContent());
                     axios.post(`/api/v1/conversations/${this.conversationInstance.conversation.id}/messages`, formData)
                         .then(({data}) => {
                             this.newMessage.opened = false;
+                            this.hideNewMessageArea();
                             this.centrifuge.publish(`${this.conversationInstance.conversation.id}`, data)
                                 .then(res => {
-                                    console.log('successfully published', res);
                                     this.openResourcePopup('.conversation__message__text');
                                 })
                                 .catch(err => console.dir(err));
@@ -324,13 +331,44 @@
                         .catch(err => console.dir(err));
                 }
             },
+            hideNewMessageArea() {
+                const block = document.querySelector('.app-block-resizer');
+                const scrollTop = JSON.parse(JSON.stringify(block.scrollTop));
+                const newMsgAreaHeight = JSON.parse(JSON.stringify(document.querySelector('.conversation__new-message').clientHeight));
+                setTimeout(() => {
+                    const animation = setInterval(() => {
+                        if (scrollTop - block.scrollTop >= newMsgAreaHeight) {
+                            clearInterval(animation);
+                            this.toggleNewMessageAreaDisabled = false;
+                            VueBus.$emit('perfect-scroll:resize');
+                            return
+                        }
+                        block.scrollTop -= 30;
+                    }, 20);
+                    this.extraClearInterval(animation);
+                }, 400);
+            },
             scrollToBottom(timeout) {
-                const newMessageArea = document.querySelector('.conversation__new-message');
-                setTimeout(() => newMessageArea.scrollIntoView({
-                    block: 'end',
-                    inline: 'nearest',
-                    behavior: 'smooth'
-                }), timeout);
+                const block = document.querySelector('.app-block-resizer');
+                let scrollHeight = 0;
+                setTimeout(() => {
+                    scrollHeight = block.scrollHeight - block.clientHeight;
+                    const animation = setInterval(() => {
+                        if (block.scrollTop >= scrollHeight) {
+                            clearInterval(animation);
+                            this.toggleNewMessageAreaDisabled = false;
+                            return
+                        }
+                        block.scrollTop = block.scrollTop + 30;
+                    }, 20);
+                    this.extraClearInterval(animation);
+                }, timeout);
+            },
+            extraClearInterval(animation) {
+                setTimeout(() => {
+                    clearInterval(animation);
+                    this.toggleNewMessageAreaDisabled = false;
+                }, 1000);
             }
         }
     }
@@ -404,9 +442,9 @@
 
         &__messages {
             width: 76%;
-            /*min-height: 70vh;*/
             overflow: auto;
             padding-bottom: 1.1rem;
+            padding-right: 20px;
             position: relative;
         }
 
