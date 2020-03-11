@@ -323,6 +323,7 @@
                             this.conversationInstance.conversation.conversation_data.messages[updatedMessageIndex].message = tinyMCE.get('new-message-textarea').getContent();
                             this.newMessage.edit = false;
                             this.newMessage.opened = false;
+                            this.hideNewMessageArea();
                         })
                         .catch(err => console.dir(err));
                 }
