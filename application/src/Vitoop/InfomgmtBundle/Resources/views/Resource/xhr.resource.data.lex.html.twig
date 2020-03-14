@@ -12,4 +12,7 @@
         <a rel="nofollow" href="http://creativecommons.org/licenses/by-sa/3.0/de/" target="_blank">Creative Commons CC-BY-SA 3.0 Unported</a> (<a rel="nofollow" href="http://creativecommons.org/licenses/by-sa/3.0/de/legalcode" target="_blank">Kurzfassung (de)</a>). In der Wikipedia ist eine
         <a rel="nofollow" href="{{ res.wikifullurl }}?action=history" target="_blank">Liste der Autoren</a> verfügbar.
     </div>
+    {% include 'VitoopInfomgmtBundle:Resource:_userHook.field.html.twig'
+        with {'fvdata': fvdata, 'res': res, 'fieldSuffix': '-lex', 'restype': 'lex'}
+    %}
 </fieldset>
