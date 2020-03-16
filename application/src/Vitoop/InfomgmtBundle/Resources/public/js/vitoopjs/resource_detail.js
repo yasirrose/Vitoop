@@ -173,27 +173,32 @@ window.resourceDetail = (function () {
                 addDateModificator('#teli_release_date');
                 //addDateModificator('#pdf_pdf_date');
 
-                if (res_type == "prj") {
-                    var nameOrigin = $('#prj_name').val();
-                    var textOrigin = $('#prj_description').val();
-                    var buttonSave = $('#prj_save');
+                if (res_type == "prj" || res_type === 'conversation') {
+                    var nameOrigin = $(`#${res_type}_name`).val();
+                    var textOrigin = $(`#${res_type}_description`).val();
+                    var buttonSave = $(`#${res_type}_save`);
+
+                    buttonSave.addClass('ui-state-disabled');
+                    buttonSave.attr('disabled', true);
 
                     var isChanged = function() {
-                        var name = $('#prj_name').val();
-                        var text = $('#prj_description').val();
+                        var name = $(`#${res_type}_name`).val();
+                        var text = $(`#${res_type}_description`).val();
                         return ((nameOrigin.length != name.length) || (textOrigin.length != text.length) || (nameOrigin != name) || (textOrigin != text));
                     };
 
                     var changeClassOfButton = function() {
                         if (!isChanged()) {
-                            buttonSave.removeClass('ui-state-need-to-save');
+                            buttonSave.addClass('ui-state-disabled');
+                            buttonSave.attr('disabled', true);
                         } else {
-                            buttonSave.addClass('ui-state-need-to-save');
+                            buttonSave.removeClass('ui-state-disabled');
+                            buttonSave.attr('disabled', false);
                         }
                     };
 
-                    $('#prj_name').on('change keyup', changeClassOfButton);
-                    $('#prj_description').on('change keyup', changeClassOfButton);
+                    $(`#${res_type}_name`).on('change keyup', changeClassOfButton);
+                    $(`#${res_type}_description`).on('change keyup', changeClassOfButton);
                 }
 
                 if (res_type == 'conversation') {
