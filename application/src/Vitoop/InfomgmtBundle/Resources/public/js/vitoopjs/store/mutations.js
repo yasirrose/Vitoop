@@ -105,6 +105,14 @@ export default {
         });
         this.commit('checkIsNotEmptySearchToggle');
     },
+    resetSecondSearchValues(state) {
+        const secondSearch = initialState.secondSearch;
+        Object.keys(secondSearch).forEach(key => {
+            if (key !== 'show') {
+                state.secondSearch[key] = secondSearch[key];
+            }
+        });
+    },
     secondSearchIsSearching(state,isSearching) {
         state.secondSearch.isSearching = isSearching;
     },
