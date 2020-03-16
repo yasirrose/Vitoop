@@ -358,7 +358,7 @@
                         }
                         block.scrollTop = block.scrollTop + 30;
                     }, 20);
-                    this.extraClearInterval(animation);
+                    // this.extraClearInterval(animation);
                 }, timeout);
             },
             extraClearInterval(animation) {
