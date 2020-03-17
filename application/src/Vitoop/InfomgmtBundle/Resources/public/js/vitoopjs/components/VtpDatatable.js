@@ -179,11 +179,26 @@ export default class VtpDatatable {
         if (this.api().page.info().recordsTotal === 0) {
             return;
         }
-        const projectElem = vitoopState.state.resource.id;
+        const projectId = vitoopState.state.resource.id;
         $('input.divider').off();
         const editMode = vitoopState.state.edit;
         const self = this;
+
         if (editMode) {
+            $('.vtp-projectdata-unlink').on('click', function() {
+                axios.delete(`/api/project/${projectId}/resource/${$(this).data('id')}`)
+                    .then(response => {
+                        const elemSuccess = $('<div class="vtp-uiinfo-info ui-state-highlight ui-corner-all"><span class="vtp-icon ui-icon ui-icon-info"></span>'+response.message+'</div>');
+                        $('#vtp-projectdata-title').prepend(elemSuccess);
+                        $(elemSuccess, '#vtp-projectdata-title').hide("fade", 3000);
+                        reloadTableAfterCoef();
+                    })
+                    .catch(err => {
+                        console.dir(err);
+                        $('#vtp-projectdata-title').append('<span class="form-error">Vitoooops!: ' + err.message + '</span>');
+                    });
+            });
+
             $('.vtp-uiaction-coefficient').on('focusout', function() {
                 if ((isNaN($(this).val())) || ($(this).val() < 0)) {
                     $(this).val($(this).data('original'));
@@ -191,18 +206,29 @@ export default class VtpDatatable {
                 }
                 if ($(this).val() != $(this).data('original')) {
                     $('.vtp-uiaction-coefficient').attr('disabled', true);
-                    $.ajax({
-                        dataType: 'json',
-                        delegate: true,
-                        data: JSON.stringify({'value': $(this).val()}),
-                        method: 'POST',
-                        url: '../api/rrr/' + $(this).data('rel_id') + '/coefficient',
-                        success: function (jqXHR) {
-                            self.api().clear();
-                            self.api().ajax.reload();
-                            $('.vtp-uiaction-coefficient').attr('disabled', false);
-                        }
-                    });
+
+                    axios.post(`/api/rrr/${$(this).data('rel_id')}/coefficient`, {
+                        value: $(this).val()
+                    })
+                        .then(() => {
+                            reloadTableAfterCoef()
+                        })
+                        .catch(err => console.dir(err));
+
+                    axios(`/api/project/${projectId}/divider`)
+                        .then(({data}) => {
+                            if (Math.floor($(this).val()) > Object.values(data).length-1) {
+                                axios.post(`/api/project/${projectId}/divider`, {
+                                    text: $(this).val(),
+                                    coefficient: $(this).val()
+                                })
+                                    .then(() => {
+                                        reloadTableAfterCoef()
+                                    })
+                                    .catch(err => console.dir(err));
+                            }
+                        })
+                        .catch(err => console.dir(err))
                 }
             });
 
@@ -216,7 +242,7 @@ export default class VtpDatatable {
                         contentType: 'application/json',
                         data: JSON.stringify({'text': $(this).val(), 'coefficient': $(this).data('coef')}),
                         method: 'POST',
-                        url: vitoop.baseUrl + 'api/project/' + projectElem + '/divider',
+                        url: vitoop.baseUrl + 'api/project/' + projectId + '/divider',
                         success: function () {
                             $('.vtp-uiaction-coefficient, input.divider').attr('disabled', false);
                             $(this).data('original', $(this).val());
@@ -224,6 +250,12 @@ export default class VtpDatatable {
                     });
                 }
             });
+        }
+
+        function reloadTableAfterCoef() {
+            self.api().clear();
+            self.api().ajax.reload();
+            $('.vtp-uiaction-coefficient').attr('disabled', false);
         }
     }
 
@@ -689,7 +721,7 @@ export default class VtpDatatable {
     }
 
     getUnlinkValue(data, type, row, meta) {
-        return '<span class="vtp-projectdata-unlink ui-icon ui-icon-close ui-corner-all" onclick="unlinkRes('+data+')"></span>';
+        return `<span class="vtp-projectdata-unlink ui-icon ui-icon-close ui-corner-all" data-id="${data}"></span>`;
     }
 
     getLexiconUrlColumn() {
