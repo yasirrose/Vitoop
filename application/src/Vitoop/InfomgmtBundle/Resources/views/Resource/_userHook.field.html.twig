@@ -15,7 +15,8 @@
         </div>
         <div class="vtp-fh-infosave-box vtp-fh-infosave-box-right vtp-even-background">
              <span class="blau-text">&nbsp;&nbsp;Eingetragen am: {{ res.createdat|date('d.m.Y') }}{% if res.getUser is not null %}&nbsp;&nbsp;|&nbsp;&nbsp;von: {{ res.getUser.getUsername }}{% endif %}&nbsp;&nbsp;|&nbsp;&nbsp;ID: {{ res.getId }}</span>
-             <input type="button"
+            {{ form_widget(fvdata.isUserRead) }}
+            <input type="button"
                     class="vtp-button vtp-button-read ui-state-default"
                     value="gelesen">
         </div>
