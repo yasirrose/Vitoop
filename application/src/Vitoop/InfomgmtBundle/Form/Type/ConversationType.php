@@ -17,7 +17,7 @@ class ConversationType extends AbstractType
     {
         $builder->remove('country')
             ->remove('lang')
-            ->add('description', TextareaType::class, array('label' => 'First message:'))
+            ->add('description', TextareaType::class, array('label' => 'Erste Nachricht:'))
             ->add('isNotify', CheckboxType::class, [
                 'label' => 'Mail schicken, wenn neue Nachricht ankommt'
             ])

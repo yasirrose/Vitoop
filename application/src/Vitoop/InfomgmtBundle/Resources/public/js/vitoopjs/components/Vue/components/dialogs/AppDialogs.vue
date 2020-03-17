@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div id="vtp-res-dialog" style="display:none">
+        <div id="vtp-res-dialog" style="display:none" :class="`${get('resource').type}`">
             <div id="vtp-res-dialog-tabs">
                 <ul>
                     <li><a href="#tabs-quickview">Übersicht</a></li>
@@ -62,11 +62,38 @@
 </template>
 
 <script>
+    import {mapGetters} from "vuex"
+
     export default {
         name: "AppDialogs",
+        computed: {
+            ...mapGetters(['get'])
+        }
     }
 </script>
 
-<style scoped>
+<style lang="scss">
+    .created-info-lex {
 
+        & > .vtp-fh-w10 {
+            display: none;
+        }
+
+        & > .vtp-fh-w90.vtp-right {
+            width: 100%;
+        }
+    }
+
+    #lexicon-rights {
+        font-size: 13px;
+    }
+
+    #resource-data {
+
+        hr {
+            border: none;
+            background-color: #aed0ea;
+            height: 1px;
+        }
+    }
 </style>

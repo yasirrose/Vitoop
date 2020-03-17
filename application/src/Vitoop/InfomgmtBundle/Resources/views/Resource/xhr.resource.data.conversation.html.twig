@@ -30,7 +30,7 @@
     {% endif %}
     <div class="vtp-fh-middle">
         {{ form_label(fvdata.description, null, {'label_attr': {'class': 'vtp-fh-w20', 'style': 'vertical-align: middle;' }}) }}
-        {{ form_widget(fvdata.description, {'attr': {'class': 'vtp-fh-w80 vtp-right', 'rows': '10' }}) }}
+        {{ form_widget(fvdata.description, {'attr': {'class': 'vtp-fh-w80 vtp-right', 'rows': '10', 'placeholder': 'Bitte schreibe die erste Nachricht (das Feld darf nicht leer sein.)' }}) }}
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.description) }}</div>
     </div>
     {% include 'VitoopInfomgmtBundle:Resource:_userHook.field.html.twig'
