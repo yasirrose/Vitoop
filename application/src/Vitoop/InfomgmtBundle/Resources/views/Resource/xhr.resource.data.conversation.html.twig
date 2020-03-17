@@ -27,6 +27,8 @@
             {{ form_label(fvdata.isNotify, null, {'label_attr': {'class': 'vtp-fh-w80', 'style': 'vertical-align: middle;' }}) }}
         </div>
     </div>
+    {% else %}
+        {% do fvdata.isNotify.setRendered %}
     {% endif %}
     <div class="vtp-fh-middle">
         {{ form_label(fvdata.description, null, {'label_attr': {'class': 'vtp-fh-w20', 'style': 'vertical-align: middle;' }}) }}
