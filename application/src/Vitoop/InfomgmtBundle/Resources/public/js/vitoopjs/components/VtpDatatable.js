@@ -365,6 +365,12 @@ export default class VtpDatatable {
     }
 
     getDefaultOrder() {
+        if (vitoopState.state.secondSearch.dateFrom !== '') {
+            return [0, 'asc'];
+        } else {
+            return [0, 'desc'];
+        }
+
         if (this.resType == 'pdf' || this.resType == 'teli') {
             let dateRangeFilter = vitoopApp.secondSearch.dateRange;
             if (!dateRangeFilter.isEmpty()) {
