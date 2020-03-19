@@ -13,6 +13,10 @@
   display: flex;
 }
 
+.align-center {
+  align-items: center;
+}
+
 .w-50 {
   width: 50%;
 }
@@ -20,3 +24,28 @@
 .text-right {
   text-align: right;
 }
+
+@for $i from 1 through 100 {
+  .w-#{$i} {
+    width: $i * 1%;
+    flex: #{$i * 1%} 0 0;
+  }
+}
+
+form[name='conversation'] {
+
+  input, textarea {
+    box-sizing: border-box !important;
+  }
+
+  label {
+    height: auto !important;
+    line-height: normal !important;
+  }
+
+  #conversation_status-button {
+    margin-bottom: 0 !important;
+  }
+}
+
+
