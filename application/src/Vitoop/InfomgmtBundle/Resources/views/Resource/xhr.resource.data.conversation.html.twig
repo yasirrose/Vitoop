@@ -8,31 +8,31 @@
         </div>
     {% endif %}
     {{ form_errors(fvdata) }}
-    <div class="vtp-fh-top">
-        {{ form_label(fvdata.name, null, {'label_attr': {'class': 'vtp-fh-w20' }}) }}
-        {{ form_widget(fvdata.name, {'attr': {'class': 'vtp-fh-w80 vtp-right' }}) }}
+    <div class="d-flex align-center" style="margin-bottom: 4px">
+        {{ form_label(fvdata.name, null, {'label_attr': {'class': 'w-22' }}) }}
+        {{ form_widget(fvdata.name, {'attr': {'class': 'w-78' }}) }}
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.name) }}</div>
     </div>
-    <div class="vtp-fh-top">
-        {{ form_label(fvdata.status, null, {'label_attr': {'class': 'vtp-fh-w20', 'style': 'vertical-align: middle;' }}) }}
-        <div class="vtp-fh-w80 vtp-right">
-            {{ form_widget(fvdata.status, {'attr': {'class': 'vtp-fh-w80 vtp-right' }}) }}
+    <div class="d-flex align-center" style="margin-bottom: 4px">
+        {{ form_label(fvdata.status, null, {'label_attr': {'class': 'w-22' }}) }}
+        <div class="d-flex align-center">
+            {{ form_widget(fvdata.status, {'attr': {'class': 'w-78' }}) }}
         </div>
     </div>
     {% if true == dto.isResourceUser %}
-    <div class="vtp-fh-middle">
-        <label class="vtp-fh-w20"></label>
-        <div class="vtp-fh-w80 vtp-right">
-            {{ form_widget(fvdata.isNotify, {'attr': {'class': 'vtp-left valid-checkbox' }}) }}
-            {{ form_label(fvdata.isNotify, null, {'label_attr': {'class': 'vtp-fh-w80', 'style': 'vertical-align: middle;' }}) }}
+    <div class="d-flex align-center" style="margin-bottom: 2px">
+        <label class="w-22"></label>
+        <div class="d-flex align-center w-78">
+            {{ form_widget(fvdata.isNotify, {'attr': {'class': 'valid-checkbox' }}) }}
+            {{ form_label(fvdata.isNotify, null, {'label_attr': {'class': 'w-78' }}) }}
         </div>
     </div>
     {% else %}
         {% do fvdata.isNotify.setRendered %}
     {% endif %}
-    <div class="vtp-fh-middle">
-        {{ form_label(fvdata.description, null, {'label_attr': {'class': 'vtp-fh-w20', 'style': 'vertical-align: middle;' }}) }}
-        {{ form_widget(fvdata.description, {'attr': {'class': 'vtp-fh-w80 vtp-right', 'rows': '10', 'placeholder': 'Bitte schreibe die erste Nachricht (das Feld darf nicht leer sein.)' }}) }}
+    <div class="d-flex">
+        {{ form_label(fvdata.description, null, {'label_attr': {'class': 'w-22' }}) }}
+        {{ form_widget(fvdata.description, {'attr': {'class': 'w-78', 'rows': '10', 'placeholder': 'Bitte schreibe die erste Nachricht (das Feld darf nicht leer sein.)' }}) }}
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.description) }}</div>
     </div>
     {% include 'VitoopInfomgmtBundle:Resource:_userHook.field.html.twig'
@@ -40,8 +40,8 @@
     %}
     {% if isShowSave %}
     <div class="vtp-fh-bottom">
-        <div class="vtp-fh-w75"></div>
-        <div class="vtp-fh-right vtp-fh-w30 vtp-right">
+        <div class="w-75"></div>
+        <div class="vtp-fh-right w-30 vtp-right">
             {{ form_widget(fvdata.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}
         </div>
     </div>
