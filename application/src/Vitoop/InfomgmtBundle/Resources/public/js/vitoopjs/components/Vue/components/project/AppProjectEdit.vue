@@ -208,8 +208,10 @@
             remove() {
                 axios.delete(`/api/project/${this.getResource('id')}`)
                     .then(response => {
+                        this.$store.commit('setInProject', false);
+                        this.$store.commit('resetResource');
+                        VueBus.$emit('project:loaded', null);
                         this.$router.push('/prj');
-                        VueBus.$emit('remove:project');
                     })
                     .catch(err => console.dir(err));
             },
