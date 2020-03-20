@@ -126,7 +126,7 @@
             currentURL() {
                 return this.get('inProject') ?
                     `/api/v1/projects/${this.getResource('id')}/${this.getResource('type')}` : `/api/resource/${this.$route.name}`;
-            }
+            },
         },
         updated() {
             this.reinitTable();
@@ -147,9 +147,15 @@
         },
         methods: {
             onTableDraw() {
-                const content = document.querySelector('#vtp-content');
                 if (this.get('table').data.length >= this.get('table').rowNumber) {
-                    this.$store.commit('set', {key: 'contentHeight', value: content.clientHeight});
+                    setTimeout(() => {
+                        const content = document.querySelector('#vtp-content');
+                        const secondSearch = document.querySelector('#vtp-second-search');
+                        const tagList = document.querySelector('#vtp-filterbox');
+                        const contentHeight = content.clientHeight + secondSearch.clientHeight + tagList.clientHeight;
+                        console.log(contentHeight);
+                        this.$store.commit('set', {key: 'contentHeight', value: contentHeight});
+                    }, 200)
                 }
                 vitoopState.commit('secondSearchIsSearching', false);
                 if (/prj|lex|conversation/.test(this.$route.name)) {
