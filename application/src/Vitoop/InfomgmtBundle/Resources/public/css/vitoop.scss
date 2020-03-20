@@ -1708,6 +1708,7 @@ form#form-tag {
 
 .created-info-project, .created-info-conversation {
     @extend .created-info;
+    margin-top: 0;
     padding-left: 75px;
 }
 
