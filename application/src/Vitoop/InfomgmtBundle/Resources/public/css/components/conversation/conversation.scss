@@ -1,0 +1,19 @@
+form[name='conversation'] {
+
+    input, textarea {
+        box-sizing: border-box !important;
+    }
+
+    label {
+        height: auto !important;
+        line-height: normal !important;
+    }
+
+    #conversation_status-button {
+        margin-bottom: 0 !important;
+    }
+
+    label[for='conversation_description'] {
+        padding-top: 5px;
+    }
+}

@@ -3,7 +3,7 @@
         <fieldset class="ui-corner-all margin-top-3">
             <div id="vtp-projectdata-box" v-if="project !== null">
                 <resizable-block id="vtp-projectdata-sheet-view"
-                                 :height="get('contentHeight')-32"
+                                 :height="projectHeight"
                                  @resize-stop="resizeContentHeight"
                                  class="ui-corner-all vtp-fh-w75">
                     <div v-html="project.project_data.sheet"></div>
@@ -42,6 +42,7 @@
         data() {
             return {
                 project: null,
+                projectHeight: 0,
                 resourceInfo: null
             }
         },
@@ -51,7 +52,7 @@
                 return (date) => {
                     return moment(date).format('DD.MM.YYYY');
                 }
-            }
+            },
         },
         created() {
             axios(`/api/v1/projects/${this.$route.params.projectId}`)
@@ -63,8 +64,8 @@
                         this.$store.commit('setResourceInfo', data.resourceInfo);
                         this.$store.commit('setResourceId', this.$route.params.projectId);
                         VueBus.$emit('project:loaded', data.project);
-
                         setTimeout(() => {
+                            this.projectHeight = this.get('contentHeight')-32;
                             this.openResourcePopup('#vtp-projectdata-sheet-view')
                         });
                     } else {
@@ -81,6 +82,7 @@
 
 <style scoped lang="scss">
     #vtp-projectdata-sheet-view {
+        transition: .3s;
         height: 600px;
     }
 </style>
