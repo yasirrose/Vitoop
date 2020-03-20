@@ -2,7 +2,7 @@
     <div id="vtp-content" class="conversation">
         <fieldset class="ui-corner-all margin-top-3" v-if="conversationInstance">
             <resizable-block @resize-stop="resizeContentHeight"
-                             :height="get('contentHeight')-32"
+                             :height="conversationHeight"
                              class="conversation__messages ui-corner-all bordered-box vtp-fh-w75">
                 <fieldset v-for="(message,index) in conversationInstance.conversation.conversation_data.messages"
                           :key="message.id"
@@ -173,7 +173,8 @@
                     id: null
                 },
                 toggleNewMessageAreaDisabled: false,
-                conversationInstance: null
+                conversationInstance: null,
+                conversationHeight: 0
             }
         },
         computed: {
@@ -216,6 +217,7 @@
                     tinyMceOptions.selector = '#new-message-textarea';
                     tinyMceOptions.height = 150;
                     tinyMCE.init(tinyMceOptions);
+                    this.conversationHeight = this.get('contentHeight')-32;
                 })
                 .catch(err => console.dir(err));
         },
@@ -378,6 +380,10 @@
 </style>
 
 <style scoped lang="scss">
+    .conversation__messages {
+        transition: .3s;
+    }
+
     .dropdown {
         margin-bottom: 5px;
     }
