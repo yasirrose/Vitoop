@@ -4,7 +4,7 @@
             <div id="vtp-lexicondata-box">
                 <div id="vtp-lexicondata-sheet-view"
                      class="ui-corner-all vtp-fh-w70"
-                     :style="{height: `${get('contentHeight')-32}px`}">
+                     :style="{height: `${lexiconHeight}px`}">
                     <div v-html="lexicon.description"></div>
                     <hr/>
                     <div id="lexicon-rights">
@@ -102,11 +102,16 @@
                 lexicon: null,
                 currentTag: null,
                 lexiconTags: [],
-                resourceInfo: null
+                resourceInfo: null,
+                lexiconTagsHeight: 0
             }
         },
         computed: {
-            ...mapGetters(['get'])
+            ...mapGetters(['get']),
+            lexiconHeight() {
+                return this.lexiconTagsHeight ?
+                    this.get('contentHeight')-this.lexiconTagsHeight-32 : 0;
+            }
         },
         mounted() {
             resourceProject.init();
@@ -213,6 +218,9 @@
                     of: '#lexicon-tags .vtp-uiinfo-anchor',
                     collision: 'none'
                 }).hide("fade", 3000);
+
+                const lexiconTags = document.querySelector('#lexicon-tags');
+                this.lexiconTagsHeight = lexiconTags ? lexiconTags.clientHeight : 0;
             }
         }
     }
@@ -243,5 +251,9 @@
     #open_lexicon_link {
         padding: 3px 15px;
         margin: 0 0 0 4px;
+    }
+
+    #vtp-lexicondata-sheet-view {
+        transition: .3s;
     }
 </style>
