@@ -125,21 +125,18 @@ window.resourceDetail = (function () {
                     },
                     text: false
                 });
-
                 $('#' + container_name + ' #link_is_hp').button({
                     icons: {
                         primary: "ui-icon-home"
                     },
                     text: false
                 });
-
                 $('#' + container_name + ' .vtp-uiaction-open-mail').button({
                     icons: {
                         primary: "ui-icon-mail-closed"
                     },
                     text: false
                 });
-
                 $('#' + container_name + ' input[type=submit]').button({
                     icons: {
                         primary: "ui-icon-disk"
@@ -151,7 +148,6 @@ window.resourceDetail = (function () {
                     of: '#' + container_name + ' .vtp-uiinfo-anchor',
                     collision: 'none'
                 }).hide("fade", 3000);
-
                 $('#'+res_type+'_isUserHook').change(function () {
                     $.ajax({
                         method: 'POST',
@@ -174,20 +170,20 @@ window.resourceDetail = (function () {
                 //addDateModificator('#pdf_pdf_date');
 
                 if (res_type == "prj" || res_type === 'conversation') {
-                    var nameOrigin = $(`#${res_type}_name`).val();
-                    var textOrigin = $(`#${res_type}_description`).val();
-                    var buttonSave = $(`#${res_type}_save`);
+                    const nameOrigin = $(`#${res_type}_name`).val();
+                    const textOrigin = $(`#${res_type}_description`).val();
+                    const buttonSave = $(`#${res_type}_save`);
 
                     buttonSave.addClass('ui-state-disabled');
                     buttonSave.attr('disabled', true);
 
-                    var isChanged = function() {
-                        var name = $(`#${res_type}_name`).val();
-                        var text = $(`#${res_type}_description`).val();
-                        return ((nameOrigin.length != name.length) || (textOrigin.length != text.length) || (nameOrigin != name) || (textOrigin != text));
+                    const isChanged = function() {
+                        const name = $(`#${res_type}_name`).val();
+                        const text = $(`#${res_type}_description`).val();
+                        return (nameOrigin.length != name.length || textOrigin.length != text.length) && name.length && text.length;
                     };
 
-                    var changeClassOfButton = function() {
+                    const changeClassOfButton = function() {
                         if (!isChanged()) {
                             buttonSave.addClass('ui-state-disabled');
                             buttonSave.attr('disabled', true);
