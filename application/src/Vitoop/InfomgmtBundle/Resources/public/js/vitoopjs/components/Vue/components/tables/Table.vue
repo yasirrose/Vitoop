@@ -153,7 +153,6 @@
                         const secondSearch = document.querySelector('#vtp-second-search');
                         const tagList = document.querySelector('#vtp-filterbox');
                         const contentHeight = content.clientHeight + secondSearch.clientHeight + tagList.clientHeight;
-                        console.log(contentHeight);
                         this.$store.commit('set', {key: 'contentHeight', value: contentHeight});
                     }, 200)
                 }

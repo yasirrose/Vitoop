@@ -41,17 +41,19 @@
                     <li> Die Tag-Liste wird redaktionell bearbeitet.</li>
                     <li> Alle Tags sind für alle Nutzer von vitoop.org sichtbar.</li>
                </ul>
-                <p style="margin: 12px 26px 8px; display: flex; align-items: center;">
+                <p class="confirm-question">
                     <strong style="padding-right: 45px; display: inline-block; vertical-align: bottom;">Willst Du in der Tag-Liste ein neues Tag anlegen?</strong>
-                    {{ form_widget(fvtag.save, {'attr': {'class': 'vtp-uiinfo-anchor vtp-tag-submit', 'style': 'width: 63px' }}) }}
-                    <input type="button"
-                           id="tag_cancel_save"
-                           name="tag[cancel_save]"
-                           class="vtp-uiinfo-anchor vtp-tag-submit ui-button ui-widget ui-state-default ui-corner-all"
-                           style="height: 24px; padding-top: 0px; padding-bottom: 0px; font-weight: normal; margin-left: 5px"
-                           value="Nein"
-                           role="button"
-                           aria-disabled="false">
+                    <span>
+                        {{ form_widget(fvtag.save, {'attr': {'class': 'vtp-uiinfo-anchor vtp-tag-submit', 'style': 'width: 63px' }}) }}
+                        <input type="button"
+                               id="tag_cancel_save"
+                               name="tag[cancel_save]"
+                               class="vtp-uiinfo-anchor vtp-tag-submit ui-button ui-widget ui-state-default ui-corner-all"
+                               style="height: 24px; padding-top: 0px; padding-bottom: 0px; font-weight: normal; margin-left: 5px"
+                               value="Nein"
+                               role="button"
+                               aria-disabled="false">
+                    </span>
                 </p>
             </fieldset>
         </div>

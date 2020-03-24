@@ -1845,11 +1845,16 @@ div#vtp-res-list table input[disabled="disabled"] {
 }
 
 #user_agreement_form {
-    width: 94%;
-    margin: 15px auto 15px 5%;
+    margin: 15px 0;
     height: 45px;
     font-size: 16px;
     font-family: Arial, Helvetica, sans-serif;
+    border: 1px solid #aed0ea;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;
 }
 
 .remark-agreement {
@@ -1906,6 +1911,16 @@ td.vtp-blue.ui-state-active {
 
 #div-confirm-tagging {
     color: #3d80b3;
+
+    .confirm-question {
+        margin: 12px 26px 8px;
+        display: flex;
+        border: 1px solid #aed0ea;
+        padding: 10px 15px;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 5px;
+    }
 }
 
 #prj_description, #conversation_description {

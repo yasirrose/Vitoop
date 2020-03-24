@@ -154,29 +154,6 @@ class ResourceList {
             vitoopApp.tagSearch.resetTags();
             vitoopApp.tagSearch.saveTagsToStorage();
         });
-
-        // $('#vtp-header-toggle-flag input[type=checkbox]').button({
-        //     icons: {
-        //         primary: "ui-icon-flag"
-        //     },
-        //     text: false
-        // });
-
-        // $('#vtp-header-toggle-flag button').hide();
-
-        // Highlight Tablerows onmousover
-        $('#vtp-content').on('mouseenter', 'tr', function (e) {
-            if ($(this).parent().parent().hasClass('st-container')) {
-                return;
-            }
-            $(this).addClass('vtp-hilight');
-        });
-        $('#vtp-content').on('mouseleave', 'tr', function (e) {
-            if ($(this).parent().parent().hasClass('st-container')) {
-                return;
-            }
-            $(this).removeClass('vtp-hilight');
-        });
     };
 }
 
