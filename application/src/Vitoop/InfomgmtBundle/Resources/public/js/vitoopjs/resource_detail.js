@@ -985,7 +985,7 @@ window.resourceDetail = (function () {
             });
             // @TODO Handler
             // vtp-content is the root for event delegation inside this 'box'
-            $('#vtp-content').on('click', '.vtp-uiaction-list-listener table', showDialog);
+            $('#vtp-content').on('click', '.vtp-uiaction-list-listener table td', showDialog);
 
             $('#vtp-application').on('click', '#vtp-uiaction-close-flagform', function () {
                 $('#resource-flags').hide('blind', 'fast');

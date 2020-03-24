@@ -18,6 +18,9 @@ export default {
     getResource: (state) => (key) => {
         return state.resource[key];
     },
+    getResourceId(state) {
+        return state.resource.id;
+    },
     getHelp: (state) => (key) => {
         return state.help[key];
     },
