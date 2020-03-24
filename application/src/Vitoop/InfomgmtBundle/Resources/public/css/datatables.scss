@@ -25,6 +25,24 @@ table.dataTable {
   /*
    * Body styles
    */
+
+    tr {
+
+        &:not(.divider-wrapper):hover {
+
+            td {
+                background-color: #ffffff;
+                color: #2779aa;
+
+                &:not(.ui-state-active) {
+
+                    div.vtp-teasefader {
+                        background-image: linear-gradient(to right, rgba(222, 237, 247, 0), #ffffff 90%);
+                    }
+                }
+            }
+        }
+    }
 }
 table.dataTable thead th,
 table.dataTable tfoot th {

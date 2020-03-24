@@ -48,26 +48,26 @@
                     <div v-else-if="!$v.repeat_password.sameAs">{{ $t('same_as', {field1: 'repeat password', field2: 'password'}) }}</div>
                 </div>
             </div>
-            <div class="vtp-fh-middle">
-                <input type="checkbox"
-                       v-model="registration_approve"
-                       id="user_registration_approve"
-                       tabindex="20" style="-webkit-appearance: checkbox; margin-left: 0px">
-                <label for="user_registration_approve">
-                    Ich habe die
-                    <a href="/user/agreement" target="_blank">Nutzungsbedienungen</a>
-                    und die
-                    <a href="/user/datap" target="_blank">Datenschutzbedienungen</a>
-                    gelesen und akzeptiere sie.
-                </label>
-                <div class="right">
-                    <button class="ui-button ui-widget ui-state-default ui-corner-all"
-                            :class="{'ui-button-disabled ui-state-disabled': !registration_approve}"
-                            :disabled="!registration_approve"
-                            @click="registrate">
-                        Registrieren
-                    </button>
+            <div class="vtp-fh-middle registration-approve">
+                <div>
+                    <input type="checkbox"
+                           v-model="registration_approve"
+                           id="user_registration_approve"
+                           tabindex="20" style="-webkit-appearance: checkbox; margin-left: 0px">
+                    <label for="user_registration_approve">
+                        Ich habe die
+                        <a href="/user/agreement" target="_blank">Nutzungsbedienungen</a>
+                        und die
+                        <a href="/user/datap" target="_blank">Datenschutzbedienungen</a>
+                        gelesen und akzeptiere sie.
+                    </label>
                 </div>
+                <button class="ui-button ui-widget ui-state-default ui-corner-all"
+                        :class="{'ui-button-disabled ui-state-disabled': !registration_approve}"
+                        :disabled="!registration_approve"
+                        @click="registrate">
+                    Registrieren
+                </button>
             </div>
             <div>
                 <h1>So klappt's mit der Registrierung:</h1>
@@ -166,5 +166,15 @@
         padding: 0 1em;
         height: 24px;
         border-radius: 6px;
+    }
+
+    .registration-approve {
+        border: 1px solid #aed0ea;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 5px 10px;
+        border-radius: 5px;
+        margin-top: 10px;
     }
 </style>

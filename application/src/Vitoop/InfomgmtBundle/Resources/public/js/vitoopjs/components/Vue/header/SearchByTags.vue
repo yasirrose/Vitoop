@@ -5,11 +5,15 @@
               action=""
               method="get"
               novalidate="novalidate">
-            <div id="vtp-search-bytags-form-input-container">
+            <div id="vtp-search-bytags-form-input-container" class="has-cross-icon">
                 <input id="vtp-search-bytags-taglist"
+                       v-model="searchByTags"
                        name="taglist[]"
                        type="text"
                        placeholder="tag (Suchbegriff) eingeben">
+                <i class="fa fa-times"
+                   :class="{show: searchByTags !== null}"
+                   @click="searchByTags = null"></i>
             </div>
             <div id="vtp-search-bytags-form-buttons">
                 <input id="vtp-search-bytags-restype"
@@ -22,10 +26,6 @@
                         size="1"
                         style="width: 52px">
                     <option value="0">-</option>
-<!--                    <option :value="i" v-for="i in []">{{ i }}</option>-->
-    <!--                {% for i in 1..9 %}-->
-    <!--                <option value="{{ i }}" {{ ((tagcnt is defined) and (tagcnt == i) ) ? 'selected' : '' }}>{{ i }}</option>-->
-    <!--                {% endfor %}-->
                 </select>
                 <button id="vtp-search-bytags-form-submit"
                         class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only"
@@ -39,7 +39,6 @@
                 </span>
             </div>
         </form>
-<!--        <app-tag-list />-->
         <div id="vtp-filterbox">
             <div id="vtp-search-bytags-taglistbox"
                  class="ui-corner-all">
@@ -96,6 +95,7 @@
         },
         data() {
             return {
+                searchByTags: null,
                 tags: [],
                 ignoredTags: [],
                 highlightedTags: [],
@@ -217,7 +217,8 @@
                                 this.pushTag(ui.item);
                                 event.preventDefault();
                             }
-                            $('#vtp-search-bytags-taglist').val('');
+                            // $('#vtp-search-bytags-taglist').val('');
+                            this.searchByTags = null;
                             this.updateAutocomplete(searchByTag);
                             if (this.tags.length > 1) {
                                 // $(this.tagSearchFormId).submit();

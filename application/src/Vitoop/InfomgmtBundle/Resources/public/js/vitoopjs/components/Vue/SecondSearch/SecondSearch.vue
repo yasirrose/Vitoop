@@ -18,20 +18,32 @@
                 </label>
                 <div v-show="/pdf|teli/.test(get('resource').type)"
                      id="search_date_range">
-                    <input id="search_date_from"
-                           class="range-filter"
-                           type="text"
-                           value=""
-                           v-model="dateFrom"
-                           name="search_date_from"
-                           placeholder="Datum von">
-                    <input id="search_date_to"
-                           class="range-filter"
-                           type="text"
-                           value=""
-                           name="search_date_to"
-                           v-model="dateTo"
-                           placeholder="Datum bis">
+                    <div class="has-cross-icon">
+                        <input id="search_date_from"
+                               class="range-filter"
+                               type="text"
+                               value=""
+                               v-model="dateFrom"
+                               name="search_date_from"
+                               placeholder="Datum von"
+                               @keyup.enter="dateRangeSearch">
+                        <i class="fa fa-times"
+                           :class="{show: get('secondSearch').dateFrom}"
+                           @click="dateFrom = ''"></i>
+                    </div>
+                    <div class="has-cross-icon">
+                        <input id="search_date_to"
+                               class="range-filter"
+                               type="text"
+                               value=""
+                               name="search_date_to"
+                               v-model="dateTo"
+                               placeholder="Datum bis"
+                               @keyup.enter="dateRangeSearch">
+                        <i class="fa fa-times"
+                           :class="{show: get('secondSearch').dateTo}"
+                           @click="dateTo = ''"></i>
+                    </div>
                     <button class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only"
                             @click="dateRangeSearch"
                             :class="{ 'ui-state-active': isDateRangeChanged }"
