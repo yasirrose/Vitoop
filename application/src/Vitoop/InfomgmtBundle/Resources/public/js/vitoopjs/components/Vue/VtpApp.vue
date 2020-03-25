@@ -9,6 +9,7 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex'
     import VitoopApp from "../../app/vitoop";
     import AppHeader from './header/AppHeader.vue';
     import AppContent from "./components/AppContent.vue";
@@ -52,9 +53,18 @@
         },
         components: { AppFooter, AppHeader, AppContent, AppLogin, AppDialogs },
         computed: {
+            ...mapGetters(['get','getResourceId']),
             notLogin() {
                 return this.$store.state.user !== null ||
         /userhome|invitation|register|user-agreement|user-datap/.test(this.$route.name);
+            }
+        },
+        watch: {
+            getResourceId(val) {
+                const diff = this.get('secondSearch').show + this.get('tagList').show;
+                val ?
+                    this.$store.commit('updateTableRowNumber', this.get('table').rowNumber + diff) :
+                    this.$store.commit('updateTableRowNumber', this.get('table').rowNumber - diff);
             }
         },
         data() {

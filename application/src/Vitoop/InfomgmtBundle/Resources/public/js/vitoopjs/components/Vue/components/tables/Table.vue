@@ -147,7 +147,7 @@
         },
         methods: {
             onTableDraw() {
-                if (this.get('table').data.length >= this.get('table').rowNumber) {
+                if (this.get('table').data.length >= this.get('table').rowNumber && this.get('resource').id === null) {
                     setTimeout(() => {
                         const content = document.querySelector('#vtp-content');
                         const secondSearch = document.querySelector('#vtp-second-search');
