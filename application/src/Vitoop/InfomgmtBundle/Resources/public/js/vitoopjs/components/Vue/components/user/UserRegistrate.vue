@@ -37,7 +37,7 @@
                     <div v-if="!$v.password.maxLength">{{ $t('max_length', {field: 'password', count: 32})}}</div>
                 </div>
             </div>
-            <div class="vtp-fh-bottom">
+            <div class="vtp-fh-bottom" style="margin-top: 0">
                 <label class="vtp-fh-w20 required" for="user_password_second">Passwort wiederholen</label>
                 <input type="password"
                        v-model="$v.repeat_password.$model"
@@ -175,6 +175,7 @@
         justify-content: space-between;
         padding: 5px 10px;
         border-radius: 5px;
-        margin-top: 10px;
+        margin-top: 20px;
+        margin-bottom: 20px;
     }
 </style>
