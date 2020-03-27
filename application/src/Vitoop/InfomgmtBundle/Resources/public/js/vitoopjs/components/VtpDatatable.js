@@ -211,39 +211,6 @@ export default class VtpDatatable {
                     });
             });
 
-            // $('.vtp-uiaction-coefficient').on('focusout', function() {
-            //     if ((isNaN($(this).val())) || ($(this).val() < 0)) {
-            //         $(this).val($(this).data('original'));
-            //         return false;
-            //     }
-            //     if ($(this).val() != $(this).data('original')) {
-            //         $('.vtp-uiaction-coefficient').attr('disabled', true);
-            //
-            //         axios.post(`/api/rrr/${$(this).data('rel_id')}/coefficient`, {
-            //             value: $(this).val()
-            //         })
-            //             .then(() => {
-            //                 reloadTableAfterCoef()
-            //             })
-            //             .catch(err => console.dir(err));
-            //
-            //         axios(`/api/project/${projectId}/divider`)
-            //             .then(({data}) => {
-            //                 if (Math.floor($(this).val()) > Object.values(data).length-1) {
-            //                     axios.post(`/api/project/${projectId}/divider`, {
-            //                         text: $(this).val(),
-            //                         coefficient: $(this).val()
-            //                     })
-            //                         .then(() => {
-            //                             reloadTableAfterCoef()
-            //                         })
-            //                         .catch(err => console.dir(err));
-            //                 }
-            //             })
-            //             .catch(err => console.dir(err))
-            //     }
-            // });
-
             $('input.divider').on('focusout', function() {
                 if ($(this).val() != $(this).data('original')) {
                     $('.vtp-uiaction-coefficient, input.divider').attr('disabled', true);
