@@ -114,6 +114,7 @@
             }
         },
         mounted() {
+            this.$store.commit('set', {key: 'coefsToSave', value: []});
             resourceProject.init();
             this.loadLexicon();
             this.getLexicons();

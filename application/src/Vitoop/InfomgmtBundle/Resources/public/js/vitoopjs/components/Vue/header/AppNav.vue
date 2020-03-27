@@ -44,10 +44,12 @@
 
 <script>
     import { mapGetters } from 'vuex'
+    import VtpConfirmMixin from '../mixins/confirmMixin'
     import { ResourceList } from "../../../resource_list"
 
     export default {
         name: "AppNav",
+        mixins: [VtpConfirmMixin],
         inject: [
             'agreeWithTerm'
         ],

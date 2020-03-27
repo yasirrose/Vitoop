@@ -23,12 +23,13 @@ export default {
         isOpened: false,
     },
     table: {
-        data: 0,
+        data: null,
         page: 0,
         rowNumber: 12,
         flagged: false,
-        rowNumberBlinker: true
+        rowNumberBlinker: true,
     },
+    coefsToSave: [],
     tagList: {
         show: false,
     },

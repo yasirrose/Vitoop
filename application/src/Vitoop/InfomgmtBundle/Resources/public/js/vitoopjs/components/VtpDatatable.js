@@ -183,6 +183,18 @@ export default class VtpDatatable {
         $('input.divider').off();
         const editMode = vitoopState.state.edit;
         const self = this;
+        const coefsToSave = [];
+
+        const coefInputs = document.querySelectorAll('.vtp-uiaction-coefficient');
+
+        coefInputs.forEach(input => {
+            input.addEventListener('input', () => {
+                // const resId = input.closest('tr').id.match(/\d/g).join('');
+                const coefId = input.dataset.rel_id;
+                vitoopState.commit('addCoefToSave', {coefId: coefId, value: input.value});
+                vitoopState.commit('updateCoef', {coefId: coefId, value: input.value});
+            });
+        });
 
         if (editMode) {
             $('.vtp-projectdata-unlink').on('click', function() {
@@ -199,38 +211,38 @@ export default class VtpDatatable {
                     });
             });
 
-            $('.vtp-uiaction-coefficient').on('focusout', function() {
-                if ((isNaN($(this).val())) || ($(this).val() < 0)) {
-                    $(this).val($(this).data('original'));
-                    return false;
-                }
-                if ($(this).val() != $(this).data('original')) {
-                    $('.vtp-uiaction-coefficient').attr('disabled', true);
-
-                    axios.post(`/api/rrr/${$(this).data('rel_id')}/coefficient`, {
-                        value: $(this).val()
-                    })
-                        .then(() => {
-                            reloadTableAfterCoef()
-                        })
-                        .catch(err => console.dir(err));
-
-                    axios(`/api/project/${projectId}/divider`)
-                        .then(({data}) => {
-                            if (Math.floor($(this).val()) > Object.values(data).length-1) {
-                                axios.post(`/api/project/${projectId}/divider`, {
-                                    text: $(this).val(),
-                                    coefficient: $(this).val()
-                                })
-                                    .then(() => {
-                                        reloadTableAfterCoef()
-                                    })
-                                    .catch(err => console.dir(err));
-                            }
-                        })
-                        .catch(err => console.dir(err))
-                }
-            });
+            // $('.vtp-uiaction-coefficient').on('focusout', function() {
+            //     if ((isNaN($(this).val())) || ($(this).val() < 0)) {
+            //         $(this).val($(this).data('original'));
+            //         return false;
+            //     }
+            //     if ($(this).val() != $(this).data('original')) {
+            //         $('.vtp-uiaction-coefficient').attr('disabled', true);
+            //
+            //         axios.post(`/api/rrr/${$(this).data('rel_id')}/coefficient`, {
+            //             value: $(this).val()
+            //         })
+            //             .then(() => {
+            //                 reloadTableAfterCoef()
+            //             })
+            //             .catch(err => console.dir(err));
+            //
+            //         axios(`/api/project/${projectId}/divider`)
+            //             .then(({data}) => {
+            //                 if (Math.floor($(this).val()) > Object.values(data).length-1) {
+            //                     axios.post(`/api/project/${projectId}/divider`, {
+            //                         text: $(this).val(),
+            //                         coefficient: $(this).val()
+            //                     })
+            //                         .then(() => {
+            //                             reloadTableAfterCoef()
+            //                         })
+            //                         .catch(err => console.dir(err));
+            //                 }
+            //             })
+            //             .catch(err => console.dir(err))
+            //     }
+            // });
 
             $('input.divider').on('focusout', function() {
                 if ($(this).val() != $(this).data('original')) {

@@ -3,11 +3,16 @@
         <div v-if="project !== null"
              id="vtp-projectdata-title"
              class="ui-corner-all vtp-cmstitle">
-<!--            getResource('id') !== null && get('inProject')-->
             <span class="vtp-title__text">
                 {{ $t('label.project') }}: {{ project.name }}
             </span>
             <div class="vtp-title__buttons">
+                <button id="vtp-project-save-coef"
+                        class="ui-state-default"
+                        @click="saveNewCoefs"
+                        :class="{show: get('coefsToSave').length}">
+                    save
+                </button>
                 <help-button help-area="project" />
                 <span v-if="canEdit" style="display: flex">
                     <button id="vtp-projectdata-project-live"
@@ -99,7 +104,7 @@
             }
         },
         computed: {
-            ...mapGetters(['getResource','get','getTableRowNumber']),
+            ...mapGetters(['getResource','get','getTableRowNumber','getTableData']),
             canEdit() { // getResource('owner')
                 const userRelated = this.project.project_data.rel_users.some(relUser => {
                     return (relUser.user.id === this.get('user').id && !relUser.read_only);
@@ -117,7 +122,7 @@
                 val ?
                 this.$store.commit('set', {key: 'contentHeight', value: this.get('contentHeight')-25}) :
                 this.$store.commit('set', {key: 'contentHeight', value: this.get('contentHeight')+25})
-            }
+            },
         },
         mounted() {
             VueBus.$on('remove:project', () => {
@@ -150,12 +155,78 @@
                 this.$store.commit('resetResource');
                 if (redirectTo === '/prj') this.$store.commit('setInProject', false);
                 redirectTo !== this.$route.path ? this.$router.push(redirectTo) : VueBus.$emit('datatable:reload');
+            },
+            saveNewCoefs() {
+                this.get('coefsToSave').forEach((coefObj,index) => {
+                    this.checkIfDividerExist(coefObj.value)
+                        .then(dividerExist => {
+                            if (!dividerExist) {
+                                this.addNewDivider(coefObj.value)
+                                    .then(() => {
+                                        this.saveCoef(coefObj,index)
+                                    })
+                                    .catch(err => console.dir(err))
+                            } else {
+                                this.saveCoef(coefObj,index)
+                            }
+                        })
+                        .catch(err => console.dir(err))
+                })
+            },
+            saveCoef(coefObj,index) {
+                return axios.post(`/api/rrr/${coefObj.coefId}/coefficient`, {
+                        value: coefObj.value
+                    })
+                    .then(() => {
+                        if (index === this.get('coefsToSave').length-1) {
+                            this.$store.commit('set', {key: 'coefsToSave', value: []});
+                            VueBus.$emit('datatable:reload')
+                        }
+                    })
+                    .catch(err => console.dir(err));
+            },
+            checkIfDividerExist(coefValue,index) {
+                return axios(`/api/project/${this.get('resource').id}/divider`)
+                    .then(({data}) => {
+                        if (Math.floor(coefValue) > Object.values(data).length-1) {
+                            return false;
+                        }
+                        return true;
+                    })
+                    .catch(err => console.dir(err))
+            },
+            addNewDivider(dividerValue,index) {
+                return axios.post(`/api/project/${this.get('resource').id}/divider`, {
+                    text: dividerValue,
+                    coefficient: dividerValue
+                })
+                    .then(() => {
+                        return
+                    })
+                    .catch(err => console.dir(err));
             }
         }
     }
 </script>
 
 <style scoped lang="scss">
+    #vtp-project-save-coef {
+        height: 17px;
+        line-height: 1;
+        border-radius: 6px;
+        padding: 0 10px;
+        opacity: 0;
+        z-index: -1;
+        transform: translateX(-30px);
+        transition: .3s;
+
+        &.show {
+            opacity: 1;
+            z-index: 1;
+            transform: translateX(0);
+        }
+    }
+
     #vtp-lexicondata-title {
         display: flex;
         align-items: center;

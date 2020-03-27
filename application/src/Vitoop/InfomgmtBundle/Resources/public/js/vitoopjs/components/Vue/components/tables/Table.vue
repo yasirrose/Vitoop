@@ -128,10 +128,13 @@
                     `/api/v1/projects/${this.getResource('id')}/${this.getResource('type')}` : `/api/resource/${this.$route.name}`;
             },
         },
+        beforeRouteEnter (to, from, next) {
+            next(vm => {
+                vm.$store.commit('set', {key: 'coefsToSave', value: []});
+            })
+        },
         updated() {
-            this.reinitTable();
-            if (!$('.DataTables_sort_icon').hasClass('css_right ui-icon ui-icon-carat-2-n-s'))
-                $('.DataTables_sort_icon').addClass('css_right ui-icon ui-icon-carat-2-n-s');
+            this.update()
         },
         mounted() {
             this.$store.commit('setResourceType', this.$route.name);
@@ -146,6 +149,11 @@
             });
         },
         methods: {
+            update() {
+                this.reinitTable();
+                if (!$('.DataTables_sort_icon').hasClass('css_right ui-icon ui-icon-carat-2-n-s'))
+                    $('.DataTables_sort_icon').addClass('css_right ui-icon ui-icon-carat-2-n-s');
+            },
             onTableDraw() {
                 if (this.get('table').data.length >= this.get('table').rowNumber && this.get('resource').id === null) {
                     setTimeout(() => {
