@@ -25,6 +25,15 @@ make install
 make load_db path=<path_to_mysqldump.sql> 
 
 ```
+ For local version please use commands (`filename_of_mysqldump` - filename in folder `backups`):
+ ```sh
+ 
+ make import_db path=<filename_of_mysqldump.sql> 
+ make export_db path=<filename_of_mysqldump.sql> 
+ 
+ ```
+
+
  
  Stop prod enviroument
  

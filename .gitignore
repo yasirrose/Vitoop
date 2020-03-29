@@ -10,6 +10,8 @@
 /application/nbproject/private/
 !/downloads/.gitkeep
 /downloads/
+!/backups/.gitkeep
+/backups/
 !/devops/docker/states/db/vitoop/.gitkeep
 /devops/docker/states/db/vitoop/
 /devops/docker/dump.sql
