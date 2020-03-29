@@ -32,3 +32,9 @@ install:
 load_db:
 	docker exec -i $$(docker-compose ps -q vitoopdb) mysql --user=root --password=root --execute="DROP DATABASE IF EXISTS vitoop; CREATE DATABASE IF NOT EXISTS vitoop;"
 	cat ${path} | docker exec -i $$(docker-compose ps -q vitoopdb) mysql -u root --password=root vitoop
+
+import_db:
+	docker-compose exec vitoopdb sh -c 'mysql --user=root --password=root vitoop < /srv/backups/${path}'
+
+export_db:
+	docker-compose exec vitoopdb sh -c 'mysqldump --user=root --password=root vitoop > /srv/backups/${path}'

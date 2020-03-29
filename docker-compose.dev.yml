@@ -14,6 +14,7 @@ services:
       - type: bind
         source: ./devops/docker/states/db/vitoop
         target: /var/lib/mysql
+      - ./backups:/srv/backups
     networks:
       - backend
     ports:
