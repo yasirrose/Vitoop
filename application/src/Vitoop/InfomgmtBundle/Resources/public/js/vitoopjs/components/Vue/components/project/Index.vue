@@ -19,6 +19,7 @@
             ...mapGetters(['get'])
         },
         mounted() {
+            this.$store.commit('set', {key: 'coefsToSave', value: []});
             this.$store.commit('setInProject', true);
             resourceProject.init();
         }

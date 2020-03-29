@@ -33,6 +33,19 @@ export default {
     updateTableBlinker(state, blinkerStatus) {
         state.table.rowNumberBlinker = blinkerStatus;
     },
+    // Coefs
+    updateCoef(state, payload) {
+        state.table.data.forEach(res => {
+            if (+res.coefId === +payload.coefId) {
+                res.coef = payload.value;
+            }
+        })
+    },
+    addCoefToSave({coefsToSave},coefObj) {
+        const coefIndex = _.findIndex(coefsToSave, {coefId: coefObj.coefId});
+        coefIndex > -1 ?
+            coefsToSave.splice(coefIndex, 1, coefObj) : coefsToSave.push(coefObj);
+    },
 
     updateTagListShowing(state, value) {
         state.tagList.show = value

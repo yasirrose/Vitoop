@@ -15,6 +15,9 @@ export default {
         // if (state.resource.id !== null) offset++;
         return originalPageNumber - offset;
     },
+    getTableData(state) {
+        return state.table.data;
+    },
     getResource: (state) => (key) => {
         return state.resource[key];
     },
