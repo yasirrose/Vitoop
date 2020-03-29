@@ -34,7 +34,7 @@ load_db:
 	cat ${path} | docker exec -i $$(docker-compose ps -q vitoopdb) mysql -u root --password=root vitoop
 
 import_db:
-	docker-compose exec vitoopdb sh -c 'mysql --user=root --password=root vitoop < /srv/backups/${path}'
+	docker-compose exec vitoopdb sh -c 'mysql --user=root --password=root --binary-mode vitoop < /srv/backups/${path}'
 
 export_db:
 	docker-compose exec vitoopdb sh -c 'mysqldump --user=root --password=root vitoop > /srv/backups/${path}'
