@@ -527,12 +527,12 @@ export default class VtpDatatable {
         if (this.isCoef) {
             return this.getCoefColumn();
         }
-        // if (this.resType == 'pdf') {
-        //     return {"data": "pdfDate"};
-        // }
-        // if (this.resType == 'teli') {
-        //     return {"data": "releaseDate"};
-        // }
+        if (this.resType == 'pdf') {
+            return {"data": "pdfDate"};
+        }
+        if (this.resType == 'teli') {
+            return {"data": "releaseDate"};
+        }
         return this.getDateColumn();
     }
 
