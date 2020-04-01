@@ -190,7 +190,7 @@
             }
         },
         mounted() {
-            this.centrifuge = new Centrifuge('https://centrifugal.vitoop.de:8000/connection/sockjs', {
+            this.centrifuge = new Centrifuge('https://vitoop.org/connection/sockjs', {
                 sockjs: SockJS
             });
 
