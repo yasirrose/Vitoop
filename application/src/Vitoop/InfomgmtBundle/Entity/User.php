@@ -1001,6 +1001,7 @@ class User implements EquatableInterface, AdvancedUserInterface, \Serializable, 
             'id' => $this->id,
             'username' => $this->username,
             'is_show_help' => $this->isShowHelp,
+            'is_agreed_with_term' => $this->isAgreedWithTerms,
             'is_check_max_link' => $this->user_config->getIsCheckMaxLink()
         ];
     }
