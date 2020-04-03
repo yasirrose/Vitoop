@@ -63,9 +63,9 @@ class UserConfig
 
     /**
      * @var int
-     * @ORM\Column(name="decrease_font_size", type="smallint", options={"default" = 0})
+     * @ORM\Column(name="decrease_font_size", type="smallint", options={"default" = 1})
      */
-    protected $decreaseFontSize = 0;
+    protected $decreaseFontSize = 1;
 
     public function __construct(User $user)
     {
@@ -74,7 +74,7 @@ class UserConfig
         $this->setIsCheckMaxLink(true);
         $this->heightOfTodoList = 550;
         $this->numberOfTodoElements = 12;
-        $this->decreaseFontSize = 0;
+        $this->decreaseFontSize = 1;
     }
 
     /**

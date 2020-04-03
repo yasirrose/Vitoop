@@ -68,7 +68,6 @@ class UserController extends ApiController
 
     /**
      * @Route("user/agreement", name="user_agreement", methods={"POST", "GET"})
-     * @Template("VitoopInfomgmtBundle:User:agreement.html.twig")
      *
      * @return array
      */
@@ -88,24 +87,25 @@ class UserController extends ApiController
         }
         $terms = $settings->getTerms()->getValue();
 
-        return array('terms' => $terms, 'without_js' => true);
+        return $this->render('VitoopInfomgmtBundle:User:agreement.html.twig', ['terms' => $terms, 'without_js' => true]);
     }
 
     /**
      * @Route("user/datap", name="user_datap", methods={"GET"})
-     * @Template("VitoopInfomgmtBundle:User:datap.html.twig")
      */
     public function dataPAction(SettingsService $settings)
     {
-        return array(
-            'datap' => $settings->getDataP()->getValue(),
-            'without_js' => true
+        return $this->render(
+            'VitoopInfomgmtBundle:User:datap.html.twig',
+            [
+                'datap' => $settings->getDataP()->getValue(),
+                'without_js' => true
+            ]
         );
     }
 
     /**
      * @Route("/register/{secret}", name="_register")
-     * @Template()
      */
     public function registerAction(Request $request, $secret)
     {
@@ -119,9 +119,7 @@ class UserController extends ApiController
         }
 
         if (!$invitation->isActual()){
-            return array(
-                'fv' => null
-            );
+            return $this->render('VitoopInfomgmtBundle:User:datap.html.twig', ['fv' => null]);
         }
 
         $form = $this->createForm(UserType::class, new NewUserDTO($invitation->getEmail()), array(
@@ -146,9 +144,7 @@ class UserController extends ApiController
             }
         }
 
-        return array(
-            'fv' => $form->createView()
-        );
+        return $this->render('VitoopInfomgmtBundle:User:datap.html.twig', ['fv' => $form->createView()]);
     }
 
     /**
@@ -269,11 +265,10 @@ EOT;
 
     /**
      * @Route("/impressum", name="_imprint")
-     * @Template("VitoopInfomgmtBundle:User:imprint.html.twig")
      */
     public function imprintAction()
     {
-        return array();
+        return $this->render('VitoopInfomgmtBundle:User:imprint.html.twig');
     }
 
     private function authenticateUser(UserInterface $user)
