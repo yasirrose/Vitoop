@@ -130,6 +130,11 @@
             });
 
             $('#vtp-header-toggle-flag button').hide();
+
+            $(document).ajaxError((e,xhr) => {
+                this.$store.commit('setUser', null);
+                this.$router.push('/userhome');
+            })
         },
     }
 </script>
