@@ -432,7 +432,7 @@ window.resourceDetail = (function () {
                 console.log('No TabIndex provided!');
             }
 
-            var urlResourceType = (res_type && 0 !==tab_nr) ?res_type:'resources';
+            var urlResourceType = (res_type && 0 !==tab_nr) ? res_type : 'resources';
             url = vitoop.baseUrl + ([urlResourceType, res_id, tab_name[tab_nr]].join('/'));
             // if the tab is already loaded then return without any action
             /*if (1 == tab_loaded[tab_nr]) {
@@ -446,6 +446,9 @@ window.resourceDetail = (function () {
             $.ajax({
                 url: url,
                 success: (responseJSON) => loadTabSuccess(responseJSON,tab_name[tab_nr]),
+                error: () => {
+                    $('#vtp-res-dialog').dialog('close');
+                },
                 dataType: 'json'
             });
 
