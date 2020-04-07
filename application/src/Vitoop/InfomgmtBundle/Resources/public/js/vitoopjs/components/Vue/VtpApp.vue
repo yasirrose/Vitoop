@@ -132,7 +132,6 @@
             $('#vtp-header-toggle-flag button').hide();
 
             $(document).ajaxError((e,xhr) => {
-                console.log(xhr.status);
                 this.$store.commit('setUser', null);
                 this.$router.push('/userhome');
             })
