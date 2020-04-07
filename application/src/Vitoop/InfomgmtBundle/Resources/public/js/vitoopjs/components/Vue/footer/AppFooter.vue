@@ -5,7 +5,7 @@
         </div>
         <div id="vtp-imprint">
             <span v-if="$store.state.user !== null">
-                <a v-if="agreeWithTerm && get('admin')"
+                <a v-if="get('user').is_agreed_with_term && get('admin')"
                    class="ui-corner-all ui-state-default"
                    @click="$router.push('/tags')">
                     Tags
@@ -27,7 +27,6 @@
     export default {
         name: "AppFooter",
         components: {HelpButton},
-        inject: ['agreeWithTerm'],
         computed: {
             ...mapGetters(['get'])
         }

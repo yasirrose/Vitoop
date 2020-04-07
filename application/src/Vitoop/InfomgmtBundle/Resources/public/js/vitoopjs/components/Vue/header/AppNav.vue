@@ -50,9 +50,6 @@
     export default {
         name: "AppNav",
         mixins: [VtpConfirmMixin],
-        inject: [
-            'agreeWithTerm'
-        ],
         data() {
             return {
                 resources: {

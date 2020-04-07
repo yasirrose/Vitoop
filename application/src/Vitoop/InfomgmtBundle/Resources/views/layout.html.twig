@@ -83,12 +83,7 @@
                          :lexicon="{{ lexiconObj|json_encode() }}"
                          :edit-mode="{{ editMode|json_encode() }}"
                          :resource-info="{{ resourceInfo|json_encode() }}"
-                         :agree-with-term="
-                            {% if app.user %}
-                                {{ app.user.getIsAgreedWithTerms()|json_encode }}
-                            {% else %}
-                                false
-                            {% endif %}"
+
                          :info-project-data="{{ infoprojectdata|json_encode() }}"
                          :invitation="{{ vsettings.getInvitation().getValue() }}"
                          :as-project-owner="{{ showasprojectowner|json_encode() }}"
