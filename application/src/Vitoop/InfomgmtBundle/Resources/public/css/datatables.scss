@@ -14,30 +14,27 @@
  * Table styles
  */
 table.dataTable {
-  width: 100%;
-  margin: 0 auto;
-  clear: both;
-  border-collapse: separate;
-  border-spacing: 0;
-  /*
-   * Header and footer styles
-   */
-  /*
-   * Body styles
-   */
+    width: 100%;
+    margin: 0 auto;
+    clear: both;
+    border-collapse: separate;
+    border-spacing: 0;
 
-    tr {
+    &:not(#tags-list) {
 
-        &:not(.divider-wrapper):hover {
+        tr {
 
-            td {
-                background-color: #ffffff;
-                color: #2779aa;
+            &:not(.divider-wrapper):hover {
 
-                &:not(.ui-state-active) {
+                td {
+                    background-color: #ffffff;
+                    color: #2779aa;
 
-                    div.vtp-teasefader {
-                        background-image: linear-gradient(to right, rgba(222, 237, 247, 0), #ffffff 90%);
+                    &:not(.ui-state-active) {
+
+                        div.vtp-teasefader {
+                            background-image: linear-gradient(to right, rgba(222, 237, 247, 0), #ffffff 90%);
+                        }
                     }
                 }
             }

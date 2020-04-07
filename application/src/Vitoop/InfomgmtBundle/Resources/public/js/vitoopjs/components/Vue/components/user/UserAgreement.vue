@@ -3,7 +3,7 @@
         <fieldset class="ui-corner-all margin-top-3">
             <div id="vtp-terms-user" class="ui-corner-all">
                 <span v-html="terms"></span>
-                <div class="vtp-fh-w100" v-if="$store.state.user !== null && !agreeWithTerm">
+                <div class="vtp-fh-w100" v-if="$store.state.user !== null && !get('user').is_agreed_with_term">
                     <form action="/user/agreement" method="post" id="user_agreement_form">
                         <div>
                             <input type="checkbox"
@@ -30,14 +30,27 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex'
+
     export default {
         name: "UserAgreement",
-        inject: ['agreeWithTerm','terms'],
+        inject: ['terms'],
         data() {
             return {
-                agreed: this.agreeWithTerm
+                agreed: this.agreedProp
             }
         },
+        computed: {
+            ...mapGetters(['get']),
+            agreedProp: {
+                get() {
+                    return this.get('user').is_agreed_with_term;
+                },
+                set(val) {
+                    this.agreed = val;
+                }
+            }
+        }
     }
 </script>
 

@@ -25,7 +25,6 @@
             'lexicon',
             'downloadSize',
             'invitation',
-            'agreeWithTerm',
             'resourceInfo',
             'asProjectOwner',
             'editMode',
@@ -41,7 +40,6 @@
                 lexicon: this.lexicon,
                 downloadSize: this.downloadSize,
                 invitationValue: this.invitation,
-                agreeWithTerm: this.agreeWithTerm,
                 resourceInfo: this.resourceInfo,
                 asProjectOwner: this.asProjectOwner,
                 editMode: this.editMode,
@@ -56,7 +54,7 @@
             ...mapGetters(['get','getResourceId']),
             notLogin() {
                 return this.$store.state.user !== null ||
-        /userhome|invitation|register|user-agreement|user-datap/.test(this.$route.name);
+                    /userhome|invitation|register|user-agreement|user-datap/.test(this.$route.name);
             }
         },
         watch: {
@@ -100,10 +98,11 @@
             vitoopApp.init();
         },
         updated() {
-            if (!this.agreeWithTerm &&
-                this.$store.state.user !== null &&
-                !/invitation|register|user-agreement|user-datap/.test(this.$route.name)) {
-                this.$router.push('/user/agreement');
+            if (this.$store.state.user !== null) {
+                if (!this.get('user').is_agreed_with_term &&
+                    !/invitation|register|user-agreement|user-datap/.test(this.$route.name)) {
+                    this.$router.push('/user/agreement');
+                }
             }
         },
         mounted() {
