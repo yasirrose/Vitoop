@@ -367,9 +367,10 @@ class ResourceRepository extends ServiceEntityRepository
 
         if ($search->columns->sortableColumn) {
             $sortAlias = $this->getResourceFieldAlias($search->columns->sortableColumn, $rootEntity);
+            $sortableColumn = \in_array($search->columns->sortableColumn, ['pdfDate', 'releaseDate']) ? 'created_at' : $search->columns->sortableColumn;
             $query
                 ->addOrderBy(
-                    $sortAlias.$search->columns->sortableColumn,
+                    $sortAlias.$sortableColumn,
                     $search->columns->sortableOrder
                 );
         }
