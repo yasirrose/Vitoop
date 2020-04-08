@@ -33,10 +33,6 @@ class TeliRepository extends ResourceRepository
                 ->andWhere('r.releaseDate.order <= :dateTo')
                 ->setParameter('dateTo', PublishedDate::generateOrderValue(PublishedDate::createFromString($search->dateTo)));
         }
-        if (null === $search->columns->sortableColumn) {
-            $qb
-                ->addOrderBy('r.created_at', 'DESC');
-        }
 
         return $qb;
     }
