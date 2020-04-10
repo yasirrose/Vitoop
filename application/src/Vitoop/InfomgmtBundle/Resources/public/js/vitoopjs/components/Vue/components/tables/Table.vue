@@ -138,6 +138,9 @@
         },
         mounted() {
             this.$store.commit('setResourceType', this.$route.name);
+            // if (this.getResource('id')) {
+            //     this.$store.commit('updateTableRowNumber', this.get('table').rowNumber - 1)
+            // }
             resourceDetail.init();
             this.datatable = this.initTable();
 
@@ -230,7 +233,7 @@
     .sorting_disabled {
 
         .DataTables_sort_wrapper {
-            display: none;
+            /*display: none;*/
         }
     }
 </style>
