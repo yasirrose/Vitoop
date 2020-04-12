@@ -22,7 +22,7 @@ class RelConversationUserRepository extends ResourceRepository
 
     public function addUser(RelConversationUser $user)
     {
-        $this->getEntityManager()->merge($user);
+        $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
 

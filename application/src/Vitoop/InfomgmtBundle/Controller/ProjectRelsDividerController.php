@@ -66,7 +66,7 @@ class ProjectRelsDividerController extends ApiController
             $dividerOrigin->setCoefficient($divider->getCoefficient());
         }
         $dividerOrigin->setText($divider->getText());
-        $em->merge($dividerOrigin);
+        $em->persist($dividerOrigin);
         $em->flush();
         $response = $serializer->serialize(array('success' => true, 'message' => 'Divider updated!'), 'json');
 

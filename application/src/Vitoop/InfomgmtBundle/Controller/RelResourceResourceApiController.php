@@ -2,8 +2,7 @@
 namespace Vitoop\InfomgmtBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -15,8 +14,7 @@ use Vitoop\InfomgmtBundle\Entity\RelResourceResource;
 class RelResourceResourceApiController extends ApiController
 {
     /**
-     * @Route("/{relID}/coefficient", name="edit_coefficient")
-     * @Method({"POST"})
+     * @Route("/{relID}/coefficient", name="edit_coefficient", methods={"POST"})
      * @ParamConverter("rel", class="Vitoop\InfomgmtBundle\Entity\RelResourceResource", options={"id" = "relID"})
      *
      * @return array
@@ -31,7 +29,7 @@ class RelResourceResourceApiController extends ApiController
         } else {
             $rel->setCoefficient($coefficient);
             $em = $this->getDoctrine()->getManager();
-            $em->merge($rel);
+            $em->persist($rel);
             $em->flush();
             $response = array('success' => true, 'message' => 'Coefficient updated!');
         }

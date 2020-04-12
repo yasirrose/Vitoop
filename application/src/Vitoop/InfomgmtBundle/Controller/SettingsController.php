@@ -86,7 +86,7 @@ class SettingsController extends ApiController
         $serializerContext = DeserializationContext::create()->setGroups(array('edit'));
         $em = $this->getDoctrine()->getManager();
         $help = $serializer->deserialize($request->getContent(), 'Vitoop\InfomgmtBundle\Entity\Help', 'json', $serializerContext);
-        $em->merge($help);
+        $em->persist($help);
         $em->flush();
         $response = $serializer->serialize(array('success' => true), 'json');
 

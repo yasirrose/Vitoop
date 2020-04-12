@@ -2,6 +2,7 @@
 
 namespace Vitoop\InfomgmtBundle\DTO\Resource;
 
+use Symfony\Component\HttpFoundation\Request;
 use Vitoop\InfomgmtBundle\DTO\Paging;
 use Vitoop\InfomgmtBundle\Entity\User;
 
@@ -101,5 +102,39 @@ class SearchResource
         $this->dateFrom = $dateFrom;
         $this->dateTo = $dateTo;
         $this->art = $art;
+    }
+
+    /**
+     * @param Request $request
+     * @param User|null $user
+     * @param int|null $projectId
+     * @return SearchResource
+     */
+    public static function createFromRequest(Request $request, ?User $user = null, $projectId = null): SearchResource
+    {
+        return new SearchResource(
+            new Paging(
+                $request->query->get('start', 0),
+                $request->query->get('length', 10)
+            ),
+            new SearchColumns(
+                $request->query->get('columns', array()),
+                $request->query->get('order', array())
+            ),
+            $user,
+            $request->query->has('flagged'),
+            $projectId,
+            $request->query->get('taglist', array()),
+            $request->query->get('taglist_i', array()),
+            $request->query->get('taglist_h', array()),
+            $request->query->get('tagcnt', 0),
+            $request->query->get('search', null),
+            $request->query->get('isUserHook', null),
+            $request->query->get('isUserRead', null),
+            $request->query->get('resourceId', null),
+            $request->query->get('dateFrom', null),
+            $request->query->get('dateTo', null),
+            $request->query->get('art', null)
+        );
     }
 }
