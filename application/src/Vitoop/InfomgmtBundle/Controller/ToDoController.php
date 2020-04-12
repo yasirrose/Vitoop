@@ -1,11 +1,9 @@
 <?php
 namespace Vitoop\InfomgmtBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use JMS\Serializer\DeserializationContext;
 use JMS\Serializer\SerializationContext;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -20,8 +18,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 class ToDoController extends ApiController
 {
     /**
-     * @Route("/{id}", requirements={"id": "\d+"}, name="to_do_items_delete")
-     * @Method({"DELETE"})
+     * @Route("/{id}", requirements={"id": "\d+"}, name="to_do_items_delete", methods={"DELETE"})
      * @ParamConverter("item", class="Vitoop\InfomgmtBundle\Entity\ToDoItem", options={"id" = "id"})
      *
      * @return array
@@ -40,8 +37,7 @@ class ToDoController extends ApiController
     }
 
     /**
-     * @Route("/{id}", requirements={"id": "\d+"}, name="to_do_items_edit")
-     * @Method({"PUT"})
+     * @Route("/{id}", requirements={"id": "\d+"}, name="to_do_items_edit", methods={"PUT"})
      *
      * @return array
      */
@@ -61,7 +57,7 @@ class ToDoController extends ApiController
         );
         $item->setUser($user);
         $em = $this->getDoctrine()->getManager();
-        $em->merge($item);
+        $em->persist($item);
         $em->flush();
         $response = $serializer->serialize(array('success' => 'success'), 'json');
 
@@ -69,8 +65,7 @@ class ToDoController extends ApiController
     }
 
     /**
-     * @Route("", name="to_do_items_new")
-     * @Method({"POST"})
+     * @Route("", name="to_do_items_new", methods={"POST"})
      *
      * @return array
      */
@@ -94,7 +89,7 @@ class ToDoController extends ApiController
         }
         $item->setUser($user);
         $em = $this->getDoctrine()->getManager();
-        $item = $em->merge($item);
+        $item = $em->persist($item);
         $em->flush();
         $response = $serializer->serialize(array('success' => 'success', 'id' => $item->getId()), 'json');
 
@@ -102,8 +97,7 @@ class ToDoController extends ApiController
     }
 
     /**
-     * @Route("", name="to_do_items_list")
-     * @Method({"GET"})
+     * @Route("", name="to_do_items_list", methods={"GET"})
      *
      * @return array
      */

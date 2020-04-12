@@ -119,7 +119,7 @@ class ProjectApiController extends ApiController
         $project = $em->getRepository('VitoopInfomgmtBundle:Project')->find($updatedProject->getId());
         if ($project) {
             $project->setProjectData($updatedProject->getProjectData());
-            $em->merge($project);
+            $em->persist($project);
             $em->flush();
             $response = ['status' => 'success', 'message' => 'Project saved!'];
         }

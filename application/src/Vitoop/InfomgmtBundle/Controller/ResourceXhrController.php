@@ -2,8 +2,7 @@
 namespace Vitoop\InfomgmtBundle\Controller;
 
 use Vitoop\InfomgmtBundle\Entity\Resource;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Routing\Annotation\Route;
 use Vitoop\InfomgmtBundle\Entity\Tag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

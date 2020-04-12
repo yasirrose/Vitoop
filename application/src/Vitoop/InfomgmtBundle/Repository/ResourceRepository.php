@@ -628,6 +628,34 @@ class ResourceRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param SearchResource $searchResource
+     * @return mixed[]
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function getAllTypeResourcesWithDividers(SearchResource $searchResource)
+    {
+        $queryBuilder = $this->getAllResourceQuery($searchResource);
+        $queryBuilder->resetDQLPart('orderBy');
+        $queryBuilder
+            ->setFirstResult(null)
+            ->setMaxResults(null);
+
+        $innerResourceQuery = $this->getRunnableQueryAndParametersForQuery($queryBuilder->getQuery());
+        $sql = sprintf(
+            $this->getAllResourcesDividerQuery(),
+            $innerResourceQuery['sql'],
+            $searchResource->resource,
+            $searchResource->paging->limit,
+            $searchResource->paging->offset
+        );
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute($innerResourceQuery['params']);
+
+        return $stmt->fetchAll();
+    }
+
+    /**
      * @param Query $query
      * @return array An array with 3 indexes, sql the SQL statement with parameters as ?, params the ordered parameters, and paramTypes as the types each parameter is.
      */
@@ -655,5 +683,57 @@ class ResourceRepository extends ServiceEntityRepository
         list($params,$types)= $m->invoke($query,$parser->getParameterMappings());
 
         return ['sql' => $sql, 'params' => $params,'paramTypes' => $types];
+    }
+
+    /**
+     * @param SearchResource $search
+     * @return QueryBuilder
+     */
+    private function getAllResourceQuery(SearchResource $search): QueryBuilder
+    {
+        $selectTypeString = '';
+        foreach (Resource\ResourceType::RESOURCE_TYPES as $type => $class) {
+            if (Resource::class === $class) {
+                continue;
+            }
+            $selectTypeString .= " WHEN r INSTANCE OF ".$class." THEN '".$type."' ";
+        }
+
+        $qb = $this->createQueryBuilder('r');
+        $qb->select("(CASE
+                ".$selectTypeString."
+                ELSE 'res'
+            END) as type, '' as text");
+        $this->prepareListQueryBuilder($qb, $search);
+
+        return $qb;
+    }
+
+    /**
+     * @return string
+     */
+    private function getAllResourcesDividerQuery()
+    {
+        return <<<'EOT'
+            SELECT SQL_CALC_FOUND_ROWS base.coef, base.coefId, base.text, base.id, base.name, base.created_at, base.username, base.avgmark, base.res12count, base.isUserHook, base.isUserRead, base.type
+              FROM (
+               %s
+               UNION ALL
+               SELECT null as type, null as id, null as name, null as created_at, null as username, null as avgmark, null as res12count, null as isUserHook, null as isUserRead, prd.coefficient as coef, prd.id as coefId, prd.text as text
+                FROM project_rel_divider prd
+               INNER join project p on p.project_data_id = prd.id_project_data
+              where p.id = %s
+              AND prd.coefficient IN (
+                        select FLOOR(rrr.coefficient) 
+                          from rel_resource_resource rrr
+                          left JOIN flag fl ON fl.id_resource = rrr.id_resource2
+                         WHERE rrr.id_resource1 = p.id
+                          AND rrr.deleted_by_id_user IS NULL
+                          AND fl.id IS NULL
+                    )
+            ) base
+            ORDER BY base.coef asc, base.coefId asc
+            LIMIT %s OFFSET %s;
+EOT;
     }
 }

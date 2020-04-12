@@ -93,7 +93,7 @@ class ResourceController extends ApiController
                 }
                 if (null === $user->getUserConfig()) {
                     $user->setUserConfig(new UserConfig($user));
-                    $em->merge($user);
+                    $em->persist($user);
                     $em->flush();
                 }
                 $info_user_data = '';

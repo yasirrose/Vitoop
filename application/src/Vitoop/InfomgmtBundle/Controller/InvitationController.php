@@ -3,8 +3,7 @@ namespace Vitoop\InfomgmtBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\Serializer\SerializationContext;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Vitoop\InfomgmtBundle\Entity\Invitation;
@@ -18,8 +17,7 @@ use Vitoop\InfomgmtBundle\Service\SettingsService;
 class InvitationController extends ApiController
 {
     /**
-     * @Route("/toggle", name="invitation_toggle")
-     * @Method({"PUT"})
+     * @Route("/toggle", name="invitation_toggle", methods={"PUT"})
      *
      * @return array
      */
@@ -35,8 +33,7 @@ class InvitationController extends ApiController
 
     /**
      * @deprecated
-     * @Route("/new", name="new_invitation")
-     * @Method({"GET", "POST"})
+     * @Route("/new", name="new_invitation", methods={"GET", "POST"})
      * @Template("VitoopInfomgmtBundle:User:invitation_for_user.html.twig")
      *
      * @return array
