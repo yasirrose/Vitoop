@@ -26,8 +26,17 @@
                     Nachricht
                 </a>
             </li>
+            <li v-if="isAllInOneList">
+                <a class="vtp-resmenu-reslink ui-state-default ui-corner-all"
+                   @click="changeRoute('all')"
+                   :class="{
+                    'vtp-nav-active ui-state-active': /all/.test($route.name)
+                   }">
+                    verknüpfte Datensätze
+                </a>
+            </li>
             <li v-for="(value,name) in resources"
-                v-if="get('conversationInstance') === null"
+                v-if="get('conversationInstance') === null && !isAllInOneList"
                 :key="name">
                 <a class="vtp-resmenu-reslink ui-state-default ui-corner-all"
                    @click="changeRoute(name)"
@@ -75,6 +84,9 @@
             },
             showConversation() {
                 return !(this.getResource('id') !== null)
+            },
+            isAllInOneList() {
+                return this.get('allInOneList') && this.getInProject;
             }
         },
         mounted() {

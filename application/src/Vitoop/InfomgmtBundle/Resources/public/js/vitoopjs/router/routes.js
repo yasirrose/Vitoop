@@ -50,6 +50,11 @@ export default [
         name: 'conversation'
     },
     {
+        path: '/all',
+        component: Table,
+        name: 'all'
+    },
+    {
         path: '/prj',
         component: Table,
         name: 'prj'

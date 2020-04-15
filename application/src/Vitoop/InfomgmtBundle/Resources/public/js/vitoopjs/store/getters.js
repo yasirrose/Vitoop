@@ -21,6 +21,10 @@ export default {
     getResource: (state) => (key) => {
         return state.resource[key];
     },
+    getResourceType(state) {
+        return state.resource.type !== 'all' ?
+            state.resource.type : 'resources';
+    },
     getResourceId(state) {
         return state.resource.id;
     },

@@ -38,6 +38,7 @@
     import LexiconTableHead from "./heads/LexiconTableHead.vue";
     import ProjectTableHead from "./heads/ProjectTableHead.vue";
     import ConversationTableHead from "./heads/ConversationTableHead.vue";
+    import AllTableHead from "./heads/AllTableHead.vue";
 
     import {mapGetters} from "vuex";
 
@@ -51,7 +52,8 @@
             AddressTableHead,
             LexiconTableHead,
             ProjectTableHead,
-            ConversationTableHead
+            ConversationTableHead,
+            AllTableHead
         },
         data() {
             return {
@@ -60,7 +62,7 @@
         },
         computed: {
             ...mapGetters([
-                'isAdmin', 'getResource', 'getInProject', 'get'
+                'isAdmin', 'getResource', 'getInProject', 'get', 'getResourceType'
             ]),
             activeTableHead() {
                 switch (this.$route.name) {
@@ -87,6 +89,9 @@
                         break
                     case 'conversation':
                         return 'ConversationTableHead';
+                        break
+                    case 'all':
+                        return 'AllTableHead';
                         break
                 }
             },
@@ -125,7 +130,8 @@
             },
             currentURL() {
                 return this.get('inProject') ?
-                    `/api/v1/projects/${this.getResource('id')}/${this.getResource('type')}` : `/api/resource/${this.$route.name}`;
+                    `/api/v1/projects/${this.getResource('id')}/${this.getResourceType}` :
+                    `/api/resource/${this.$route.name}`;
             },
         },
         beforeRouteEnter (to, from, next) {
@@ -232,8 +238,8 @@
 
     .sorting_disabled {
 
-        .DataTables_sort_wrapper {
-            /*display: none;*/
+        .DataTables_sort_icon {
+            display: none;
         }
     }
 </style>

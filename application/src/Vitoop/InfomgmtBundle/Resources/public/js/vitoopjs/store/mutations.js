@@ -33,6 +33,9 @@ export default {
     updateTableBlinker(state, blinkerStatus) {
         state.table.rowNumberBlinker = blinkerStatus;
     },
+    setAllInOneList(state, status) {
+        state.allInOneList = status;
+    },
     // Coefs
     updateCoef(state, payload) {
         state.table.data.forEach(res => {
