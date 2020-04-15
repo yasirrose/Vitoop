@@ -7,6 +7,7 @@ export default {
     },
     edit: false,
     inProject: false,
+    allInOneList: false,
     secondSearch: {
         show: false,
         showDataRange: false,

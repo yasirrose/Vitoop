@@ -16,18 +16,14 @@ export default class VtpDatatable {
         this.rowsPerPage = new RowPerPageSelect();
         this.sendLinkWidget = new SendLinkWidget();
     }
-
     destroy() {
         $(this.datatableListId).DataTable().destroy();
     }
-
     init() {
         let self = this;
         // vitoopState.commit('setResourceType', this.resType);
         self.sendLinkWidget.checkOpenButtonState();
-
         let datatable = $(this.datatableListId).DataTable(this.getDatatableOptions());
-
         datatable
             .on('init.dt', function () {
                 datatable.search(self.getCurrentSearch());
@@ -36,13 +32,11 @@ export default class VtpDatatable {
             .on('xhr.dt', () => {
                 self.dtAjaxCallback;
             });
-
         if (null !== self.resourceId) {
             datatable.on('draw.dt', function () {
                 $('#'+self.resType+'-'+self.resourceId+' > td:first').trigger('click');
             });
         }
-
         if ((self.resType == 'pdf' || self.resType == 'teli')/* && !vitoopApp.isElementExists('search_date_range'*/) {
             $('.range-filter').off()
                 .on('change', function () {
@@ -54,15 +48,12 @@ export default class VtpDatatable {
         } else {
             vitoopState.commit('hideDataRange');
         }
-
         if (self.resType == 'book') {
             vitoopState.commit('showArtSelect');
         } else {
             vitoopState.commit('hideArtSelect');
         }
-
         $('div.paging_full_numbers > span').removeClass();
-
         $('.dataTables_length select').selectmenu({
             appendTo: ".dataTables_length",
             create: () => {
@@ -82,7 +73,6 @@ export default class VtpDatatable {
                 datatable.page(vitoopState.state.table.page).draw('page');
             }
         });
-
         // Handle click on checkbox
         $('table#list-'+self.resType).off().on('click', 'label.custom-checkbox__wrapper', function(e) {
             let $row = $(this).closest('tr');
@@ -92,27 +82,22 @@ export default class VtpDatatable {
             self.sendLinkWidget.updateCheckedResources(self.resType, data.id, checkbox[0].checked, data);
             e.stopPropagation();
         });
-
         return datatable;
     }
-
     changeFontSizeByUserSettings() {
         $('#vtp-res-list').css('font-size', vitoopState.getters.getListFontSize + 'px');
     }
-
     dtAjaxCallback(e, settings, json, xhr) {
         if (json.length == 0) {
             $('.table-datatables').hide();
             $('.empty-datatables').show();
             return;
         }
-
         if (json && json.resourceInfo) {
             vitoopState.commit('setResourceInfo', json.resourceInfo);
             window.resourceInfo = json.resourceInfo;
         }
     }
-
     getDatatableOptions() {
         let drawCallback = this.isCoef ? this.dtDrawCallbackCoef : this.dtDrawCallback;
         return {
@@ -159,7 +144,6 @@ export default class VtpDatatable {
             drawCallback: drawCallback
         };
     }
-
     setTotalMessage(totalRecords) {
         if (totalRecords === 0 && !vitoopState.state.isSecondSearchBlue) {
             $('td.dataTables_empty').html('Hier gibt es leider keinen Treffer.');
@@ -167,13 +151,11 @@ export default class VtpDatatable {
             $('td.dataTables_empty').html('Hier gibt es leider keinen Treffen - wenn du willst, kannst du Datensätze zu diesem Thema in die Datenbank eintragen.');
         }
     }
-
     dtDrawCallback() {
         if (this.api().page && this.api().page.info()) {
             VtpDatatable.prototype.setTotalMessage(this.api().page.info().recordsTotal);
         }
     }
-
     dtDrawCallbackCoef() {
         VtpDatatable.prototype.setTotalMessage(this.api().page.info().recordsTotal);
         if (this.api().page.info().recordsTotal === 0) {
@@ -184,9 +166,7 @@ export default class VtpDatatable {
         const editMode = vitoopState.state.edit;
         const self = this;
         const coefsToSave = [];
-
         const coefInputs = document.querySelectorAll('.vtp-uiaction-coefficient');
-
         coefInputs.forEach(input => {
             input.addEventListener('input', () => {
                 // const resId = input.closest('tr').id.match(/\d/g).join('');
@@ -195,7 +175,6 @@ export default class VtpDatatable {
                 vitoopState.commit('updateCoef', {coefId: coefId, value: input.value});
             });
         });
-
         if (editMode) {
             $('.vtp-projectdata-unlink').on('click', function() {
                 axios.delete(`/api/project/${projectId}/resource/${$(this).data('id')}`)
@@ -210,7 +189,6 @@ export default class VtpDatatable {
                         $('#vtp-projectdata-title').append('<span class="form-error">Vitoooops!: ' + err.message + '</span>');
                     });
             });
-
             $('input.divider').on('focusout', function() {
                 if ($(this).val() != $(this).data('original')) {
                     $('.vtp-uiaction-coefficient, input.divider').attr('disabled', true);
@@ -230,14 +208,12 @@ export default class VtpDatatable {
                 }
             });
         }
-
         function reloadTableAfterCoef() {
             self.api().clear();
             self.api().ajax.reload();
             $('.vtp-uiaction-coefficient').attr('disabled', false);
         }
     }
-
     dtRowCallback(row, data, index) {
         let apiPage = this.api().page;
         if (data.canRead) $(row).addClass('canRead');
@@ -249,24 +225,19 @@ export default class VtpDatatable {
         }
         $(row).removeClass('vtp-list-first vtp-list-end vtp-list-last vtp-list-start');
         $(row).addClass('ui-corner-all vtp-uiaction-list-showdetail');
-
         row.setAttribute('id', `${vitoopState.state.resource.type}-${data.id}`);
-
         if (typeof(resourceId) != 'undefined' && resourceId == data.id) {
             $(row).addClass('show-popup');
         }
-
         if (data.isUserHook != 0 && data.id !== null) {
             $(row).find('td:first').addClass('vtp-blue');
         }
-
         if (index === 0 && data.id !== null) {
             row.className += " vtp-list-first";
             if (apiPage.info() && apiPage.info().page == 0) {
                 row.className += " vtp-list-start";
             }
         }
-
         try {
             if (index === 1 && this.api().rows().data()[0].id === null) {
                 row.className += " vtp-list-first";
@@ -274,14 +245,12 @@ export default class VtpDatatable {
                     row.className += " vtp-list-start";
                 }
             }
-
             if ((index == (apiPage.len()-1)) && data.id !== null || (apiPage.info() && (apiPage.info().page == (apiPage.info().pages - 1)) && (index == (apiPage.info().recordsDisplay % apiPage.len() - 1)))) {
                 row.className += " vtp-list-last";
                 if (apiPage.info() && (apiPage.info().page == (apiPage.info().pages - 1))) {
                     row.className += " vtp-list-end";
                 }
             }
-
             if (index === (apiPage.len()-2) && this.api().rows().data()[apiPage.len()-1].id === null) {
                 row.className += " vtp-list-last";
                 if (apiPage.info() && (apiPage.info().page == (apiPage.info().pages - 1))) {
@@ -291,10 +260,8 @@ export default class VtpDatatable {
         } catch (err) {
             console.dir(err)
         }
-
         return row;
     }
-
     dtLanguageObject() {
         return {
             "lengthMenu": "_MENU_",
@@ -312,21 +279,17 @@ export default class VtpDatatable {
             }
         }
     }
-
     dtDomObject() {
         let toolbar_prefix = 'fg-toolbar ui-toolbar vtp-pg-pane ui-state-default ui-helper-clearfix ui-corner-';
 
         return 't'+'<"'+toolbar_prefix+'all"lip>';
     }
-
     getCurrentSearch() {
         return vitoopState.state.secondSearch.searchString;
     }
-
     getDatatableInstance() {
         return $(this.datatableListId).DataTable();
     }
-
     refreshTable() {
         let datatable = this.getDatatableInstance();
         let orderArray = this.getDefaultOrder();
@@ -337,23 +300,19 @@ export default class VtpDatatable {
                 .draw();
             return;
         }
-
         datatable
             .search(vitoopState.state.secondSearch.searchString)
             .draw();
     }
-
     getDefaultOrder() {
         if (vitoopState.state.secondSearch.dateFrom !== '' && /pdf|teli/.test(this.resType)) {
             return [0, 'asc'];
         } else {
             return [0, 'desc'];
         }
-
         if (!($('#vtp-lexicondata-title').length)) {
             return [];
         }
-
         let columns = this.getColumns();
         let columnIndex = -1;
         for (let i=0; i< columns.length; i++) {
@@ -364,12 +323,21 @@ export default class VtpDatatable {
         if (columnIndex>=0) {
             return [[columnIndex, 'desc']];
         }
-
         return [];
     }
-
     getColumns() {
         let columns = [];
+        if (this.resType === 'all') {
+            return [
+                this.getFirstColumn(),
+                this.getTypeColumn(),
+                this.getCheckboxColumn(),
+                this.getNameColumn(),
+                this.getOwnerColumn(),
+                this.getRatingColumn(),
+                this.getRes12Column(),
+            ]
+        }
         if (this.resType === 'conversation') {
             return [
                 this.getFirstColumn(),
@@ -481,7 +449,11 @@ export default class VtpDatatable {
             ];
         }
     }
-
+    getTypeColumn() {
+        return {
+            data: 'type'
+        }
+    }
     getConversationUrlColumn() {
         return {
             render: (data,type,row,meta) => {
@@ -493,7 +465,6 @@ export default class VtpDatatable {
             }
         }
     }
-
     getCheckboxColumn() {
         let self = this;
         return {
@@ -501,8 +472,23 @@ export default class VtpDatatable {
             orderable: false,
             width:'20px',
             render: (data, type, full, meta) => {
-                if (full.id !== null && !/prj|lex|conversation/.test(this.resType)) {
+                if (full.id !== null && !/prj|lex|conversation/.test(this.resType) && !full.hasOwnProperty('type')) {
                     let checkedResources = this.datastorage.getObject(this.resType + '-checked');
+                    return `
+                        <label class="custom-checkbox__wrapper no-title light square-checkbox">
+                            <input 
+                                class="valid-checkbox open-checkbox-link" 
+                                title="anhaken für weitere Verwendung: öffnen/mailen"
+                                type="checkbox"
+                                ${full.id in checkedResources ? 'checked' : ''} />
+                                <span class="custom-checkbox">
+                                    <img class="custom-checkbox__check"
+                                         src="../../img/check.png" />
+                                </span>
+                        </label>
+                    `;
+                } else if (this.resType === 'all' && !/conversation|prj|lex/.test(full.type)) {
+                    let checkedResources = this.datastorage.getObject(full.type + '-checked');
                     return `
                         <label class="custom-checkbox__wrapper no-title light square-checkbox">
                             <input 
@@ -522,7 +508,6 @@ export default class VtpDatatable {
             }
         };
     }
-
     getFirstColumn() {
         if (this.isCoef) {
             return this.getCoefColumn();
@@ -535,42 +520,34 @@ export default class VtpDatatable {
         }
         return this.getDateColumn();
     }
-
     getCoefColumn() {
         if (vitoopState.state.edit) {
             return {"data": "coef", "render": this.getCoefEditValue};
         }
         return {"data": "coef", "render": this.getCoefValue};
     }
-
     getCoefValue(data, type, row, meta) {
         return '<input type="text" id="coef-'+row.coefId+'" data-rel_id="'+row.coefId+'" value="'+data+'" class="vtp-uiaction-coefficient vtp-fh-w85" disabled="disabled"/>';
     }
-
     getCoefEditValue(data, type, row, meta) {
         return '<input type="text" id="coef-'+row.coefId+'" data-rel_id="'+row.coefId+'" data-original="'+data+'" value="'+data+'" class="vtp-uiaction-coefficient vtp-fh-w85"/>';
     }
-
     getDateColumn() {
         return {"data": "created_at", "render": this.getDateValue};
     }
-
     getDateValue(data, type, row, meta) {
         return row.id !== null ? moment(data).format('DD.MM.YYYY') : null;
     }
-
     getWrapperForTextValue(data, type, row) {
         if (row.id !== null)
             return '<div class="vtp-teasefader-wrapper">'+data+'<div class="vtp-teasefader"></div></div>'
         else
             return this.getDividerName(row)
     }
-
     getDividerName(row) {
         return !vitoopState.state.edit ? row.text :
             `<input class="divider" type="text" data-coef="${row.coef}" value="${row.text}" data-original="${row.text}">`
     }
-
     getNameColumn() {
         return {
             data: "name",
@@ -578,7 +555,6 @@ export default class VtpDatatable {
             render: (data, type, row) => this.getWrapperForTextValue(data, type, row)
         }
     }
-
     getAuthorColumn() {
         return {
             data: "author",
@@ -587,15 +563,12 @@ export default class VtpDatatable {
             }
         };
     }
-
     getTnopColumn() {
         return {"data": "tnop"};
     }
-
     getRes12Column() {
         return {"data": "res12count", orderSequence: [ "desc", "asc"]};
     }
-
     getRatingValue(data, type) {
         let hint, image;
         if (type == "display") {
@@ -620,21 +593,18 @@ export default class VtpDatatable {
             return temp;
         }
     }
-
     getRatingColumn() {
         return {
             data: "avgmark",
             render: (data,type,row) => row.id !== null ? this.getRatingValue(data,type) : null,
             orderSequence: [ "desc", "asc"]};
     }
-
     getOwnerColumn() {
         return {
             "data": "username",
             render: (data,type,row) => row.id !== null ? this.getWrapperForTextValue(data,type,row) : null
         };
     }
-
     getIsDownloadedValue(data, type) {
         if (type == "display") {
             if (data == 0) {
@@ -645,79 +615,63 @@ export default class VtpDatatable {
             }
             return '<span style="color: red;">Err</span>';
         }
-
         return (data < 2)?data:-1;
     }
-
     getIsDownloadedColumn() {
         return {"data": "isDownloaded", "render": (data,type,row) => row.id !== null ? this.getIsDownloadedValue(data,type) : null};
     }
-
     getUrlValue(url) {
-        return '<a class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink" href="'+url+'" target="_blank"><span class="ui-icon ui-icon-extlink">-></span></a>';
+        return `<a class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink" 
+                   href="${url}" 
+                   target="_blank">
+                   <span class="ui-icon ui-icon-extlink">-></span>
+                </a>`;
     }
-
-    getResourceViewValue(id, type, row, meta) {
-        return '<a class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink" onclick="return openAsResourceView('+id+');" href="#" target="_blank"><span class="ui-icon ui-icon-extlink">-></span></a>';
-    }
-
     getInternalUrlValue(url, type, row, meta) {
         return `<a class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink"
                    href="${url}">
                        <span class="ui-icon ui-icon-extlink">-></span>
                 </a>`;
     }
-
     getProjectUrlValue(data, type, row, meta) {
         if (row.canRead || vitoopState.state.admin) {
             return VtpDatatable.prototype.getInternalUrlValue(vitoop.baseUrl+'project/'+data, type, row, meta);
         }
-
         return `<span class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink disabled"
                     style="background-color: #DDDDDD">
                     <span class="ui-icon ui-icon-extlink">-></span>
                 </span>`;
     }
-
     getLexiconUrlValue(data, type, row, meta) {
         return VtpDatatable.prototype.getInternalUrlValue(vitoop.baseUrl+'lexicon/'+data, type, row, meta);
     }
-
     getUrlColumn() {
         if (vitoopState.state.edit) {
             return {
                 render: (data,type,row) => row.id !== null ? this.getUnlinkColumn(row.id) : null
             }
         }
-
         return {"data": "url", render: (url,type,row) => row.id !== null ? this.getUrlValue(url) : null};
     }
-
     getUnlinkColumn(id) {
-        // return {"data": "id", "render": (data,type,row) => row.id !== null ? this.getUnlinkValue(data) : null};
         return this.getUnlinkValue(id)
     }
-
-    getUnlinkValue(data, type, row, meta) {
-        return `<span class="vtp-projectdata-unlink ui-icon ui-icon-close ui-corner-all" data-id="${data}"></span>`;
+    getUnlinkValue(id, type, row, meta) {
+        return `<span class="vtp-projectdata-unlink ui-icon ui-icon-close ui-corner-all" data-id="${id}"></span>`;
     }
-
     getLexiconUrlColumn() {
         if (vitoopState.state.edit) {
             // return this.getUnlinkColumn();
             return this.getUrlColumn();
         }
-
         return {data: "id", render: (data,type,row,meta) => row.id !== null ? this.getLexiconUrlValue(data,type,row,meta) : null};
     }
-
     getProjectUrlColumn() {
         return {
             "data": "id",
             render: (data,type,row,meta) => row.id !== null ? this.getProjectUrlValue(data, type, row, meta) : null
         };
     }
-
     getUrlTextColumn() {
         return {
             "data": "url",
@@ -726,39 +680,31 @@ export default class VtpDatatable {
             }
         };
     }
-
     getIsHpValue(data) {
         if (data) {
             return 'ja';
         }
-
         return 'nein';
     }
-
     getIsHpColumn() {
         return {
             data: "is_hp",
             render: (data,type,row) => row.id !== null ? this.getIsHpValue(data) : null
         };
     }
-
     getMapsLinkValue(data, type, row, meta) {
         return '<a class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink " href="https://nominatim.openstreetmap.org/search.php?polygon=1&q='+row.street+', '+row.zip+', '+row.city+', '+row.code+'" target="_blank"><span class="ui-icon ui-icon-extlink">-></span></a>';
     }
-
     getMapsLinkColumn() {
         if (vitoopState.state.edit) {
             // return this.getUnlinkColumn();
             return this.getUrlColumn();
         }
-
         return {"data": "id", "render": (data,type,row) => row.id !== null ? this.getMapsLinkValue(data,type,row) : null};
     }
-
     getCityColumn() {
         return {"data": "city", "render": (data,type,row) => row.id !== null ? this.getWrapperForTextValue(data,type,row) : null};
     }
-
     getZipColumn() {
         return {
             "data": "zip"

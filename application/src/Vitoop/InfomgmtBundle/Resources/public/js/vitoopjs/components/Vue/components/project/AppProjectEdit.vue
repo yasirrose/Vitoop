@@ -38,6 +38,15 @@
                                            name="projectForRelated" style="-webkit-appearance: checkbox"/>
                                     <label for="projectForRelated" id="verstecken-vabel">Projekt verstecken</label>
                                 </div>
+                                <div class="vtp-fh-w70">
+                                    <input type="checkbox"
+                                           @change="toggleAllInOneList"
+                                           :checked="get('allInOneList')"
+                                           name="allInOneList"
+                                           id="allInOneList"
+                                           style="-webkit-appearance: checkbox"/>
+                                    <label for="allInOneList">alle Datensätze in einer Liste</label>
+                                </div>
                             </div>
                         </div>
                         <div class="vtp-fh-w100 vtp-ui-corner-all blau"
@@ -154,6 +163,9 @@
             this.getProjectData();
         },
         methods: {
+            toggleAllInOneList(e) {
+                this.$store.commit('setAllInOneList', e.target.checked);
+            },
             changeRight(rel,e) {
                 rel.read_only = JSON.parse(e.target.value);
             },
