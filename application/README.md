@@ -42,3 +42,8 @@ make load_db path=<path_to_mysqldump.sql>
  make stop 
  
  ```
+
+Cron
+```shell script
+php bin/console en:consume --message-limit=1 --time-limit="+40 seconds" # Consume messages for sending 
+```

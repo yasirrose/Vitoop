@@ -1,11 +1,11 @@
 <?php
 
-
 namespace Vitoop\InfomgmtBundle\Controller\V1;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Vitoop\InfomgmtBundle\Controller\ApiController;
+use Vitoop\InfomgmtBundle\DTO\QueueMessage\ConversationMessageNotification;
 use Vitoop\InfomgmtBundle\Entity\Conversation;
 use Vitoop\InfomgmtBundle\Entity\ConversationMessage;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -18,6 +18,7 @@ use Vitoop\InfomgmtBundle\Repository\RelConversationUserRepository;
 use Vitoop\InfomgmtBundle\Repository\UserRepository;
 use Vitoop\InfomgmtBundle\Service\Conversation\ConversationNotificator;
 use Vitoop\InfomgmtBundle\Service\MessageService;
+use Vitoop\InfomgmtBundle\Service\Queue\DelayEventNotificator;
 use Vitoop\InfomgmtBundle\Service\VitoopSecurity;
 
 /**
@@ -59,6 +60,9 @@ class ConversationController extends ApiController
      * @param $request Request
      * @param $vitoopSecurity VitoopSecurity
      *
+     * @param ConversationMessageRepository $messageRepository
+     * @param ConversationNotificator $conversationNotificator
+     * @param DelayEventNotificator $delayEventNotificator
      * @return object
      */
     public function sendMessage(
@@ -66,14 +70,16 @@ class ConversationController extends ApiController
         Request $request,
         VitoopSecurity $vitoopSecurity,
         ConversationMessageRepository $messageRepository,
-        ConversationNotificator $conversationNotificator
+        ConversationNotificator $conversationNotificator,
+        DelayEventNotificator $delayEventNotificator
     ) {
         $conversationData = $conversation->getConversationData();
         $message = new ConversationMessage($request->get('message'), $vitoopSecurity->getUser(), $conversationData);
         $messageRepository->save($message);
 
         //send notification
-        $conversationNotificator->notify($message);
+        $delayEventNotificator->notify(new ConversationMessageNotification($message->getId()));
+        //$conversationNotificator->notify($message);
 
         return $this->getApiResponse($message);
     }

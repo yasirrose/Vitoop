@@ -2,6 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: legacy_aliases.yml }
+    - { resource: packages/enqueue.yml }
     - { resource: services.yml }
 
 framework:
@@ -54,6 +55,7 @@ assetic:
 # Doctrine Configuration
 doctrine:
     dbal:
+        schema_filter: ~^(?!enqueue)~
         driver:   "%database_driver%"
         host:     "%database_host%"
         port:     "%database_port%"
