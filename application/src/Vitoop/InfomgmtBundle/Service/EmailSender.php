@@ -21,10 +21,16 @@ class EmailSender
      */
     private $templater;
 
-    public function __construct(Swift_Mailer $mailer, EngineInterface $templater)
+    /**
+     * @var string
+     */
+    private $host;
+
+    public function __construct(Swift_Mailer $mailer, EngineInterface $templater, $host)
     {
         $this->mailer = $mailer;
         $this->templater = $templater;
+        $this->host = $host;
     }
 
     /**
@@ -125,6 +131,7 @@ class EmailSender
             $this->templater->render(
                 'email/conversationNotification.html.twig',
                 [
+                    'host' => $this->host,
                     'message' => $conversationMessage
                 ]
             )

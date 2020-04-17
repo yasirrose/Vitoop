@@ -22,3 +22,5 @@ parameters:
     centrifugo_api: ~
 
     max_idle_time: 7200
+
+    host: 'https://vitoop.org'

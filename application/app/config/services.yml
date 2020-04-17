@@ -1,120 +1,124 @@
 parameters:
-   container.autowiring.strict_mode: true
+  container.autowiring.strict_mode: true
 
 services:
-    _defaults:
-         autowire: true
-         autoconfigure: true
-         public: true
+  _defaults:
+     autowire: true
+     autoconfigure: true
+     public: true
 
-    Vitoop\InfomgmtBundle\Service\:
-         resource: '../../src/Vitoop/InfomgmtBundle/Service/*'
+  Vitoop\InfomgmtBundle\Service\:
+     resource: '../../src/Vitoop/InfomgmtBundle/Service/*'
 
-    Vitoop\InfomgmtBundle\Controller\:
-         resource: '../../src/Vitoop/InfomgmtBundle/Controller'
-         tags: ['controller.service_arguments']
+  Vitoop\InfomgmtBundle\Controller\:
+     resource: '../../src/Vitoop/InfomgmtBundle/Controller'
+     tags: ['controller.service_arguments']
 
-    Vitoop\InfomgmtBundle\Command\:
-         resource: '../../src/Vitoop/InfomgmtBundle/Command/*'
+  Vitoop\InfomgmtBundle\Command\:
+     resource: '../../src/Vitoop/InfomgmtBundle/Command/*'
 
-    Vitoop\InfomgmtBundle\Service\DownloadsService:
-        arguments:
-            $downloadFolder: '%download_folder%'
+  Vitoop\InfomgmtBundle\Service\DownloadsService:
+    arguments:
+      $downloadFolder: '%download_folder%'
 
-    Vitoop\InfomgmtBundle\Service\FileDownloader:
-        arguments:
-            $downloadFolder: '%download_folder%'
+  Vitoop\InfomgmtBundle\Service\FileDownloader:
+    arguments:
+      $downloadFolder: '%download_folder%'
 
-    #KernelListeners
-    Vitoop\InfomgmtBundle\EventListener\ResourceDataCollectorInitializerListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+  #KernelListeners
+  Vitoop\InfomgmtBundle\EventListener\ResourceDataCollectorInitializerListener:
+    tags:
+      - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
 
-    Vitoop\InfomgmtBundle\EventListener\LoginListener:
-        tags:
-            - { name: kernel.event_listener, event: security.interactive_login, method: onInteractiveLogin }
+  Vitoop\InfomgmtBundle\EventListener\LoginListener:
+    tags:
+      - { name: kernel.event_listener, event: security.interactive_login, method: onInteractiveLogin }
 
-    Vitoop\InfomgmtBundle\EventListener\SessionIdleHandler:
-      arguments:
-        $maxIdleTime: '%max_idle_time%'
-      tags:
-        - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+  Vitoop\InfomgmtBundle\EventListener\SessionIdleHandler:
+    arguments:
+      $maxIdleTime: '%max_idle_time%'
+    tags:
+      - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
-    Vitoop\InfomgmtBundle\Form\Extension\SecurityAwareTypeExtension:
-        tags:
-            - { name: form.type_extension, extended_type:  Symfony\Component\Form\Extension\Core\Type\FormType }
+  Vitoop\InfomgmtBundle\Form\Extension\SecurityAwareTypeExtension:
+    tags:
+      - { name: form.type_extension, extended_type:  Symfony\Component\Form\Extension\Core\Type\FormType }
 
-    # Some useful Twig Filter, Function
-    Vitoop\InfomgmtBundle\Twig\Extension\VitoopExtension:
-        tags:
-            - {name: twig.extension}
+  # Some useful Twig Filter, Function
+  Vitoop\InfomgmtBundle\Twig\Extension\VitoopExtension:
+    tags:
+      - {name: twig.extension}
 
-    # cURL client for Buzz
-    Buzz\Client\Curl:
-        public: false
-        calls:
-            - [setVerifyPeer, [false]]
+  # cURL client for Buzz
+  Buzz\Client\Curl:
+      public: false
+      calls:
+          - [setVerifyPeer, [false]]
    
-    # Buzz browser
-    Buzz\Browser: ~
+  # Buzz browser
+  Buzz\Browser: ~
 
-    # Repositories
-    Vitoop\InfomgmtBundle\Repository\UserConfigRepository:
-        factory: ["@doctrine.orm.entity_manager", getRepository]
-        arguments:
-            - Vitoop\InfomgmtBundle\Entity\UserConfig
+  # Repositories
+  Vitoop\InfomgmtBundle\Repository\UserConfigRepository:
+    factory: ["@doctrine.orm.entity_manager", getRepository]
+    arguments:
+      - Vitoop\InfomgmtBundle\Entity\UserConfig
 
-    Vitoop\InfomgmtBundle\Repository\InvitationRepository: ~
-    Vitoop\InfomgmtBundle\Repository\ResourceRepository: ~
-    Vitoop\InfomgmtBundle\Repository\LexiconRepository: ~
-    Vitoop\InfomgmtBundle\Repository\ProjectRepository: ~
-    Vitoop\InfomgmtBundle\Repository\AddressRepository: ~
-    Vitoop\InfomgmtBundle\Repository\PdfRepository: ~
-    Vitoop\InfomgmtBundle\Repository\TeliRepository: ~
-    Vitoop\InfomgmtBundle\Repository\BookRepository: ~
-    Vitoop\InfomgmtBundle\Repository\LinkRepository: ~
-    Vitoop\InfomgmtBundle\Repository\TagRepository: ~
-    Vitoop\InfomgmtBundle\Repository\UserRepository: ~
-    Vitoop\InfomgmtBundle\Repository\ConversationRepository: ~
-    Vitoop\InfomgmtBundle\Repository\ConversationDataRepository: ~
-    Vitoop\InfomgmtBundle\Repository\ConversationMessageRepository: ~
-    Vitoop\InfomgmtBundle\Repository\RelConversationUserRepository: ~
+  Vitoop\InfomgmtBundle\Repository\InvitationRepository: ~
+  Vitoop\InfomgmtBundle\Repository\ResourceRepository: ~
+  Vitoop\InfomgmtBundle\Repository\LexiconRepository: ~
+  Vitoop\InfomgmtBundle\Repository\ProjectRepository: ~
+  Vitoop\InfomgmtBundle\Repository\AddressRepository: ~
+  Vitoop\InfomgmtBundle\Repository\PdfRepository: ~
+  Vitoop\InfomgmtBundle\Repository\TeliRepository: ~
+  Vitoop\InfomgmtBundle\Repository\BookRepository: ~
+  Vitoop\InfomgmtBundle\Repository\LinkRepository: ~
+  Vitoop\InfomgmtBundle\Repository\TagRepository: ~
+  Vitoop\InfomgmtBundle\Repository\UserRepository: ~
+  Vitoop\InfomgmtBundle\Repository\ConversationRepository: ~
+  Vitoop\InfomgmtBundle\Repository\ConversationDataRepository: ~
+  Vitoop\InfomgmtBundle\Repository\ConversationMessageRepository: ~
+  Vitoop\InfomgmtBundle\Repository\RelConversationUserRepository: ~
 
-    Vitoop\InfomgmtBundle\Repository\RelProjectUserRepository: ~
-    Vitoop\InfomgmtBundle\Repository\RelResourceResourceRepository:
-        factory: ["@doctrine.orm.entity_manager", getRepository]
-        arguments:
-            - Vitoop\InfomgmtBundle\Entity\RelResourceResource
+  Vitoop\InfomgmtBundle\Repository\RelProjectUserRepository: ~
+  Vitoop\InfomgmtBundle\Repository\RelResourceResourceRepository:
+    factory: ["@doctrine.orm.entity_manager", getRepository]
+    arguments:
+      - Vitoop\InfomgmtBundle\Entity\RelResourceResource
 
-    Vitoop\InfomgmtBundle\Repository\RelResourceTagRepository:
-        factory: ["@doctrine.orm.entity_manager", getRepository]
-        arguments:
-            - Vitoop\InfomgmtBundle\Entity\RelResourceTag
+  Vitoop\InfomgmtBundle\Repository\RelResourceTagRepository:
+    factory: ["@doctrine.orm.entity_manager", getRepository]
+    arguments:
+      - Vitoop\InfomgmtBundle\Entity\RelResourceTag
 
 
-    Vitoop\InfomgmtBundle\Repository\PdfAnnotationRepository:
-        factory: ["@doctrine.orm.entity_manager", getRepository]
-        arguments:
-            - Vitoop\InfomgmtBundle\Entity\PdfAnnotation
+  Vitoop\InfomgmtBundle\Repository\PdfAnnotationRepository:
+    factory: ["@doctrine.orm.entity_manager", getRepository]
+    arguments:
+      - Vitoop\InfomgmtBundle\Entity\PdfAnnotation
 
-    Vitoop\InfomgmtBundle\Repository\VitoopBlogRepository: ~
+  Vitoop\InfomgmtBundle\Repository\VitoopBlogRepository: ~
 
-    Vitoop\InfomgmtBundle\Validator\Constraints\User\UserUniqueValidator:
-        tags:
-            - { name: validator.constraint_validator }
+  Vitoop\InfomgmtBundle\Validator\Constraints\User\UserUniqueValidator:
+    tags:
+      - { name: validator.constraint_validator }
 
-    Vitoop\InfomgmtBundle\Validator\Constraints\User\UsernameValidator:
-        tags:
-            - { name: validator.constraint_validator }
+  Vitoop\InfomgmtBundle\Validator\Constraints\User\UsernameValidator:
+    tags:
+      - { name: validator.constraint_validator }
 
-    Vitoop\InfomgmtBundle\Validator\Constraints\User\UserEmailValidator:
-        tags:
-            - { name: validator.constraint_validator }
+  Vitoop\InfomgmtBundle\Validator\Constraints\User\UserEmailValidator:
+    tags:
+      - { name: validator.constraint_validator }
 
-    Vitoop\InfomgmtBundle\Utils\Token\CommonGeneratorStrategy: ~
+  Vitoop\InfomgmtBundle\Utils\Token\CommonGeneratorStrategy: ~
 
-    Vitoop\InfomgmtBundle\Service\MessageService:
-        arguments:
-            - '%centrifugo_url%'
-            - '%centrifugo_api%'
-            - '%centrifugo_secret%'
+  Vitoop\InfomgmtBundle\Service\MessageService:
+    arguments:
+      - '%centrifugo_url%'
+      - '%centrifugo_api%'
+      - '%centrifugo_secret%'
+
+  Vitoop\InfomgmtBundle\Service\EmailSender:
+    arguments:
+      $host: '%host%'
