@@ -719,7 +719,7 @@ class ResourceRepository extends ServiceEntityRepository
               FROM (
                %s
                UNION ALL
-               SELECT null as type, null as id, null as name, null as created_at, null as username, null as avgmark, null as res12count, null as isUserHook, null as isUserRead, prd.coefficient as coef, prd.id as coefId, prd.text as text
+               SELECT null as type, prd.text as text, null as id, null as name, null as created_at, null as username, null as avgmark, null as res12count, null as isUserHook, null as isUserRead, prd.coefficient as coef, prd.id as coefId
                 FROM project_rel_divider prd
                INNER join project p on p.project_data_id = prd.id_project_data
               where p.id = %s
