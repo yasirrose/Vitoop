@@ -544,8 +544,14 @@ export default class VtpDatatable {
             return this.getDividerName(row)
     }
     getDividerName(row) {
-        return !vitoopState.state.edit ? row.text :
-            `<input class="divider" type="text" data-coef="${row.coef}" value="${row.text}" data-original="${row.text}">`
+        const dividerName = row.text === '' ? 'Überschrift eintragen' : row.text;
+        return !vitoopState.state.edit ? dividerName :
+            `<input class="divider"
+                    type="text"
+                    placeholder="Überschrift eintragen"
+                    data-coef="${row.coef}"
+                    value="${row.text}"
+                    data-original="${row.text}">`
     }
     getNameColumn() {
         return {
