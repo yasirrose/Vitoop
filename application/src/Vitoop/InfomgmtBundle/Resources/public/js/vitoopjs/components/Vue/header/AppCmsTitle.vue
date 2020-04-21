@@ -189,7 +189,8 @@
             checkIfDividerExist(coefValue,index) {
                 return axios(`/api/project/${this.get('resource').id}/divider`)
                     .then(({data}) => {
-                        if (Math.floor(coefValue) > Object.values(data).length-1) {
+                        const includesCoef = Object.keys(data).includes(Math.floor(coefValue).toString());
+                        if (Math.floor(coefValue) > Object.values(data).length-1 && !includesCoef) {
                             return false;
                         }
                         return true;

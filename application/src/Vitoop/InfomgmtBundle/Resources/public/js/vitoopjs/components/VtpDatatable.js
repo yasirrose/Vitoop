@@ -281,7 +281,6 @@ export default class VtpDatatable {
     }
     dtDomObject() {
         let toolbar_prefix = 'fg-toolbar ui-toolbar vtp-pg-pane ui-state-default ui-helper-clearfix ui-corner-';
-
         return 't'+'<"'+toolbar_prefix+'all"lip>';
     }
     getCurrentSearch() {
@@ -545,8 +544,14 @@ export default class VtpDatatable {
             return this.getDividerName(row)
     }
     getDividerName(row) {
-        return !vitoopState.state.edit ? row.text :
-            `<input class="divider" type="text" data-coef="${row.coef}" value="${row.text}" data-original="${row.text}">`
+        const dividerName = row.text === '' ? 'Überschrift eintragen' : row.text;
+        return !vitoopState.state.edit ? dividerName :
+            `<input class="divider"
+                    type="text"
+                    placeholder="Überschrift eintragen"
+                    data-coef="${row.coef}"
+                    value="${row.text}"
+                    data-original="${row.text}">`
     }
     getNameColumn() {
         return {
