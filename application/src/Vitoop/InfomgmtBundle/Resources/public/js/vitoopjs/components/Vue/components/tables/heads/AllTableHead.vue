@@ -1,6 +1,6 @@
 <template>
     <tr :id="`all-table`" class="vtp-res-dialog-onclick">
-        <th style="width:20px"><span class="table-head">{{ dateTitle }}</span></th>
+        <th style="width:50px"><span class="table-head">{{ dateTitle }}</span></th>
         <th style="width:25px"></th>
         <th style="width:1px"></th>
         <th style="width:40%"><span class="table-head">Titel</span></th>

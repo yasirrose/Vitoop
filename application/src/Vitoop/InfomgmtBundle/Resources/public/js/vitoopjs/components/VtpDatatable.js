@@ -281,7 +281,6 @@ export default class VtpDatatable {
     }
     dtDomObject() {
         let toolbar_prefix = 'fg-toolbar ui-toolbar vtp-pg-pane ui-state-default ui-helper-clearfix ui-corner-';
-
         return 't'+'<"'+toolbar_prefix+'all"lip>';
     }
     getCurrentSearch() {
