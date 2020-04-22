@@ -215,6 +215,7 @@ export default class VtpDatatable {
         }
     }
     dtRowCallback(row, data, index) {
+        const resType = vitoopState.state.resource.type;
         let apiPage = this.api().page;
         if (data.canRead) $(row).addClass('canRead');
         if (data.id === null) {
@@ -225,7 +226,7 @@ export default class VtpDatatable {
         }
         $(row).removeClass('vtp-list-first vtp-list-end vtp-list-last vtp-list-start');
         $(row).addClass('ui-corner-all vtp-uiaction-list-showdetail');
-        row.setAttribute('id', `${vitoopState.state.resource.type}-${data.id}`);
+        resType !== 'all' ? row.setAttribute('id', `${resType}-${data.id}`) : row.setAttribute('id', `${data.type}-${data.id}`);
         if (typeof(resourceId) != 'undefined' && resourceId == data.id) {
             $(row).addClass('show-popup');
         }
@@ -335,6 +336,7 @@ export default class VtpDatatable {
                 this.getOwnerColumn(),
                 this.getRatingColumn(),
                 this.getRes12Column(),
+                {render: (data,type,row) => row.id !== null ? this.getUnlinkColumn(row.id) : null}
             ]
         }
         if (this.resType === 'conversation') {
@@ -429,7 +431,6 @@ export default class VtpDatatable {
                 this.getOwnerColumn()
             ];
             if (vitoopState.state.edit) {
-                // columns.push(this.getUnlinkColumn());
                 columns.push(this.getUrlColumn());
             }
             return columns;
@@ -666,7 +667,6 @@ export default class VtpDatatable {
     }
     getLexiconUrlColumn() {
         if (vitoopState.state.edit) {
-            // return this.getUnlinkColumn();
             return this.getUrlColumn();
         }
         return {data: "id", render: (data,type,row,meta) => row.id !== null ? this.getLexiconUrlValue(data,type,row,meta) : null};

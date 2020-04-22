@@ -25,7 +25,6 @@ window.resourceDetail = (function () {
                  src="../../img/check.png" />
         </span>
     `;
-
     var tab_loaded = [ 0, 0, 0, 0, 0 ],
         tab_name = [ 'quickview', 'remark', 'remark_private', 'comments', 'assignments' ],
         res_type = '',
@@ -36,7 +35,6 @@ window.resourceDetail = (function () {
         isShowRating = false,
         viewUrl = '',
         canRead,
-
         setResId = function (resId) {
             res_id = resId;
         },
@@ -62,7 +60,6 @@ window.resourceDetail = (function () {
                 });
             }
         },
-
         uifyContainer = function (container_name) {
             var action_icon_map;
             if ('resource-buttons' == container_name) {
@@ -397,21 +394,16 @@ window.resourceDetail = (function () {
 
             hideConnectionAndRemark();
         },
-
         clearTabsClasses = function() {
             clearTabsNoContent();
-
-            //reset tinymce
             resetTinyMce();
         },
-
         clearTabsNoContent = function () {
             $('#tab-title-comments').removeClass('ui-state-no-content');
             $('#tab-title-remark').removeClass('ui-state-no-content');
             $('#tab-title-remark-private').removeClass('ui-state-no-content');
             $('#tab-title-rels').removeClass('ui-state-no-content');
         },
-
         resetTinyMce = function () {
             tinymce.execCommand('mceRemoveEditor', true, "remark_text");
             tinymce.execCommand('mceRemoveEditor', true, "remark_private_text");
@@ -419,7 +411,6 @@ window.resourceDetail = (function () {
             $('#vtp-remark-box').hide();
             $('#vtp-remark-private-box').hide();
         },
-
         loadTab = function (event, ui) {
             var tab_nr;
             var url;
@@ -454,7 +445,6 @@ window.resourceDetail = (function () {
 
             tab_loaded[tab_nr] = 1;
         },
-
         loadTabSuccess = function (responseJSON,tabName) {
             var isNewResource = false;
 
@@ -565,7 +555,6 @@ window.resourceDetail = (function () {
 
             }
         },
-
         showDialog = function (e) {
             var current_tr_res;
             current_tr_res = $(e.target).parentsUntil('.vtp-uiaction-list-listener', '.vtp-uiaction-list-showdetail');
@@ -577,13 +566,10 @@ window.resourceDetail = (function () {
             if (current_tr_res.length === 0) {
                 return true;
             }
-
             tr_res = current_tr_res;
             res_type = (tr_res.attr('id').split('-'))[0];
             res_id = (tr_res.attr('id').split('-'))[1];
-
             tgl();
-
             if ($(e.target).hasClass('vtp-uiaction-open-extlink') ||
                 $(e.target).parent().hasClass('vtp-uiaction-open-extlink') ||
                 $(e.target).hasClass('vtp-projectdata-unlink') ||
@@ -591,12 +577,10 @@ window.resourceDetail = (function () {
                 $(e.target).hasClass('vtp-uiaction-coefficient')) {
                 return;
             }
-
             setNextId();
             setPrevId();
             openDialog();
         },
-
         hideConnectionAndRemark = () => {
             if (vitoopState.state.resource.type === 'conversation') {
                 $('#tab-title-remark').css('display','none');
@@ -606,12 +590,10 @@ window.resourceDetail = (function () {
                 $('#tab-title-rels').css('display','block');
             }
         },
-
         addCheckboxWrapperWithResourceTitle = () => {
             $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').append(customCheckboxWrapper);
             $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title .custom-checkbox__wrapper').append('<span id="resource-title"></span>');
         },
-
         openDialog = function () {
             // check for init: call a widget-method before initialization throws an
             // error
@@ -635,25 +617,20 @@ window.resourceDetail = (function () {
             } else {
                 $('#vtp-res-dialog-tabs').tabs('enable');
                 $('#vtp-res-dialog-tabs').tabs('option', 'active', 0);
-
                 // trigger the tab to be loaded with content the first time
                 loadTab(undefined, 0);
             }
             clearTabsClasses();
-
             $('#vtp-res-dialog').dialog();
-
             $('#vtp-res-dialog').dialog('option', 'closeText', 'schließen');
             $('#vtp-res-dialog').dialog('open');
         },
-
         newResource = function () {
             res_id = 'new';
             hardResetTabs();
             $('#vtp-res-dialog-tabs').tabs('option', 'disabled', [ 1, 2, 3, 4 ]);
             loadTab(undefined, 0);
         },
-
         helpWindow = function () {
             if ($('#resource-help').css('display') == 'none') {
                 showHelpWindow();
@@ -661,7 +638,6 @@ window.resourceDetail = (function () {
                 hideHelpWindow();
             }
         },
-
         showHelpWindow = function () {
             $('#resource-quickview').hide();
             $('#resource-help').show();
@@ -676,7 +652,6 @@ window.resourceDetail = (function () {
             $('#vtp-detail-help').addClass('ui-state-default');
             $('#vtp-detail-help').removeClass('vtp-active');
         },
-
         tgl = function () {
             $('td.ui-state-active').removeClass('ui-state-active');
             document.querySelectorAll('tr').forEach(tr => {
@@ -685,7 +660,6 @@ window.resourceDetail = (function () {
                 }
             })
         },
-
         tgl_ls = function () {
             var ls_tr_res;
             // toggle "last seen" in: -insertResourceList
@@ -697,7 +671,6 @@ window.resourceDetail = (function () {
                 }
             }
         },
-
         nextResource = function () { // toDo needs to refactor
             // tr_res is current (jqueryfied) tr-element
             if (next_id == -1) {// no NEXT page avaiable
@@ -709,8 +682,9 @@ window.resourceDetail = (function () {
                     tr_res = $('.vtp-list-first');
                     res_id = (tr_res.attr('id').split('-'))[1];
                     prev_id = 0;
-
                     setNextId();
+                    var nextElement = tr_res.next('tr').hasClass('divider-wrapper') ? tr_res.next().next('tr') : tr_res.next('tr');
+                    res_type = (nextElement.attr('id').split('-'))[0];
                     tgl();
                     hardResetTabs();
                     addCheckboxWrapperWithResourceTitle();
@@ -725,6 +699,7 @@ window.resourceDetail = (function () {
                 prev_id = res_id;
                 res_id = next_id;
                 setNextId();
+                res_type = (nextElement.attr('id').split('-'))[0];
                 tgl();
                 hardResetTabs();
                 addCheckboxWrapperWithResourceTitle();
@@ -732,7 +707,6 @@ window.resourceDetail = (function () {
             }
             return true;
         },
-
         setNextId = function () {
             if (tr_res.hasClass('vtp-list-end')) {
                 next_id = -1;
@@ -747,9 +721,7 @@ window.resourceDetail = (function () {
                 next_id = (nextElement.attr('id').split('-'))[1];
             }
         },
-
         previousResource = function () { // toDo needs to refactor
-            // tr_res is current (jqueryfied) tr-element
             if (prev_id == -1) {// no PREVious page avaiable
                 return;
             }
@@ -760,6 +732,8 @@ window.resourceDetail = (function () {
                     res_id = (tr_res.attr('id').split('-'))[1];
                     next_id = 0;
                     setPrevId();
+                    var prevElement = tr_res.prev('tr').hasClass('divider-wrapper') ? tr_res.prev().prev('tr') : tr_res.prev('tr');
+                    res_type = (prevElement.attr('id').split('-'))[0];
                     tgl();
                     // We are still in an asynchronous callback: Tab Maintenance must be
                     // done here
@@ -776,6 +750,7 @@ window.resourceDetail = (function () {
                 next_id = res_id;
                 res_id = prev_id;
                 setPrevId();
+                res_type = (prevElement.attr('id').split('-'))[0];
                 tgl();
                 hardResetTabs();
                 addCheckboxWrapperWithResourceTitle();
@@ -783,7 +758,6 @@ window.resourceDetail = (function () {
             }
             return true;
         },
-
         setPrevId = function () {
             if (tr_res.hasClass('vtp-list-start')) {
                 prev_id = -1;
@@ -803,7 +777,6 @@ window.resourceDetail = (function () {
                 prev_id = (prevElement.attr('id').split('-'))[1];
             }
         },
-
         hardResetTabs = function () {
             // vitoopState.commit('set', {key: 'conversationInstance', value: null});
             $('#resource-title').remove();
@@ -830,7 +803,6 @@ window.resourceDetail = (function () {
             $('#vtp-rating-infobox-li').remove();
             clearTabsClasses();
         },
-
         flagResource = function (flag_type) {
             $('#vtp-res-flag-form').length || $('#resource-flags').append('<div id="vtp-res-flag-form"></div>');
             $.ajax({
@@ -845,15 +817,12 @@ window.resourceDetail = (function () {
                 dataType: 'html'
             });
         },
-
         deleteResource = function () {
             flagResource('delete');
         },
-
         blameResource = function () {
             flagResource('blame');
         },
-
         fillFlagForm = function (html) {
             $('#vtp-res-flag-form').empty().append(html);
             var elemSuccess = $('div.vtp-uiinfo-info', html);
@@ -878,17 +847,14 @@ window.resourceDetail = (function () {
                 collision: 'none'
             }).hide("fade", 10000);
         },
-
         doneFlagInfo = function (content) {
             hardResetTabs();
             $('#vtp-res-dialog-tabs').tabs('option', 'disabled', [ 0, 1, 2, 3, 4 ]);
             $('#resource-flags').append(content['resource-flags']);
         },
-
         closeDialog = function () {
             hardResetTabs();
             hideHelpWindow();
-
             if (refresh_list) {
                 //$('#vtp-res-list table').DataTable().off('draw.dt');
                 // "last seen" is maintained through arr_res_tr_attr_id[]
@@ -899,7 +865,6 @@ window.resourceDetail = (function () {
                     vitoop.resourceId = null;
                     notifyRefresh();
                 }
-
                 api.ajax.reload(function (json) {
                     tgl_ls();
                 }, false);
@@ -907,7 +872,6 @@ window.resourceDetail = (function () {
                 refresh_list = false;
             }
         },
-
         replaceContainer = function (containerName, html) {
             $('#' + containerName).empty().append(html);
             //clearTabsClasses();
@@ -915,11 +879,9 @@ window.resourceDetail = (function () {
             // Initializing special UI-Gimmicks are done in uifyContainer()
             uifyContainer(containerName);
         },
-
         notifyRefresh = function () {
             refresh_list = true;
         },
-
         resourceCheckOnChange = function() {
             $('#resource-check').on('change', function(e) {
                 let rowId = '#'+res_type+'-'+res_id;
@@ -932,7 +894,6 @@ window.resourceDetail = (function () {
                 e.stopPropagation();
             });
         },
-
         /****************************************************************************
          * Eventhandler and jQuery initializing:call init() on Document ready
          ***************************************************************************/
@@ -944,13 +905,9 @@ window.resourceDetail = (function () {
                 modal: true,
                 close: closeDialog
             });
-
             $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').after('<span id="resource-buttons"></span>');
-
             $('#vtp-res-dialog').before('<div id="resource-flags" style="display: none;"></div>');
-
             resourceCheckOnChange();
-
             $('#vtp-res-dialog-tabs form:not(#form-tag)').ajaxForm({
                 delegation: true,
                 dataType: 'json',
@@ -959,7 +916,6 @@ window.resourceDetail = (function () {
                     $form.empty().append('Vitoooops!: ' + textStatus + ' ' + jqXHR.status + ': ' + jqXHR.statusText);
                 }
             });
-
             $('#vtp-res-dialog-tabs form#form-tag').ajaxForm({
                 delegation: true,
                 dataType: 'json',
@@ -969,7 +925,6 @@ window.resourceDetail = (function () {
                 }
 
             });
-
             $('#vtp-res-flag-form form').ajaxForm({
                 delegation: true,
                 dataType: 'html',
@@ -989,14 +944,12 @@ window.resourceDetail = (function () {
             // @TODO Handler
             // vtp-content is the root for event delegation inside this 'box'
             $('#vtp-content').on('click', '.vtp-uiaction-list-listener table td', showDialog);
-
             $('#vtp-application').on('click', '#vtp-uiaction-close-flagform', function () {
                 $('#resource-flags').hide('blind', 'fast');
                 $('#resource-flags').empty();
             });
         };
     /* API */
-
     return {
         // call init() on Document ready. DOM must be fully loaded.
         init: init,
