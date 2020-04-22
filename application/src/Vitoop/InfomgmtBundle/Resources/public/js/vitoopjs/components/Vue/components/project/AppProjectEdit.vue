@@ -45,7 +45,7 @@
                                            name="allInOneList"
                                            id="allInOneList"
                                            style="-webkit-appearance: checkbox"/>
-                                    <label for="allInOneList">alle Datensätze in einer Liste</label>
+                                    <label for="allInOneList">Eine Datensatzliste</label>
                                 </div>
                             </div>
                         </div>

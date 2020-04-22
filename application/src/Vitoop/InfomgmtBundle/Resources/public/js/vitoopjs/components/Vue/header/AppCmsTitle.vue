@@ -11,7 +11,7 @@
                         class="ui-state-default"
                         @click="saveNewCoefs"
                         :class="{show: get('coefsToSave').length}">
-                    save
+                    <span>speichern</span>
                 </button>
                 <help-button help-area="project" />
                 <span v-if="canEdit" style="display: flex">
@@ -212,15 +212,18 @@
 </script>
 
 <style scoped lang="scss">
+    @import "../../../../../css/variables/colors";
     #vtp-project-save-coef {
         height: 17px;
         line-height: 1;
         border-radius: 6px;
-        padding: 0 10px;
+        padding: 0 20px 2px;
         opacity: 0;
         z-index: -1;
         transform: translateX(-30px);
         transition: .3s;
+        color: $vitoop-red-color;
+        border-color: $vitoop-red-color;
 
         &.show {
             opacity: 1;
