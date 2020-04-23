@@ -284,5 +284,6 @@
     #vtp-header-status {
         display: flex;
         justify-content: flex-end;
+        padding-top: 3px;
     }
 </style>
