@@ -66,7 +66,7 @@ class SessionIdleHandler
         }
         if ($this->maxIdleTime > 0) {
             $this->session->start();
-            $lapse = time() - $this->session->getMetadataBag()->getLastUsed();
+            $lapse = time() - $this->session->get('manualLastUsedTime', time());
             if ($lapse > $this->maxIdleTime && null !== $this->tokenStorage->getToken()) {
                 $this->tokenStorage->setToken(null);
                 if ($event->getRequest()->isXmlHttpRequest()) {
@@ -75,6 +75,8 @@ class SessionIdleHandler
                     $event->setResponse(new RedirectResponse($this->router->generate('userhome')));
                 }
                 $this->session->clear();
+            } else {
+                $this->session->set('manualLastUsedTime', time());
             }
         }
     }

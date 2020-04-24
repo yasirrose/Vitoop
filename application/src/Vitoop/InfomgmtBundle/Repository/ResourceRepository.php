@@ -210,8 +210,8 @@ class ResourceRepository extends ServiceEntityRepository
             $qb->addOrderBy('quantity_all', 'DESC')
                 ->setParameter('tags_highlight', $search->highlightTags);
         } else {
-            $qb->addOrderBy('count_different', 'DESC');
             $qb->addOrderBy('quantity_all', 'DESC');
+            $qb->addOrderBy('count_different', 'DESC');
         }
         $qb->addOrderBy('r.name', 'ASC');
 
@@ -692,18 +692,24 @@ class ResourceRepository extends ServiceEntityRepository
     private function getAllResourceQuery(SearchResource $search): QueryBuilder
     {
         $selectTypeString = '';
+        $selectUrlString = '';
+        $qb = $this->createQueryBuilder('r');
+
         foreach (Resource\ResourceType::RESOURCE_TYPES as $type => $class) {
             if (Resource::class === $class) {
                 continue;
             }
+            if (property_exists($class, 'url')) {
+                $qb->leftJoin($class, $type, Query\Expr\Join::WITH, $type.'.id = r.id');
+                $selectUrlString .= " WHEN r INSTANCE OF ".$class." THEN ".$type.".url ";
+            }
             $selectTypeString .= " WHEN r INSTANCE OF ".$class." THEN '".$type."' ";
         }
 
-        $qb = $this->createQueryBuilder('r');
         $qb->select("(CASE
                 ".$selectTypeString."
                 ELSE 'res'
-            END) as type, '' as text");
+            END) as type, '' as text, (CASE ".$selectUrlString." ELSE '' END) as url");
         $this->prepareListQueryBuilder($qb, $search);
 
         return $qb;
@@ -715,11 +721,11 @@ class ResourceRepository extends ServiceEntityRepository
     private function getAllResourcesDividerQuery()
     {
         return <<<'EOT'
-            SELECT SQL_CALC_FOUND_ROWS base.coef, base.coefId, base.text, base.id, base.name, base.created_at, base.username, base.avgmark, base.res12count, base.isUserHook, base.isUserRead, base.type
+            SELECT SQL_CALC_FOUND_ROWS base.coef, base.coefId, base.text, base.url, base.id, base.name, base.created_at, base.username, base.avgmark, base.res12count, base.isUserHook, base.isUserRead, base.type
               FROM (
                %s
                UNION ALL
-               SELECT null as type, prd.text as text, null as id, null as name, null as created_at, null as username, null as avgmark, null as res12count, null as isUserHook, null as isUserRead, prd.coefficient as coef, prd.id as coefId
+               SELECT null as type, prd.text as text, '' as url, null as id, null as name, null as created_at, null as username, null as avgmark, null as res12count, null as isUserHook, null as isUserRead, prd.coefficient as coef, prd.id as coefId
                 FROM project_rel_divider prd
                INNER join project p on p.project_data_id = prd.id_project_data
               where p.id = %s

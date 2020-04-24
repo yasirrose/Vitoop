@@ -54,11 +54,19 @@ class ProjectData implements GetDTOInterface
      */
     protected $dividers;
 
+    /**
+     * @var bool
+     * @ORM\Column(name="is_all_records", type="boolean", options={"default":false})
+     * @Serializer\Groups({"get_project"})
+     */
+    protected $isAllRecords;
+
     public function __construct()
     {
         $this->sheet = '<h1>Leeres Projekt.</h1>';
         $this->isPrivate = false;
         $this->isForRelatedUsers = false;
+        $this->isAllRecords = false;
         $this->relUsers = new ArrayCollection();
         $this->dividers = new ArrayCollection();
     }
@@ -144,6 +152,22 @@ class ProjectData implements GetDTOInterface
     public function getIsPrivate()
     {
         return $this->isPrivate;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAllRecords(): bool
+    {
+        return $this->isAllRecords;
+    }
+
+    /**
+     * @param bool $isAllRecords
+     */
+    public function setIsAllRecords(bool $isAllRecords): void
+    {
+        $this->isAllRecords = $isAllRecords;
     }
 
     /**
@@ -275,6 +299,7 @@ class ProjectData implements GetDTOInterface
             'sheet' => $this->sheet,
             'is_private' => $this->isPrivate,
             'is_for_related_users' => $this->isForRelatedUsers,
+            'is_all_records' => $this->isAllRecords,
             'rel_users' => $this->relUsers->map(function (RelProjectUser $user) {
                 return $user->getDTO();
             })->toArray()

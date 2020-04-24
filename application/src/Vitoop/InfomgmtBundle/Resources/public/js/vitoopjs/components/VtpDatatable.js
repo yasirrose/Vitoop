@@ -307,9 +307,10 @@ export default class VtpDatatable {
     getDefaultOrder() {
         if (vitoopState.state.secondSearch.dateFrom !== '' && /pdf|teli/.test(this.resType)) {
             return [0, 'asc'];
-        } else {
-            return [0, 'desc'];
         }
+            // else {
+        //     return [0, 'desc'];
+        // }
         if (!($('#vtp-lexicondata-title').length)) {
             return [];
         }
