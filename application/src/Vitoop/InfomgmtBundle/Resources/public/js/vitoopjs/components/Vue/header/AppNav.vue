@@ -78,7 +78,7 @@
             ]),
             noContent() {
                 return (name) => {
-                    return this.getResource('info') !== null ?
+                    return this.getResource('info') ?
                         this.getResource('info')[`${name}c`] === '0' : false
                 }
             },

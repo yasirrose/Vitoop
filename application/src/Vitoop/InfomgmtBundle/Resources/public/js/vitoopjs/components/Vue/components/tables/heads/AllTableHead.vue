@@ -7,7 +7,7 @@
         <th style="width:90px"><span class="table-head">Autor</span></th>
         <th style="width:96px" data-b-searchable="false"><span class="table-head">Bewertung</span></th>
         <th style="width:22px" data-b-searchable="false"><span class="table-head">RR</span></th>
-        <th style="width: 25px" data-b-searchable="false"><span class="table-head">Unlink</span></th>
+        <th style="width: 32px" data-b-searchable="false"><span class="table-head">Unlink</span></th>
     </tr>
 </template>
 

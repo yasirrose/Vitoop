@@ -50,7 +50,6 @@ $(function () {
     });
 
     library.add(faCheck);
-
     Vue.use(VueRouter);
     Vue.component('font-awesome-icon', FontAwesomeIcon);
     Vue.config.productionTip = false;

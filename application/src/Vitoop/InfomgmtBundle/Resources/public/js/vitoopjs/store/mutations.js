@@ -135,7 +135,7 @@ export default {
     reset(state) {
         // acquire initial state
         const s = initialState;
-        let skipedKeys = ['table'];
+        let skipedKeys = ['table','allInOneList'];
         Object.keys(s).forEach(key => {
             if (-1 === skipedKeys.indexOf(key)) {
                 state[key] = s[key]

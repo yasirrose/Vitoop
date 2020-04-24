@@ -1,7 +1,7 @@
 <template>
     <div id="vtp-content">
         <fieldset class="ui-corner-all margin-top-3">
-            <div id="vtp-projectdata-box" v-if="project !== null">
+            <div id="vtp-projectdata-box" v-if="project">
                 <resizable-block id="vtp-projectdata-sheet-view"
                                  :height="projectHeight"
                                  @resize-stop="resizeContentHeight"
