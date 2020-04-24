@@ -16,6 +16,7 @@
     import AppFooter from "./footer/AppFooter.vue";
     import AppLogin from "./components/AppLogin.vue";
     import AppDialogs from "./components/dialogs/AppDialogs.vue";
+    import axios from "axios";
 
     export default {
         name: "VtpApp",
@@ -106,9 +107,16 @@
             }
         },
         mounted() {
+            axios.interceptors.response.use(response => {
+                if (typeof response.data === "string") {
+                    location.reload();
+                }
+                return response;
+            }, error => {
+                return Promise.reject(error);
+            });
             userInteraction.init();
             resourceDetail.init();
-
             if (this.project.id || this.lexicon.id) {
                 const id = this.project.id !== null ? this.project.id : this.lexicon.id;
                 this.$store.commit('setResourceId', id);

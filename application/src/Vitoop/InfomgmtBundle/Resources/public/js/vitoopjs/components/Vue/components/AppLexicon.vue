@@ -1,6 +1,6 @@
 <template>
     <div id="vtp-content">
-        <div id="lexicon-main" class="ui-corner-all" v-if="lexicon !== null">
+        <div id="lexicon-main" class="ui-corner-all" v-if="lexicon">
             <div id="vtp-lexicondata-box">
                 <div id="vtp-lexicondata-sheet-view"
                      class="ui-corner-all vtp-fh-w70"
