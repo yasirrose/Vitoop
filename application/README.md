@@ -45,5 +45,5 @@ make load_db path=<path_to_mysqldump.sql>
 
 Cron
 ```shell script
-php bin/console en:consume --message-limit=1 --time-limit="+40 seconds" # Consume messages for sending 
+php bin/console enqueue:consume --message-limit=1 --time-limit="30 seconds" # Consume messages for sending 
 ```
