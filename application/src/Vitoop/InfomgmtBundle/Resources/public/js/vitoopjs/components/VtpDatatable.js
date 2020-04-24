@@ -663,7 +663,9 @@ export default class VtpDatatable {
         return this.getUnlinkValue(id)
     }
     getUnlinkValue(id, type, row, meta) {
-        return `<span class="vtp-projectdata-unlink ui-icon ui-icon-close ui-corner-all" data-id="${id}"></span>`;
+        return `<button class="vtp-projectdata-unlink ui-corner-all">
+                    <span class="ui-icon ui-icon-close ui-corner-all" data-id="${id}"></span>
+                </button>`;
     }
     getLexiconUrlColumn() {
         if (vitoopState.state.edit) {

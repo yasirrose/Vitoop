@@ -144,9 +144,6 @@
         },
         mounted() {
             this.$store.commit('setResourceType', this.$route.name);
-            // if (this.getResource('id')) {
-            //     this.$store.commit('updateTableRowNumber', this.get('table').rowNumber - 1)
-            // }
             resourceDetail.init();
             this.datatable = this.initTable();
 
@@ -179,7 +176,6 @@
                         e.preventDefault();
                         if (!e.currentTarget.classList.contains('disabled')) {
                             this.$store.commit('resetSecondSearchValues');
-                            // this.$store.commit('updateTableRowNumber', +this.$store.state.table.rowNumber - 1);
                             this.$router.push(e.currentTarget.pathname);
                         }
                     });

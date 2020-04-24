@@ -965,7 +965,7 @@ span.vtp-icon {
 #vtp-header-status {
     text-align: right;
     font-size: 0.8em;
-    padding-right: 0.7em;
+    padding-right: 7px;
 }
 
 #button-checking-links-remove {
@@ -1225,7 +1225,7 @@ span.vtp-icon {
 .vtp-cmstitle {
     display: flex;
     align-items: center;
-    padding: 0 10px 0 15px !important;
+    padding: 0 6px 0 15px !important;
 
     .vtp-title {
 
@@ -1295,8 +1295,6 @@ span.vtp-icon {
     margin: -9px 2px 0 0;
     background-color: $vitoop-body-background-color;
     cursor: pointer;
-    width: 34px;
-    height: 19px;
 }
 
 .vtp-new-user-search > button {
@@ -1312,11 +1310,13 @@ span.vtp-icon {
     display: inline-block;
     position: absolute;
     border: $blue-frame-border;
-    margin: -8px 0 0 0;
     background-color: $vitoop-body-background-color;
     cursor: pointer;
-    width: 2.4em;
-    height: 19px;
+    width: 34px;
+    height: 17px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0;
 }
 
 div.login-container > div a {

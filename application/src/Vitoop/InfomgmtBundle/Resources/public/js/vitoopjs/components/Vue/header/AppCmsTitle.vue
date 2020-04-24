@@ -153,7 +153,6 @@
                 this.lexicon = null;
                 this.$store.commit('resetConversation');
                 this.$store.commit('resetResource');
-                // this.$store.commit('updateTableRowNumber', this.get('table').rowNumber + 1);
                 if (redirectTo === '/prj') this.$store.commit('setInProject', false);
                 redirectTo !== this.$route.path ? this.$router.push(redirectTo) : VueBus.$emit('datatable:reload');
             },
@@ -199,7 +198,7 @@
             },
             addNewDivider(dividerValue,index) {
                 return axios.post(`/api/project/${this.get('resource').id}/divider`, {
-                    text: dividerValue,
+                    text: '',
                     coefficient: dividerValue
                 })
                     .then(() => {
@@ -215,6 +214,7 @@
     @import "../../../../../css/variables/colors";
     #vtp-project-save-coef {
         height: 17px;
+        font-weight: normal;
         line-height: 1;
         border-radius: 6px;
         padding: 0 20px 2px;
@@ -253,12 +253,8 @@
                 background-position: -48px -145px;
             }
 
-            .ui-icon-close {
-                background-position: -80px -129px;
-            }
-
             .ui-button {
-                width: 30px !important;
+                width: 34px !important;
                 height: 17px !important;
                 margin: 0 0 0 4px !important;
             }
