@@ -10,9 +10,6 @@ export default {
     getTableRowNumber(state, getters) {
         let originalPageNumber = state.table.rowNumber ? state.table.rowNumber : 12;
         let offset = 0;
-        // if (state.secondSearch.show) offset++;
-        // if (state.tagList.show) offset++;
-        // if (state.resource.id !== null) offset++;
         return originalPageNumber - offset;
     },
     getTableData(state) {
@@ -33,6 +30,15 @@ export default {
     },
     getFlagged(state) {
         return state.table.flagged;
+    },
+    getProject(state) {
+        return state.project;
+    },
+    getIsAllRecords(state) {
+        return state.project ? state.project.project_data.is_all_records : false;
+    },
+    getProjectData(state) {
+        return state.project ? state.project.project_data : state.project;
     },
     getInProject(state) {
         return state.inProject;

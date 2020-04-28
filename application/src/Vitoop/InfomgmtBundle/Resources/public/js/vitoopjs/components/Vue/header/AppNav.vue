@@ -74,7 +74,7 @@
         },
         computed: {
             ...mapGetters([
-                'getResource', 'getInProject', 'get'
+                'getResource', 'getInProject', 'get', 'getProjectData', 'getIsAllRecords'
             ]),
             noContent() {
                 return (name) => {
@@ -86,7 +86,7 @@
                 return !(this.getResource('id') !== null)
             },
             isAllInOneList() {
-                return this.get('allInOneList') && this.getInProject;
+                return this.getIsAllRecords && this.getInProject;
             }
         },
         mounted() {

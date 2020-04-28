@@ -1,14 +1,16 @@
 <template>
     <div id="vtp-content">
         <fieldset class="ui-corner-all margin-top-3">
-            <div id="vtp-projectdata-box" v-if="editProject">
+            <div id="vtp-projectdata-box" v-if="getProject">
                 <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all"
                      v-if="infoProjectData !== null && infoProjectData !== '' && infoProjectData.length > 0">
                     <span class="vtp-icon ui-icon ui-icon-info"></span>{{ infoProjectData }}
                 </div>
                 <div class="vtp-fh-w60"
                      style="flex: 1;margin: 8px; margin-right: 30px">
-                    <textarea v-model="editProject.project_data.sheet"
+                    <textarea v-model="getProject.project_data.sheet"
+                              ref="sheet"
+                              @change="$store.commit('setProjectData', {key: 'sheet', value: $refs.sheet.value})"
                               id="edit-project-textarea"
                               name="edit-project-textarea">
                     </textarea>
@@ -27,21 +29,26 @@
                             <div style="vertical-align: bottom; text-align: left; color: #2779aa; font-size: 14px; padding-top: 10px;">
                                 <div class="vtp-fh-w70">
                                     <input type="checkbox"
-                                           v-model="editProject.project_data.is_private"
+                                           v-model="getProject.project_data.is_private"
+                                           ref="is_private"
+                                           @change="$store.commit('setProjectData', {key: 'is_private', value: $refs.is_private.checked})"
                                            name="projectIsPrivate"
                                            style="-webkit-appearance: checkbox"/>
                                     <label for="projectIsPrivate" id="sperren-vabel">Projekt sperren</label>
                                 </div>
                                 <div class="vtp-fh-w70">
                                     <input type="checkbox"
-                                           v-model="editProject.project_data.is_for_related_users"
+                                           v-model="getProject.project_data.is_for_related_users"
+                                           ref="is_for_related_users"
+                                           @change="$store.commit('setProjectData', {key: 'is_for_related_users', value: $refs.is_for_related_users.checked})"
                                            name="projectForRelated" style="-webkit-appearance: checkbox"/>
                                     <label for="projectForRelated" id="verstecken-vabel">Projekt verstecken</label>
                                 </div>
                                 <div class="vtp-fh-w70">
                                     <input type="checkbox"
-                                           @change="toggleAllInOneList"
-                                           :checked="get('allInOneList')"
+                                           v-model="getProject.project_data.is_all_records"
+                                           ref="is_all_records"
+                                           @change="$store.commit('setProjectData', {key: 'is_all_records', value: $refs.is_all_records.checked})"
                                            name="allInOneList"
                                            id="allInOneList"
                                            style="-webkit-appearance: checkbox"/>
@@ -50,7 +57,7 @@
                             </div>
                         </div>
                         <div class="vtp-fh-w100 vtp-ui-corner-all blau"
-                             v-if="editProject.project_data.rel_users.length > 0"
+                             v-if="getProject.project_data.rel_users.length > 0"
                              style="vertical-align: top; margin-top: 20px; font-size: 14px">
                             <div class="prj-edit-header">
                                 <div class="vtp-fh-w60">
@@ -60,7 +67,7 @@
                                     <span><strong>Rechte</strong></span>
                                 </div>
                             </div>
-                            <div v-for="rel in editProject.project_data.rel_users">
+                            <div v-for="rel in getProject.project_data.rel_users">
                                 <div class="vtp-fh-w60">
                                     <label :for="`userReadOnly-${rel.user.id}`"
                                            style="margin-right: 20px">{{ rel.user.username }}</label>
@@ -139,15 +146,13 @@
                 isOwner: false,
                 isDeleting: false,
                 isLoaded: false,
-                editProject: null,
-
                 options: [],
                 user: null,
                 needToSave: false,
             }
         },
         watch: {
-            editProject: {
+            getProject: {
                 deep: true,
                 handler(val, oldVal) {
                     if (oldVal !== null) {
@@ -157,47 +162,34 @@
             }
         },
         computed: {
-            ...mapGetters(['getResource','get'])
+            ...mapGetters(['getResource','get','getProject'])
         },
         mounted() {
             this.getProjectData();
         },
         methods: {
-            toggleAllInOneList(e) {
-                this.$store.commit('setAllInOneList', e.target.checked);
-            },
             changeRight(rel,e) {
                 rel.read_only = JSON.parse(e.target.value);
             },
             getProjectData() {
-                axios(`/api/v1/projects/${this.$route.params.projectId}`)
-                    .then(({data}) => {
-                        this.isLoaded = true;
-                        this.isOwner = data.isOwner;
-                        this.editProject = data.project;
-                        return
-                    })
-                    .then(() => {
-                        this.$refs.v_select.clearSelection();
-                        tinymce.remove('#edit-project-textarea');
-                        let options = vitoopApp.getTinyMceOptions();
-                        options.mode = 'exact';
-                        options.selector = '#edit-project-textarea';
-                        options.height= this.get('contentHeight')-32-71;
-                        options.plugins = ['textcolor', 'link', 'code'];
-                        options.toolbar = 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink | code';
-                        options.init_instance_callback = (editor) => {
-                            this.needToSave = false;
-                            editor.on('MouseLeave', (e) => {
-                                this.editProject.project_data.sheet = e.target.querySelector('.mce-content-body ').innerHTML;
-                            });
-                        };
-                        tinymce.init(options);
-                    })
-                    .catch(err => {
-                        this.isLoaded = true;
-                        console.dir(err);
-                    });
+                this.isLoaded = true;
+                setTimeout(() => {
+                    this.$refs.v_select.clearSelection();
+                    tinymce.remove('#edit-project-textarea');
+                    let options = vitoopApp.getTinyMceOptions();
+                    options.mode = 'exact';
+                    options.selector = '#edit-project-textarea';
+                    options.height= this.get('contentHeight')-32-71;
+                    options.plugins = ['textcolor', 'link', 'code'];
+                    options.toolbar = 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink | code';
+                    options.init_instance_callback = (editor) => {
+                        this.needToSave = false;
+                        editor.on('MouseLeave', (e) => {
+                            this.getProject.project_data.sheet = e.target.querySelector('.mce-content-body ').innerHTML;
+                        });
+                    };
+                    tinymce.init(options);
+                })
             },
             selectUser(user) {
                 this.user = user;
@@ -210,9 +202,8 @@
                     .catch(err => console.dir(err));
             },
             save() {
-                axios.post(`/api/project/${this.getResource('id')}`, this.editProject)
-                    .then(response => {
-                        this.getProjectData();
+                axios.post(`/api/project/${this.getResource('id')}`, this.getProject)
+                    .then(() => {
                         this.needToSave = false;
                     })
                     .catch(err => console.dir(err));
@@ -229,15 +220,15 @@
             },
             addUser() {
                 axios.post(`/api/project/${this.getResource('id')}/user`, this.user)
-                    .then(response => {
-                        this.getProjectData();
+                    .then(({data: {rel}}) => {
+                        this.$store.commit('addProjectRelUser', rel);
                     })
                     .catch(err => console.dir(err));
             },
             removeUser() {
                 axios.delete(`/api/project/${this.getResource('id')}/user/${this.user.id}`)
-                    .then(response => {
-                        this.getProjectData();
+                    .then(({data: {rel}}) => {
+                        this.$store.commit('removeProjectRelUser', rel.id);
                     })
                     .catch(err => console.dir(err));
             }
