@@ -5,9 +5,9 @@ export default {
         info: null,
         owner: false
     },
+    project: null,
     edit: false,
     inProject: false,
-    allInOneList: false,
     secondSearch: {
         show: false,
         showDataRange: false,

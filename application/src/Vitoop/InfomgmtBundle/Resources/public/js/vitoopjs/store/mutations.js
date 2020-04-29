@@ -33,9 +33,6 @@ export default {
     updateTableBlinker(state, blinkerStatus) {
         state.table.rowNumberBlinker = blinkerStatus;
     },
-    setAllInOneList(state, status) {
-        state.allInOneList = status;
-    },
     // Coefs
     updateCoef(state, payload) {
         state.table.data.forEach(res => {
@@ -135,7 +132,7 @@ export default {
     reset(state) {
         // acquire initial state
         const s = initialState;
-        let skipedKeys = ['table','allInOneList'];
+        let skipedKeys = ['table'];
         Object.keys(s).forEach(key => {
             if (-1 === skipedKeys.indexOf(key)) {
                 state[key] = s[key]
@@ -154,7 +151,16 @@ export default {
     set(state,payload) {
         state[payload.key] = payload.value;
     },
-
+    setProjectData(state, {key,value}) {
+        state.project.project_data[key] = value;
+    },
+    addProjectRelUser({project: {project_data: {rel_users}}}, rel) {
+        rel_users.push(rel);
+    },
+    removeProjectRelUser({project: {project_data: {rel_users}}}, relId) {
+        const index = _.findIndex(rel_users, {id: relId});
+        rel_users.splice(index, 1);
+    },
     // Conversation
     isForRelatedUser(state,payload) {
         state.conversationInstance.conversation.conversation_data.is_for_related_users = payload;
