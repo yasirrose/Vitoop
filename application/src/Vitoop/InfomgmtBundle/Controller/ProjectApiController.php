@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Vitoop\InfomgmtBundle\DTO\Resource\ProjectDTO;
 use Vitoop\InfomgmtBundle\DTO\User\ProjectUserDTO;
 use Vitoop\InfomgmtBundle\Entity\RelProjectUser;
 use Vitoop\InfomgmtBundle\Entity\Resource;
@@ -15,6 +16,7 @@ use JMS\Serializer\DeserializationContext;
 use JMS\Serializer\SerializationContext;
 use Vitoop\InfomgmtBundle\Entity\Project;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Vitoop\InfomgmtBundle\Repository\ProjectRepository;
 use Vitoop\InfomgmtBundle\Repository\RelProjectUserRepository;
 use Vitoop\InfomgmtBundle\Repository\UserRepository;
 use Vitoop\InfomgmtBundle\Response\Json\ErrorResponse;
@@ -42,19 +44,27 @@ class ProjectApiController extends ApiController
     private $relProjectUserRepository;
 
     /**
+     * @var ProjectRepository
+     */
+    private $projectRepository;
+
+    /**
      * ProjectApiController constructor.
      * @param ValidatorInterface $validator
      * @param UserRepository $userRepository
      * @param RelProjectUserRepository $relProjectUserRepository
+     * @param ProjectRepository $projectRepository
      */
     public function __construct(
         ValidatorInterface $validator,
         UserRepository $userRepository,
-        RelProjectUserRepository $relProjectUserRepository
+        RelProjectUserRepository $relProjectUserRepository,
+        ProjectRepository $projectRepository
     ) {
         $this->validator = $validator;
         $this->userRepository = $userRepository;
         $this->relProjectUserRepository = $relProjectUserRepository;
+        $this->projectRepository = $projectRepository;
     }
 
     /**
@@ -104,27 +114,15 @@ class ProjectApiController extends ApiController
     public function saveProject(Project $project, Request $request)
     {
         $this->checkAccess($project);
- 
-        $serializer = $this->get('jms_serializer');
-        $em = $this->getDoctrine()->getManager();
-        $serializerContext = DeserializationContext::create()
-            ->setGroups(['get_project']);
-        $updatedProject = $serializer->deserialize(
-            $request->getContent(),
-            'Vitoop\InfomgmtBundle\Entity\Project',
-            'json',
-            $serializerContext
-        );
-        $response = ['status' => 'error', 'message' => 'Project is not found'];
-        $project = $em->getRepository('VitoopInfomgmtBundle:Project')->find($updatedProject->getId());
-        if ($project) {
-            $project->setProjectData($updatedProject->getProjectData());
-            $em->persist($project);
-            $em->flush();
-            $response = ['status' => 'success', 'message' => 'Project saved!'];
-        }
 
-        return new JsonResponse($response);
+        /**
+         * @var ProjectDTO $dto
+         */
+        $dto = $this->getDTOFromRequest($request, ProjectDTO::class);
+        $project->updateFromDTO($dto);
+        $this->projectRepository->save($project);
+
+        return new JsonResponse(['status' => 'success', 'message' => 'Project saved!']);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace Vitoop\InfomgmtBundle\Repository;
 
 use Vitoop\InfomgmtBundle\Entity\Project;
+use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\Entity\User;
 use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
 
@@ -93,5 +94,11 @@ class ProjectRepository extends ResourceRepository
             ORDER BY base.coef asc, base.coefId asc
             LIMIT %s OFFSET %s;
 EOT;
+    }
+
+    public function save(Project $project)
+    {
+        $this->_em->persist($project);
+        $this->_em->flush();
     }
 }

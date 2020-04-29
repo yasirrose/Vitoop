@@ -4,6 +4,7 @@ namespace Vitoop\InfomgmtBundle\Entity;
 use Vitoop\InfomgmtBundle\DTO\GetDTOInterface;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Vitoop\InfomgmtBundle\DTO\Resource\ProjectDTO;
 use Vitoop\InfomgmtBundle\DTO\Resource\ResourceDTO;
 use Vitoop\InfomgmtBundle\Entity\ValueObject\DateTime;
 
@@ -167,6 +168,12 @@ class Project extends Resource implements GetDTOInterface
     {
         parent::updateFromResourceDTO($dto);
         $this->description = $dto->description;
+    }
+
+    public function updateFromDTO(ProjectDTO $dto)
+    {
+        $this->name = $dto->name;
+        $this->project_data->updateFromDTO($dto->projectData);
     }
 }
 
