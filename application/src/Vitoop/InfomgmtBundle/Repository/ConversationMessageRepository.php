@@ -29,5 +29,4 @@ class ConversationMessageRepository extends ResourceRepository
         $this->getEntityManager()->remove($message);
         $this->getEntityManager()->flush();
     }
-
 }

@@ -699,17 +699,19 @@ class ResourceRepository extends ServiceEntityRepository
             if (Resource::class === $class) {
                 continue;
             }
+            $qb->leftJoin($class, $type, Query\Expr\Join::WITH, $type.'.id = r.id');
             if (property_exists($class, 'url')) {
-                $qb->leftJoin($class, $type, Query\Expr\Join::WITH, $type.'.id = r.id');
                 $selectUrlString .= " WHEN r INSTANCE OF ".$class." THEN ".$type.".url ";
             }
             $selectTypeString .= " WHEN r INSTANCE OF ".$class." THEN '".$type."' ";
         }
 
+        $qb->join('adr.country', 'co');
+
         $qb->select("(CASE
                 ".$selectTypeString."
                 ELSE 'res'
-            END) as type, '' as text, (CASE ".$selectUrlString." ELSE '' END) as url");
+            END) as type, '' as text, (CASE ".$selectUrlString." ELSE '' END) as url, adr.zip, adr.city, adr.street, co.code");
         $this->prepareListQueryBuilder($qb, $search);
 
         return $qb;
@@ -721,11 +723,11 @@ class ResourceRepository extends ServiceEntityRepository
     private function getAllResourcesDividerQuery()
     {
         return <<<'EOT'
-            SELECT SQL_CALC_FOUND_ROWS base.coef, base.coefId, base.text, base.url, base.id, base.name, base.created_at, base.username, base.avgmark, base.res12count, base.isUserHook, base.isUserRead, base.type
+            SELECT SQL_CALC_FOUND_ROWS base.coef, base.coefId, base.text, base.url, base.zip, base.city, base.street, base.code, base.id, base.name, base.created_at, base.username, base.avgmark, base.res12count, base.isUserHook, base.isUserRead, base.type
               FROM (
                %s
                UNION ALL
-               SELECT null as type, prd.text as text, '' as url, null as id, null as name, null as created_at, null as username, null as avgmark, null as res12count, null as isUserHook, null as isUserRead, prd.coefficient as coef, prd.id as coefId
+               SELECT null as type, prd.text as text, '' as url, null as zip, null as city, null as street, null as code, null as id, null as name, null as created_at, null as username, null as avgmark, null as res12count, null as isUserHook, null as isUserRead, prd.coefficient as coef, prd.id as coefId
                 FROM project_rel_divider prd
                INNER join project p on p.project_data_id = prd.id_project_data
               where p.id = %s

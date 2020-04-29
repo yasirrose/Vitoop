@@ -5,6 +5,7 @@ use Vitoop\InfomgmtBundle\DTO\GetDTOInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Vitoop\InfomgmtBundle\DTO\Resource\ProjectDataDTO;
 
 /**
  * @ORM\Table(name="project_data")
@@ -290,6 +291,14 @@ class ProjectData implements GetDTOInterface
     public function getDividers()
     {
         return $this->dividers;
+    }
+
+    public function updateFromDTO(ProjectDataDTO $dto)
+    {
+        $this->sheet = $dto->sheet;
+        $this->isForRelatedUsers = $dto->isForRelatedUsers;
+        $this->isPrivate = $dto->isPrivate;
+        $this->isAllRecords = $dto->isAllRecords;
     }
 
     public function getDTO()
