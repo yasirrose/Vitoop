@@ -706,7 +706,7 @@ class ResourceRepository extends ServiceEntityRepository
             $selectTypeString .= " WHEN r INSTANCE OF ".$class." THEN '".$type."' ";
         }
 
-        $qb->join('adr.country', 'co');
+        $qb->leftJoin('adr.country', 'co');
 
         $qb->select("(CASE
                 ".$selectTypeString."
