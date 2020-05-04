@@ -176,7 +176,8 @@ export default class VtpDatatable {
             });
         });
         if (editMode) {
-            $('.vtp-projectdata-unlink').on('click', function() {
+            $('.vtp-projectdata-unlink').on('click', function(e) {
+                e.stopPropagation();
                 axios.delete(`/api/project/${projectId}/resource/${$(this).data('id')}`)
                     .then(response => {
                         const elemSuccess = $('<div class="vtp-uiinfo-info ui-state-highlight ui-corner-all"><span class="vtp-icon ui-icon ui-icon-info"></span>'+response.message+'</div>');
@@ -186,7 +187,7 @@ export default class VtpDatatable {
                     })
                     .catch(err => {
                         console.dir(err);
-                        $('#vtp-projectdata-title').append('<span class="form-error">Vitoooops!: ' + err.message + '</span>');
+                        // $('#vtp-projectdata-title').append('<span class="form-error">Vitoooops!: ' + err.message + '</span>');
                     });
             });
             $('input.divider').on('focusout', function() {
@@ -337,7 +338,7 @@ export default class VtpDatatable {
                 this.getOwnerColumn(),
                 this.getRatingColumn(),
                 this.getRes12Column(),
-                {render: (data,type,row) => row.id !== null ? this.getUnlinkColumn(row.id) : null}
+                this.getUrlAll(),
             ]
         }
         if (this.resType === 'conversation') {
@@ -448,6 +449,42 @@ export default class VtpDatatable {
                 this.getOwnerColumn(),
                 this.getMapsLinkColumn()
             ];
+        }
+    }
+    getUrlAll() {
+        if (vitoopState.state.edit) {
+            return this.getUrlColumn();
+        }
+        return {
+            render: (data,type,row,meta) => {
+                if (row.id !== null) {
+                    switch(row.type) {
+                        case 'prj':
+                            return this.getProjectUrlValue(data, type, row, meta)
+                        break
+                        case 'lex':
+                            return this.getLexiconUrlValue(data,type,row,meta)
+                        break
+                        case 'pdf':
+                            return this.getUrlValue(row.url)
+                        break
+                        case 'teli':
+                            return this.getUrlValue(row.url)
+                        break
+                        case 'book':
+                            return null
+                        break
+                        case 'adr':
+                            return this.getMapsLinkValue(data,type,row)
+                        break
+                        case 'link':
+                            return this.getUrlValue(row.url)
+                        break
+                    }
+                } else {
+                    return null
+                }
+            }
         }
     }
     getTypeColumn() {
@@ -642,7 +679,7 @@ export default class VtpDatatable {
     }
     getProjectUrlValue(data, type, row, meta) {
         if (row.canRead || vitoopState.state.admin) {
-            return VtpDatatable.prototype.getInternalUrlValue(vitoop.baseUrl+'project/'+data, type, row, meta);
+            return VtpDatatable.prototype.getInternalUrlValue(vitoop.baseUrl+'project/'+row.id, type, row, meta);
         }
         return `<span class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink disabled"
                     style="background-color: #DDDDDD">
@@ -650,7 +687,7 @@ export default class VtpDatatable {
                 </span>`;
     }
     getLexiconUrlValue(data, type, row, meta) {
-        return VtpDatatable.prototype.getInternalUrlValue(vitoop.baseUrl+'lexicon/'+data, type, row, meta);
+        return VtpDatatable.prototype.getInternalUrlValue(vitoop.baseUrl+'lexicon/'+row.id, type, row, meta);
     }
     getUrlColumn() {
         if (vitoopState.state.edit) {
@@ -664,8 +701,8 @@ export default class VtpDatatable {
         return this.getUnlinkValue(id)
     }
     getUnlinkValue(id, type, row, meta) {
-        return `<button class="vtp-projectdata-unlink ui-corner-all">
-                    <span class="ui-icon ui-icon-close ui-corner-all" data-id="${id}"></span>
+        return `<button class="vtp-projectdata-unlink ui-corner-all" data-id="${id}">
+                    <span class="ui-icon ui-icon-close ui-corner-all"></span>
                 </button>`;
     }
     getLexiconUrlColumn() {
@@ -675,6 +712,9 @@ export default class VtpDatatable {
         return {data: "id", render: (data,type,row,meta) => row.id !== null ? this.getLexiconUrlValue(data,type,row,meta) : null};
     }
     getProjectUrlColumn() {
+        if (vitoopState.state.edit) {
+            return this.getUrlColumn();
+        }
         return {
             "data": "id",
             render: (data,type,row,meta) => row.id !== null ? this.getProjectUrlValue(data, type, row, meta) : null
@@ -705,7 +745,6 @@ export default class VtpDatatable {
     }
     getMapsLinkColumn() {
         if (vitoopState.state.edit) {
-            // return this.getUnlinkColumn();
             return this.getUrlColumn();
         }
         return {"data": "id", "render": (data,type,row) => row.id !== null ? this.getMapsLinkValue(data,type,row) : null};
