@@ -6,7 +6,7 @@
         <th style="width:14%;"><span class="table-head">Projektmeister</span></th>
         <th style="width:96px;" data-b-searchable="false"><span class="table-head">Bewertung</span></th>
         <th style="width:42px;" data-b-searchable="false"><span class="table-head">RR</span></th>
-        <th style="width: 45px;" data-b-searchable="false" data-b-sortable="false">
+        <th style="width: 44px;" data-b-searchable="false" data-b-sortable="false">
             <span class="table-head">{{ linkTitle }}</span>
         </th>
     </tr>

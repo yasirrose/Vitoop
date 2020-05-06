@@ -3,12 +3,12 @@
          class="vtp-menu ui-helper-clearfix ui-corner-all">
         <ul>
             <li>
-                <div class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
+                <a class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
                     :class="{'vtp-nav-active ui-state-active': $route.name === 'project'}"
                     @click="$router.push({path: `/project/${getResource('id')}`})"
                     v-if="getInProject">
                     Projekt-Hauptseite
-                </div>
+                </a>
                 <a class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
                    :class="{'vtp-nav-active ui-state-active': $route.name === 'lexicon'}"
                    @click="$router.push(`/lexicon/${getResource('id')}`)"
@@ -31,7 +31,7 @@
                    @click="changeRoute('all')"
                    :class="{
                     'vtp-nav-active ui-state-active': /all/.test($route.name)
-                   }">
+                   }" style="padding: 0 17px">
                     verknüpfte Datensätze
                 </a>
             </li>
@@ -92,6 +92,8 @@
         mounted() {
             const resourceList = new ResourceList();
             resourceList.init();
+
+
         },
         methods: {
             toHome() {
