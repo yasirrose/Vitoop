@@ -6,7 +6,6 @@ export default {
                 let resourcesParts = this.href.match(/\/(\d+)/);
                 if (resourcesParts !== null) {
                     e.preventDefault();
-                    resourceDetail.init();
                     vitoopApp.openResourcePopup(resourcesParts[1]);
                     return false;
                 }
