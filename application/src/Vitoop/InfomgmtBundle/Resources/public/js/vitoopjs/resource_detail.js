@@ -905,6 +905,8 @@ window.resourceDetail = (function () {
                 modal: true,
                 close: closeDialog
             });
+            const resButtons = document.getElementById('resource-buttons');
+            if (resButtons) resButtons.remove();
             $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').after('<span id="resource-buttons"></span>');
             $('#vtp-res-dialog').before('<div id="resource-flags" style="display: none;"></div>');
             resourceCheckOnChange();

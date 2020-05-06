@@ -116,7 +116,7 @@
                 return Promise.reject(error);
             });
             userInteraction.init();
-            resourceDetail.init();
+
             if (this.project.id || this.lexicon.id) {
                 const id = this.project.id !== null ? this.project.id : this.lexicon.id;
                 this.$store.commit('setResourceId', id);
