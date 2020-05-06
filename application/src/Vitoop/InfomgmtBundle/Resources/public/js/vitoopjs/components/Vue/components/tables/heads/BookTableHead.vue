@@ -8,7 +8,7 @@
         <th style="width:96px;" data-b-searchable="false"><span class="table-head">Bewertung</span></th>
         <th style="width:42px;" data-b-searchable="false"><span class="table-head">RR</span></th>
         <th style="width:14%;"><span class="table-head">von</span></th>
-        <th style="width:54px;"
+        <th style="width:44px;"
             v-if="get('edit')"
             data-b-sortable="false"
             data-b-searchable="false">
