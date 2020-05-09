@@ -8,8 +8,7 @@
                           :key="message.id"
                           class="conversation__message ui-corner-all"
                           :class="{
-                        'mb-0': index === conversationInstance.conversation.conversation_data.messages.length-1,
-                        'edit': get('admin')
+                            'edit': get('admin')
                       }">
                     <legend>
                         {{ message.user.username }} |
@@ -131,16 +130,6 @@
                             löschen
                         </button>
                     </div>
-<!--                    <span v-if="isError"-->
-<!--                          id="error-span"-->
-<!--                          class="form-error">-->
-<!--                                    Vitoooops!: <span ng-bind="message"></span>-->
-<!--                                </span>-->
-<!--                    <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all"-->
-<!--                         v-if="isSuccess" style="transition: 0s linear all;">-->
-<!--                        <span class="vtp-icon ui-icon ui-icon-info"></span>-->
-<!--                        <span>{{ message }}</span>-->
-<!--                    </div>-->
                 </div>
             </div>
         </fieldset>
@@ -308,10 +297,10 @@
                     formData.append('message', tinyMCE.get('new-message-textarea').getContent());
                     axios.post(`/api/v1/conversations/${this.conversationInstance.conversation.id}/messages`, formData)
                         .then(({data}) => {
-                            this.newMessage.opened = false;
-                            this.hideNewMessageArea();
                             this.centrifuge.publish(`${this.conversationInstance.conversation.id}`, data)
                                 .then(res => {
+                                    this.newMessage.opened = false;
+                                    this.hideNewMessageArea(true);
                                     this.openResourcePopup('.conversation__message__text');
                                 })
                                 .catch(err => console.dir(err));
@@ -330,14 +319,19 @@
                         .catch(err => console.dir(err));
                 }
             },
-            hideNewMessageArea() {
+            hideNewMessageArea(afterPublished) {
                 const block = document.querySelector('.app-block-resizer');
                 const scrollTop = JSON.parse(JSON.stringify(block.scrollTop));
                 const newMsgAreaHeight = JSON.parse(JSON.stringify(document.querySelector('.conversation__new-message').clientHeight));
+                const lastAddedMsg = document.querySelectorAll('.conversation__message:last-of-type')[0];
+                const lastAddedMsgHeight = lastAddedMsg.clientHeight + parseInt(window.getComputedStyle(lastAddedMsg).getPropertyValue('margin-top'));
+                const scrollDiff = afterPublished ? newMsgAreaHeight - lastAddedMsgHeight : newMsgAreaHeight;
                 setTimeout(() => {
                     const animation = setInterval(() => {
-                        if (scrollTop - block.scrollTop >= newMsgAreaHeight) {
+                        console.log(`scrollTop: ${scrollTop}, blockScrollTop: ${block.scrollTop}, scrollDiff: ${scrollDiff}`);
+                        if (scrollTop - block.scrollTop >= scrollDiff) {
                             clearInterval(animation);
+                            console.log(`FINAL scrollTop: ${scrollTop}, blockScrollTop: ${block.scrollTop}, scrollDiff: ${scrollDiff}`)
                             this.toggleNewMessageAreaDisabled = false;
                             VueBus.$emit('perfect-scroll:resize');
                             return
@@ -380,10 +374,6 @@
 </style>
 
 <style scoped lang="scss">
-    .conversation__messages {
-        transition: .3s;
-    }
-
     .dropdown {
         margin-bottom: 5px;
     }
@@ -436,19 +426,20 @@
             transition: .4s;
 
             &.opened {
-                /*height: auto;*/
                 opacity: 1;
                 margin-top: 10px;
-                height: 265px;
+                margin-bottom: 1rem;
+                height: 267px;
             }
         }
 
         &__messages {
             width: 76%;
             overflow: auto;
-            padding-bottom: 1.1rem;
+            padding-bottom: 0;
             padding-right: 20px;
             position: relative;
+            transition: .3s;
         }
 
         &__info {
@@ -460,6 +451,7 @@
         &__message {
             border-color: #517c95;
             transition: .5s;
+            margin-bottom: 1rem;
 
             &.delete-animation {
                 background: #d9ecfa;

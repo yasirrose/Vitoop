@@ -53,24 +53,24 @@
                     <fieldset class="ui-corner-all">
                         <legend>Verknüpfungen mit Lexikonartikel</legend>
                         <div class="autocomplete-wrapper">
-                            <input ref="autocomplete_input"
-                                   type="text"
-                                   id="lexicon_name_name"
-                                   required="required"
-                                   maxlength="128"
-                                   v-model.trim="autocomplete"
-                                   class="vtp-fh-w40 ui-autocomplete-input" autocomplete="off">
-                            <button @click="add"
-                                    ref="add"
-                                    class="vtp-uiinfo-anchor vtp-lexicon-submit ui-button ui-widget ui-state-default ui-corner-all">+</button>
-                            <button @click="remove"
-                                    class="vtp-uiinfo-anchor vtp-lexicon-submit ui-button ui-widget ui-state-default ui-corner-all">-</button>
-                            <a class="vtp-uiinfo-anchor vtp-lexicon-submit ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
-                               v-if="currentTag !== null && autocomplete.length > 0"
-                               @click="openLexicon"
-                               id="open_lexicon_link" role="button">
-                                öffnen
-                            </a>
+<!--                            <input ref="autocomplete_input"-->
+<!--                                   type="text"-->
+<!--                                   id="lexicon_name_name"-->
+<!--                                   required="required"-->
+<!--                                   maxlength="128"-->
+<!--                                   v-model.trim="autocomplete"-->
+<!--                                   class="vtp-fh-w40 ui-autocomplete-input" autocomplete="off">-->
+<!--                            <button @click="add"-->
+<!--                                    ref="add"-->
+<!--                                    class="vtp-uiinfo-anchor vtp-lexicon-submit ui-button ui-widget ui-state-default ui-corner-all">+</button>-->
+<!--                            <button @click="remove"-->
+<!--                                    class="vtp-uiinfo-anchor vtp-lexicon-submit ui-button ui-widget ui-state-default ui-corner-all">-</button>-->
+<!--                            <a class="vtp-uiinfo-anchor vtp-lexicon-submit ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"-->
+<!--                               v-if="currentTag !== null && autocomplete.length > 0"-->
+<!--                               @click="openLexicon"-->
+<!--                               id="open_lexicon_link" role="button">-->
+<!--                                öffnen-->
+<!--                            </a>-->
                             <div class="vtp-uiinfo-form-error"></div>
                         </div>
                         <div id="vtp-lexiconbox" class="vtp-collectionbox ui-corner-all">
@@ -162,7 +162,7 @@
             selectLexicon(lexicon) {
                 this.autocomplete = lexicon.name;
                 this.currentTag = lexicon;
-                this.$refs.add.focus();
+                // this.$refs.add.focus();
             },
             getLexicons() {
                 axios(`/api/v1/lexicons/${this.$route.params.lexiconId}/assignments`)

@@ -108,7 +108,7 @@
                                 <span>{{ message }}</span>
                             </div>
                         </div>
-                        <div class="vtp-fh-w100" v-if="isOwner">
+                        <div class="vtp-fh-w100" v-if="getResource('owner')">
                             <p v-if="isDeleting">
                                 Dieser Vorgang kann nicht rückgängig gemacht werden. Soll das Projekt wirklich gelöscht werden?
                             </p>
@@ -143,7 +143,6 @@
                 message: null,
                 isError: false,
                 isSuccess: false,
-                isOwner: false,
                 isDeleting: false,
                 isLoaded: false,
                 options: [],
