@@ -442,7 +442,6 @@ window.resourceDetail = (function () {
                 },
                 dataType: 'json'
             });
-
             tab_loaded[tab_nr] = 1;
         },
         loadTabSuccess = function (responseJSON,tabName) {
@@ -874,10 +873,16 @@ window.resourceDetail = (function () {
         },
         replaceContainer = function (containerName, html) {
             $('#' + containerName).empty().append(html);
-            //clearTabsClasses();
             resetTinyMce();
-            // Initializing special UI-Gimmicks are done in uifyContainer()
             uifyContainer(containerName);
+            if (containerName === 'resource-buttons') {
+                if (vitoopState.state.resource.type === 'conversation') {
+                    $('#' + containerName).empty();
+                }
+                if (/prj|lex/.test(vitoopState.state.resource.type)) {
+                    $('.vtp-uiaction-detail-new, .vtp-uiaction-detail-blame').remove();
+                }
+            }
         },
         notifyRefresh = function () {
             refresh_list = true;
