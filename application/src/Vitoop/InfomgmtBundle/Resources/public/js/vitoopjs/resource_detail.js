@@ -876,11 +876,15 @@ window.resourceDetail = (function () {
             resetTinyMce();
             uifyContainer(containerName);
             if (containerName === 'resource-buttons') {
-                if (vitoopState.state.resource.type === 'conversation') {
+                if (vitoopState.state.inProject && /project/.test(location.pathname)) {
                     $('#' + containerName).empty();
                 }
-                if (/prj|lex/.test(vitoopState.state.resource.type)) {
-                    $('.vtp-uiaction-detail-new, .vtp-uiaction-detail-blame').remove();
+                if (vitoopState.state.inProject) {
+                    $(`#${containerName} button`).not('.vtp-uiaction-detail-previous, .vtp-uiaction-detail-next')
+                        .remove();
+                }
+                if (!vitoopState.state.inProject && vitoopState.state.resource.id !== null) {
+                    $('.vtp-uiaction-detail-new').remove();
                 }
             }
         },
