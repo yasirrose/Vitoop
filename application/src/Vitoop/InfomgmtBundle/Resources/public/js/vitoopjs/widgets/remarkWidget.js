@@ -91,7 +91,7 @@ export default class RemarkWidget extends Widget {
                 $(self.remarkBoxId).show();
             }),
             editor.on('change', function (e) {
-                $('.remark-agreement').show();
+                $('.remark-agreement').css('display','flex');
             });
         };
 

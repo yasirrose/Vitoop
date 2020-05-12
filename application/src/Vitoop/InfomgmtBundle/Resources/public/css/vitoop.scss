@@ -1150,9 +1150,14 @@ span.vtp-icon {
     line-height: 24px;
     cursor: default !important;
     text-align: left;
-    width: 70%;
     color: $vitoop-selected-color;
     font-size: 12px;
+
+    border: $blue-frame-border;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
 }
 
 /************************************************************
@@ -1859,18 +1864,18 @@ div#vtp-res-list table input[disabled="disabled"] {
 }
 
 .remark-agreement {
+    display: none;
+    justify-content: flex-end;
+    margin: 10px 0 !important;
+    padding: 5px;
+    text-align: right;
+    color: $vitoop-blue-color;
     border: $blue-frame-border;
     border-radius: 6px;
-    padding: 2px 5px;
-    margin: 10px 0 !important;
+    font-size: 0.85em;
 
-    p {
-        font-size: 0.85em;
-        margin: 0;
-
-        a {
-            color: rgb(39, 121, 170);
-        }
+    a {
+        color: rgb(39, 121, 170) !important;
     }
 }
 
