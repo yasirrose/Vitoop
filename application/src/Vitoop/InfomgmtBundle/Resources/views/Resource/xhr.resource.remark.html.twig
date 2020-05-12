@@ -21,17 +21,24 @@
         </fieldset>
     {% endif %}
     {% if (needToAccept)%}
-        <div style="text-align: right; color: #2779aa; margin: 15px 0; display: none" class="remark-agreement">
-            <p>
-            <input type="checkbox" id="remark-accepted" style="-webkit-appearance: checkbox; margin-right: 5px">
-            Ich stelle den von mir eingegebenen Text zu diesem Datensatz unter die <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.de" target="_blank">Creative Commons Lizenz (BY-SA)</a>.
-            </p>
+        <div class="remark-agreement">
+            <label class="custom-checkbox__wrapper square-checkbox" style="margin-right: 3px">
+                <input class="valid-checkbox open-checkbox-link"
+                       id="remark-accepted"
+                       type="checkbox"/>
+                <span class="custom-checkbox">
+                    <img class="custom-checkbox__check"
+                         src="/img/check.png" />
+                </span>
+                Ich stelle den von mir eingegebenen Text zu diesem Datensatz unter die
+                <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.de" target="_blank">Creative Commons Lizenz (BY-SA)</a>.
+            </label>
         </div>
     {% endif %}
     <div id="vtp-remark-buttons">
         {% if (remarks is not empty) %}
             <div id="vtp-remark-owner">
-                <span>Bearbeiter:</span>
+                <span style="margin-right: 3px">Bearbeiter:</span>
                 {% for rem in remarks %}
                     <span class="remarks-button" {% if is_granted('ROLE_ADMIN') %} title="{{ rem.getCreatedAt|date("m-d-Y") }}, {{ rem.getIp }}" data-text="{{ rem.text }}" {% endif %}>
                         {{ rem.user.username }}{% if (not loop.last) %}, {% endif %}

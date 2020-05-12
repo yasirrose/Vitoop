@@ -1,5 +1,12 @@
 @import "../variables/colors";
 
+input[type="text"], input[type="search"] {
+
+    &:hover {
+        border-color: #74b2e2;
+    }
+}
+
 .custom-checkbox {
   border: 1px solid $vitoop-blue-color;
   position: absolute;

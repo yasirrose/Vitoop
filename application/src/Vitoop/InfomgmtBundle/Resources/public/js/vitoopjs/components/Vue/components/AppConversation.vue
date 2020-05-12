@@ -16,7 +16,7 @@
                         {{ moment(message.date.date).format('kk:mm') }}
                     </legend>
                     <div class="conversation__message__text" v-html="message.message"></div>
-                    <div v-if="get('admin')" class="conversation__message__edit">
+                    <div v-if="get('admin') && get('conversationEditMode')" class="conversation__message__edit">
                         <button class="ui-state-default"
                                 @click="editMessage(message)">
                             <span class="ui-button-icon-primary ui-icon ui-icon-wrench"></span>
@@ -328,10 +328,8 @@
                 const scrollDiff = afterPublished ? newMsgAreaHeight - lastAddedMsgHeight : newMsgAreaHeight;
                 setTimeout(() => {
                     const animation = setInterval(() => {
-                        console.log(`scrollTop: ${scrollTop}, blockScrollTop: ${block.scrollTop}, scrollDiff: ${scrollDiff}`);
                         if (scrollTop - block.scrollTop >= scrollDiff) {
                             clearInterval(animation);
-                            console.log(`FINAL scrollTop: ${scrollTop}, blockScrollTop: ${block.scrollTop}, scrollDiff: ${scrollDiff}`)
                             this.toggleNewMessageAreaDisabled = false;
                             VueBus.$emit('perfect-scroll:resize');
                             return

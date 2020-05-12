@@ -66,6 +66,12 @@
             </span>
             <div class="vtp-title__buttons">
                 <span style="display: flex">
+                    <button id="vtp-projectdata-project-live"
+                            class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
+                            :class="{'ui-state-focus ui-state-active': !get('conversationEditMode')}"
+                            @click="conversationEditMode">
+                        <span class="ui-button-icon-primary ui-icon ui-icon-clipboard"></span>
+                    </button>
                     <button id="vtp-projectdata-project-edit"
                             class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
                             v-if="get('conversationInstance').canEdit"

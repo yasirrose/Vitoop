@@ -581,7 +581,7 @@ window.resourceDetail = (function () {
             openDialog();
         },
         hideConnectionAndRemark = () => {
-            if (vitoopState.state.resource.type === 'conversation') {
+            if (res_type === 'conversation') {
                 $('#tab-title-remark').css('display','none');
                 $('#tab-title-rels').css('display','none');
             } else {
