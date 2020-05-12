@@ -138,7 +138,6 @@ export default class VitoopApp {
     openResourcePopup(resourceId) {
         let popup = new ResourcePopup(resourceId);
         popup.loadResource();
-
         return popup;
     }
 
