@@ -57,6 +57,8 @@ export default class RemarkWidget extends Widget {
                 $form.empty().append('Vitoooops!: ' + textStatus + ' ' + jqXHR.status + ': ' + jqXHR.statusText);
             }
         });
+
+        self.uifyContainer(self.containerName);
     }
 
     changeClassOfButton(e) {
