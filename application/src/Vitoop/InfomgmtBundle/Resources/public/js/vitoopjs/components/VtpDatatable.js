@@ -23,6 +23,7 @@ export default class VtpDatatable {
         let self = this;
         // vitoopState.commit('setResourceType', this.resType);
         self.sendLinkWidget.checkOpenButtonState();
+        $.fn.dataTable.ext.errMode = 'none';
         let datatable = $(this.datatableListId).DataTable(this.getDatatableOptions());
         datatable
             .on('init.dt', function () {
