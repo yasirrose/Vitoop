@@ -6,9 +6,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/vitoop.css') }}">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <script src="{{ asset('js/vitoop.js') }}"></script>
-    <script src="/build/old/angular.min.js"></script>
-    <script src="{{ asset('js/angular-modules.js') }}"></script>
-    <script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
+{#    <script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>#}
     <script src="{{ asset('js/vitoop-pdf-view.js') }}"></script>
 </head>
 <body id="vtp-application">
@@ -67,6 +65,7 @@
     var isLoadAnnotation = true;
 
     $(document).ready(function () {
+        debugger
         window.vitoopPdfView.init(resourceId, resourceType, baseUrl);
     });
 </script>

@@ -8,9 +8,12 @@ import VitoopApp from '../app/vitoop';
 
 class PdfView {
     constructor() {
+        debugger
         this.metadataWidth = '300px';
     }
     init(resourceId, resourceType, baseUrl) {
+        console.log('qwdqwdqwd');
+        debugger
         let self = this;
         $('#vtp-pdf-view-toggle-button').on('click', function () {
             if ($('#pdf-view-wrapper').css('left') !== '0px') {
