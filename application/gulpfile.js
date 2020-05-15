@@ -197,9 +197,8 @@ gulp.task('watch', () => {
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/store/*.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/*/*.js',
         'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/*.js',
-        'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/app/vitoop.js',
-        'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/app/boot.js'
-    ], gulp.series('js'));
+        'src/Vitoop/InfomgmtBundle/Resources/public/js/vitoopjs/app/*.js',
+    ], gulp.series(['js','pdf-view-js']));
 });
 
 gulp.task('img', function() {
