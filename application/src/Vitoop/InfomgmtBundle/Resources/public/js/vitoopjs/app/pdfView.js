@@ -12,6 +12,7 @@ class PdfView {
     }
     init(resourceId, resourceType, baseUrl) {
         let self = this;
+
         $('#vtp-pdf-view-toggle-button').on('click', function () {
             if ($('#pdf-view-wrapper').css('left') !== '0px') {
                 $('#pdf-view-wrapper').css('left', 0);
@@ -33,7 +34,6 @@ class PdfView {
 
         $('#vtp-remark-dialog').on('click', function () {
             self.openDialog('#resource-remark');
-
             let remarkWidget = new RemarkWidget(resourceId, baseUrl);
             remarkWidget.init();
         });
@@ -64,18 +64,15 @@ class PdfView {
     }
 
     openDialog(containerId) {
-        $(containerId).dialog({
+        const dialog = $(containerId).dialog({
             autoOpen: false,
             width: 720,
             modal: true,
-            position: {
-                my: 'left bottom',
-                at: 'right top',
-                of: '.vtp-view-title',
-                collision: 'flip flip'
-            }
         });
-        $(containerId).dialog('open');
+
+        setTimeout(() => {
+            dialog.dialog('open');
+        }, 100)
     }
 }
 
