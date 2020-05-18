@@ -27,11 +27,14 @@ security:
             check_path: /login_check
             login_path: /login
             default_target_path: /link/
-            always_use_default_target_path: true
+            always_use_default_target_path: false
             failure_path: /login
             require_previous_session: false
             provider: user_db
             #target_path_parameter: the parameter in the hidden form field value="...
+         guard:
+            authenticators:
+               - Vitoop\InfomgmtBundle\Service\Security\Guard\VitoopMainFormAuthenticator
          logout:
             path:    /logout
             target:  /userhome

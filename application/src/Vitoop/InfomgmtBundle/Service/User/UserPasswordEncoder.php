@@ -17,9 +17,19 @@ class UserPasswordEncoder implements PasswordEncoderInterface
         $this->userEncoder = $this->encoderFactory->getEncoder(User::class);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function encode($password, $salt = null)
     {
         return $this->userEncoder->encodePassword($password, $salt);
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function isPasswordValid($encodedPassword, $password, $salt)
+    {
+        return $this->userEncoder->isPasswordValid($encodedPassword, $password, $salt);
+    }
 }

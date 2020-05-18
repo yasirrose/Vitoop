@@ -18,7 +18,7 @@
                         <input id="password" class="vtp-fh-w55" name="_password" type="password">
                     </div>
 
-                    <input type="hidden" name="_target_path" value="/account" />
+<!--                    <input type="hidden" name="_target_path" value="/account" />-->
 
                     <div class="vtp-submit-wrapper">
                         <input :value="$t('label.signin')" type="submit" id="login-button-main">
