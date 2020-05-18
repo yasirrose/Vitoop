@@ -44,6 +44,12 @@ services:
     tags:
       - { name: form.type_extension, extended_type:  Symfony\Component\Form\Extension\Core\Type\FormType }
 
+  Vitoop\InfomgmtBundle\EventListener\ExceptionListener:
+    arguments:
+      $providerKey: 'secured_infomgmt'
+    tags:
+      - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 5 }
+
   # Some useful Twig Filter, Function
   Vitoop\InfomgmtBundle\Twig\Extension\VitoopExtension:
     tags:
@@ -122,3 +128,6 @@ services:
   Vitoop\InfomgmtBundle\Service\EmailSender:
     arguments:
       $host: '%host%'
+
+  # aliases
+  Vitoop\InfomgmtBundle\Entity\User\PasswordEncoderInterface: '@Vitoop\InfomgmtBundle\Service\User\UserPasswordEncoder'
