@@ -171,7 +171,7 @@ class ResourceController extends ApiController
                 if (!array_key_exists(-1, $description)) {
                     $lexicon->setDescription($description[$lexicon->getWikiPageId()]['extract']);
                     $lexicon->setUpdated(new \DateTime());
-                    $lexicon = $em->merge($lexicon);
+                    $lexicon = $em->persist($lexicon);
                     $em->flush();
                 }
             }

@@ -13,6 +13,7 @@ use Vitoop\InfomgmtBundle\Repository\LexiconRepository;
 use Vitoop\InfomgmtBundle\Repository\ResourceRepository;
 use Vitoop\InfomgmtBundle\Response\Json\ErrorResponse;
 use Vitoop\InfomgmtBundle\Service\LexiconQueryManager;
+use Vitoop\InfomgmtBundle\Service\RelResource\RelResourceLinker;
 use Vitoop\InfomgmtBundle\Service\ResourceManager;
 
 /**
@@ -37,24 +38,31 @@ class LexiconController extends ApiController
      * @var ValidatorInterface
      */
     private $validator;
+    /**
+     * @var RelResourceLinker
+     */
+    private $relResourceLinker;
 
     /**
      * LexiconController constructor.
      * @param ResourceRepository $resourceRepository
      * @param LexiconRepository $lexiconRepository
      * @param LexiconQueryManager $lexiconQueryManager
+     * @param RelResourceLinker $relResourceLinker
      * @param ValidatorInterface $validator
      */
     public function __construct(
         ResourceRepository $resourceRepository,
         LexiconRepository $lexiconRepository,
         LexiconQueryManager $lexiconQueryManager,
+        RelResourceLinker $relResourceLinker,
         ValidatorInterface $validator
     ) {
         $this->resourceRepository = $resourceRepository;
         $this->lexiconRepository = $lexiconRepository;
         $this->lexiconQueryManager = $lexiconQueryManager;
         $this->validator = $validator;
+        $this->relResourceLinker = $relResourceLinker;
     }
 
     /**
@@ -64,8 +72,12 @@ class LexiconController extends ApiController
     {
         $resourceInfo = $this->resourceRepository->getCountOfRelatedResources($lexicon);
 
+        $lexiconDto = $lexicon->getDTO();
+        $lexiconDto['can_add'] = $this->relResourceLinker->getResourceForAddingCount($lexicon, $this->getUser());
+        $lexiconDto['can_remove'] = $this->relResourceLinker->getResourceForRemovingCount($lexicon, $this->getUser());
+
         return $this->getApiResponse([
-            'lexicon' => $lexicon->getDTO(),
+            'lexicon' => $lexiconDto,
             'resourceInfo' => $resourceInfo,
         ]);
     }
