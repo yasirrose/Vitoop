@@ -28,14 +28,6 @@
                            :href="`${lexicon.wiki_fullurl}?action=history`"
                            target="_blank">{{ $t('List of Authors') }}</a> {{ $t('word.available') }}.
                     </div>
-<!--                    <div v-if="Object.keys(lexicon.wikiRedirects).length > 0">-->
-<!--                        <p>{{ $t('The following terms have been linked in Vitoop and forwarded in Wikipedia on this Encyclopedia Article') }}:</p>-->
-<!--                        <ul>-->
-<!--                            <li v-for="(value,name) in lexicon.wikiRedirects">-->
-<!--                                {{ value.wikititle }}-->
-<!--                            </li>-->
-<!--                        </ul>-->
-<!--                    </div>-->
                 </div>
                 <div id="vtp-lexicondata-sheet-info" class="ui-corner-all vtp-fh-w20">
                     <p>{{ $t('Linked Records') }}:</p>
@@ -62,9 +54,17 @@
                                    class="vtp-fh-w40 ui-autocomplete-input" autocomplete="off">
                             <button @click="add"
                                     ref="add"
-                                    class="vtp-uiinfo-anchor vtp-lexicon-submit ui-button ui-widget ui-state-default ui-corner-all">+</button>
+                                    :disabled="lexicon.can_add < 1"
+                                    class="vtp-uiinfo-anchor vtp-lexicon-submit ui-button ui-widget ui-state-default ui-corner-all"
+                                    :class="{'ui-state-disabled': lexicon.can_add < 1}">
+                                + <span v-if="lexicon.can_add > 0">{{ lexicon.can_add }}</span>
+                            </button>
                             <button @click="remove"
-                                    class="vtp-uiinfo-anchor vtp-lexicon-submit ui-button ui-widget ui-state-default ui-corner-all">-</button>
+                                    :disabled="lexicon.can_remove < 1"
+                                    class="vtp-uiinfo-anchor vtp-lexicon-submit ui-button ui-widget ui-state-default ui-corner-all"
+                                    :class="{'ui-state-disabled': lexicon.can_remove < 1}">
+                                - <span v-if="lexicon.can_remove > 0">{{ lexicon.can_remove }}</span>
+                            </button>
                             <a class="vtp-uiinfo-anchor vtp-lexicon-submit ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
                                v-if="currentTag !== null && autocomplete.length > 0"
                                @click="openLexicon"
@@ -147,6 +147,7 @@
                 })
                 .then(response => {
                     this.reset();
+                    this.loadLexicon();
                     this.getLexicons();
                 })
                 .catch(err => console.dir(err));
