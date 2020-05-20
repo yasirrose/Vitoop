@@ -1,6 +1,6 @@
 <template>
     <div v-if="getProject">
-        <app-project v-if="!get('edit')"/>
+        <app-project v-if="!get('edit')" :projectHeightProp="projectHeight" />
         <app-project-edit v-else />
     </div>
 </template>
@@ -16,6 +16,11 @@
         mixins: [openResourcePopupMixin],
         components: {
             AppProject, AppProjectEdit
+        },
+        data() {
+            return {
+                projectHeight: 0
+            }
         },
         computed: {
             ...mapGetters(['get','getProject'])
@@ -40,6 +45,8 @@
             this.$store.commit('set', {key: 'coefsToSave', value: []});
             this.$store.commit('setInProject', true);
             resourceProject.init();
+
+            this.projectHeight = this.get('contentHeight')-32-25;
         }
     }
 </script>
