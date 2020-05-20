@@ -141,7 +141,7 @@
 
             $(document).ajaxError((e,xhr) => {
                 this.$store.commit('setUser', null);
-                this.$router.push('/userhome');
+                this.$router.push('/login');
             })
         },
     }

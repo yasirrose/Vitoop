@@ -18,13 +18,8 @@ export default [
     {
         path: '',
         beforeEnter: (to,from,next) => {
-            next('/userhome');
+            next('/login');
         }
-    },
-    {
-        path: '/userhome',
-        component: UserHome,
-        name: 'userhome'
     },
     {
         path: '/login',

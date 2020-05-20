@@ -96,10 +96,6 @@
 
         },
         methods: {
-            toHome() {
-                this.$store.commit('setResourceType', '');
-                this.$router.push('/userhome');
-            },
             changeRoute(name) {
                 vitoopState.commit('setResourceType', name);
                 this.$router.push(`/${name}`);
