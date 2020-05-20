@@ -3,7 +3,7 @@
         <fieldset class="ui-corner-all margin-top-3">
             <div id="vtp-projectdata-box" v-if="getProject">
                 <resizable-block id="vtp-projectdata-sheet-view"
-                                 :height="projectHeight"
+                                 :height="projectHeightProp"
                                  @resize-stop="resizeContentHeight"
                                  class="ui-corner-all vtp-fh-w75">
                     <div v-html="getProject.project_data.sheet"></div>
@@ -39,9 +39,9 @@
         name: "AppProject",
         components: { ResizableBlock },
         mixins: [openResourcePopupMixin],
-        data() {
-            return {
-                projectHeight: 0,
+        props: {
+            projectHeightProp: {
+                type: Number
             }
         },
         computed: {
@@ -54,7 +54,6 @@
         },
         mounted() {
             setTimeout(() => {
-                this.projectHeight = this.get('contentHeight')-32;
                 this.openResourcePopup('#vtp-projectdata-sheet-view')
             });
         },
