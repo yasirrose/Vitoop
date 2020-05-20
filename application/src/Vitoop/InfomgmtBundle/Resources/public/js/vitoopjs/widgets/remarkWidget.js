@@ -84,7 +84,6 @@ export default class RemarkWidget extends Widget {
             $(self.remarkBoxId).show();
             return;
         }
-
         let tinyInit = new TinyMCEInitializer();
         let options = tinyInit.getCommonOptions();
         options.selector = 'textarea#remark_text';
@@ -96,7 +95,6 @@ export default class RemarkWidget extends Widget {
                 $('.remark-agreement').css('display','flex');
             });
         };
-
         tinyMCE.init(options);
     }
 
