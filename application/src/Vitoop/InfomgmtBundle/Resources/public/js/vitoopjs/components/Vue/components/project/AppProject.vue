@@ -44,11 +44,6 @@
                 type: Number
             }
         },
-        data() {
-            return {
-                projectHeight: 0,
-            }
-        },
         computed: {
             ...mapGetters(['get','getProject']),
             getDate: () => {
@@ -59,7 +54,6 @@
         },
         mounted() {
             setTimeout(() => {
-                this.projectHeight = this.get('contentHeight')-32-25;
                 this.openResourcePopup('#vtp-projectdata-sheet-view')
             });
         },
