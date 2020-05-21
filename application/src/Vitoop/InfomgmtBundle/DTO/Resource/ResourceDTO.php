@@ -36,11 +36,6 @@ class ResourceDTO
      *      maxMessage = "Die Url darf nicht mehr als {{ limit }} Zeichen haben.",
      *      groups={"pdf", "link", "teli"}
      * )
-     * @Assert\Url(
-     *      protocols = {"http", "https", "ftp"},
-     *      message = "Die Url ist ungültig. Bitte gebe auch http://, https:// oder ftp:// mit an.",
-     *      groups={"pdf", "link", "teli"}
-     * )
      */
     public $url;
 
