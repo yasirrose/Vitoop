@@ -206,7 +206,13 @@
                     tinyMceOptions.selector = '#new-message-textarea';
                     tinyMceOptions.height = 150;
                     tinyMCE.init(tinyMceOptions);
-                    this.conversationHeight = this.get('contentHeight')-32;
+                    if (this.get('contentHeight') > 342) {
+                        this.conversationHeight = this.get('contentHeight') - 32;
+                    } else {
+                        const appHeaderHeight = document.getElementById('vtp-header').offsetHeight;
+                        const appFooterHeight = document.getElementById('vtp-footer').offsetHeight;
+                        this.conversationHeight = window.innerHeight - appHeaderHeight - appFooterHeight - 5 - 1 - 32 - 14;
+                    }
                 })
                 .catch(err => console.dir(err));
         },
