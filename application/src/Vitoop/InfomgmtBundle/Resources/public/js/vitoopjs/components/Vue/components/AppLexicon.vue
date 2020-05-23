@@ -81,7 +81,7 @@
                                   :data-link="`http://localhost:8080/lexicon/${tag.id}`">
                                 <span class="vtp-icon-lex ui-icon ui-icon-document-b"></span>
                                 {{ tag.name }}
-                                <span class="vtp-lexiconbox-cntres">(1)</span>
+                                <span class="vtp-lexiconbox-cntres">({{ tag.cnt_res }})</span>
                             </span>
                         </div>
                     </fieldset>
