@@ -1,12 +1,8 @@
 <?php
 
-
 namespace Vitoop\InfomgmtBundle\Service;
 
 use phpcent\Client;
-use phpDocumentor\Reflection\Types\Self_;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 
 class MessageService
 {

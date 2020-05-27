@@ -15,4 +15,4 @@
 !/var/logs/.gitkeep
 /var/sessions/*
 !/var/sessions/.gitkeep
-
+/var/spool/

@@ -70,6 +70,7 @@ services:
     arguments:
       - Vitoop\InfomgmtBundle\Entity\UserConfig
 
+  Vitoop\InfomgmtBundle\Repository\FlagRepository: ~
   Vitoop\InfomgmtBundle\Repository\InvitationRepository: ~
   Vitoop\InfomgmtBundle\Repository\ResourceRepository: ~
   Vitoop\InfomgmtBundle\Repository\LexiconRepository: ~

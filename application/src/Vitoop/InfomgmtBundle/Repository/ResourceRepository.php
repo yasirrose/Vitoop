@@ -350,7 +350,9 @@ class ResourceRepository extends ServiceEntityRepository
             $query->andWhere('f.id IS NOT NULL')
                 ->andWhere('f.type != 128');
         } else {
-            $query->andWhere('f.id IS NULL');
+            $query
+                ->andWhere('f.id IS NULL OR f.type = :blamed')
+                ->setParameter('blamed', Flag::FLAG_BLAME);
         }
 
         if ($search->searchString) {
