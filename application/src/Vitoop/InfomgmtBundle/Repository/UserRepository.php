@@ -29,6 +29,11 @@ class UserRepository extends ServiceEntityRepository
         $this->getEntityManager()->persist($user);
     }
 
+    public function save()
+    {
+        $this->getEntityManager()->flush();
+    }
+
     public function findOneByUsernameOrEmail($username, $email)
     {
         return $this->createQueryBuilder('u')

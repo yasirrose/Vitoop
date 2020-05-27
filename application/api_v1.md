@@ -157,3 +157,30 @@
 ]
 ```
 </details>
+
+## POST /api/v1/users/passwords
+<details>
+  <summary>Send request for forgot password</summary>
+
+  ### Request
+```json
+{
+  "email": "test@example.com"
+}
+```
+  ### Response: code - 204
+</details>
+
+## PUT /api/v1/users/passwords
+<details>
+  <summary>Send request for forgot password</summary>
+
+  ### Request
+```json
+{
+  "token": "token",
+  "password": "password"
+}
+```
+  ### Response: code - 204
+</details>
