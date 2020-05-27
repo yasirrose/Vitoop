@@ -54,7 +54,7 @@
         },
         mounted() {
             setTimeout(() => {
-                this.openResourcePopup('#vtp-projectdata-sheet-view')
+                this.openResourcePopup('#vtp-projectdata-sheet-view');
             });
         },
     }

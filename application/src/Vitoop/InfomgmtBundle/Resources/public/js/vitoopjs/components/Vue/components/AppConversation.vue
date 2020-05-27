@@ -197,10 +197,10 @@
                         pushNewMessage.then(() => this.scrollToBottom(400));
                     });
                     this.centrifuge.connect();
+                    resourceDetail.init();
                     return
                 })
                 .then(() => {
-                    // this.scrollToBottom(400);
                     tinyMCE.remove('#new-message-textarea');
                     const tinyMceOptions = new tinyMCEInitializer().getCommonOptions();
                     tinyMceOptions.selector = '#new-message-textarea';
@@ -321,6 +321,9 @@
                             this.newMessage.edit = false;
                             this.newMessage.opened = false;
                             this.hideNewMessageArea();
+                            setTimeout(() => {
+                                this.openResourcePopup('.conversation__message__text');
+                            })
                         })
                         .catch(err => console.dir(err));
                 }
@@ -374,6 +377,10 @@
 <style>
     body {
         user-select: none;
+    }
+
+    .vtp-resource-link {
+        color: black !important;
     }
 </style>
 

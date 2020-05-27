@@ -107,9 +107,10 @@ export default {
     },
     resetResource(state) {
         state.edit = false;
+        state.project = null;
         Object.keys(state.resource).forEach(item => {
             state.resource[item] = null;
-        })
+        });
     },
     resetSecondSearch: function(state) {
         const secondSearch = initialState.secondSearch;
