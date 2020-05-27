@@ -50,4 +50,14 @@ export default class LinkStorage extends DataStorage {
             this.setObject(this.resourceTypes[i]+'-checked', {});
         }
     }
+
+    getAllResourcesIds() {
+        let ids = [];
+        Object.keys(localStorage).forEach(key => {
+            if (key.indexOf('-checked') > -1) {
+                ids = ids.concat(Object.keys(JSON.parse(localStorage.getItem(key))));
+            }
+        });
+        return ids;
+    }
 }
