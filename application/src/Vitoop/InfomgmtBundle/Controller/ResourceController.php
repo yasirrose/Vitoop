@@ -29,6 +29,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Vitoop\InfomgmtBundle\Entity\Downloadable\DownloadableInterface;
+use Vitoop\InfomgmtBundle\Repository\FlagRepository;
+use Vitoop\InfomgmtBundle\Service\EmailSender;
 use Vitoop\InfomgmtBundle\Service\LexiconQueryManager;
 use Vitoop\InfomgmtBundle\Service\ResourceDataCollector;
 use Vitoop\InfomgmtBundle\Service\ResourceManager;
@@ -36,6 +38,20 @@ use Vitoop\InfomgmtBundle\Service\VitoopSecurity;
 
 class ResourceController extends ApiController
 {
+    /**
+     * @var EmailSender
+     */
+    private $emailSender;
+
+    /**
+     * ResourceController constructor.
+     * @param EmailSender $emailSender
+     */
+    public function __construct(EmailSender $emailSender)
+    {
+        $this->emailSender = $emailSender;
+    }
+
     /**
      * @Route("/userhome", name="_home")
      * @Route("/project/{project_id}", name="_home_project", requirements={"project_id": "\d+"})
@@ -589,16 +605,28 @@ class ResourceController extends ApiController
     /**
      * @Route("/{res_type}/{res_id}/flag/{flag_type}", name="_xhr_resource_flag", requirements={"res_id": "\d+", "res_type": "pdf|adr|link|teli|lex|prj|book|conversation", "flag_type": "delete|blame"})
      */
-    public function flagAction(ResourceDataCollector $rdc, ResourceManager $rm, Request $request, $res_type, $res_id, $flag_type)
-    {
+    public function flagAction(
+        ResourceDataCollector $rdc,
+        ResourceManager $rm,
+        FlagRepository $flagRepository,
+        Request $request,
+        $res_type,
+        $res_id,
+        $flag_type
+    ) {
         /* @var $res \Vitoop\InfomgmtBundle\Entity\Resource */
         $res = $rdc->getResource();
 
         $flag_map_for_title = array('delete' => 'löschen', 'blame' => 'an den Administrator melden');
-        $flag_map_for_constant = array('delete' => Flag::FLAG_DELETE, 'blame' => Flag::FLAG_BLAME);
+        $flagMapForConstant = ['delete' => Flag::FLAG_DELETE, 'blame' => Flag::FLAG_BLAME];
         $info_flag = '';
         $flag_title = $res->getResourceName() . ' ' . $flag_map_for_title[$flag_type];
-        $flag = new Flag();
+
+        $flag = $flagRepository->findResourceFlagByUserAndType($res, $this->getUser()->getId(), $flagMapForConstant[$flag_type]);
+        if (null === $flag) {
+            $flag = new Flag();
+        }
+
         $form_flag = $this->createForm(FlagType::class, $flag, array(
             'action' => $this->generateUrl('_xhr_resource_flag', array('res_type' => $res->getResourceType(), 'res_id' => $res->getId(), 'flag_type' => $flag_type)),
             'method' => 'POST'
@@ -606,7 +634,7 @@ class ResourceController extends ApiController
         if ($request->isMethod('POST')) {
             $form_flag->handleRequest($request);
             if ($form_flag->isValid()) {
-                $flag->setType($flag_map_for_constant[$flag_type]);
+                $flag->setType($flagMapForConstant[$flag_type]);
                 $rm->saveFlag($flag, $res);
                 $info_flag = $res->getResourceName() . ' # ' . $res->getId();
                 switch ($flag_type) {
@@ -617,6 +645,8 @@ class ResourceController extends ApiController
                         $info_flag = $info_flag . " erfolgreich an den Administrator gemeldet.";
                         break;
                 }
+
+                $this->emailSender->sendChangeFlagNotification($res, $flag_type, $flag);
             }
         }
 

@@ -6,7 +6,9 @@ use Swift_Mailer;
 use Symfony\Component\Templating\EngineInterface;
 use Vitoop\InfomgmtBundle\DTO\Links\SendLinksDTO;
 use Vitoop\InfomgmtBundle\Entity\ConversationMessage;
+use Vitoop\InfomgmtBundle\Entity\Flag;
 use Vitoop\InfomgmtBundle\Entity\Invitation;
+use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\Entity\User;
 
 class EmailSender
@@ -133,6 +135,22 @@ class EmailSender
                 [
                     'host' => $this->host,
                     'message' => $conversationMessage
+                ]
+            )
+        );
+
+        return $this->mailer->send($message);
+    }
+
+    public function sendChangeFlagNotification(Resource $resource, $flagType, Flag $flag)
+    {
+        $message = $this->createMessage(
+            $flagType . ': '. $resource->getName(),
+            'info@vitoop.org',
+            $this->templater->render(
+                'email/flagNotification.html.twig',
+                [
+                    'message' => $flag->getInfo()
                 ]
             )
         );
