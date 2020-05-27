@@ -1,22 +1,47 @@
 #button-checking-links__wrapper {
-  display: inline-block;
-  transition: 1s;
-  opacity: 0;
-  position: relative;
-  left: -300px;
+    display: flex;
+    transition: 1s;
+    opacity: 0;
+    position: relative;
+    left: -300px;
+
+    *:not(:last-child) {
+        margin-right: 3px;
+    }
+}
+
+#user-projects-button {
+    margin-bottom: 0 !important;
+    display: flex;
+    align-items: center;
+}
+
+#user-projects-menu {
+    max-width: 124px;
+
+    .ui-menu-item {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block !important;
+    }
+
+    .ui-state-focus {
+        margin: 0;
+    }
 }
 
 #vtp-user-userdata, #vtp-admin-toolbar-toggle {
-  width: 34px;
+    width: 34px;
 }
 
 #vtp-user-userdata {
 
-  i.fa, i.fas {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    font-size: 12px;
-  }
+    i.fa, i.fas {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 12px;
+    }
 }

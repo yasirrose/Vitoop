@@ -885,7 +885,7 @@ input[type=number].vtp-uiaction-coefficient::-webkit-inner-spin-button, input[ty
 
 div.vtp-uiinfo-info, div.vtp-uiinfo-infobox {
     position: relative;
-    z-index: 10;
+    z-index: 999;
     margin: 0 0 0.5em 0;
     padding: 0.2em 0.2em 0.2em 1.5em;
     font-weight: normal;

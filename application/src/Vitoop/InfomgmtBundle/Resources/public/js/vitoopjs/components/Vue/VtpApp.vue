@@ -21,31 +21,17 @@
     export default {
         name: "VtpApp",
         props: [
-            'isCoef',
-            'project',
-            'lexicon',
+            'invitationValue',
             'downloadSize',
-            'invitation',
-            'resourceInfo',
-            'asProjectOwner',
-            'editMode',
-            'infoProjectData',
-            'tags',
             'terms',
+            'infoProjectData',
             'dataP'
         ],
         provide() {
             return {
-                isCoef: this.isCoef,
-                project: this.project,
-                lexicon: this.lexicon,
                 downloadSize: this.downloadSize,
                 invitationValue: this.invitation,
-                resourceInfo: this.resourceInfo,
-                asProjectOwner: this.asProjectOwner,
-                editMode: this.editMode,
                 infoProjectData: this.infoProjectData,
-                tags: this.tags,
                 terms: this.terms,
                 dataP: this.dataP
             }
@@ -107,7 +93,6 @@
             }
         },
         mounted() {
-            debugger
             axios.interceptors.response.use(response => {
                 if (typeof response.data === "string") {
                     location.reload();
@@ -117,13 +102,6 @@
                 return Promise.reject(error);
             });
             userInteraction.init();
-
-            if (this.project.id || this.lexicon.id) {
-                const id = this.project.id !== null ? this.project.id : this.lexicon.id;
-                this.$store.commit('setResourceId', id);
-            } else {
-                this.$store.commit('setResourceId', null);
-            }
 
             vitoopState.commit('setResourceInfo', this.resourceInfo);
             if (window.location.pathname === '/userhome' ||

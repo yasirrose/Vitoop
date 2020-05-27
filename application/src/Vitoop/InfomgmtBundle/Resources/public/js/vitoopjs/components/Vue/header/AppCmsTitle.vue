@@ -100,9 +100,6 @@
     export default {
         name: "AppCmsTitle",
         components: { HelpButton },
-        inject: [
-            'asProjectOwner',
-        ],
         data() {
             return {
                 project: null,

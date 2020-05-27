@@ -1,5 +1,10 @@
 <template>
     <div id="vtp-header-status">
+        <transition name="fade">
+            <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all" v-if="infoMsgShow">
+                <span class="vtp-icon ui-icon ui-icon-info"></span><span>{{ infoMsg }}</span>
+            </div>
+        </transition>
         <div v-if="isAdmin && adminToolBar.show">
             <span class="vtp-admin-toolbar download-size">
                 {{$t('label.download.size')}}:
@@ -55,7 +60,12 @@
                     <span class="ui-button-icon-primary ui-icon ui-icon-close"></span>
                 </button>
                 <select id="user-projects" class="ui-autocomplete-input">
-                    <option v-for="project in myProjects">{{ project.name }}</option>
+                    <option default>Wähle ein Projekt...</option>
+                    <option v-for="(project,index) in myProjects"
+                            :key="`${index}-${project.id}`"
+                            :value="project.id">
+                        {{ project.name }}
+                    </option>
                 </select>
                 <button class="vtp-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
                         id="button-checking-links"
@@ -166,7 +176,10 @@
                     text: this.invitationValueText,
                     toggle: this.toggle
                 },
-                myProjects: []
+                myProjects: [],
+                selectedProject: null,
+                infoMsgShow: false,
+                infoMsg: ''
             }
         },
         computed: {
@@ -247,13 +260,31 @@
                 return false;
             });
 
-            axios(`/api/v1/my-projects`)
-                .then(({data}) => {
-                    this.myProjects = data;
-                })
-                .catch(err => console.dir(err));
+            if (this.$store.state.user) {
+                axios(`/api/v1/my-projects`)
+                    .then(({data}) => {
+                        this.myProjects = data;
+                    })
+                    .catch(err => console.dir(err));
 
-            $('#user-projects').selectmenu();
+                $('#user-projects').selectmenu({
+                    select: (e, {item}) => {
+                        const resourceIds = this.sendLinkWidget.linkStorage.getAllResourcesIds();
+                        axios.post(`/api/v1/projects/${item.value}/assignments`, {resourceIds})
+                            .then(response => {
+                                this.infoMsg = `Resources have been added to the project #${item.value}`;
+                                this.infoMsgShow = true;
+                                setTimeout(() => {
+                                    this.infoMsg = ``;
+                                    this.infoMsgShow = false;
+                                }, 4000);
+                                this.sendLinkWidget.linkStorage.clearAllResources();
+                                VueBus.$emit('datatable:reload');
+                            })
+                            .catch(err => console.dir(err));
+                    }
+                });
+            }
         },
         methods: {
             showTerms() {
@@ -292,12 +323,39 @@
 
     #user-projects {
         width: auto;
-        min-width: 120px;
+        min-width: 130px;
     }
 
     #vtp-header-status {
         display: flex;
         justify-content: flex-end;
         padding-top: 3px;
+    }
+
+    .fade {
+
+        &-enter {
+            opacity: 0;
+
+            &-to {
+                opacity: 1;
+            }
+
+            &-active {
+                transition: 2s;
+            }
+        }
+
+        &-leave {
+            opacity: 1;
+
+            &-to {
+                opacity: 0;
+            }
+
+            &-active {
+                transition: 2s;
+            }
+        }
     }
 </style>
