@@ -54,6 +54,9 @@
                         style="display:none">
                     <span class="ui-button-icon-primary ui-icon ui-icon-close"></span>
                 </button>
+                <select id="user-projects" class="ui-autocomplete-input">
+                    <option v-for="project in myProjects">{{ project.name }}</option>
+                </select>
                 <button class="vtp-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
                         id="button-checking-links"
                         :title="$t('label.open_tooltip')"
@@ -162,7 +165,8 @@
                     value: this.invitationValue,
                     text: this.invitationValueText,
                     toggle: this.toggle
-                }
+                },
+                myProjects: []
             }
         },
         computed: {
@@ -177,14 +181,12 @@
                 e.stopPropagation();
                 return false;
             });
-
             $('#vtp-header-toggle-flag input[type=checkbox]').button({
                 icons: {
                     primary: "ui-icon-flag"
                 },
                 text: false
             });
-
             $('#button-checking-links').off().on('click', (e) => {
                 let resourcesCount = this.sendLinkWidget.linkStorage.getAllResourcesSize();
 
@@ -231,7 +233,6 @@
                 e.stopPropagation();
                 return false;
             });
-
             $('#button-checking-links-send').off().on('click', (e) => {
                 $('#vtp-res-dialog-links').dialog({
                     autoOpen: false,
@@ -245,6 +246,14 @@
                 e.stopPropagation();
                 return false;
             });
+
+            axios(`/api/v1/my-projects`)
+                .then(({data}) => {
+                    this.myProjects = data;
+                })
+                .catch(err => console.dir(err));
+
+            $('#user-projects').selectmenu();
         },
         methods: {
             showTerms() {
@@ -279,6 +288,11 @@
     .download-size {
         color: #2779aa;
         margin-right: 6px;
+    }
+
+    #user-projects {
+        width: auto;
+        min-width: 120px;
     }
 
     #vtp-header-status {

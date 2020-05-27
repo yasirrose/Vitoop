@@ -107,6 +107,7 @@
             }
         },
         mounted() {
+            debugger
             axios.interceptors.response.use(response => {
                 if (typeof response.data === "string") {
                     location.reload();
