@@ -9,12 +9,8 @@ use Vitoop\InfomgmtBundle\DTO\CreateFromRequestInterface;
  * Class ProjectDTO
  * @package Vitoop\InfomgmtBundle\DTO\Resource
  */
-class ProjectDTO implements CreateFromRequestInterface
+class ProjectDTO extends ProjectShortDTO implements CreateFromRequestInterface
 {
-    public $id;
-
-    public $name;
-
     public $projectData;
 
     public $userId;
