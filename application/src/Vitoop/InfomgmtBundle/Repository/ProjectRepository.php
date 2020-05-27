@@ -2,7 +2,9 @@
 
 namespace Vitoop\InfomgmtBundle\Repository;
 
+use Vitoop\InfomgmtBundle\DTO\Resource\ProjectShortDTO;
 use Vitoop\InfomgmtBundle\Entity\Project;
+use Vitoop\InfomgmtBundle\Entity\RelProjectUser;
 use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\Entity\User;
 use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
@@ -49,18 +51,6 @@ class ProjectRepository extends ResourceRepository
             ->getResult();
     }
 
-    public function getAllProjectsByUser(User $user)
-    {
-        return $this->createQueryBuilder('p')
-            ->select('DISTINCT(p.name) as name, p.id as id')
-            ->innerJoin('p.project_data', 'pd')
-            ->leftJoin('VitoopInfomgmtBundle:RelProjectUser', 'rpu', 'WITH', 'rpu.projectData = pd.id')
-            ->where('(p.user = :user OR (rpu.user = :user AND rpu.readOnly = 0))')
-            ->setParameter('user', $user)
-            ->getQuery()
-            ->getResult();
-    }
-
     public function getProjectWithData($id)
     {
         // LEFT JOIN because JOIN would result null if there is no project_data
@@ -100,5 +90,21 @@ EOT;
     {
         $this->_em->persist($project);
         $this->_em->flush();
+    }
+
+    /**
+     * @param User $user
+     * @return int|mixed|string
+     */
+    public function getMyProjectsShortDTO(User $user)
+    {
+        return $this->createQueryBuilder('prj')
+            ->select('NEW '.ProjectShortDTO::class.'(prj.id, prj.name)')
+            ->innerJoin('prj.project_data', 'pd')
+            ->leftJoin(RelProjectUser::class, 'rpu', 'WITH',  'rpu.projectData = pd.id')
+            ->andWhere('(prj.user = :user OR (rpu.user = :user AND rpu.readOnly = 0))')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
     }
 }

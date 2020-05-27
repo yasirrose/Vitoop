@@ -2,6 +2,7 @@
 namespace Vitoop\InfomgmtBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Vitoop\InfomgmtBundle\DTO\GetDTOInterface;
 
 /**
  * @ORM\Table(name="rel_resource_resource",
@@ -9,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * columns={"id_resource1", "id_resource2", "id_user"})})
  * @ORM\Entity(repositoryClass="Vitoop\InfomgmtBundle\Repository\RelResourceResourceRepository")
  */
-class RelResourceResource
+class RelResourceResource implements GetDTOInterface
 {
     /**
      * @ORM\Column(name="id", type="integer")
@@ -178,5 +179,16 @@ class RelResourceResource
     public function getDeletedByUser()
     {
         return $this->deletedByUser;
+    }
+
+    public function getDTO()
+    {
+        return [
+            'id' => $this->id,
+            'resourceId' => $this->getResource1()->getId(),
+            'linkedResourceId' => $this->getResource2()->getId(),
+            'coefficient' => $this->coefficient,
+            'userId' => $this->user->getId(),
+        ];
     }
 }

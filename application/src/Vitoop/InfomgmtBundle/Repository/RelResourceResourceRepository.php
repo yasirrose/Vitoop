@@ -4,6 +4,7 @@ namespace Vitoop\InfomgmtBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
+use Vitoop\InfomgmtBundle\DTO\Resource\RelResourceDTO;
 use Vitoop\InfomgmtBundle\Entity\Project;
 use Vitoop\InfomgmtBundle\Entity\RelResourceResource;
 use Vitoop\InfomgmtBundle\Entity\Resource;
@@ -23,6 +24,16 @@ class RelResourceResourceRepository extends EntityRepository
     public function add(RelResourceResource $relation)
     {
         $this->_em->persist($relation);
+    }
+
+    /**
+     * @param RelResourceResource $relation
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function save()
+    {
+        $this->_em->flush();
     }
 
     public function getOneFirstRel(Resource $resource1, Resource $resource2)
@@ -87,6 +98,18 @@ class RelResourceResourceRepository extends EntityRepository
                 'arg_resource2' => $rrr->getResource2(),
                 'arg_user' => $rrr->getUser()
             ))
+            ->getResult();
+    }
+
+    public function getAllAssignmentsDTO($resourceId, $userId)
+    {
+        return $this->createQueryBuilder('r')
+            ->select('NEW '.RelResourceDTO::class.'(r.id, IDENTITY(r.resource1),  IDENTITY(r.resource2), r.coefficient, IDENTITY(r.user))')
+            ->where('r.resource1 = :resourceId')
+            ->andWhere('r.user = :userId')
+            ->setParameter('resourceId', $resourceId)
+            ->setParameter('userId', $userId)
+            ->getQuery()
             ->getResult();
     }
 }
