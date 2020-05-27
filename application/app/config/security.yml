@@ -53,6 +53,7 @@ security:
       - { path: ^/edit-vitoop-blog, roles: ROLE_ADMIN } #deprecated
       - { path: ^/api/help, roles: IS_AUTHENTICATED_ANONYMOUSLY }
       - { path: ^/user/(datap|agreement), roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: ^/api/v1/users/passwords$, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [POST, PUT]}
       - { path: ^/api/v1/vitoop-blog$, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: GET}
       - { path: ^/api/v1/vitoop-blog, roles: ROLE_ADMIN, methods: PUT}
       - { path: ^/api/v1/invitations$, roles: ROLE_ADMIN, methods: POST}
