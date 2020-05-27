@@ -117,18 +117,6 @@
                 });
                 return this.get('admin') || userRelated || this.get('resource').owner;
             },
-            cmsTitleShows() {
-                return this.project !== null ||
-                    (this.getResource('id') !== null && !this.get('inProject')) ||
-                    this.get('conversationInstance') !== null;
-            }
-        },
-        watch: {
-            cmsTitleShows(val) {
-                val ?
-                this.$store.commit('set', {key: 'contentHeight', value: this.get('contentHeight')-25}) :
-                this.$store.commit('set', {key: 'contentHeight', value: this.get('contentHeight')+25})
-            },
         },
         mounted() {
             VueBus.$on('remove:project', () => {
