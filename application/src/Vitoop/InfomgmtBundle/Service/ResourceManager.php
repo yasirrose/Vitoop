@@ -297,63 +297,6 @@ class ResourceManager
     }
 
     /**
-     * setResource1
-     *
-     * Assign the Resource $resource to a Resource $resource1 (a Project or a Lexicon)
-     *
-     * @param Resource $resource1,  Resource $resource
-     * @deprecated
-     * @return string The Name of the resource1
-     */
-
-    public function setResource1(Resource $resource1, Resource $resource)
-    {
-        $repo = $this->em->getRepository('VitoopInfomgmtBundle:' . $this->arr_resource_type_to_entityname[$resource1->getResourceType()]);
-
-        // The resource1 must already exist in the DB, it CANNOT be created on the fly
-        $resource1 = $repo->getResourceWithUsernameByName($resource1->getName());
-        if (!$resource1) {
-            throw new \Exception('Die zugewiesene Resource (z.B. ein Projekt oder Lexikonartikel) existiert nicht.');
-        }
-
-        if ($resource1->getId() === $resource->getId()) {
-            throw new \Exception('Eine Resource kann sich nicht selber zugewiesen werden.');
-        }
-
-        // Only the Project Owner is allowed to assign resources to the project
-        if (('prj' == $resource1->getResourceType() && (!$resource1->getProjectData()->availableForWriting($this->vsec->getUser())))
-        ) {
-            throw new \Exception(sprintf('Das darf nur der Eigentümer der Resource, nämlich %s. ', $resource1->getUser()));
-        }
-        /* Check if assignment is allowed by the assignment_map
-        if (!((array_key_exists($resource1->getResourceTypeIdx(), $this->assignment_map)) && (array_key_exists($resource->getResourceTypeIdx(), $this->assignment_map[$resource1->getResourceTypeIdx()])))
-        ) {
-            throw new \Exception('You can\'t assign a ' . $this->arr_resource_type_to_entityname[$resource->getResourceType()] . ' to a ' . $this->arr_resource_type_to_entityname[$resource1->getResourceType()] . '!');
-        }*/
-        // Create new Relation RelResourceResource
-
-        $relation = new RelResourceResource($resource1, $resource, $this->vsec->getUser());
-        // Relation must be unique (due to the user)
-        if ($this->em->getRepository('VitoopInfomgmtBundle:RelResourceResource')->exists($relation)) {
-            // TODO wikiredirects shown only on user input. Here they are retrieved
-            // from DB :-(
-            // $arr_wiki_redirects = $resource1->getWikiRedirects();
-            // if (!$arr_wiki_redirects->isEmpty()) {
-            // $wiki_redirect = '(' . $arr_wiki_redirects[0]->getWikiTitle() . ')';
-            // } else {
-            // $wiki_redirect = '';
-            // }
-            throw new \Exception('You have assigned this resource already with:' . $resource1); // .
-            // $wiki_redirect);
-        }
-
-        $this->em->persist($relation);
-        $this->em->flush();
-
-        return $resource1->getName();
-    }
-
-    /**
      * @param Lexicon $lexicon
      * @param Resource $resource
      * @return string
@@ -364,6 +307,20 @@ class ResourceManager
         $this->em->flush();
 
         return $lexicon->getName();
+    }
+
+    /**
+     * @param Project $project
+     * @param Resource $resource
+     * @return string
+     * @throws \Exception
+     */
+    public function linkProjectToResource(Project $project, Resource $resource)
+    {
+        $this->relResourceLinker->linkProjectToResource($project, $resource);
+        $this->em->flush();
+
+        return $project->getName();
     }
 
     public function saveFlag(Flag $flag, Resource $res = null)

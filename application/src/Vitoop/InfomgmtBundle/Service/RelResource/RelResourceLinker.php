@@ -3,11 +3,13 @@
 namespace Vitoop\InfomgmtBundle\Service\RelResource;
 
 use Vitoop\InfomgmtBundle\Entity\Lexicon;
+use Vitoop\InfomgmtBundle\Entity\Project;
 use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\Entity\RelResourceResource;
 use Vitoop\InfomgmtBundle\Entity\User;
 use Vitoop\InfomgmtBundle\Exception\Tag\TagRelationExistsException;
 use Vitoop\InfomgmtBundle\Repository\LexiconRepository;
+use Vitoop\InfomgmtBundle\Repository\ProjectRepository;
 use Vitoop\InfomgmtBundle\Repository\RelResourceResourceRepository;
 use Vitoop\InfomgmtBundle\Service\Tag\ResourceTagLinker;
 use Vitoop\InfomgmtBundle\Service\VitoopSecurity;
@@ -40,7 +42,6 @@ class RelResourceLinker
      * @var VitoopSecurity
      */
     private $vitoopSecurity;
-
 
     /**
      * RelResourceLinker constructor.
@@ -141,6 +142,32 @@ class RelResourceLinker
         } catch (TagRelationExistsException $ex) {
             // It is ok, if lexicon has the tag.
         }
+
+        return $relation;
+    }
+
+    /**
+     * @param Project $project
+     * @param Resource $resource
+     * @return RelResourceResource
+     * @throws \Exception
+     */
+    public function linkProjectToResource(Project $project, Resource $resource)
+    {
+        if ($project->getId() === $resource->getId()) {
+            throw new \Exception('Eine Resource kann sich nicht selber zugewiesen werden.');
+        }
+
+        // Only the Project Owner is allowed to assign resources to the project
+        if (!$project->getProjectData()->availableForWriting($this->vitoopSecurity->getUser())) {
+            throw new \Exception(sprintf('Das darf nur der Eigentümer der Resource, nämlich %s. ', $project->getUser()));
+        }
+        $relation = new RelResourceResource($project, $resource, $this->vitoopSecurity->getUser());
+        // Relation must be unique (due to the user)
+        if ($this->relResourceRepository->exists($relation)) {
+            throw new \Exception('You have assigned this resource already with:' . $project->getName());
+        }
+        $this->relResourceRepository->add($relation);
 
         return $relation;
     }

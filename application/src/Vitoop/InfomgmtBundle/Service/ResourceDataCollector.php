@@ -686,10 +686,10 @@ class ResourceDataCollector
         $info_prj = '';
         $prj_name = '';
         $prj = new Project();
-        $projectsCollection = $this->rm->getEntityManager()->getRepository('VitoopInfomgmtBundle:Project')->getAllProjectsByUser($this->vsec->getUser());
+        $projectsCollection = $this->rm->getEntityManager()->getRepository('VitoopInfomgmtBundle:Project')->getMyProjectsShortDTO($this->vsec->getUser());
         $projects = array();
         foreach ($projectsCollection as $project) {
-            $projects[$project['name']] = $project['name'];
+            $projects[$project->name] = $project->name;
         }
         $action = $this->router->generate('_xhr_resource_projects', ['res_type' => $this->res->getResourceType(), 'res_id' => $this->res->getId()]);
         $form_prj = $this->formCreator->createProjectNameForm($prj, $action, $projects);
@@ -697,7 +697,8 @@ class ResourceDataCollector
             $form_prj->handleRequest($this->request);
             if ($form_prj->isValid()) {
                 try {
-                    $prj_name = $this->rm->setResource1($prj, $this->res);
+                    $prj = $this->rm->getRepository('prj')->findOneBy(['name' => $prj->getName()]);
+                    $prj_name = $this->rm->linkProjectToResource($prj, $this->res);
                     $info_prj = 'Project "' . $prj_name . '" successfully added!';
                     $form_prj = $this->formCreator->createProjectNameForm(new Project(), $action, $projects);
                 } catch (\Exception $e) {
