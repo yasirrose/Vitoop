@@ -4,6 +4,7 @@ import AppConversation from "../components/Vue/components/AppConversation.vue";
 import UserSettings from "../components/Vue/UserSettings/UserSettings.vue";
 import UserHome from "../components/Vue/components/user/UserHome.vue";
 import Login from "../components/Vue/components/AppLogin.vue";
+import ForgotPassword from "../components/Vue/components/user/ForgotPassword.vue";
 import Table from "../components/Vue/components/tables/Table.vue";
 import Impressum from "../components/Vue/components/Impressum.vue";
 import Tags from "../components/Vue/components/Tags.vue";
@@ -20,6 +21,11 @@ export default [
         beforeEnter: (to,from,next) => {
             next('/login');
         }
+    },
+    {
+        path: '/password/forgotPassword',
+        component: ForgotPassword,
+        name: 'forgot-password'
     },
     {
         path: '/login',

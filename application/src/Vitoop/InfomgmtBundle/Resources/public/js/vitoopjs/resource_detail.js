@@ -883,6 +883,12 @@ window.resourceDetail = (function () {
                     $(`#${containerName} button`).not('.vtp-uiaction-detail-previous, .vtp-uiaction-detail-next')
                         .remove();
                 }
+                if (res_type === 'conversation') {
+                    $('.vtp-uiaction-detail-delete').remove();
+                }
+                if (vitoopState.state.conversationInstance) {
+                    $('.vtp-uiaction-detail-previous, .vtp-uiaction-detail-next').remove();
+                }
                 if (!vitoopState.state.inProject && vitoopState.state.resource.id !== null) {
                     $('.vtp-uiaction-detail-new').remove();
                 }

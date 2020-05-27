@@ -119,7 +119,7 @@
                                type="password"
                                tabindex="2"
                                :placeholder="$t('label.password')" style="width: 94%">
-                        <a href="/password/forgotPassword">
+                        <a @click="$router.push('/password/forgotPassword')">
                             {{ $t('label.forgot_password') }}
                         </a>
                     </div>
