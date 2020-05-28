@@ -79,7 +79,7 @@
                 {% endif %}
                 <vtp-app download-size="{{ vsettings.getCurrentDownloadsSize.getValue|number_format(2, '.', ' ') }}"
                          :info-project-data="{{ infoprojectdata|json_encode() }}"
-                         :invitation="{{ vsettings.getInvitation().getValue() }}"
+                         :invitation-value="{{ vsettings.getInvitation().getValue() }}"
                          :terms="{{ vsettings.getTerms().getValue()|json_encode() }}"
                          :data-p="{{ datap|json_encode() }}">
                 </vtp-app>

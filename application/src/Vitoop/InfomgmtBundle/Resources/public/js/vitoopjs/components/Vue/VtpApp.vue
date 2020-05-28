@@ -5,6 +5,7 @@
         <app-login v-else />
         <app-footer />
         <app-dialogs></app-dialogs>
+        <notification />
     </div>
 </template>
 
@@ -16,6 +17,7 @@
     import AppFooter from "./footer/AppFooter.vue";
     import AppLogin from "./components/AppLogin.vue";
     import AppDialogs from "./components/dialogs/AppDialogs.vue";
+    import Notification from "./components/helpers/Notification.vue";
     import axios from "axios";
 
     export default {
@@ -30,13 +32,13 @@
         provide() {
             return {
                 downloadSize: this.downloadSize,
-                invitationValue: this.invitation,
+                invitationValue: this.invitationValue,
                 infoProjectData: this.infoProjectData,
                 terms: this.terms,
                 dataP: this.dataP
             }
         },
-        components: { AppFooter, AppHeader, AppContent, AppLogin, AppDialogs },
+        components: { AppFooter, AppHeader, AppContent, AppLogin, AppDialogs, Notification },
         computed: {
             ...mapGetters(['get','getResourceId']),
             notLogin() {
@@ -95,7 +97,7 @@
         mounted() {
             axios.interceptors.response.use(response => {
                 if (typeof response.data === "string") {
-                    location.reload();
+                    // location.reload();
                 }
                 return response;
             }, error => {
