@@ -1,23 +1,50 @@
 <template>
-    <div>
-        <div id="vtp-forgot" class="ui-corner-all">
-            <form action="/password/forgotPassword" method="post" enctype="application/x-www-form-urlencoded">
-                <div class="vtp-fh-top-center">
-                    <label for="email">Email:</label>
-                    <input class="vtp-fh-w60" type="email" name="email" id="email" required>
-                    <input value="send" type="submit" class="ui-corner-all ui-state-default">
-                </div>
-            </form>
+    <div id="vtp-forgot" class="ui-corner-all">
+        <div class="vtp-fh-top-center">
+            <label>
+                Email:
+                <input v-model="email" class="vtp-fh-w60"
+                       type="email"
+                       required>
+            </label>
+            <button class="vtp-button ui-corner-all ui-state-default"
+                    :class="{'ui-state-disabled': email === ''}"
+                    :disabled="email === ''"
+                    @click="send">Send</button>
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        name: "ForgotPassword"
+        name: "ForgotPassword",
+        data() {
+            return {
+                email: ''
+            }
+        },
+        methods: {
+            send() {
+                axios.post('/api/v1/users/passwords', {email: this.email})
+                    .then(response => {
+                        this.email = null;
+                        VueBus.$emit('notification:show', 'New password has been sent on your email.');
+                        this.$router.push('/login');
+                    })
+                    .catch(err => console.dir(err));
+            }
+        }
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+    .vtp-fh-top-center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
+        label {
+            margin-right: 4px;
+        }
+    }
 </style>
