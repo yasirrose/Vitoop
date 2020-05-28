@@ -21,10 +21,8 @@ class ProjectDTO extends ProjectShortDTO implements CreateFromRequestInterface
         if (empty($requestData)) {
             $requestData = [];
         }
-        $dto = new ProjectDTO();
+        $dto = new ProjectDTO($requestData['id'] ?? null, $requestData['name'] ?? null);
         $dto->projectData = ProjectDataDTO::createFromArray($requestData['project_data'] ?? []);
-        $dto->id = $requestData['id'] ?? null;
-        $dto->name = $requestData['name'] ?? null;
         $dto->userId = $requestData['user'] ? $requestData['user']['id'] : null;
 
         return $dto;
