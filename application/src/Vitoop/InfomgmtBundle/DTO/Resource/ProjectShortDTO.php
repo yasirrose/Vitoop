@@ -10,10 +10,10 @@ class ProjectShortDTO
 
     /**
      * ProjectShortDTO constructor.
-     * @param $id
-     * @param $name
+     * @param int|null $id
+     * @param string|null $name
      */
-    public function __construct($id, $name)
+    public function __construct($id = null, $name = null)
     {
         $this->id = $id;
         $this->name = $name;
