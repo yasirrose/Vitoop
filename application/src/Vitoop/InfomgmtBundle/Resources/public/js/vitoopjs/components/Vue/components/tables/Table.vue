@@ -146,9 +146,7 @@
             this.$store.commit('setResourceType', this.$route.name);
             resourceDetail.init();
             this.datatable = this.initTable();
-
             $('.DataTables_sort_icon').addClass('css_right ui-icon ui-icon-carat-2-n-s');
-
             VueBus.$on('datatable:reload', () => {
                 $('.DataTables_sort_icon').remove();
                 this.reinitTable();
@@ -161,6 +159,7 @@
                     $('.DataTables_sort_icon').addClass('css_right ui-icon ui-icon-carat-2-n-s');
             },
             onTableDraw() {
+                if (this.getResourceType === 'prj') VueBus.$emit('update:my-projects');
                 if (this.get('table').data.length >= this.get('table').rowNumber && this.get('resource').id === null) {
                     setTimeout(() => {
                         const content = document.querySelector('#vtp-content');

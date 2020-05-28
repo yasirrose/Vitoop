@@ -7,9 +7,9 @@
         </transition>
         <div v-if="isAdmin && adminToolBar.show">
             <span class="vtp-admin-toolbar download-size">
-                {{$t('label.download.size')}}:
+                {{ $t('label.download.size') }}:
                 {{ downloadSize }}
-                {{$t('label.download.mb')}}
+                {{ $t('label.download.mb') }}
             </span>
             <button for="vtp-tgl-flag"
                     @click="refreshWithFlagged"
@@ -55,8 +55,7 @@
             <div id="button-checking-links__wrapper">
                 <button class="vtp-button ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
                         id="button-checking-links-remove"
-                        :title="$t('label.remove_tooltip')"
-                        style="display:none">
+                        :title="$t('label.remove_tooltip')">
                     <span class="ui-button-icon-primary ui-icon ui-icon-close"></span>
                 </button>
                 <select id="user-projects" class="ui-autocomplete-input">
@@ -69,14 +68,12 @@
                 </select>
                 <button class="vtp-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
                         id="button-checking-links"
-                        :title="$t('label.open_tooltip')"
-                        style="display:none">
+                        :title="$t('label.open_tooltip')">
                     <span class="ui-button-text">{{ $t('label.open') }}</span>
                 </button>
                 <button class="vtp-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
                         id="button-checking-links-send"
-                        :title="$t('label.send_tooltip')"
-                        style="display:none">
+                        :title="$t('label.send_tooltip')">
                     <span class="ui-button-text">{{ $t('label.send') }}</span>
                 </button>
             </div>
@@ -261,32 +258,39 @@
             });
 
             if (this.$store.state.user) {
+                this.GETMyProjects();
+            }
+
+            VueBus.$on('update:my-projects', () => {
+                $('#user-projects').selectmenu('destroy');
+                this.GETMyProjects();
+            });
+        },
+        methods: {
+            GETMyProjects() {
                 axios(`/api/v1/my-projects`)
                     .then(({data}) => {
                         this.myProjects = data;
+                        $('#user-projects').selectmenu({
+                            select: (e, {item}) => {
+                                const resourceIds = this.sendLinkWidget.linkStorage.getAllResourcesIds();
+                                axios.post(`/api/v1/projects/${item.value}/assignments`, {resourceIds})
+                                    .then(response => {
+                                        this.infoMsg = `Resources have been added to the project #${item.value}`;
+                                        this.infoMsgShow = true;
+                                        setTimeout(() => {
+                                            this.infoMsg = ``;
+                                            this.infoMsgShow = false;
+                                        }, 4000);
+                                        this.sendLinkWidget.linkStorage.clearAllResources();
+                                        VueBus.$emit('datatable:reload');
+                                    })
+                                    .catch(err => console.dir(err));
+                            }
+                        });
                     })
                     .catch(err => console.dir(err));
-
-                $('#user-projects').selectmenu({
-                    select: (e, {item}) => {
-                        const resourceIds = this.sendLinkWidget.linkStorage.getAllResourcesIds();
-                        axios.post(`/api/v1/projects/${item.value}/assignments`, {resourceIds})
-                            .then(response => {
-                                this.infoMsg = `Resources have been added to the project #${item.value}`;
-                                this.infoMsgShow = true;
-                                setTimeout(() => {
-                                    this.infoMsg = ``;
-                                    this.infoMsgShow = false;
-                                }, 4000);
-                                this.sendLinkWidget.linkStorage.clearAllResources();
-                                VueBus.$emit('datatable:reload');
-                            })
-                            .catch(err => console.dir(err));
-                    }
-                });
-            }
-        },
-        methods: {
+            },
             showTerms() {
                 $('#vtp-res-dialog-terms').dialog('open');
                 setTimeout(function() {

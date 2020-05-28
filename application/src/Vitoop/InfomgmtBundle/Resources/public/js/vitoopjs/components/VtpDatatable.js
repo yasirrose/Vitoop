@@ -83,6 +83,7 @@ export default class VtpDatatable {
             self.sendLinkWidget.updateCheckedResources(self.resType, data.id, checkbox[0].checked, data);
             e.stopPropagation();
         });
+
         return datatable;
     }
     changeFontSizeByUserSettings() {
