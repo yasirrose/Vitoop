@@ -1,4 +1,6 @@
 #button-checking-links__wrapper {
+    overflow: hidden;
+    width: 280px;
     display: flex;
     transition: 1s;
     opacity: 0;
@@ -17,7 +19,7 @@
 }
 
 #user-projects-menu {
-    max-width: 124px;
+    width: 246px !important;
 
     .ui-menu-item {
         white-space: nowrap;
