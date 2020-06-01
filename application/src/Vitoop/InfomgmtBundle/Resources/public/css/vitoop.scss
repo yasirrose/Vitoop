@@ -971,6 +971,7 @@ span.vtp-icon {
 #button-checking-links-remove {
     border-radius: 50%;
     width: 24px;
+    border-width: 2px;
 }
 
 #vtp-header-admin-buttons {
@@ -1323,6 +1324,7 @@ span.vtp-icon {
     transform: translateY(-50%);
     padding: 0;
     left: 7px;
+    margin-left: 1px;
 }
 
 div.login-container > div a {

@@ -48,7 +48,6 @@
                             <input ref="autocomplete_input"
                                    type="text"
                                    id="lexicon_name_name"
-                                   required="required"
                                    maxlength="128"
                                    v-model.trim="autocomplete"
                                    class="vtp-fh-w40 ui-autocomplete-input" autocomplete="off">

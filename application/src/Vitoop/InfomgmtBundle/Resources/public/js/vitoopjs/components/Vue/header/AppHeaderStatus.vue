@@ -327,7 +327,7 @@
 
     #user-projects {
         width: auto;
-        min-width: 130px;
+        min-width: 150px;
     }
 
     #vtp-header-status {

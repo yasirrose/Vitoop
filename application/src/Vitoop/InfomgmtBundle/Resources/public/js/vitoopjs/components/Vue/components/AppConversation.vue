@@ -382,6 +382,14 @@
     .vtp-resource-link {
         color: black !important;
     }
+
+    .conversation__message__text a {
+        color: #2779aa !important;
+    }
+
+    hr {
+        border-color: #aed0ea !important;
+    }
 </style>
 
 <style scoped lang="scss">
