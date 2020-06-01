@@ -99,7 +99,7 @@ EOT;
     public function getMyProjectsShortDTO(User $user)
     {
         return $this->createQueryBuilder('prj')
-            ->select('NEW '.ProjectShortDTO::class.'(prj.id, prj.name)')
+            ->select('DISTINCT NEW '.ProjectShortDTO::class.'(prj.id, prj.name)')
             ->innerJoin('prj.project_data', 'pd')
             ->leftJoin(RelProjectUser::class, 'rpu', 'WITH',  'rpu.projectData = pd.id')
             ->andWhere('(prj.user = :user OR (rpu.user = :user AND rpu.readOnly = 0))')

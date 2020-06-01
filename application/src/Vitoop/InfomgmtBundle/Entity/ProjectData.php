@@ -299,6 +299,19 @@ class ProjectData implements GetDTOInterface
         $this->isForRelatedUsers = $dto->isForRelatedUsers;
         $this->isPrivate = $dto->isPrivate;
         $this->isAllRecords = $dto->isAllRecords;
+
+        if ($dto->relUsers && is_array($dto->relUsers)) {
+            $relUsersByIds = array_column($dto->relUsers, 'read_only', 'id');
+            /**
+             * @var RelProjectUser $relUser
+             */
+            foreach ($this->relUsers as $relUser) {
+                if (isset($relUsersByIds[$relUser->getId()])) {
+                    $relUser->setReadOnly($relUsersByIds[$relUser->getId()]);
+                }
+            }
+        }
+
     }
 
     public function getDTO()
