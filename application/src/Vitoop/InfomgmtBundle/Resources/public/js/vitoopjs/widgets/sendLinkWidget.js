@@ -75,14 +75,16 @@ export default class SendLinkWidget extends Widget {
                 'opacity': 0,
                 'left': '-600px',
                 'margin-left': 0,
-                'width': 0
+                'width': 0,
+                'padding-right': 0
             });
         } else { // not empty
             $('#button-checking-links__wrapper').css({
                 'opacity': 1,
                 'left': 0,
                 'margin-left': '4px',
-                'width': '280px'
+                'width': '300px',
+                'padding-right': '15px'
             });
         }
     }
