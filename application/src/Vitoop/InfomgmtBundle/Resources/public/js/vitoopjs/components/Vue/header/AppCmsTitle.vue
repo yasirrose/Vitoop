@@ -13,21 +13,6 @@
                         :class="{show: get('coefsToSave').length}">
                     <span>speichern</span>
                 </button>
-                <help-button help-area="project" />
-                <span v-if="canEdit" style="display: flex">
-                    <button id="vtp-projectdata-project-live"
-                            class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
-                            :class="{'ui-state-focus ui-state-active': !get('edit')}"
-                            @click="projectLiveMode">
-                        <span class="ui-button-icon-primary ui-icon ui-icon-clipboard"></span>
-                    </button>
-                    <button id="vtp-projectdata-project-edit"
-                            class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
-                            :class="{'ui-state-focus ui-state-active': get('edit')}"
-                            @click="projectEditMode">
-                        <span class="ui-button-icon-primary ui-icon ui-icon-wrench"></span>
-                    </button>
-                </span>
                 <button id="vtp-projectdata-project-close"
                         :title="$t('label.close')"
                         class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary"
@@ -46,15 +31,14 @@
             </span>
             <div class="vtp-title__buttons">
                 <span style="display: flex">
-                    <help-button help-area="lexicon" />
                     <button id="vtp-projectdata-project-close"
                             :title="$t('label.close')"
                             class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary"
                             role="button"
                             @click="resetResource('/lex')">
-                    <span class="ui-button-icon-primary ui-icon ui-icon-close"></span>
-                    <span class="ui-button-text"></span>
-                </button>
+                        <span class="ui-button-icon-primary ui-icon ui-icon-close"></span>
+                        <span class="ui-button-text"></span>
+                    </button>
                 </span>
             </div>
         </div>
@@ -66,19 +50,6 @@
             </span>
             <div class="vtp-title__buttons">
                 <span style="display: flex">
-                    <button id="vtp-projectdata-project-live"
-                            class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
-                            :class="{'ui-state-focus ui-state-active': !get('conversationEditMode')}"
-                            @click="conversationEditMode">
-                        <span class="ui-button-icon-primary ui-icon ui-icon-clipboard"></span>
-                    </button>
-                    <button id="vtp-projectdata-project-edit"
-                            class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
-                            v-if="get('conversationInstance').canEdit"
-                            :class="{'ui-state-focus ui-state-active': get('conversationEditMode')}"
-                            @click="conversationEditMode">
-                        <span class="ui-button-icon-primary ui-icon ui-icon-wrench"></span>
-                    </button>
                     <button id="vtp-projectdata-project-close"
                             :title="$t('label.close')"
                             class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary"
@@ -95,11 +66,9 @@
 
 <script>
     import {mapGetters} from 'vuex';
-    import HelpButton from "../SecondSearch/HelpButton.vue";
 
     export default {
         name: "AppCmsTitle",
-        components: { HelpButton },
         data() {
             return {
                 project: null,
@@ -108,12 +77,6 @@
         },
         computed: {
             ...mapGetters(['getResource','get','getTableRowNumber','getTableData']),
-            canEdit() { // getResource('owner')
-                const userRelated = this.project.project_data.rel_users.some(relUser => {
-                    return (relUser.user.id === this.get('user').id && !relUser.read_only);
-                });
-                return this.get('admin') || userRelated || this.get('resource').owner;
-            },
         },
         mounted() {
             VueBus.$on('remove:project', () => {
@@ -127,18 +90,6 @@
             });
         },
         methods: {
-            projectEditMode() {
-                this.$store.commit('set', {key: 'edit', value: true});
-            },
-            projectLiveMode() {
-                this.$store.commit('set', {key: 'edit', value: false});
-            },
-            conversationEditMode() {
-                this.$store.commit('set',{
-                    key: 'conversationEditMode',
-                    value: !this.get('conversationEditMode')
-                })
-            },
             resetResource(redirectTo) {
                 this.project = null;
                 this.lexicon = null;

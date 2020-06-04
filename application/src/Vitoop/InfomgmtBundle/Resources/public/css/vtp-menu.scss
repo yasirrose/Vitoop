@@ -7,19 +7,19 @@ div#menu, ul, li {
 }
 
 .vtp-menu {
-    padding: 0 8px 0 0.5em;
+    padding: 0 6px 0 0.5em;
     line-height: 1em;
 }
 
 .vtp-menu ul {
     margin: 0;
     padding: 0;
-    float: left;
+    font-size: 0;
 }
 
 .vtp-menu ul li {
-    float: left;
-    font-size: 1.0em;
+    display: inline-block;
+    font-size: .9rem;
     line-height: 1em;
     list-style-type: none;
     margin: 0 4px 0 0;
