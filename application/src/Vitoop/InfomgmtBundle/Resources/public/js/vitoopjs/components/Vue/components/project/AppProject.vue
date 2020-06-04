@@ -8,7 +8,9 @@
                                  class="ui-corner-all vtp-fh-w75">
                     <div v-html="getProject.project_data.sheet"></div>
                 </resizable-block>
-                <div id="vtp-projectdata-sheet-info" class="ui-corner-all vtp-fh-w20">
+                <div v-if="get('resource').info"
+                     id="vtp-projectdata-sheet-info"
+                     class="ui-corner-all vtp-fh-w20">
                     <p>
                         Erstellt von: <span>{{ getProject.user.username }}</span>
                     </p>

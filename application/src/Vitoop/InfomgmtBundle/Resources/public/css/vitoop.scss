@@ -1225,7 +1225,6 @@ span.vtp-icon {
  ************************************************************/
 #vtp-cmstitle {
     padding: 0px 0px 0px 0.5em;
-    margin-top: 3px !important;
 }
 
 .vtp-cmstitle {
@@ -1445,26 +1444,11 @@ input.divider {
 
 #vtp-projectdata-project-live, #vtp-projectdata-project-edit, #vtp-projectdata-project-help, #vtp-lexicondata-lexicon-help {
     display: inline-block;
-    position: absolute;
     border: $blue-frame-border;
-    top: 50%;
-    margin: -9px 9px 0 0;
     background-color: $vitoop-body-background-color;
     cursor: pointer;
     width: 34px;
     height: 19px;
-    right: 2.6em;
-}
-
-#vtp-projectdata-project-live {
-    right: 80px;
-}
-
-#vtp-projectdata-project-help.vtp-help-offset {
-    right: 122px;
-}
-
-#vtp-projectdata-box, #vtp-lexicondata-box {
 }
 
 #vtp-projectdata-save-container {

@@ -2,9 +2,9 @@
     <div id="vtp-header" class="ui-corner-all">
         <app-header-status v-if="!loading" />
         <app-logo />
-        <app-nav />
         <search-by-tags v-if="showTags" />
         <app-cms-title />
+        <app-nav />
         <div id="vtp-second-search" v-if="showTags">
             <second-search />
         </div>
