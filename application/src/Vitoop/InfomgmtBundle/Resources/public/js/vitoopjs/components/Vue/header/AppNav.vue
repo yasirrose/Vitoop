@@ -87,15 +87,17 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
-    import VtpConfirmMixin from '../mixins/confirmMixin'
-    import { ResourceList } from "../../../resource_list"
+    import { mapGetters } from 'vuex';
+    import VtpConfirmMixin from '../mixins/confirmMixin';
+    import ShowTagsMixin from '../mixins/showTags';
+    import { ResourceList } from "../../../resource_list";
     import HelpButton from "../SecondSearch/HelpButton.vue";
+    import SearchByTags from "./SearchByTags.vue";
 
     export default {
         name: "AppNav",
-        components: { HelpButton },
-        mixins: [VtpConfirmMixin],
+        components: { HelpButton, SearchByTags },
+        mixins: [VtpConfirmMixin, ShowTagsMixin],
         data() {
             return {
                 resources: {
