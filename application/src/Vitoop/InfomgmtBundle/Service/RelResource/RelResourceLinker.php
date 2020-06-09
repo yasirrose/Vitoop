@@ -2,6 +2,7 @@
 
 namespace Vitoop\InfomgmtBundle\Service\RelResource;
 
+use Vitoop\InfomgmtBundle\Entity\Conversation;
 use Vitoop\InfomgmtBundle\Entity\Lexicon;
 use Vitoop\InfomgmtBundle\Entity\Project;
 use Vitoop\InfomgmtBundle\Entity\Resource;
@@ -170,5 +171,38 @@ class RelResourceLinker
         $this->relResourceRepository->add($relation);
 
         return $relation;
+    }
+
+    /**
+     * @param Conversation $conversation
+     * @param Resource $resource
+     * @return RelResourceResource
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function linkConversationToResource(Conversation $conversation, Resource $resource): RelResourceResource
+    {
+        if ($conversation->getId() === $resource->getId()) {
+            throw new \Exception('Eine Resource kann sich nicht selber zugewiesen werden.');
+        }
+
+        $user = $this->vitoopSecurity->getUser();
+        /**
+         * @var RelResourceResource $relResource
+         */
+        $relResource = $this->relResourceRepository->getRelResource(
+            $conversation->getId(),
+            $resource->getId(),
+            $user->getId()
+        );
+        if ($relResource) {
+            $relResource->increaseCountLinks();
+        } else {
+            $relResource = new RelResourceResource($conversation, $resource, $user);
+            $this->relResourceRepository->add($relResource);
+        }
+        $this->relResourceRepository->save();
+
+        return $relResource;
     }
 }

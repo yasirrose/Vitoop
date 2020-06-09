@@ -4,21 +4,30 @@ namespace Vitoop\InfomgmtBundle\Controller\V1;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Vitoop\InfomgmtBundle\Controller\ApiController;
 use Vitoop\InfomgmtBundle\DTO\QueueMessage\ConversationMessageNotification;
+use Vitoop\InfomgmtBundle\DTO\Resource\ConversationAssignment;
+use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
 use Vitoop\InfomgmtBundle\Entity\Conversation;
 use Vitoop\InfomgmtBundle\Entity\ConversationMessage;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Vitoop\InfomgmtBundle\Entity\Project;
 use Vitoop\InfomgmtBundle\Entity\RelConversationUser;
 use Vitoop\InfomgmtBundle\Entity\User;
 use Vitoop\InfomgmtBundle\Repository\ConversationDataRepository;
 use Vitoop\InfomgmtBundle\Repository\ConversationMessageRepository;
 use Vitoop\InfomgmtBundle\Repository\RelConversationUserRepository;
+use Vitoop\InfomgmtBundle\Repository\RelResourceResourceRepository;
+use Vitoop\InfomgmtBundle\Repository\ResourceRepository;
 use Vitoop\InfomgmtBundle\Repository\UserRepository;
+use Vitoop\InfomgmtBundle\Response\Json\ErrorResponse;
 use Vitoop\InfomgmtBundle\Service\Conversation\ConversationNotificator;
 use Vitoop\InfomgmtBundle\Service\MessageService;
 use Vitoop\InfomgmtBundle\Service\Queue\DelayEventNotificator;
+use Vitoop\InfomgmtBundle\Service\RelResource\RelResourceLinker;
+use Vitoop\InfomgmtBundle\Service\ResourceManager;
 use Vitoop\InfomgmtBundle\Service\VitoopSecurity;
 
 /**
@@ -27,11 +36,47 @@ use Vitoop\InfomgmtBundle\Service\VitoopSecurity;
 
 class ConversationController extends ApiController
 {
-    public $messageService;
+    private $messageService;
 
-    public function __construct(MessageService $messageService)
-    {
+    /**
+     * @var VitoopSecurity
+     */
+    private $vitoopSecurity;
+
+    /**
+     * @var ValidatorInterface
+     */
+    private $validator;
+
+    /**
+     * @var ResourceRepository
+     */
+    private $resourceRepository;
+    /**
+     * @var RelResourceLinker
+     */
+    private $relResourceLinker;
+
+    /**
+     * ConversationController constructor.
+     * @param MessageService $messageService
+     * @param VitoopSecurity $vitoopSecurity
+     * @param ResourceRepository $resourceRepository
+     * @param RelResourceLinker $relResourceLinker
+     * @param ValidatorInterface $validator
+     */
+    public function __construct(
+        MessageService $messageService,
+        VitoopSecurity $vitoopSecurity,
+        ResourceRepository $resourceRepository,
+        RelResourceLinker $relResourceLinker,
+        ValidatorInterface $validator
+    ) {
         $this->messageService =  $messageService;
+        $this->vitoopSecurity = $vitoopSecurity;
+        $this->validator = $validator;
+        $this->resourceRepository = $resourceRepository;
+        $this->relResourceLinker = $relResourceLinker;
     }
 
     /**
@@ -39,13 +84,16 @@ class ConversationController extends ApiController
      * @param $conversation Conversation
      * @return object
      */
-    public function getConversationById(Conversation $conversation, VitoopSecurity $vitoopSecurity)
+    public function getConversationById(Conversation $conversation)
     {
-        $this->checkAccess($conversation, $vitoopSecurity);
-        $userId = $vitoopSecurity->getUser()->getId();
+        $this->checkAccess($conversation);
+        $userId = $this->getUser()->getId();
+
+        $resourceInfo = $this->resourceRepository->getCountOfRelatedResources($conversation);
 
        return $this->getApiResponse([
             'conversation' => $conversation->getDTO(),
+            'resourceInfo' => $resourceInfo,
             'isOwner' => $conversation->getConversationData()->availableForDelete($this->getUser()),
             'canEdit' => $conversation->getConversationData()->availableForWriting($this->getUser()),
             'token' => $this->messageService->getToken($userId),
@@ -68,18 +116,16 @@ class ConversationController extends ApiController
     public function sendMessage(
         Conversation $conversation,
         Request $request,
-        VitoopSecurity $vitoopSecurity,
         ConversationMessageRepository $messageRepository,
         ConversationNotificator $conversationNotificator,
         DelayEventNotificator $delayEventNotificator
     ) {
         $conversationData = $conversation->getConversationData();
-        $message = new ConversationMessage($request->get('message'), $vitoopSecurity->getUser(), $conversationData);
+        $message = new ConversationMessage($request->get('message'), $this->getUser(), $conversationData);
         $messageRepository->save($message);
 
         //send notification
         $delayEventNotificator->notify(new ConversationMessageNotification($message->getId()));
-        //$conversationNotificator->notify($message);
 
         return $this->getApiResponse($message);
     }
@@ -96,11 +142,10 @@ class ConversationController extends ApiController
      */
     public function updateMessage(
         ConversationMessage $message,
-        VitoopSecurity $vitoopSecurity,
         ConversationMessageRepository $messageRepository,
         Request $request
     ) {
-        $this->checkAccessForDelete($message, $vitoopSecurity);
+        $this->checkAccessForDelete($message);
         $message->setText($request->get('updatedMessage'));
         $messageRepository->save($message);
 
@@ -116,10 +161,9 @@ class ConversationController extends ApiController
      */
     public function deleteMessage(
         ConversationMessage $message,
-        VitoopSecurity $vitoopSecurity,
         ConversationMessageRepository $messageRepository
     ) {
-        $this->checkAccessForDelete($message, $vitoopSecurity);
+        $this->checkAccessForDelete($message);
 
         $messageRepository->remove($message);
 
@@ -128,7 +172,6 @@ class ConversationController extends ApiController
 
     /**
      * @Route("/user", methods={"POST"} , requirements={"id": "\d+"})
-     * @param VitoopSecurity $vitoopSecurity
      * @param Conversation $conversation
      * @param Request $request
      * @param UserRepository $userRepository
@@ -136,14 +179,13 @@ class ConversationController extends ApiController
      * @return object
      */
     public function addUserToConversation(
-        VitoopSecurity $vitoopSecurity,
         Conversation $conversation,
         Request $request,
         UserRepository $userRepository,
         RelConversationUserRepository $conversationUserRepository
     ) {
-        $currentUser = $vitoopSecurity->getUser();
-        $this->checkAccessForRelUserAction($conversation, $vitoopSecurity);
+        $currentUser = $this->getUser();
+        $this->checkAccessForRelUserAction($conversation);
         $response = null;
 
         $user = $userRepository->find((integer)$request->get('userId'));
@@ -171,7 +213,6 @@ class ConversationController extends ApiController
 
     /**
      * @Route("/user/{userID}", methods={"DELETE"})
-     * @param VitoopSecurity $vitoopSecurity
      * @param Conversation $conversation
      * @param User $user
      * @param RelConversationUserRepository $conversationUserRepository
@@ -179,12 +220,11 @@ class ConversationController extends ApiController
      * @return object
      */
     public function removeUserFromConversation(
-        VitoopSecurity $vitoopSecurity,
         Conversation $conversation,
         User $user,
         RelConversationUserRepository $conversationUserRepository
     ) {
-        $this->checkAccessForDeleteUser($conversation, $vitoopSecurity);
+        $this->checkAccessForDeleteUser($conversation);
         $relConversationUser = $conversationUserRepository->getRel($user, $conversation);
         $conversationUserRepository->removeUser($relConversationUser);
 
@@ -193,7 +233,6 @@ class ConversationController extends ApiController
 
     /**
      * @Route("/read", methods={"POST"} , requirements={"id": "\d+"})
-     * @param VitoopSecurity $vitoopSecurity
      * @param Conversation $conversation
      * @param Request $request
      * @param UserRepository $userRepository
@@ -201,13 +240,12 @@ class ConversationController extends ApiController
      * @return object
      */
     public function updateUserPermissionForConversation(
-        VitoopSecurity $vitoopSecurity,
         Conversation $conversation,
         Request $request,
         UserRepository $userRepository,
         RelConversationUserRepository $conversationUserRepository
     ) {
-        $this->checkAccessForRelUserAction($conversation, $vitoopSecurity);
+        $this->checkAccessForRelUserAction($conversation);
         $user = $userRepository->find((integer)$request->get('userId'));
 
         $relConversationUser = $conversationUserRepository->getRel($user, $conversation);
@@ -227,10 +265,10 @@ class ConversationController extends ApiController
      *
      * @return object
      */
-    public function getUserNamesForConversation(Conversation $conversation, Request $request, VitoopSecurity $vitoopSecurity, UserRepository $userRepository)
+    public function getUserNamesForConversation(Conversation $conversation, Request $request, UserRepository $userRepository)
     {
         $letter = $request->get('symbol');
-        $currentUser = $vitoopSecurity->getUser();
+        $currentUser = $this->getUser();
         $names = $userRepository->getNames($letter, $currentUser, $conversation->getUser());
 
         return $this->getApiResponse($names);
@@ -248,10 +286,9 @@ class ConversationController extends ApiController
     public function changeConversationStatus(
         Conversation $conversation,
         Request $request,
-        VitoopSecurity $vitoopSecurity,
         ConversationDataRepository $conversationDataRepository
     ) {
-        $this->checkAccessForRelUserAction($conversation, $vitoopSecurity);
+        $this->checkAccessForRelUserAction($conversation);
         $conversationData = $conversation->getConversationData();
         $conversationData->setIsForRelatedUsers((integer)$request->get('status'));
         $conversationDataRepository->save($conversationData);
@@ -264,12 +301,11 @@ class ConversationController extends ApiController
      */
     public function createNotificationSubscription(
         Conversation $conversation,
-        VitoopSecurity $vitoopSecurity,
         ConversationDataRepository $conversationDataRepository
     ) {
-        $this->checkAccess($conversation, $vitoopSecurity);
+        $this->checkAccess($conversation);
         $conversationData = $conversation->getConversationData();
-        $conversationData->userNotify($vitoopSecurity->getUser(), true);
+        $conversationData->userNotify($this->getUser(), true);
         $conversationDataRepository->save($conversationData);
 
         return $this->getApiResponse($conversationData);
@@ -280,41 +316,122 @@ class ConversationController extends ApiController
      */
     public function deleteNotificationSubscription(
         Conversation $conversation,
-        VitoopSecurity $vitoopSecurity,
         ConversationDataRepository $conversationDataRepository
     ) {
-        $this->checkAccess($conversation, $vitoopSecurity);
+        $this->checkAccess($conversation);
         $conversationData = $conversation->getConversationData();
-        $conversationData->userNotify($vitoopSecurity->getUser(), false);
+        $conversationData->userNotify($this->getUser(), false);
         $conversationDataRepository->save($conversationData);
 
         return $this->getApiResponse($conversationData);
     }
 
-    private function checkAccess(Conversation $conversation, VitoopSecurity $vitoopSecurity)
+    /**
+     * @Route("/assignments", methods={"GET"})
+     */
+    public function getAssignments(
+        Conversation $conversation,
+        RelResourceResourceRepository $relResourceRepository
+    ) {
+        $this->checkAccess($conversation);
+        return $this->getApiResponse(
+            $relResourceRepository->getAllAssignmentsDTO($conversation->getId(), $this->getUser()->getId())
+        );
+    }
+
+    /**
+     * @Route("/assignments", methods={"POST"})
+     */
+    public function createAssigment(Conversation $conversation, Request $request)
     {
-        if (!$conversation->getConversationData()->availableForReading($vitoopSecurity->getUser())) {
+        $dto = $this->getDTOFromRequest($request, ConversationAssignment::class);
+        $errors = $this->validator->validate($dto);
+        if (count($errors) > 0) {
+            return $this->getApiResponse(ErrorResponse::createFromValidator($errors), 400);
+        }
+        $resources = $this->resourceRepository->findBy(['id' => $dto->resourceIds]);
+        try {
+            $assignments = [];
+            foreach ($resources as $resource) {
+                $relResource = $this->relResourceLinker->linkConversationToResource($conversation, $resource);
+                $assignments[] = $relResource->getDTO();
+            }
+        } catch (\Exception $exception) {
+            return $this->getApiResponse(new ErrorResponse([$exception->getMessage()]), 400);
+        }
+
+        return $this->getApiResponse($assignments, 201);
+    }
+
+    /**
+     * @Route("/{resType}", methods={"GET"}, requirements={"resType": "pdf|adr|link|teli|lex|prj|book"})
+     */
+    public function getRelatedResources(
+        Conversation $conversation,
+        $resType,
+        ResourceManager $resourceManager,
+        Request $request
+    ) {
+        $search = SearchResource::createFromRequest($request, $this->getUser(), $conversation->getId());
+
+        $resourceRepository = $resourceManager->getRepository($resType);
+        $resources = $resourceRepository->getResources($search);
+        $total = $resourceRepository->getResourcesTotal($search);
+
+        if ('prj' === $resType) {
+            foreach ($resources as &$resource) {
+                if (null === $resource['id']) {
+                    continue;
+                }
+                $project = $resourceRepository->find($resource['id']);
+                $resource['canRead'] = $project->getProjectData()->availableForReading($this->getUser());
+            }
+        }
+
+        return $this->getApiResponse([
+            'recordsTotal' => $total,
+            'recordsFiltered' => $total,
+            'data' => $resources,
+            'resourceInfo' => $this->resourceRepository->getCountByTags($search)
+        ]);
+    }
+
+    /**
+     * @param Conversation $conversation
+     */
+    private function checkAccess(Conversation $conversation)
+    {
+        if (!$conversation->getConversationData()->availableForReading($this->vitoopSecurity->getUser())) {
             throw new AccessDeniedHttpException;
         }
     }
 
-    private function checkAccessForDelete(ConversationMessage $message, VitoopSecurity $vitoopSecurity)
+    /**
+     * @param ConversationMessage $message
+     */
+    private function checkAccessForDelete(ConversationMessage $message)
     {
-        if (!$message->availableForDelete($vitoopSecurity->getUser())) {
+        if (!$message->availableForDelete($this->vitoopSecurity->getUser())) {
             throw new AccessDeniedHttpException;
         }
     }
 
-    private function checkAccessForRelUserAction(Conversation $conversation, VitoopSecurity $vitoopSecurity)
+    /**
+     * @param Conversation $conversation
+     */
+    private function checkAccessForRelUserAction(Conversation $conversation)
     {
-        if (!$conversation->getConversationData()->availableForWriting($vitoopSecurity->getUser())) {
+        if (!$conversation->getConversationData()->availableForWriting($this->vitoopSecurity->getUser())) {
             throw new AccessDeniedHttpException;
         }
     }
 
-    private function checkAccessForDeleteUser(Conversation $conversation, VitoopSecurity $vitoopSecurity)
+    /**
+     * @param Conversation $conversation
+     */
+    private function checkAccessForDeleteUser(Conversation $conversation)
     {
-        if (!$conversation->getConversationData()->availableForDelete($vitoopSecurity->getUser())) {
+        if (!$conversation->getConversationData()->availableForDelete($this->vitoopSecurity->getUser())) {
             throw new AccessDeniedHttpException;
         }
     }

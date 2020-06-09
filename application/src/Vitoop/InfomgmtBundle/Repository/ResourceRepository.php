@@ -327,7 +327,7 @@ class ResourceRepository extends ServiceEntityRepository
     protected function prepareListQueryBuilder(QueryBuilder $query, SearchResource $search)
     {
         $query
-            ->addSelect('r.id, r.name, CONCAT(r.created_at,\'\') AS created_at, u.username, AVG(ra.mark) as avgmark, COUNT(DISTINCT rrr.id) as res12count, COUNT(uh.id) as isUserHook, COUNT(ur.id) as isUserRead')
+            ->addSelect('r.id, r.name, CONCAT(r.created_at,\'\') AS created_at, u.username, AVG(ra.mark) as avgmark, SUM(rrr.countLinks) as res12count, COUNT(uh.id) as isUserHook, COUNT(ur.id) as isUserRead')
             ->innerJoin('r.user', 'u')
             ->leftJoin('r.flags', 'f')
             ->leftJoin('r.ratings', 'ra')

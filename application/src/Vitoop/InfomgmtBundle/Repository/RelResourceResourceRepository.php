@@ -87,17 +87,16 @@ class RelResourceResourceRepository extends EntityRepository
             ->getResult();
     }
 
-
     public function exists(RelResourceResource $rrr)
     {
-        return $this->getEntityManager()
-                    ->createQuery('SELECT rrr.id FROM Vitoop\InfomgmtBundle\Entity\RelResourceResource rrr
-            WHERE rrr.resource1=:arg_resource1 AND rrr.resource2=:arg_resource2 AND rrr.user=:arg_user')
-                    ->setParameters(array(
-                'arg_resource1' => $rrr->getResource1(),
-                'arg_resource2' => $rrr->getResource2(),
-                'arg_user' => $rrr->getUser()
-            ))
+        return $this
+            ->getRelResourceQueryBuilder(
+                $rrr->getResource1()->getId(),
+                $rrr->getResource2()->getId(),
+                $rrr->getUser()->getId()
+            )
+            ->select('rrr.id')
+            ->getQuery()
             ->getResult();
     }
 
@@ -111,5 +110,27 @@ class RelResourceResourceRepository extends EntityRepository
             ->setParameter('userId', $userId)
             ->getQuery()
             ->getResult();
+    }
+
+    public function getRelResource($resource1Id, $resource2Id, $userId)
+    {
+        return $this
+            ->getRelResourceQueryBuilder($resource1Id, $resource2Id, $userId)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    private function getRelResourceQueryBuilder($resource1Id, $resource2Id, $userId)
+    {
+        return $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select('rrr')
+            ->from(RelResourceResource::class, 'rrr')
+            ->andWhere('rrr.resource1=:arg_resource1')
+            ->andWhere('rrr.resource2=:arg_resource2')
+            ->andWhere('rrr.user=:arg_user2')
+            ->setParameter('arg_resource1', $resource1Id)
+            ->setParameter('arg_resource2', $resource2Id)
+            ->setParameter('arg_user2', $userId);
     }
 }

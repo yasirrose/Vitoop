@@ -49,6 +49,12 @@ class RelResourceResource implements GetDTOInterface
     protected $deletedByUser;
 
     /**
+     * @var int
+     * @ORM\Column(name="count_links", type="smallint", options={"default": 1, "unsigned": true})
+     */
+    protected $countLinks;
+
+    /**
      * RelResourceResource constructor.
      * @param $resource1
      * @param $resource2
@@ -60,6 +66,7 @@ class RelResourceResource implements GetDTOInterface
         $this->resource2 = $resource2;
         $this->user = $user;
         $this->coefficient = 0;
+        $this->countLinks = 1;
     }
 
     /**
@@ -179,6 +186,11 @@ class RelResourceResource implements GetDTOInterface
     public function getDeletedByUser()
     {
         return $this->deletedByUser;
+    }
+
+    public function increaseCountLinks()
+    {
+        $this->countLinks++;
     }
 
     public function getDTO()
