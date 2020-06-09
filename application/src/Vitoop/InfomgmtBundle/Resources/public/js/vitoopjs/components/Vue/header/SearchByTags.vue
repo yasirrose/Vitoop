@@ -1,5 +1,5 @@
 <template>
-    <div style="margin: -24px 0 0 0;">
+    <div style="margin: -24px 0 0 700px">
         <form id="vtp-search-bytags-form"
               style="padding: 0 8px 0 0.5em"
               action=""
@@ -434,6 +434,7 @@
 
     #vtp-filterbox {
         margin-top: 6px;
+        margin-left: -700px;
     }
 
     #vtp-search-bytags-taglistbox {
