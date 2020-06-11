@@ -37,7 +37,7 @@ security:
                - Vitoop\InfomgmtBundle\Service\Security\Guard\VitoopMainFormAuthenticator
          logout:
             path:    /logout
-            target:  /userhome
+            target:  /login
          anonymous:  ~
 
    access_control:      
