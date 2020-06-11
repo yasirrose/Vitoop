@@ -21,8 +21,7 @@
                                 @click="editMessage(message)">
                             <span class="ui-button-icon-primary ui-icon ui-icon-wrench"></span>
                         </button>
-                        <button
-                                :title="$t('label.close')"
+                        <button :title="$t('label.close')"
                                 class="ui-state-default"
                                 @click="deleteMessage(message.id)">
                             <span class="ui-button-icon-primary ui-icon ui-icon-close"></span>
@@ -163,7 +162,9 @@
                 },
                 toggleNewMessageAreaDisabled: false,
                 conversationInstance: null,
-                conversationHeight: 0
+                conversationHeight: 0,
+                resourceIds: [],
+                selectedResourceId: null
             }
         },
         computed: {
@@ -205,6 +206,18 @@
                     const tinyMceOptions = new tinyMCEInitializer().getCommonOptions();
                     tinyMceOptions.selector = '#new-message-textarea';
                     tinyMceOptions.height = 150;
+
+                    tinyMceOptions.init_instance_callback = editor => {
+                        let resourceId = null;
+                        editor.on('ExecCommand', e => {
+                            this.addResourceId(e);
+                            this.removeResourceId(e);
+                        });
+                        editor.on('click', e => {
+                            this.selectResource(e);
+                        });
+                    };
+
                     tinyMCE.init(tinyMceOptions);
                     if (this.get('contentHeight') > 342) {
                         this.conversationHeight = this.get('contentHeight') - 32-25;
@@ -217,6 +230,24 @@
                 .catch(err => console.dir(err));
         },
         methods: {
+            selectResource(e) {
+                const href = e.target.getAttribute('href');
+                this.selectedResourceId = href && /resources\/(\d+)/.test(href) ? href.match(/(\d+)/)[0] : null;
+            },
+            addResourceId(e) {
+                if (/^<a href=/.test(e.value) && /resources\/(\d+)/.test(e.value)) {
+                    this.selectedResourceId = e.value.match(/(\d+)/)[0];
+                    this.resourceIds.push(this.selectedResourceId);
+                }
+            },
+            removeResourceId(e) {
+                if (e.command === 'unlink') {
+                    const index = this.resourceIds.indexOf(this.selectedResourceId);
+                    if (index > -1) {
+                        this.resourceIds.splice(index, 1);
+                    }
+                }
+            },
             editMessage(message) {
                 this.newMessage.opened = true;
                 this.newMessage.message = message.message;
@@ -245,6 +276,11 @@
                         value: data
                     });
                     this.conversationInstance = data;
+
+                    this.$store.commit('setResourceOwner', data.isOwner);
+                    this.$store.commit('setResourceInfo', data.resourceInfo);
+                    this.$store.commit('setResourceId', this.$route.params.conversationId);
+
                     return data;
                 })
                 .catch(err => console.dir(err));
@@ -297,6 +333,16 @@
                 this.newMessage.edit = false;
                 this.newMessage.opened ? this.scrollToBottom(400) : this.hideNewMessageArea();
             },
+            saveAssignments() {
+                axios.post(`/api/v1/conversations/${this.conversationInstance.conversation.id}/assignments`, {
+                    resourceIds: this.resourceIds
+                })
+                    .then(response => {
+                        this.resourceIds = [];
+                        this.getConversation();
+                    })
+                    .catch(err => console.dir(err));
+            },
             postMessage() {
                 const formData = new FormData();
                 if (!this.newMessage.edit) { // post new message
@@ -308,6 +354,8 @@
                                     this.newMessage.opened = false;
                                     this.hideNewMessageArea(true);
                                     this.openResourcePopup('.conversation__message__text');
+
+                                    this.saveAssignments();
                                 })
                                 .catch(err => console.dir(err));
                         })
@@ -321,6 +369,8 @@
                             this.newMessage.edit = false;
                             this.newMessage.opened = false;
                             this.hideNewMessageArea();
+
+                            this.saveAssignments();
                             setTimeout(() => {
                                 this.openResourcePopup('.conversation__message__text');
                             })

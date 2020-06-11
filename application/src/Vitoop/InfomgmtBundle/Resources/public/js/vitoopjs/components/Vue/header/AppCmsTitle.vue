@@ -23,7 +23,7 @@
                 </button>
             </div>
         </div>
-        <div v-else-if="getResource('id') && !get('inProject')"
+        <div v-else-if="getResource('id') && !get('inProject') && !get('conversationInstance')"
              id="vtp-lexicondata-title"
              class="ui-corner-all vtp-cmstitle">
             <span class="vtp-title__text" v-if="lexicon">
@@ -72,7 +72,8 @@
         data() {
             return {
                 project: null,
-                lexicon: null
+                lexicon: null,
+                conversation: null
             }
         },
         computed: {

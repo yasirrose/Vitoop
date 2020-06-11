@@ -23,6 +23,11 @@ export default [
         }
     },
     {
+        path: '/userhome',
+        component: UserHome,
+        name: 'userhome'
+    },
+    {
         path: '/password/forgotPassword',
         component: ForgotPassword,
         name: 'forgot-password'

@@ -12,8 +12,14 @@
                 <a class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
                    :class="{'vtp-nav-active ui-state-active': $route.name === 'lexicon'}"
                    @click="$router.push(`/lexicon/${getResource('id')}`)"
-                   v-else-if="!getInProject && getResource('id')">
+                   v-else-if="!getInProject && getResource('id') && !get('conversationInstance')">
                     {{ $t('page.lexicon') }}
+                </a>
+                <a class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
+                   :class="{'vtp-nav-active ui-state-active': $route.name === 'conversation'}"
+                   @click="$router.push(`/conversation/${getResource('id')}`)"
+                   v-else-if="getResource('id') && get('conversationInstance')">
+                    Conversation
                 </a>
             </li>
             <li v-if="showConversation">
@@ -36,7 +42,7 @@
                 </a>
             </li>
             <li v-for="(value,name) in resources"
-                v-if="get('conversationInstance') === null && !isAllInOneList"
+                v-if="!isAllInOneList"
                 :key="name">
                 <a class="vtp-resmenu-reslink ui-state-default ui-corner-all"
                    @click="changeRoute(name)"
@@ -65,10 +71,10 @@
                 </button>
             </span>
         </div>
-        <div v-else-if="getResource('id') && !get('inProject')">
+        <div v-else-if="getResource('id') && !get('inProject') && !get('conversationInstance')">
             <help-button help-area="lexicon" />
         </div>
-        <div v-else-if="get('conversationInstance')">
+        <div v-if="get('conversationInstance')">
             <button id="vtp-projectdata-project-live"
                     class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
                     :class="{'ui-state-focus ui-state-active': !get('conversationEditMode')}"

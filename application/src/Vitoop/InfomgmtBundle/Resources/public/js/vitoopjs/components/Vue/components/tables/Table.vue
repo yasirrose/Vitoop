@@ -129,9 +129,15 @@
                 return null
             },
             currentURL() {
-                return this.get('inProject') ?
-                    `/api/v1/projects/${this.getResource('id')}/${this.getResourceType}` :
-                    `/api/resource/${this.$route.name}`;
+                if (this.get('inProject')) {
+                    return `/api/v1/projects/${this.getResource('id')}/${this.getResourceType}`
+                }
+
+                if (this.get('conversationInstance')) {
+                    return `/api/v1/conversations/${this.getResource('id')}/${this.getResourceType}`
+                }
+
+                return `/api/resource/${this.$route.name}`;
             },
         },
         beforeRouteEnter (to, from, next) {
