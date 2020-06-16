@@ -123,6 +123,8 @@
                 this.$router.push(`/lexicon/${this.currentTag.id}`);
                 this.loadLexicon();
                 this.getLexicons();
+                this.$store.commit('updateTableRowNumber', this.get('table').rowNumber + 1);
+                this.reset();
             },
             loadLexicon() {
                 axios(`/api/v1/lexicons/${this.$route.params.lexiconId}`)
@@ -175,7 +177,6 @@
                     .catch(err => console.dir(err));
             },
             init() {
-                $('#open_lexicon_link').button();
                 $('#lexicon_name_save').on('click', function() {
                     $('#tab-title-rels').removeClass('ui-state-no-content');
                 });
@@ -248,11 +249,17 @@
                 margin-right: 4px;
             }
         }
+
+        .ui-button {
+            padding: 4px 12px 2px;
+            width: auto;
+        }
     }
 
     #open_lexicon_link {
-        padding: 3px 15px;
+        padding: 4px 15px;
         margin: 0 0 0 4px;
+        line-height: 1;
     }
 
     #vtp-lexicondata-sheet-view {
