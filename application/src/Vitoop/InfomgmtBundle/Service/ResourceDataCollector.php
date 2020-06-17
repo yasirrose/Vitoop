@@ -207,6 +207,7 @@ class ResourceDataCollector
     public function newData()
     {
         $info_data = '';
+        $isNew = true;
 
         $res_type = $this->getResourceType();
         $newResource = ResourceFactory::create($res_type);
@@ -214,7 +215,8 @@ class ResourceDataCollector
         $dto->user = $this->vsec->getUser();
         $formData = $this->ff->create($this->rm->getResourceFormTypeClassname($res_type), $dto, array(
             'action' => $this->router->generate('_xhr_resource_new', array('res_type' => $res_type)),
-            'method' => 'POST'
+            'method' => 'POST',
+            'is_new' => true
         ));
         if ($this->handleData) {
             $formData->handleRequest($this->request);
@@ -239,6 +241,7 @@ class ResourceDataCollector
                     $this->handleData = false;
                     // Show the Form for Data with correct route in action attribute
                     $formData = $this->getFormData();
+                    $isNew = false;
                 } catch (\Exception $e) {
                     $form_error = new FormError($e->getMessage());
                     $formData->addError($form_error);
@@ -248,10 +251,11 @@ class ResourceDataCollector
 
         return $this->twig->render('VitoopInfomgmtBundle:Resource:xhr.resource.data.' . $res_type . '.html.twig', array(
             'res' => $newResource,
+            'dto' => $dto ?? $this->res->toResourceDTO($this->vsec->getUser()),
             'fvdata' => $formData->createView(),
             'infodata' => $info_data,
             'isShowSave' => true,
-            'isNew' => true,
+            'isNew' => $isNew,
         ));
     }
 

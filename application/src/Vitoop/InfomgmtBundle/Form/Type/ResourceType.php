@@ -48,6 +48,9 @@ class ResourceType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(['data_class' => ResourceDTO::class]);
+        $resolver->setDefaults([
+            'data_class' => ResourceDTO::class,
+            'is_new' => false,
+        ]);
     }
 }

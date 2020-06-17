@@ -16,6 +16,14 @@
     <div class="d-flex align-center" style="margin-bottom: 4px">
         {{ form_label(fvdata.status, null, {'label_attr': {'class': 'w-22' }}) }}
         <div class="d-flex align-center">
+            {% if false == isNew and dto.status is defined %}
+                {% set label = 'öffentlich' %}
+                {% if 1 == dto.status %}
+                    {% set label = 'privat' %}
+                {% endif %}
+
+                {{ label }}
+            {% endif %}
             {{ form_widget(fvdata.status, {'attr': {'class': 'w-78' }}) }}
         </div>
     </div>
