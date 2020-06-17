@@ -848,6 +848,7 @@ window.resourceDetail = (function () {
         },
         doneFlagInfo = function (content) {
             hardResetTabs();
+            notifyRefresh();
             $('#vtp-res-dialog-tabs').tabs('option', 'disabled', [ 0, 1, 2, 3, 4 ]);
             $('#resource-flags').append(content['resource-flags']);
         },
