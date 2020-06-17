@@ -6,6 +6,7 @@ namespace Vitoop\InfomgmtBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,14 +21,21 @@ class ConversationType extends AbstractType
             ->add('description', TextareaType::class, array('label' => 'Erste Nachricht:'))
             ->add('isNotify', CheckboxType::class, [
                 'label' => 'Mail schicken, wenn neue Nachricht ankommt'
-            ])
-            ->add('status', ChoiceType::class, [
+            ]);
+        
+        if (true === $options['is_new']) {
+            $builder
+                ->add('status', ChoiceType::class, [
                 'choices' => [
                     'öffentlich' => '0',
-                    'private' => '1',
+                    'privat' => '1',
                 ],
                 'label' => 'Status:'
             ]);
+        } else {
+            $builder
+                ->add('status', HiddenType::class);
+        }
     }
 
     public function getParent()

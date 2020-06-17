@@ -314,6 +314,10 @@ class ConversationData implements GetDTOInterface
      */
     public function isRelatedUser(User $user): bool
     {
+        if (null === $this->conversation || null === $this->conversation->getUser()) {
+            return false;
+        }
+
         if (!$this->isForRelatedUsers || $this->conversation->getUser() === $user) {
             return true;
         }
