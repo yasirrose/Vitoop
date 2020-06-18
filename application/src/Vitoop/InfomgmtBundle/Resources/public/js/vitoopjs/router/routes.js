@@ -18,12 +18,6 @@ import UserDataP from "../components/Vue/components/user/UserDataP.vue";
 export default [
     {
         path: '',
-        beforeEnter: (to,from,next) => {
-            next('/login');
-        }
-    },
-    {
-        path: '/userhome',
         component: UserHome,
         name: 'userhome'
     },
