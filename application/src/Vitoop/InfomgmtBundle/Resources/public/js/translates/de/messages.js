@@ -39,7 +39,7 @@ export default {
             "cross": "Tag entfernen"
         },
         "lang": "Sprache",
-        "lexicon": "Lexicon",
+        "lexicon": "Lexikon",
         "link": "Link",
         "login": "Username",
         "new": "neu",

@@ -21,8 +21,7 @@
                 {% if 1 == dto.status %}
                     {% set label = 'privat' %}
                 {% endif %}
-
-                {{ label }}
+                <span class="conversation__status">{{ label }}</span>
             {% endif %}
             {{ form_widget(fvdata.status, {'attr': {'class': 'w-78' }}) }}
         </div>
@@ -31,8 +30,8 @@
     <div class="d-flex align-center" style="margin-bottom: 4px">
         <label class="w-22"></label>
         <div class="d-flex align-center w-78">
+            {{ form_label(fvdata.isNotify, null, {'label_attr': {'class': '' }}) }}
             {{ form_widget(fvdata.isNotify, {'attr': {'class': 'valid-checkbox' }}) }}
-            {{ form_label(fvdata.isNotify, null, {'label_attr': {'class': 'w-78' }}) }}
         </div>
     </div>
     {% else %}

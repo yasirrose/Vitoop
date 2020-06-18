@@ -27,12 +27,16 @@
                         style="width: 52px">
                     <option value="0">-</option>
                 </select>
-                <button id="vtp-search-bytags-form-submit"
-                        class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only"
-                        value="Suche"
-                        @click="reloadTable">
-                    <span class="ui-button-icon-primary ui-icon ui-icon-refresh"></span>
-                </button>
+                <transition name="translate">
+                    <button id="vtp-search-bytags-form-submit"
+                            class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only"
+                            value="Suche"
+                            :class="{act: active}"
+                            v-if="active"
+                            @click="reloadTable">
+                        <span class="ui-button-icon-primary ui-icon ui-icon-refresh"></span>
+                    </button>
+                </transition>
                 <span id="vtp-search-bytags-form-buttons-vue">
                     <help-button help-area="search" />
                     <search-toggler></search-toggler>
@@ -95,6 +99,7 @@
         },
         data() {
             return {
+                active: false,
                 searchByTags: null,
                 tags: [],
                 ignoredTags: [],
@@ -142,7 +147,8 @@
                 this.saveTagsToStorage();
                 this.updateAutocomplete($('#vtp-search-bytags-taglist'));
                 this.maintainCntTags();
-                $('#vtp-search-bytags-form-submit').removeClass('act').blur();
+                $('#vtp-search-bytags-form-submit').blur();
+                this.active = false;
                 this.isChanged = false;
                 resourceList.loadResourceListPage(e);
             },
@@ -194,7 +200,8 @@
 
                 $(this.tagSearchFormId).on('submit', (e, secondSuccessFunc) => {
                     resourceList.loadResourceListPage(e, secondSuccessFunc);
-                    $('#vtp-search-bytags-form-submit').removeClass('act').blur();
+                    $('#vtp-search-bytags-form-submit').blur();
+                    this.active = false;
                     this.isChanged = false;
                 });
 
@@ -257,7 +264,7 @@
 
                 $('#vtp-search-bytags-tagcnt').on('selectmenuchange', () => {
                     this.tagcnt = +$('#vtp-search-bytags-tagcnt').val();
-                    $('#vtp-search-bytags-form-submit').addClass('act');
+                    this.active = true;
                     this.$store.commit('set', {key: 'tagcnt', value: this.tagcnt});
                     this.saveTagsToStorage();
                 });
@@ -298,7 +305,7 @@
             },
             changeColor() {
                 if ((!this.isChanged) && ((this.tagCount != this.tags.length) || (this.igCount != this.ignoredTags.length) || (this.hlCount != this.highlightedTags.length))) {
-                    $('#vtp-search-bytags-form-submit').addClass('act');
+                    this.active = true;
                     this.isChanged = true;
                 }
                 this.tagCount = this.tags.length;
@@ -445,6 +452,41 @@
         .vtp-search-bytags-tag {
             display: flex;
             align-items: center;
+        }
+    }
+
+    .translate {
+
+        &-enter {
+            width: 0 !important;
+            transform: scale(.3) !important;
+            opacity: .3;
+
+            &-to {
+                width: 62px !important;
+                transform: scale(1) !important;
+                opacity: 1 !important;
+            }
+
+            &-active {
+                transition: .3s !important;
+            }
+        }
+
+        &-leave {
+            width: 62px !important;
+            transform: scale(1) !important;
+            opacity: 1 !important;
+
+            &-to {
+                width: 0 !important;
+                transform: scale(.3) !important;
+                opacity: .3;
+            }
+
+            &-active {
+                transition: .3s !important;
+            }
         }
     }
 </style>

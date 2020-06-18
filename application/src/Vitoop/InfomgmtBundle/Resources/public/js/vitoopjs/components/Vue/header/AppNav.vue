@@ -74,7 +74,7 @@
         <div v-else-if="getResource('id') && !get('inProject') && !get('conversationInstance')">
             <help-button help-area="lexicon" />
         </div>
-        <div v-if="get('conversationInstance')">
+        <div v-if="get('conversationInstance') && get('conversationInstance').canEdit">
             <button id="vtp-projectdata-project-live"
                     class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
                     :class="{'ui-state-focus ui-state-active': !get('conversationEditMode')}"
@@ -83,7 +83,6 @@
             </button>
             <button id="vtp-projectdata-project-edit"
                     class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
-                    v-if="get('conversationInstance').canEdit"
                     :class="{'ui-state-focus ui-state-active': get('conversationEditMode')}"
                     @click="conversationEditMode">
                 <span class="ui-button-icon-primary ui-icon ui-icon-wrench"></span>
@@ -159,10 +158,12 @@
                 this.$store.commit('set', {key: 'edit', value: false});
             },
             conversationEditMode() {
-                this.$store.commit('set',{
-                    key: 'conversationEditMode',
-                    value: !this.get('conversationEditMode')
-                })
+                if (this.get('conversationInstance').canEdit) {
+                    this.$store.commit('set', {
+                        key: 'conversationEditMode',
+                        value: !this.get('conversationEditMode')
+                    })
+                }
             },
         }
     }
