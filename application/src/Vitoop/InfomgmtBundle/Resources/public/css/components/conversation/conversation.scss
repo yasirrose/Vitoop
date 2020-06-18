@@ -18,6 +18,17 @@ form[name='conversation'] {
     }
 }
 
+.conversation__status {
+    color: #2779aa;
+    font-size: 0.85em;
+    padding: 0 0 0 6px;
+}
+
 #conversation_isNotify {
     margin-right: 7px;
+}
+
+label[for="conversation_isNotify"] {
+    margin-right: 5px;
+    padding: 0 0 0 6px;
 }
