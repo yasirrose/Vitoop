@@ -91,7 +91,7 @@ class ConversationController extends ApiController
 
         $resourceInfo = $this->resourceRepository->getCountOfRelatedResources($conversation);
 
-       return $this->getApiResponse([
+        return $this->getApiResponse([
             'conversation' => $conversation->getDTO(),
             'resourceInfo' => $resourceInfo,
             'isOwner' => $conversation->getConversationData()->availableForDelete($this->getUser()),
@@ -249,7 +249,7 @@ class ConversationController extends ApiController
         $user = $userRepository->find((integer)$request->get('userId'));
 
         $relConversationUser = $conversationUserRepository->getRel($user, $conversation);
-        $relConversationUser->setReadOnly((integer)$request->get('read'));
+        $relConversationUser->setReadOnly(filter_var($request->get('read'), FILTER_VALIDATE_BOOLEAN));
 
         $conversationUserRepository->addUser($relConversationUser);
 

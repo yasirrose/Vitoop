@@ -249,7 +249,7 @@
 
 ## PUT /api/v1/users/passwords
 <details>
-  <summary>Send request for forgot password</summary>
+  <summary>Set new password using token from email</summary>
 
   ### Request
 ```json
