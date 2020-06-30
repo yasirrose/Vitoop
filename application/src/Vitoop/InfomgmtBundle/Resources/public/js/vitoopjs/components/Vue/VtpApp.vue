@@ -43,7 +43,8 @@
             ...mapGetters(['get','getResourceId']),
             notLogin() {
                 return this.$store.state.user !== null ||
-                    /userhome|invitation|register|user-agreement|user-datap|forgot-password|impressum/.test(this.$route.name);
+                    /userhome|invitation|register|user-agreement|user-datap|forgot-password|change-password|impressum/
+                        .test(this.$route.name);
             }
         },
         watch: {

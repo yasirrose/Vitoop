@@ -29,7 +29,6 @@
                     .then(response => {
                         this.email = null;
                         VueBus.$emit('notification:show', 'New password has been sent on your email.');
-                        this.$router.push('/login');
                     })
                     .catch(err => console.dir(err));
             }
