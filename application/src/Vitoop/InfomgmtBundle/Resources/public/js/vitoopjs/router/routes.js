@@ -5,6 +5,7 @@ import UserSettings from "../components/Vue/UserSettings/UserSettings.vue";
 import UserHome from "../components/Vue/components/user/UserHome.vue";
 import Login from "../components/Vue/components/AppLogin.vue";
 import ForgotPassword from "../components/Vue/components/user/ForgotPassword.vue";
+import ChangePassword from "../components/Vue/components/user/ChangePassword.vue";
 import Table from "../components/Vue/components/tables/Table.vue";
 import Impressum from "../components/Vue/components/Impressum.vue";
 import Tags from "../components/Vue/components/Tags.vue";
@@ -25,6 +26,11 @@ export default [
         path: '/password/forgotPassword',
         component: ForgotPassword,
         name: 'forgot-password'
+    },
+    {
+        path: '/password/new/:token',
+        component: ChangePassword,
+        name: 'change-password'
     },
     {
         path: '/login',

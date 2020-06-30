@@ -243,6 +243,19 @@
             display: none;
         }
     }
+
+    .dataTables_length {
+        position: relative;
+
+        .ui-selectmenu-open {
+            top: 0 !important;
+            transform: translateY(-100%);
+        }
+
+        .ui-selectmenu-button {
+            border-radius: 6px !important;
+        }
+    }
 </style>
 
 <style scoped lang="scss">
