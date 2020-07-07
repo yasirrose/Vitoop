@@ -34,7 +34,7 @@ class ConversationType extends AbstractType
             ]);
         } else {
             $builder
-                ->add('status', HiddenType::class);
+                ->add('status', HiddenType::class, ['label' => 'Status:']);
         }
     }
 
