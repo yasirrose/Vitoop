@@ -20,7 +20,7 @@ class TeliRepository extends ResourceRepository
     public function getResourcesQuery(SearchResource $search)
     {
         $qb = $this->createQueryBuilder('r')
-            ->select('r.author, r.url, r.isDownloaded, r.releaseDate.date as releaseDate');
+            ->select('r.author, r.url, r.isDownloaded, r.releaseDate.date as releaseDate, r.releaseDate.order as HIDDEN orderDate');
         $this->prepareListQueryBuilder($qb, $search);
 
         if ($search->dateFrom) {
