@@ -28,7 +28,7 @@ class Help implements GetDTOInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="text", type="string", length=10000)
+     * @ORM\Column(name="text", type="text")
      * @Serializer\Groups({"get", "edit"})
      * @Serializer\Type("string")
      */
