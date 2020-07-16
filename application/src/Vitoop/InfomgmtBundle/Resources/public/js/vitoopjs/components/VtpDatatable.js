@@ -304,6 +304,7 @@ export default class VtpDatatable {
             return;
         }
         datatable
+            .order.neutral()
             .search(vitoopState.state.secondSearch.searchString)
             .draw();
     }
@@ -311,9 +312,10 @@ export default class VtpDatatable {
         if (vitoopState.state.secondSearch.dateFrom !== '' && /pdf|teli/.test(this.resType)) {
             return [0, 'asc'];
         }
-        else {
-            return [0, 'desc'];
-        }
+        // Comment again for detection order by created date
+        // else {
+        //     return [0, 'desc'];
+        // }
         if (!($('#vtp-lexicondata-title').length)) {
             return [];
         }
