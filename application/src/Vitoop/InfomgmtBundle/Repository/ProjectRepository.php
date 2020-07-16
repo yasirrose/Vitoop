@@ -86,11 +86,6 @@ class ProjectRepository extends ResourceRepository
 EOT;
     }
 
-    public function save(Project $project)
-    {
-        $this->_em->persist($project);
-        $this->_em->flush();
-    }
 
     /**
      * @param User $user

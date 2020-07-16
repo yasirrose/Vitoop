@@ -644,11 +644,16 @@ class Resource
         if (!$this->user) {
             $this->user = $dto->user;
         }
+
+        $this->updateUserHook($dto);
+        if (!$this->user || ($this->user !== $dto->user || ($dto->user && !$dto->user->isAdmin()))) {
+            return;
+        }
+
         $this->name = $dto->name;
         $this->lang = $dto->lang;
         $this->country = $dto->country;
 
-        $this->updateUserHook($dto);
         $this->updateUserRead($dto);
         $this->updated_at = new \DateTime();
     }
@@ -658,6 +663,10 @@ class Resource
      */
     public function updateUserHook(ResourceDTO $dto)
     {
+        if (!$dto->user) {
+            return;
+        }
+
         if ($dto->isUserHook) {
             $this->hook($dto->user);
             return;
@@ -670,6 +679,10 @@ class Resource
      */
     public function updateUserRead(ResourceDTO $dto)
     {
+        if (!$dto->user) {
+            return;
+        }
+
         if ($dto->isUserRead) {
             $this->read($dto->user);
             return;
@@ -699,18 +712,21 @@ class Resource
         }
     }
 
-    public function toResourceDTO(User $user) : ResourceDTO
+    public function toResourceDTO(?User $user) : ResourceDTO
     {
         $dto = new ResourceDTO();
-        $dto->user = $user;
         $dto->name = $this->name;
         $dto->lang = $this->lang;
         $dto->country = $this->country;
-        $dto->isUserHook = $this->isBlueByUser($user);
-        $dto->isUserRead = $this->isReadByUser($user);
+        if ($user) {
+            $dto->user = $user;
+            $dto->isUserHook = $this->isBlueByUser($user);
+            $dto->isUserRead = $this->isReadByUser($user);
+        }
 
         return $dto;
     }
+
 
     /**
      * @param User $user

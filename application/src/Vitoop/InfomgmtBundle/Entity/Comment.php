@@ -3,6 +3,7 @@ namespace Vitoop\InfomgmtBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Vitoop\InfomgmtBundle\DTO\GetDTOInterface;
+use Vitoop\InfomgmtBundle\DTO\Resource\CommentDTO;
 
 /**
  * @ORM\Table(name="comment")
@@ -165,5 +166,16 @@ class Comment implements GetDTOInterface
             'isVisible' => $this->isVisible,
             'created_at' => $this->created_at->format(\DateTime::ISO8601)
         );
+    }
+
+    public static function create(Resource $resource, User $user, CommentDTO $dto)
+    {
+        $comment = new Comment();
+        $comment->resource = $resource;
+        $comment->user = $user;
+        $comment->text = $dto->text;
+        $comment->isVisible = $dto->isVisible;
+
+        return $comment;
     }
 }

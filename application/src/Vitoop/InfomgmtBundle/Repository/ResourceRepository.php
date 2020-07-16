@@ -77,10 +77,11 @@ class ResourceRepository extends ServiceEntityRepository
      */
     public function getResourceByName($name)
     {
-        return $this->getEntityManager()
-                    ->createQuery('SELECT r FROM ' . $this->getEntityName() . ' r WHERE r.name=:arg_name')
-                    ->setParameter('arg_name', $name)
-                    ->getResult();
+        return $this
+            ->getEntityManager()
+            ->createQuery('SELECT r FROM ' . $this->getEntityName() . ' r WHERE r.name=:arg_name')
+            ->setParameter('arg_name', $name)
+            ->getResult();
     }
 
     /**
@@ -689,6 +690,17 @@ class ResourceRepository extends ServiceEntityRepository
         list($params,$types)= $m->invoke($query,$parser->getParameterMappings());
 
         return ['sql' => $sql, 'params' => $params,'paramTypes' => $types];
+    }
+
+    /**
+     * @param Resource $resource
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function save($resource)
+    {
+        $this->getEntityManager()->persist($resource);
+        $this->getEntityManager()->flush();
     }
 
     /**

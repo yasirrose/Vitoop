@@ -2,13 +2,15 @@
 namespace Vitoop\InfomgmtBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Vitoop\InfomgmtBundle\DTO\GetDTOInterface;
+use Vitoop\InfomgmtBundle\DTO\Resource\FlagDTO;
 use Vitoop\InfomgmtBundle\Entity\UrlCheck\UrlCheckInterface;
 
 /**
  * @ORM\Table(name="flag")
  * @ORM\Entity(repositoryClass="Vitoop\InfomgmtBundle\Repository\FlagRepository")
  */
-class Flag
+class Flag implements GetDTOInterface
 {
     const FLAG_DELETE = 1;
 
@@ -63,6 +65,24 @@ class Flag
     public function __construct()
     {
         $this->created_at = new \DateTime();
+    }
+
+    /**
+     * @param Resource $resource
+     * @param User $user
+     * @param int $type
+     * @param string $info
+     * @return Flag
+     */
+    public static function create(Resource $resource, User $user, $type, $info)
+    {
+        $flag = new Flag();
+        $flag->resource = $resource;
+        $flag->user = $user;
+        $flag->type = $type;
+        $flag->info = $info;
+
+        return $flag;
     }
 
     /**
@@ -196,5 +216,29 @@ class Flag
     {
         return self::FLAG_BLAME === $this->type;
     }
+
+    public function approve()
+    {
+        $this->type = self::FLAG_GONE;
+    }
+
+    public function updateFromDTO(FlagDTO $flagDTO)
+    {
+        $this->type = $flagDTO->type;
+        $this->info = $flagDTO->info;
+    }
+
+    public function getDTO()
+    {
+        $flagDTO = new FlagDTO(
+            $this->id,
+            $this->type,
+            $this->info,
+            $this->created_at,
+            $this->user->getId(),
+            $this->user->getUsername()
+        );
+
+        return $flagDTO->jsonSerialize();
+    }
 }
-   

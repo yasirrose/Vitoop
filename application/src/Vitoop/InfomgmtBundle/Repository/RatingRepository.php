@@ -2,33 +2,37 @@
 
 namespace Vitoop\InfomgmtBundle\Repository;
 
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Vitoop\InfomgmtBundle\Entity\Rating;
 use Vitoop\InfomgmtBundle\Entity\Resource;
-use Vitoop\InfomgmtBundle\Entity\User;
-
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\AbstractQuery as Query;
 
 /**
- * RatingRepository
+ * Class RatingRepository
+ * @package Vitoop\InfomgmtBundle\Repository
  */
-
-/**
- *
- * @author tweini
- *         refactoring in progress
- */
-class RatingRepository extends EntityRepository
+class RatingRepository extends ServiceEntityRepository
 {
+    /**
+     * RatingRepository constructor.
+     * @param ManagerRegistry $registry
+     */
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Rating::class);
+    }
+
     public function getRatingFromResourceByUser(Resource $resource, $user)
     {
         if (is_string($user)) {
             return;
         }
 
-        return $this->getEntityManager()
-                    ->createQuery('SELECT r FROM VitoopInfomgmtBundle:Rating r WHERE r.resource=:arg_resource AND r.user=:arg_user ')
-                    ->setParameters(array('arg_resource' => $resource, 'arg_user' => $user))
-                    ->getOneOrNullResult();
+        return $this
+            ->getEntityManager()
+            ->createQuery('SELECT r FROM VitoopInfomgmtBundle:Rating r WHERE r.resource=:arg_resource AND r.user=:arg_user ')
+            ->setParameters(array('arg_resource' => $resource, 'arg_user' => $user))
+            ->getOneOrNullResult();
     }
 
     /**
@@ -50,10 +54,11 @@ class RatingRepository extends EntityRepository
         }
         // @TODO Check the Source of doctine2 what really happens if this would be executed with 'Query::HYDRATE_SCALAR'
 
-        $result = $this->getEntityManager()
-                       ->createQuery('SELECT r.mark FROM VitoopInfomgmtBundle:Rating r WHERE r.resource=:arg_resource AND r.user=:arg_user ')
-                       ->setParameters(array('arg_resource' => $resource, 'arg_user' => $user))
-                       ->getOneOrNullResult();
+        $result = $this
+            ->getEntityManager()
+            ->createQuery('SELECT r.mark FROM VitoopInfomgmtBundle:Rating r WHERE r.resource=:arg_resource AND r.user=:arg_user ')
+            ->setParameters(array('arg_resource' => $resource, 'arg_user' => $user))
+            ->getOneOrNullResult();
 
         if (is_null($result)) {
             return null;
@@ -76,10 +81,19 @@ class RatingRepository extends EntityRepository
 
     public function getAverageMarkFromResource(Resource $resource)
     {
+        return $this
+            ->getEntityManager()
+            ->createQuery('SELECT AVG(r.mark) FROM VitoopInfomgmtBundle:Rating r WHERE r.resource=:arg_resource')
+            ->setParameters(array('arg_resource' => $resource))
+            ->getSingleScalarResult();
+    }
 
-        return $this->getEntityManager()
-                    ->createQuery('SELECT AVG(r.mark) FROM VitoopInfomgmtBundle:Rating r WHERE r.resource=:arg_resource')
-                    ->setParameters(array('arg_resource' => $resource))
-                    ->getSingleScalarResult();
+    /**
+     * @param Rating $rating
+     */
+    public function save(Rating $rating)
+    {
+        $this->getEntityManager()->persist($rating);
+        $this->getEntityManager()->flush();
     }
 }

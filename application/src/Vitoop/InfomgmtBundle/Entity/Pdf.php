@@ -223,7 +223,7 @@ class Pdf extends Resource implements DownloadableInterface, UrlCheckInterface
         return $this->pdfDate;
     }
 
-    public function toResourceDTO(User $user) : ResourceDTO
+    public function toResourceDTO(?User $user) : ResourceDTO
     {
         $dto = parent::toResourceDTO($user);
         $dto->author = $this->author;

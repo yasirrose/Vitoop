@@ -2,19 +2,26 @@
 
 namespace Vitoop\InfomgmtBundle\Repository;
 
-use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Vitoop\InfomgmtBundle\DTO\Resource\RemarkDTO;
+use Vitoop\InfomgmtBundle\Entity\Remark;
 use Vitoop\InfomgmtBundle\Entity\Resource;
-use Doctrine\ORM\EntityRepository;
 use Vitoop\InfomgmtBundle\Entity\User;
 
-class RemarkRepository extends EntityRepository
+class RemarkRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Remark::class);
+    }
+
     public function getLatestRemark(Resource $resource)
     {
         return $this->getEntityManager()
             ->createQueryBuilder()
             ->select('rem, u')
-            ->from('VitoopInfomgmtBundle:Remark', 'rem')
+            ->from(Remark::class, 'rem')
             ->join('rem.user', 'u')
             ->where('rem.resource=:arg_resource')
             ->orderBy('rem.created_at', 'DESC')
@@ -34,6 +41,18 @@ class RemarkRepository extends EntityRepository
             ->getResult();
     }
 
+    public function getAllRemarksDTO(Resource $resource)
+    {
+        return $this->createQueryBuilder('r')
+            ->select('NEW '.RemarkDTO::class.'(r.id, r.text, r.ip, r.locked, u.id, u.username, r.created_at)')
+            ->leftJoin('r.user', 'u')
+            ->where('r.resource =:resource')
+            ->setParameter('resource', $resource)
+            ->orderBy('r.created_at')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function getRemarkByUser(Resource $resource, User $user)
     {
         return $this->createQueryBuilder('r')
@@ -46,5 +65,11 @@ class RemarkRepository extends EntityRepository
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function save(Remark $remark)
+    {
+        $this->getEntityManager()->persist($remark);
+        $this->getEntityManager()->flush();
     }
 }

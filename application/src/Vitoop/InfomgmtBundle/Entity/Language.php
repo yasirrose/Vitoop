@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="languages")
  * @ORM\Entity()
  */
-class Language
+class Language implements \JsonSerializable
 {
     /**
      * @ORM\Id()
@@ -47,5 +47,15 @@ class Language
     public function getSortOrder()
     {
         return $this->sortOrder;
+    }
+
+    public function jsonSerialize()
+    {
+        return $this->code;
+    }
+
+    public function __toString(): string
+    {
+        return $this->code;
     }
 }

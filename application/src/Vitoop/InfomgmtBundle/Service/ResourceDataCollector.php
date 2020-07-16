@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Vitoop\InfomgmtBundle\DTO\Resource\ResourceDTO;
+use Vitoop\InfomgmtBundle\DTO\Resource\ResourceTagsDTO;
 use Vitoop\InfomgmtBundle\Entity\ConversationMessage;
 use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\Entity\Resource\ResourceFactory;
@@ -180,11 +181,7 @@ class ResourceDataCollector
                 $dto = $formData->getData();
                 try {
                     $this->rm->checkUniqueResourceName($dto, $this->res->getResourceTypeIdx());
-                    if ((!$this->vsec->isOwner() && !$this->vsec->isAdmin())) {
-                        $this->res->updateUserHook($dto);
-                    } else {
-                        $this->res->updateFromResourceDTO($dto);
-                    }
+                    $this->res->updateFromResourceDTO($dto);
                     $this->rm->save($this->res);
                     $info_data = $this->res->getResourceName() . ' # ' . $this->res->getId() . ' successfully saved!';
                 } catch (\Exception $e) {
@@ -330,12 +327,8 @@ class ResourceDataCollector
             ->getRepository('VitoopInfomgmtBundle:Tag')
             ->getTagIdListByUserFromResource($this->res, $this->vsec->getUser());
 
-        // Mark every "own" Tag setting the "is_own"-key to '1'
-        array_walk($tags, function (&$val_tags, $key_tags, $_tag_id_list_by_user) {
-            if (in_array($val_tags['id'], $_tag_id_list_by_user)) {
-                $val_tags['is_own'] = '1';
-            }
-        }, $tag_id_list_by_user);
+        $resourceTagDTO = new ResourceTagsDTO($tags, $tagsRestAddedCount, $tagsRestRemovedCount);
+        $resourceTagDTO->setOwnership($tag_id_list_by_user);
 
         $fv_tag = $form_tag->createView();
 
@@ -344,9 +337,9 @@ class ResourceDataCollector
             'fvtag' => $fv_tag,
             'infotag' => $info_tag,
             'tagtext' => $tag_text,
-            'tags' => $tags,
-            'tagsRestAddedCount' => !empty($tagsRestAddedCount)?$tagsRestAddedCount:'',
-            'tagsRestRemovedCount' => !empty($tagsRestRemovedCount)?$tagsRestRemovedCount:''
+            'tags' => $resourceTagDTO->tags,
+            'tagsRestAddedCount' => $resourceTagDTO->tagsRestAddedCount,
+            'tagsRestRemovedCount' => $resourceTagDTO->tagsRestRemovedCount
         ));
     }
     
@@ -746,7 +739,7 @@ class ResourceDataCollector
                 }
             }
             if ($form_flag_info->get('delete_resource')->isClicked()) {
-                $flag->setType(Flag::FLAG_GONE);
+                $flag->approve();
                 $this->rm->saveFlag($flag);
                 $info_delete = 'Die Resource wurde erfolgreich gelöscht!';
             } elseif ($form_flag_info->get('delete_flag')->isClicked()) {
