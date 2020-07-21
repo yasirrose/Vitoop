@@ -237,7 +237,7 @@ class Book extends Resource
         return $this->year;
     }
     
-    public function toResourceDTO(User $user) : ResourceDTO
+    public function toResourceDTO(?User $user) : ResourceDTO
     {
         $dto = parent::toResourceDTO($user);
         $dto->author = $this->author;

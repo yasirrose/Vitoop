@@ -21,15 +21,4 @@ class ConversationDataRepository extends ResourceRepository
     {
         return ConversationData::class;
     }
-
-    /**
-     * @param ConversationData $conversationData
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function save(ConversationData $conversationData)
-    {
-        $this->getEntityManager()->persist($conversationData);
-        $this->getEntityManager()->flush();
-    }
 }

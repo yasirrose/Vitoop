@@ -3,6 +3,7 @@ namespace Vitoop\InfomgmtBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vitoop\InfomgmtBundle\DTO\Resource\RemarkPrivateDTO;
 
 /**
  * @ORM\Table(name="remark_private")
@@ -137,5 +138,19 @@ class RemarkPrivate
     {
         return $this->resource;
     }
+
+    public static function create(Resource $resource, User $user, RemarkPrivateDTO $dto)
+    {
+        $remark = new RemarkPrivate();
+        $remark->resource = $resource;
+        $remark->user = $user;
+        $remark->updateFromDTO($dto);
+
+        return $remark;
+    }
+
+    public function updateFromDTO(RemarkPrivateDTO $dto)
+    {
+        $this->text = $dto->text;
+    }
 }
-   

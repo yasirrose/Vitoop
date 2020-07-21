@@ -349,7 +349,7 @@ class Address extends Resource
         return $this->contact_key;
     }
 
-    public function toResourceDTO(User $user) : ResourceDTO
+    public function toResourceDTO(?User $user) : ResourceDTO
     {
         $dto = parent::toResourceDTO($user);
         $dto->name2 = $this->name2;

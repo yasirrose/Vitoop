@@ -140,11 +140,11 @@ class Link extends Resource implements UrlCheckInterface
         return $this->is_hp;
     }
 
-    public function toResourceDTO(User $user) : ResourceDTO
+    public function toResourceDTO(?User $user) : ResourceDTO
     {
         $dto = parent::toResourceDTO($user);
         $dto->url = $this->url;
-        $dto->is_hp = $this->is_hp;
+        $dto->is_hp = null !== $this->is_hp ? $this->is_hp : false;
 
         return $dto;
     }

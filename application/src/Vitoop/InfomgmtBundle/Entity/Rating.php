@@ -114,4 +114,14 @@ class Rating
     {
         return $this->resource;
     }
+
+    public static function create(Resource $resource, User $user, $mark)
+    {
+        $rating = new Rating();
+        $rating->resource = $resource;
+        $rating->user = $user;
+        $rating->mark = $mark;
+
+        return $rating;
+    }
 }

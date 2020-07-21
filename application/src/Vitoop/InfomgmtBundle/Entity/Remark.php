@@ -3,6 +3,7 @@ namespace Vitoop\InfomgmtBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vitoop\InfomgmtBundle\DTO\Resource\RemarkDTO;
 
 /**
  * @ORM\Table(name="remark")
@@ -200,5 +201,16 @@ class Remark
     public function getIp()
     {
         return $this->ip;
+    }
+
+    public static function create(Resource $resource, User $user, RemarkDTO $dto)
+    {
+        $remark = new Remark();
+        $remark->user = $user;
+        $remark->resource = $resource;
+        $remark->text = $dto->text;
+        $remark->locked = $dto->locked;
+
+        return $remark;
     }
 }

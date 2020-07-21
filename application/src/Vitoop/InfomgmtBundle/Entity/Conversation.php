@@ -174,7 +174,7 @@ class Conversation extends Resource implements GetDTOInterface
         ];
     }
 
-    public function toResourceDTO(User $user) : ResourceDTO
+    public function toResourceDTO(?User $user) : ResourceDTO
     {
         $dto = parent::toResourceDTO($user);
         $dto->description = $this->description;

@@ -34,6 +34,6 @@ class ApiController extends Controller
             }
         }
 
-        return json_decode($request->getContent());
+        return \json_decode($request->getContent());
     }
 }

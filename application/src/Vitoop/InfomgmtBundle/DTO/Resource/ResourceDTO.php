@@ -2,11 +2,93 @@
 
 namespace Vitoop\InfomgmtBundle\DTO\Resource;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vitoop\InfomgmtBundle\Validator\Constraints\Resource\ResourceNameUnique;
 
 class ResourceDTO
 {
+    const RESOURCE_TYPES_FIELDS = [
+        'pdf' => [
+            'name',
+            'lang',
+            'author',
+            'publisher',
+            'url',
+            'tnop',
+            'pdfDate',
+            'isUserHook',
+            'isUserRead',
+        ],
+        'adr' => [
+            'name',
+            'name2',
+            'street',
+            'zip',
+            'city',
+            'country',
+            'contact1',
+            'contact3',
+            'contact4',
+            'contact5',
+            'isUserHook',
+            'isUserRead',
+        ],
+        'link' => [
+            'name',
+            'lang',
+            'url',
+            'is_hp',
+            'isUserHook',
+            'isUserRead',
+        ],
+        'teli' => [
+            'name',
+            'lang',
+            'author',
+            'url',
+            'releaseDate',
+            'isUserHook',
+            'isUserRead',
+        ],
+        'lex' => [
+            'name',
+            'lang',
+            'wikifullurl',
+            'isUserHook',
+            'isUserRead',
+        ],
+        'prj' => [
+            'name',
+            'lang',
+            'description',
+            'isUserHook',
+            'isUserRead',
+        ],
+        'book' => [
+            'name',
+            'lang',
+            'author',
+            'publisher',
+            'issuer',
+            'isbn',
+            'tnop',
+            'kind',
+            'year',
+            'isUserHook',
+            'isUserRead',
+        ],
+        'conversation' => [
+            'name',
+            'lang',
+            'description',
+            'isUserHook',
+            'isUserRead',
+        ],
+    ];
+
     /**
+     * @ResourceNameUnique
      * @Assert\NotBlank(message="Bitte gebe einen Namen für die Resource ein.")
      * @Assert\Length(
      *      max=160,
@@ -39,7 +121,7 @@ class ResourceDTO
      */
     public $url;
 
-    public $is_hp;
+    public $is_hp = false;
 
     public $user;
 
@@ -175,5 +257,25 @@ class ResourceDTO
     public function getIsbnLength()
     {
         return mb_strlen($this->isbn);
+    }
+
+    /**
+     * @param array $requestData
+     * @param string $type
+     * @return ResourceDTO
+     */
+    public static function createFromArrayAndType(array $requestData, $type): ResourceDTO
+    {
+        $dto = new ResourceDTO();
+        if (!array_key_exists($type, self::RESOURCE_TYPES_FIELDS)) {
+            return $dto;
+        }
+        foreach (self::RESOURCE_TYPES_FIELDS[$type] as $field) {
+            if (property_exists(self::class, $field) && array_key_exists($field, $requestData)) {
+                $dto->$field = $requestData[$field] ?? null;
+            }
+        }
+
+        return $dto;
     }
 }

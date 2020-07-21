@@ -12,10 +12,7 @@ trait CreateFromRequestTrait
      */
     public static function createFromRequest(Request $request)
     {
-        $requestData = \json_decode($request->getContent(), true);
-        if (empty($requestData)) {
-            $requestData = [];
-        }
+        $requestData = self::getRequestData($request);
         $dto = new static();
         foreach (get_object_vars($dto) as $property => $value) {
             if (\array_key_exists($property, $requestData)) {
@@ -24,5 +21,19 @@ trait CreateFromRequestTrait
         }
 
         return $dto;
+    }
+
+    /**
+     * @param Request $request
+     * @return array|mixed
+     */
+    public static function getRequestData(Request $request)
+    {
+        $requestData = \json_decode($request->getContent(), true);
+        if (empty($requestData)) {
+            $requestData = [];
+        }
+
+        return $requestData;
     }
 }

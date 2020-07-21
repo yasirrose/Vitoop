@@ -86,6 +86,10 @@ services:
   Vitoop\InfomgmtBundle\Repository\ConversationDataRepository: ~
   Vitoop\InfomgmtBundle\Repository\ConversationMessageRepository: ~
   Vitoop\InfomgmtBundle\Repository\RelConversationUserRepository: ~
+  Vitoop\InfomgmtBundle\Repository\RatingRepository: ~
+  Vitoop\InfomgmtBundle\Repository\RemarkRepository: ~
+  Vitoop\InfomgmtBundle\Repository\RemarkPrivateRepository: ~
+  Vitoop\InfomgmtBundle\Repository\CommentRepository: ~
 
   Vitoop\InfomgmtBundle\Repository\RelProjectUserRepository: ~
   Vitoop\InfomgmtBundle\Repository\RelResourceResourceRepository:
@@ -115,6 +119,10 @@ services:
       - { name: validator.constraint_validator }
 
   Vitoop\InfomgmtBundle\Validator\Constraints\User\UserEmailValidator:
+    tags:
+      - { name: validator.constraint_validator }
+
+  Vitoop\InfomgmtBundle\Validator\Constraints\Resource\ResourceNameUniqueValidator:
     tags:
       - { name: validator.constraint_validator }
 
