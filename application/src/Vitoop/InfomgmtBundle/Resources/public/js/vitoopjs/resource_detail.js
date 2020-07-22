@@ -670,8 +670,7 @@ window.resourceDetail = (function () {
                 }
             }
         },
-        nextResource = function () { // toDo needs to refactor
-            // tr_res is current (jqueryfied) tr-element
+        nextResource = function () {
             if (next_id == -1) {// no NEXT page avaiable
                 return;
             }
@@ -966,7 +965,18 @@ window.resourceDetail = (function () {
                 $('#resource-flags').hide('blind', 'fast');
                 $('#resource-flags').empty();
             });
+
+            $('#vtp-show-popup').on('click', showDialogInBigView);
         };
+        function hideResourceButtons() {
+            $('#resource-buttons').remove();
+        }
+        function showDialogInBigView() {
+            res_type = vitoopState.state.resource.type;
+            res_id = vitoopState.state.resource.id;
+            openDialog();
+            hideResourceButtons();
+        }
     /* API */
     return {
         // call init() on Document ready. DOM must be fully loaded.
