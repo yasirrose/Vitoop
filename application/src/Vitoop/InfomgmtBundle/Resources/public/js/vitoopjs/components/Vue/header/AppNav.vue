@@ -54,39 +54,42 @@
                 </a>
             </li>
         </ul>
-        <div v-if="get('project')">
-            <span v-if="canEdit">
+        <div class="d-flex align-center">
+            <div v-if="get('project')">
                 <help-button help-area="project" />
+                <span v-if="canEdit">
+                    <button id="vtp-projectdata-project-live"
+                            class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
+                            :class="{'ui-state-focus ui-state-active': !get('edit')}"
+                            @click="projectLiveMode">
+                        <span class="ui-button-icon-primary ui-icon ui-icon-clipboard"></span>
+                    </button>
+                    <button id="vtp-projectdata-project-edit"
+                            class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
+                            :class="{'ui-state-focus ui-state-active': get('edit')}"
+                            @click="projectEditMode">
+                        <span class="ui-button-icon-primary ui-icon ui-icon-wrench"></span>
+                    </button>
+                </span>
+            </div>
+            <div v-else-if="getResource('id') && !get('inProject') && !get('conversationInstance')">
+                <help-button help-area="lexicon" />
+            </div>
+            <div v-if="get('conversationInstance') && get('conversationInstance').canEdit">
                 <button id="vtp-projectdata-project-live"
                         class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
-                        :class="{'ui-state-focus ui-state-active': !get('edit')}"
-                        @click="projectLiveMode">
+                        :class="{'ui-state-focus ui-state-active': !get('conversationEditMode')}"
+                        @click="conversationEditMode">
                     <span class="ui-button-icon-primary ui-icon ui-icon-clipboard"></span>
                 </button>
                 <button id="vtp-projectdata-project-edit"
                         class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
-                        :class="{'ui-state-focus ui-state-active': get('edit')}"
-                        @click="projectEditMode">
+                        :class="{'ui-state-focus ui-state-active': get('conversationEditMode')}"
+                        @click="conversationEditMode">
                     <span class="ui-button-icon-primary ui-icon ui-icon-wrench"></span>
                 </button>
-            </span>
-        </div>
-        <div v-else-if="getResource('id') && !get('inProject') && !get('conversationInstance')">
-            <help-button help-area="lexicon" />
-        </div>
-        <div v-if="get('conversationInstance') && get('conversationInstance').canEdit">
-            <button id="vtp-projectdata-project-live"
-                    class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
-                    :class="{'ui-state-focus ui-state-active': !get('conversationEditMode')}"
-                    @click="conversationEditMode">
-                <span class="ui-button-icon-primary ui-icon ui-icon-clipboard"></span>
-            </button>
-            <button id="vtp-projectdata-project-edit"
-                    class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
-                    :class="{'ui-state-focus ui-state-active': get('conversationEditMode')}"
-                    @click="conversationEditMode">
-                <span class="ui-button-icon-primary ui-icon ui-icon-wrench"></span>
-            </button>
+            </div>
+            <ShowPopupButton v-if="getResourceId" />
         </div>
     </div>
 </template>
@@ -98,10 +101,11 @@
     import { ResourceList } from "../../../resource_list";
     import HelpButton from "../SecondSearch/HelpButton.vue";
     import SearchByTags from "./SearchByTags.vue";
+    import ShowPopupButton from "./ShowPopupButton.vue";
 
     export default {
         name: "AppNav",
-        components: { HelpButton, SearchByTags },
+        components: { HelpButton, SearchByTags, ShowPopupButton },
         mixins: [VtpConfirmMixin, ShowTagsMixin],
         data() {
             return {
@@ -118,7 +122,7 @@
         },
         computed: {
             ...mapGetters([
-                'getResource', 'getInProject', 'get', 'getProjectData', 'getIsAllRecords'
+                'getResource', 'getResourceId', 'getInProject', 'get', 'getProjectData', 'getIsAllRecords'
             ]),
             canEdit() { // getResource('owner')
                 let userRelated = false;

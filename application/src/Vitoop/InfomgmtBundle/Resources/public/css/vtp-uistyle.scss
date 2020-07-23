@@ -12,3 +12,20 @@
 .ui-widget-header .vtp-active .ui-icon {
     background-image: url("../img/ui-icons_ffffff_256x240.png");
 }
+
+.ui-button {
+
+    &:focus {
+        outline-color: #62bbe9;
+        outline-style: auto;
+        outline-width: 1px;
+    }
+
+    &-icon-only {
+
+        .ui-button-text {
+            position: absolute !important;
+            padding: 0 !important;
+        }
+    }
+}

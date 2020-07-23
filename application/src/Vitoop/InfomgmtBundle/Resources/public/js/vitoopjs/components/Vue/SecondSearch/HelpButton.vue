@@ -1,7 +1,7 @@
 <template>
     <button id="vtp-search-help"
             :help-area="helpArea"
-            class="vtp-button vtp-help-area-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only"
+            class="vtp-button vtp-help-area-button ui-state-default ui-button ui-widget ui-corner-all"
             :class="{'text-button': text !== null}">
         <span v-if="text === null" class="ui-icon ui-icon-help"></span>
         <span v-else class="ui-button-text">{{ text }}</span>
