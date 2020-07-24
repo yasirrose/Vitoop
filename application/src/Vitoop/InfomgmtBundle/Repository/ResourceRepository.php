@@ -372,7 +372,7 @@ class ResourceRepository extends ServiceEntityRepository
             $sortAlias = $this->getResourceFieldAlias($search->columns->sortableColumn, $rootEntity);
             $sortableColumn = $search->columns->sortableColumn;
 
-            if ((empty($search->dateTo) && empty($search->dateFrom)) || \in_array($search->columns->sortableColumn, ['pdfDate.order', 'releaseDate.order'])) {
+            if ((empty($search->dateTo) && empty($search->dateFrom)) && \in_array($search->columns->sortableColumn, ['pdfDate.order', 'releaseDate.order'])) {
                 $sortAlias = '';
                 $sortableColumn = 'orderDate';
             }
