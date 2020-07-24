@@ -2,6 +2,7 @@
 namespace Vitoop\InfomgmtBundle\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Vitoop\InfomgmtBundle\Entity\Conversation;
 use Vitoop\InfomgmtBundle\Entity\Flag;
 use Vitoop\InfomgmtBundle\Entity\ProjectData;
@@ -70,17 +71,23 @@ class ResourceManager
     protected $resourceTagLinker;
 
     protected $relResourceLinker;
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
     public function __construct(
         EntityManagerInterface $em,
         VitoopSecurity $vsec,
         ResourceTagLinker $tagLinker,
-        RelResourceLinker $relResourceLinker
+        RelResourceLinker $relResourceLinker,
+        LoggerInterface $logger
     ) {
         $this->em = $em;
         $this->vsec = $vsec;
         $this->resourceTagLinker = $tagLinker;
         $this->relResourceLinker = $relResourceLinker;
+        $this->logger = $logger;
     }
 
     protected function getUser()
@@ -151,6 +158,7 @@ class ResourceManager
             $this->em->persist($resource);
             $this->em->flush();
         } catch (\Exception $e) {
+            $this->logger->critical($e->getMessage());
             if (!method_exists($resource, 'getUrl')) {
                 throw $e;
             }
