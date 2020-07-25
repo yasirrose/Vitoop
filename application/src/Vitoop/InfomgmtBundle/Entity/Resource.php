@@ -646,7 +646,7 @@ class Resource
         }
 
         $this->updateUserHook($dto);
-        if (!$this->user || ($this->user !== $dto->user || ($dto->user && !$dto->user->isAdmin()))) {
+        if (!$this->user || !$dto->user || (($this->user !== $dto->user) && !$dto->user->isAdmin())) {
             return;
         }
 
