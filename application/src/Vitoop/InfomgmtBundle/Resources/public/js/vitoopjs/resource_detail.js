@@ -859,14 +859,16 @@ window.resourceDetail = (function () {
                 // "last seen" is maintained through arr_res_tr_attr_id[]
                 arr_tr_res_attr_id[res_type] = res_type + '-' + res_id;
                 var api = $('#vtp-res-list table').dataTable().api();
-                var params = api.ajax.params();
-                if (params.resourceId) {
-                    vitoop.resourceId = null;
-                    notifyRefresh();
+                if (api && api.ajax) {
+                    var params = api.ajax.params();
+                    if (params.resourceId) {
+                        vitoop.resourceId = null;
+                        notifyRefresh();
+                    }
+                    api.ajax.reload(function (json) {
+                        tgl_ls();
+                    }, false);
                 }
-                api.ajax.reload(function (json) {
-                    tgl_ls();
-                }, false);
                 //resourceList.loadResourceListPage();
                 refresh_list = false;
             }
