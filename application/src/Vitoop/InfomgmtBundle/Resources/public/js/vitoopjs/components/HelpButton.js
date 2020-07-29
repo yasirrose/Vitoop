@@ -10,7 +10,6 @@ export default class HelpButton {
         let self = this;
         this.search = document.createElement('div');
         this.markNum = 0;
-
         this.search.innerHTML = '<input type="text" placeholder="suchen..." /><i class="fas fa-search"></i>';
         this.search.setAttribute('id', 'vtp-search-input');
 
@@ -82,7 +81,9 @@ export default class HelpButton {
 
                     tinyMCE.init(options)
                         .then(() => {
-                            this.scroll();
+                            setTimeout(() => {
+                                this.scroll();
+                            }, 500)
                         });
 
                     $('#button-help-save').on('click', function() {
@@ -103,6 +104,7 @@ export default class HelpButton {
                 } else {
                     $('#vtp-res-dialog-help').append(answer.help.text);
                     const context = document.querySelector('#vtp-res-dialog-help');
+                    this.scroll();
                     this.searchText(context);
                 }
             }
@@ -125,10 +127,9 @@ export default class HelpButton {
     scroll() {
         if (this.isAdmin) {
             const offset = $(tinymce.activeEditor.getBody()).find(this.currentElementId)[0].offsetTop;
-            $(tinymce.activeEditor.dom.doc.documentElement)[0].scrollTop = offset;
+            $(tinymce.activeEditor.dom.doc.documentElement).animate({ scrollTop: offset }, 500);
             return;
         }
-
         $(this.helpPopupId).find(this.currentElementId).get(0).scrollIntoView();
     }
     searchText(context) {

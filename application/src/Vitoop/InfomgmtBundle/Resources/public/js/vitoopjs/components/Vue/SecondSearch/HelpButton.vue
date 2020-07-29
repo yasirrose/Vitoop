@@ -2,7 +2,8 @@
     <button id="vtp-search-help"
             :help-area="helpArea"
             class="vtp-button vtp-help-area-button ui-state-default ui-button ui-widget ui-corner-all"
-            :class="{'text-button': text !== null}">
+            :class="{'text-button': text !== null}"
+            @click="openDialog">
         <span v-if="text === null" class="ui-icon ui-icon-help"></span>
         <span v-else class="ui-button-text">{{ text }}</span>
     </button>
@@ -23,12 +24,14 @@
             }
         },
         mounted() {
-            new HelpButton();
-            $('.vtp-help-area-button').on('click', function () {
-                vitoopApp.helpButton.setHelpArea($(this).attr('help-area'));
-                $(vitoopApp.helpButton.helpPopupId).dialog('open');
-            });
+            vitoopApp.helpButton = new HelpButton();
         },
+        methods: {
+            openDialog() {
+                vitoopApp.helpButton.setHelpArea(this.helpArea);
+                $(vitoopApp.helpButton.helpPopupId).dialog('open');
+            }
+        }
     }
 </script>
 
