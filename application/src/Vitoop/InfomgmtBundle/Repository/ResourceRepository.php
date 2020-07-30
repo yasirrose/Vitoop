@@ -339,7 +339,7 @@ class ResourceRepository extends ServiceEntityRepository
         $rootEntity = $query->getRootEntities();
         $rootEntity = $rootEntity[0];
         $isLexiconAndProject = \in_array($rootEntity, [Lexicon::class, Project::class]);
-        if ($isLexiconAndProject) {
+        if ($isLexiconAndProject && null === $search->resource) {
             $query->leftJoin('r.rel_resources1', 'rrr');
         } elseif (null !== $search->resource) {
             $query->leftJoin('r.rel_resources2', 'rrr', 'WITH', 'rrr.deletedByUser is null');
