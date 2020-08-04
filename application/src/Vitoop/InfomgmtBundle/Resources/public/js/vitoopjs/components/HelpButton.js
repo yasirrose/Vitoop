@@ -71,21 +71,17 @@ export default class HelpButton {
                     options.remove_script_host = false;
                     options.convert_urls = true;
                     options.toolbar = 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink | code';
-
                     options.setup = (editor) => {
                         editor.on('init', (e) => {
                             const context = e.target.dom.doc.querySelector('html');
                             this.searchText(context);
-                        })
-                    };
-
-                    tinyMCE.init(options)
-                        .then(() => {
-                            setTimeout(() => {
-                                this.scroll();
-                            }, 500)
                         });
 
+                        editor.on('Load', e => {
+                            this.scroll();
+                        });
+                    };
+                    tinyMCE.init(options);
                     $('#button-help-save').on('click', function() {
                         tinyMCE.triggerSave();
                         $.ajax({
