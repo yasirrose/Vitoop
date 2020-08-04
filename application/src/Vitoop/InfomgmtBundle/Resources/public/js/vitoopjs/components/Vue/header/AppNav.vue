@@ -75,19 +75,24 @@
             <div v-else-if="getResource('id') && !get('inProject') && !get('conversationInstance')">
                 <help-button help-area="lexicon" />
             </div>
-            <div v-if="get('conversationInstance') && get('conversationInstance').canEdit">
-                <button id="vtp-projectdata-project-live"
-                        class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
-                        :class="{'ui-state-focus ui-state-active': !get('conversationEditMode')}"
-                        @click="conversationEditMode">
-                    <span class="ui-button-icon-primary ui-icon ui-icon-clipboard"></span>
-                </button>
-                <button id="vtp-projectdata-project-edit"
-                        class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
-                        :class="{'ui-state-focus ui-state-active': get('conversationEditMode')}"
-                        @click="conversationEditMode">
-                    <span class="ui-button-icon-primary ui-icon ui-icon-wrench"></span>
-                </button>
+            <div v-if="get('conversationInstance')">
+                <div class="d-flex align-center">
+                    <help-button help-area="conversation" />
+                    <div v-if="get('conversationInstance').canEdit" style="margin-left: 4px">
+                        <button id="vtp-projectdata-project-live"
+                                class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
+                                :class="{'ui-state-focus ui-state-active': !get('conversationEditMode')}"
+                                @click="conversationEditMode">
+                            <span class="ui-button-icon-primary ui-icon ui-icon-clipboard"></span>
+                        </button>
+                        <button id="vtp-projectdata-project-edit"
+                                class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
+                                :class="{'ui-state-focus ui-state-active': get('conversationEditMode')}"
+                                @click="conversationEditMode">
+                            <span class="ui-button-icon-primary ui-icon ui-icon-wrench"></span>
+                        </button>
+                    </div>
+                </div>
             </div>
             <ShowPopupButton v-if="getResourceId" />
         </div>
