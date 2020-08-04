@@ -2285,6 +2285,8 @@ table.dataTable thead th:hover {
     top: 50%;
     margin: -10px 0 0 0;
     cursor: default;
+    display: flex;
+    align-items: center;
 
     > button {
         margin-right: 4px;
