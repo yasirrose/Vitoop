@@ -4,11 +4,19 @@
             © 2018 by <a class="vtp-homelink" href="/">vitoop<span>.org</span></a>
         </div>
         <div id="vtp-imprint">
-            <span v-if="$store.state.user !== null">
+            <span v-if="isLoggedIn">
                 <a v-if="get('user').is_agreed_with_term && get('admin')"
                    class="ui-corner-all ui-state-default"
                    @click="$router.push('/tags')">
                     Tags
+                </a>
+                <a @click="$router.push('/user/datap')"
+                   class="ui-corner-all ui-state-default">
+                    Datenschutz
+                </a>
+                <a @click="$router.push('/user/agreement')"
+                   class="ui-corner-all ui-state-default">
+                    Nutzungsbedingungen
                 </a>
                 <help-button help-area="search" text="Hilfe" />
             </span>
@@ -22,13 +30,13 @@
 
 <script>
     import HelpButton from "../SecondSearch/HelpButton.vue";
-    import {mapGetters} from "vuex"
+    import { mapGetters } from "vuex";
 
     export default {
         name: "AppFooter",
         components: {HelpButton},
         computed: {
-            ...mapGetters(['get'])
+            ...mapGetters(['get', 'isLoggedIn'])
         }
     }
 </script>

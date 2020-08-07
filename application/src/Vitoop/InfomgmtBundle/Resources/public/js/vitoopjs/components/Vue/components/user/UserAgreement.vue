@@ -1,7 +1,7 @@
 <template>
     <div class="vtp-content">
         <fieldset class="ui-corner-all margin-top-3">
-            <div id="vtp-terms-user" class="ui-corner-all">
+            <div id="vtp-terms-user" class="ui-corner-all" style="padding: 30px">
                 <span v-html="terms"></span>
                 <div class="vtp-fh-w100" v-if="$store.state.user !== null && !get('user').is_agreed_with_term">
                     <form action="/user/agreement" method="post" id="user_agreement_form">

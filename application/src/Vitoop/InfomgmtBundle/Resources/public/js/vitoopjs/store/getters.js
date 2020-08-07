@@ -2,6 +2,7 @@ export default {
     isAdmin(state) {
         return state.admin;
     },
+    isLoggedIn: ({ user }) => !!user,
     getListFontSize(state, getters) {
         let currentFontSize = 14;
         currentFontSize -= state.user ? state.user.decrease_font_size : 0;
@@ -18,9 +19,8 @@ export default {
     getResource: (state) => (key) => {
         return state.resource[key];
     },
-    getResourceType(state) {
-        return state.resource.type !== 'all' ?
-            state.resource.type : 'resources';
+    getResourceType({ resource }) {
+        return resource.type !== 'all' ? resource.type : 'resources';
     },
     getResourceId(state) {
         return state.resource.id;
