@@ -18,8 +18,10 @@ class MysqlPaginationWalker extends SqlWalker
         if ($this->getQuery()->getHint('mysqlWalker.sqlCalcFoundRows') === true) {
             if ($selectClause->isDistinct) {
                 $sql = str_replace('SELECT DISTINCT', 'SELECT DISTINCT SQL_CALC_FOUND_ROWS', $sql);
+                $sql = str_replace('(SELECT DISTINCT SQL_CALC_FOUND_ROWS', '(SELECT DISTINCT ', $sql);
             } else {
                 $sql = str_replace('SELECT', 'SELECT SQL_CALC_FOUND_ROWS', $sql);
+                $sql = str_replace('(SELECT SQL_CALC_FOUND_ROWS', '(SELECT', $sql);
             }
         }
 
