@@ -7,12 +7,6 @@
                 {{ $t('label.project') }}: {{ project.name }}
             </span>
             <div class="vtp-title__buttons">
-                <button id="vtp-project-save-coef"
-                        class="ui-state-default"
-                        @click="saveNewCoefs"
-                        :class="{show: get('coefsToSave').length}">
-                    <span>speichern</span>
-                </button>
                 <button id="vtp-projectdata-project-close"
                         :title="$t('label.close')"
                         class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary"
@@ -99,82 +93,11 @@
                 if (redirectTo === '/prj') this.$store.commit('setInProject', false);
                 redirectTo !== this.$route.path ? this.$router.push(redirectTo) : VueBus.$emit('datatable:reload');
             },
-            saveNewCoefs() {
-                this.get('coefsToSave').forEach((coefObj,index) => {
-                    this.checkIfDividerExist(coefObj.value)
-                        .then(dividerExist => {
-                            if (!dividerExist) {
-                                this.addNewDivider(coefObj.value)
-                                    .then(() => {
-                                        this.saveCoef(coefObj,index)
-                                    })
-                                    .catch(err => console.dir(err))
-                            } else {
-                                this.saveCoef(coefObj,index)
-                            }
-                        })
-                        .catch(err => console.dir(err))
-                })
-            },
-            saveCoef(coefObj,index) {
-                return axios.post(`/api/rrr/${coefObj.coefId}/coefficient`, {
-                        value: coefObj.value
-                    })
-                    .then(() => {
-                        if (index === this.get('coefsToSave').length-1) {
-                            this.$store.commit('set', {key: 'coefsToSave', value: []});
-                            VueBus.$emit('datatable:reload')
-                        }
-                    })
-                    .catch(err => console.dir(err));
-            },
-            checkIfDividerExist(coefValue,index) {
-                return axios(`/api/project/${this.get('resource').id}/divider`)
-                    .then(({data}) => {
-                        const includesCoef = Object.keys(data).includes(Math.floor(coefValue).toString());
-                        if (Math.floor(coefValue) > Object.values(data).length-1 && !includesCoef) {
-                            return false;
-                        }
-                        return true;
-                    })
-                    .catch(err => console.dir(err))
-            },
-            addNewDivider(dividerValue,index) {
-                return axios.post(`/api/project/${this.get('resource').id}/divider`, {
-                    text: '',
-                    coefficient: dividerValue
-                })
-                    .then(() => {
-                        return
-                    })
-                    .catch(err => console.dir(err));
-            }
         }
     }
 </script>
 
 <style scoped lang="scss">
-    @import "../../../../../css/variables/colors";
-    #vtp-project-save-coef {
-        height: 17px;
-        font-weight: normal;
-        line-height: 1;
-        border-radius: 6px;
-        padding: 0 20px 2px;
-        opacity: 0;
-        z-index: -1;
-        transform: translateX(-30px);
-        transition: .3s;
-        color: $vitoop-red-color;
-        border-color: $vitoop-red-color;
-
-        &.show {
-            opacity: 1;
-            z-index: 1;
-            transform: translateX(0);
-        }
-    }
-
     #vtp-lexicondata-title {
         display: flex;
         align-items: center;

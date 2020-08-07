@@ -440,7 +440,7 @@
 <style scoped lang="scss">
 
     #vtp-filterbox {
-        margin-top: 6px;
+        margin-top: 4px;
         margin-left: -700px;
     }
 

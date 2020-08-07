@@ -39,7 +39,13 @@
     {% endif %}
     <div class="d-flex">
         {{ form_label(fvdata.description, null, {'label_attr': {'class': 'w-22' }}) }}
-        {{ form_widget(fvdata.description, {'attr': {'class': 'w-78', 'rows': '10', 'placeholder': 'Bitte schreibe die erste Nachricht (das Feld darf nicht leer sein.)' }}) }}
+        {{ form_widget(fvdata.description, {
+            'attr': {
+                'class': 'w-78',
+                'rows': '10',
+                'placeholder': 'Bitte schreibe die erste Nachricht (das Feld darf nicht leer bleiben). Der Status der Unterhaltung kann nach der Speicherung nicht mehr geändert werden.'
+            }
+        }) }}
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.description) }}</div>
     </div>
     {% include 'VitoopInfomgmtBundle:Resource:_userHook.field.html.twig'

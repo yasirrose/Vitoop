@@ -56,6 +56,12 @@
         </ul>
         <div class="d-flex align-center">
             <div v-if="get('project')">
+                <button id="vtp-project-save-coef"
+                        class="ui-state-default ui-state-active"
+                        @click="saveNewCoefs"
+                        :class="{show: get('coefsToSave').length}">
+                    <span>speichern</span>
+                </button>
                 <help-button help-area="project" />
                 <span v-if="canEdit">
                     <button id="vtp-projectdata-project-live"
@@ -174,6 +180,57 @@
                     })
                 }
             },
+
+            saveNewCoefs() {
+                this.get('coefsToSave').forEach((coefObj,index) => {
+                    this.checkIfDividerExist(coefObj.value)
+                        .then(dividerExist => {
+                            if (!dividerExist) {
+                                this.addNewDivider(coefObj.value)
+                                    .then(() => {
+                                        this.saveCoef(coefObj,index)
+                                    })
+                                    .catch(err => console.dir(err))
+                            } else {
+                                this.saveCoef(coefObj,index)
+                            }
+                        })
+                        .catch(err => console.dir(err))
+                })
+            },
+            saveCoef(coefObj,index) {
+                return axios.post(`/api/rrr/${coefObj.coefId}/coefficient`, {
+                    value: coefObj.value
+                })
+                    .then(() => {
+                        if (index === this.get('coefsToSave').length-1) {
+                            this.$store.commit('set', {key: 'coefsToSave', value: []});
+                            VueBus.$emit('datatable:reload')
+                        }
+                    })
+                    .catch(err => console.dir(err));
+            },
+            checkIfDividerExist(coefValue,index) {
+                return axios(`/api/project/${this.get('resource').id}/divider`)
+                    .then(({data}) => {
+                        const includesCoef = Object.keys(data).includes(Math.floor(coefValue).toString());
+                        if (Math.floor(coefValue) > Object.values(data).length-1 && !includesCoef) {
+                            return false;
+                        }
+                        return true;
+                    })
+                    .catch(err => console.dir(err))
+            },
+            addNewDivider(dividerValue,index) {
+                return axios.post(`/api/project/${this.get('resource').id}/divider`, {
+                    text: '',
+                    coefficient: dividerValue
+                })
+                    .then(() => {
+                        return
+                    })
+                    .catch(err => console.dir(err));
+            }
         }
     }
 </script>
@@ -197,5 +254,25 @@
 
     #vtp-projectdata-project-live, #vtp-projectdata-project-edit {
         height: 24px;
+    }
+
+    @import "../../../../../css/variables/colors";
+    #vtp-project-save-coef {
+        height: 24px;
+        font-weight: normal;
+        border-radius: 6px;
+        padding: 0 20px 2px;
+        opacity: 0;
+        z-index: -1;
+        transform: translateX(-30px);
+        transition: .3s;
+        //color: $vitoop-red-color;
+        //border-color: $vitoop-red-color;
+
+        &.show {
+            opacity: 1;
+            z-index: 1;
+            transform: translateX(0);
+        }
     }
 </style>
