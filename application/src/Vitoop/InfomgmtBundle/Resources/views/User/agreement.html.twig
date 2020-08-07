@@ -2,7 +2,7 @@
 {% block title %}Terms and Conditions{% endblock %}
 {% block content %}
     <fieldset class="ui-corner-all margin-top-3">
-        <div id="vtp-terms-user" class="ui-corner-all">
+        <div id="vtp-terms-user" class="ui-corner-all" style="padding: 30px">
             {{ terms|raw }}
             {% if app.user and not app.user.getIsAgreedWithTerms() %}
                 <div class="vtp-fh-w100">
