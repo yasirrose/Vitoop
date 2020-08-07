@@ -5,6 +5,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Vitoop\InfomgmtBundle\Entity\Conversation;
 use Vitoop\InfomgmtBundle\Entity\Flag;
+use Vitoop\InfomgmtBundle\Entity\RelResourceResource;
 use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\Entity\Project;
 use Vitoop\InfomgmtBundle\Entity\Lexicon;
@@ -328,7 +329,10 @@ class ResourceRepository extends ServiceEntityRepository
     protected function prepareListQueryBuilder(QueryBuilder $query, SearchResource $search)
     {
         $query
-            ->addSelect('r.id, r.name, CONCAT(r.created_at,\'\') AS created_at, u.username, AVG(ra.mark) as avgmark, SUM(rrr.countLinks) as res12count, COUNT(uh.id) as isUserHook, COUNT(ur.id) as isUserRead')
+            ->addSelect('r.id, r.name, CONCAT(r.created_at,\'\') AS created_at, u.username, AVG(ra.mark) as avgmark')
+            ->addSelect('(SELECT SUM(rrr1.countLinks) FROM '.RelResourceResource::class.' rrr1 WHERE rrr1.resource1 = rrr.resource1 AND rrr1.resource2 = rrr.resource2) as res12count')
+            ->addSelect('COUNT(uh.id) as isUserHook')
+            ->addSelect('COUNT(ur.id) as isUserRead')
             ->innerJoin('r.user', 'u')
             ->leftJoin('r.flags', 'f')
             ->leftJoin('r.ratings', 'ra')
