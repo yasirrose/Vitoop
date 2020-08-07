@@ -13,7 +13,7 @@
         {# form_label(fvtag.text, null, {'label_attr': {'class': 'vtp-form-w20' }}) #}
         {{ form_widget(fvtag.can_add) }}
         {{ form_widget(fvtag.can_remove) }}
-        {{ form_widget(fvtag.text, {'attr': {'class': 'vtp-fh-w40'}}) }}
+        {{ form_widget(fvtag.text, {'attr': {'class': 'vtp-fh-w40', 'maxlength': 34}}) }}
         <input type="button"
                id="tag_confirm_save"
                title="{{ 'label.tag.add'|trans }}"

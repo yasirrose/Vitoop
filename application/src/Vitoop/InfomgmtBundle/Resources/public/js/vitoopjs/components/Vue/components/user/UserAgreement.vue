@@ -5,18 +5,22 @@
                 <span v-html="terms"></span>
                 <div class="vtp-fh-w100" v-if="$store.state.user !== null && !get('user').is_agreed_with_term">
                     <form action="/user/agreement" method="post" id="user_agreement_form">
-                        <div>
+                        <label class="custom-checkbox__wrapper square-checkbox"
+                               style="margin-right: 3px">
                             <input type="checkbox"
                                    v-model="agreed"
                                    name="user_agreed_datap"
-                                   id="user_agreed_datap"
-                                   style="-webkit-appearance: checkbox;">
+                                   id="user_agreed_datap">
+                            <span class="custom-checkbox">
+                                <img class="custom-checkbox__check"
+                                     src="/img/check.png" />
+                            </span>
                             <span>
                                 Ich habe die Nutzungsbedienungen und die
                                 <a href="/user/datap" target="_blank">Datenschutzbedienungen</a>
                                 gelesen und akzeptiere sie
                             </span>
-                        </div>
+                        </label>
                         <input :disabled="!agreed"
                                type="submit"
                                value="Akzeptieren"
@@ -54,6 +58,8 @@
     }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+    .custom-checkbox__wrapper {
+        padding-left: 30px;
+    }
 </style>
