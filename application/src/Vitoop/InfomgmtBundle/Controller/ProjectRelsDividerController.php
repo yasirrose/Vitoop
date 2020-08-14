@@ -5,10 +5,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Vitoop\InfomgmtBundle\DTO\Resource\DividerDTO;
 use Vitoop\InfomgmtBundle\Entity\ProjectRelsDivider;
 use JMS\Serializer\DeserializationContext;
 use Vitoop\InfomgmtBundle\Entity\Project;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Vitoop\InfomgmtBundle\Repository\ProjectRelsDividerRepository;
+use Vitoop\InfomgmtBundle\Response\Json\ErrorResponse;
 
 /**
  * @Route("api/project/{projectID}/divider")
@@ -17,25 +21,45 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 class ProjectRelsDividerController extends ApiController
 {
     /**
+     * @var ValidatorInterface
+     */
+    private $validator;
+    /**
+     * @var ProjectRelsDividerRepository
+     */
+    private $projectRelsDividerRepository;
+
+    /**
+     * ProjectRelsDividerController constructor.
+     * @param ValidatorInterface $validator
+     * @param ProjectRelsDividerRepository $projectRelsDividerRepository
+     */
+    public function __construct(
+        ValidatorInterface $validator,
+        ProjectRelsDividerRepository $projectRelsDividerRepository
+    ) {
+        $this->validator = $validator;
+        $this->projectRelsDividerRepository = $projectRelsDividerRepository;
+    }
+
+    /**
      * @Route("", name="get_dividers", methods={"GET"})
      *
      * @return array
      */
-    public function getDividers(Project $project)
+    public function getDividers(Project $project, ProjectRelsDividerRepository $dividerRepository)
     {
         if (!$project->getProjectData()->availableForReading($this->get('vitoop.vitoop_security')->getUser())) {
             throw new AccessDeniedHttpException;
         }
-        $dividers = $this->getDoctrine()->getManager()
-            ->getRepository('VitoopInfomgmtBundle:ProjectRelsDivider')
-            ->findBy(array('projectData' => $project->getProjectData()));
-        
-        $divResult = array();
+        $dividers = $dividerRepository->findProjectDividerDTO($project->getProjectData()->getId());
+
+        $divResult = [];
+        /**
+         * @var DividerDTO $divider
+         */
         foreach ($dividers as $divider) {
-            $divResult[(string)$divider->getCoefficient()] = array(
-                'id' => $divider->getId(),
-                'text' => $divider->getText()
-            );
+            $divResult[(string)$divider->coefficient] = $divider;
         }
 
         return $this->getApiResponse($divResult);
@@ -51,26 +75,32 @@ class ProjectRelsDividerController extends ApiController
         if (!$project->getProjectData()->availableForWriting($this->get('vitoop.vitoop_security')->getUser())) {
             throw new AccessDeniedHttpException;
         }
-        $em = $this->getDoctrine()->getManager();
-        $serializer = $this->get('jms_serializer');
-        $serializerContext = DeserializationContext::create()
-            ->setGroups(array('edit'));
-        $divider = $serializer->deserialize($request->getContent(), 'Vitoop\InfomgmtBundle\Entity\ProjectRelsDivider', 'json', $serializerContext);
-        //var_dump($divider);
-        $dividerOrigin = $em->getRepository('VitoopInfomgmtBundle:ProjectRelsDivider')->findOneBy(array('projectData' => $project->getProjectData(), 'coefficient' => $divider->getCoefficient()));
-        //var_dump($dividerOrigin);
-        //exit(0);
-        if (is_null($dividerOrigin)) {
-            $dividerOrigin = new ProjectRelsDivider();
-            $dividerOrigin->setProjectData($project->getProjectData());
-            $dividerOrigin->setCoefficient($divider->getCoefficient());
+
+        /**
+         * @var DividerDTO $dto
+         */
+        $dto = $this->getDTOFromRequest($request, DividerDTO::class);
+        $dto->projectDataId = $project->getProjectData()->getId();
+
+        $dividerOrigin = $this->projectRelsDividerRepository->findOneBy(
+            array('projectData' => $project->getProjectData(), 'coefficient' => $dto->coefficient)
+        );
+        if ($dividerOrigin) {
+            $dto->id = $dividerOrigin->getId();
         }
-        $dividerOrigin->setText($divider->getText());
-        $em->persist($dividerOrigin);
-        $em->flush();
-        $response = $serializer->serialize(array('success' => true, 'message' => 'Divider updated!'), 'json');
 
-        return new Response($response);
+        $errors = $this->validator->validate($dto);
+        if (count($errors) > 0) {
+            return $this->getApiResponse(ErrorResponse::createFromValidator($errors), 400);
+        }
+
+        if (null === $dividerOrigin) {
+            $dividerOrigin = ProjectRelsDivider::create($project, $dto);
+        } else {
+            $dividerOrigin->updateFromDTO($dto);
+        }
+        $this->projectRelsDividerRepository->save($dividerOrigin);
+
+        return $this->getApiResponse(['success' => true, 'message' => 'Divider updated!']);
     }
-
 }
