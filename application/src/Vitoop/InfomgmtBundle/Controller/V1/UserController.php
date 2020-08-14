@@ -12,6 +12,7 @@ use Vitoop\InfomgmtBundle\Entity\User;
 use Vitoop\InfomgmtBundle\Repository\UserRepository;
 use Vitoop\InfomgmtBundle\Response\Json\ErrorResponse;
 use Vitoop\InfomgmtBundle\Service\EmailSender;
+use Vitoop\InfomgmtBundle\Service\SettingsService;
 use Vitoop\InfomgmtBundle\Utils\Token\CommonGeneratorStrategy;
 
 /**
@@ -98,5 +99,15 @@ class UserController extends ApiController
         $this->userRepository->save();
 
         return $this->getApiResponse(null, 204);
+    }
+
+    /**
+     * @Route("/datap", methods={"GET"})
+     */
+    public function getDataP(SettingsService $settingsService)
+    {
+        return $this->getApiResponse([
+            'datap' => $settingsService->getDataP()->getValue()
+        ], 200);
     }
 }
