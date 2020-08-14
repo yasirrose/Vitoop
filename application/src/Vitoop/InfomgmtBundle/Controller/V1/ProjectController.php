@@ -2,16 +2,22 @@
 
 namespace Vitoop\InfomgmtBundle\Controller\V1;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Vitoop\InfomgmtBundle\Controller\ApiController;
+use Vitoop\InfomgmtBundle\DTO\Resource\DividerDTO;
 use Vitoop\InfomgmtBundle\DTO\Resource\ProjectAssignment;
 use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
 use Vitoop\InfomgmtBundle\Entity\Project;
+use Vitoop\InfomgmtBundle\Entity\ProjectRelsDivider;
+use Vitoop\InfomgmtBundle\Repository\ProjectRelsDividerRepository;
 use Vitoop\InfomgmtBundle\Repository\RelResourceResourceRepository;
 use Vitoop\InfomgmtBundle\Repository\ResourceRepository;
 use Vitoop\InfomgmtBundle\Response\Json\ErrorResponse;
+use Vitoop\InfomgmtBundle\Service\ProjectDividerChanger;
 use Vitoop\InfomgmtBundle\Service\RelResource\RelResourceLinker;
 use Vitoop\InfomgmtBundle\Service\ResourceManager;
 
@@ -160,5 +166,89 @@ class ProjectController extends ApiController
         }
 
         return $this->getApiResponse($assignments, 201);
+    }
+
+    /**
+     * @Route("/{id}/dividers", methods={"GET"}, requirements={"id": "\d+"})
+     */
+    public function getDividers(Project $project, ProjectRelsDividerRepository $dividerRepository)
+    {
+        if (!$project->getProjectData()->availableForReading($this->getUser())) {
+            throw new AccessDeniedHttpException();
+        }
+        $dividers = $dividerRepository->findProjectDividerDTO($project->getProjectData()->getId());
+
+        $divResult = [];
+        /**
+         * @var DividerDTO $divider
+         */
+        foreach ($dividers as $divider) {
+            $divResult[(string)$divider->coefficient] = $divider;
+        }
+
+        return $this->getApiResponse($divResult);
+    }
+
+    /**
+     * @Route("/{id}/dividers", methods={"POST"}, requirements={"id": "\d+"})
+     */
+    public function addDivider(Project $project, ProjectRelsDividerRepository $dividerRepository, Request $request)
+    {
+        if (!$project->getProjectData()->availableForWriting($this->getUser())) {
+            throw new AccessDeniedHttpException();
+        }
+
+        /**
+         * @var DividerDTO $dto
+         */
+        $dto = $this->getDTOFromRequest($request, DividerDTO::class);
+        $dto->projectDataId = $project->getProjectData()->getId();
+        $errors = $this->validator->validate($dto);
+        if (count($errors) > 0) {
+            return $this->getApiResponse(ErrorResponse::createFromValidator($errors), 400);
+        }
+
+        $divider = ProjectRelsDivider::create($project->getProjectData(), $dto);
+        $dividerRepository->save($divider);
+
+        return $this->getApiResponse($divider, 201);
+    }
+
+    /**
+     * @ParamConverter("divider", options={"id" = "dividerId"})
+     * @Route("/{id}/dividers/{dividerId}", methods={"PUT"}, requirements={"id": "\d+", "dividerId": "\d+"})
+     */
+    public function editDivider(
+        Project $project,
+        ProjectRelsDivider $divider,
+        ProjectRelsDividerRepository $dividerRepository,
+        ProjectDividerChanger $projectDividerChanger,
+        Request $request
+    ) {
+        $user = $this->getUser();
+        if (!$project->getProjectData()->availableForWriting($user)) {
+            throw new AccessDeniedHttpException();
+        }
+
+        /**
+         * @var DividerDTO $dto
+         */
+        $dto = $this->getDTOFromRequest($request, DividerDTO::class);
+        $dto->projectDataId = $project->getProjectData()->getId();
+        $errors = $this->validator->validate($dto);
+        if (count($errors) > 0) {
+            return $this->getApiResponse(ErrorResponse::createFromValidator($errors), 400);
+        }
+
+        $oldCoeff = $divider->getCoefficient();
+        $divider->updateFromDTO($dto);
+        $dividerRepository->save($divider);
+        $projectDividerChanger->changeRelatedCoefficients(
+            $project->getId(),
+            $oldCoeff,
+            $dto->coefficient
+        );
+
+        return $this->getApiResponse($divider, 200);
     }
 }

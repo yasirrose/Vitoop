@@ -90,6 +90,7 @@ services:
   Vitoop\InfomgmtBundle\Repository\RemarkRepository: ~
   Vitoop\InfomgmtBundle\Repository\RemarkPrivateRepository: ~
   Vitoop\InfomgmtBundle\Repository\CommentRepository: ~
+  Vitoop\InfomgmtBundle\Repository\ProjectRelsDividerRepository: ~
 
   Vitoop\InfomgmtBundle\Repository\RelProjectUserRepository: ~
   Vitoop\InfomgmtBundle\Repository\RelResourceResourceRepository:
@@ -123,6 +124,10 @@ services:
       - { name: validator.constraint_validator }
 
   Vitoop\InfomgmtBundle\Validator\Constraints\Resource\ResourceNameUniqueValidator:
+    tags:
+      - { name: validator.constraint_validator }
+
+  Vitoop\InfomgmtBundle\Validator\Constraints\Resource\DividerCoefficientUniqueValidator:
     tags:
       - { name: validator.constraint_validator }
 

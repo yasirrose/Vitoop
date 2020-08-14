@@ -111,6 +111,71 @@
 ```
 </details>
 
+## GET /api/v1/projects/{id}/dividers
+<details>
+  <summary>Get dividers for project</summary>
+
+  ### Response
+  ```json
+{
+    "1": {
+        "id":1,
+        "text":"Divider 1",
+        "coefficient": 1
+    }
+}
+```
+</details>
+
+
+## POST /api/v1/projects/{id}/dividers
+<details>
+  <summary>Create divider for project</summary>
+
+  ### Request
+  ```json
+{
+    "text":"Divider 1",
+    "coefficient": 1
+}
+```
+
+  ### Response
+  ```json
+{
+    "id": 1,
+    "text":"Divider 1",
+    "coefficient": 1
+}
+```
+</details>
+
+
+## PUT /api/v1/projects/{projectid}/dividers/{id}
+<details>
+  <summary>Change divider for project (will change all related resources)</summary>
+
+  ### Request
+  ```json
+{
+     "id": 1,
+    "text":"Divider 1",
+    "coefficient": 1
+}
+```
+
+  ### Response
+  ```json
+{
+    "id": 1,
+    "text":"Divider 1",
+    "coefficient": 1
+}
+```
+</details>
+
+
+
 ## GET /api/v1/conversations/{id}
 <details>
   <summary>Get conversation by id</summary>

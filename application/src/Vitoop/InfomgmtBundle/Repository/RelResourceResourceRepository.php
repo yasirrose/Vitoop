@@ -120,6 +120,20 @@ class RelResourceResourceRepository extends EntityRepository
             ->getOneOrNullResult();
     }
 
+    public function findRelatedCoefficients($resource1Id, $coeff)
+    {
+        return $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select('rrr')
+            ->from(RelResourceResource::class, 'rrr')
+            ->andWhere('rrr.resource1=:resource1')
+            ->andWhere('rrr.coefficient LIKE :coffExpression')
+            ->setParameter('resource1', $resource1Id)
+            ->setParameter('coffExpression', $coeff .'.%')
+            ->getQuery()
+            ->getResult();
+    }
+
     private function getRelResourceQueryBuilder($resource1Id, $resource2Id, $userId)
     {
         return $this->getEntityManager()
