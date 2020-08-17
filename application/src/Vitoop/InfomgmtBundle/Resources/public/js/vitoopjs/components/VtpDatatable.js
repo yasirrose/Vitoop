@@ -168,13 +168,13 @@ export default class VtpDatatable {
         const editMode = vitoopState.state.edit;
         const self = this;
         const coefsToSave = [];
-        const coefInputs = document.querySelectorAll('.vtp-uiaction-coefficient');
+        const coefInputs = document.querySelectorAll('tr:not(.divider-wrapper) .vtp-uiaction-coefficient');
         coefInputs.forEach(input => {
             input.addEventListener('input', () => {
                 // const resId = input.closest('tr').id.match(/\d/g).join('');
                 const coefId = input.dataset.rel_id;
-                vitoopState.commit('addCoefToSave', {coefId: coefId, value: input.value});
-                vitoopState.commit('updateCoef', {coefId: coefId, value: input.value});
+                vitoopState.commit('addCoefToSave', { coefId: coefId, value: input.value });
+                vitoopState.commit('updateCoef', { coefId: coefId, value: input.value });
             });
         });
         if (editMode) {
@@ -209,6 +209,28 @@ export default class VtpDatatable {
                         }
                     });
                 }
+            });
+            $('tr.divider-wrapper input.vtp-uiaction-coefficient').on('focusout', e => {
+                const id = e.target.dataset['rel_id'];
+                const coefficient = e.target.value;
+                const text = $(e.target.closest('tr')).find('input.divider')[0].value;
+                axios.put(`/api/v1/projects/${projectId}/dividers/${id}`, {
+                    id,
+                    text,
+                    coefficient,
+                })
+                    .then(response => {
+                        reloadTableAfterCoef();
+                    })
+                    .catch(err => {
+                        vitoopState.commit('set', {
+                            key: 'error',
+                            value: err.response.data.messages[0]
+                        });
+                        setTimeout(() => {
+                            vitoopState.commit('set', { key: 'error', value: null });
+                        }, 3000);
+                    });
             });
         }
         function reloadTableAfterCoef() {

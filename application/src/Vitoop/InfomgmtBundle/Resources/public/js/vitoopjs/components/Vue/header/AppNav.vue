@@ -102,6 +102,12 @@
             </div>
             <ShowPopupButton v-if="getResourceId" />
         </div>
+        <transition name="fade">
+            <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all"
+                 v-if="get('error')">
+                {{ get('error') }}
+            </div>
+        </transition>
     </div>
 </template>
 
@@ -180,7 +186,6 @@
                     })
                 }
             },
-
             saveNewCoefs() {
                 this.get('coefsToSave').forEach((coefObj,index) => {
                     this.checkIfDividerExist(coefObj.value)
@@ -205,7 +210,7 @@
                     .then(() => {
                         if (index === this.get('coefsToSave').length-1) {
                             this.$store.commit('set', {key: 'coefsToSave', value: []});
-                            VueBus.$emit('datatable:reload')
+                            VueBus.$emit('datatable:reload');
                         }
                     })
                     .catch(err => console.dir(err));
@@ -222,7 +227,7 @@
                     .catch(err => console.dir(err))
             },
             addNewDivider(dividerValue,index) {
-                return axios.post(`/api/project/${this.get('resource').id}/divider`, {
+                return axios.post(`/api/v1/projects/${this.get('resource').id}/dividers`, {
                     text: '',
                     coefficient: dividerValue
                 })

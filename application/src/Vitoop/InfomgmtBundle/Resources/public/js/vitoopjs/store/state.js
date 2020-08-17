@@ -1,4 +1,5 @@
 export default {
+    error: null,
     resource: {
         type: null,
         id: null,
