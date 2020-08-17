@@ -233,7 +233,7 @@
 
     #vtp-second-search-box::v-deep {
         height: 24px;
-        margin-top: 3px;
+        margin-top: 2px;
         display: flex;
         align-items: center;
         justify-content: space-between;
