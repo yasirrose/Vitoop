@@ -84,7 +84,9 @@
             <div v-if="get('conversationInstance')">
                 <div class="d-flex align-center">
                     <help-button help-area="conversation" />
-                    <div v-if="get('conversationInstance').canEdit" style="margin-left: 4px">
+                    <div v-if="get('conversationInstance').canEdit &&
+                               get('conversationInstance').conversation.conversation_data.is_for_related_users"
+                         style="margin-left: 4px">
                         <button id="vtp-projectdata-project-live"
                                 class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
                                 :class="{'ui-state-focus ui-state-active': !get('conversationEditMode')}"
