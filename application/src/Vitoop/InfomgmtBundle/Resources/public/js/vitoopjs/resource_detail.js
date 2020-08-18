@@ -541,7 +541,7 @@ window.resourceDetail = (function () {
             //show lexicon button and scrollbars
             $('.vtp-extlink-lexicon').remove();
             if ('lex' === res_type ) {
-                $('.ui-tabs-nav').append('<a class="vtp-extlink vtp-extlink-lexicon vtp-uiaction-open-extlink" href="'+viewUrl+'">Lexikon gross</a>');
+                $('.ui-tabs-nav').append('<a class="vtp-extlink vtp-extlink-lexicon vtp-uiaction-open-extlink" href="'+viewUrl+'">gross</a>');
 
                 let scrollableHeight = 274;
                 let currentHeight = parseInt($('.vtp-lexicon-description').css('height').replace('px',''));
