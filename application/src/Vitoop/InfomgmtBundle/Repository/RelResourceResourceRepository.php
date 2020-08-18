@@ -127,9 +127,10 @@ class RelResourceResourceRepository extends EntityRepository
             ->select('rrr')
             ->from(RelResourceResource::class, 'rrr')
             ->andWhere('rrr.resource1=:resource1')
-            ->andWhere('rrr.coefficient LIKE :coffExpression')
+            ->andWhere('rrr.coefficient LIKE :coffExpression OR rrr.coefficient = :coeff')
             ->setParameter('resource1', $resource1Id)
             ->setParameter('coffExpression', $coeff .'.%')
+            ->setParameter('coeff', $coeff)
             ->getQuery()
             ->getResult();
     }
