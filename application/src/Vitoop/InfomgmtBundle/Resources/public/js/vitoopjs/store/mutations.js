@@ -33,6 +33,7 @@ export default {
     updateTableBlinker(state, blinkerStatus) {
         state.table.rowNumberBlinker = blinkerStatus;
     },
+
     // Coefs
     updateCoef(state, payload) {
         state.table.data.forEach(res => {
@@ -149,8 +150,8 @@ export default {
     setTags(state, payload) {
         state[payload.key] = payload.tags;
     },
-    set(state,payload) {
-        state[payload.key] = payload.value;
+    set(state, { key, value }) {
+        state[key] = value;
     },
     setProjectData(state, {key,value}) {
         state.project.project_data[key] = value;
@@ -162,6 +163,7 @@ export default {
         const index = _.findIndex(rel_users, {id: relId});
         rel_users.splice(index, 1);
     },
+
     // Conversation
     isForRelatedUser(state,payload) {
         state.conversationInstance.conversation.conversation_data.is_for_related_users = payload;

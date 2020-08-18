@@ -84,7 +84,9 @@
             <div v-if="get('conversationInstance')">
                 <div class="d-flex align-center">
                     <help-button help-area="conversation" />
-                    <div v-if="get('conversationInstance').canEdit" style="margin-left: 4px">
+                    <div v-if="get('conversationInstance').canEdit &&
+                               get('conversationInstance').conversation.conversation_data.is_for_related_users"
+                         style="margin-left: 4px">
                         <button id="vtp-projectdata-project-live"
                                 class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
                                 :class="{'ui-state-focus ui-state-active': !get('conversationEditMode')}"
@@ -102,6 +104,12 @@
             </div>
             <ShowPopupButton v-if="getResourceId" />
         </div>
+        <transition name="fade">
+            <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all"
+                 v-if="get('error')">
+                {{ get('error') }}
+            </div>
+        </transition>
     </div>
 </template>
 
@@ -180,7 +188,6 @@
                     })
                 }
             },
-
             saveNewCoefs() {
                 this.get('coefsToSave').forEach((coefObj,index) => {
                     this.checkIfDividerExist(coefObj.value)
@@ -205,7 +212,7 @@
                     .then(() => {
                         if (index === this.get('coefsToSave').length-1) {
                             this.$store.commit('set', {key: 'coefsToSave', value: []});
-                            VueBus.$emit('datatable:reload')
+                            VueBus.$emit('datatable:reload');
                         }
                     })
                     .catch(err => console.dir(err));
@@ -222,7 +229,7 @@
                     .catch(err => console.dir(err))
             },
             addNewDivider(dividerValue,index) {
-                return axios.post(`/api/project/${this.get('resource').id}/divider`, {
+                return axios.post(`/api/v1/projects/${this.get('resource').id}/dividers`, {
                     text: '',
                     coefficient: dividerValue
                 })

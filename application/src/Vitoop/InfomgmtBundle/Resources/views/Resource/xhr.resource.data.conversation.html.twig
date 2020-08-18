@@ -15,35 +15,38 @@
     </div>
     <div class="d-flex align-center" style="margin-bottom: 4px">
         {{ form_label(fvdata.status, null, {'label_attr': {'class': 'w-22' }}) }}
-        <div class="d-flex align-center">
-            {% if false == isNew and dto.status is defined %}
-                {% set label = 'öffentlich' %}
-                {% if 1 == dto.status %}
-                    {% set label = 'privat' %}
-                {% endif %}
-                <span class="conversation__status">{{ label }}</span>
-            {% endif %}
-            {{ form_widget(fvdata.status, {'attr': {'class': 'w-78' }}) }}
-        </div>
-    </div>
-    {% if true == dto.isResourceUser %}
-    <div class="d-flex align-center" style="margin-bottom: 4px">
-        <label class="w-22"></label>
         <div class="d-flex align-center w-78">
-            {{ form_label(fvdata.isNotify, null, {'label_attr': {'class': '' }}) }}
-            {{ form_widget(fvdata.isNotify, {'attr': {'class': 'valid-checkbox' }}) }}
+            {% if false == isNew %}
+                <div class="ui-corner-all" style="border: 1px solid #aed0ea; width: 100%; padding-top: 3px">
+            {% endif %}
+                {% if false == isNew and dto.status is defined %}
+                    {% set label = 'öffentlich' %}
+                    {% if 1 == dto.status %}
+                        {% set label = 'privat' %}
+                    {% endif %}
+                    <div class="conversation__status">{{ label }}</div>
+                {% endif %}
+                {{ form_widget(fvdata.status, {'attr': {'class': 'w-78' }}) }}
+                {% if true == dto.isResourceUser %}
+                    <div class="d-flex align-center">
+                        {{ form_label(fvdata.isNotify, null, {'label_attr': {'class': '' }}) }}
+                        {{ form_widget(fvdata.isNotify, {'attr': {'class': 'valid-checkbox' }}) }}
+                    </div>
+                {% else %}
+                    {% do fvdata.isNotify.setRendered %}
+                {% endif %}
+            {% if false == isNew %}
+                </div>
+            {% endif %}
         </div>
     </div>
-    {% else %}
-        {% do fvdata.isNotify.setRendered %}
-    {% endif %}
     <div class="d-flex">
         {{ form_label(fvdata.description, null, {'label_attr': {'class': 'w-22' }}) }}
         {{ form_widget(fvdata.description, {
             'attr': {
                 'class': 'w-78',
                 'rows': '10',
-                'placeholder': 'Bitte schreibe die erste Nachricht (das Feld darf nicht leer bleiben). Der Status der Unterhaltung kann nach der Speicherung nicht mehr geändert werden.'
+                'placeholder': 'Bitte schreibe die erste Nachricht (das Feld darf nicht leer bleiben. Der Status der Unterhaltung kann nach der Speicherung nicht mehr geändert werden. Das was du hier reinschreibst erscheint im Verlauf als erste Nachricht.)'
             }
         }) }}
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.description) }}</div>
