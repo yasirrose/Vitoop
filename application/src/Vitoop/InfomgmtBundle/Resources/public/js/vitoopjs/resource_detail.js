@@ -463,12 +463,21 @@ window.resourceDetail = (function () {
             }
 
             if (responseJSON['resource-metadata']) {
+                let resource = 'conversation';
                 res_type = responseJSON['resource-metadata'].type;
-                viewUrl = '';
-                if ('lex' === res_type) {
-                    viewUrl = vitoop.baseUrl + 'lexicon/' +res_id;
+                switch (res_type) {
+                    case 'lex':
+                        resource = 'lexicon';
+                        break;
+                    case 'prj':
+                        resource = 'project';
+                        break;
+                }
+                if (res_type === 'lex' ||  res_type === 'prj' || res_type === 'conversation') {
+                    viewUrl = `${vitoop.baseUrl}${resource}/${res_id}`;
                 }
             }
+
             if (responseJSON['tabs-info']) {
                 var info = responseJSON['tabs-info'];
                 var storage = new DataStorage();
@@ -540,7 +549,7 @@ window.resourceDetail = (function () {
 
             //show lexicon button and scrollbars
             $('.vtp-extlink-lexicon').remove();
-            if ('lex' === res_type ) {
+            if (res_type === 'lex' ||  res_type === 'prj' || res_type === 'conversation') {
                 $('.ui-tabs-nav').append('<a class="vtp-extlink vtp-extlink-lexicon vtp-uiaction-open-extlink" href="'+viewUrl+'">gross</a>');
 
                 let scrollableHeight = 274;
