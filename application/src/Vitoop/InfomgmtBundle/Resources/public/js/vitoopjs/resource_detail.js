@@ -550,7 +550,6 @@ window.resourceDetail = (function () {
             //show lexicon button and scrollbars
             $('.vtp-extlink-lexicon').remove();
             if (res_type === 'lex' ||  res_type === 'prj' || res_type === 'conversation') {
-                console.log(viewUrl);
                 $('.ui-tabs-nav').append('<a class="vtp-extlink vtp-extlink-lexicon vtp-uiaction-open-extlink" href="'+viewUrl+'">gross</a>');
 
                 let scrollableHeight = 274;
