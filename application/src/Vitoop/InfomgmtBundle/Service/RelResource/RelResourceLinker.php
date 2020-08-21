@@ -8,6 +8,7 @@ use Vitoop\InfomgmtBundle\Entity\Project;
 use Vitoop\InfomgmtBundle\Entity\Resource;
 use Vitoop\InfomgmtBundle\Entity\RelResourceResource;
 use Vitoop\InfomgmtBundle\Entity\User;
+use Vitoop\InfomgmtBundle\Exception\Resource\RelResourceExistsException;
 use Vitoop\InfomgmtBundle\Exception\Tag\TagRelationExistsException;
 use Vitoop\InfomgmtBundle\Repository\LexiconRepository;
 use Vitoop\InfomgmtBundle\Repository\ProjectRepository;
@@ -166,7 +167,7 @@ class RelResourceLinker
         $relation = new RelResourceResource($project, $resource, $this->vitoopSecurity->getUser());
         // Relation must be unique (due to the user)
         if ($this->relResourceRepository->exists($relation)) {
-            throw new \Exception('You have assigned this resource already with:' . $project->getName());
+            throw new RelResourceExistsException('You have assigned this resource already with:' . $project->getName());
         }
         $this->relResourceRepository->add($relation);
 

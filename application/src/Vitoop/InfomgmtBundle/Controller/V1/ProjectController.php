@@ -13,6 +13,7 @@ use Vitoop\InfomgmtBundle\DTO\Resource\ProjectAssignment;
 use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
 use Vitoop\InfomgmtBundle\Entity\Project;
 use Vitoop\InfomgmtBundle\Entity\ProjectRelsDivider;
+use Vitoop\InfomgmtBundle\Exception\Resource\RelResourceExistsException;
 use Vitoop\InfomgmtBundle\Repository\ProjectRelsDividerRepository;
 use Vitoop\InfomgmtBundle\Repository\RelResourceResourceRepository;
 use Vitoop\InfomgmtBundle\Repository\ResourceRepository;
@@ -154,15 +155,15 @@ class ProjectController extends ApiController
         }
 
         $resources = $this->resourceRepository->findBy(['id' => $dto->resourceIds]);
-        try {
-            $assignments = [];
-            foreach ($resources as $resource) {
+        $assignments = [];
+        foreach ($resources as $resource) {
+            try {
                 $relResource = $this->relResourceLinker->linkProjectToResource($project, $resource);
                 $this->relResourceRepository->save();
                 $assignments[] = $relResource->getDTO();
+            } catch (\Exception $exception) {
+                //skip if exists without error
             }
-        } catch (\Exception $exception) {
-            return $this->getApiResponse(new ErrorResponse([$exception->getMessage()]), 400);
         }
 
         return $this->getApiResponse($assignments, 201);
