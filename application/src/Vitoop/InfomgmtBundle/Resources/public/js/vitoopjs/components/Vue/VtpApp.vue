@@ -97,9 +97,6 @@
         },
         mounted() {
             axios.interceptors.response.use(response => {
-                if (typeof response.data === "string") {
-                    // location.reload();
-                }
                 return response;
             }, error => {
                 return Promise.reject(error);
@@ -122,7 +119,11 @@
             $('#vtp-header-toggle-flag button').hide();
 
             $(document).ajaxError((e,xhr) => {
+                this.$store.commit('set', { key: 'lexicon', value: null });
+                this.$store.commit('set', { key: 'project', value: null });
+                this.$store.commit('resetConversation');
                 this.$store.commit('setUser', null);
+                this.$store.commit('resetResource');
                 this.$router.push('/login');
             })
         },

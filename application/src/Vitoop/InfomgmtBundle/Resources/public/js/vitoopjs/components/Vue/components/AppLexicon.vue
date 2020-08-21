@@ -131,9 +131,9 @@
                     .then(({data}) => {
                         this.lexicon = data.lexicon;
                         this.resourceInfo = data.resourceInfo;
+                        this.$store.commit('set', { key: 'lexicon', value: data.lexicon });
                         this.$store.commit('setResourceInfo', data.resourceInfo);
                         this.$store.commit('setResourceId', this.$route.params.lexiconId);
-                        VueBus.$emit('lexicon:loaded', data.lexicon);
                     })
                     .catch(err => console.dir(err));
             },

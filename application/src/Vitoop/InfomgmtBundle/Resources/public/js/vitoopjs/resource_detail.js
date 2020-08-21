@@ -550,7 +550,14 @@ window.resourceDetail = (function () {
             //show lexicon button and scrollbars
             $('.vtp-extlink-lexicon').remove();
             if (res_type === 'lex' ||  res_type === 'prj' || res_type === 'conversation') {
-                $('.ui-tabs-nav').append('<a class="vtp-extlink vtp-extlink-lexicon vtp-uiaction-open-extlink" href="'+viewUrl+'">gross</a>');
+                const grossButton = document.createElement('a');
+                grossButton.innerText = 'gross';
+                grossButton.className = 'vtp-extlink vtp-extlink-lexicon vtp-uiaction-open-extlink';
+                if (!canRead) grossButton.classList.add('ui-state-disabled');
+                grossButton.addEventListener('click', () => {
+                    if (canRead) window.location.href = `${window.location.origin}${viewUrl}`;
+                });
+                $('.ui-tabs-nav').append(grossButton);
 
                 let scrollableHeight = 274;
                 let currentHeight = parseInt($('.vtp-lexicon-description').css('height').replace('px',''));
