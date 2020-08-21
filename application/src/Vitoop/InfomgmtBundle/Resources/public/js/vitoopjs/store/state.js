@@ -6,7 +6,11 @@ export default {
         info: null,
         owner: false
     },
+
     project: null,
+    lexicon: null,
+    conversationInstance: null,
+
     edit: false,
     inProject: false,
     secondSearch: {
@@ -45,7 +49,6 @@ export default {
         text: null,
         id: null
     },
-    conversationInstance: null,
     conversationEditMode: false,
     contentHeight: 342 // 12 rows
 }

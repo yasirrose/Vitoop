@@ -1,10 +1,10 @@
 <template>
     <div id="vtp-cmstitle">
-        <div v-if="project"
+        <div v-if="getProject"
              id="vtp-projectdata-title"
              class="ui-corner-all vtp-cmstitle">
             <span class="vtp-title__text">
-                {{ $t('label.project') }}: {{ project.name }}
+                {{ $t('label.project') }}: {{ getProject.name }}
             </span>
             <div class="vtp-title__buttons">
                 <button id="vtp-projectdata-project-close"
@@ -20,8 +20,8 @@
         <div v-else-if="getResource('id') && !get('inProject') && !get('conversationInstance')"
              id="vtp-lexicondata-title"
              class="ui-corner-all vtp-cmstitle">
-            <span class="vtp-title__text" v-if="lexicon">
-                {{ $t('label.lexicon') }}: {{ lexicon.name }}
+            <span class="vtp-title__text" v-if="get('lexicon')">
+                {{ $t('label.lexicon') }}: {{ get('lexicon').name }}
             </span>
             <div class="vtp-title__buttons">
                 <span style="display: flex">
@@ -63,31 +63,19 @@
 
     export default {
         name: "AppCmsTitle",
-        data() {
-            return {
-                project: null,
-                lexicon: null,
-                conversation: null
-            }
-        },
         computed: {
-            ...mapGetters(['getResource','get','getTableRowNumber','getTableData']),
-        },
-        mounted() {
-            VueBus.$on('remove:project', () => {
-                this.$store.commit('setResourceId', null);
-            });
-            VueBus.$on('project:loaded', (project) => {
-                this.project = project;
-            });
-            VueBus.$on('lexicon:loaded', (lexicon) => {
-                this.lexicon = lexicon;
-            });
+            ...mapGetters([
+                'getResource',
+                'get',
+                'getTableRowNumber',
+                'getTableData',
+                'getProject',
+            ]),
         },
         methods: {
             resetResource(redirectTo) {
-                this.project = null;
-                this.lexicon = null;
+                this.$store.commit('set', { key: 'lexicon', value: null });
+                this.$store.commit('set', { key: 'project', value: null });
                 this.$store.commit('resetConversation');
                 this.$store.commit('resetResource');
                 if (redirectTo === '/prj') this.$store.commit('setInProject', false);

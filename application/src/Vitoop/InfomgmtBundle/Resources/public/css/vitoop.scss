@@ -461,6 +461,10 @@ td > span.vtp-extlink-list {
 
 .ui-widget-header a.vtp-extlink-lexicon {
     color: $vitoop-selected-color;
+    &.ui-state-disabled {
+        cursor: not-allowed;
+        filter: grayscale(1);
+    }
 }
 
 .vtp-even .ui-state-active .vtp-extlink,
