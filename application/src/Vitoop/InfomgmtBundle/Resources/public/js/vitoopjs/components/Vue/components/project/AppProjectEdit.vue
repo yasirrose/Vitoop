@@ -7,7 +7,7 @@
                     <span class="vtp-icon ui-icon ui-icon-info"></span>{{ infoProjectData }}
                 </div>
                 <div class="vtp-fh-w60"
-                     style="flex: 1;margin: 8px; margin-right: 30px">
+                     style="flex: 1;margin: 8px; margin-right: 20px">
                     <textarea v-model="getProject.project_data.sheet"
                               ref="sheet"
                               @change="$store.commit('setProjectData', {key: 'sheet', value: $refs.sheet.value})"
@@ -15,7 +15,7 @@
                               name="edit-project-textarea">
                     </textarea>
                 </div>
-                <div style="width: 26%; margin: 8px">
+                <div style="width: 19%; margin: 8px">
                     <div id="vtp-projectdata-sheet-info-edit"
                          class="ui-corner-all"
                          v-if="isLoaded">
@@ -27,32 +27,53 @@
                                         style="padding-bottom: 5px; padding-top: 5px; width: 100%">speichern</button>
                             </div>
                             <div style="vertical-align: bottom; text-align: left; color: #2779aa; font-size: 14px; padding-top: 10px;">
-                                <div class="vtp-fh-w70">
-                                    <input type="checkbox"
-                                           v-model="getProject.project_data.is_private"
-                                           ref="is_private"
-                                           @change="$store.commit('setProjectData', {key: 'is_private', value: $refs.is_private.checked})"
-                                           name="projectIsPrivate"
-                                           style="-webkit-appearance: checkbox"/>
-                                    <label for="projectIsPrivate" id="sperren-vabel">Projekt sperren</label>
+                                <div>
+                                    <label id="sperren-vabel"
+                                           class="custom-checkbox__wrapper square-checkbox">
+                                        <input class="valid-checkbox open-checkbox-link"
+                                               v-model="getProject.project_data.is_private"
+                                               ref="is_private"
+                                               @change="$store.commit('setProjectData', {key: 'is_private', value: $refs.is_private.checked})"
+                                               name="projectIsPrivate"
+                                               type="checkbox"/>
+                                        <span class="custom-checkbox">
+                                            <img class="custom-checkbox__check"
+                                                 src="/img/check.png" />
+                                        </span>
+                                        Projekt sperren
+                                    </label>
                                 </div>
-                                <div class="vtp-fh-w70">
-                                    <input type="checkbox"
-                                           v-model="getProject.project_data.is_for_related_users"
-                                           ref="is_for_related_users"
-                                           @change="$store.commit('setProjectData', {key: 'is_for_related_users', value: $refs.is_for_related_users.checked})"
-                                           name="projectForRelated" style="-webkit-appearance: checkbox"/>
-                                    <label for="projectForRelated" id="verstecken-vabel">Projekt verstecken</label>
+                                <div>
+                                    <label id="verstecken-vabel"
+                                           class="custom-checkbox__wrapper square-checkbox">
+                                        <input class="valid-checkbox open-checkbox-link"
+                                               v-model="getProject.project_data.is_for_related_users"
+                                               ref="is_for_related_users"
+                                               @change="$store.commit('setProjectData', {key: 'is_for_related_users', value: $refs.is_for_related_users.checked})"
+                                               name="projectForRelated"
+                                               type="checkbox"/>
+                                        <span class="custom-checkbox">
+                                            <img class="custom-checkbox__check"
+                                                 src="/img/check.png" />
+                                        </span>
+                                        Projekt verstecken
+                                    </label>
                                 </div>
-                                <div class="vtp-fh-w70">
-                                    <input type="checkbox"
-                                           v-model="getProject.project_data.is_all_records"
-                                           ref="is_all_records"
-                                           @change="$store.commit('setProjectData', {key: 'is_all_records', value: $refs.is_all_records.checked})"
-                                           name="allInOneList"
-                                           id="allInOneList"
-                                           style="-webkit-appearance: checkbox"/>
-                                    <label for="allInOneList">Eine Datensatzliste</label>
+                                <div>
+                                    <label class="custom-checkbox__wrapper square-checkbox">
+                                        <input class="valid-checkbox open-checkbox-link"
+                                               v-model="getProject.project_data.is_all_records"
+                                               ref="is_all_records"
+                                               @change="$store.commit('setProjectData', {key: 'is_all_records', value: $refs.is_all_records.checked})"
+                                               name="allInOneList"
+                                               id="allInOneList"
+                                               type="checkbox"/>
+                                        <span class="custom-checkbox">
+                                            <img class="custom-checkbox__check"
+                                                 src="/img/check.png" />
+                                        </span>
+                                        Eine Datensatzliste
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -73,12 +94,19 @@
                                            style="margin-right: 20px">{{ rel.user.username }}</label>
                                 </div>
                                 <div class="vtp-fh-w35" style="text-align: left">
-                                    <input type="checkbox"
-                                           :value="!rel.read_only"
-                                           :checked="!rel.read_only"
-                                           @change="changeRight(rel,$event)"
-                                           :name="`userReadOnly-${rel.user.id}`"
-                                           class="valid-checkbox" />
+                                    <label class="custom-checkbox__wrapper square-checkbox">
+                                        <input class="valid-checkbox open-checkbox-link"
+                                               :id="`userReadOnly-${rel.user.id}`"
+                                               :value="!rel.read_only"
+                                               :checked="!rel.read_only"
+                                               @change="changeRight(rel,$event)"
+                                               :name="`userReadOnly-${rel.user.id}`"
+                                               type="checkbox"/>
+                                        <span class="custom-checkbox">
+                                            <img class="custom-checkbox__check"
+                                                 src="/img/check.png" />
+                                        </span>
+                                    </label>
                                 </div>
                             </div>
                         </div>

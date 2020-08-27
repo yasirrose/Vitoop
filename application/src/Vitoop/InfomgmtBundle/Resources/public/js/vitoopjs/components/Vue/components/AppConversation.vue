@@ -503,7 +503,7 @@
         }
 
         &__messages {
-            width: 76%;
+            width: 77.1%;
             overflow: auto;
             padding-bottom: 0;
             padding-right: 20px;
@@ -512,7 +512,7 @@
         }
 
         &__info {
-            width: 22%;
+            width: 20.4%;
             display: inline-block;
             float: right;
         }
