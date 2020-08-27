@@ -24,6 +24,17 @@ div#menu, ul, li {
     list-style-type: none;
     margin: 0 4px 0 0;
     padding: 0;
+
+    a {
+        transition: .2s;
+
+        &.ui-state-active {
+            background: #3baae391;
+            background: linear-gradient(to top, #7cc0f6 40%, #e8f3fa 131%);
+            //color: #2694e8 !important;
+            border-color: #aed0ea;
+        }
+    }
 }
 
 .vtp-menu ul li a,
