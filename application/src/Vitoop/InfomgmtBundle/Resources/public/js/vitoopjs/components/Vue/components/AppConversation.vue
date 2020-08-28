@@ -106,7 +106,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="vtp-fh-w100 vtp-new-user-search">
+                    <div class="vtp-fh-w100 vtp-new-user-search" v-if="conversationStatus === 'privat'">
                         <div style="vertical-align: top; margin-bottom: 5px">
                             <label><strong>Neuer Benutzer:</strong></label>
                         </div>
