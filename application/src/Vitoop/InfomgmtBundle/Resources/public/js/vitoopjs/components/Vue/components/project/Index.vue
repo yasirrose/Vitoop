@@ -45,7 +45,7 @@
             this.$store.commit('set', {key: 'coefsToSave', value: []});
             this.$store.commit('setInProject', true);
             resourceProject.init();
-            this.projectHeight = this.get('contentHeight')-32-25;
+            this.projectHeight = this.get('contentHeight')-32-29;
         }
     }
 </script>
