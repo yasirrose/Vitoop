@@ -330,7 +330,7 @@ class ResourceRepository extends ServiceEntityRepository
     {
         $query
             ->addSelect('r.id, r.name, CONCAT(r.created_at,\'\') AS created_at, u.username, AVG(ra.mark) as avgmark')
-            ->addSelect('(SELECT SUM(rrr1.countLinks) FROM '.RelResourceResource::class.' rrr1 WHERE  rrr1.resource2 = rrr.resource2) as res12count')
+            ->addSelect('COUNT(rrr.id) as res12count')
             ->addSelect('COUNT(uh.id) as isUserHook')
             ->addSelect('COUNT(ur.id) as isUserRead')
             ->innerJoin('r.user', 'u')
