@@ -13,6 +13,7 @@ use Vitoop\InfomgmtBundle\Entity\Project;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Vitoop\InfomgmtBundle\Repository\ProjectRelsDividerRepository;
 use Vitoop\InfomgmtBundle\Response\Json\ErrorResponse;
+use Vitoop\InfomgmtBundle\Service\ProjectDividerChanger;
 
 /**
  * @Route("api/project/{projectID}/divider")
@@ -70,7 +71,7 @@ class ProjectRelsDividerController extends ApiController
      *
      * @return array
      */
-    public function addOrEditDivider(Project $project, Request $request)
+    public function addOrEditDivider(Project $project, Request $request, ProjectDividerChanger $projectDividerChanger)
     {
         if (!$project->getProjectData()->availableForWriting($this->get('vitoop.vitoop_security')->getUser())) {
             throw new AccessDeniedHttpException;
@@ -89,15 +90,22 @@ class ProjectRelsDividerController extends ApiController
             $dto->id = $dividerOrigin->getId();
         }
 
+        $projectDividerChanger->removeDividerWithoutRelatedRecords(
+            $project->getId(),
+            $dto->projectDataId,
+            $dto->coefficient
+        );
         $errors = $this->validator->validate($dto);
         if (count($errors) > 0) {
             return $this->getApiResponse(ErrorResponse::createFromValidator($errors), 400);
         }
 
         if (null === $dividerOrigin) {
-            $dividerOrigin = ProjectRelsDivider::create($project, $dto);
+            $dividerOrigin = ProjectRelsDivider::create($project->getProjectData(), $dto);
         } else {
+            $oldCoeff = $dividerOrigin->getCoefficient();
             $dividerOrigin->updateFromDTO($dto);
+            $projectDividerChanger->changeRelatedCoefficients($project->getId(), $oldCoeff, $dto->coefficient);
         }
         $this->projectRelsDividerRepository->save($dividerOrigin);
 

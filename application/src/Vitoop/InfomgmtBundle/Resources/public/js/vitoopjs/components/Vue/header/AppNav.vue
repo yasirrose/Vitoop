@@ -206,8 +206,9 @@
                 })
             },
             saveCoef(coefObj,index) {
-                return axios.post(`/api/rrr/${coefObj.coefId}/coefficient`, {
-                    value: coefObj.value
+                return axios.put(`/api/v1/projects/${this.get('resource').id}/dividers/${coefObj.coefId}`, {
+                  id: coefObj.coefId,
+                  coefficient: coefObj.value,
                 })
                     .then(() => {
                         if (index === this.get('coefsToSave').length-1) {

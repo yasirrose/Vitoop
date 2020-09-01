@@ -45,6 +45,18 @@ class ProjectRelsDividerRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    public function removeDividerByProjectId($projectDataId, $coeff)
+    {
+        $this->createQueryBuilder('prd')
+            ->delete()
+            ->where('prd.projectData = :projectData')
+            ->andWhere('prd.coefficient = :coeff')
+            ->setParameter('projectData', $projectDataId)
+            ->setParameter('coeff', $coeff)
+            ->getQuery()
+            ->execute();
+    }
+
     /**
      * @param ProjectRelsDivider $projectRelsDivider
      * @throws \Doctrine\ORM\ORMException
