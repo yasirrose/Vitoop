@@ -13,7 +13,6 @@ use Vitoop\InfomgmtBundle\DTO\Resource\ProjectAssignment;
 use Vitoop\InfomgmtBundle\DTO\Resource\SearchResource;
 use Vitoop\InfomgmtBundle\Entity\Project;
 use Vitoop\InfomgmtBundle\Entity\ProjectRelsDivider;
-use Vitoop\InfomgmtBundle\Exception\Resource\RelResourceExistsException;
 use Vitoop\InfomgmtBundle\Repository\ProjectRelsDividerRepository;
 use Vitoop\InfomgmtBundle\Repository\RelResourceResourceRepository;
 use Vitoop\InfomgmtBundle\Repository\ResourceRepository;
@@ -236,6 +235,11 @@ class ProjectController extends ApiController
          */
         $dto = $this->getDTOFromRequest($request, DividerDTO::class);
         $dto->projectDataId = $project->getProjectData()->getId();
+        $projectDividerChanger->removeDividerWithoutRelatedRecords(
+            $project->getId(),
+            $dto->projectDataId,
+            $dto->coefficient
+        );
         $errors = $this->validator->validate($dto);
         if (count($errors) > 0) {
             return $this->getApiResponse(ErrorResponse::createFromValidator($errors), 400);

@@ -3,6 +3,7 @@
 namespace Vitoop\InfomgmtBundle\Service;
 
 use Vitoop\InfomgmtBundle\Entity\RelResourceResource;
+use Vitoop\InfomgmtBundle\Repository\ProjectRelsDividerRepository;
 use Vitoop\InfomgmtBundle\Repository\RelResourceResourceRepository;
 
 class ProjectDividerChanger
@@ -11,14 +12,22 @@ class ProjectDividerChanger
      * @var RelResourceResourceRepository
      */
     private $relResourceRepository;
+    /**
+     * @var ProjectRelsDividerRepository
+     */
+    private $dividerRepository;
 
     /**
      * ProjectDividerChanger constructor.
      * @param RelResourceResourceRepository $relResourceRepository
+     * @param ProjectRelsDividerRepository $dividerRepository
      */
-    public function __construct(RelResourceResourceRepository $relResourceRepository)
-    {
+    public function __construct(
+        RelResourceResourceRepository $relResourceRepository,
+        ProjectRelsDividerRepository $dividerRepository
+    ) {
         $this->relResourceRepository = $relResourceRepository;
+        $this->dividerRepository = $dividerRepository;
     }
 
     /**
@@ -50,4 +59,16 @@ class ProjectDividerChanger
         $this->relResourceRepository->save();
     }
 
+    /**
+     * @param $projectId
+     * @param $projectDataId
+     * @param $coeff
+     */
+    public function removeDividerWithoutRelatedRecords($projectId, $projectDataId, $coeff)
+    {
+        $relatedNewResources = $this->relResourceRepository->findRelatedCoefficients($projectId, $coeff);
+        if (empty($relatedNewResources)) {
+            $this->dividerRepository->removeDividerByProjectId($projectDataId, $coeff);
+        }
+    }
 }
