@@ -50,4 +50,36 @@ a {
     background: #e4f1fb url(../img/ui-bg_glass_50_3baae3_1x400.png) 50% 50% repeat-x !important;
 }
 
+.ui-state-disabled {
+    cursor: not-allowed !important;
+    border: 1px solid #cdcecf !important;
+    color: #646566 !important;
+    background: #f1f7fc !important;
+    opacity: .35;
+
+    .ui-icon {
+        filter: grayscale(1);
+    }
+
+    &:focus {
+        outline: none !important;
+    }
+
+    &.ui-state-active {
+        border: 1px solid #cdcecf !important;
+        color: #646566 !important;
+        background: #f1f7fc !important;
+        opacity: .35;
+
+        &:active, &:focus, &:hover {
+            border: 1px solid #cdcecf !important;
+            color: #646566 !important;
+            background: #f1f7fc !important;
+            opacity: .35;
+        }
+    }
+}
+
+
+
 

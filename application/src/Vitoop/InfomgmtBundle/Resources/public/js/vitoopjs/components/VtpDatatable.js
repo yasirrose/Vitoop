@@ -522,7 +522,7 @@ export default class VtpDatatable {
         return {
             render: (data,type,row,meta) => {
                 const url = `/conversation/${row.id}`;
-                return row.canRead ? this.getInternalUrlValue(url) : `<span class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink disabled"
+                return row.canRead ? this.getInternalUrlValue(url) : `<span class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink ui-state-disabled disabled"
                     style="background-color: #DDDDDD">
                     <span class="ui-icon ui-icon-extlink">-></span>
                 </span>`;
@@ -707,7 +707,7 @@ export default class VtpDatatable {
         if (row.canRead || vitoopState.state.admin) {
             return VtpDatatable.prototype.getInternalUrlValue(vitoop.baseUrl+'project/'+row.id, type, row, meta);
         }
-        return `<span class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink disabled"
+        return `<span class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink ui-state-disabled disabled"
                     style="background-color: #DDDDDD">
                     <span class="ui-icon ui-icon-extlink">-></span>
                 </span>`;
