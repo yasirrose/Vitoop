@@ -23,17 +23,33 @@ table.dataTable {
     &:not(#tags-list) {
 
         tr {
+            cursor: pointer;
 
             &:not(.divider-wrapper):hover {
 
                 td {
-                    background-color: #ffffff;
-                    color: #2779aa;
+                    //background-color: #ffffff;
+                    //color: #2779aa;
+                    background-color: #b8e0fa;
+                    color: #000000;
+
+                    &.vtp-blue {
+                        background: #7bc0f6; /* For browsers that do not support gradients */
+                        background: -webkit-linear-gradient(left, #7bc0f6 , #b8e0fa); /* For Safari 5.1 to 6.0 */
+                        background: -o-linear-gradient(right, #7bc0f6 , #b8e0fa); /* For Opera 11.1 to 12.0 */
+                        background: -moz-linear-gradient(right, #7bc0f6 , #b8e0fa); /* For Firefox 3.6 to 15 */
+                        background: linear-gradient(to right, #7bc0f6 , #b8e0fa); /* Standard syntax */
+                    }
 
                     &:not(.ui-state-active) {
 
+                        a.vtp-extlink {
+                            background: #e4f1fb url(../img/ui-bg_glass_100_e4f1fb_1x400.png) 50% 50% repeat-x;
+                        }
+
                         div.vtp-teasefader {
-                            background-image: linear-gradient(to right, rgba(222, 237, 247, 0), #ffffff 90%);
+                            //background-image: linear-gradient(to right, rgba(222, 237, 247, 0), #ffffff 90%);
+                            background-image: linear-gradient(to right, rgba(222, 237, 247, 0), #b8e0fa 90%);
                         }
                     }
                 }

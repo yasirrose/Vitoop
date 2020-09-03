@@ -518,7 +518,8 @@
         }
 
         &__message {
-            border-color: #517c95;
+            color: #878787;
+            border-color: #bbbbbb;
             transition: .5s;
             margin-bottom: 1rem;
 
@@ -533,8 +534,8 @@
             }
 
             legend {
-                color: #517c95;
-                font-weight: 600;
+                /*color: #517c95;*/
+                /*font-weight: 600;*/
                 font-size: 12px;
                 margin: 0 10px;
             }

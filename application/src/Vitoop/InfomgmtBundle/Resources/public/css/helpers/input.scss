@@ -25,6 +25,10 @@ input[type="text"], input[type="search"] {
   left: 0;
   transform: translate(0,-50%);
 
+  &:hover {
+    border-color: #bbbbbb !important;
+  }
+
   &__wrapper {
     padding-left: 20px;
     position: relative;
