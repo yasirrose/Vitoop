@@ -1369,7 +1369,7 @@ input.divider {
     }
 
     .divider-wrapper {
-        $divider-wrapper-border-color: #aed0ea;
+        $divider-wrapper-border-color: #bbbbbb;
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a3d4f0', endColorstr='#deedf7',GradientType=1 );
         border: $blue-frame-border;
         padding-left: 14px;
@@ -1904,7 +1904,6 @@ div#vtp-res-list table input[disabled="disabled"] {
     background: -o-linear-gradient(right, #7bc0f6 , #deedf7); /* For Opera 11.1 to 12.0 */
     background: -moz-linear-gradient(right, #7bc0f6 , #deedf7); /* For Firefox 3.6 to 15 */
     background: linear-gradient(to right, #7bc0f6 , #deedf7); /* Standard syntax */
-
 }
 
 .odd > td.vtp-blue {
@@ -1918,7 +1917,6 @@ div#vtp-res-list table input[disabled="disabled"] {
 
 td.vtp-blue.ui-state-active {
     background: #3baae3 url("../img/ui-bg_glass_50_3baae3_1x400.png") 50% 50% repeat-x;
-
 }
 
 #search_blue, .valid-checkbox {
@@ -1981,6 +1979,37 @@ a.vtp-uiaction-open-url:visited {
 #vtp-res-list {
     tr.vtp-uiaction-list-showdetail {
         height: $table-row-height;
+        &.odd {
+            .ui-state-active {
+                background: #f2f5f7;
+            }
+        }
+        &.even {
+            .ui-state-active {
+                background: #deedf7;
+            }
+        }
+        .ui-state-active {
+            border: 1px solid #bbbbbb !important;
+            border-right: none !important;
+            border-left: none !important;
+            font-weight: 400;
+            color: inherit !important;
+            &:first-child {
+                border-left: 1px solid #bbbbbb !important;
+            }
+            &:last-child {
+                border-right: 1px solid #bbbbbb !important;
+            }
+
+            a.vtp-uiaction-open-extlink, .vtp-projectdata-unlink {
+                border: 1px solid #2694e8;
+                background: #3baae3 url(../img/ui-bg_glass_50_3baae3_1x400.png) 50% 50% repeat-x;
+                .ui-icon {
+                    height: 17px;
+                }
+            }
+        }
     }
 
     td.dataTables_empty {
