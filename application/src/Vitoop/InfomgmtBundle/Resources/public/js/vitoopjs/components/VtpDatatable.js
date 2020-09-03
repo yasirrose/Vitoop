@@ -373,6 +373,7 @@ export default class VtpDatatable {
                 this.getCheckboxColumn(),
                 this.getNameColumn(),
                 this.getOwnerColumn(),
+                this.getRes12Column(),
                 this.getRatingColumn(),
                 this.getConversationUrlColumn()
             ]
