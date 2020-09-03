@@ -90,7 +90,7 @@ export default class RemarkWidget extends Widget {
             }),
             editor.on('change', function (e) {
                 $('.remark-agreement').css('display','flex');
-                // self.changeClassOfButton(e);
+                self.changeClassOfButton(e);
             });
         };
         tinyMCE.init(options);
