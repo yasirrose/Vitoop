@@ -4,6 +4,7 @@
         <th style="width:20px"></th>
         <th><span class="table-head">Titel</span></th>
         <th style="width:15%;"><span class="table-head">Autor</span></th>
+        <th style="width:42px;" data-b-searchable="false"><span class="table-head">RR</span></th>
         <th style="width:96px;" data-b-searchable="false"><span class="table-head">Bewertung</span></th>
         <th style="width: 44px"
             data-b-sortable="false"
