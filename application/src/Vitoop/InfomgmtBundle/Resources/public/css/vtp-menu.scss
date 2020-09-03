@@ -57,8 +57,8 @@ div#menu, ul, li {
     //height: 22px;
 }
 
-.vtp-menu ul li a:hover,
-.vtp-menu ul li a:active {
+.vtp-menu ul li a:hover:not(.ui-state-no-content),
+.vtp-menu ul li a:active:not(.ui-state-no-content) {
     border: 1px solid #2694e8;
     background: #3baae3 url("../img/ui-bg_glass_50_3baae3_1x400.png") 50% 50% repeat-x;
     font-weight: bold;

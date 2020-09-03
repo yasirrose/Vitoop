@@ -179,7 +179,7 @@
                 if (/prj|lex|conversation/.test(this.$route.name)) {
                     $('.vtp-uiaction-open-extlink').on('click', (e) => {
                         e.preventDefault();
-                        if (!e.currentTarget.classList.contains('disabled')) {
+                        if (!e.currentTarget.classList.contains('ui-state-disabled')) {
                             this.$store.commit('resetSecondSearchValues');
                             this.$router.push(e.currentTarget.pathname);
                         }

@@ -33,8 +33,6 @@ export default class RemarkWidget extends Widget {
                 event.stopPropagation();
             }
             $('#tab-title-remark').removeClass('ui-state-no-content');
-
-            return;
         });
 
         $('.remarks-button').on('click', function () {
@@ -77,7 +75,6 @@ export default class RemarkWidget extends Widget {
             $(RemarkWidget.buttonSaveId).removeClass('ui-state-need-to-save');
         }
     };
-
     initTinyMCE() {
         let self = this;
         if ($(self.remarkSheetViewId).length !== 0) {
@@ -93,11 +90,11 @@ export default class RemarkWidget extends Widget {
             }),
             editor.on('change', function (e) {
                 $('.remark-agreement').css('display','flex');
+                self.changeClassOfButton(e);
             });
         };
         tinyMCE.init(options);
     }
-
     initLockButton() {
         // Toggle lock/unlock-button initialization
         let btnLockRemark = $(this.containerId + ' input#remark_locked:checkbox');
