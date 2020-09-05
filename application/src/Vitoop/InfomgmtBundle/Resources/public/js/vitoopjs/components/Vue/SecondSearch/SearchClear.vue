@@ -33,11 +33,12 @@
         width: 34px;
         margin: 0px 2px 0 4px;
         height: 22px;
-        background: -webkit-linear-gradient(bottom, #e8f3fa, #7cc0f6); /* For Safari 5.1 to 6.0 */
-        background: -o-linear-gradient(top, #7cc0f6 , #e8f3fa); /* For Opera 11.1 to 12.0 */
-        background: -moz-linear-gradient(top, #7cc0f6 , #e8f3fa); /* For Firefox 3.6 to 15 */
-        background: linear-gradient(to top, #7cc0f6 , #e8f3fa);
-        /*background-size: 7% auto;*/
-        background-repeat: no-repeat;
+        background: linear-gradient(to top, #7cc0f6 , #e8f3fa) no-repeat;
+        &:hover {
+            background: linear-gradient(to top, lighten(#7cc0f6, 10%) , lighten(#e8f3fa, 10%)) no-repeat;
+        }
+        &:active {
+            background: linear-gradient(to top, darken(#7cc0f6, 10%) , darken(#e8f3fa, 10%)) no-repeat;
+        }
     }
 </style>

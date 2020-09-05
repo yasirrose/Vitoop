@@ -552,7 +552,7 @@ window.resourceDetail = (function () {
             if (res_type === 'lex' ||  res_type === 'prj' || res_type === 'conversation') {
                 const grossButton = document.createElement('a');
                 grossButton.innerText = 'gross';
-                grossButton.className = 'vtp-extlink vtp-extlink-lexicon vtp-uiaction-open-extlink';
+                grossButton.className = 'vtp-extlink vtp-extlink-lexicon vtp-uiaction-open-extlink ui-state-default';
                 if (!canRead) grossButton.classList.add('ui-state-disabled');
                 grossButton.addEventListener('click', () => {
                     if (canRead) window.location.href = `${window.location.origin}${viewUrl}`;

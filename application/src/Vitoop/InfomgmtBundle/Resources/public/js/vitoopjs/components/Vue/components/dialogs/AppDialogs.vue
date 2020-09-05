@@ -96,4 +96,33 @@
             height: 1px;
         }
     }
+
+    .ui-dialog-titlebar, #form-flaginfo {
+
+        .ui-state-active {
+            .ui-icon {
+                background-image: url(/../img/ui-icons_3d80b3_256x240.png) !important;
+            }
+            &:not(.ui-state-disabled):not(th) {
+                &:focus {
+                    outline: none !important;
+                    border-color: #74b2e2 !important;
+                }
+                &:active {
+                    background: linear-gradient(to top, lighten(#7cc0f6, 10%) 40%, lighten(#e8f3fa, 10%) 131%) !important;
+                }
+            }
+        }
+    }
+
+    li.ui-state-active {
+
+        &:hover {
+            border-bottom: none !important;
+        }
+
+        a {
+            color: white !important;
+        }
+    }
 </style>

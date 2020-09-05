@@ -423,7 +423,9 @@ input[type="submit"], .vtp-button {
 .vtp-extlink {
     display: inline-block !important;
     @include blue-border-radius();
-    /*margin-left: 0.2em !important;*/
+    &:active {
+        background: linear-gradient(to top, lighten(#7cc0f6, 10%) 40%, lighten(#e8f3fa, 10%) 131%);
+    }
 }
 
 .vtp-extlink-list {
@@ -1632,9 +1634,9 @@ div#vtp-forgot form input[type=submit]
 
 #remark_save:hover, #tag_confirm_save:hover,
 #vtp-forgot input[type=submit]:hover,
-#vtp-imprint button:hover,
+//#vtp-imprint button:hover,
 #vtp_search_date:hover,
-#vtp-imprint a:hover,
+//#vtp-imprint a:hover,
 a.ui-button:hover,
 a.vtp-extlink:hover,
 .vtp-button:hover {
@@ -1652,10 +1654,10 @@ a.vtp-extlink:hover,
 a.ui-button:active,
 a.vtp-extlink:active,
 .vtp-button:active {
-    border: $blue-active-frame-border;
-    background: #3baae3 url("../img/ui-bg_glass_50_3baae3_1x400.png") 50% 50% repeat-x;
-    font-weight: bold;
-    color: #ffffff;
+    //border: $blue-active-frame-border;
+    //background: #3baae3 url("../img/ui-bg_glass_50_3baae3_1x400.png") 50% 50% repeat-x;
+    //font-weight: bold;
+    //color: #ffffff;
 }
 
 #open_lexicon_link {
@@ -2001,12 +2003,12 @@ a.vtp-uiaction-open-url:visited {
             &:last-child {
                 border-right: 1px solid #bbbbbb !important;
             }
-
             a.vtp-uiaction-open-extlink, .vtp-projectdata-unlink {
                 border: 1px solid #2694e8;
                 background: #3baae3 url(../img/ui-bg_glass_50_3baae3_1x400.png) 50% 50% repeat-x;
+                margin-right: 6px;
                 .ui-icon {
-                    height: 17px;
+                    height: 16px;
                 }
             }
         }

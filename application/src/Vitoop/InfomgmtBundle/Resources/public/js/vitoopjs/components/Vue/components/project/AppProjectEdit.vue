@@ -142,13 +142,13 @@
                             </p>
                             <button @click="isDeleting = true"
                                     v-if="!isDeleting"
-                                    class="ui-corner-all vtp-button-light" style="margin-top: 20px; width: 100%">Projekt löschen</button>
+                                    class="ui-state-default ui-corner-all vtp-button-light" style="margin-top: 20px; width: 100%">Projekt löschen</button>
                             <button @click="remove"
                                     v-if="isDeleting"
-                                    class="ui-corner-all vtp-fh-w30 vtp-button-light">Ja</button>
+                                    class="ui-state-default ui-corner-all vtp-fh-w30 vtp-button-light">Ja</button>
                             <button @click="isDeleting = false"
                                     v-if="isDeleting"
-                                    class="ui-corner-all vtp-fh-w30 vtp-button-light">Nein</button>
+                                    class="ui-state-default ui-corner-all vtp-fh-w30 vtp-button-light">Nein</button>
                         </div>
                         <div class="vtp-fh-w100 vtp-new-user-info"></div>
                     </div>

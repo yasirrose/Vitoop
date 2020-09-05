@@ -1,0 +1,40 @@
+$blue-hover: #74b2e2;
+
+button, a, li {
+    &.ui-state-active {
+        cursor: pointer;
+        background: linear-gradient(to top, #7cc0f6 40%, #e8f3fa 131%) !important;
+        border-color: #a6d4f7;
+        color: white !important;
+
+        &:hover {
+            border: 1px solid #74b2e2 !important;
+            background: linear-gradient(to top, darken(#7cc0f6, 10%) 40%, darken(#e8f3fa, 10%) 131%) !important;
+        }
+
+        &:active {
+            background: linear-gradient(to top, darken(#7cc0f6, 15%) 40%, darken(#e8f3fa, 15%) 131%) !important;
+        }
+    }
+}
+
+.ui-state-default {
+    transition: .3s;
+
+    &:not(.ui-state-disabled):not(th) {
+
+        &:hover {
+            border-color: #74b2e2;
+            background: #e4f1fb url(../img/ui-bg_glass_100_e4f1fb_1x400.png) 50% 50% repeat-x;
+        }
+
+        &:focus {
+            outline: none;
+            border-color: $blue-hover;
+        }
+
+        &:active {
+            background: linear-gradient(to top, lighten(#7cc0f6, 10%) 40%, lighten(#e8f3fa, 10%) 131%);
+        }
+    }
+}
