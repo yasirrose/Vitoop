@@ -62,15 +62,15 @@
                         <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all" v-show="isSuccess" style="transition: 0s linear all;"><span class="vtp-icon ui-icon ui-icon-info"></span><span>{{ message }}</span></div>
                         <div class="vtp-fh-w70">
                             <p v-show="isDeleting">Soll das Nutzerkonto: "{{ user.username }}" endgültig gelöscht werden?</p>
-                            <button v-on:click="isDeleting = true" v-show="!isDeleting" class="ui-corner-all vtp-button-light">Benutzerkonto löschen</button>
-                            <button v-on:click="deactivate()" v-show="isDeleting" class="ui-corner-all vtp-fh-w30 vtp-button-light">Ja</button>
-                            <button v-on:click="isDeleting = false" v-show="isDeleting" class="ui-corner-all vtp-fh-w30 vtp-button-light">Nein</button>
+                            <button v-on:click="isDeleting = true" v-show="!isDeleting" class="ui-state-default ui-corner-all vtp-button-light">Benutzerkonto löschen</button>
+                            <button v-on:click="deactivate()" v-show="isDeleting" class="ui-state-default ui-corner-all vtp-fh-w30 vtp-button-light">Ja</button>
+                            <button v-on:click="isDeleting = false" v-show="isDeleting" class="ui-state-default ui-corner-all vtp-fh-w30 vtp-button-light">Nein</button>
                         </div>
                         <div class="vtp-fh-w30" style="float: right; text-align: right">
                             <button @click="save()"
                                     v-show="!isDeleting"
                                     :class="isNeedToSave ? 'ui-state-need-to-save': ''"
-                                    class="ui-corner-all vtp-fh-w30 vtp-button-light"
+                                    class="ui-state-default ui-corner-all vtp-fh-w30 vtp-button-light"
                                     style="margin-right: 15px">speichern</button>
                             <span v-show="isError" id="error-span" class="form-error"><span>{{ errorMessage }}</span></span>
                         </div>

@@ -99,13 +99,13 @@
                 <span class="ui-button-icon-primary ui-icon ui-icon-notice"></span>
                 <span class="ui-button-text"></span>
             </button>
-            <a @click.prevent="$router.push('/user/settings')"
+            <button @click.prevent="$router.push('/user/settings')"
                id="vtp-user-userdata"
                class="vtp-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
                title="Einstellungen">
                 <i class="fas fa-bars"></i>
                 <span class="ui-button-text"></span>
-            </a>
+            </button>
         </div>
         <div v-else>
             <form id="vtp-header-login"

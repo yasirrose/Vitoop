@@ -3,55 +3,55 @@
          class="vtp-menu ui-corner-all" style="margin-top: 5px">
         <ul>
             <li>
-                <a class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
+                <button class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
                     :class="{'vtp-nav-active ui-state-active': $route.name === 'project'}"
                     @click="$router.push({path: `/project/${getResource('id')}`})"
                     v-if="getInProject">
                     Projekt-Hauptseite
-                </a>
-                <a class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
+                </button>
+                <button class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
                    :class="{'vtp-nav-active ui-state-active': $route.name === 'lexicon'}"
                    @click="$router.push(`/lexicon/${getResource('id')}`)"
                    v-else-if="!getInProject && getResource('id') && !get('conversationInstance')">
                     {{ $t('page.lexicon') }}
-                </a>
-                <a class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
+                </button>
+                <button class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
                    :class="{'vtp-nav-active ui-state-active': $route.name === 'conversation'}"
                    @click="$router.push(`/conversation/${getResource('id')}`)"
                    v-else-if="getResource('id') && get('conversationInstance')">
                     Conversation
-                </a>
+                </button>
             </li>
             <li v-if="showConversation">
-                <a class="vtp-resmenu-reslink ui-state-default ui-corner-all"
+                <button class="vtp-resmenu-reslink ui-state-default ui-corner-all"
                    @click="changeRoute('conversation')"
                    :class="{
                     'ui-state-no-content': noContent('conv'),
                     'vtp-nav-active ui-state-active': /conversation/.test($route.name)
                    }">
                     Nachricht
-                </a>
+                </button>
             </li>
             <li v-if="isAllInOneList">
-                <a class="vtp-resmenu-reslink ui-state-default ui-corner-all"
+                <button class="vtp-resmenu-reslink ui-state-default ui-corner-all"
                    @click="changeRoute('all')"
                    :class="{
                     'vtp-nav-active ui-state-active': /all/.test($route.name)
                    }" style="padding: 0 17px">
                     verknüpfte Datensätze
-                </a>
+                </button>
             </li>
             <li v-for="(value,name) in resources"
                 v-if="!isAllInOneList"
                 :key="name">
-                <a class="vtp-resmenu-reslink ui-state-default ui-corner-all"
+                <button class="vtp-resmenu-reslink ui-state-default ui-corner-all"
                    @click="changeRoute(name)"
                    :class="{
                     'ui-state-no-content': noContent(name),
                     'vtp-nav-active ui-state-active': $route.name === name
                    }">
                     {{ value }}
-                </a>
+                </button>
             </li>
         </ul>
         <div class="d-flex align-center">
@@ -244,6 +244,17 @@
 </script>
 
 <style scoped lang="scss">
+
+    .vtp-menu {
+
+        li {
+
+            button {
+                height: 24px;
+            }
+        }
+    }
+
     .vtp-resmenu-homelink {
         font-size: 1em;
         padding: 0 0.5em;
