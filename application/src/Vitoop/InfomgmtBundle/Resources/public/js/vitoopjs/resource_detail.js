@@ -553,9 +553,13 @@ window.resourceDetail = (function () {
                 const grossButton = document.createElement('a');
                 grossButton.innerText = 'gross';
                 grossButton.className = 'vtp-extlink vtp-extlink-lexicon vtp-uiaction-open-extlink ui-state-default';
-                if (!canRead) grossButton.classList.add('ui-state-disabled');
+                if (!canRead && res_type !== 'lex') grossButton.classList.add('ui-state-disabled');
                 grossButton.addEventListener('click', () => {
-                    if (canRead) window.location.href = `${window.location.origin}${viewUrl}`;
+                    if (res_type !== 'lex') {
+                        if (canRead) window.location.href = `${window.location.origin}${viewUrl}`;
+                    } else {
+                        window.location.href = `${window.location.origin}${viewUrl}`;
+                    }
                 });
                 $('.ui-tabs-nav').append(grossButton);
 
