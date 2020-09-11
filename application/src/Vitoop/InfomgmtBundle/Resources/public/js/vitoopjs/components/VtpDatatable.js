@@ -167,16 +167,37 @@ export default class VtpDatatable {
         $('input.divider').off();
         const editMode = vitoopState.state.edit;
         const self = this;
-        const coefsToSave = [];
         const coefInputs = document.querySelectorAll('tr:not(.divider-wrapper) .vtp-uiaction-coefficient');
+        const dividersCoefsInputs = document.querySelectorAll('tr.divider-wrapper .vtp-uiaction-coefficient');
+        const dividersTextInputs = document.querySelectorAll('tr.divider-wrapper .divider');
+
         coefInputs.forEach(input => {
             input.addEventListener('input', () => {
-                // const resId = input.closest('tr').id.match(/\d/g).join('');
                 const coefId = input.dataset.rel_id;
                 vitoopState.commit('addCoefToSave', { coefId: coefId, value: input.value });
                 vitoopState.commit('updateCoef', { coefId: coefId, value: input.value });
             });
         });
+
+        dividersTextInputs.forEach(input => {
+            input.addEventListener('input', () => {
+                vitoopState.commit('addDividerToSave', {
+                    text: input.value,
+                    coefficient: input.dataset.coef,
+                });
+            });
+        });
+
+        dividersCoefsInputs.forEach(input => {
+            input.addEventListener('input', () => {
+                vitoopState.commit('addDividerToSave', {
+                    id: input.dataset.rel_id,
+                    text: input.closest('tr').querySelector('input.divider').value,
+                    coefficient: input.value,
+                });
+            });
+        });
+
         if (editMode) {
             $('.vtp-projectdata-unlink').on('click', function(e) {
                 e.stopPropagation();
@@ -190,46 +211,6 @@ export default class VtpDatatable {
                     .catch(err => {
                         console.dir(err);
                         // $('#vtp-projectdata-title').append('<span class="form-error">Vitoooops!: ' + err.message + '</span>');
-                    });
-            });
-            $('input.divider').on('focusout', function() {
-                if ($(this).val() != $(this).data('original')) {
-                    $('.vtp-uiaction-coefficient, input.divider').attr('disabled', true);
-                    $.ajax({
-                        dataType: 'json',
-                        delegate: true,
-                        context: this,
-                        contentType: 'application/json',
-                        data: JSON.stringify({'text': $(this).val(), 'coefficient': $(this).data('coef')}),
-                        method: 'POST',
-                        url: vitoop.baseUrl + 'api/project/' + projectId + '/divider',
-                        success: function () {
-                            $('.vtp-uiaction-coefficient, input.divider').attr('disabled', false);
-                            $(this).data('original', $(this).val());
-                        }
-                    });
-                }
-            });
-            $('tr.divider-wrapper input.vtp-uiaction-coefficient').on('focusout', e => {
-                const id = e.target.dataset['rel_id'];
-                const coefficient = e.target.value;
-                const text = $(e.target.closest('tr')).find('input.divider')[0].value;
-                axios.put(`/api/v1/projects/${projectId}/dividers/${id}`, {
-                    id,
-                    text,
-                    coefficient,
-                })
-                    .then(response => {
-                        reloadTableAfterCoef();
-                    })
-                    .catch(err => {
-                        vitoopState.commit('set', {
-                            key: 'error',
-                            value: err.response.data.messages[0]
-                        });
-                        setTimeout(() => {
-                            vitoopState.commit('set', { key: 'error', value: null });
-                        }, 3000);
                     });
             });
         }

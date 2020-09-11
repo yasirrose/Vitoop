@@ -36,6 +36,7 @@ export default {
         rowNumberBlinker: true,
     },
     coefsToSave: [],
+    dividersToSave: [],
     tagList: {
         show: false,
     },

@@ -58,8 +58,8 @@
             <div v-if="get('project')">
                 <button id="vtp-project-save-coef"
                         class="ui-state-default ui-state-active"
-                        @click="saveNewCoefs"
-                        :class="{show: get('coefsToSave').length}">
+                        @click="save"
+                        :class="{show: get('coefsToSave').length || get('dividersToSave').length}">
                     <span>speichern</span>
                 </button>
                 <help-button help-area="project" />
@@ -114,7 +114,7 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex';
+    import { mapGetters, mapState } from 'vuex';
     import VtpConfirmMixin from '../mixins/confirmMixin';
     import ShowTagsMixin from '../mixins/showTags';
     import { ResourceList } from "../../../resource_list";
@@ -140,6 +140,11 @@
             }
         },
         computed: {
+            ...mapState({
+                dividers: ({ dividersToSave }) => dividersToSave,
+                dividerTexts: ({ dividersToSave }) => dividersToSave.filter(divider => !divider.hasOwnProperty('id')),
+                dividerCoefs: ({ dividersToSave }) => dividersToSave.filter(divider => divider.hasOwnProperty('id')),
+            }),
             ...mapGetters([
                 'getResource', 'getResourceId', 'getInProject', 'get', 'getProjectData', 'getIsAllRecords'
             ]),
@@ -188,33 +193,59 @@
                     })
                 }
             },
-            saveNewCoefs() {
-                this.get('coefsToSave').forEach((coefObj,index) => {
-                    this.checkIfDividerExist(coefObj.value)
-                        .then(dividerExist => {
-                            if (!dividerExist) {
-                                this.addNewDivider(coefObj.value)
+            save() {
+                this.saveCoefficients()
+                    .then(msg => {
+                        console.log(msg);
+                        this.saveDividerTexts()
+                            .then((msg) => {
+                                console.log(msg);
+                                this.updateDividerCoefs()
                                     .then(() => {
-                                        this.saveCoef(coefObj,index)
-                                    })
-                                    .catch(err => console.dir(err))
-                            } else {
-                                this.saveCoef(coefObj,index)
-                            }
-                        })
-                        .catch(err => console.dir(err))
-                })
+                                        this.$store.commit('set', {key: 'coefsToSave', value: []});
+                                        this.$store.commit('set', {key: 'dividersToSave', value: []});
+                                        VueBus.$emit('datatable:reload');
+                                    });
+                            });
+                    });
+            },
+            saveCoefficients() {
+                return new Promise((resolve, reject) => {
+                    console.log('start');
+                    if (this.get('coefsToSave').length) {
+                        this.get('coefsToSave').forEach((coefObj, index) => {
+                            this.checkIfDividerExist(coefObj.value)
+                                .then(dividerExist => {
+                                    console.log('divider exist ', dividerExist);
+                                    if (!dividerExist) {
+                                        this.addNewDivider(coefObj.value)
+                                            .then(() => {
+                                                this.saveCoef(coefObj, index)
+                                                    .then(last => {
+                                                        if (last) resolve('last coef saved');
+                                                    })
+                                            })
+                                            .catch(err => console.dir(err))
+                                    } else {
+                                        this.saveCoef(coefObj, index)
+                                            .then(last => {
+                                                if (last) resolve('last coef saved');
+                                            });
+                                    }
+                                })
+                                .catch(err => console.dir(err))
+                        });
+                    } else {
+                        resolve('there are no coefs');
+                    }
+                });
             },
             saveCoef(coefObj,index) {
-                return axios.put(`/api/v1/projects/${this.get('resource').id}/dividers/${coefObj.coefId}`, {
-                  id: coefObj.coefId,
-                  coefficient: coefObj.value,
+                return axios.post(`/api/rrr/${coefObj.coefId}/coefficient`, {
+                    value: coefObj.value
                 })
                     .then(() => {
-                        if (index === this.get('coefsToSave').length-1) {
-                            this.$store.commit('set', {key: 'coefsToSave', value: []});
-                            VueBus.$emit('datatable:reload');
-                        }
+                        return index === this.get('coefsToSave').length-1;
                     })
                     .catch(err => console.dir(err));
             },
@@ -238,6 +269,48 @@
                         return
                     })
                     .catch(err => console.dir(err));
+            },
+            saveDividerTexts() {
+                return new Promise((resolve, reject) => {
+                    if (this.dividerTexts.length) {
+                        console.log('start divider texts');
+                        this.dividerTexts.forEach((divider, index) => {
+                            this.updateDividerText(divider, index)
+                                .then(last => {
+                                    if (last) resolve('last divider text updated');
+                                });
+                        })
+                    } else {
+                        resolve('there are no divider texts')
+                    }
+                });
+            },
+            updateDividerText(divider, index) {
+                return axios.post(`/api/project/${this.getResourceId}/divider`, divider)
+                    .then(() => {
+                        return index === this.dividerTexts.length - 1;
+                    })
+                    .catch(err => console.dir(err));
+            },
+            updateDividerCoefs() {
+                return new Promise((resolve, reject) => {
+                    if (this.dividerCoefs.length) {
+                        this.dividerCoefs.forEach((divider, index) => {
+                            this.updateDividerCoef(divider, index)
+                                .then(last => {
+                                    if (last) resolve();
+                                })
+                        })
+                    } else {
+                        resolve();
+                    }
+                })
+            },
+            updateDividerCoef(divider, index) {
+                return axios.put(`/api/v1/projects/${this.getResourceId}/dividers/${divider.id}`, divider)
+                    .then(() => {
+                        return index === this.dividerCoefs.length - 1;
+                    });
             }
         }
     }
@@ -282,6 +355,7 @@
         border-radius: 6px;
         padding: 0 20px 2px;
         opacity: 0;
+        position: relative;
         z-index: -1;
         transform: translateX(-30px);
         transition: .3s;
