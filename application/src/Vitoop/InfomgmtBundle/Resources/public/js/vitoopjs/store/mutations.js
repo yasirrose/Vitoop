@@ -47,6 +47,11 @@ export default {
         coefIndex > -1 ?
             coefsToSave.splice(coefIndex, 1, coefObj) : coefsToSave.push(coefObj);
     },
+    addDividerToSave({ dividersToSave }, divider) {
+        const index = _.findIndex(dividersToSave, { coefficient: divider.coefficient });
+        index > -1 ?
+            dividersToSave.splice(index, 1, divider) : dividersToSave.push(divider);
+    },
 
     updateTagListShowing(state, value) {
         state.tagList.show = value
