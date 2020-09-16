@@ -22,9 +22,9 @@ export default class PrivateRemarkWidget extends Widget{
         let setIntervalForText = function() {
             return setInterval(function () {
                 if (tinyMCE.activeEditor && tinyMCE.activeEditor.isDirty()) {
-                    $(self.buttonSaveId).addClass('ui-state-need-to-save');
+                    $(self.buttonSaveId).addClass('ui-state-active'); // ui-state-need-to-save
                 } else {
-                    $(self.buttonSaveId).removeClass('ui-state-need-to-save');
+                    $(self.buttonSaveId).removeClass('ui-state-active'); // ui-state-need-to-save
                 }
             }, 2000);
         };

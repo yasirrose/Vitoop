@@ -20,10 +20,29 @@ table.dataTable {
     border-collapse: separate;
     border-spacing: 0;
 
+    tbody:before {
+        content: "-";
+        display: block;
+        line-height: 0;
+        height: 1px;
+        color: transparent;
+    }
+
     &:not(#tags-list) {
 
         tr {
             cursor: pointer;
+
+            &:not(.divider-wrapper) {
+
+                td {
+                    border: 1px solid transparent !important;
+
+                    &:first-child {
+                        border-right: none !important;
+                    }
+                }
+            }
 
             &:not(.divider-wrapper):hover {
 

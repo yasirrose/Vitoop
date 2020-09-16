@@ -31,7 +31,7 @@
                     <button id="vtp-search-bytags-form-submit"
                             class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only"
                             value="Suche"
-                            :class="{act: active}"
+                            :class="{'ui-state-active': active}"
                             v-if="active"
                             @click="reloadTable">
                         <span class="ui-button-icon-primary ui-icon ui-icon-refresh"></span>
@@ -463,7 +463,7 @@
             opacity: .3;
 
             &-to {
-                width: 62px !important;
+                /*width: 62px !important;*/
                 transform: scale(1) !important;
                 opacity: 1 !important;
             }
@@ -474,7 +474,7 @@
         }
 
         &-leave {
-            width: 62px !important;
+            /*width: 62px !important;*/
             transform: scale(1) !important;
             opacity: 1 !important;
 
