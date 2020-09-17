@@ -577,6 +577,7 @@ span.vtp-search-bytags-tag {
 span.vtp-tagbox-cnttag,
 span.vtp-lexiconbox-cntres {
     font-size: 0.8em;
+    color: $vitoop-blue-color;
 }
 
 span.vtp-icon-tag,
@@ -1361,13 +1362,13 @@ input.divider {
     width: 50%;
     height: 16px;
     padding-left: 35px;
-    transform: translateY(-1px);
+    transform: translateY(1px);
 }
 
 #vtp-res-list {
 
     input.vtp-uiaction-coefficient {
-        height: 20px;
+        height: 18px;
     }
 
     .divider-wrapper {
@@ -1382,7 +1383,7 @@ input.divider {
         td {
             border-top: 1px solid $divider-wrapper-border-color !important;
             border-bottom: 1px solid $divider-wrapper-border-color !important;
-            padding: 0 8px;
+            padding: 4px 8px 2px;
 
             &:first-child {
                 border-left: 1px solid $divider-wrapper-border-color !important;
@@ -1398,10 +1399,10 @@ input.divider {
             overflow: hidden;
             text-overflow: ellipsis;
             display: block;
-            height: 21px;
+            height: 22px;
             width: 760px;
-            padding-top: 2px;
-            padding-bottom: 1px;
+            padding-top: 3px;
+            padding-bottom: 0px;
 
             & + td {
                 background: transparent !important;
@@ -1525,10 +1526,10 @@ input.divider {
 }
 
 .ui-state-no-content.ui-state-active {
-    border: $blue-active-frame-border;
-    background: #3baae3 url("../img/ui-bg_glass_50_3baae3_1x400.png") 50% 50% repeat-x !important;
-    font-weight: bold;
-    color: #ffffff;
+    //border: $blue-active-frame-border;
+    //background: #3baae3 url("../img/ui-bg_glass_50_3baae3_1x400.png") 50% 50% repeat-x !important;
+    //font-weight: bold;
+    //color: #ffffff;
 }
 
 
@@ -1900,20 +1901,21 @@ div#vtp-res-list table input[disabled="disabled"] {
     }
 }
 
+$blue-gradient-start: #8fc9f6; // #7bc0f6
 .even > td.vtp-blue {
-    background: #7bc0f6; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left, #7bc0f6 , #deedf7); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #7bc0f6 , #deedf7); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, #7bc0f6 , #deedf7); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, #7bc0f6 , #deedf7); /* Standard syntax */
+    background: $blue-gradient-start; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left, $blue-gradient-start , #deedf7); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, $blue-gradient-start , #deedf7); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, $blue-gradient-start , #deedf7); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, $blue-gradient-start , #deedf7); /* Standard syntax */
 }
 
 .odd > td.vtp-blue {
-    background: #7bc0f6; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left, #7bc0f6 , $vitoop-body-background-color); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #7bc0f6 , $vitoop-body-background-color); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, #7bc0f6 , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, #7bc0f6 , $vitoop-body-background-color); /* Standard syntax */
+    background: $blue-gradient-start; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left, $blue-gradient-start , $vitoop-body-background-color); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, $blue-gradient-start , $vitoop-body-background-color); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, $blue-gradient-start , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, $blue-gradient-start , $vitoop-body-background-color); /* Standard syntax */
 
 }
 

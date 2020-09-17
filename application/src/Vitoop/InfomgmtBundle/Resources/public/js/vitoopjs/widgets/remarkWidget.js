@@ -70,9 +70,9 @@ export default class RemarkWidget extends Widget {
             (($(RemarkWidget.remarkAcceptedId).length == 0) ||
                 ($(RemarkWidget.remarkAcceptedId).prop('checked')))
         ) {
-            $(RemarkWidget.buttonSaveId).addClass('ui-state-need-to-save');
+            $(RemarkWidget.buttonSaveId).addClass('ui-state-active'); // ui-state-need-to-save
         } else {
-            $(RemarkWidget.buttonSaveId).removeClass('ui-state-need-to-save');
+            $(RemarkWidget.buttonSaveId).removeClass('ui-state-active'); // ui-state-need-to-save
         }
     };
     initTinyMCE() {

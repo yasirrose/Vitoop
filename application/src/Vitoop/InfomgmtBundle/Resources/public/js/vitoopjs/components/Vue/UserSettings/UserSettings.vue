@@ -69,9 +69,9 @@
                         <div class="vtp-fh-w30" style="float: right; text-align: right">
                             <button @click="save()"
                                     v-show="!isDeleting"
-                                    :class="isNeedToSave ? 'ui-state-need-to-save': ''"
+                                    :class="isNeedToSave ? 'ui-state-active': ''"
                                     class="ui-state-default ui-corner-all vtp-fh-w30 vtp-button-light"
-                                    style="margin-right: 15px">speichern</button>
+                                    style="margin-right: 15px">speichern</button> <!-- ui-state-need-to-save -->
                             <span v-show="isError" id="error-span" class="form-error"><span>{{ errorMessage }}</span></span>
                         </div>
                     </div>

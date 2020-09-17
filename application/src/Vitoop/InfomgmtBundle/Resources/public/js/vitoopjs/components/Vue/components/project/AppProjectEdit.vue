@@ -23,8 +23,8 @@
                             <div>
                                 <button @click="save"
                                         class="ui-corner-all ui-state-default"
-                                        :class="{'ui-corner-all ui-state-need-to-save': needToSave}"
-                                        style="padding-bottom: 5px; padding-top: 5px; width: 100%">speichern</button>
+                                        :class="{'ui-corner-all ui-state-active': needToSave}"
+                                        style="padding-bottom: 5px; padding-top: 5px; width: 100%">speichern</button> <!-- ui-state-need-to-save -->
                             </div>
                             <div style="vertical-align: bottom; text-align: left; color: #2779aa; font-size: 14px; padding-top: 10px;">
                                 <div>
