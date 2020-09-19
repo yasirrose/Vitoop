@@ -61,12 +61,12 @@
                 </div>
             </div>
             <div id="vtp-second-search-panel">
-                    <span class="ui-button ui-state-default ui-widget ui-corner-all vtp-button"
+                    <button class="ui-button ui-state-default ui-widget ui-corner-all vtp-button"
                           id="vtp-second-search-is-read"
                           @click="isReadToggle"
                           :class="{ 'ui-state-active': $store.state.secondSearch.isReadFilter }">
                         {{ getReadButtonLabel }}
-                    </span>
+                    </button>
                 <label style="position: relative">
                     <input type="search"
                            class="vtp-second-search-input"
