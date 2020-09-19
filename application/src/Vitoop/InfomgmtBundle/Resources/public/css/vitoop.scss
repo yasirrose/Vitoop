@@ -1901,21 +1901,21 @@ div#vtp-res-list table input[disabled="disabled"] {
 }
 
 $blue-gradient-start: #8fc9f6; // #7bc0f6
-.even > td.vtp-blue {
-    background: $blue-gradient-start; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left, $blue-gradient-start , #deedf7); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, $blue-gradient-start , #deedf7); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, $blue-gradient-start , #deedf7); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, $blue-gradient-start , #deedf7); /* Standard syntax */
-}
 
-.odd > td.vtp-blue {
+.even > td.vtp-blue {
     background: $blue-gradient-start; /* For browsers that do not support gradients */
     background: -webkit-linear-gradient(left, $blue-gradient-start , $vitoop-body-background-color); /* For Safari 5.1 to 6.0 */
     background: -o-linear-gradient(right, $blue-gradient-start , $vitoop-body-background-color); /* For Opera 11.1 to 12.0 */
     background: -moz-linear-gradient(right, $blue-gradient-start , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
     background: linear-gradient(to right, $blue-gradient-start , $vitoop-body-background-color); /* Standard syntax */
+}
 
+.odd > td.vtp-blue {
+    background: $blue-gradient-start; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left, $blue-gradient-start , #deedf7); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, $blue-gradient-start , #deedf7); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, $blue-gradient-start , #deedf7); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, $blue-gradient-start , #deedf7); /* Standard syntax */
 }
 
 td.vtp-blue.ui-state-active {
