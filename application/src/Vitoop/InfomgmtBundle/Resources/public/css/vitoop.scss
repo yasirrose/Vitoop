@@ -329,24 +329,24 @@ div#vtp-res-tags td,
     @include border-radius(30px);
 }
 
-.odd > td {
-    background-color: $vitoop-body-background-color;
-    color: $vitoop-body-color;
-}
-
-.even > td, th {
+.odd > td, th {
     background-color: $vitoop-even-background-color;
     color: #222222;
 }
 
+.even > td {
+    background-color: $vitoop-body-background-color;
+    color: $vitoop-body-color;
+}
+
 tr.odd div.vtp-teasefader {
-    /* #f2f5f7 ($vitoop-body-background-color) */
-    background-image: linear-gradient(to right, rgba(242, 245, 247, 0), rgba(242, 245, 247, 1) 90%);
+    /* #deedf7 */
+    background-image: linear-gradient(to right, rgba(222, 237, 247, 0), rgba(222, 237, 247, 1) 90%);
 }
 
 tr.even div.vtp-teasefader {
-    /* #deedf7 */
-    background-image: linear-gradient(to right, rgba(222, 237, 247, 0), rgba(222, 237, 247, 1) 90%);
+    /* #f2f5f7 ($vitoop-body-background-color) */
+    background-image: linear-gradient(to right, rgba(242, 245, 247, 0), rgba(242, 245, 247, 1) 90%);
 }
 
 tr.vtp-hilight td {
@@ -1455,7 +1455,7 @@ input.divider {
 
 #vtp-projectdata-project-live, #vtp-projectdata-project-edit, #vtp-projectdata-project-help, #vtp-lexicondata-lexicon-help {
     display: inline-block;
-    border: $blue-frame-border;
+    //border: $blue-frame-border;
     background-color: $vitoop-body-background-color;
     cursor: pointer;
     width: 34px;
@@ -1982,12 +1982,12 @@ a.vtp-uiaction-open-url:visited {
 #vtp-res-list .dataTable {
     tr.vtp-uiaction-list-showdetail {
         height: $table-row-height;
-        &.odd {
+        &.even {
             .ui-state-active {
                 background: #f2f5f7;
             }
         }
-        &.even {
+        &.odd {
             .ui-state-active {
                 background: #deedf7;
             }
