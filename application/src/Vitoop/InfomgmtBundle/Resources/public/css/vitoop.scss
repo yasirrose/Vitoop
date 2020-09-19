@@ -2005,8 +2005,8 @@ a.vtp-uiaction-open-url:visited {
                 border-right: 1px solid #bbbbbb !important;
             }
             a.vtp-uiaction-open-extlink, .vtp-projectdata-unlink {
-                border: 1px solid #2694e8;
-                background: #3baae3 url(../img/ui-bg_glass_50_3baae3_1x400.png) 50% 50% repeat-x;
+                background: linear-gradient(to top, #7cc0f6 40%, #e8f3fa 131%) !important;
+                border-color: #a6d4f7;
                 margin-right: 6px;
                 .ui-icon {
                     height: 16px;
