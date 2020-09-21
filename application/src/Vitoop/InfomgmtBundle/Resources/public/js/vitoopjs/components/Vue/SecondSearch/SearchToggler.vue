@@ -55,7 +55,7 @@
 
     .ui-state-default.vtp-toggler-active {
         /*background: linear-gradient(to top, #e8f3fa, #7cc0f6);*/
-        background: linear-gradient(to top, #7cc0f6 , #e8f3fa) no-repeat;
+        background: linear-gradient(to bottom, #7cc0f6 , #e8f3fa) no-repeat;
         &:hover {
             background: linear-gradient(to top, lighten(#7cc0f6, 10%) , lighten(#e8f3fa, 10%)) no-repeat;
         }

@@ -1,6 +1,6 @@
 $blue-hover: #74b2e2;
 
-button, a, li {
+button, a, li, input, label {
     &.ui-state-active {
         cursor: pointer;
         background: linear-gradient(to top, #7cc0f6 40%, #e8f3fa 131%) !important;
