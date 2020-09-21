@@ -1,6 +1,6 @@
 <?php
 
-namespace Vitoop\InfomgmtBundle\Twig\Extension;
+namespace App\Twig\Extension;
 
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
