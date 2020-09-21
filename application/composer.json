@@ -30,6 +30,7 @@
         "knplabs/knp-snappy-bundle": "^1.4",
         "kriswallsmith/buzz": "v0.15",
         "sensio/framework-extra-bundle": "5.4.1",
+        "symfony/apache-pack": "^1.0",
         "symfony/asset": "4.4.*",
         "symfony/console": "*",
         "symfony/dotenv": "*",
