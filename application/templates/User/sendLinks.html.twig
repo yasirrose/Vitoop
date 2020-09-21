@@ -1,0 +1,30 @@
+{{ form_start(linksForm, {'attr': {'id': 'form-user-links', 'novalidate': 'novalidate', 'action': path('app_userlink_userlinks') }}) }}
+    <fieldset class="ui-corner-all">
+        <legend>Mailen</legend>
+        {% for flashMessage in app.session.flashbag.get('success') %}
+            <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all">
+                <span class="vtp-icon ui-icon ui-icon-info"></span>{{ flashMessage|trans }}
+            </div>
+        {% endfor %}
+        <div class="vtp-fh-top">
+            {{ form_widget(linksForm.email, {'attr': {'class': 'vtp-fh-w40' }}) }}
+            {{ form_widget(linksForm.save, {'attr': {'class': 'vtp-button ui-button ui-widget ui-state-default vtp-uiinfo-anchor' }}) }}
+        </div>
+        <div>
+            <div class="vtp-uiinfo-form-error">{{ form_errors(linksForm.email) }}</div>
+        </div>
+        <div class="vtp-fh-middle">
+            {{ form_widget(linksForm.emailSubject, {'attr': {'class': 'vtp-fh-w100' }}) }}
+            <div class="vtp-uiinfo-form-error">{{ form_errors(linksForm.emailSubject) }}</div>
+        </div>
+        <div class="vtp-fh-bottom">
+            {{ form_widget(linksForm.textBody, {'attr': {'class': 'vtp-fh-w100', 'rows': '4' }}) }}
+            <div class="vtp-uiinfo-form-error">{{ form_errors(linksForm.textBody) }}</div>
+        </div>
+        <div class="ui-corner-all" >
+            <table id="form-user-links-info">
+
+            </table>
+        </div>
+    </fieldset>
+{{ form_end(linksForm) }}

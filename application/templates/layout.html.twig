@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>vitoop</title>
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/vitoop.css') }}">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <script src="{{ asset('js/vitoop.js') }}"></script>
+    {% block css %}{% endblock %}
+    <script type="text/javascript">
+        vitoop = (function () {
+            var baseUrl = '{{ path('_base_url') }}',
+                maxperpage = (document.cookie.match('(^|; )' + 'maxperpage' + '=([^;]*)') || 0)[2];
+            if (typeof maxperpage === 'undefined') {
+                maxperpage = '10';
+            }
+            var resourceId = {%if resourceId is defined %}{{resourceId}}{%else%}null{%endif%};
+            var isCheckMaxLinks = {% if app.user and app.user.getUserConfig and app.user.getUserConfig.getIsCheckMaxLink() %}{{ app.user.getUserConfig.getIsCheckMaxLink() }}{% else %}true{% endif %};
+
+            return {
+                baseUrl: baseUrl,
+                maxperpage: maxperpage,
+                resourceId: resourceId,
+                isCheckMaxLinks: isCheckMaxLinks,
+                isShowHelp: {%if app.user and not app.user.getIsShowHelp() %}false{% else %}true{% endif %}
+            };
+        }());
+    </script>
+</head>
+<body id="vtp-application"
+      {% if (without_js is not defined) and (app.user) and (not app.user.getIsAgreedWithTerms()) %}
+         style="display: none"
+      {% endif %}>
+    <div id="vtp-wrapper">
+        <div class="vtp-paddingbox">
+            <div id="vtp-app">
+                {% set projectObj = {} %}
+                {% if project is defined  %}
+                    {% set prjCreatedAt = project.getCreatedAt|date('d.m.Y') %}
+                    {% set projectObj = {
+                        id: project.id,
+                        name: project.name,
+                        data: project.projectdata.sheet,
+                        user_name: project.user.username,
+                        created: prjCreatedAt
+                    } %}
+                {% endif %}
+                {% set lexiconObj = {}  %}
+                {% if lexicon is defined %}
+                    {% set lexiconObj = {
+                        id: lexicon.id,
+                        name: lexicon.name,
+                        data: lexicon.getDescription,
+                        wikiFullUrl: lexicon.wikifullurl,
+                        wikiRedirects: lexicon.wikiredirects,
+                        lexicons: lexicons
+                    } %}
+                {% endif %}
+                {% if editMode is not defined %}
+                    {% set editMode = false %}
+                {% endif %}
+                {% if resourceInfo is not defined %}
+                    {% set resourceInfo = {} %}
+                {% endif %}
+                {% if infoprojectdata is not defined %}
+                    {% set infoprojectdata = {} %}
+                {% endif %}
+                {% if showasprojectowner is not defined %}
+                    {% set showasprojectowner = false %}
+                {% endif %}
+                {% if tags is not defined %}
+                    {% set tags = [] %}
+                {% endif %}
+                {% if datap is not defined %}
+                    {% set datap = false %}
+                {% endif %}
+                {% if isCoef is not defined %}
+                    {% set isCoef = false %}
+                {% endif %}
+                <vtp-app download-size="{{ vsettings.getCurrentDownloadsSize.getValue|number_format(2, '.', ' ') }}"
+                         :info-project-data="{{ infoprojectdata|json_encode() }}"
+                         :invitation-value="{{ vsettings.getInvitation().getValue() }}"
+                         :terms="{{ vsettings.getTerms().getValue()|json_encode() }}"
+                         :data-p="{{ datap|json_encode() }}">
+                </vtp-app>
+            </div>
+        </div>
+{#        <div id="vtp-content">#}
+{#            {% block content %}#}
+{#            {% endblock %}#}
+{#        </div>#}
+        {% if app.user %}
+            {% if is_granted('ROLE_ADMIN') %}
+                {% include 'User/termsTinyMce.html.twig' %}
+                {% include 'User/datapTinyMce.html.twig' %}
+            {% endif %}
+            <div id="additional-info" style="display: none">
+                <input id="sendlink-url"
+                       name="sendlink-url"
+                       type="hidden"
+                       value="{{ path('app_userlink_userlinks') }}">
+            </div>
+        {%endif%}
+    </div>
+    {% block footerjs %}
+    <script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
+    <script src="{{ asset('js/datatables/datatables.js') }}"></script>
+    {% if (without_js is not defined) and (app.user) and (not app.user.getIsAgreedWithTerms()) %}
+        <script type="text/javascript">
+            window.location = "{{ path('user_agreement') }}";
+        </script>
+    {% endif %}
+    <script type="text/javascript">
+        //Firefox bugfixes
+        $(document).on('focusin', function(e) {
+            if ($(e.target).closest(".mce-window").length) {
+                e.stopImmediatePropagation();
+            }
+        });
+        $('select').selectmenu({
+            select: function( event, ui ) {
+                $('#vtp-search-bytags-form span.ui-selectmenu-button').removeAttr('tabIndex');
+            }
+        });
+    </script>
+    {% endblock footerjs %}
+</body>
+</html>

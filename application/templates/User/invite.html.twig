@@ -1,0 +1,41 @@
+{% extends "Resource\layout.html.twig" %}
+{% block title %}Einladung verschicken{% endblock %}
+{% block content %}
+    {{ form_start(fv, {'attr': {'id': 'vtp-form-invite', 'novalidate': 'novalidate' }}) }}
+    <fieldset class="ui-corner-all">
+        <legend>Einladung</legend>
+        {% if info is not empty %}
+            <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all">
+                <span class="vtp-icon ui-icon ui-icon-info"></span>
+                {{ info }}
+            </div>
+        {% endif %}
+        <div class="vtp-fh-top">
+            {{ form_label(fv.email, null, {'label_attr': {'class': 'vtp-fh-w20' }}) }}
+            {{ form_widget(fv.email, {'attr': {'class': 'vtp-fh-w30' }}) }}
+            <div class="vtp-uiinfo-form-error">{{ form_errors(fv.email) }}</div>
+        </div>
+        <div class="vtp-fh-middle">
+            {{ form_label(fv.days, null, {'label_attr': {'class': 'vtp-fh-w20' }}) }}
+            {{ form_widget(fv.days, {'attr': {'class': 'vtp-fh-w10' }}) }}
+            <div class="vtp-uiinfo-form-error">{{ form_errors(fv.days) }}</div>
+        </div>
+        <div class="vtp-fh-middle">
+            {{ form_label(fv.subject, null, {'label_attr': {'class': 'vtp-fh-w20' }}) }}
+            {{ form_widget(fv.subject, {'attr': {'class': 'vtp-fh-w50' }}) }}
+            {% if link is not empty %}
+                <div>Der Einladungslink lautet: {{ link }}</div>
+            {% endif %}
+            <div class="vtp-uiinfo-form-error">{{ form_errors(fv.subject) }}</div>
+        </div>
+        <div class="vtp-fh-bottom">
+            {{ form_label(fv.mail, null, {'label_attr': {'class': 'vtp-fh-w20' }}) }}
+            {{ form_widget(fv.mail, {'attr': {'class': 'vtp-fh-w50', 'style': 'height: 200px;' }}) }}
+            <div class="vtp-uiinfo-form-error">{{ form_errors(fv.mail) }}</div>
+        </div>
+        <div class="right">
+            {{ form_widget(fv.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}
+        </div>
+    </fieldset>
+    {{ form_end(fv) }}
+{% endblock %}
