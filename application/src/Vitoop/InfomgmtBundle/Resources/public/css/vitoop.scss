@@ -1362,7 +1362,6 @@ input.divider {
     width: 50%;
     height: 16px;
     padding-left: 35px;
-    transform: translateY(1px);
 }
 
 #vtp-res-list {
@@ -1980,7 +1979,7 @@ a.vtp-uiaction-open-url:visited {
     outline: none;
 }
 
-#vtp-res-list {
+#vtp-res-list .dataTable {
     tr.vtp-uiaction-list-showdetail {
         height: $table-row-height;
         &.odd {
