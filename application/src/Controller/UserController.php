@@ -255,7 +255,7 @@ EOT;
     }
 
     /**
-     * @Route("/bye", name="_bye")
+     * @Route("/logout", name="app_logout")
      */
     public function byeAction()
     {
