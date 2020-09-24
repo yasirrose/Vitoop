@@ -1,6 +1,8 @@
+.env
 /.idea
 /.vagrant/
 /.docker-sync/
+/application/var/log
 /application/node_modules/
 /application/web/build/pdf.editor.js
 /application/web/js/
