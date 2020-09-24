@@ -21,10 +21,9 @@ table.dataTable {
     border-spacing: 0;
 
     tbody:before {
-        content: "-";
+        content: "";
         display: block;
-        line-height: 0;
-        height: 1px;
+        height: 2px;
         color: transparent;
     }
 
