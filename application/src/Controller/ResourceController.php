@@ -109,7 +109,8 @@ class ResourceController extends ApiController
                 $is_project_home = true;
                 $is_user_home = false;
             }
-        } elseif ($dto->isNotEmptyLexicon()) {
+        }
+        if ($dto->isNotEmptyLexicon()) {
             $lexicon = $this->entityManager
                 ->getRepository(Lexicon::class)
                 ->getLexiconWithWikiRedirects($dto->lexicon);
