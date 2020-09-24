@@ -49,7 +49,7 @@
                 <span class="vtp-search-bytags-tag ui-corner-all"
                       :class="{
                         'vtp-search-bytags-tag-ignore': tag.isIgnored,
-                        'vtp-search-bytags-tag-bulb': tag.isHighlighted,
+                        'ui-state-active': tag.isHighlighted,
                         'vtp-search-bytags-tag-active': tag.extended
                       }"
                       v-for="tag in tags"
@@ -450,6 +450,7 @@
         flex-wrap: wrap;
 
         .vtp-search-bytags-tag {
+            transition: .3s;
             display: flex;
             align-items: center;
         }

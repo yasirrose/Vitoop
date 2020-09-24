@@ -363,11 +363,11 @@ td.ui-state-active div.vtp-teasefader-wrapper {
     background: inherit;
 }
 
-td.ui-state-active div.vtp-teasefader {
+//td.ui-state-active div.vtp-teasefader {
     /* #3bbae3 */
-    background: inherit;
-    opacity: 0.8;
-}
+    //background: inherit;
+    //opacity: 0.8;
+//}
 
 tr.vtp-state-active td {
     color: $vitoop-blue-color;
@@ -2031,7 +2031,7 @@ a.vtp-uiaction-open-url:visited {
     }
 
     td {
-        border: none !important;
+        //border: none !important;
         text-align: left;
         padding: 9px 1px 9px 3px;
         vertical-align: middle;
