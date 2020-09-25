@@ -16,7 +16,7 @@
                     {{ $t('page.lexicon') }}
                 </button>
                 <button class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
-                   :class="{'vtp-nav-active ui-state-active': $route.name === 'conversation'}"
+                   :class="{'vtp-nav-active ui-state-active': $route.name === 'conversation-item'}"
                    @click="$router.push(`/conversation/${getResource('id')}`)"
                    v-else-if="getResource('id') && get('conversationInstance')">
                     Conversation
