@@ -2,13 +2,19 @@
 
 namespace App\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use App\Entity\Pdf;
 use App\Entity\PdfAnnotation;
 use App\Entity\User\User;
 
-class PdfAnnotationRepository extends EntityRepository
+class PdfAnnotationRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, PdfAnnotation::class);
+    }
+
     /**
      * @param PdfAnnotation $annotation
      */
