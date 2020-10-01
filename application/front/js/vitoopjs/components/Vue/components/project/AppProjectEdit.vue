@@ -26,7 +26,7 @@
                                         :class="{'ui-corner-all ui-state-active': needToSave}"
                                         style="padding-bottom: 5px; padding-top: 5px; width: 100%">speichern</button> <!-- ui-state-need-to-save -->
                             </div>
-                            <div style="vertical-align: bottom; text-align: left; color: #2779aa; font-size: 14px; padding-top: 10px;">
+                            <div style="vertical-align: bottom; text-align: left; color: #2779aa; font-size: 14px; padding-top: 20px;">
                                 <div>
                                     <label id="sperren-vabel"
                                            class="custom-checkbox__wrapper square-checkbox">
@@ -82,10 +82,10 @@
                              style="vertical-align: top; margin-top: 20px; font-size: 14px">
                             <div class="prj-edit-header">
                                 <div class="vtp-fh-w60">
-                                    <span><strong>Benutzer</strong></span>
+                                    <span>Benutzer</span>
                                 </div>
                                 <div class="vtp-fh-w35">
-                                    <span><strong>Rechte</strong></span>
+                                    <span>Rechte</span>
                                 </div>
                             </div>
                             <div v-for="rel in getProject.project_data.rel_users">
@@ -289,6 +289,12 @@
             .form-control {
                 margin-top: 0 !important;
             }
+        }
+    }
+
+    .custom-checkbox {
+        &__wrapper {
+            padding-left: 25px;
         }
     }
 </style>

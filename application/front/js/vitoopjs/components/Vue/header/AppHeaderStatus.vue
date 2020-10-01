@@ -272,6 +272,7 @@
                     .then(({data}) => {
                         this.myProjects = data;
                         $('#user-projects').selectmenu({
+                            width: 165,
                             select: (e, {item}) => {
                                 const resourceIds = this.sendLinkWidget.linkStorage.getAllResourcesIds();
                                 axios.post(`/api/v1/projects/${item.value}/assignments`, {resourceIds})

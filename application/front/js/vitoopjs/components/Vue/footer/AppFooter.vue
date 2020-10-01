@@ -1,7 +1,7 @@
 <template>
     <div id="vtp-footer" class="ui-corner-all">
         <div id="vtp-footer-homelink">
-            © 2018 by <a class="vtp-homelink" href="/">vitoop<span>.org</span></a>
+            © {{ currentYear }} by <a class="vtp-homelink" href="/">vitoop<span>.org</span></a>
         </div>
         <div id="vtp-imprint">
             <span v-if="isLoggedIn">
@@ -36,7 +36,10 @@
         name: "AppFooter",
         components: {HelpButton},
         computed: {
-            ...mapGetters(['get', 'isLoggedIn'])
+            ...mapGetters(['get', 'isLoggedIn']),
+            currentYear() {
+                return moment().year();
+            }
         }
     }
 </script>
