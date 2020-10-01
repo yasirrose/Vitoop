@@ -67,7 +67,8 @@
                           :class="{ 'ui-state-active': $store.state.secondSearch.isReadFilter }">
                         {{ getReadButtonLabel }}
                     </button>
-                <label style="position: relative">
+                <label class="has-cross-icon"
+                       style="position: relative">
                     <input type="search"
                            class="vtp-second-search-input"
                            placeholder="ergebnisliste durchsuchen"
@@ -76,6 +77,9 @@
                     <img src="/img/loader.gif"
                          v-if="$store.state.secondSearch.isSearching"
                          class="preloader" />
+                    <i class="fa fa-times"
+                       :class="{ show: search.length > 0 && !$store.state.secondSearch.isSearching }"
+                       @click="search = ''"></i>
                 </label>
                 <search-clear></search-clear>
             </div>

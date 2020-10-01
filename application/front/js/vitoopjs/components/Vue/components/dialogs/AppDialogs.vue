@@ -101,7 +101,7 @@
 
         .ui-state-active {
             .ui-icon {
-                background-image: url(/../img/ui-icons_3d80b3_256x240.png) !important;
+                /*background-image: url(/../img/ui-icons_3d80b3_256x240.png) !important;*/
             }
             &:not(.ui-state-disabled):not(th) {
                 &:focus {

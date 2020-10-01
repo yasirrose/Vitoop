@@ -108,7 +108,7 @@ window.resourceDetail = (function () {
                 $('.vtp-uiaction-detail-delete').on('click', deleteResource);
                 $('.vtp-uiaction-detail-new').on('click', newResource);
                 $('.vtp-uiaction-detail-blame').on('click', blameResource);
-                $('.vtp-uiaction-detail-help').on('click', helpWindow);
+                $('#vtp-detail-help').on('click', helpWindow);
                 $('#vtp-bigclosehelp').on('click', hideHelpWindow);
 
             }
@@ -662,14 +662,14 @@ window.resourceDetail = (function () {
             $('#resource-help').show();
             //$(this).removeClass("ui-state-focus ui-state-hover");
             $('#vtp-detail-help').removeClass('ui-state-default');
-            $('#vtp-detail-help').addClass('vtp-active');
+            $('#vtp-detail-help').addClass('ui-state-active');
 
         },
         hideHelpWindow = function () {
             $('#resource-help').hide();
             $('#resource-quickview').show();
             $('#vtp-detail-help').addClass('ui-state-default');
-            $('#vtp-detail-help').removeClass('vtp-active');
+            $('#vtp-detail-help').removeClass('ui-state-active');
         },
         tgl = function () {
             $('td.ui-state-active').removeClass('ui-state-active');

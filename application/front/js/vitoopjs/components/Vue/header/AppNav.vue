@@ -1,6 +1,6 @@
 <template>
     <div id="vtp-nav"
-         class="vtp-menu ui-corner-all" style="margin-top: 5px">
+         class="vtp-menu ui-corner-all" style="margin-top: 4px">
         <ul>
             <li>
                 <button class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
