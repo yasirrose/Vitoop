@@ -343,7 +343,7 @@ class ResourceRepository extends ServiceEntityRepository
             ->setParameter('currentUser', $search->user);
         $rootEntity = $query->getRootEntities();
         $rootEntity = $rootEntity[0];
-        $isLexiconAndProject = \in_array($rootEntity, [Lexicon::class, Project::class]);
+        $isLexiconAndProject = \in_array($rootEntity, [Lexicon::class, Project::class, Conversation::class]);
         if ($isLexiconAndProject && null === $search->resource) {
             $query->leftJoin('r.rel_resources1', 'rrr');
         } elseif (null !== $search->resource) {
@@ -364,7 +364,7 @@ class ResourceRepository extends ServiceEntityRepository
         if ($search->searchString) {
             $searchString = implode('OR ', array_map(function ($field) use ($rootEntity) {
                 $alias =  $this->getResourceFieldAlias($field, $rootEntity);
-                
+
                 return $alias.$field . ' LIKE :searchString ';
             }, $search->columns->searchable));
 
