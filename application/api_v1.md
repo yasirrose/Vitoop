@@ -326,6 +326,36 @@
   ### Response: code - 204
 </details>
 
+## GET /api/v1/users/notes
+<details>
+  <summary>Get user's notes</summary>
+
+  ### Response: code - 200
+  ```json
+  {
+    "notes": "my notes"
+  }
+  ```
+</details>
+
+## PUT /api/v1/users/notes
+<details>
+  <summary>Set new password using token from email</summary>
+
+  ### Request
+```json
+{
+  "notes": "My changed notes"
+}
+```
+  ### Response: code - 200
+  ```json
+  {
+    "notes": "My changed notes"
+  }
+  ```
+</details>
+
 ## GET /api/v1/resources/{id}
 <details>
   <summary>Get resource info by id</summary>

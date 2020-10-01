@@ -2,7 +2,10 @@
 
 namespace App\Controller\V1;
 
+use App\DTO\User\UserNoteDTO;
 use App\Entity\User\PasswordEncoderInterface;
+use App\Entity\User\UserNotes;
+use App\Repository\UserNotesRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -110,5 +113,35 @@ class UserController extends ApiController
         return $this->getApiResponse([
             'datap' => $settingsService->getDataP()->getValue()
         ], 200);
+    }
+
+    /**
+     * @Route("/notes", methods={"GET"})
+     */
+    public function getNotes(UserNotesRepository $userNotesRepository)
+    {
+        $userNotes = $userNotesRepository->findOneBy(['user' => $this->getUser()]);
+        if (!$userNotes) {
+            $userNotes = new UserNotes($this->getUser(), '');
+            $userNotesRepository->save($userNotes);
+        }
+
+        return $this->getApiResponse($userNotes);
+    }
+
+    /**
+     * @Route("/notes", methods={"PUT"})
+     */
+    public function updateNotes(Request $request, UserNotesRepository $userNotesRepository)
+    {
+        $dto = $this->getDTOFromRequest($request, UserNoteDTO::class);
+        $userNotes = $userNotesRepository->findOneBy(['user' => $this->getUser()]);
+        if (!$userNotes) {
+            $userNotes = new UserNotes($this->getUser(), '');
+        }
+        $userNotes->updateNotes($dto->notes);
+        $userNotesRepository->save($userNotes);
+
+        return $this->getApiResponse($userNotes);
     }
 }
