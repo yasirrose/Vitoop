@@ -88,7 +88,7 @@ window.userInteraction = (function () {
             $.ajax({
                 method: "PATCH",
                 url: vitoop.baseUrl + "api/user/me",
-                data:JSON.stringify({
+                data: JSON.stringify({
                     is_show_help: $('#user_show_help').prop('checked')
                 }),
                 dataType: 'json',

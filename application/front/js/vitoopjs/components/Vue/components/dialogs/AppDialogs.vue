@@ -25,14 +25,19 @@
                                 <p><strong>Link:</strong> Startseiten einer Internetpräsenz und Seiten, die den eigentlichen Inhalt nicht selbst anzeigen, sondern eine große Anzahl von Links enthalten kommen hier rein.</p>
                                 <p><strong>Projekt, Lexikon und Buch</strong> ist selbsterklärend. Wenn ein Datensatz falsch eingetragen ist, wird er möglicherweise gelöscht.</p>
                             </div>
-                            <div style="text-align: right; color: #2779aa; margin: 15px 5px 5px;">
-                                <p>
-                                    <input type="checkbox"
+                            <div class="user_show_help__wrapper ui-corner-all">
+                                <label class="custom-checkbox__wrapper square-checkbox">
+                                    <input class="valid-checkbox open-checkbox-link"
+                                           id="user_show_help"
                                            name="user_show_help"
-                                           id="user_show_help" style="-webkit-appearance: checkbox;">
-                                    <!-- {%if app.user and app.user.getIsShowHelp()%}checked{%endif%} -->
-                                    <label for="user_show_help">Hinweis automatisch anzeigen</label>
-                                </p>
+                                           :checked="get('user').is_show_help"
+                                           type="checkbox"/>
+                                    <span class="custom-checkbox">
+                                        <img class="custom-checkbox__check"
+                                             src="/img/check.png" />
+                                    </span>
+                                    Hinweis automatisch anzeigen
+                                </label>
                             </div>
                         </fieldset>
                     </div>
@@ -68,11 +73,43 @@
         name: "AppDialogs",
         computed: {
             ...mapGetters(['get'])
+        },
+        mounted() {
+            $('#user_show_help').on('change', function () {
+                $.ajax({
+                    method: "PATCH",
+                    url: vitoop.baseUrl + "api/user/me",
+                    data: JSON.stringify({
+                        is_show_help: $('#user_show_help').prop('checked')
+                    }),
+                    dataType: 'json',
+                    success: function(data){
+                        vitoop.isShowHelp = data.is_show_help;
+                        if (data.is_show_help == false) {
+                            $('#vtp-bigclosehelp').show();
+                        } else {
+                            $('#vtp-bigclosehelp').hide();
+                        }
+                    }
+                });
+            });
         }
     }
 </script>
 
 <style lang="scss">
+
+    .user_show_help {
+
+        &__wrapper {
+            text-align: right;
+            color: #2779aa;
+            margin: 15px 0 5px;
+            border: 1px solid #aed0ea;
+            padding: 5px;
+        }
+    }
+
     .created-info-lex {
 
         & > .vtp-fh-w10 {
