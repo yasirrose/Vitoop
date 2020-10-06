@@ -1360,7 +1360,7 @@ span.divider {
 
 input.divider {
     width: 50%;
-    height: 16px;
+    height: 17px;
     padding-left: 35px;
 }
 
@@ -1400,8 +1400,8 @@ input.divider {
             text-overflow: ellipsis;
             display: block;
             width: 760px;
-            padding-top: 4px;
-            padding-bottom: 4px;
+            padding-top: 2px;
+            padding-bottom: 2px;
 
             & + td {
                 background: transparent !important;
@@ -2337,8 +2337,8 @@ table.dataTable thead th:hover {
 
 .DataTables_sort_wrapper {
     .ui-icon {
-        width: 18px;
-        height: 18px;
+        width: 17px;
+        height: 17px;
     }
 }
 

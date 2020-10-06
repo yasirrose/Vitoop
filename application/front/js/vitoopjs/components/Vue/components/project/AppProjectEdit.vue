@@ -206,7 +206,7 @@
                     let options = vitoopApp.getTinyMceOptions();
                     options.mode = 'exact';
                     options.selector = '#edit-project-textarea';
-                    options.height= this.get('contentHeight')-32-25-74;
+                    options.height= this.get('contentHeight')-32-25-76;
                     options.plugins = ['textcolor', 'link', 'code'];
                     options.toolbar = 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink | code';
                     options.init_instance_callback = (editor) => {
