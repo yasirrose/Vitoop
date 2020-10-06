@@ -165,12 +165,6 @@
                     $('.DataTables_sort_icon').addClass('css_right ui-icon ui-icon-carat-2-n-s');
             },
             onTableDraw() {
-                document.querySelectorAll('.dataTable thead tr').forEach(tr => {
-                    console.dir(tr.clientHeight);
-                });
-                document.querySelectorAll('.dataTable tbody tr').forEach(tr => {
-                    console.dir(tr.clientHeight);
-                });
                 if (this.getResourceType === 'prj') VueBus.$emit('update:my-projects');
                 if (this.get('table').data.length >= this.get('table').rowNumber && this.get('resource').id === null) {
                     setTimeout(() => {
