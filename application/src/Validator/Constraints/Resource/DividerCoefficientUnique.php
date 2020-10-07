@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class DividerCoefficientUnique extends Constraint
 {
-    public $message = 'Die Nummer ist schon belegt.';
+    public $message = 'Diese Nummer ist schon besetzt.';
 
     public function getTargets()
     {

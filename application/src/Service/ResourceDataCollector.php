@@ -694,7 +694,8 @@ class ResourceDataCollector
                 try {
                     $prj = $this->rm->getRepository('prj')->findOneBy(['name' => $prj->getName()]);
                     $prj_name = $this->rm->linkProjectToResource($prj, $this->res);
-                    $info_prj = 'Project "' . $prj_name . '" successfully added!';
+
+                    $info_prj = 'Der Datensatz wurde dem Projekt #' . $prj->getId() . ' erfolgreich hinzugefügt';
                     $form_prj = $this->formCreator->createProjectNameForm(new Project(), $action, $projects);
                 } catch (\Exception $e) {
                     $form_error = new FormError($e->getMessage());
