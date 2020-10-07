@@ -220,7 +220,7 @@
 
                     tinyMCE.init(tinyMceOptions);
                     if (this.get('contentHeight') > 342) {
-                        this.conversationHeight = this.get('contentHeight') - 32-25;
+                        this.conversationHeight = this.get('contentHeight') - 32-28;
                     } else {
                         const appHeaderHeight = document.getElementById('vtp-header').offsetHeight;
                         const appFooterHeight = document.getElementById('vtp-footer').offsetHeight;
