@@ -11,6 +11,21 @@
                 </ul>
                 <div id="tabs-quickview">
                     <div id="resource-quickview">
+                        <div id="resource-notes">
+                            <fieldset class="ui-corner-all">
+                                <legend>Notizen</legend>
+                                <div class="notes-block">
+                                    <textarea :value="notes" @input="onNotesNotes"></textarea>
+                                    <div class="notes-block__buttons">
+                                        <button @click="saveNotes"
+                                                :class="{ 'ui-state-active': notesDirty }"
+                                                class="ui-state-default ui-corner-all save-button">
+                                            Speichern
+                                        </button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
                         <div id="resource-rating"></div>
                         <div id="resource-data"></div>
                         <div id="resource-tag"></div>
@@ -59,20 +74,32 @@
                 </div>
             </div>
         </div>
-
         <div id="vtp-res-dialog-help" title="Hilfe"></div>
         <div id="vtp-res-dialog-links" style="display:none"></div>
         <div id="vtp-res-dialog-prompt-links" style="display: none"></div>
+        <NotesDialog style="display: none" />
     </div>
 </template>
 
 <script>
-    import {mapGetters} from "vuex"
+    import { mapGetters, mapState } from "vuex";
+    import NotesDialog from "./NotesDialog.vue";
 
     export default {
         name: "AppDialogs",
+        components: {
+            NotesDialog,
+        },
+        data() {
+            return {
+                notesDirty: false,
+            }
+        },
         computed: {
-            ...mapGetters(['get'])
+            ...mapState({
+                notes: ({ notes }) => notes,
+            }),
+            ...mapGetters(['get']),
         },
         mounted() {
             $('#user_show_help').on('change', function () {
@@ -93,11 +120,67 @@
                     }
                 });
             });
+        },
+        methods: {
+            onNotesNotes({ target: { value } }) {
+                this.notesDirty = true;
+                this.$store.commit('set', { key: 'notes', value });
+            },
+            saveNotes() {
+                this.$store.dispatch('saveNotes', this.notes);
+                this.notesDirty = false;
+            }
         }
     }
 </script>
 
 <style lang="scss">
+    @keyframes slide-right {
+        to { transform: translateX(0); opacity: 1 }
+    }
+
+    #resource-notes {
+        overflow: hidden;
+        height: 0;
+        padding-bottom: 1px;
+        transition: .3s;
+
+        &.open {
+            height: 140px;
+
+            .notes-block__buttons {
+
+                button {
+                    animation-name: slide-right;
+                    animation-delay: .3s;
+                    animation-duration: .3s;
+                    animation-fill-mode: forwards;
+                }
+            }
+        }
+    }
+
+    .notes-block {
+        display: flex;
+        align-items: flex-end;
+
+        textarea {
+            flex: 1 0 0;
+            height: 100px;
+            resize: none;
+        }
+
+        &__buttons {
+            text-align: right;
+            flex: 20% 0 0;
+
+            button {
+                padding: 2px 20px;
+                opacity: 0;
+                transform: translateX(30px);
+            }
+        }
+    }
 
     .user_show_help {
 

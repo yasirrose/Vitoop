@@ -84,6 +84,7 @@
                     this.loading = false;
                     console.dir(err);
                 });
+            this.$store.dispatch('getNotes');
             window.vitoopApp = new VitoopApp();
             vitoopApp.init();
         },

@@ -38,6 +38,7 @@
                     </button>
                 </transition>
                 <span id="vtp-search-bytags-form-buttons-vue">
+                    <ButtonOpenNotes />
                     <help-button help-area="search" />
                     <search-toggler></search-toggler>
                 </span>
@@ -91,11 +92,12 @@
     import AppTagList from "./AppTagList.vue"
     import DataStorage from "../../../datastorage"
     import RowPerPageSelect from "../../RowPerPageSelect";
+    import ButtonOpenNotes from "../components/dialogs/ButtonOpenNotes.vue";
 
     export default {
         name: "SearchByTags",
         components: {
-            HelpButton, SearchToggler, AppTagList
+            HelpButton, SearchToggler, AppTagList, ButtonOpenNotes
         },
         data() {
             return {
@@ -139,6 +141,9 @@
             this.init();
         },
         methods: {
+            closeDialog() {
+                console.log('close dialog');
+            },
             removeAllTags(e) {
                 this.resetTags();
                 this.cnttags = 0;
