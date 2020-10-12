@@ -1,4 +1,5 @@
 export default {
+    notes: null,
     error: null,
     resource: {
         type: null,

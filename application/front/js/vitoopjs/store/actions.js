@@ -1,4 +1,5 @@
 import UserService from "../services/User/UserService";
+import NotesService from "../services/NotesService";
 
 export default {
     fetchCurrentUser({ commit })  {
@@ -10,5 +11,13 @@ export default {
             .catch((error => {
                 commit("setUser", null);
             }))
+    },
+    async getNotes({ commit }) {
+        const key = 'notes';
+        const value = await NotesService.get();
+        commit('set', { key, value });
+    },
+    saveNotes({ commit }, notes) {
+        NotesService.save(notes);
     }
 }

@@ -62,6 +62,7 @@
                         :class="{show: get('coefsToSave').length || get('dividersToSave').length}">
                     <span>speichern</span>
                 </button>
+                <ButtonOpenNotes />
                 <help-button help-area="project" />
                 <span v-if="canEdit">
                     <button id="vtp-projectdata-project-live"
@@ -79,10 +80,12 @@
                 </span>
             </div>
             <div v-else-if="getResource('id') && !get('inProject') && !get('conversationInstance')">
+                <ButtonOpenNotes />
                 <help-button help-area="lexicon" />
             </div>
             <div v-if="get('conversationInstance')">
                 <div class="d-flex align-center">
+                    <ButtonOpenNotes style="margin-right: 4px" />
                     <help-button help-area="conversation" />
                     <div v-if="get('conversationInstance').canEdit &&
                                get('conversationInstance').conversation.conversation_data.is_for_related_users"
@@ -121,10 +124,11 @@
     import HelpButton from "../SecondSearch/HelpButton.vue";
     import SearchByTags from "./SearchByTags.vue";
     import ShowPopupButton from "./ShowPopupButton.vue";
+    import ButtonOpenNotes from "../components/dialogs/ButtonOpenNotes.vue";
 
     export default {
         name: "AppNav",
-        components: { HelpButton, SearchByTags, ShowPopupButton },
+        components: { HelpButton, SearchByTags, ShowPopupButton, ButtonOpenNotes },
         mixins: [VtpConfirmMixin, ShowTagsMixin],
         data() {
             return {

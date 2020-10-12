@@ -102,6 +102,7 @@ window.resourceDetail = (function () {
                 });
                 $('.vtp-uiaction-detail-popup').on('click', function () {
                     openAsResourceView(res_id);
+                    $('#resource-notes').removeClass('open');
                     $('#vtp-res-dialog').dialog('close');
                     return false;
                 });
@@ -110,7 +111,10 @@ window.resourceDetail = (function () {
                 $('.vtp-uiaction-detail-blame').on('click', blameResource);
                 $('#vtp-detail-help').on('click', helpWindow);
                 $('#vtp-bigclosehelp').on('click', hideHelpWindow);
-
+                $('#open-notes-dialog-button').on('click', () => {
+                    $('#vtp-res-dialog-tabs').tabs('option', 'active', 0);
+                    $('#resource-notes').toggleClass('open');
+                });
             }
             /*************************************************************************
              * UIfy: data
@@ -874,6 +878,7 @@ window.resourceDetail = (function () {
         closeDialog = function () {
             hardResetTabs();
             hideHelpWindow();
+            $('#resource-notes').removeClass('open');
             if (refresh_list) {
                 //$('#vtp-res-list table').DataTable().off('draw.dt');
                 // "last seen" is maintained through arr_res_tr_attr_id[]
@@ -987,7 +992,6 @@ window.resourceDetail = (function () {
                 $('#resource-flags').hide('blind', 'fast');
                 $('#resource-flags').empty();
             });
-
             $('#vtp-show-popup').on('click', showDialogInBigView);
         };
         function hideResourceButtons() {
