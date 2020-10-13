@@ -1,6 +1,6 @@
 @import "../variables/colors";
 
-input {
+input, textarea {
     &:focus {
         outline: #62bbe9 auto 1px;
     }

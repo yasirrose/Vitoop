@@ -112,7 +112,6 @@ window.resourceDetail = (function () {
                 $('#vtp-detail-help').on('click', helpWindow);
                 $('#vtp-bigclosehelp').on('click', hideHelpWindow);
                 $('#open-notes-dialog-button').on('click', () => {
-                    $('#vtp-res-dialog-tabs').tabs('option', 'active', 0);
                     $('#resource-notes').toggleClass('open');
                 });
             }
