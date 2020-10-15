@@ -1,6 +1,25 @@
 <template>
     <div>
         <div id="vtp-res-dialog" style="display:none" :class="`${get('resource').type}`">
+            <div id="resource-notes">
+                <fieldset class="ui-corner-all">
+                    <legend>Notizen</legend>
+                    <div class="notes-block">
+                        <textarea :value="notes" @input="onNotesNotes"></textarea>
+                        <div class="notes-block__buttons">
+                            <button @click="closeNotes"
+                                    class="ui-state-default ui-corner-all">
+                                abbrechen
+                            </button>
+                            <button @click="saveNotes"
+                                    :class="{ 'ui-state-active': notesDirty }"
+                                    class="ui-state-default ui-corner-all save-button">
+                                speichern
+                            </button>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
             <div id="vtp-res-dialog-tabs">
                 <ul>
                     <li><a href="#tabs-quickview">Übersicht</a></li>
@@ -11,21 +30,6 @@
                 </ul>
                 <div id="tabs-quickview">
                     <div id="resource-quickview">
-                        <div id="resource-notes">
-                            <fieldset class="ui-corner-all">
-                                <legend>Notizen</legend>
-                                <div class="notes-block">
-                                    <textarea :value="notes" @input="onNotesNotes"></textarea>
-                                    <div class="notes-block__buttons">
-                                        <button @click="saveNotes"
-                                                :class="{ 'ui-state-active': notesDirty }"
-                                                class="ui-state-default ui-corner-all save-button">
-                                            Speichern
-                                        </button>
-                                    </div>
-                                </div>
-                            </fieldset>
-                        </div>
                         <div id="resource-rating"></div>
                         <div id="resource-data"></div>
                         <div id="resource-tag"></div>
@@ -126,6 +130,9 @@
                 this.notesDirty = true;
                 this.$store.commit('set', { key: 'notes', value });
             },
+            closeNotes() {
+                $('#resource-notes').removeClass('open');
+            },
             saveNotes() {
                 this.$store.dispatch('saveNotes', this.notes);
                 this.notesDirty = false;
@@ -142,13 +149,19 @@
     #resource-notes {
         overflow: hidden;
         height: 0;
+        opacity: 0;
         padding-bottom: 1px;
         transition: .3s;
 
         &.open {
-            height: 140px;
+            opacity: 1;
+            height: 150px;
 
             .notes-block__buttons {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                justify-content: space-between;
 
                 button {
                     animation-name: slide-right;
@@ -162,20 +175,21 @@
 
     .notes-block {
         display: flex;
-        align-items: flex-end;
+        padding: 0 6px 10px 10px;
 
         textarea {
-            flex: 1 0 0;
+            flex: 74% 0 0;
             height: 100px;
             resize: none;
         }
 
         &__buttons {
             text-align: right;
-            flex: 20% 0 0;
+            flex: 1 0 0;
 
             button {
-                padding: 2px 20px;
+                min-height: 24px;
+                padding: 2px 1rem;
                 opacity: 0;
                 transform: translateX(30px);
             }
