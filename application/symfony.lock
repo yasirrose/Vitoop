@@ -366,6 +366,9 @@
     "symfony/event-dispatcher": {
         "version": "v4.4.13"
     },
+    "symfony/expression-language": {
+        "version": "v4.4.15"
+    },
     "symfony/filesystem": {
         "version": "v4.4.13"
     },
