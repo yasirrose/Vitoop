@@ -836,11 +836,6 @@ span.beta-status {
     margin-bottom: -11px;
 }
 
-#vtp-flag-box {
-    padding-bottom: 10px;
-    padding-left: 10px;
-}
-
 input[type=number].vtp-uiaction-coefficient::-webkit-inner-spin-button, input[type=number].vtp-uiaction-coefficient::-webkit-outer-spin-button {
     width: 8px;
 }
@@ -1190,19 +1185,8 @@ span.vtp-icon {
 }
 
 #vtp-uiaction-close-flagform {
-    position: absolute;
-    top: 27px;
-    right: 15px;
-
-    width: auto;
     height: 24px;
     padding: 0 12px;
-}
-
-#flag_save {
-    position: absolute;
-    bottom: 17px;
-    right: 15px;
 }
 
 #vtp-res-flag-buttons {

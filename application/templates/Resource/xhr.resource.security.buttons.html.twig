@@ -15,10 +15,16 @@
     </button>
 {% endif %}
 {% if not (res_type == "lex" or res_type == "prj") %}
-    <button class="vtp-uistyle-iconbutton vtp-uiaction-detail-delete"
-            title="{{ 'label.delete'|trans }}">
+    <button class="vtp-uistyle-iconbutton vtp-uiaction-detail-delete ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+            title="{{ 'label.delete'|trans }}"
+            role="button">
+        <span class="ui-button-icon-primary ui-icon ui-icon-trash"></span>
+        <span class="ui-button-text">{{ 'label.delete'|trans }}</span>
     </button>
 {% endif %}
-<button class="vtp-uistyle-iconbutton vtp-uiaction-detail-blame"
-        title="{{ 'label.blame'|trans }}">
+<button class="vtp-uistyle-iconbutton vtp-uiaction-detail-blame ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+        title="{{ 'label.blame'|trans }}"
+        role="button">
+    <span class="ui-button-icon-primary ui-icon ui-icon-alert"></span>
+    <span class="ui-button-text">{{ 'label.blame'|trans }}</span>
 </button>

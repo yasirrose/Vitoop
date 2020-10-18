@@ -61,7 +61,6 @@
 
     textarea {
         flex: 1;
-        resize: none;
         background: transparent;
         border: 1px solid #aed0ea;
         padding: 1rem;

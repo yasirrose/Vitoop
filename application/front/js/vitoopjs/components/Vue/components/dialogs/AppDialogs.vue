@@ -6,17 +6,17 @@
                     <legend>Notizen</legend>
                     <div class="notes-block">
                         <textarea :value="notes" @input="onNotesNotes"></textarea>
-                        <div class="notes-block__buttons">
-                            <button @click="closeNotes"
-                                    class="ui-state-default ui-corner-all">
-                                abbrechen
-                            </button>
-                            <button @click="saveNotes"
-                                    :class="{ 'ui-state-active': notesDirty }"
-                                    class="ui-state-default ui-corner-all save-button">
-                                speichern
-                            </button>
-                        </div>
+                    </div>
+                    <div class="notes-block__buttons">
+                        <button @click="saveNotes"
+                                :class="{ 'ui-state-active': notesDirty }"
+                                class="ui-state-default ui-corner-all save-button">
+                            speichern
+                        </button>
+                        <button @click="closeNotes"
+                                class="ui-state-default ui-corner-all">
+                            abbrechen
+                        </button>
                     </div>
                 </fieldset>
             </div>
@@ -131,7 +131,9 @@
                 this.$store.commit('set', { key: 'notes', value });
             },
             closeNotes() {
+                $('#open-notes-dialog-button').removeClass('ui-state-active');
                 $('#resource-notes').removeClass('open');
+                $('#resource-notes').hide('blind', 'fast');
             },
             saveNotes() {
                 this.$store.dispatch('saveNotes', this.notes);
@@ -148,24 +150,17 @@
 
     #resource-notes {
         overflow: hidden;
-        height: 0;
-        opacity: 0;
         padding-bottom: 1px;
-        transition: .3s;
+        /*transition: .3s;*/
+        display: none;
 
         &.open {
-            opacity: 1;
-            height: 150px;
 
             .notes-block__buttons {
-                display: flex;
-                flex-direction: column;
-                align-items: flex-end;
-                justify-content: space-between;
 
                 button {
                     animation-name: slide-right;
-                    animation-delay: .3s;
+                    animation-delay: .2s;
                     animation-duration: .3s;
                     animation-fill-mode: forwards;
                 }
@@ -175,17 +170,14 @@
 
     .notes-block {
         display: flex;
-        padding: 0 6px 10px 10px;
+        margin-bottom: .5rem;
 
         textarea {
-            flex: 74% 0 0;
+            width: 100%;
             height: 100px;
-            resize: none;
         }
 
         &__buttons {
-            text-align: right;
-            flex: 1 0 0;
 
             button {
                 min-height: 24px;

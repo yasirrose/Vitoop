@@ -60,6 +60,19 @@ window.resourceDetail = (function () {
                 });
             }
         },
+        resourceNotes = {
+            hide() {
+                $('#open-notes-dialog-button').removeClass('ui-state-active');
+                $('#resource-notes').removeClass('open');
+                $('#resource-notes').hide('blind', 'fast');
+            },
+            show() {
+                $('#open-notes-dialog-button').addClass('ui-state-active');
+                $('#resource-notes').addClass('open');
+                $('#resource-notes').show('blind', 'fast');
+            },
+            isOpen: () => $('#resource-notes').hasClass('open'),
+        },
         uifyContainer = function (container_name) {
             var action_icon_map;
             if ('resource-buttons' == container_name) {
@@ -78,13 +91,15 @@ window.resourceDetail = (function () {
                     if (('popup' === action) && ('pdf' !== res_type)) {
                         return;
                     }
-                    $('button.vtp-uiaction-detail-' + action).button({
-                        icons: {
-                            primary: icon
-                        },
-                        label: action,
-                        text: false
-                    });
+                    if (!['delete', 'blame'].includes(action)) {
+                        $('button.vtp-uiaction-detail-' + action).button({
+                            icons: {
+                                primary: icon
+                            },
+                            label: action,
+                            text: false
+                        });
+                    }
                 });
                 // @TODO Handler
                 if (-1 === prev_id) {
@@ -102,17 +117,18 @@ window.resourceDetail = (function () {
                 });
                 $('.vtp-uiaction-detail-popup').on('click', function () {
                     openAsResourceView(res_id);
-                    $('#resource-notes').removeClass('open');
+                    resourceNotes.hide();
                     $('#vtp-res-dialog').dialog('close');
                     return false;
                 });
                 $('.vtp-uiaction-detail-delete').on('click', deleteResource);
-                $('.vtp-uiaction-detail-new').on('click', newResource);
                 $('.vtp-uiaction-detail-blame').on('click', blameResource);
+
+                $('.vtp-uiaction-detail-new').on('click', newResource);
                 $('#vtp-detail-help').on('click', helpWindow);
                 $('#vtp-bigclosehelp').on('click', hideHelpWindow);
                 $('#open-notes-dialog-button').on('click', () => {
-                    $('#resource-notes').toggleClass('open');
+                    resourceNotes.isOpen() ? resourceNotes.hide() : resourceNotes.show();
                 });
             }
             /*************************************************************************
@@ -825,6 +841,8 @@ window.resourceDetail = (function () {
             clearTabsClasses();
         },
         flagResource = function (flag_type) {
+            $('button[class*="vtp-uiaction-detail-"]').removeClass('ui-state-active');
+            $(`.vtp-uiaction-detail-${flag_type}`).addClass('ui-state-active');
             $('#vtp-res-flag-form').length || $('#resource-flags').append('<div id="vtp-res-flag-form"></div>');
             $.ajax({
                 url: vitoop.baseUrl + [res_type, res_id, 'flag', flag_type].join('/'),
@@ -839,10 +857,20 @@ window.resourceDetail = (function () {
             });
         },
         deleteResource = function () {
-            flagResource('delete');
+            if ($(this).hasClass('ui-state-active')) {
+                $('#resource-flags').hide('blind', 'fast');
+                $(this).removeClass('ui-state-active');
+            } else {
+                flagResource('delete');
+            }
         },
         blameResource = function () {
-            flagResource('blame');
+            if ($(this).hasClass('ui-state-active')) {
+                $('#resource-flags').hide('blind', 'fast');
+                $(this).removeClass('ui-state-active');
+            } else {
+                flagResource('blame');
+            }
         },
         fillFlagForm = function (html) {
             $('#vtp-res-flag-form').empty().append(html);
@@ -877,7 +905,7 @@ window.resourceDetail = (function () {
         closeDialog = function () {
             hardResetTabs();
             hideHelpWindow();
-            $('#resource-notes').removeClass('open');
+            resourceNotes.hide();
             if (refresh_list) {
                 //$('#vtp-res-list table').DataTable().off('draw.dt');
                 // "last seen" is maintained through arr_res_tr_attr_id[]
@@ -988,6 +1016,7 @@ window.resourceDetail = (function () {
             // vtp-content is the root for event delegation inside this 'box'
             $('#vtp-content').on('click', '.vtp-uiaction-list-listener table td', showDialog);
             $('#vtp-application').on('click', '#vtp-uiaction-close-flagform', function () {
+                $('button[class*="vtp-uiaction-detail-"]').removeClass('ui-state-active');
                 $('#resource-flags').hide('blind', 'fast');
                 $('#resource-flags').empty();
             });

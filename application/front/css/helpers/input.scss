@@ -6,6 +6,10 @@ input, textarea {
     }
 }
 
+textarea {
+    resize: vertical;
+}
+
 input[type="text"], input[type="search"] {
 
     &:hover {
