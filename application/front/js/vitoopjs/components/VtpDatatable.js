@@ -592,7 +592,8 @@ export default class VtpDatatable {
     }
     getDividerName(row) {
         const dividerName = row.text === '' ? 'Überschrift eintragen' : row.text;
-        return !vitoopState.state.edit ? dividerName :
+        return !vitoopState.state.edit ?
+            `<div class="row-title">${dividerName}</div>` :
             `<input class="divider"
                     type="text"
                     placeholder="Überschrift eintragen"

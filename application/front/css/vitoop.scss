@@ -1387,6 +1387,13 @@ input.divider {
             padding-top: 2px;
             padding-bottom: 2px;
 
+            .row-title {
+                height: 21px;
+                line-height: 21px;
+                background: transparent;
+                border-color: transparent;
+            }
+
             & + td {
                 background: transparent !important;
             }
