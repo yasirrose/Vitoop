@@ -1,7 +1,7 @@
 <template>
     <div id="vtp-nav"
          class="vtp-menu ui-corner-all" style="margin-top: 4px">
-        <ul>
+        <ul style="display: flex">
             <li>
                 <button class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
                     :class="{'vtp-nav-active ui-state-active': $route.name === 'project'}"

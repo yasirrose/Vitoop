@@ -836,11 +836,6 @@ span.beta-status {
     margin-bottom: -11px;
 }
 
-#vtp-flag-box {
-    padding-bottom: 10px;
-    padding-left: 10px;
-}
-
 input[type=number].vtp-uiaction-coefficient::-webkit-inner-spin-button, input[type=number].vtp-uiaction-coefficient::-webkit-outer-spin-button {
     width: 8px;
 }
@@ -931,7 +926,7 @@ span.vtp-icon {
     background: linear-gradient(to bottom, #f2f8fc 0%,#cfe7f7 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f8fc', endColorstr='#cfe7f7',GradientType=0 ); /* IE6-9 */
     color: #222222;
-    padding: 4px 7px 3px;
+    padding: 4px 7px 4px;
     margin-bottom: 2px;
 }
 
@@ -1190,19 +1185,8 @@ span.vtp-icon {
 }
 
 #vtp-uiaction-close-flagform {
-    position: absolute;
-    top: 27px;
-    right: 15px;
-
-    width: auto;
     height: 24px;
     padding: 0 12px;
-}
-
-#flag_save {
-    position: absolute;
-    bottom: 17px;
-    right: 15px;
 }
 
 #vtp-res-flag-buttons {
@@ -1402,6 +1386,13 @@ input.divider {
             width: 760px;
             padding-top: 2px;
             padding-bottom: 2px;
+
+            .row-title {
+                height: 21px;
+                line-height: 21px;
+                background: transparent;
+                border-color: transparent;
+            }
 
             & + td {
                 background: transparent !important;

@@ -6,15 +6,18 @@
         <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all"><span class="vtp-icon ui-icon ui-icon-info"></span>{{ infoflag }}</div>
     {% endif %}
     <div id="vtp-flag-box">
-        <div class="vtp-fh-w75">
+        <div>
             {{ form_errors(fvflag.info) }}
+        </div>
+        <div style="display: flex; margin-bottom: .5rem">
             {{ form_widget(fvflag.info) }}
         </div>
-        <div class="vtp-fh-w15 right">
-            <button id="vtp-uiaction-close-flagform" class="vtp-uiinfo-anchor ui-button ui-widget ui-state-default ui-corner-all">
+        <div>
+            {{ form_widget(fvflag.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}
+            <button id="vtp-uiaction-close-flagform"
+                    class="vtp-uiinfo-anchor ui-button ui-widget ui-state-default ui-corner-all">
                 abbrechen
             </button>
-            {{ form_widget(fvflag.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}
         </div>
     </div>
 </fieldset>
