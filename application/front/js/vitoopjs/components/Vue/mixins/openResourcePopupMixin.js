@@ -1,7 +1,7 @@
 export default {
     methods: {
         openResourcePopup(selector) {
-            this.findPopupsAnchors();
+            this.findPopupsAnchors(selector);
             $(selector).on('click', 'a', function (e) {
                 if (-1 !== e.target.href.indexOf('resources')) {
                     e.preventDefault();
@@ -14,11 +14,12 @@ export default {
                 }
             });
         },
-        findPopupsAnchors() {
-            const anchors = Object.values(document.querySelectorAll('a'));
+        findPopupsAnchors(selector) {
+            const anchors = Object.values(document.querySelectorAll(`${selector} a`));
             anchors.forEach(anchor => {
-                if (anchor.href.indexOf('resources') > -1) {
-                    anchor.classList.add('vtp-resource-link')
+                if (/\/(\d+)/.test(anchor.href)) {
+                    anchor.classList.add('vtp-resource-link');
+                    anchor.href = `resources${anchor.href.match(/\/(\d+)/)[0]}`;
                 }
             })
         }

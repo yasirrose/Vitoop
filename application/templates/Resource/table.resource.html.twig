@@ -130,20 +130,3 @@
             </tbody>
         </table>
 </div>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $.fn.dataTable.moment('DD.MM.YY');
-        var resType = '{{ restype }}';
-        var isAdmin = {% if is_granted('ROLE_ADMIN') %}1{% else %}0{% endif %};
-        var isEdit = {% if isEdit is defined and isEdit %}1{% else %}0{% endif %};
-        var isCoef = {% if  isCoef is defined and isCoef %}1{% else %}0{% endif %};
-        {#vitoopApp.initTable(resType, isAdmin, isEdit, isCoef, "{{ ajaxUrl |raw }}", {%if resourceId is defined %}{{ resourceId}}{% else %}null{% endif %});#}
-
-        window.resourceInfo = {};
-        {% if resourceInfo is defined %}
-            {% for resType, count in resourceInfo %}
-                window.resourceInfo.{{resType}} = {{count}};
-            {% endfor %}
-        {% endif %}
-    });
-</script>

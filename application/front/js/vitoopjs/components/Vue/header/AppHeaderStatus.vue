@@ -277,7 +277,7 @@
                                 const resourceIds = this.sendLinkWidget.linkStorage.getAllResourcesIds();
                                 axios.post(`/api/v1/projects/${item.value}/assignments`, {resourceIds})
                                     .then(response => {
-                                        this.infoMsg = `Resources have been added to the project #${item.value}`;
+                                        this.infoMsg = `Datensätze wurden dem Projekt #${item.value} hinzugefügt.`;
                                         this.infoMsgShow = true;
                                         setTimeout(() => {
                                             this.infoMsg = ``;

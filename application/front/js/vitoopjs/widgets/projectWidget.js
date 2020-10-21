@@ -42,6 +42,8 @@ export default class ProjectWidget extends Widget {
             }
         });
 
+        $('.vtp-uiinfo-info').hide('fade', 3000);
+
         $(self.containerId +' select').selectmenu({
             select: function( event, ui ) {
                 $('span.ui-selectmenu-button').removeAttr('tabIndex');
