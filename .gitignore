@@ -2,7 +2,7 @@
 /.idea
 /.vagrant/
 /.docker-sync/
-/application/public/build
+/application/public/build/
 /application/var/log
 /application/node_modules/
 /application/web/build/pdf.editor.js

@@ -568,6 +568,7 @@ window.resourceDetail = (function () {
 
             //show lexicon button and scrollbars
             $('.vtp-extlink-lexicon').remove();
+
             if (res_type === 'lex' ||  res_type === 'prj' || res_type === 'conversation') {
                 const grossButton = document.createElement('a');
                 grossButton.innerText = 'gross';
@@ -582,15 +583,16 @@ window.resourceDetail = (function () {
                 });
                 $('.ui-tabs-nav').append(grossButton);
 
-                let scrollableHeight = 274;
-                let currentHeight = parseInt($('.vtp-lexicon-description').css('height').replace('px',''));
+                if (res_type === 'lex') {
+                    let scrollableHeight = 274;
+                    let currentHeight = parseInt($('.vtp-lexicon-description').css('height').replace('px', ''));
 
-                if (currentHeight > scrollableHeight) {
-                    $('.vtp-lexicon-description').mCustomScrollbar({
-                        setHeight: scrollableHeight + 'px'
-                    });
+                    if (currentHeight > scrollableHeight) {
+                        $('.vtp-lexicon-description').mCustomScrollbar({
+                            setHeight: scrollableHeight + 'px'
+                        });
+                    }
                 }
-
             }
         },
         showDialog = function (e) {

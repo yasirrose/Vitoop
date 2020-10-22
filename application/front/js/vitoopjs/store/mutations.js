@@ -42,8 +42,8 @@ export default {
             }
         })
     },
-    addCoefToSave({coefsToSave},coefObj) {
-        const coefIndex = _.findIndex(coefsToSave, {coefId: coefObj.coefId});
+    addCoefToSave({ coefsToSave }, coefObj) {
+        const coefIndex = _.findIndex(coefsToSave, { coefId: coefObj.coefId });
         coefIndex > -1 ?
             coefsToSave.splice(coefIndex, 1, coefObj) : coefsToSave.push(coefObj);
     },

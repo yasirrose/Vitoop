@@ -232,11 +232,11 @@
         methods: {
             selectResource(e) {
                 const href = e.target.getAttribute('href');
-                this.selectedResourceId = href && /resources\/(\d+)/.test(href) ? href.match(/(\d+)/)[0] : null;
+                this.selectedResourceId = href && (/resources\/(\d+)/.test(e.value) || /\/(\d+)/.test(e.value)) ? href.match(/\/(\d+)/)[0] : null;
             },
             addResourceId(e) {
-                if (/^<a href=/.test(e.value) && /resources\/(\d+)/.test(e.value)) {
-                    this.selectedResourceId = e.value.match(/(\d+)/)[0];
+                if (/^<a href=/.test(e.value) && (/resources\/(\d+)/.test(e.value) || /\/(\d+)/.test(e.value))) {
+                    this.selectedResourceId = e.value.match(/\/(\d+)/)[0];
                     this.resourceIds.push(this.selectedResourceId);
                 }
             },

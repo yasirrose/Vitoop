@@ -102,7 +102,7 @@ export default class VtpDatatable {
     }
     getDatatableOptions() {
         let drawCallback = this.isCoef ? this.dtDrawCallbackCoef : this.dtDrawCallback;
-        return {
+        const options = {
             autoWidth: false,
             stateSave: false,
             lengthMenu: [ 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 50, 100 ],
@@ -145,6 +145,7 @@ export default class VtpDatatable {
             ordering: !this.isCoef,
             drawCallback: drawCallback
         };
+        return options;
     }
     setTotalMessage(totalRecords) {
         if (totalRecords === 0 && !vitoopState.state.isSecondSearchBlue) {
@@ -319,14 +320,15 @@ export default class VtpDatatable {
         // else {
         //     return [0, 'desc'];
         // }
-        if (!($('#vtp-lexicondata-title').length)) {
-            return [];
-        }
+        // if (!($('#vtp-lexicondata-title').length)) {
+        //     return [];
+        // }
         let columns = this.getColumns();
         let columnIndex = -1;
         for (let i=0; i< columns.length; i++) {
-            if (columns[i].data === 'res12count') {
+            if (columns[i].data === 'res12count' && this.resType === 'conversation') {
                 columnIndex = i;
+                return [i, 'desc']
             }
         }
         if (columnIndex>=0) {

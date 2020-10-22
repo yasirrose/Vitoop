@@ -314,6 +314,10 @@
                 return axios.put(`/api/v1/projects/${this.getResourceId}/dividers/${divider.id}`, divider)
                     .then(() => {
                         return index === this.dividerCoefs.length - 1;
+                    })
+                    .catch(({ response: { data } }) => {
+                        this.$store.commit('set', { key: 'dividersToSave', value: [] });
+                        VueBus.$emit('notification:show', data.messages[0]);
                     });
             }
         }
