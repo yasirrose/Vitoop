@@ -326,7 +326,9 @@ export default class VtpDatatable {
         let columns = this.getColumns();
         let columnIndex = -1;
         for (let i=0; i< columns.length; i++) {
-            if (columns[i].data === 'res12count' && this.resType === 'conversation') {
+            if (columns[i].data === 'res12count' &&
+                !!vitoopState.state.resource.id &&
+                (!!vitoopState.state.conversationInstance || !!vitoopState.state.lexicon)) {
                 columnIndex = i;
                 return [i, 'desc']
             }
