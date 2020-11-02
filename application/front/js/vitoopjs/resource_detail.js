@@ -830,6 +830,7 @@ window.resourceDetail = (function () {
             $('#resource-project').empty();
             $('#resource-buttons').empty();
             $('#resource-flags').empty();
+            resourceNotes.hide();
             $('.vtp-extlink-lexicon').remove();
             // pay attention. this triggers tab to load, if the array
             // tab_loaded is [0,.,.,.,.]

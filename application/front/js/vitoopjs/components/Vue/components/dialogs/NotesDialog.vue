@@ -41,7 +41,7 @@
                     height: 500,
                     position: { my: 'center top', at: 'center top', of: '#vtp-nav' },
                     modal: true,
-                    close: this.closeDialog
+                    close: this.closeDialog,
                 });
             },
             save() {
@@ -65,6 +65,8 @@
         border: 1px solid #aed0ea;
         padding: 1rem;
         margin-bottom: .5rem;
+        resize: none;
+        /*height: 387px;*/
 
         &:focus {
             outline: none;
