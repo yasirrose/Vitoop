@@ -237,6 +237,9 @@ export default class VtpDatatable {
         if (typeof(resourceId) != 'undefined' && resourceId == data.id) {
             $(row).addClass('show-popup');
         }
+        if (data.hasOwnProperty('coef')) {
+            $(row).find('td:first').addClass('coef-column');
+        }
         if (data.isUserHook != 0 && data.id !== null) {
             $(row).find('td:first').addClass('vtp-blue');
         }
