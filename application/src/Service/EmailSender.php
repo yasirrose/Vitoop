@@ -167,7 +167,7 @@ class EmailSender
     private function createMessage($subject, $emailTo, $body)
     {
         return (new \Swift_Message($subject))
-            ->setFrom(['einladung@vitoop.org' => 'David Rogalski'])
+            ->setFrom(['noreply@vitoop.org' => 'David Rogalski'])
             ->setTo($emailTo)
             ->setBody($body, 'text/html');
     }
