@@ -1,0 +1,132 @@
+{% if isCoef is defined and isCoef %}
+    {% set dateTitle = 'Koeff.' %}
+{% elseif restype == 'pdf' or restype == 'teli'  %}
+    {% set dateTitle = 'Erschienen' %}
+{% else %}
+    {% set dateTitle = 'Erstellt' %}
+{% endif %}
+{% if isEdit is defined and isEdit %}
+    {% set linkTitle = 'unlink' %}
+    {% set linkWidth = '54px' %}
+    {% set colsBook = 9 %}
+{% else %}
+    {% set linkWidth = '45px' %}
+    {% set linkTitle = 'link' %}
+    {% set colsBook = 8 %}
+{% endif %}
+<div id="vtp-res-list" class="vtp-uiaction-list-listener">
+    <fieldset class="ui-corner-all margin-top-3 empty-datatables" style="display: none">
+        <div style="font-size: 42px; color: #2779aa">
+            <p style="padding-left: 30px">
+                .. hier gibt es leider keine Treffer  :-(
+            </p>
+            <p style="font-size: 32px; padding-right: 40px; text-align: right">
+                .. aber wenn Du willst, kannst Du welche eintragen   :-)
+            </p>
+        </div>
+    </fieldset>
+        <table id="list-{{ restype }}" class="table-datatables" data-restype="{{ restype }}">
+            <thead>
+                <tr id="{{ restype }}-table" class="vtp-res-dialog-onclick">
+                {% if restype == 'pdf' %}
+                    <th style="width:96px;"><span class="table-head">{{ dateTitle }}</span></th>
+                    <th style="width:20px"></th>
+                    <th><span class="table-head">Titel</span></th>
+                    <th style="width:15%;"><span class="table-head">Autor</span></th>
+                    <th style="width:63px;"><span class="table-head">Seiten</span></th>
+                    <th style="width:96px;" data-b-searchable="false"><span class="table-head">Bewertung</span></th>
+                    <th style="width:42px;" data-b-searchable="false"><span class="table-head">RR</span></th>
+                    <th style="width:12%;"><span class="table-head">von</span></th>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        {% set colspan=10 %}
+                        <th style="width:8%;" data-b-searchable="false"><span class="table-head">Stored</span></th>
+                    {% else %}
+                        {% set colspan=9 %}
+                    {% endif %}
+                    <th style="width:{{ linkWidth }};" data-b-sortable="false" data-b-searchable="false"><span class="table-head">{{ linkTitle }}</span></th>
+                </tr>
+                {% endif %}
+                {% if restype == 'book' %}
+                    {% set colspan = colsBook %}
+                    <th style="width:96px;"><span class="table-head">{{ dateTitle }}</span></th>
+                    <th style="width:20px"></th>
+                    <th><span class="table-head">Titel</span></th>
+                    <th style="width:21%;"><span class="table-head">Autor</span></th>
+                    <th style="width:63px;"><span class="table-head">Seiten</span></th>
+                    <th style="width:96px;" data-b-searchable="false"><span class="table-head">Bewertung</span></th>
+                    <th style="width:42px;" data-b-searchable="false"><span class="table-head">RR</span></th>
+                    <th style="width:14%;"><span class="table-head">von</span></th>
+                    {% if isEdit is defined and isEdit %}
+                    <th style="width:{{ linkWidth }};" data-b-sortable="false" data-b-searchable="false"><span class="table-head">{{ linkTitle }}</span></th>
+                    {% endif %}
+                </tr>
+                {% endif %}
+                    {% if restype == 'teli' %}
+                    {% set colspan=7 %}
+                    <th style="width:96px;"><span class="table-head">{{ dateTitle }}</span></th>
+                    <th style="width:20px"></th>
+                    <th style="width:34%;"><span class="table-head">Bezeichnung</span></th>
+                    <th style="width:21%;"><span class="table-head">Autor</span></th>
+                    <th style="width:96px;" data-b-searchable="false"><span class="table-head">Bewertung</span></th>
+                    <th style="width:42px;" data-b-searchable="false"><span class="table-head">RR</span></th>
+                    <th style="width:14%;"><span class="table-head">von</span></th>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        {% set colspan=8 %}
+                        <th style="width:8%;" data-b-searchable="false"><span class="table-head">Stored</span></th>
+                    {% endif %}
+                    <th style="width:{{ linkWidth }};" data-b-sortable="false" data-b-searchable="false"><span class="table-head">{{ linkTitle }}</span></th>
+                </tr>
+                {% endif %}
+                {% if restype == 'link' %}
+                    {% set colspan=8 %}
+                    <th style="width:96px;"><span class="table-head">{{ dateTitle }}</span></th>
+                    <th style="width:20px"></th>
+                    <th><span class="table-head">Bezeichnung</span></th>
+                    <th style="width:22%;"><span class="table-head">URL</span></th>
+                    <th style="width:50px;" data-b-searchable="false"><span class="table-head">HP</span></th>
+                    <th style="width:96px;" data-b-searchable="false"><span class="table-head">Bewertung</span></th>
+                    <th style="width:42px;" data-b-searchable="false"><span class="table-head">RR</span></th>
+                    <th style="width:14%;" data-b-searchable="false"><span class="table-head">von</span></th>
+                    <th style="width:{{ linkWidth }};" data-b-sortable="false" data-b-searchable="false"><span class="table-head">{{ linkTitle }}</span></th>
+                </tr>
+                {% endif %}
+                {% if restype == 'adr' %}
+                    {% set colspan=8 %}
+                    <th style="width:96px;"><span class="table-head">{{ dateTitle }}</span></th>
+                    <th style="width:20px"></th>
+                    <th><span class="table-head">Institution</span></th>
+                    <th style="width:5%;"><span class="table-head">PLZ</span></th>
+                    <th style="width:15%;"><span class="table-head">Ort</span></th>
+                    <th style="width:96px;" data-b-searchable="false"><span class="table-head">Bewertung</span></th>
+                    <th style="width:42px;" data-b-searchable="false"><span class="table-head">RR</span></th>
+                    <th style="width:14%;"><span class="table-head">von</span></th>
+                    <th style="width:{{ linkWidth }};" data-b-sortable="false" data-b-searchable="false"><span class="table-head">{{ linkTitle }}</span></th>
+                    </tr>
+                {% endif %}
+                {% if restype == 'lex' %}
+                    {% set colspan=6 %}
+                    <th style="width:96px;"><span class="table-head">{{ dateTitle }}</span></th>
+                    <th style="width:20px"></th>
+                    <th><span class="table-head">Lexikonbegriff</span></th>
+                    <th style="width:33%;" data-b-searchable="false"><span class="table-head">Wiki-URL</span></th>
+                    <th style="width:42px;" data-b-searchable="false"><span class="table-head">RR</span></th>
+                    <th style="width:14%;"><span class="table-head">von</span></th>
+                    <th style="width:{{ linkWidth }};" data-b-sortable="false" data-b-searchable="false"><span class="table-head">{{ linkTitle }}</span></th>
+                </tr>
+                {% endif %}
+                {% if restype == 'prj' %}
+                    {% set colspan=6 %}
+                    <th style="width:96px;"><span class="table-head">{{ dateTitle }}</span></th>
+                    <th style="width:20px"></th>
+                    <th><span class="table-head">Projektname</span></th>
+                    <th style="width:14%;"><span class="table-head">Projektmeister</span></th>
+                    <th style="width:96px;" data-b-searchable="false"><span class="table-head">Bewertung</span></th>
+                    <th style="width:42px;" data-b-searchable="false"><span class="table-head">RR</span></th>
+                    <th style="width:{{ linkWidth }};" data-b-searchable="false" data-b-sortable="false"><span class="table-head">{{ linkTitle }}</span></th>
+                </tr>
+                {% endif %}
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+</div>

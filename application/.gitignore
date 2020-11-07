@@ -16,3 +16,7 @@
 /var/sessions/*
 !/var/sessions/.gitkeep
 /var/spool/
+/.env
+/public/js/
+/public/css/
+/public/build/

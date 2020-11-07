@@ -1,0 +1,31 @@
+/**
+ * VitooP - UI-Styles
+ */
+
+.vtp-active {
+    border: 1px solid #2694e8;
+    background: #3baae3 url("../img/ui-bg_glass_50_3baae3_1x400.png") 50% 50% repeat-x;
+    font-weight: bold;
+    color: #ffffff !important;
+}
+
+.ui-widget-header .vtp-active .ui-icon {
+    background-image: url("../img/ui-icons_ffffff_256x240.png");
+}
+
+.ui-button {
+
+    &:focus {
+        //outline-color: #62bbe9;
+        //outline-style: auto;
+        //outline-width: 1px;
+    }
+
+    &-icon-only {
+
+        .ui-button-text {
+            position: absolute !important;
+            padding: 0 !important;
+        }
+    }
+}

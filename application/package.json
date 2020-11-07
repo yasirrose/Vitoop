@@ -36,6 +36,7 @@
     "minimatch": "^3.0.4",
     "moment": "github:moment/moment",
     "natives": "^1.1.6",
+    "node-sass": "^4.14.1",
     "object-assign": "^4.1.1",
     "pdf-annotate": "^0.0.0",
     "pdfjs-dist": "^2.0.207",

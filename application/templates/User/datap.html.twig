@@ -1,0 +1,9 @@
+{% extends "Resource/layout.html.twig" %}
+{% block title %}Datenschutzbedienungen{% endblock %}
+{% block content %}
+    <fieldset class="ui-corner-all margin-top-3">
+        <div id="vtp-terms-user" class="ui-corner-all" style="padding: 30px">
+            {{ datap|raw }}
+        </div>
+    </fieldset>
+{% endblock %}

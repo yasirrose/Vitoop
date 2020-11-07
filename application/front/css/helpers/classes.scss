@@ -1,0 +1,85 @@
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.bordered-box {
+  overflow: auto;
+  margin: 8px;
+  padding:1em;
+  border: 1px solid #aed0ea;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.w-50 {
+  width: 50%;
+}
+
+.text-right {
+  text-align: right;
+}
+
+@for $i from 1 through 100 {
+  .w-#{$i} {
+    width: $i * 1%;
+    flex: #{$i * 1%} 0 0;
+  }
+}
+
+i[class*='fa'] {
+    cursor: pointer;
+}
+
+a {
+    cursor: pointer;
+}
+
+.ui-icon-close {
+    background-position: -80px -129px;
+    margin: auto;
+}
+
+.ui-button.ui-state-active:hover {
+    //opacity: 0.8;
+    //background: #e4f1fb url(../img/ui-bg_glass_50_3baae3_1x400.png) 50% 50% repeat-x !important;
+}
+
+.ui-state-disabled:not(.ui-icon) {
+    cursor: not-allowed !important;
+    border: 1px solid #cdcecf !important;
+    color: #646566 !important;
+    background: #f1f7fc !important;
+    opacity: .35;
+
+    .ui-icon {
+        filter: grayscale(1);
+    }
+
+    &:focus {
+        outline: none !important;
+    }
+
+    &.ui-state-active {
+        border: 1px solid #cdcecf !important;
+        color: #646566 !important;
+        background: #f1f7fc !important;
+        opacity: .35;
+
+        &:active, &:focus, &:hover {
+            border: 1px solid #cdcecf !important;
+            color: #646566 !important;
+            background: #f1f7fc !important;
+            opacity: .35;
+        }
+    }
+}
+
+
+
+

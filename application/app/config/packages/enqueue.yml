@@ -2,8 +2,3 @@ enqueue:
   default:
     transport: "mysql://%database_user%:%database_password%@%database_host%/%database_name%" #mysql://db_user:db_password@127.0.0.1:3306/db_name
     client: ~
-
-services:
-  Vitoop\InfomgmtBundle\Service\Queue\Processor\DelayEventProcessor:
-    tags:
-      - { name: 'enqueue.topic_subscriber' }
