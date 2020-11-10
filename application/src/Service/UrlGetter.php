@@ -9,7 +9,7 @@ class UrlGetter
 
     public function getBinaryContentFromUrl($url)
     {
-        if (strpos($url, 'file:///')) {
+        if (false !== strpos($url, 'file:///')) {
             return $this->getLocalContent($url);
         }
 
