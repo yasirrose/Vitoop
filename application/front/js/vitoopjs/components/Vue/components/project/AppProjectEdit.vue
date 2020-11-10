@@ -23,7 +23,7 @@
                             <div>
                                 <button @click="save"
                                         class="ui-corner-all ui-state-default"
-                                        :class="{'ui-corner-all ui-state-active': needToSave}"
+                                        :class="{'ui-corner-all ui-state-active': get('projectNeedToSave')}"
                                         style="padding-bottom: 5px; padding-top: 5px; width: 100%">speichern</button> <!-- ui-state-need-to-save -->
                             </div>
                             <div style="vertical-align: bottom; text-align: left; color: #2779aa; font-size: 14px; padding-top: 20px;">
@@ -155,12 +155,19 @@
                 </div>
             </div>
         </fieldset>
+        <div id="confirm-dialog">
+            <div class="message">Soll das Projekt vor dem Schließen gespeichert werden?</div>
+            <div class="buttons">
+                <button @click="redirect" class="ui-state-default ui-corner-all vtp-button">Nine</button>
+                <button @click="saveAndRedirect" class="ui-state-default ui-corner-all vtp-button">Ja</button>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
     import vSelect from "vue-select";
-    import {mapGetters} from "vuex";
+    import { mapGetters, mapState } from "vuex";
 
     export default {
         name: "AppProjectEdit",
@@ -175,7 +182,6 @@
                 isLoaded: false,
                 options: [],
                 user: null,
-                needToSave: false,
             }
         },
         watch: {
@@ -183,16 +189,41 @@
                 deep: true,
                 handler(val, oldVal) {
                     if (oldVal !== null) {
-                        this.needToSave = true;
+                        this.$store.commit('set',{
+                            key: 'projectNeedToSave',
+                            value: true,
+                        });
                     }
                 }
             }
         },
         computed: {
-            ...mapGetters(['getResource','get','getProject'])
+            ...mapGetters(['getResource','get','getProject']),
+            ...mapState({
+                project: ({ project }) => project,
+            })
+        },
+        beforeRouteLeave(to, from, next) {
+            if (this.get('projectNeedToSave')) {
+                $('#confirm-dialog').dialog('open');
+            } else {
+                next();
+            }
         },
         mounted() {
             this.getProjectData();
+
+            $('#confirm-dialog').dialog({
+                autoOpen: false,
+                width: 500,
+                height: 170,
+                position: { my: 'center top', at: 'center top', of: '#vtp-nav' },
+                modal: true,
+            });
+
+            VueBus.$on('confirm-dialog:open', () => {
+                $('#confirm-dialog').dialog('open');
+            });
         },
         methods: {
             changeRight(rel,e) {
@@ -210,9 +241,13 @@
                     options.plugins = ['textcolor', 'link', 'code'];
                     options.toolbar = 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink | code';
                     options.init_instance_callback = (editor) => {
-                        this.needToSave = false;
+                        this.$store.commit('set',{
+                            key: 'projectNeedToSave',
+                            value: false,
+                        });
                         editor.on('MouseLeave', (e) => {
-                            this.getProject.project_data.sheet = e.target.querySelector('.mce-content-body ').innerHTML;
+                            this.$store.commit('setProjectData', { key: 'sheet', value: e.target.querySelector('.mce-content-body ').innerHTML });
+                            // this.getProject.project_data.sheet = e.target.querySelector('.mce-content-body ').innerHTML;
                         });
                     };
                     tinymce.init(options);
@@ -228,10 +263,29 @@
                     })
                     .catch(err => console.dir(err));
             },
-            save() {
-                axios.post(`/api/project/${this.getResource('id')}`, this.getProject)
+            saveAndRedirect() {
+                this.save()
                     .then(() => {
-                        this.needToSave = false;
+                        this.redirect();
+                    });
+            },
+            redirect() {
+                $('#confirm-dialog').dialog('close');
+                // VueBus.$emit('refresh');
+                this.$store.commit('set',{
+                    key: 'projectNeedToSave',
+                    value: false,
+                });
+                this.$router.push(`/project/${this.getResource('id')}`);
+            },
+            save() {
+                return axios.post(`/api/project/${this.getResource('id')}`, this.getProject)
+                    .then(() => {
+                        this.$store.commit('set',{
+                            key: 'projectNeedToSave',
+                            value: false,
+                        });
+                        return;
                     })
                     .catch(err => console.dir(err));
             },
@@ -264,6 +318,27 @@
 </script>
 
 <style scoped lang="scss">
+    #confirm-dialog {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .message {
+            font-size: 16px;
+            color: #2779aa;
+            padding: 1.5rem 0;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+
+            button {
+                min-width: 5rem;
+            }
+        }
+    }
+
     #vtp-projectdata-box {
         display: flex;
     }

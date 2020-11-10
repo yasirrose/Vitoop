@@ -9,6 +9,8 @@ export default {
     },
 
     project: null,
+    projectNeedToSave: false,
+
     lexicon: null,
     conversationInstance: null,
 
