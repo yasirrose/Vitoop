@@ -9,6 +9,10 @@ class UrlGetter
 
     public function getBinaryContentFromUrl($url)
     {
+        if (false !== strpos($url, 'file:///')) {
+            return $this->getLocalContent($url);
+        }
+
         $client = new Client([
             'cookies' => true,
             'allow_redirects' => true,
@@ -19,5 +23,15 @@ class UrlGetter
         ]);
 
         return $client->get($url)->getBody();
+    }
+
+    private function getLocalContent($url)
+    {
+        $path = str_replace('file:///', '/', $url);
+        if (file_exists($path)) {
+            return file_get_contents($path);
+        }
+
+        return null;
     }
 }
