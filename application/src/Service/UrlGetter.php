@@ -29,7 +29,10 @@ class UrlGetter
     {
         $path = str_replace('file:///', '/', $url);
         if (file_exists($path)) {
-            return file_get_contents($path);
+            $handle = fopen($path, "rb");
+            $contents = fread($handle, filesize($path));
+            fclose($handle);
+            return $contents;
         }
 
         return null;
