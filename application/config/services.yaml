@@ -63,6 +63,10 @@ services:
         arguments:
             $downloadFolder: '%download_folder%'
 
+    App\Service\UrlGetter:
+        arguments:
+            $downloadFolder: '%download_folder%'
+
     App\Service\EmailSender:
         arguments:
             $host: '%host%'
