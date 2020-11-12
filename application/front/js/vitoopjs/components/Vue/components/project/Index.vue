@@ -1,8 +1,6 @@
 <template>
     <div v-if="getProject">
-<!--        <app-project v-if="!get('edit')" :projectHeightProp="projectHeight" />-->
-<!--        <app-project-edit v-else />-->
-        <router-view></router-view>
+        <router-view :projectHeightProp="projectHeight"></router-view>
     </div>
 </template>
 
