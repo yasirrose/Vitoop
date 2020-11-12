@@ -1,4 +1,3 @@
-import Index from "../components/Vue/components/project/Index.vue";
 import AppLexicon from "../components/Vue/components/AppLexicon.vue";
 import AppConversation from "../components/Vue/components/AppConversation.vue";
 import UserSettings from "../components/Vue/UserSettings/UserSettings.vue";
@@ -15,6 +14,11 @@ import UserAgreement from "../components/Vue/components/user/UserAgreement.vue";
 import UserInvitation from "../components/Vue/components/user/UserInvitation.vue";
 import UserRegistrate from "../components/Vue/components/user/UserRegistrate.vue";
 import UserDataP from "../components/Vue/components/user/UserDataP.vue";
+
+// Project
+import Index from "../components/Vue/components/project/Index.vue";
+import AppProject from "../components/Vue/components/project/AppProject.vue";
+import AppProjectEdit from "../components/Vue/components/project/AppProjectEdit.vue";
 
 export default [
     {
@@ -98,7 +102,18 @@ export default [
     {
         path: '/project/:projectId',
         component: Index,
-        name: 'project'
+        children: [
+            {
+                path: '',
+                name: 'project',
+                component: AppProject,
+            },
+            {
+                path: 'edit',
+                name: 'project-edit',
+                component: AppProjectEdit,
+            }
+        ]
     },
     {
         path: '/lexicon/:lexiconId',

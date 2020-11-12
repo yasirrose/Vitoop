@@ -1,4 +1,5 @@
-import initialState from './state'
+import Vue from 'vue';
+import initialState from './state';
 
 export default {
     setHelp(state, payload) {

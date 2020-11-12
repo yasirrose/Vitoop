@@ -67,13 +67,13 @@
                 <span v-if="canEdit">
                     <button id="vtp-projectdata-project-live"
                             class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
-                            :class="{'ui-state-focus ui-state-active': !get('edit')}"
+                            :class="{'ui-state-focus ui-state-active': $route.name !== 'project-edit'}"
                             @click="projectLiveMode">
                         <span class="ui-button-icon-primary ui-icon ui-icon-clipboard"></span>
                     </button>
                     <button id="vtp-projectdata-project-edit"
                             class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
-                            :class="{'ui-state-focus ui-state-active': get('edit')}"
+                            :class="{'ui-state-focus ui-state-active': $route.name === 'project-edit'}"
                             @click="projectEditMode">
                         <span class="ui-button-icon-primary ui-icon ui-icon-wrench"></span>
                     </button>
@@ -184,10 +184,12 @@
                 this.$router.push(`/${name}`);
             },
             projectEditMode() {
-                this.$store.commit('set', {key: 'edit', value: true});
+                this.$router.push(`/project/${this.getResource('id')}/edit`);
+                // this.$store.commit('set', {key: 'edit', value: true});
             },
             projectLiveMode() {
-                this.$store.commit('set', {key: 'edit', value: false});
+                this.$router.push(`/project/${this.getResource('id')}`);
+                // this.$store.commit('set', {key: 'edit', value: false});
             },
             conversationEditMode() {
                 if (this.get('conversationInstance').canEdit) {
