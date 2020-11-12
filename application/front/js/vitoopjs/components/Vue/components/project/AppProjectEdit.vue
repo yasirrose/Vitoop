@@ -1,5 +1,6 @@
 <template>
     <div id="vtp-content">
+        <div>{{ this.getProject.project_data.sheet }}</div>
         <fieldset class="ui-corner-all margin-top-3">
             <div id="vtp-projectdata-box" v-if="getProject">
                 <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all"
@@ -8,7 +9,7 @@
                 </div>
                 <div class="vtp-fh-w60"
                      style="flex: 1;margin: 8px; margin-right: 20px">
-                    <textarea v-model="getProject.project_data.sheet"
+                    <textarea :value="getProject.project_data.sheet"
                               ref="sheet"
                               @change="$store.commit('setProjectData', {key: 'sheet', value: $refs.sheet.value})"
                               id="edit-project-textarea"
@@ -158,7 +159,7 @@
         <div id="confirm-dialog">
             <div class="message">Soll das Projekt vor dem Schließen gespeichert werden?</div>
             <div class="buttons">
-                <button @click="redirect" class="ui-state-default ui-corner-all vtp-button">Nine</button>
+                <button @click="cancel" class="ui-state-default ui-corner-all vtp-button">Nine</button>
                 <button @click="saveAndRedirect" class="ui-state-default ui-corner-all vtp-button">Ja</button>
             </div>
         </div>
@@ -246,8 +247,10 @@
                             value: false,
                         });
                         editor.on('MouseLeave', (e) => {
-                            this.$store.commit('setProjectData', { key: 'sheet', value: e.target.querySelector('.mce-content-body ').innerHTML });
-                            // this.getProject.project_data.sheet = e.target.querySelector('.mce-content-body ').innerHTML;
+                            this.$store.commit('setProjectData', {
+                                key: 'sheet',
+                                value: e.target.querySelector('.mce-content-body ').innerHTML,
+                            });
                         });
                     };
                     tinymce.init(options);
@@ -271,21 +274,31 @@
             },
             redirect() {
                 $('#confirm-dialog').dialog('close');
-                // VueBus.$emit('refresh');
                 this.$store.commit('set',{
                     key: 'projectNeedToSave',
                     value: false,
                 });
                 this.$router.push(`/project/${this.getResource('id')}`);
             },
+            cancel() {
+                $('#confirm-dialog').dialog('close');
+                this.$store.commit('set',{
+                    key: 'projectNeedToSave',
+                    value: false,
+                });
+                this.$router.push(`/project/${this.getResource('id')}`)
+                    .then(() => {
+                        VueBus.$emit('refresh');
+                    });
+            },
             save() {
                 return axios.post(`/api/project/${this.getResource('id')}`, this.getProject)
-                    .then(() => {
+                    .then((response) => {
                         this.$store.commit('set',{
                             key: 'projectNeedToSave',
                             value: false,
                         });
-                        return;
+                        return response;
                     })
                     .catch(err => console.dir(err));
             },
