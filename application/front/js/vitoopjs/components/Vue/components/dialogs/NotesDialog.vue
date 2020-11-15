@@ -1,6 +1,10 @@
 <template>
     <div id="vtp-notes-dialog" title="Notizen">
-        <textarea :value="notes" @input="onChange"></textarea>
+        <textarea
+            :value="notes"
+            @input="onChange"
+            :placeholder="placeholder">
+        </textarea>
         <div class="text-right">
             <button @click="save"
                     :class="{ 'ui-state-active': dirty }"
@@ -19,7 +23,8 @@
         data() {
             return {
                 dirty: false,
-            }
+                placeholder: 'Hier kannst Du private Notizen speichern, die von überall aus zugänglich sind.',
+            };
         },
         computed: {
             ...mapState({
