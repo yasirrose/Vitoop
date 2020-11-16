@@ -5,7 +5,11 @@
                 <fieldset class="ui-corner-all">
                     <legend>Notizen</legend>
                     <div class="notes-block">
-                        <textarea :value="notes" @input="onNotesNotes"></textarea>
+                        <textarea
+                            :value="notes"
+                            @input="onNotesNotes"
+                            :placeholder="notesPlaceholder">
+                        </textarea>
                     </div>
                     <div class="notes-block__buttons">
                         <button @click="saveNotes"
@@ -97,6 +101,7 @@
         data() {
             return {
                 notesDirty: false,
+                notesPlaceholder: 'Hier kannst Du private Notizen speichern, die von überall aus zugänglich sind.',
             }
         },
         computed: {
@@ -157,6 +162,8 @@
         &.open {
 
             .notes-block__buttons {
+                display: flex;
+                justify-content: space-between;
 
                 button {
                     animation-name: slide-right;

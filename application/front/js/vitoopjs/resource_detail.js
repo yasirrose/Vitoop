@@ -571,7 +571,7 @@ window.resourceDetail = (function () {
 
             if (res_type === 'lex' ||  res_type === 'prj' || res_type === 'conversation') {
                 const grossButton = document.createElement('a');
-                grossButton.innerText = 'gross';
+                grossButton.innerText = 'öffnen';
                 grossButton.className = 'vtp-extlink vtp-extlink-lexicon vtp-uiaction-open-extlink ui-state-default';
                 if (!canRead && res_type !== 'lex') grossButton.classList.add('ui-state-disabled');
                 grossButton.addEventListener('click', () => {
