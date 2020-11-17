@@ -1,6 +1,5 @@
 <template>
     <div id="vtp-content">
-        <div>{{ this.getProject.project_data.sheet }}</div>
         <fieldset class="ui-corner-all margin-top-3">
             <div id="vtp-projectdata-box" v-if="getProject">
                 <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all"
