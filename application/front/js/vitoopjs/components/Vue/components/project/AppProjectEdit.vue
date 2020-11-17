@@ -158,7 +158,7 @@
         <div id="confirm-dialog">
             <div class="message">Soll das Projekt vor dem Schließen gespeichert werden?</div>
             <div class="buttons">
-                <button @click="cancel" class="ui-state-default ui-corner-all vtp-button">Nine</button>
+                <button @click="cancel" class="ui-state-default ui-corner-all vtp-button">Nein</button>
                 <button @click="saveAndRedirect" class="ui-state-default ui-corner-all vtp-button">Ja</button>
             </div>
         </div>
