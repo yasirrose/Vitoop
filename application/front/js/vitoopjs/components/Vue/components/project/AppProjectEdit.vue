@@ -1,6 +1,5 @@
 <template>
     <div id="vtp-content">
-        <div>{{ this.getProject.project_data.sheet }}</div>
         <fieldset class="ui-corner-all margin-top-3">
             <div id="vtp-projectdata-box" v-if="getProject">
                 <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all"
@@ -159,7 +158,7 @@
         <div id="confirm-dialog">
             <div class="message">Soll das Projekt vor dem Schließen gespeichert werden?</div>
             <div class="buttons">
-                <button @click="cancel" class="ui-state-default ui-corner-all vtp-button">Nine</button>
+                <button @click="cancel" class="ui-state-default ui-corner-all vtp-button">Nein</button>
                 <button @click="saveAndRedirect" class="ui-state-default ui-corner-all vtp-button">Ja</button>
             </div>
         </div>
