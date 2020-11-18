@@ -744,6 +744,7 @@ window.resourceDetail = (function () {
                 addCheckboxWrapperWithResourceTitle();
                 loadTab(undefined, 0);
             }
+            canRead = tr_res[0].classList.contains('canRead');
             return true;
         },
         setNextId = function () {
@@ -795,6 +796,7 @@ window.resourceDetail = (function () {
                 addCheckboxWrapperWithResourceTitle();
                 loadTab(undefined, 0);
             }
+            canRead = tr_res[0].classList.contains('canRead');
             return true;
         },
         setPrevId = function () {
