@@ -5,7 +5,7 @@
             <li>
                 <button class="vtp-resmenu-homelink vtp-resmenu-homelink-home ui-state-default ui-corner-all"
                     :class="{'vtp-nav-active ui-state-active': $route.name === 'project'}"
-                    @click="$router.push({path: `/project/${getResource('id')}`})"
+                    @click="$router.push({path: edit ? `/project/${getResource('id')}/edit` : `/project/${getResource('id')}`})"
                     v-if="getInProject">
                     Projekt-Hauptseite
                 </button>
@@ -67,13 +67,13 @@
                 <span v-if="canEdit">
                     <button id="vtp-projectdata-project-live"
                             class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
-                            :class="{'ui-state-focus ui-state-active': $route.name !== 'project-edit'}"
+                            :class="{'ui-state-focus ui-state-active': isProjectLive}"
                             @click="projectLiveMode">
                         <span class="ui-button-icon-primary ui-icon ui-icon-clipboard"></span>
                     </button>
                     <button id="vtp-projectdata-project-edit"
                             class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
-                            :class="{'ui-state-focus ui-state-active': $route.name === 'project-edit'}"
+                            :class="{'ui-state-focus ui-state-active': isProjectEdit}"
                             @click="projectEditMode">
                         <span class="ui-button-icon-primary ui-icon ui-icon-wrench"></span>
                     </button>
@@ -145,6 +145,7 @@
         },
         computed: {
             ...mapState({
+                edit: ({ edit }) => edit,
                 dividers: ({ dividersToSave }) => dividersToSave,
                 dividerTexts: ({ dividersToSave }) => dividersToSave.filter(divider => !divider.hasOwnProperty('id')),
                 dividerCoefs: ({ dividersToSave }) => dividersToSave.filter(divider => divider.hasOwnProperty('id')),
@@ -152,6 +153,12 @@
             ...mapGetters([
                 'getResource', 'getResourceId', 'getInProject', 'get', 'getProjectData', 'getIsAllRecords'
             ]),
+            isProjectLive() {
+                return this.$route.name === 'project' || (!/project/.test(this.$route.name) && !this.edit);
+            },
+            isProjectEdit() {
+                return this.$route.name === 'project-edit' || (this.$route.name !== 'project-edit' && this.edit);
+            },
             canEdit() { // getResource('owner')
                 let userRelated = false;
                 if (this.get('project')) {
@@ -184,12 +191,20 @@
                 this.$router.push(`/${name}`);
             },
             projectEditMode() {
-                this.$router.push(`/project/${this.getResource('id')}/edit`);
-                // this.$store.commit('set', {key: 'edit', value: true});
+                if (this.$route.name === 'project') {
+                    this.$store.commit('set', {key: 'edit', value: true});
+                    this.$router.push(`/project/${this.getResource('id')}/edit`);
+                } else {
+                    this.$store.commit('set', {key: 'edit', value: true});
+                }
             },
             projectLiveMode() {
-                this.$router.push(`/project/${this.getResource('id')}`);
-                // this.$store.commit('set', {key: 'edit', value: false});
+                if (this.$route.name === 'project-edit') {
+                    this.$store.commit('set', {key: 'edit', value: false});
+                    this.$router.push(`/project/${this.getResource('id')}`);
+                } else {
+                    this.$store.commit('set', {key: 'edit', value: false});
+                }
             },
             conversationEditMode() {
                 if (this.get('conversationInstance').canEdit) {
