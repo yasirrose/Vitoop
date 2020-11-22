@@ -2,6 +2,7 @@
 
 namespace App\Twig\Extension;
 
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
 use Twig\TwigFilter;
@@ -9,6 +10,20 @@ use Twig\TwigFunction;
 
 class VitoopExtension extends AbstractExtension
 {
+    /**
+     * @var UrlGeneratorInterface
+     */
+    private $urlGenerator;
+
+    /**
+     * VitoopExtension constructor.
+     * @param UrlGeneratorInterface $urlGenerator
+     */
+    public function __construct(UrlGeneratorInterface $urlGenerator)
+    {
+        $this->urlGenerator = $urlGenerator;
+    }
+
     public function getName()
     {
         return 'vitoop';
@@ -20,7 +35,8 @@ class VitoopExtension extends AbstractExtension
             new TwigFilter('teaseTitle', array($this, 'teaseTitle')),
             new TwigFilter('teaseUrl', array($this, 'teaseUrl')),
             new TwigFilter('teaseAuthor', array($this, 'teaseAuthor')),
-            new TwigFilter('avgmarkhint', array($this, 'avgmarkhint'))
+            new TwigFilter('avgmarkhint', array($this, 'avgmarkhint')),
+            new TwigFilter('pdfUrl', [$this, 'getPdfUrl'])
         );
     }
 
@@ -64,6 +80,18 @@ class VitoopExtension extends AbstractExtension
     public function teaseAuthor($author)
     {
         return $this->teaseText($author, 25);
+    }
+
+    public function getPdfUrl($url)
+    {
+        if (false !== strpos($url,'vitoop:///') ) {
+            $pdfUrlParts = explode('/', str_ireplace(['vitoop:///', '.pdf'], '', $url));
+            if (array_key_exists(1, $pdfUrlParts)) {
+                return $this->urlGenerator->generate('app_resource_pdf', ['id' => $pdfUrlParts[1]]);
+            }
+        }
+
+        return $url;
     }
 
     private function teaseText($text, $maxlen)
