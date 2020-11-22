@@ -43,6 +43,7 @@
                         if (!data.hasOwnProperty('success')) {
                             this.$store.commit('setResourceOwner', data.isOwner);
                             this.$store.commit('setResourceInfo', data.resourceInfo);
+                            // this.$store.commit('setResourceType', 'prj');
                             this.$store.commit('set', {key: 'project', value: data.project});
                             this.$store.commit('setResourceId', this.$route.params.projectId);
                             VueBus.$emit('project:loaded', data.project);
