@@ -570,11 +570,19 @@ window.resourceDetail = (function () {
             $('.vtp-extlink-lexicon').remove();
 
             if (res_type === 'lex' ||  res_type === 'prj' || res_type === 'conversation') {
-                const grossButton = document.createElement('a');
+                const grossButton = document.createElement('button');
                 grossButton.innerText = 'öffnen';
+                grossButton.style.fontWeight = 'bold';
                 grossButton.className = 'vtp-extlink vtp-extlink-lexicon vtp-uiaction-open-extlink ui-state-default';
-                if (!canRead && res_type !== 'lex') grossButton.classList.add('ui-state-disabled');
+                if (
+                    !canRead && res_type !== 'lex' ||
+                    (/conversation|prj/.test(res_type) && vitoopState.state.conversationInstance)
+                ) {
+                    grossButton.classList.add('ui-state-disabled');
+                    grossButton.disabled = true;
+                }
                 grossButton.addEventListener('click', () => {
+                    vitoopState.commit('resetConversation');
                     if (res_type !== 'lex') {
                         if (canRead) window.location.href = `${window.location.origin}${viewUrl}`;
                     } else {

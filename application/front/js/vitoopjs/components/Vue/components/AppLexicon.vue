@@ -109,7 +109,7 @@
             ...mapGetters(['get']),
             lexiconHeight() {
                 return this.lexiconTagsHeight ?
-                    this.get('contentHeight')-this.lexiconTagsHeight-32-27 : 0;
+                    this.get('contentHeight')-this.lexiconTagsHeight-32-27 : this.get('contentHeight');
             }
         },
         mounted() {
