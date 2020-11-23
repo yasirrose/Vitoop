@@ -34,6 +34,7 @@ window.resourceDetail = (function () {
         refresh_list = false,
         isShowRating = false,
         viewUrl = '',
+        hideGross = false,
         canRead,
         setResId = function (resId) {
             res_id = resId;
@@ -569,7 +570,7 @@ window.resourceDetail = (function () {
             //show lexicon button and scrollbars
             $('.vtp-extlink-lexicon').remove();
 
-            if (res_type === 'lex' ||  res_type === 'prj' || res_type === 'conversation') {
+            if (res_type === 'lex' ||  res_type === 'prj' || res_type === 'conversation' && !hideGross) {
                 const grossButton = document.createElement('button');
                 grossButton.innerText = 'öffnen';
                 grossButton.style.fontWeight = 'bold';
@@ -916,6 +917,7 @@ window.resourceDetail = (function () {
             $('#resource-flags').append(content['resource-flags']);
         },
         closeDialog = function () {
+            hideGross = false;
             hardResetTabs();
             hideHelpWindow();
             resourceNotes.hide();
@@ -1039,6 +1041,7 @@ window.resourceDetail = (function () {
             $('#resource-buttons').remove();
         }
         function showDialogInBigView() {
+            hideGross = true;
             res_type = vitoopState.state.resource.type;
             res_id = vitoopState.state.resource.id;
             openDialog();
