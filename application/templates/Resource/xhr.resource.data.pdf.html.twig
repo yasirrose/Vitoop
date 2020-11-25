@@ -33,7 +33,7 @@
         {%else%}
             <div class="vtp-fh-right vtp-fh-w0 vtp-right">
                 <button id="vtp-pdf-meta" class="vtp-button vtp-uiaction-detail-popup" title="{{ 'label.pdf_meta'|trans }}"></button>
-                <a href="{{ res.url }}" target="_blank" class="vtp-uiaction-open-url vtp-button">URL öffnen</a>
+                <a href="{{ res.url|pdfUrl }}" target="_blank" class="vtp-uiaction-open-url vtp-button">URL öffnen</a>
             </div>
             {{ form_widget(fvdata.url, {'attr': {'class': 'vtp-fh-w80 vtp-right', 'onblur': 'vitoopApp.checkUniqueUrl("pdf", event);', 'style': 'width: 77%' }}) }}
         {%endif%}
