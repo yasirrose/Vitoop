@@ -254,6 +254,8 @@ class ResourceDTO
 
     public $isResourceUser;
 
+    public $canRead = false;
+
     public function getIsbnLength()
     {
         return mb_strlen($this->isbn);
