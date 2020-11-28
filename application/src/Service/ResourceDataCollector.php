@@ -347,6 +347,7 @@ class ResourceDataCollector
             'id' => $this->initialized ? $this->res->getId() : 'new',
             'type' => $this->res_type,
             'isNewValid' => $this->isNewValid,
+            'canRead' => $this->res->toResourceDTO($this->vsec->getUser())->canRead,
             'link' => ('lex' === $this->res_type)? $this->res->getViewLink(): ''
         ];
     }

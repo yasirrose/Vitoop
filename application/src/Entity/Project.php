@@ -153,6 +153,10 @@ class Project extends Resource implements GetDTOInterface
     {
         $dto = parent::toResourceDTO($user);
         $dto->description = $this->description;
+        $dto->canRead = false;
+        if ($user) {
+            $dto->canRead = $this->project_data->availableForReading($user);
+        }
 
         return $dto;
     }
