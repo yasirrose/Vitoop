@@ -181,6 +181,10 @@ class Conversation extends Resource implements GetDTOInterface
         $dto->status = $this->conversation_data->getIsForRelatedUsers();
         $dto->isNotify = $this->conversation_data->isUserNotify($user);
         $dto->isResourceUser = $this->conversation_data->isRelatedUser($user);
+        $dto->canRead = false;
+        if ($user) {
+            $dto->canRead = $this->conversation_data->availableForReading($user);
+        }
 
         return $dto;
     }
