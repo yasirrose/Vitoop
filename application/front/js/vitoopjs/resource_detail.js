@@ -569,8 +569,7 @@ window.resourceDetail = (function () {
 
             //show lexicon button and scrollbars
             $('.vtp-extlink-lexicon').remove();
-
-            if (res_type === 'lex' ||  res_type === 'prj' || res_type === 'conversation' && !hideGross) {
+            if ((res_type === 'lex' ||  res_type === 'prj' || res_type === 'conversation') && !hideGross) {
                 const grossButton = document.createElement('button');
                 grossButton.innerText = 'öffnen';
                 grossButton.style.fontWeight = 'bold';
@@ -946,17 +945,17 @@ window.resourceDetail = (function () {
             uifyContainer(containerName);
             if (containerName === 'resource-buttons') {
                 if (vitoopState.state.inProject && /project/.test(location.pathname)) {
-                    $('#' + containerName).empty();
+                    $(`#${containerName} button`).not('#open-notes-dialog-button').remove();
                 }
                 if (vitoopState.state.inProject) {
-                    $(`#${containerName} button`).not('.vtp-uiaction-detail-previous, .vtp-uiaction-detail-next')
+                    $(`#${containerName} button`).not('.vtp-uiaction-detail-previous, .vtp-uiaction-detail-next, #open-notes-dialog-button')
                         .remove();
                 }
                 if (res_type === 'conversation') {
                     $('.vtp-uiaction-detail-delete').remove();
                 }
                 if (vitoopState.state.conversationInstance) {
-                    $(`#${containerName} button`).not('.vtp-uiaction-detail-blame').remove();
+                    $(`#${containerName} button`).not('.vtp-uiaction-detail-blame, #open-notes-dialog-button').remove();
                 }
                 if (!vitoopState.state.inProject && vitoopState.state.resource.id !== null) {
                     $('.vtp-uiaction-detail-new').remove();
