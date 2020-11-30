@@ -136,9 +136,12 @@ export default class VitoopApp {
     }
 
     openResourcePopup(resourceId) {
-        let popup = new ResourcePopup(resourceId);
-        popup.loadResource();
-        return popup;
+        return axios(`/api/v1/resources/${resourceId}`)
+            .then(({ data: { resource: { canRead } } }) => {
+                let popup = new ResourcePopup(resourceId);
+                popup.loadResource(canRead);
+                return popup;
+            });
     }
 
     getUser() {

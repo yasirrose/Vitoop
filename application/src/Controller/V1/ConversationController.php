@@ -96,7 +96,7 @@ class ConversationController extends ApiController
             'resourceInfo' => $resourceInfo,
             'isOwner' => $conversation->getConversationData()->availableForDelete($this->getUser()),
             'canEdit' => $conversation->getConversationData()->availableForWriting($this->getUser()),
-            'token' => $this->messageService->getToken($userId),
+            'token' => $this->messageService->getToken($userId, $conversation->getId()),
             'userId' => $userId
         ]);
     }
@@ -126,6 +126,7 @@ class ConversationController extends ApiController
 
         //send notification
         $delayEventNotificator->notify(new ConversationMessageNotification($message->getId()));
+        $this->messageService->sendMessageToChanel($conversation->getId(), $message->getDTO());
 
         return $this->getApiResponse($message);
     }
