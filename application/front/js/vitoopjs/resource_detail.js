@@ -575,8 +575,7 @@ window.resourceDetail = (function () {
                 grossButton.style.fontWeight = 'bold';
                 grossButton.className = 'vtp-extlink vtp-extlink-lexicon vtp-uiaction-open-extlink ui-state-default';
                 if (
-                    !canRead && res_type !== 'lex' ||
-                    (/conversation|prj/.test(res_type) && vitoopState.state.conversationInstance)
+                    !canRead && res_type !== 'lex'
                 ) {
                     grossButton.classList.add('ui-state-disabled');
                     grossButton.disabled = true;
@@ -642,9 +641,10 @@ window.resourceDetail = (function () {
             $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').append(customCheckboxWrapper);
             $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title .custom-checkbox__wrapper').append('<span id="resource-title"></span>');
         },
-        openDialog = function () {
+        openDialog = function (canReadProp) {
             // check for init: call a widget-method before initialization throws an
             // error
+            canRead = canReadProp !== undefined ? canReadProp : canRead;
             addCheckboxWrapperWithResourceTitle();
             resourceCheckOnChange();
 

@@ -3,9 +3,9 @@ export default class ResourcePopup {
         this.resourceId = resourceId;
     }
 
-    loadResource() {
+    loadResource(canRead) {
         window.resourceDetail.setResId(this.resourceId);
-        window.resourceDetail.openDialog();
+        window.resourceDetail.openDialog(canRead);
 
         return false;
     }
