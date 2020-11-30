@@ -13,8 +13,13 @@ class MessageService
         $this->client = new Client($url, $api, $secret);
     }
 
-    public function getToken($userId)
+    public function getToken($userId, $conversationId)
     {
         return $this->client->generateConnectionToken($userId, time() + 3600 * 24);
+    }
+
+    public function sendMessageToChanel($conversationId, $data)
+    {
+        $this->client->publish('con_'.$conversationId, $data);
     }
 }

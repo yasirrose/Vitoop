@@ -190,7 +190,7 @@
                         this.openResourcePopup('.conversation__message__text');
                     });
                     this.centrifuge.setToken(data.token);
-                    this.centrifuge.subscribe(`${this.conversationInstance.conversation.id}`, ({data}) => {
+                    this.centrifuge.subscribe(`con_${this.conversationInstance.conversation.id}`, ({data}) => {
                         const pushNewMessage = new Promise((resolve,reject) => {
                             this.conversationInstance.conversation.conversation_data.messages.push(data);
                             resolve();
@@ -349,15 +349,11 @@
                     formData.append('message', tinyMCE.get('new-message-textarea').getContent());
                     axios.post(`/api/v1/conversations/${this.conversationInstance.conversation.id}/messages`, formData)
                         .then(({data}) => {
-                            this.centrifuge.publish(`${this.conversationInstance.conversation.id}`, data)
-                                .then(res => {
-                                    this.newMessage.opened = false;
-                                    this.hideNewMessageArea(true);
-                                    this.openResourcePopup('.conversation__message__text');
+                            this.newMessage.opened = false;
+                            this.hideNewMessageArea(true);
+                            this.openResourcePopup('.conversation__message__text');
 
-                                    this.saveAssignments();
-                                })
-                                .catch(err => console.dir(err));
+                            this.saveAssignments();
                         })
                         .catch(err => console.dir(err))
                 } else { // update selected message
