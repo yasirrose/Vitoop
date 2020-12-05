@@ -91,7 +91,7 @@ gulp.task('vitoop-app', function () {
         'front/js/vitoopjs/app/boot.js'
         ])
         .pipe(webpack({
-            mode: 'production',
+            mode: 'development',
             output: {
                 publicPath: "/js/",
                 filename: 'vitoop-app.js'
@@ -197,8 +197,9 @@ gulp.task('watch', () => {
         'front/js/vitoopjs/store/*.js',
         'front/js/vitoopjs/*/*.js',
         'front/js/vitoopjs/*.js',
+        'front/js/pdf.editor/UI/*.js',
         'front/js/vitoopjs/app/*.js',
-    ], gulp.series(['js','pdf-view-js']));
+    ], gulp.series(['js','pdf-view-js', 'pdf']));
 });
 
 gulp.task('img', function() {
@@ -211,7 +212,7 @@ gulp.task('img', function() {
 gulp.task('pdf', function () {
     return gulp.src('front/js/pdf.editor/pdf.editor.js')
         .pipe(webpack({
-            mode: 'production',
+            mode: 'development',
             output: {
                 publicPath: "/build/",
                 filename: 'pdf.editor.js'
@@ -231,7 +232,7 @@ gulp.task('pdf', function () {
 gulp.task('default', gulp.series(['img', 'tinymce-scss', 'scss', 'js', 'pdf', 'pdf-view-js']));
 
 gulp.task('set-prod', function() {
-    return env = 'prod';
+    // return env = 'prod';
 });
 
 gulp.task('prod', gulp.series(['set-prod', 'default']));
