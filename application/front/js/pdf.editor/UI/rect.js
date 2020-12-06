@@ -71,7 +71,6 @@ function handleDocumentMousedown(e) {
  * @param {Event} e The DOM event to handle
  */
 function handleDocumentMousemove(e) {
-    console.log(e);
     let svg = overlay.parentNode.querySelector('svg.annotationLayer');
     let rect = svg.getBoundingClientRect();
 
