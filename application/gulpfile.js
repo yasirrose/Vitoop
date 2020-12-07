@@ -197,8 +197,9 @@ gulp.task('watch', () => {
         'front/js/vitoopjs/store/*.js',
         'front/js/vitoopjs/*/*.js',
         'front/js/vitoopjs/*.js',
+        'front/js/pdf.editor/UI/*.js',
         'front/js/vitoopjs/app/*.js',
-    ], gulp.series(['js','pdf-view-js']));
+    ], gulp.series(['js','pdf-view-js', 'pdf']));
 });
 
 gulp.task('img', function() {
