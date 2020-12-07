@@ -1,77 +1,77 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8"/>
-    <title>vitoop</title>
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/vitoop.css') }}">
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    <script src="{{ asset('js/vitoop.js') }}"></script>
-    <script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
-    <script src="{{ asset('js/vitoop-pdf-view.js') }}"></script>
-</head>
-<body id="vtp-application">
-<div id="vtp-view-container">
-    <div id="vtp-view-meta">
-        <div class="vtp-fh-top vtp-mb-15">
-            <div class="vtp-title">
-                <div>{{ 'label.title'|trans }}:</div>
-                <div style="margin-bottom: 5px"><b>{{resource.name}}</b></div>
-                <div>{{ 'label.author'|trans }}:</div>
-                <div style="margin-bottom: 7px"><b>{{resource.author}}</b></div>
-                <span class="vtp-view-label">{{ 'label.tnop'|trans }}:</span> <span class="vtp-view-description">{{resource.tnop}}</span>
-                <span class="vtp-view-label">{{ 'label.pdf_date'|trans }}:</span> <span class="vtp-view-description">{{ resource.pdfDate}}</span>
-                <span class="vtp-view-label">{{ 'label.lang'|trans }}: </span> <span class="vtp-view-description">{{resource.lang.name}}</span>
+    <head>
+        <meta charset="utf-8"/>
+        <title>vitoop</title>
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/vitoop.css') }}">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <script src="{{ asset('js/vitoop.js') }}"></script>
+        <script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
+        <script src="{{ asset('js/vitoop-pdf-view.js') }}"></script>
+    </head>
+    <body id="vtp-application">
+        <div id="vtp-view-container">
+            <div id="vtp-view-meta">
+                <div class="vtp-fh-top vtp-mb-15">
+                    <div class="vtp-title">
+                        <div>{{ 'label.title'|trans }}:</div>
+                        <div style="margin-bottom: 5px"><b>{{resource.name}}</b></div>
+                        <div>{{ 'label.author'|trans }}:</div>
+                        <div style="margin-bottom: 7px"><b>{{resource.author}}</b></div>
+                        <span class="vtp-view-label">{{ 'label.tnop'|trans }}:</span> <span class="vtp-view-description">{{resource.tnop}}</span>
+                        <span class="vtp-view-label">{{ 'label.pdf_date'|trans }}:</span> <span class="vtp-view-description">{{ resource.pdfDate}}</span>
+                        <span class="vtp-view-label">{{ 'label.lang'|trans }}: </span> <span class="vtp-view-description">{{resource.lang.name}}</span>
+                    </div>
+                </div>
+
+                <div class="vtp-fh-middle" id="resource-tag">
+                    {{ tagForm|raw }}
+                </div>
+                <div class="vtp-fh-middle vtp-view-button-container">
+                    <button class="vtp-button ui-corner-all ui-state-default" id="vtp-remark-dialog">{{ 'label.remarks'|trans  }}</button>
+                    <button class="vtp-button ui-corner-all ui-state-default" id="vtp-remark-private-dialog">{{ 'label.privat_remarks'|trans  }}</button>
+                    <button class="vtp-button ui-corner-all ui-state-default" id="vtp-comments-dialog">{{ 'label.comments'|trans }}</button>
+                    <button class="vtp-button ui-corner-all ui-state-default" id="vtp-assignments-dialog">{{ 'label.assignments'|trans }}</button>
+                    <button class="vtp-button ui-corner-all ui-state-default" id="pdf-editor-save">{{ 'label.save'|trans }} PDF</button>
+                </div>
+            </div>
+            <div id="vtp-pdf-view-toggle">
+                <button id="vtp-pdf-view-toggle-button"><span class="ui-icon ui-icon-seek-first"></span></button>
+            </div>
+            {% block pdfview %}{% endblock pdfview %}
+        </div>
+        <div id="resource-remark" style="display:none">
+            {{ remarkForm|raw }}
+        </div>
+        <div id="resource-remark_private" style="display:none">
+            {{ privateRemarkForm|raw }}
+        </div>
+        <div id="resource-comments" style="display:none">
+            {{ commentForm|raw }}
+        </div>
+        <div id="resource-assignments" style="display:none">
+            <div id="resource-lexicon">
+                {{ lexiconForm|raw }}
+            </div>
+            <div id="resource-project">
+                {{ projectForm|raw }}
             </div>
         </div>
+        <script>
+            var resourceId = {{resource.id}};
+            var resourceType = '{{resource.getResourceType()}}';
+            var baseUrl = '{{ path('_base_url') }}';
+            var pdfUrl = baseUrl + 'resource-files/' + resourceId + '.pdf';
+            var isLoadAnnotation = true;
 
-        <div class="vtp-fh-middle" id="resource-tag">
-            {{ tagForm|raw }}
-        </div>
-        <div class="vtp-fh-middle vtp-view-button-container">
-            <button class="vtp-button ui-corner-all ui-state-default" id="vtp-remark-dialog">{{ 'label.remarks'|trans  }}</button>
-            <button class="vtp-button ui-corner-all ui-state-default" id="vtp-remark-private-dialog">{{ 'label.privat_remarks'|trans  }}</button>
-            <button class="vtp-button ui-corner-all ui-state-default" id="vtp-comments-dialog">{{ 'label.comments'|trans }}</button>
-            <button class="vtp-button ui-corner-all ui-state-default" id="vtp-assignments-dialog">{{ 'label.assignments'|trans }}</button>
-            <button class="vtp-button ui-corner-all ui-state-default" id="pdf-editor-save">{{ 'label.save'|trans }} PDF</button>
-        </div>
-    </div>
-    <div id="vtp-pdf-view-toggle">
-        <button id="vtp-pdf-view-toggle-button"><span class="ui-icon ui-icon-seek-first"></span></button>
-    </div>
-    {% block pdfview %}{% endblock pdfview %}
-</div>
-<div id="resource-remark" style="display:none">
-    {{ remarkForm|raw }}
-</div>
-<div id="resource-remark_private" style="display:none">
-    {{ privateRemarkForm|raw }}
-</div>
-<div id="resource-comments" style="display:none">
-    {{ commentForm|raw }}
-</div>
-<div id="resource-assignments" style="display:none">
-    <div id="resource-lexicon">
-        {{ lexiconForm|raw }}
-    </div>
-    <div id="resource-project">
-        {{ projectForm|raw }}
-    </div>
-</div>
-<script>
-    var resourceId = {{resource.id}};
-    var resourceType = '{{resource.getResourceType()}}';
-    var baseUrl = '{{ path('_base_url') }}';
-    var pdfUrl = baseUrl + 'resource-files/' + resourceId + '.pdf';
-    var isLoadAnnotation = true;
-
-    $(document).ready(function () {
-        window.vitoopPdfView.init(resourceId, resourceType, baseUrl);
-    });
-</script>
-{% block pdfscripts %}
-    <script src="{{ asset('build/old/pdf.js') }}"></script>
-    <script src="{{ asset('build/old/pdf.viewer.js') }}"></script>
-    <script src="{{ asset('build/pdf.editor.js') }}"></script>
-{% endblock %}
-</body>
+            $(document).ready(function () {
+                window.vitoopPdfView.init(resourceId, resourceType, baseUrl);
+            });
+        </script>
+        {% block pdfscripts %}
+            <script src="{{ asset('build/old/pdf.js') }}"></script>
+            <script src="{{ asset('build/old/pdf.viewer.js') }}"></script>
+            <script src="{{ asset('build/pdf.editor.js') }}"></script>
+        {% endblock %}
+    </body>
 </html>

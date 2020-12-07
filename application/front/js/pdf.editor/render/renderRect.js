@@ -15,7 +15,7 @@ export default function renderRect(a) {
       fill: normalizeColor(a.color || '#ff0'),
       fillOpacity: 0.2
     });
-    
+
     a.rectangles.forEach((r) => {
       group.appendChild(createRect(r));
     });
@@ -41,6 +41,5 @@ function createRect(r) {
     width: r.width,
     height: r.height
   });
-
   return rect;
 }

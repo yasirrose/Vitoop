@@ -34,7 +34,7 @@ function getSelectionRects() {
       return rects;
     }
   } catch (e) {}
-  
+
   return null;
 }
 
@@ -44,12 +44,12 @@ function getSelectionRects() {
  * @param {Event} e The DOM event to handle
  */
 function handleDocumentMousedown(e) {
-  let svg;
-  if (_type !== 'area' || !(svg = findSVGAtPoint(e.clientX, e.clientY))) {
+  const svg = findSVGAtPoint(e.clientX, e.clientY);
+  if (!['area','highlight','underline'].includes(_type) || !(svg)) {
     return;
   }
 
-  let rect = svg.getBoundingClientRect();
+  const rect = svg.getBoundingClientRect();
   originY = e.clientY;
   originX = e.clientX;
 
@@ -60,7 +60,7 @@ function handleDocumentMousedown(e) {
   overlay.style.border = `3px solid ${BORDER_COLOR}`;
   overlay.style.borderRadius = '3px';
   svg.parentNode.appendChild(overlay);
-  
+
   document.addEventListener('mousemove', handleDocumentMousemove);
   disableUserSelect();
 }
@@ -71,8 +71,8 @@ function handleDocumentMousedown(e) {
  * @param {Event} e The DOM event to handle
  */
 function handleDocumentMousemove(e) {
-  let svg = overlay.parentNode.querySelector('svg.annotationLayer');
-  let rect = svg.getBoundingClientRect();
+    let svg = overlay.parentNode.querySelector('svg.annotationLayer');
+    let rect = svg.getBoundingClientRect();
 
   if (originX + (e.clientX - originX) < rect.right) {
     overlay.style.width = `${e.clientX - originX}px`;
@@ -90,7 +90,7 @@ function handleDocumentMousemove(e) {
  */
 function handleDocumentMouseup(e) {
   let rects;
-  if (_type !== 'area' && (rects = getSelectionRects())) {
+  if (!['area','highlight','underline'].includes(_type) && (rects = getSelectionRects())) {
     let svg = findSVGAtPoint(rects[0].left, rects[0].top);
     saveRect(_type, [...rects].map((r) => {
       return {
@@ -100,7 +100,7 @@ function handleDocumentMouseup(e) {
         height: r.height
       };
     }));
-  } else if (_type === 'area' && overlay) {
+  } else if (['area','highlight','underline'].includes(_type) && overlay) {
     let svg = overlay.parentNode.querySelector('svg.annotationLayer');
     let rect = svg.getBoundingClientRect();
     saveRect(_type, [{
@@ -184,7 +184,7 @@ function saveRect(type, rects, color) {
       });
     }).filter((r) => r.width > 0 && r.height > 0 && r.x > -1 && r.y > -1)
   };
-  
+
   // Short circuit if no rectangles exist
   if (annotation.rectangles.length === 0) {
     return;
@@ -214,7 +214,7 @@ function saveRect(type, rects, color) {
  */
 export function enableRect(type) {
   _type = type;
-  
+
   if (_enabled) { return; }
 
   _enabled = true;
