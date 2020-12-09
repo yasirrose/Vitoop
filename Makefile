@@ -26,7 +26,6 @@ stop:
 	docker-compose -f docker-compose.yml down
 
 install:
-	cp devops/docker/app/parameters.yml application/app/config/parameters.yml
 	docker-compose exec php sh -c 'composer install --optimize-autoloader && php bin/console doc:migr:migr --no-interaction && php bin/console assets:install --env=prod && php bin/console cache:clear --env=prod && chmod -R 0777 var/cache var/logs  && npm install && npm install -g gulp-cli && gulp && chmod -R 0777 var/cache var/logs'
 
 load_db:
