@@ -48,11 +48,18 @@
             }
         },
         watch: {
-            getResourceId(val) {
+            getResourceId(val, oldVal) {
                 const diff = this.get('secondSearch').show + this.get('tagList').show;
-                val ?
-                    this.$store.commit('updateTableRowNumber', this.get('table').rowNumber + diff - 1) :
-                    this.$store.commit('updateTableRowNumber', this.get('table').rowNumber - diff + 1);
+                if (val && oldVal === null) {
+                    this.$store.commit('updateTableRowNumber', this.get('table').rowNumber + diff - 1);
+                }
+
+                if (val === null) {
+                    this.$store.commit('updateTableRowNumber', this.get('table').rowNumber - diff + 1)
+                }
+                // val ?
+                //     this.$store.commit('updateTableRowNumber', this.get('table').rowNumber + diff - 1) :
+                //     this.$store.commit('updateTableRowNumber', this.get('table').rowNumber - diff + 1);
             }
         },
         data() {
