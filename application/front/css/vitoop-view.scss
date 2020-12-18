@@ -385,7 +385,7 @@ $vitoop-pdf-view-meta-width: 300px;
     overflow: visible;
     border: 9px solid transparent;
     background-clip: content-box;
-    border-image: url(images/shadow.png) 9 9 repeat;
+    border-image: none;
 }
 
 .pdfViewer.removePageBorders .page {
@@ -394,6 +394,10 @@ $vitoop-pdf-view-meta-width: 300px;
 }
 
 .pdfViewer {
+    * {
+        box-sizing: border-box;
+    }
+
     .page {
         canvas {
             margin: 0;

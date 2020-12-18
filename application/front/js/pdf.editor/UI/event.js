@@ -14,6 +14,7 @@ let clickNode;
  * @param {Event} e The DOM event to be handled
  */
 document.addEventListener('click', function handleDocumentClick(e) {
+
   if (!findSVGAtPoint(e.clientX, e.clientY)) { return; }
 
   let target = findAnnotationAtPoint(e.clientX, e.clientY);

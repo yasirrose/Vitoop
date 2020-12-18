@@ -39,7 +39,7 @@
     "node-sass": "^4.14.1",
     "object-assign": "^4.1.1",
     "pdf-annotate": "^0.0.0",
-    "pdfjs-dist": "^2.0.207",
+    "pdfjs-dist": "1.4.162",
     "sass-loader": "^7.1.0",
     "sockjs-client": "^1.4.0",
     "twitter-text": "^2.0.1",
