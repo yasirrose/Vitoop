@@ -121,9 +121,14 @@
                                           @input="selectUser"
                                           @search="searchUser"/>
                                 <button @click="addUser()"
-                                        class="ui-corner-all vtp-fh-w60 ui-state-default vtp-button">verknüpfen</button>
+                                        class="ui-corner-all vtp-fh-w60 ui-state-default vtp-button">
+                                    verknüpfen
+                                </button>
                                 <button @click="removeUser()"
-                                        class="ui-corner-all vtp-fh-w40 ui-state-default vtp-button" style="float: right">löschen</button>
+                                        class="ui-corner-all vtp-fh-w40 ui-state-default vtp-button"
+                                        style="float: right">
+                                    löschen
+                                </button>
                             </div>
                             <span v-if="isError"
                                   id="error-span"
@@ -141,8 +146,13 @@
                                 Dieser Vorgang kann nicht rückgängig gemacht werden. Soll das Projekt wirklich gelöscht werden?
                             </p>
                             <button @click="isDeleting = true"
+                                    :disabled="get('projectNeedToSave')"
                                     v-if="!isDeleting"
-                                    class="ui-state-default ui-corner-all vtp-button-light" style="margin-top: 20px; width: 100%">Projekt löschen</button>
+                                    class="ui-state-default ui-corner-all vtp-button-light"
+                                    :class="{ 'ui-state-disabled': get('projectNeedToSave') }"
+                                    style="margin-top: 20px; width: 100%">
+                                Projekt löschen
+                            </button>
                             <button @click="remove"
                                     v-if="isDeleting"
                                     class="ui-state-default ui-corner-all vtp-fh-w30 vtp-button-light">Ja</button>
