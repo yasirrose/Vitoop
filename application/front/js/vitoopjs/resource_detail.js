@@ -597,6 +597,7 @@ window.resourceDetail = (function () {
                 }
                 grossButton.addEventListener('click', () => {
                     vitoopState.commit('resetConversation');
+                    vitoopState.commit('resetResource');
                     if (res_type !== 'lex') {
                         if (canRead) window.location.href = `${window.location.origin}${viewUrl}`;
                     } else {
