@@ -1,6 +1,5 @@
 import PDFJSAnnotate from 'pdf-annotate';
 import renderScreenReaderHints from '../a11y/renderScreenReaderHints';
-import render from '../render';
 
 // Template for creating a new page
 const PAGE_TEMPLATE = `
@@ -68,7 +67,7 @@ export function renderPage(pageNumber, renderOptions) {
     // Render the page
     return Promise.all([
       pdfPage.render({ canvasContext, viewport, transform }),
-      render(svg, viewport, annotations)
+      PDFJSAnnotate.render(svg, viewport, annotations)
     ]).then(() => {
       // Text content is needed for a11y, but is also necessary for creating
       // highlight and strikeout annotations which require selecting text.
@@ -172,10 +171,10 @@ function approximateFraction(x) {
   }
 
   const x_ = x > 1 ? xinv : x;
-  
+
   // a/b and c/d are neighbours in Farey sequence.
   let a = 0, b = 1, c = 1, d = 1;
-  
+
   // Limit search to order 8.
   while (true) {
     // Generating next term in sequence (order of q).
@@ -201,10 +200,10 @@ function approximateFraction(x) {
 function getOutputScale(ctx) {
   let devicePixelRatio = window.devicePixelRatio || 1;
   let backingStoreRatio = ctx.webkitBackingStorePixelRatio ||
-                          ctx.mozBackingStorePixelRatio ||
-                          ctx.msBackingStorePixelRatio ||
-                          ctx.oBackingStorePixelRatio ||
-                          ctx.backingStorePixelRatio || 1;
+      ctx.mozBackingStorePixelRatio ||
+      ctx.msBackingStorePixelRatio ||
+      ctx.oBackingStorePixelRatio ||
+      ctx.backingStorePixelRatio || 1;
   let pixelRatio = devicePixelRatio / backingStoreRatio;
   return {
     sx: pixelRatio,
