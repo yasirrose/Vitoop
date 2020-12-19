@@ -25,6 +25,14 @@ window.resourceDetail = (function () {
                  src="../../img/check.png" />
         </span>
     `;
+    const deleteButton = `
+        <button class="vtp-uistyle-iconbutton vtp-uiaction-detail-delete ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+            title="{{ 'label.delete'|trans }}"
+            role="button">
+        <span class="ui-button-icon-primary ui-icon ui-icon-trash"></span>
+        <span class="ui-button-text">{{ 'label.delete'|trans }}</span>
+    </button>
+    `;
     var tab_loaded = [ 0, 0, 0, 0, 0 ],
         tab_name = [ 'quickview', 'remark', 'remark_private', 'comments', 'assignments' ],
         res_type = '',
@@ -131,6 +139,13 @@ window.resourceDetail = (function () {
                 $('#open-notes-dialog-button').on('click', () => {
                     resourceNotes.isOpen() ? resourceNotes.hide() : resourceNotes.show();
                 });
+                // if (vitoopState.state.admin && ['lex', 'conversation'].includes(res_type)) {
+                //     if ($('.vtp-uiaction-detail-new')) {
+                //         $('.vtp-uiaction-detail-new').after(deleteButton);
+                //     } else {
+                //         $('.vtp-uiaction-detail-next').after(deleteButton);
+                //     }
+                // }
             }
             /*************************************************************************
              * UIfy: data
@@ -569,7 +584,7 @@ window.resourceDetail = (function () {
 
             //show lexicon button and scrollbars
             $('.vtp-extlink-lexicon').remove();
-            if ((res_type === 'lex' ||  res_type === 'prj' || res_type === 'conversation') && !hideGross) {
+            if ((res_type === 'lex' ||  res_type === 'prj' || res_type === 'conversation') && !hideGross && !isNewResource) {
                 const grossButton = document.createElement('button');
                 grossButton.innerText = 'öffnen';
                 grossButton.style.fontWeight = 'bold';
@@ -582,6 +597,7 @@ window.resourceDetail = (function () {
                 }
                 grossButton.addEventListener('click', () => {
                     vitoopState.commit('resetConversation');
+                    vitoopState.commit('resetResource');
                     if (res_type !== 'lex') {
                         if (canRead) window.location.href = `${window.location.origin}${viewUrl}`;
                     } else {
@@ -951,7 +967,7 @@ window.resourceDetail = (function () {
                     $(`#${containerName} button`).not('.vtp-uiaction-detail-previous, .vtp-uiaction-detail-next, #open-notes-dialog-button')
                         .remove();
                 }
-                if (res_type === 'conversation') {
+                if (['conversation', 'lex'].includes(res_type) && !vitoopState.state.admin) {
                     $('.vtp-uiaction-detail-delete').remove();
                 }
                 if (vitoopState.state.conversationInstance) {

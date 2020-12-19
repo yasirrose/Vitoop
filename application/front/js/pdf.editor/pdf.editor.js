@@ -28,7 +28,7 @@ let RENDER_OPTIONS = {
 let currentPageNum = 1;
 
 PDFJSAnnotate.setStoreAdapter(new PDFJSAnnotate.LocalStoreAdapter());
-PDFJS.workerSrc = '/build/pdf.worker.js';
+PDFJS.workerSrc = '/build/old/pdf.worker.js';
 
 // Render stuff
 let NUM_PAGES = 0;

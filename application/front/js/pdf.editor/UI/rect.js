@@ -44,12 +44,12 @@ function getSelectionRects() {
  * @param {Event} e The DOM event to handle
  */
 function handleDocumentMousedown(e) {
-  const svg = findSVGAtPoint(e.clientX, e.clientY);
-  if (!['area','highlight','underline'].includes(_type) || !(svg)) {
+  let svg;
+  if (_type !== 'area' || !(svg = findSVGAtPoint(e.clientX, e.clientY))) {
     return;
   }
 
-  const rect = svg.getBoundingClientRect();
+  let rect = svg.getBoundingClientRect();
   originY = e.clientY;
   originX = e.clientX;
 
@@ -71,8 +71,8 @@ function handleDocumentMousedown(e) {
  * @param {Event} e The DOM event to handle
  */
 function handleDocumentMousemove(e) {
-    let svg = overlay.parentNode.querySelector('svg.annotationLayer');
-    let rect = svg.getBoundingClientRect();
+  let svg = overlay.parentNode.querySelector('svg.annotationLayer');
+  let rect = svg.getBoundingClientRect();
 
   if (originX + (e.clientX - originX) < rect.right) {
     overlay.style.width = `${e.clientX - originX}px`;
@@ -90,7 +90,7 @@ function handleDocumentMousemove(e) {
  */
 function handleDocumentMouseup(e) {
   let rects;
-  if (!['area','highlight','underline'].includes(_type) && (rects = getSelectionRects())) {
+  if (_type !== 'area' && (rects = getSelectionRects())) {
     let svg = findSVGAtPoint(rects[0].left, rects[0].top);
     saveRect(_type, [...rects].map((r) => {
       return {
@@ -100,7 +100,7 @@ function handleDocumentMouseup(e) {
         height: r.height
       };
     }));
-  } else if (['area','highlight','underline'].includes(_type) && overlay) {
+  } else if (_type === 'area' && overlay) {
     let svg = overlay.parentNode.querySelector('svg.annotationLayer');
     let rect = svg.getBoundingClientRect();
     saveRect(_type, [{
@@ -157,7 +157,7 @@ function saveRect(type, rects, color) {
   if (!color) {
     if (type === 'highlight') {
       color = 'FFFF00';
-    } else if (type === 'strikeout' || type === 'underline') {
+    } else if (type === 'strikeout') {
       color = 'FF0000';
     }
   }
@@ -171,9 +171,6 @@ function saveRect(type, rects, color) {
 
       if (type === 'strikeout') {
         offset = r.height / 2;
-      }
-      if (type === 'underline') {
-          offset = r.height;
       }
 
       return scaleDown(svg, {
@@ -204,9 +201,9 @@ function saveRect(type, rects, color) {
 
   // Add the annotation
   PDFJSAnnotate.getStoreAdapter().addAnnotation(documentId, pageNumber, annotation)
-    .then((annotation) => {
-      appendChild(svg, annotation);
-    });
+      .then((annotation) => {
+        appendChild(svg, annotation);
+      });
 }
 
 /**
@@ -214,7 +211,6 @@ function saveRect(type, rects, color) {
  */
 export function enableRect(type) {
   _type = type;
-
   if (_enabled) { return; }
 
   _enabled = true;
@@ -234,4 +230,3 @@ export function disableRect() {
   document.removeEventListener('mousedown', handleDocumentMousedown);
   document.removeEventListener('keyup', handleDocumentKeyup);
 }
-
