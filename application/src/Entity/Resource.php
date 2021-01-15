@@ -1,6 +1,7 @@
 <?php
 namespace App\Entity;
 
+use App\DTO\Resource\Export\ExportResourceDTO;
 use App\Entity\User\User;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -728,6 +729,28 @@ class Resource
         return $dto;
     }
 
+    public function toExportResourceDTO(): ExportResourceDTO
+    {
+        $dto = ExportResourceDTO::createFromResourceDTO($this->toResourceDTO(null));
+        $dto->resourceType = $this->getResourceType();
+        $dto->remark = $this->remarks->map(function (Remark $remark) {
+            return $remark->toExportRemarkDTO();
+        })->toArray();
+        $dto->remarksPrivate = $this->remarksPrivate->map(function (RemarkPrivate $remark) {
+            return $remark->toExportPrivateRemarkDTO();
+        })->toArray();
+        $dto->comments = $this->comments->map(function (Comment $comment) {
+            return $comment->getDTO();
+        })->toArray();
+        $dto->tags = $this->rel_tags->map(function (RelResourceTag $tag) {
+            return $tag->toExportResourceTagDTO();
+        })->toArray();
+        $dto->ratings = $this->ratings->map(function (Rating $rating) {
+            return $rating->toExportRatingDTO();
+        })->toArray();
+
+        return $dto;
+    }
 
     /**
      * @param User $user

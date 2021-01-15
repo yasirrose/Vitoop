@@ -1928,6 +1928,14 @@ td.vtp-blue.ui-state-active {
     appearance: none;
 }
 
+.simple-checkbox {
+    margin: 4px 2px 4px;
+    width: 14px;
+    height: 14px;
+    -moz-appearance: checkbox;
+    -webkit-appearance: checkbox;
+}
+
 #div-confirm-tagging {
     color: #3d80b3;
 

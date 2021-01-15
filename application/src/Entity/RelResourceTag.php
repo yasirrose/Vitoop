@@ -1,6 +1,7 @@
 <?php
 namespace App\Entity;
 
+use App\DTO\Resource\Export\ExportResourceTagDTO;
 use App\Entity\User\User;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -158,5 +159,16 @@ class RelResourceTag
     public function unlinkTag(User $user)
     {
         $this->deletedByUser = $user;
+    }
+
+    public function toExportResourceTagDTO()
+    {
+        return new ExportResourceTagDTO(
+            $this->id,
+            $this->resource->getId(),
+            $this->user->getDTO(),
+            $this->tag->getText(),
+            $this->deletedByUser ? $this->deletedByUser->getDTO() : null
+        );
     }
 }

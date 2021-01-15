@@ -9,6 +9,12 @@
         <div class="vtp-fh-top">
             {{ form_widget(linksForm.email, {'attr': {'class': 'vtp-fh-w40' }}) }}
             {{ form_widget(linksForm.save, {'attr': {'class': 'vtp-button ui-button ui-widget ui-state-default vtp-uiinfo-anchor' }}) }}
+
+            {% if app.user and app.user.isAdmin() %}
+                <div class="vtp-fh-right vtp-fh-w0 vtp-right">
+                    {{ form_row(linksForm.dataTransfer) }}
+                </div>
+            {% endif %}
         </div>
         <div>
             <div class="vtp-uiinfo-form-error">{{ form_errors(linksForm.email) }}</div>

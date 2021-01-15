@@ -1,6 +1,7 @@
 <?php
 namespace App\Entity;
 
+use App\DTO\Resource\Export\ExportPrivateRemarkDTO;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\DTO\Resource\RemarkPrivateDTO;
@@ -153,5 +154,16 @@ class RemarkPrivate
     public function updateFromDTO(RemarkPrivateDTO $dto)
     {
         $this->text = $dto->text;
+    }
+
+    public function toExportPrivateRemarkDTO()
+    {
+        return new ExportPrivateRemarkDTO(
+            $this->id,
+            $this->resource->getId(),
+            $this->user->getDTO(),
+            $this->text,
+            $this->created_at->format(\DateTime::ISO8601)
+        );
     }
 }
