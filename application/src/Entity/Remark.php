@@ -1,6 +1,7 @@
 <?php
 namespace App\Entity;
 
+use App\DTO\Resource\Export\ExportRemarkDTO;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\DTO\Resource\RemarkDTO;
@@ -214,4 +215,18 @@ class Remark
 
         return $remark;
     }
+
+    public function toExportRemarkDTO()
+    {
+        return new ExportRemarkDTO(
+            $this->id,
+            $this->resource->getId(),
+            $this->user->getDTO(),
+            $this->text,
+            $this->locked,
+            $this->ip,
+            $this->created_at->format(\DateTime::ISO8601)
+        );
+    }
 }
+

@@ -2,7 +2,9 @@
 
 namespace App\Form\Type;
 
+use App\Service\VitoopSecurity;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,6 +16,20 @@ use App\DTO\Links\SendLinksDTO;
 
 class SendLinksType extends AbstractType
 {
+    /**
+     * @var VitoopSecurity
+     */
+    private $vitoopSecurity;
+
+    /**
+     * SendLinksType constructor.
+     * @param VitoopSecurity $vitoopSecurity
+     */
+    public function __construct(VitoopSecurity $vitoopSecurity)
+    {
+        $this->vitoopSecurity = $vitoopSecurity;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -40,6 +56,10 @@ class SendLinksType extends AbstractType
                 ]
             ])
             ->add('save', InputTypeSubmitType::class, ['label' => 'Senden']);
+
+        if ($this->vitoopSecurity->isAdmin()) {
+            $builder->add('dataTransfer', CheckboxType::class, ['label' => 'Data transfer', 'required'=> false, 'attr' => ['class' => 'simple-checkbox']]);
+        }
     }
 
     /**

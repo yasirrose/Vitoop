@@ -21,6 +21,8 @@ class SendLinksDTO
 
     public $resourceIds;
 
+    public $dataTransfer = false;
+
     /**
      * @return mixed
      */

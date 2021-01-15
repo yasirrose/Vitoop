@@ -33,7 +33,6 @@ use App\Service\VitoopSecurity;
 /**
  * @Route("conversations/{id}", requirements={"id": "\d+"})
  */
-
 class ConversationController extends ApiController
 {
     private $messageService;

@@ -1,6 +1,7 @@
 <?php
 namespace App\Entity;
 
+use App\DTO\Resource\Export\ExportRatingDTO;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\User\User;
@@ -124,5 +125,15 @@ class Rating
         $rating->mark = $mark;
 
         return $rating;
+    }
+
+    public function toExportRatingDTO()
+    {
+        return new ExportRatingDTO(
+            $this->id,
+            $this->resource->getId(),
+            $this->mark,
+            $this->user->getDTO()
+        );
     }
 }

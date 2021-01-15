@@ -14,7 +14,7 @@ use App\Entity\User\User;
 class EmailSender
 {
     /**
-     * @var Swift_Mailer 
+     * @var Swift_Mailer
      */
     private $mailer;
 
@@ -101,6 +101,27 @@ class EmailSender
             )
         );
         $message->setFrom($user->getEmail());
+
+        return $this->mailer->send($message);
+    }
+
+    public function sendLinksWithDataTransfer(SendLinksDTO $dto, array $resources, User $user, $zipFile)
+    {
+        $message = $this->createMessage(
+            $dto->emailSubject,
+            $dto->email,
+            $this->templater->render(
+                'email/sendLinks.html.twig',
+                [
+                    'body'  => $dto->textBody,
+                    'resources' => $resources
+                ]
+            )
+        );
+        $message->setFrom($user->getEmail());
+
+        $attachment = new \Swift_Attachment($zipFile, 'vitoop_export.json', 'application/json');
+        $message->attach($attachment);
 
         return $this->mailer->send($message);
     }

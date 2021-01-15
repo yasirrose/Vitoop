@@ -966,3 +966,15 @@
 }
   ```
 </details>
+
+## POST api/v1/imported-resources
+<details>
+  <summary>Import json file with resources (only for admin)</summary>
+
+### Response
+  ```json
+{
+   "status": "ok"
+}
+  ```
+</details>
