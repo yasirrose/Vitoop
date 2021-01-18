@@ -80,6 +80,25 @@ gulp.task('jquery-js', function () {
     .pipe(gulp.dest('public/js'));
 });
 
+gulp.task('vitoop-store', function () {
+    return gulp.src([
+        'front/js/vitoopjs/store/*.js',
+    ])
+        .pipe(webpack({
+            mode: 'production',
+            output: {
+                publicPath: "/js/",
+                filename: 'vitoop-store.js'
+            },
+            performance: {
+                hints: false
+            }
+        }))
+        .pipe(concat('vitoop-store.js'))
+        .pipe(gulpif(env === 'prod', uglify()))
+        .pipe(gulp.dest('public/js/'));
+});
+
 gulp.task('vitoop-app', function () {
     return gulp.src([
         'front/js/vitoopjs/components/Vue/*/*.vue',
@@ -229,7 +248,7 @@ gulp.task('pdf', function () {
         .pipe(gulp.dest('public/build'));
 });
 
-gulp.task('default', gulp.series(['img', 'tinymce-scss', 'scss', 'js', 'pdf', 'pdf-view-js']));
+gulp.task('default', gulp.series(['img', 'tinymce-scss', 'scss', 'js', 'pdf', 'pdf-view-js', 'vitoop-store']));
 
 gulp.task('set-prod', function() {
     return env = 'prod';
