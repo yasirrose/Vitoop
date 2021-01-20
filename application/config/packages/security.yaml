@@ -35,6 +35,10 @@ security:
             guard:
                 authenticators:
                     - App\Security\Guard\VitoopMainFormAuthenticator
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 31536000
+                path: /
             logout:
                 path: app_logout
                 target: /login
