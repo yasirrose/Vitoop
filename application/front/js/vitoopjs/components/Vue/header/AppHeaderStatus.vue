@@ -132,13 +132,13 @@
                         <label class="custom-checkbox__wrapper light square-checkbox sm">
                             <input name="_remember_me"
                                    class="valid-checkbox open-checkbox-link"
-                                   title="Remember me"
+                                   :title="$t('label.remain_signed_in')"
                                    type="checkbox" />
                             <span class="custom-checkbox">
                                 <img class="custom-checkbox__check"
                                      src="/img/check.png" />
                             </span>
-                            Remember me
+                            {{ $t('label.remain_signed_in') }}
                         </label>
                     </div>
                     <div class="vtp-fh-w16" style="width: 167px">

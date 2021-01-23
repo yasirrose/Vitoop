@@ -68,6 +68,7 @@ label:
     url: URL
     username: Benutzername
     yes: ja
+    remain_signed_in: 'Angemeldet bleiben'
 logout:
     label: logout
     message: abmelden
