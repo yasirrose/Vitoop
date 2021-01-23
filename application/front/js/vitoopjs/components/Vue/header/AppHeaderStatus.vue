@@ -129,9 +129,17 @@
                                type="password"
                                tabindex="2"
                                :placeholder="$t('label.password')" style="width: 94%">
-                        <a @click="$router.push('/password/forgotPassword')">
-                            {{ $t('label.forgot_password') }}
-                        </a>
+                        <label class="custom-checkbox__wrapper light square-checkbox sm">
+                            <input name="_remember_me"
+                                   class="valid-checkbox open-checkbox-link"
+                                   title="Remember me"
+                                   type="checkbox" />
+                            <span class="custom-checkbox">
+                                <img class="custom-checkbox__check"
+                                     src="/img/check.png" />
+                            </span>
+                            Remember me
+                        </label>
                     </div>
                     <div class="vtp-fh-w16" style="width: 167px">
                         <input id="header_username" style="width: 94%"
@@ -321,6 +329,16 @@
 </script>
 
 <style scoped lang="scss">
+    .login-container {
+
+        input {
+            margin-bottom: 3px;
+
+            & + * {
+                color: #003366;
+            }
+        }
+    }
     .download-size {
         color: #2779aa;
         margin-right: 6px;
