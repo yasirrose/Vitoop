@@ -74,7 +74,17 @@ export default {
         "tnop": "Seiten",
         "url": "URL",
         "username": "Benutzername",
-        "yes": "ja"
+        "yes": "ja",
+        "remain_signed_in": "Angemeldet bleiben",
+        "second_search": "zweite Suche",
+        "help": "Hilfe",
+        "notes": "Notizen",
+        "perPage": "Datensätze pro Seite",
+        "set_remove_bookmarks": "Lesezeichen setzen/entfernen",
+        "mark_as_read": "als gelesen markieren",
+        "details": "Detaildaten",
+        "edit": "bearbeiten",
+        "view": "Ansicht"
     },
     "logout": {
         "label": "logout",

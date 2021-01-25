@@ -8,7 +8,9 @@
             </div>
 <!--            {% endif %}-->
             <div id="vtp-login" class="ui-corner-all">
-                <form action="/login" method="post" enctype="application/x-www-form-urlencoded">
+                <form action="/login"
+                      method="post"
+                      enctype="application/x-www-form-urlencoded">
                     <div class="vtp-fh-top">
                         <label for="username" class="vtp-fh-w40">{{ $t('label.username') }}:</label>
                         <input id="username" class="vtp-fh-w55" name="_username" type="text">
@@ -21,6 +23,11 @@
 <!--                    <input type="hidden" name="_target_path" value="/account" />-->
 
                     <div class="vtp-submit-wrapper">
+                        <a class="small"
+                           style="margin-top: 5px"
+                           @click="$router.push('/password/forgotPassword')">
+                            {{ $t('label.forgot_password') }}
+                        </a>
                         <input :value="$t('label.signin')" type="submit" id="login-button-main">
                     </div>
                 </form>
@@ -43,6 +50,9 @@
     }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+    .small {
+        color: #2779aa;
+        font-size: 12px;
+    }
 </style>

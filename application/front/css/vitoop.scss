@@ -1045,8 +1045,9 @@ span.vtp-icon {
 }
 
 #vtp-login div.vtp-submit-wrapper {
-    padding: 0.5em 2px 0.5em 0.5em;
-    text-align: right;
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0 0;
 }
 
 #vtp-login input[type="submit"] {
@@ -2332,7 +2333,7 @@ table.dataTable thead th:hover {
 }
 
 #project_name_name-button {
-    width: auto !important;
+    //width: auto !important;
 }
 
 .DataTables_sort_wrapper {
