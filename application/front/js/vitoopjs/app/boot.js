@@ -49,6 +49,8 @@ $(function () {
         messages,
     });
 
+    window.$i18n = i18n;
+
     library.add(faCheck);
     Vue.use(VueRouter);
     Vue.component('font-awesome-icon', FontAwesomeIcon);

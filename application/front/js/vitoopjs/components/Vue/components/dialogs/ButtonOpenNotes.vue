@@ -1,10 +1,9 @@
 <template>
     <button @click="openNotes"
+            :title="$t('label.notes')"
             class="ui-state-default ui-corner-all vtp-button"
             style="width: 34px">
-<!--        <i class="fa fa-sticky-note" style="font-size: 12px"></i>-->
         <span class="ui-icon ui-icon-document-b"></span>
-<!--        <i class="far fa-file" style="font-size: 12px"></i>-->
     </button>
 </template>
 
@@ -19,6 +18,12 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+    .vtp-button {
 
+        .ui-icon {
+            display: inline-block;
+            margin-top: 3px;
+        }
+    }
 </style>

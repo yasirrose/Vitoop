@@ -9,6 +9,7 @@
             <input type="hidden" id="projectID" value="{{ project.id }}"/>
             <div class="vtp-title__buttons">
                 <button id="vtp-projectdata-project-help"
+                        title="{{ 'label.help'|trans }}"
                         help-area="project"
                         class="{% if isProjectOwner %}vtp-help-offset {% endif%}vtp-help-area-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only">
                     <span class="ui-button-icon-primary ui-icon ui-icon-help"></span><span class="ui-button-text"></span>
@@ -25,7 +26,10 @@
     {% if lexicon is defined %}
         <div id="vtp-lexicondata-title" class="ui-corner-all">
             <span>{{'label.lexicon'|trans}}: {{ lexicon.name }}</span>
-            <button id="vtp-lexicondata-lexicon-help" help-area="lexicon" class="vtp-help-area-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only">
+            <button id="vtp-lexicondata-lexicon-help"
+                    help-area="lexicon"
+                    title="{{ 'label.help'|trans }}"
+                    class="vtp-help-area-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only">
                 <span class="ui-button-icon-primary ui-icon ui-icon-help"></span><span class="ui-button-text"></span>
             </button>
             <button id="vtp-lexicondata-lexicon-close" title="{{ 'label.close'|trans }}" class=""></button>

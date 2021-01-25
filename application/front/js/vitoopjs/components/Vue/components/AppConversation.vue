@@ -18,6 +18,7 @@
                     <div class="conversation__message__text" v-html="message.message"></div>
                     <div v-if="get('admin') && get('conversationEditMode')" class="conversation__message__edit">
                         <button class="ui-state-default"
+                                :title="$t('label.edit')"
                                 @click="editMessage(message)">
                             <span class="ui-button-icon-primary ui-icon ui-icon-wrench"></span>
                         </button>

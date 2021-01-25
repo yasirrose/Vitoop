@@ -37,6 +37,22 @@ input[type="text"], input[type="search"] {
     padding-left: 20px;
     position: relative;
 
+    &.sm {
+        padding-left: 15px;
+
+        .custom-checkbox {
+            width: 10px;
+            height: 10px;
+
+            &__check {
+                width: 8px;
+                height: 8px;
+                top: 1px;
+                left: 1px;
+            }
+        }
+    }
+
     &.light {
 
       .custom-checkbox {

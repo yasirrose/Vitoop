@@ -164,7 +164,17 @@
                 if (!$('.DataTables_sort_icon').hasClass('css_right ui-icon ui-icon-carat-2-n-s'))
                     $('.DataTables_sort_icon').addClass('css_right ui-icon ui-icon-carat-2-n-s');
             },
+            setNeededTitles() {
+                const teaserFaderWrappers = document.querySelectorAll('.vtp-teasefader-wrapper');
+                teaserFaderWrappers.forEach(item => {
+                    const text = item.querySelector('.vtp-teasefader-wrapper__text');
+                    if (text.offsetWidth > item.clientWidth) {
+                        item.setAttribute('title', text.innerText);
+                    }
+                });
+            },
             onTableDraw() {
+                this.setNeededTitles();
                 if (this.getResourceType === 'prj') VueBus.$emit('update:my-projects');
                 if (this.get('table').data.length >= this.get('table').rowNumber && this.get('resource').id === null) {
                     setTimeout(() => {
