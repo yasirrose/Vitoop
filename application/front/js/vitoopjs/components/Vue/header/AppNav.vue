@@ -66,12 +66,14 @@
                 <help-button help-area="project" />
                 <span v-if="canEdit">
                     <button id="vtp-projectdata-project-live"
+                            :title="$t('label.view')"
                             class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
                             :class="{'ui-state-focus ui-state-active': isProjectLive}"
                             @click="projectLiveMode">
                         <span class="ui-button-icon-primary ui-icon ui-icon-clipboard"></span>
                     </button>
                     <button id="vtp-projectdata-project-edit"
+                            :title="$t('label.edit')"
                             class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
                             :class="{'ui-state-focus ui-state-active': isProjectEdit}"
                             @click="projectEditMode">
@@ -91,12 +93,14 @@
                                get('conversationInstance').conversation.conversation_data.is_for_related_users"
                          style="margin-left: 4px">
                         <button id="vtp-projectdata-project-live"
+                                :title="$t('label.view')"
                                 class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
                                 :class="{'ui-state-focus ui-state-active': !get('conversationEditMode')}"
                                 @click="conversationEditMode">
                             <span class="ui-button-icon-primary ui-icon ui-icon-clipboard"></span>
                         </button>
                         <button id="vtp-projectdata-project-edit"
+                                :title="$t('label.edit')"
                                 class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
                                 :class="{'ui-state-focus ui-state-active': get('conversationEditMode')}"
                                 @click="conversationEditMode">

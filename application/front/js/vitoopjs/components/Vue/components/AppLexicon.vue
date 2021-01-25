@@ -113,9 +113,14 @@
             }
         },
         mounted() {
+            console.clear();
+            document.body.classList.add('overflow-hidden');
             this.$store.commit('set', {key: 'coefsToSave', value: []});
-            resourceProject.init();
-            this.loadLexicon();
+            this.loadLexicon()
+                .then(() => {
+                    resourceProject.init();
+                    this.getLexicons();
+                });
             this.getLexicons();
         },
         methods: {
@@ -127,13 +132,14 @@
                 this.reset();
             },
             loadLexicon() {
-                axios(`/api/v1/lexicons/${this.$route.params.lexiconId}`)
+                return axios(`/api/v1/lexicons/${this.$route.params.lexiconId}`)
                     .then(({data}) => {
                         this.lexicon = data.lexicon;
                         this.resourceInfo = data.resourceInfo;
                         this.$store.commit('set', { key: 'lexicon', value: data.lexicon });
                         this.$store.commit('setResourceInfo', data.resourceInfo);
                         this.$store.commit('setResourceId', this.$route.params.lexiconId);
+                        return;
                     })
                     .catch(err => console.dir(err));
             },
@@ -223,6 +229,9 @@
 
                 const lexiconTags = document.querySelector('#lexicon-tags');
                 this.lexiconTagsHeight = lexiconTags ? lexiconTags.clientHeight : 0;
+                setTimeout(() => {
+                    document.body.classList.remove('overflow-hidden');
+                }, 1000);
             }
         }
     }

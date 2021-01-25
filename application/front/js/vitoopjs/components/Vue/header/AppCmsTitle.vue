@@ -84,14 +84,6 @@
                     if (redirectTo === '/prj') this.$store.commit('setInProject', false);
                     redirectTo !== this.$route.path ? this.$router.push(redirectTo) : VueBus.$emit('datatable:reload');
                 }
-                // this.$store.commit('set', { key: 'lexicon', value: null });
-                // this.$store.commit('set', { key: 'project', value: null });
-                // this.$store.commit('resetConversation');
-                // this.$store.commit('resetResource');
-                // if (redirectTo === '/prj') {
-                //     this.$store.commit('setInProject', false)
-                // }
-                // redirectTo !== this.$route.path ? this.$router.push(redirectTo) : VueBus.$emit('datatable:reload');
             },
         }
     }

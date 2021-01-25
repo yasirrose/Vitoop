@@ -1,8 +1,9 @@
 <template>
 <!--    <label ref="cross-1">-->
         <button class="vtp-toggler ui-button ui-state-default ui-widget ui-corner-all ui-button-icon-only vtp-button"
-              @click="toggle"
-              :class="[(get('searchToggler').isOpened || isHasNotEmptyFields)? 'vtp-toggler-active' : '']">
+                @click="toggle"
+                :title="$t('label.second_search')"
+                :class="[(get('searchToggler').isOpened || isHasNotEmptyFields)? 'vtp-toggler-active' : '']">
             <span class="ui-icon"
                   :class="[get('searchToggler').isOpened ? 'ui-icon-arrowthick-1-n' : 'ui-icon-arrowthick-1-s']">
             </span>

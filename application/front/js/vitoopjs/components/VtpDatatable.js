@@ -143,7 +143,10 @@ export default class VtpDatatable {
             pagingType: "full_numbers",
             rowCallback: this.dtRowCallback,
             ordering: !this.isCoef,
-            drawCallback: drawCallback
+            drawCallback: drawCallback,
+            footerCallback: () => {
+                $('.dataTables_length .ui-selectmenu-button').attr('title', $i18n.t('label.perPage'));
+            },
         };
         return options;
     }
@@ -593,7 +596,9 @@ export default class VtpDatatable {
     }
     getWrapperForTextValue(data, type, row) {
         if (row.id !== null)
-            return '<div class="vtp-teasefader-wrapper">'+data+'<div class="vtp-teasefader"></div></div>'
+            return `<div class="vtp-teasefader-wrapper">
+                        <span class="vtp-teasefader-wrapper__text">${data}</span><div class="vtp-teasefader"></div>
+                    </div>`;
         else
             return this.getDividerName(row)
     }

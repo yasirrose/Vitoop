@@ -25,8 +25,13 @@
                aria-disabled="false">
         {{ form_widget(fvtag.remove, {'value': '-'~tagsRestRemovedCount, 'attr': {'class': 'vtp-uiinfo-anchor vtp-tag-submit' }}) }}
         <span style="float: right;">
-            <button id="vtp-tagbox-help" help-area="tag" class="vtp-help-area-button vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only" type="button">
-                <span class="ui-button-icon ui-icon ui-icon-help"></span><span class="ui-button-text"></span>
+            <button id="vtp-tagbox-help"
+                    title="{{ 'label.help'|trans }}"
+                    help-area="tag"
+                    class="vtp-help-area-button vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only"
+                    type="button">
+                <span class="ui-button-icon ui-icon ui-icon-help"></span>
+                <span class="ui-button-text"></span>
             </button>
             {{ form_label(fvtag.showown, null, {'label_attr': {'class': 'vtp-fh-h22' }}) }}
             {{ form_widget(fvtag.showown, {'attr': {'id': 'vtp-tgl-tag-showown', 'class': 'vtp-uiaction-tag-showown' }}) }}
