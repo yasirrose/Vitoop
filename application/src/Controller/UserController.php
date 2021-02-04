@@ -225,7 +225,7 @@ EOT;
 
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
-            if ($form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid()) {
                 $existing_invitation = $invitationRepository->findOneBy(array('email' => $invitation->getEmail()));
                 if (null === $existing_invitation) {
                     $user = $this->getUser();
