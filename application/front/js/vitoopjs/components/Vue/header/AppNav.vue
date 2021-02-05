@@ -110,6 +110,7 @@
                 </div>
             </div>
             <ShowPopupButton v-if="getResourceId" />
+            <ImportRecords v-if="$route.name === 'settings'" />
         </div>
         <transition name="fade">
             <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all"
@@ -129,10 +130,11 @@
     import SearchByTags from "./SearchByTags.vue";
     import ShowPopupButton from "./ShowPopupButton.vue";
     import ButtonOpenNotes from "../components/dialogs/ButtonOpenNotes.vue";
+    import ImportRecords from "./ImportRecords.vue";
 
     export default {
         name: "AppNav",
-        components: { HelpButton, SearchByTags, ShowPopupButton, ButtonOpenNotes },
+        components: { HelpButton, SearchByTags, ShowPopupButton, ButtonOpenNotes, ImportRecords },
         mixins: [VtpConfirmMixin, ShowTagsMixin],
         data() {
             return {
