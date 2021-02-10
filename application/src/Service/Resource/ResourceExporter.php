@@ -19,16 +19,6 @@ class ResourceExporter
             $exportedData[] = $resource->toExportResourceDTO();
         }
 
-//        $memoryStream = fopen('php://memory', 'w+b');
-//        $options = new Archive();
-//        $options->setOutputStream($memoryStream);
-//        $arch = new ZipStream(null, $options);
-//        $arch->addFile('vitoop_'.(new \DateTime())->getTimestamp().'.json', json_encode($exportedData));
-//        $arch->finish();
-//        rewind($memoryStream);
-//
-//        return $memoryStream;
-
         return json_encode($exportedData);
     }
 }

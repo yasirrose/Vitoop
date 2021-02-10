@@ -147,6 +147,7 @@ class RemarkPrivate
         $remark->resource = $resource;
         $remark->user = $user;
         $remark->updateFromDTO($dto);
+        $remark->created_at = $dto->createdAt;
 
         return $remark;
     }
