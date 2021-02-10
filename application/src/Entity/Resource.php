@@ -749,6 +749,10 @@ class Resource
             return $rating->toExportRatingDTO();
         })->toArray();
 
+        if ($dto->country instanceof Country) {
+            $dto->country = $dto->country->getCode();
+        }
+
         return $dto;
     }
 

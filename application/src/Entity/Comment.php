@@ -176,6 +176,7 @@ class Comment implements GetDTOInterface
         $comment->user = $user;
         $comment->text = $dto->text;
         $comment->isVisible = $dto->isVisible;
+        $comment->created_at = $dto->createdAt;
 
         return $comment;
     }

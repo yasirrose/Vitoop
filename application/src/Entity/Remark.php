@@ -211,7 +211,9 @@ class Remark
         $remark->user = $user;
         $remark->resource = $resource;
         $remark->text = $dto->text;
+        $remark->ip = $dto->ip;
         $remark->locked = $dto->locked;
+        $remark->created_at = $dto->createdAt;
 
         return $remark;
     }
