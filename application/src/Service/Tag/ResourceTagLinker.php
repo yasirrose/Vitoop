@@ -66,10 +66,14 @@ class ResourceTagLinker
      * @return mixed
      * @throws \Exception
      */
-    public function addTagToResource(Resource $resource, $tagName)
+    public function addTagToResource(Resource $resource, $tagName, User $user = null)
     {
         $tag = $this->tagCreator->createTag($tagName);
-        $relation = new RelResourceTag($resource, $tag, $this->vitoopSecurity->getUser());
+        $tagUser = $user;
+        if (!$tagUser) {
+            $tagUser = $this->vitoopSecurity->getUser();
+        }
+        $relation = new RelResourceTag($resource, $tag, $tagUser);
 
         $linkedRelation = $this->relResourceRepository->exists($relation);
         if (!$linkedRelation) {
