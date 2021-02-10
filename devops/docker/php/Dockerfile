@@ -1,4 +1,4 @@
-FROM php:7.1-fpm
+FROM php:7.3-fpm
 
 # Fix permissions on Mac
 RUN usermod -u 1000 www-data \
@@ -9,6 +9,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     git \
     libc-client-dev \
     libkrb5-dev \
+    libzip-dev \
     zlib1g-dev \
     libicu-dev \
     libxml2-dev \
