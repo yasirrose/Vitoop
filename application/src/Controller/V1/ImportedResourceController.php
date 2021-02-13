@@ -158,16 +158,19 @@ class ImportedResourceController extends ApiController
         $fileContent = file_get_contents($importedFile->getRealPath());
         $importedJson = json_decode($fileContent, true);
 
+        $resourceIds = [];
+        $exitentResourceIds = [];
         foreach ($importedJson as $resourceArray) {
             $resourceDTO = ResourceDTO::createFromArrayAndType($resourceArray, $resourceArray['resourceType']);
             $resourceDTO->user = $this->vitoopSecurity->getUser();
             //check if resource exists
             $existentResources = $this->resourceRepository->getResourceByName($resourceDTO->name);
             if (!empty($existentResources)) {
+                $exitentResourceIds[] = $existentResources[0]->getId();
                 continue;
             }
 
-            $this->contextTransaction->run(function ($resourceArray, $resourceDTO) {
+            $importedResource = $this->contextTransaction->run(function ($resourceArray, $resourceDTO) {
                 //create resource
                 $resourceClass = ResourceType::getClassByResourceType($resourceArray['resourceType']);
                 /**
@@ -257,10 +260,13 @@ class ImportedResourceController extends ApiController
                     $this->commentRepository->save($comment);
                 }
 
+
+                return $resource;
             }, [$resourceArray, $resourceDTO]);
 
+            $resourceIds[] = $importedResource->getId();
         }
 
-        return $this->getApiResponse(['status' => 'ok']);
+        return $this->getApiResponse(['status' => 'ok', 'resources' => $resourceIds, 'existent_resources' => $exitentResourceIds]);
     }
 }
