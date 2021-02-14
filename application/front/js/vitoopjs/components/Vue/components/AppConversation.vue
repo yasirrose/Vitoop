@@ -9,7 +9,7 @@
                           class="conversation__message ui-corner-all"
                           :class="{
                             'edit': get('admin')
-                      }">
+                          }">
                     <legend>
                         {{ message.user.username }} |
                         {{ moment(message.date.date).format('DD.MM.YYYY') }} |
@@ -233,9 +233,13 @@
         methods: {
             selectResource(e) {
                 const href = e.target.getAttribute('href');
-                this.selectedResourceId = href && (/resources\/(\d+)/.test(e.value) || /\/(\d+)/.test(e.value)) ? href.match(/\/(\d+)/)[1] : null;
+                this.selectedResourceId = href && (/resources\/(\d+)/.test(href) || /\/(\d+)/.test(href)) ? href.match(/\/(\d+)/)[1] : null;
             },
             addResourceId(e) {
+                // console.log(/^<a href=/.test(e.value));
+                // console.log(/resources\/(\d+)/.test(e.value));
+                // console.log(/\/(\d+)/.test(e.value));
+                // debugger;
                 if (/^<a href=/.test(e.value) && (/resources\/(\d+)/.test(e.value) || /\/(\d+)/.test(e.value))) {
                     this.selectedResourceId = e.value.match(/\/(\d+)/)[1];
                     this.resourceIds.push(this.selectedResourceId);
