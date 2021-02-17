@@ -468,7 +468,6 @@ window.resourceDetail = (function () {
             if ('new' == res_id) {
                 url = vitoop.baseUrl + ([res_type, 'new'].join('/'));
             }
-
             $.ajax({
                 url: url,
                 success: (responseJSON) => loadTabSuccess(responseJSON,tab_name[tab_nr]),
@@ -479,7 +478,28 @@ window.resourceDetail = (function () {
             });
             tab_loaded[tab_nr] = 1;
         },
+        getTypeKindOfPopup =function(){
+            switch(res_type) {
+                case 'conversation':
+                    return "Con: ";
+                case 'prj':
+                    return "Pro: ";
+                case 'lex':
+                    return "Lex: ";
+                case 'pdf':
+                    return "Pdf: ";
+                case 'teli':
+                    return "Teli: ";
+                case 'book':
+                    return "Buch: ";
+                case 'adr':
+                    return "Adr: ";
+                case 'link':
+                    return "Link: ";
+            }
+        },
         loadTabSuccess = function (responseJSON,tabName) {
+            responseJSON['resource-title'] = getTypeKindOfPopup() + responseJSON['resource-title'];
             var isNewResource = false;
 
             if ('new' == res_id) {
