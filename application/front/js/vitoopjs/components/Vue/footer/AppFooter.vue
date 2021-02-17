@@ -1,7 +1,7 @@
 <template>
     <div id="vtp-footer" class="ui-corner-all">
         <div id="vtp-footer-homelink">
-            © {{ currentYear }} by <a class="vtp-homelink" href="/">vitoop<span>.org</span></a>
+           © {{ currentYear }} by <a class="vtp-homelink" href="/">vitoop<span>.org</span></a>
         </div>
         <div id="vtp-imprint">
             <span v-if="isLoggedIn">
