@@ -217,7 +217,12 @@ EOT;
 
         $invitation = new Invitation();
         $invitation->setSubject('Einladung zum Informationsportal vitoop');
-        $invitation->setMail($mail);
+        $link = $this->generateUrl(
+            '_register',
+            ['secret' => $invitation->getSecret()],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+
         $form = $this->createForm(InvitationType::class, $invitation, array(
             'action' => $this->generateUrl('_invite'),
             'method' => 'POST'
@@ -226,6 +231,9 @@ EOT;
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
+                /**
+                 * @var Invitation $existing_invitation
+                 */
                 $existing_invitation = $invitationRepository->findOneBy(array('email' => $invitation->getEmail()));
                 if (null === $existing_invitation) {
                     $user = $this->getUser();
@@ -235,15 +243,17 @@ EOT;
                     $until = new \DateTime();
                     $until = $until->add(new \DateInterval('P' . $days . 'D'));
                     $invitation->setUntil($until);
+
+                    $mail = str_replace('{LINK}', $link, $mail);
+                    $mail = str_replace('{UNTIL}', sprintf('%s um %s Uhr', $until->format('d.m.Y'), $until->format('H:i:s')), $mail);
+                    $invitation->setMail($mail);
                     $invitationRepository->save($invitation);
 
                     $this->emailSender->sendInvite($invitation);
 
                     $info = 'Einladung erfolgreich versendet!';
                 } else {
-                    $until = new \DateTime();
-                    $until = $until->add(new \DateInterval('P3D'));
-                    $existing_invitation->setUntil($until);
+                    $existing_invitation->updateUntil();
                     $invitationRepository->save($existing_invitation);
                     $info = 'An diese eMail Adresse wurde bereits eine Einladung versendet. Die Gültigkeit wurde von jetzt an auf 3 Tage neu gesetzt';
                 }
