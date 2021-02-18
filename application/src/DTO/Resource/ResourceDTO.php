@@ -19,6 +19,7 @@ class ResourceDTO
             'pdfDate',
             'isUserHook',
             'isUserRead',
+            'created_at',
         ],
         'adr' => [
             'name',
@@ -33,6 +34,7 @@ class ResourceDTO
             'contact5',
             'isUserHook',
             'isUserRead',
+            'created_at',
         ],
         'link' => [
             'name',
@@ -41,6 +43,7 @@ class ResourceDTO
             'is_hp',
             'isUserHook',
             'isUserRead',
+            'created_at',
         ],
         'teli' => [
             'name',
@@ -50,6 +53,7 @@ class ResourceDTO
             'releaseDate',
             'isUserHook',
             'isUserRead',
+            'created_at',
         ],
         'lex' => [
             'name',
@@ -57,6 +61,7 @@ class ResourceDTO
             'wikifullurl',
             'isUserHook',
             'isUserRead',
+            'created_at',
         ],
         'prj' => [
             'name',
@@ -64,6 +69,7 @@ class ResourceDTO
             'description',
             'isUserHook',
             'isUserRead',
+            'created_at',
         ],
         'book' => [
             'name',
@@ -77,6 +83,7 @@ class ResourceDTO
             'year',
             'isUserHook',
             'isUserRead',
+            'created_at',
         ],
         'conversation' => [
             'name',
@@ -84,6 +91,7 @@ class ResourceDTO
             'description',
             'isUserHook',
             'isUserRead',
+            'created_at',
         ],
     ];
 
@@ -255,6 +263,8 @@ class ResourceDTO
     public $isResourceUser;
 
     public $canRead = false;
+
+    public $created_at;
 
     public function getIsbnLength()
     {
