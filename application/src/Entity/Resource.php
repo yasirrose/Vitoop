@@ -160,6 +160,9 @@ class Resource
     public static function createFromResourceDTO(ResourceDTO $dto)
     {
         $resource = new static();
+        if ($dto->created_at && is_string($dto->created_at)) {
+            $resource->created_at = new \DateTime($dto->created_at);
+        }
         $resource->updateFromResourceDTO($dto);
 
         return $resource;
@@ -725,6 +728,7 @@ class Resource
             $dto->isUserHook = $this->isBlueByUser($user);
             $dto->isUserRead = $this->isReadByUser($user);
         }
+        $dto->created_at = $this->created_at->format(\DateTime::ISO8601);
 
         return $dto;
     }
