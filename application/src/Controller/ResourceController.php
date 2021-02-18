@@ -510,6 +510,7 @@ class ResourceController extends ApiController
         /* @var $res \App\Entity\Resource */
         $res = $rdc->getResource();
 
+        $content['resource-title'] = $rdc->getTitle();
         $content['resource-remark'] = $rdc->getRemark();
 
         return new JsonResponse($content);
@@ -523,6 +524,7 @@ class ResourceController extends ApiController
         /* @var $res \App\Entity\Resource */
         $res = $rdc->getResource();
 
+        $content['resource-title'] = $rdc->getTitle();
         $content['resource-remark_private'] = $rdc->getRemarkPrivate();
 
         return new Response(json_encode($content));
@@ -537,7 +539,8 @@ class ResourceController extends ApiController
         $res = $rdc->getResource();
 
         return $this->getApiResponse(array(
-            'resource-comments' => $rdc->getComment()
+            'resource-comments' => $rdc->getComment(),
+            'resource-title' => $rdc->getTitle(),
         ));
     }
 
@@ -576,7 +579,8 @@ class ResourceController extends ApiController
         $res = $rdc->getResource();
 
         return $this->getApiResponse([
-            'resource-lexicon' => $rdc->getLexicon($isLexiconHome)
+            'resource-lexicon' => $rdc->getLexicon($isLexiconHome),
+            'resource-title' => $rdc->getTitle(),
         ]);
     }
 
@@ -589,7 +593,8 @@ class ResourceController extends ApiController
         $res = $rdc->getResource();
 
         return $this->getApiResponse([
-            'resource-project' => $rdc->getProject()
+            'resource-project' => $rdc->getProject(),
+            'resource-title' => $rdc->getTitle(),
         ]);
     }
 
@@ -603,7 +608,8 @@ class ResourceController extends ApiController
 
         return $this->getApiResponse([
             'resource-lexicon' => $rdc->getLexicon(),
-            'resource-project' => $rdc->getProject()
+            'resource-project' => $rdc->getProject(),
+            'resource-title' => $rdc->getTitle(),
         ]);
     }
 
