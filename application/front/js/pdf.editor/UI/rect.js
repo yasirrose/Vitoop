@@ -157,8 +157,9 @@ function saveRect(type, rects, color) {
   if (!color) {
     if (type === 'highlight') {
       color = 'FFFF00';
-    } else if (type === 'strikeout') {
+    } else if (type === 'underline') {
       color = 'FF0000';
+      type = 'strikeout';
     }
   }
 
@@ -169,9 +170,6 @@ function saveRect(type, rects, color) {
     rectangles: [...rects].map((r) => {
       let offset = 0;
 
-      if (type === 'strikeout') {
-        offset = r.height / 2;
-      }
 
       return scaleDown(svg, {
         y: (r.top + offset) - boundingRect.top,
