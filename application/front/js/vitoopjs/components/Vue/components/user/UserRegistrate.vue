@@ -144,7 +144,7 @@
                         formData.append("_username", this.name);
                         formData.append("_password",  this.password);
                         formData.append("_target_path", '/account');
-                        axios.post('/login_check', formData)
+                        axios.post('/login', formData)
                             .then(response => {
                                 axios('/api/user/me')
                                     .then(({data}) => {
