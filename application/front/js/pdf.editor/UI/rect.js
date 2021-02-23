@@ -159,6 +159,7 @@ function saveRect(type, rects, color) {
       color = 'FFFF00';
     } else if (type === 'underline') {
       color = 'FF0000';
+      type = 'strikeout';
     }
   }
 
