@@ -32,6 +32,9 @@ class UserType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array('data_class' => NewUserDTO::class));
+        $resolver->setDefaults([
+            'data_class' => NewUserDTO::class,
+            'csrf_protection' => false,
+        ]);
     }
 }

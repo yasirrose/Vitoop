@@ -75,7 +75,7 @@ class InvitationController extends ApiController
 
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
-            if ($form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid()) {
                 $existing_invitation = $this->invitationRepository->findOneByEmail($invitation->getEmail());
                 if ($existing_invitation) {
                     $invitation = $existing_invitation;
