@@ -178,7 +178,7 @@ class UserController extends ApiController
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
 
-            if ($form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid()) {
                 $user = User::create($form->getData(), $passwordEncoder);
                 $this->userRepository->add($user);
                 $invitationRepository->remove($invitation);
