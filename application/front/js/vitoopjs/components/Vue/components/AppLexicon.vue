@@ -253,7 +253,6 @@
 
         .ui-autocomplete-input {
             margin-right: 4px;
-
             + button {
                 margin-right: 4px;
             }
