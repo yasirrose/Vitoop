@@ -8,10 +8,10 @@ button, a, li, input, label, span {
         border-width: 1px;
         color: white !important;
 
-        &:hover {
-            border: 1px solid #74b2e2 !important;
-            background: linear-gradient(to top, darken(#7cc0f6, 10%) 40%, darken(#e8f3fa, 10%) 131%) !important;
-        }
+        // &:hover {
+        //     border: 1px solid #74b2e2 !important;
+        //     background: linear-gradient(to top, darken(#7cc0f6, 10%) 40%, darken(#e8f3fa, 10%) 131%) !important;
+        // }
 
         &:active {
             background: linear-gradient(to top, darken(#7cc0f6, 15%) 40%, darken(#e8f3fa, 15%) 131%) !important;

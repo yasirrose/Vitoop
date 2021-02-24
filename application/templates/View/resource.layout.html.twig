@@ -40,6 +40,9 @@
                 <button id="vtp-pdf-view-toggle-button"><span class="ui-icon ui-icon-seek-first"></span></button>
             </div>
             {% block pdfview %}{% endblock pdfview %}
+            <div class="preloader" id="view_loader">
+                <img src="/img/loader.gif" />
+            </div>
         </div>
         <div id="resource-remark" style="display:none">
             {{ remarkForm|raw }}
@@ -67,8 +70,20 @@
 
             $(document).ready(function () {
                 window.vitoopPdfView.init(resourceId, resourceType, baseUrl);
+                var loader = document.getElementById("view_loader");
+                loader.remove();
             });
         </script>
+        <style >
+
+            .preloader {
+                position: absolute;
+                top: 50%;
+                right: 40%;
+                width: 16px;
+                transform: translateY(-50%);
+            }
+    </style>
         {% block pdfscripts %}
             <script src="{{ asset('build/old/pdf.js') }}"></script>
             <script src="{{ asset('build/old/pdf_viewer.js') }}"></script>
