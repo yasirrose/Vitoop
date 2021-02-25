@@ -87,6 +87,7 @@ function renderPdf(pdf) {
 }
 
 function renderPdfByPageNum(pageNum, isNeedToScroll) {
+    
     let pdf = RENDER_OPTIONS.pdfDocument;
 
     pdf.getPage(pageNum).then(function (page) {
@@ -130,7 +131,7 @@ if (true === isLoadAnnotation) {
     xhr.onload = function () {
         if (this.status == 200) {
             localStorage.setItem(RENDER_OPTIONS.documentId+'/annotations', (typeof this.response === 'string') ? this.response : JSON.stringify(this.response));
-            render();
+            render();            
         }
     };
     xhr.send();
@@ -370,4 +371,6 @@ window.addEventListener('renderpdf', function (e) {
             renderPdfByPageNum(i, (i === currentPageNum));
         }
     }
+    var loader = document.getElementById("view_loader");
+    loader.remove();
 });

@@ -111,7 +111,6 @@ export default function appendChild(svg, annotation, viewport) {
   if (!viewport) {
     viewport = JSON.parse(svg.getAttribute('data-pdf-annotate-viewport'));
   }
-  
   let child;
   switch (annotation.type) {
     case 'area':

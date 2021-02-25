@@ -83,7 +83,7 @@ export default class SendLinkWidget extends Widget {
                 'opacity': 1,
                 'left': 0,
                 'margin-left': '4px',
-                'width': '300px',
+                'width': '340px',
                 'padding-right': '15px'
             });
         }
