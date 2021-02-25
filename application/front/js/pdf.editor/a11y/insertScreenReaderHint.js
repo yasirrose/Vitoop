@@ -19,7 +19,6 @@ export default function insertScreenReaderHint(annotation, num = 0) {
       let rects = annotation.rectangles;
       let first = rects[0];
       let last = rects[rects.length - 1];
-
       insertElementWithinElement(
         createScreenReaderOnly(`Begin ${annotation.type} annotation ${num}`, annotation.uuid),
         first.x, first.y, annotation.page, true
@@ -27,7 +26,7 @@ export default function insertScreenReaderHint(annotation, num = 0) {
 
       insertElementWithinElement(
         createScreenReaderOnly(`End ${annotation.type} annotation ${num}`, `${annotation.uuid}-end`),
-        last.x + last.width, last.y, annotation.page, false
+        last.x + last.width, last.y + last.height, annotation.page, false
       );
       break;
 
