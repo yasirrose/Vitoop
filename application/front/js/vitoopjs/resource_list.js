@@ -128,13 +128,13 @@ class ResourceList {
          *  uify (buttons etc.)
          *********************************/
 
-        $('#vtp-search-bytags-form-submit').button({
-            icons: {
-                primary: "ui-icon-refresh"
-            },
-            text: false,
-            label: "Suche"
-        });
+        // $('#vtp-search-bytags-form-submit').button({
+        //     icons: {
+        //         primary: "ui-icon-refresh"
+        //     },
+        //     text: false,
+        //     label: "Suche"
+        // });
 
         $('#vtp-user-loginform-login').button({
             icons: {
