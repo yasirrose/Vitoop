@@ -84,12 +84,15 @@ function renderPdf(pdf) {
         viewer.appendChild(page);
         renderPdfByPageNum(i, false);
     }
+    var loader = document.getElementById("view_loader");
+    if (loader!=null)
+        loader.remove();
 }
 
 function renderPdfByPageNum(pageNum, isNeedToScroll) {
     
     let pdf = RENDER_OPTIONS.pdfDocument;
-
+    if(pdf != null){
     pdf.getPage(pageNum).then(function (page) {
         RENDER_OPTIONS.scale = (pdfWrapper.offsetWidth / page.getViewport(1).width)*0.9;
 
@@ -112,6 +115,7 @@ function renderPdfByPageNum(pageNum, isNeedToScroll) {
             }
         });
     });
+}
 }
 
 // Subscribe to resize event
@@ -365,12 +369,12 @@ window.addEventListener('renderpdf', function (e) {
     }
 
     renderPdfByPageNum(currentPageNum, true);
+    
 
     for (let i = 1; i <= currentPageNum; i++) {
         if (renderedPages.indexOf(i) !== -1) {
             renderPdfByPageNum(i, (i === currentPageNum));
         }
     }
-    var loader = document.getElementById("view_loader");
-    loader.remove();
+   
 });

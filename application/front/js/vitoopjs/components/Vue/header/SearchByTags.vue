@@ -24,18 +24,18 @@
                         title="Übereinstimmungen der Tags"
                         name="tagcnt"
                         size="1"
-                        style="width: 52px">
+                        style="width: 65px">
                     <option value="0">-</option>
                 </select>
                 <transition name="translate">
-                    <button id="vtp-search-bytags-form-submit"
+                    <!-- <button id="vtp-search-bytags-form-submit"
                             class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only"
                             value="Suche"
                             :class="{'ui-state-active': active}"
                             v-if="active"
                             @click="reloadTable">
                         <span class="ui-button-icon-primary ui-icon ui-icon-refresh"></span>
-                    </button>
+                    </button> -->
                 </transition>
                 <span id="vtp-search-bytags-form-buttons-vue">
                     <ButtonOpenNotes />
@@ -152,7 +152,7 @@
                 this.saveTagsToStorage();
                 this.updateAutocomplete($('#vtp-search-bytags-taglist'));
                 this.maintainCntTags();
-                $('#vtp-search-bytags-form-submit').blur();
+                // $('#vtp-search-bytags-form-submit').blur();
                 this.active = false;
                 this.isChanged = false;
                 resourceList.loadResourceListPage(e);
@@ -174,7 +174,8 @@
 
                 this.updateAutocomplete($('#vtp-search-bytags-taglist'));
                 this.maintainCntTags();
-                if (this.tags.length > 0) VueBus.$emit('datatable:reload');
+                if (this.tags.length > 0) 
+                    VueBus.$emit('datatable:reload');
             },
             extendTag(tag,event) {
                 let parent = $(event.target).parent();
@@ -205,7 +206,7 @@
 
                 $(this.tagSearchFormId).on('submit', (e, secondSuccessFunc) => {
                     resourceList.loadResourceListPage(e, secondSuccessFunc);
-                    $('#vtp-search-bytags-form-submit').blur();
+                    // $('#vtp-search-bytags-form-submit').blur();
                     this.active = false;
                     this.isChanged = false;
                 });
@@ -272,6 +273,7 @@
                     this.active = true;
                     this.$store.commit('set', {key: 'tagcnt', value: this.tagcnt});
                     this.saveTagsToStorage();
+                    VueBus.$emit('datatable:reload');
                 });
 
                 this.maintainCntTags();
@@ -328,6 +330,7 @@
                 });
                 this.$store.commit('setTags', {key: 'tags_i', tags: this.ignoredTags});
                 this.changeColor();
+                VueBus.$emit('datatable:reload');
             },
             highlightTag(tag) {
                 tag.isHighlighted = !tag.isHighlighted;
@@ -336,6 +339,7 @@
                 this.saveTagsToStorage();
                 this.$store.commit('setTags', {key: 'tags_h', tags: this.highlightedTags});
                 this.changeColor();
+                VueBus.$emit('datatable:reload');
             },
             pushTag(tag) {
                 if (tag == '') {
@@ -372,7 +376,7 @@
                 if ((this.cnttags === 0) && (this.ignoredTags.length > 0)) {
                     // $('#vtp-search-bytags-form-submit').attr("disabled", "disabled");
                 } else {
-                    $('#vtp-search-bytags-form-submit').removeAttr("disabled");
+                    // $('#vtp-search-bytags-form-submit').removeAttr("disabled");
                 }
 
                 this.tagcnt = (this.tagcnt > this.cnttags) ? this.cnttags : this.tagcnt;
@@ -419,9 +423,6 @@
                     vitoop.baseUrl + (['tag', 'suggest'].join('/')) + '?extended=1&ignore='+this.tags.map(tag => tag.text).join()
                 );
             },
-            reloadTable() {
-                VueBus.$emit('datatable:reload');
-            }
         }
     }
 </script>
