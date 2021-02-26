@@ -839,9 +839,9 @@ input#vtp-search-bytags-taglist {
     margin-bottom: -10px !important;
 }
 
-#vtp-search-bytags-form-submit {
+/* #vtp-search-bytags-form-submit {
     height: 27px;
-}
+} */
 
 #vtp-header-login > #username, #vtp-header-login > #password {
     width: 156px;

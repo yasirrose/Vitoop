@@ -41,7 +41,7 @@ export default class TagSearch {
 
         $(this.tagSearchFormId).on('submit', function(e, secondSuccessFunc) {
             resourceList.loadResourceListPage(e, secondSuccessFunc);
-            $('#vtp-search-bytags-form-submit').removeClass('act').blur();
+            // $('#vtp-search-bytags-form-submit').removeClass('act').blur();
             self.isChanged = false;
         });
 
@@ -110,7 +110,7 @@ export default class TagSearch {
             self.saveTagsToStorage();
             self.updateAutocomplete($('#vtp-search-bytags-taglist'));
             self.maintainCntTags();
-            $('#vtp-search-bytags-form-submit').removeClass('act').blur();
+            // $('#vtp-search-bytags-form-submit').removeClass('act').blur();
             self.isChanged = false;
             resourceList.loadResourceListPage(e);
             $(self.tagSearchFormId).submit();
@@ -144,7 +144,7 @@ export default class TagSearch {
 
         $('#vtp-search-bytags-tagcnt').on('selectmenuchange', function () {
             self.tagcnt = +$(this).val();
-            $('#vtp-search-bytags-form-submit').addClass('act');
+            // $('#vtp-search-bytags-form-submit').addClass('act');
 
             self.saveTagsToStorage();
             resourceList.maintainResLinks({'tagcnt': self.tagcnt});
@@ -186,7 +186,7 @@ export default class TagSearch {
 
     changeColor() {
         if ((!this.isChanged) && ((this.tagCount != this.tags.length) || (this.igCount != this.ignoredTags.length) || (this.hlCount != this.highlightedTags.length))) {
-            $('#vtp-search-bytags-form-submit').addClass('act');
+            // $('#vtp-search-bytags-form-submit').addClass('act');
             this.isChanged = true;
         }
         this.tagCount = this.tags.length;
@@ -305,7 +305,7 @@ export default class TagSearch {
         if ((this.cnttags === 0) && (this.ignoredTags.length > 0)) {
             // $('#vtp-search-bytags-form-submit').attr("disabled", "disabled");
         } else {
-            $('#vtp-search-bytags-form-submit').removeAttr("disabled");
+            // $('#vtp-search-bytags-form-submit').removeAttr("disabled");
         }
 
         this.tagcnt = (this.tagcnt > this.cnttags) ? this.cnttags : this.tagcnt;
