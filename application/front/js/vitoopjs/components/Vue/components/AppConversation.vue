@@ -233,15 +233,18 @@
         methods: {
             selectResource(e) {
                 const href = e.target.getAttribute('href');
-                this.selectedResourceId = href && (/resources\/(\d+)/.test(href) || /\/(\d+)/.test(href)) ? href.match(/\/(\d+)/)[1] : null;
+                if (href) {
+                    this.selectedResourceId = (/resources\/(\d+)/.test(href) || /\/(\d+)/.test(href) || /^(\d+)$/.test(href)) ?
+                        href.match(/(\d+)/)[1] : null;
+                }
             },
             addResourceId(e) {
                 // console.log(/^<a href=/.test(e.value));
                 // console.log(/resources\/(\d+)/.test(e.value));
-                // console.log(/\/(\d+)/.test(e.value));
-                // debugger;
-                if (/^<a href=/.test(e.value) && (/resources\/(\d+)/.test(e.value) || /\/(\d+)/.test(e.value))) {
-                    this.selectedResourceId = e.value.match(/\/(\d+)/)[1];
+                // console.log(e.value.match(/^(\d+)$/));
+                const href = e.value ? e.value.match(/href="([^\'\"]+)/)[1] : null;
+                if (href && (/resources\/(\d+)/.test(href) || /\/(\d+)/.test(href) || /^(\d+)$/.test(href))) {
+                    this.selectedResourceId = href.match(/(\d+)/)[1];
                     this.resourceIds.push(this.selectedResourceId);
                 }
             },
@@ -250,6 +253,7 @@
                     const index = this.resourceIds.indexOf(this.selectedResourceId);
                     if (index > -1) {
                         this.resourceIds.splice(index, 1);
+                        this.selectedResourceId = null;
                     }
                 }
             },
