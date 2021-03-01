@@ -53,7 +53,7 @@
                                     <input class="valid-checkbox open-checkbox-link"
                                            id="user_show_help"
                                            name="user_show_help"
-                                           :checked="get('user').is_show_help"
+                                           :checked="isShowHelp"
                                            type="checkbox"/>
                                     <span class="custom-checkbox">
                                         <img class="custom-checkbox__check"
@@ -109,6 +109,9 @@
                 notes: ({ notes }) => notes,
             }),
             ...mapGetters(['get']),
+            isShowHelp() {
+                return this.get('user') ? this.get('user').is_show_help : false;
+            }
         },
         mounted() {
             $('#user_show_help').on('change', function () {
