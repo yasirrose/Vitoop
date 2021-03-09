@@ -66,5 +66,7 @@ class DateOrderConvertCommand extends Command
             }
         }
         $this->entityManager->flush();
+
+        return 0;
     }
 }
