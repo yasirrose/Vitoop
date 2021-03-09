@@ -63,5 +63,7 @@ class DownloadCheckSizeCommand extends Command
                 $message
             );
         }
+
+        return 0;
     }
 }
