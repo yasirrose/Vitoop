@@ -61,5 +61,7 @@ class DownloadPdfCommand extends Command
         }
         $this->downloadService->downloadPDF($count, $missing, $output);
         $this->downloadService->downloadHtml($count, $missing, $output);
+
+        return 0;
     }
 }
