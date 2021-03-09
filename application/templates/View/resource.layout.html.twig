@@ -41,7 +41,7 @@
             </div>
             {% block pdfview %}{% endblock pdfview %}
             <div class="preloader" id="view_loader">
-                <img src="/img/loader.gif" />
+                <img class="img" src="/img/loader.gif" />
             </div>
         </div>
         <div id="resource-remark" style="display:none">
@@ -80,6 +80,9 @@
                 right: 45%;
                 width: 16px;
                 transform: translateY(-50%);
+            }
+            .img{
+                width:80px;
             }
     </style>
         {% block pdfscripts %}
