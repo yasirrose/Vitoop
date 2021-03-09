@@ -65,6 +65,7 @@ class UrlCheckCommand extends Command
             }
 
             $this->entityManager->flush();
+            $this->entityManager->clear();
         }
 
         return 0;
