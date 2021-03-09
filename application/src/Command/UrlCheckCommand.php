@@ -62,10 +62,8 @@ class UrlCheckCommand extends Command
                     $output->writeln('Unblamed:  ' .$resource->getUrl(). ' res id = '.$resource->getId());
                     $resource->unblame();
                 }
+                $this->entityManager->flush();
             }
-
-            $this->entityManager->flush();
-            $this->entityManager->clear();
         }
 
         return 0;
