@@ -67,6 +67,18 @@ class FlagRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    public function doUnblame(Resource $resource)
+    {
+        $this->createQueryBuilder('f')
+            ->delete()
+            ->where('f.resource = :resource')
+            ->andWhere('f.type = :type')
+            ->setParameter('resource', $resource)
+            ->setParameter('type', Flag::FLAG_BLAME)
+            ->getQuery()
+            ->execute();
+    }
+
     public function save(Flag $flag)
     {
         $this->getEntityManager()->persist($flag);
