@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Repository\FlagRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,16 +23,25 @@ class UrlCheckCommand extends Command
      * @var EntityManagerInterface
      */
     private $entityManager;
+    /**
+     * @var FlagRepository
+     */
+    private $flagRepository;
 
     /**
      * UrlCheckCommand constructor.
      * @param UrlChecker $urlChecker
      * @param EntityManagerInterface $entityManager
+     * @param FlagRepository $flagRepository
      */
-    public function __construct(UrlChecker $urlChecker, EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        UrlChecker $urlChecker,
+        EntityManagerInterface $entityManager,
+        FlagRepository $flagRepository
+    ) {
         $this->urlChecker = $urlChecker;
         $this->entityManager = $entityManager;
+        $this->flagRepository = $flagRepository;
 
         parent::__construct();
     }
@@ -60,7 +70,7 @@ class UrlCheckCommand extends Command
                     $resource->blame('URL not exist anymore');
                 } else {
                     $output->writeln('Unblamed:  ' .$resource->getUrl(). ' res id = '.$resource->getId());
-                    $resource->unblame();
+                    $this->flagRepository->doUnblame($resource);
                 }
                 $this->entityManager->flush();
             }
