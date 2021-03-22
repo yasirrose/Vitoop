@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Resource;
 use App\Entity\UrlCheck\UrlCheckInterface;
+use App\Service\ResourceDataCollector;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -14,15 +15,18 @@ class HtmlViewerController extends ApiController
     /**
      * @Route("{id}")
      */
-    public function viewerAction(Resource $resource)
+    public function viewerAction(Resource $resource, ResourceDataCollector $dataCollector)
     {
-        $url = '';
-        if ($resource instanceof UrlCheckInterface) {
-            $url = $resource->getUrl();
-        }
+        $dataCollector->init($resource);
 
-        return $this->getApiResponse([
-            'url' => $url
+        return $this->render('HtmlView/resource.html.twig', [
+            'resource' => $resource,
+            'tagForm' => $dataCollector->getTag(),
+            'remarkForm' => $dataCollector->getRemark(),
+            'privateRemarkForm' => $dataCollector->getRemarkPrivate(),
+            'commentForm' => $dataCollector->getComment(),
+            'projectForm' => $dataCollector->getProject(),
+            'lexiconForm' => $dataCollector->getLexicon(),
         ]);
     }
 }
