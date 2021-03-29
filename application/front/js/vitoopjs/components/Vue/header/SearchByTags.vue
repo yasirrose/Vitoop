@@ -24,7 +24,7 @@
                         title="Übereinstimmungen der Tags"
                         name="tagcnt"
                         size="1"
-                        style="width: 65px">
+                        style="width: 58px">
                     <option value="0">-</option>
                 </select>
                 <transition name="translate">
