@@ -7,7 +7,7 @@
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
         <script src="{{ asset('js/vitoop-store.js') }}"></script>
         <script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
-        <script src="{{ asset('js/vitoop-pdf-view.js') }}"></script>
+{#        <script src="{{ asset('js/vitoop-pdf-view.js') }}"></script>#}
     </head>
     <body id="vtp-application">
         <div id="vtp-app"></div>
@@ -18,10 +18,9 @@
                         <div>{{ 'label.title'|trans }}:</div>
                         <div style="margin-bottom: 5px"><b>{{resource.name}}</b></div>
                         <div>{{ 'label.author'|trans }}:</div>
-                        <div style="margin-bottom: 7px"><b>{{resource.author}}</b></div>
-                        <span class="vtp-view-label">{{ 'label.tnop'|trans }}:</span> <span class="vtp-view-description">{{resource.tnop}}</span>
-                        <span class="vtp-view-label">{{ 'label.pdf_date'|trans }}:</span> <span class="vtp-view-description">{{ resource.pdfDate}}</span>
-                        <span class="vtp-view-label">{{ 'label.lang'|trans }}: </span> <span class="vtp-view-description">{{resource.lang.name}}</span>
+{#                        <div style="margin-bottom: 7px"><b>{{resource.author}}</b></div>#}
+{#                        <span class="vtp-view-label">{{ 'label.tnop'|trans }}:</span> <span class="vtp-view-description">{{resource.tnop}}</span>#}
+{#                        <span class="vtp-view-label">{{ 'label.lang'|trans }}: </span> <span class="vtp-view-description">{{resource.lang.name}}</span>#}
                     </div>
                 </div>
 
@@ -41,7 +40,7 @@
             </div>
             {% block pdfview %}{% endblock pdfview %}
             <div class="preloader" id="view_loader">
-                <img class="img" src="/img/loader.gif" />
+                <img src="/img/loader.gif" />
             </div>
         </div>
         <div id="resource-remark" style="display:none">
@@ -65,11 +64,11 @@
             var resourceId = {{resource.id}};
             var resourceType = '{{resource.getResourceType()}}';
             var baseUrl = '{{ path('_base_url') }}';
-            var pdfUrl = baseUrl + 'resource-files/' + resourceId + '.pdf';
+            // var pdfUrl = baseUrl + 'resource-files/' + resourceId + '.pdf';
             var isLoadAnnotation = true;
 
             $(document).ready(function () {
-                window.vitoopPdfView.init(resourceId, resourceType, baseUrl);
+                // window.vitoopPdfView.init(resourceId, resourceType, baseUrl);
             });
         </script>
         <style >
@@ -81,14 +80,11 @@
                 width: 16px;
                 transform: translateY(-50%);
             }
-            .img{
-                width:80px;
-            }
     </style>
-        {% block pdfscripts %}
-            <script src="{{ asset('build/old/pdf.js') }}"></script>
-            <script src="{{ asset('build/old/pdf_viewer.js') }}"></script>
-            <script src="{{ asset('build/pdf.editor.js') }}"></script>
-        {% endblock %}
+{#        {% block pdfscripts %}#}
+{#            <script src="{{ asset('build/old/pdf.js') }}"></script>#}
+{#            <script src="{{ asset('build/old/pdf_viewer.js') }}"></script>#}
+{#            <script src="{{ asset('build/pdf.editor.js') }}"></script>#}
+{#        {% endblock %}#}
     </body>
 </html>
