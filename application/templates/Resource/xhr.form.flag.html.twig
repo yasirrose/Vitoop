@@ -12,12 +12,12 @@
         <div style="display: flex; margin-bottom: .5rem">
             {{ form_widget(fvflag.info) }}
         </div>
-        <div>
-            {{ form_widget(fvflag.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}
+        <div style="display: flex; justify-content: space-between">
             <button id="vtp-uiaction-close-flagform"
                     class="vtp-uiinfo-anchor ui-button ui-widget ui-state-default ui-corner-all">
                 abbrechen
             </button>
+            {{ form_widget(fvflag.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}
         </div>
     </div>
 </fieldset>
