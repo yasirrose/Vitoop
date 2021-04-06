@@ -991,7 +991,7 @@ window.resourceDetail = (function () {
                     $('.vtp-uiaction-detail-delete').remove();
                 }
                 if (vitoopState.state.conversationInstance) {
-                    $(`#${containerName} button`).not('.vtp-uiaction-detail-blame, #open-notes-dialog-button').remove();
+                    $(`#${containerName} button`).not('.vtp-uiaction-detail-blame, #open-notes-dialog-button, .vtp-uiaction-detail-previous, .vtp-uiaction-detail-next').remove();
                 }
                 if (!vitoopState.state.inProject && vitoopState.state.resource.id !== null) {
                     $('.vtp-uiaction-detail-new').remove();
