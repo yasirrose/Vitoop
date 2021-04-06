@@ -12,15 +12,16 @@
                         </textarea>
                     </div>
                     <div class="notes-block__buttons">
+                        <button @click="closeNotes"
+                            class="ui-state-default ui-corner-all">
+                            abbrechen
+                        </button>
                         <button @click="saveNotes"
                                 :class="{ 'ui-state-active': notesDirty }"
                                 class="ui-state-default ui-corner-all save-button">
                             speichern
                         </button>
-                        <button @click="closeNotes"
-                                class="ui-state-default ui-corner-all">
-                            abbrechen
-                        </button>
+
                     </div>
                 </fieldset>
             </div>
@@ -191,6 +192,7 @@
 
             button {
                 min-height: 24px;
+                width: 105px;
                 padding: 2px 1rem;
                 opacity: 0;
                 transform: translateX(30px);
