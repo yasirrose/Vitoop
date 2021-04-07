@@ -13,8 +13,8 @@
         {{ form_widget(fvdata.name, {'attr': {'class': 'w-78' }}) }}
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.name) }}</div>
     </div>
-    <div class="d-flex align-center" style="margin-bottom: 4px">
-        {{ form_label(fvdata.status, null, {'label_attr': {'class': 'w-22' }}) }}
+    <div class="d-flex" style="margin-bottom: 4px">
+        {{ form_label(fvdata.status, null, {'label_attr': {'class': 'w-22 state_lbl' }}) }}
         <div class="d-flex align-center w-78">
             {% if false == isNew %}
                 <div class="ui-corner-all" style="border: 1px solid #aed0ea; width: 100%; padding-top: 3px">
