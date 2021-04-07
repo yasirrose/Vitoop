@@ -66,7 +66,7 @@
     </div>
     <div id="vtp-tagbox" class="ui-corner-all">
         {% for everytag in tags %}
-            <span id="spanTag_{{everytag.id}}" class="vtp-tagbox-tag {% if everytag.is_own %}vtp-owntag {% endif %}ui-corner-all">
+            <span id="spanTag_{{everytag.id}}" class="vtp-tagbox-tag {% if everytag.is_own %}vtp-owntag {% endif %}ui-corner-all" style="    font-size: small" >
                 <span class="vtp-icon-tag ui-icon ui-icon-tag"></span>
                 {{ everytag.text }}
                 <span class="vtp-tagbox-cnttag">({{ everytag.cnt_tag }})</span>

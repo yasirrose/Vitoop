@@ -51,7 +51,7 @@
             </a>
         </div>
         <div v-if="$store.state.user !== null"
-             style="display: flex;align-items: center;">
+             style="display: flex;align-items: center; margin-right: 1px;">
             <div id="button-checking-links__wrapper">
                 <button class="vtp-button ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
                         id="button-checking-links-remove"
@@ -80,7 +80,7 @@
             <form id="vtp-header-login"
                   action="/logout"
                   method="get"
-                  style="margin: 0 3px;"
+                  style="margin: 0 4px;"
                   enctype="application/x-www-form-urlencoded">
                 <button id="vtp-user-loginform-logout"
                         class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-text-icon-secondary"
@@ -93,7 +93,7 @@
                 </button>
             </form>
             <button id="vtp-admin-toolbar-toggle"
-                    v-if="isAdmin" style="margin-right: 3px;"
+                    v-if="isAdmin" style="margin-right: 4px;"
                     @click="adminToolBar.toggle()"
                     class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only">
                 <span class="ui-button-icon-primary ui-icon ui-icon-notice"></span>
