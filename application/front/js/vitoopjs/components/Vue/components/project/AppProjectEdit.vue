@@ -167,7 +167,7 @@
         </fieldset>
         <div id="confirm-dialog">
             <div class="message">Soll das Projekt vor dem Schließen gespeichert werden?</div>
-            <div class="buttons">
+            <div class="buttons" style="margin-bottom: 5px;">
                 <button @click="cancel" class="ui-state-default ui-corner-all vtp-button">Nein</button>
                 <button @click="saveAndRedirect" class="ui-state-default ui-corner-all vtp-button">Ja</button>
             </div>
@@ -225,7 +225,7 @@
 
             $('#confirm-dialog').dialog({
                 autoOpen: false,
-                width: 500,
+                width: 431,
                 height: 170,
                 position: { my: 'center top', at: 'center top', of: '#vtp-nav' },
                 modal: true,

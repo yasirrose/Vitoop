@@ -499,7 +499,8 @@ window.resourceDetail = (function () {
             }
         },
         loadTabSuccess = function (responseJSON,tabName) {
-            responseJSON['resource-title'] = getTypeKindOfPopup() + responseJSON['resource-title'];
+            if(responseJSON['resource-title'] != undefined)
+                responseJSON['resource-title'] = getTypeKindOfPopup() + responseJSON['resource-title'];
             var isNewResource = false;
 
             if ('new' == res_id) {
