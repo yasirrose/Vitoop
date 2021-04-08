@@ -62,6 +62,10 @@ export default class TagWidget extends Widget {
             of: '#' + this.containerName + ' .vtp-uiinfo-anchor',
             collision: 'none'
         }).hide("fade", 3000);
+        
+        $('#tag_search').prop('disabled', true);
+        $('#tag_search').addClass('ui-button-disabled ui-state-disabled');
+
         $('.vtp-tagbox-tag').click(function() {
             var text = $(this).text().trim();
             var pos = text.search(new RegExp('\\(\\d+\\)'));
@@ -69,6 +73,8 @@ export default class TagWidget extends Widget {
                 text = text.substring(0, pos).trim();
             }
             $('#tag_text').val(text);
+            $('#tag_search').prop('disabled', false);
+            $('#tag_search').removeClass('ui-button-disabled ui-state-disabled');
         });
 
         $('#tag_confirm_save').on('click', function() {

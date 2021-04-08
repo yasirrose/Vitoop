@@ -276,6 +276,32 @@
                     VueBus.$emit('datatable:reload');
                 });
 
+                $(document).on('click', '#tag_search', () => {
+                    var item = {};
+                    $('div#vtp-tagbox > span').each(function(index) {
+                        var text = $(this).text().trim();
+                        var pos = text.search(new RegExp('\\(\\d+\\)'));
+                        var cnt='';
+                        if (pos > -1) {
+                            cnt = text.substring(pos + 1, pos + 2).trim();
+                            text = text.substring(0, pos).trim();
+                        }
+
+                        if (text.toLowerCase() == $('#tag_text').val().toLowerCase()) {
+                            item.text = text;
+                            item.cnt = cnt;
+                            item.label = text;
+                            item.isHighlighted = false;
+                            item.isIgnored = false;
+                            item.extended = false;                           
+                        }
+                    });
+                    this.pushTag(item)
+                    $('#tag_text').val('');
+                    $('#tag_search').prop('disabled', true);
+                    $('#tag_search').addClass('ui-button-disabled ui-state-disabled');
+                });
+
                 this.maintainCntTags();
 
                 if (this.tags.length > 0) {
