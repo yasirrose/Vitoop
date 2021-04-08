@@ -61,6 +61,7 @@ label:
     tab: Lesezeichen setzen
     tag.add: ein Tag zuweisen
     tag.remove: ein Tag entfernen
+    tag.search: Markierung anbringen
     terms: Terms
     textlink: Textlink
     title: Titel

@@ -24,6 +24,14 @@
                role="button"
                aria-disabled="false">
         {{ form_widget(fvtag.remove, {'value': '-'~tagsRestRemovedCount, 'attr': {'class': 'vtp-uiinfo-anchor vtp-tag-submit' }}) }}
+        <input type="button"
+               id="tag_search"
+               title="{{ 'label.tag.search'|trans }}"
+               class="vtp-uiinfo-anchor vtp-tag-submit ui-button ui-widget ui-state-default ui-corner-all"
+               style="font-weight: normal; height: 24px; padding-top: 0px; padding-bottom: 0px;"
+               value="Search Tag"
+               role="button"
+               aria-disabled="false">
         <span style="float: right;">
             <button id="vtp-tagbox-help"
                     title="{{ 'label.help'|trans }}"
