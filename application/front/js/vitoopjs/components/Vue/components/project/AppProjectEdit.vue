@@ -257,9 +257,10 @@
                         });
                         editor.on('MouseLeave', (e) => {
                             var link = e.target.querySelector("link[rel*='shortcut icon']")
+
                             if(link){
-                                $(link).attr("href","localhost:8080/favicon.ico")
-                                $(link).attr("data-mce-href","localhost:8080/favicon.ico")
+                                $(link).attr("href",vitoop.baseUrl+"/favicon.ico")
+                                $(link).attr("data-mce-href",vitoop.baseUrl+"/favicon.ico")
                             }
                             var innerHTML = e.target.querySelector('.mce-content-body ').innerHTML;
                             var regex = /(<a([^>]+)>)/gi;
