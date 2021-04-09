@@ -297,6 +297,12 @@
                         }
                     });
                     this.pushTag(item)
+                    this.searchByTags = null;
+                    this.updateAutocomplete(searchByTag);
+                    if (this.tags.length > 1) {
+                        // $(this.tagSearchFormId).submit();
+                        VueBus.$emit('datatable:reload');
+                    }
                     $('#tag_text').val('');
                     $('#tag_search').prop('disabled', true);
                     $('#tag_search').addClass('ui-button-disabled ui-state-disabled');
