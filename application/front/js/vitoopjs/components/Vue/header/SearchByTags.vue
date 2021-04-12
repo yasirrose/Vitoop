@@ -306,6 +306,11 @@
                     $('#tag_text').val('');
                     $('#tag_search').prop('disabled', true);
                     $('#tag_search').addClass('ui-button-disabled ui-state-disabled');
+                    $(".vtp-uiaction-detail-previous").prop('disabled', true);
+                    $(".vtp-uiaction-detail-previous").addClass('ui-button-disabled ui-state-disabled');
+                    $(".vtp-uiaction-detail-next").prop('disabled', true);
+                    $(".vtp-uiaction-detail-next").addClass('ui-button-disabled ui-state-disabled');
+
                 });
 
                 this.maintainCntTags();
