@@ -262,18 +262,12 @@
                                 $(link).attr("href",vitoop.baseUrl+"/favicon.ico")
                                 $(link).attr("data-mce-href",vitoop.baseUrl+"/favicon.ico")
                             }
-                            var innerHTML = e.target.querySelector('.mce-content-body ').innerHTML;
-                            var regex = /(<a([^>]+)>)/gi;
-                            innerHTML = innerHTML.replace(regex, "");
 
-                            // this.$store.commit('setProjectData', {
-                            //     key: 'sheet',
-                            //     value: e.target.querySelector('.mce-content-body ').innerHTML,
-                            // });
                             this.$store.commit('setProjectData', {
                                 key: 'sheet',
-                                value: innerHTML,
+                                value: e.target.querySelector('.mce-content-body ').innerHTML,
                             });
+
                         });
                     };
                     tinymce.init(options);
