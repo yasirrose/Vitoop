@@ -87,3 +87,9 @@ services:
             - '%centrifugo_url%'
             - '%centrifugo_api%'
             - '%centrifugo_secret%'
+
+    App\Service\EmailReceiver:
+        arguments:
+            - '%env(resolve:EMAIL_IMPORT_URL)%'
+            - '%env(resolve:EMAIL_IMPORT_USER)%'
+            - '%env(resolve:EMAIL_IMPORT_PASS)%'

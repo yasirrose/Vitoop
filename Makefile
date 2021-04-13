@@ -37,3 +37,6 @@ import_db:
 
 export_db:
 	docker-compose exec vitoopdb sh -c 'mysqldump --user=root --password=root vitoop > /srv/backups/${path}'
+
+auto_import:
+	docker-compose exec php sh -c 'php bin/console vitoop:auto:import'
