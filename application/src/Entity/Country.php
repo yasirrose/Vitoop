@@ -40,6 +40,11 @@ class Country
         $this->sortOrder = $order;
     }
 
+    public function getId()
+    {
+        return $this->code;
+    }
+
     /**
      * @return string
      */
