@@ -75,4 +75,13 @@ class UserRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    public function findDefaultUser()
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.username = :defaultUsername')
+            ->setParameter('defaultUsername', User::DEFAULT_USERNAME)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

@@ -31,6 +31,7 @@ use JMS\Serializer\Annotation as Serializer;
 class User implements EquatableInterface, UserInterface, \Serializable, GetDTOInterface
 {
     const USER_DISABLED_USERNAME = "gel-";
+    const DEFAULT_USERNAME = 'david';
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -229,7 +230,7 @@ class User implements EquatableInterface, UserInterface, \Serializable, GetDTOIn
     public function getRoles()
     {
         $roles = array('ROLE_USER');
-        $admins = array('david', 'alex.shalkin');
+        $admins = array(self::DEFAULT_USERNAME, 'alex.shalkin');
 
         if (in_array($this->username, $admins)) {
             $roles = array_merge($roles, array('ROLE_ADMIN'));
