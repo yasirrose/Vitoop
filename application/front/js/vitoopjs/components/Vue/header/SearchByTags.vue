@@ -280,6 +280,7 @@
                     var item = {};
                     $('div#vtp-tagbox > span').each(function(index) {
                         var text = $(this).text().trim();
+
                         var pos = text.search(new RegExp('\\(\\d+\\)'));
                         var cnt='';
                         if (pos > -1) {
@@ -287,30 +288,33 @@
                             text = text.substring(0, pos).trim();
                         }
 
-                        if (text.toLowerCase() == $('#tag_text').val().toLowerCase()) {
+                        if($('#tag_text').val().toLowerCase() == '' || $('#tag_text').val().toLowerCase() == undefined)
+                            return false;
+                        
+                        if ((text.toLowerCase() == $('#tag_text').val().toLowerCase()) && text !=undefined ) {
                             item.text = text;
                             item.cnt = cnt;
                             item.label = text;
                             item.isHighlighted = false;
                             item.isIgnored = false;
-                            item.extended = false;                           
+                            item.extended = false;
                         }
                     });
-                    this.pushTag(item)
-                    this.searchByTags = null;
-                    this.updateAutocomplete(searchByTag);
-                    if (this.tags.length > 1) {
-                        // $(this.tagSearchFormId).submit();
-                        VueBus.$emit('datatable:reload');
+                    
+                    if(item.text != undefined){
+                        this.pushTag(item)
+                        this.searchByTags = null;
+                        this.updateAutocomplete(searchByTag);
+                        if (this.tags.length > 1) {
+                            VueBus.$emit('datatable:reload');
+                        }
+                        $('#tag_search').prop('disabled', true);
+                        $('#tag_search').addClass('ui-button-disabled ui-state-disabled');
+                        $(".vtp-uiaction-detail-previous").prop('disabled', true);
+                        $(".vtp-uiaction-detail-previous").addClass('ui-button-disabled ui-state-disabled');
+                        $(".vtp-uiaction-detail-next").prop('disabled', true);
+                        $(".vtp-uiaction-detail-next").addClass('ui-button-disabled ui-state-disabled');
                     }
-                    $('#tag_text').val('');
-                    $('#tag_search').prop('disabled', true);
-                    $('#tag_search').addClass('ui-button-disabled ui-state-disabled');
-                    $(".vtp-uiaction-detail-previous").prop('disabled', true);
-                    $(".vtp-uiaction-detail-previous").addClass('ui-button-disabled ui-state-disabled');
-                    $(".vtp-uiaction-detail-next").prop('disabled', true);
-                    $(".vtp-uiaction-detail-next").addClass('ui-button-disabled ui-state-disabled');
-
                 });
 
                 this.maintainCntTags();

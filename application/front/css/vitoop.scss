@@ -2019,6 +2019,10 @@ a.vtp-uiaction-open-url:visited {
                     height: 16px;
                 }
             }
+            a.vtp-uiaction-open-extlink:hover, .vtp-projectdata-unlink:hover {
+                border-color: #74b2e2;
+                border: 1px solid #74b2e2;
+            }
         }
     }
 
