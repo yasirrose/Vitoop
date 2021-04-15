@@ -29,8 +29,10 @@ class InvitationNewType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'App\Entity\Invitation',
-        ));
+        $resolver->setDefaults([
+                'data_class' => 'App\Entity\Invitation',
+                'csrf_protection' => false,
+            ]
+        );
     }
 }
