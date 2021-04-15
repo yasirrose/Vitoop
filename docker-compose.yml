@@ -43,3 +43,11 @@ services:
     volumes:
       - ./application:/srv
       - ./downloads:/srv/downloads
+
+#  smtp:
+#    image: namshi/smtp
+#    networks:
+#      - backend
+#    restart: always
+#    ports:
+#      - "25:25"

@@ -49,3 +49,11 @@ services:
     volumes:
       - app-vitoop:/srv:nocopy
       - ./downloads:/srv/downloads
+
+#  smtp:
+#    image: namshi/smtp
+#    networks:
+#      - backend
+#    restart: always
+#    ports:
+#      - "25:25"
