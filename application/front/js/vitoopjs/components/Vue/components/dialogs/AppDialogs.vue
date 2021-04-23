@@ -31,7 +31,8 @@
                     <li id="tab-title-remark"><a href="#tabs-remark">Anmerkungen</a></li>
                     <li id="tab-title-remark-private"><a href="#tabs-remark_private">p</a></li>
                     <li id="tab-title-comments"><a href="#tabs-comments">Kommentare</a></li>
-                    <li id="tab-title-rels"><a href="#tabs-assignments">Verknüpfungen</a></li>
+
+                    <li id="tab-title-rels"><a href="#tabs-assignments">{{ getAssigmentTitle }}</a></li>
                 </ul>
                 <div id="tabs-quickview">
                     <div id="resource-quickview">
@@ -112,6 +113,9 @@
             ...mapGetters(['get']),
             isShowHelp() {
                 return this.get('user') ? this.get('user').is_show_help : false;
+            },
+            getAssigmentTitle() {
+                return 'conversation' === this.get('resource').type ? 'Nachricht' : 'Verknüpfungen';
             }
         },
         mounted() {
