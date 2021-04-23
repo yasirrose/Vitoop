@@ -101,7 +101,7 @@ class ProjectController extends ApiController
     }
 
     /**
-     * @Route("/{id}/{resType}", methods={"GET"}, requirements={"id": "\d+", "resType": "pdf|adr|link|teli|lex|prj|book"})
+     * @Route("/{id}/{resType}", methods={"GET"}, requirements={"id": "\d+", "resType": "pdf|adr|link|teli|lex|prj|book|conversation"})
      */
     public function getRelatedResources(Project $project, $resType, ResourceManager $resourceManager, Request $request)
     {
