@@ -667,11 +667,9 @@ window.resourceDetail = (function () {
         },
         hideConnectionAndRemark = () => {
             if (res_type === 'conversation') {
-                // $('#tab-title-remark').css('display','none');
-                $('#tab-title-rels').css('display','none');
+                $('#resource-lexicon').css('display','none');
             } else {
-                // $('#tab-title-remark').css('display','block');
-                $('#tab-title-rels').css('display','block');
+                $('#resource-lexicon').css('display','block');
             }
         },
         addCheckboxWrapperWithResourceTitle = () => {

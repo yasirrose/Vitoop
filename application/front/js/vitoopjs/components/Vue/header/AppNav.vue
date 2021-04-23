@@ -53,6 +53,16 @@
                     {{ value }}
                 </button>
             </li>
+            <li v-if="getInProject">
+              <button class="vtp-resmenu-reslink ui-state-default ui-corner-all"
+                      @click="changeRoute('conversation')"
+                      :class="{
+                    'ui-state-no-content': noContent('conv'),
+                    'vtp-nav-active ui-state-active': /conversation/.test($route.name)
+                   }">
+                  Nachricht
+              </button>
+            </li>
         </ul>
         <div class="d-flex align-center">
             <div v-if="get('project')">
@@ -90,6 +100,7 @@
                     <ButtonOpenNotes style="margin-right: 4px" />
                     <help-button help-area="conversation" />
                     <div v-if="get('conversationInstance').canEdit &&
+                               get('conversationInstance').conversation &&
                                get('conversationInstance').conversation.conversation_data.is_for_related_users"
                          style="margin-left: 4px">
                         <button id="vtp-projectdata-project-live"
