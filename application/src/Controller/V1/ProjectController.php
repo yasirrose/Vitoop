@@ -121,6 +121,16 @@ class ProjectController extends ApiController
             }
         }
 
+        if ('conversation' === $resType) {
+            foreach ($resources as &$resource) {
+                if (null === $resource['id']) {
+                    continue;
+                }
+                $conversation = $resourceRepository->find($resource['id']);
+                $resource['canRead'] = $conversation->getConversationData()->availableForReading($this->getUser());
+            }
+        }
+
         return $this->getApiResponse([
             'recordsTotal' => $total,
             'recordsFiltered' => $total,
