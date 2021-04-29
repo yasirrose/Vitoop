@@ -3,6 +3,7 @@
 
 namespace App\Repository;
 
+use App\Entity\ConversationMessage;
 use App\Entity\User\User;
 use App\Entity\Conversation;
 use App\DTO\Resource\SearchResource;
@@ -22,8 +23,11 @@ class ConversationRepository extends ResourceRepository
 
     public function getResourcesQuery(SearchResource $search)
     {
+        $subSelect = 'SELECT COUNT(cm.id) FROM '.ConversationMessage::class.' cm WHERE cm.conversationData = conversationData.id';
+
         $qb = $this->createQueryBuilder('r')
             ->select('r.description', 'conversationData.sheet')
+            ->addSelect('('.$subSelect.') as countMessage')
             ->leftJoin('r.conversation_data', 'conversationData');
 
         $this->prepareListQueryBuilder($qb, $search);

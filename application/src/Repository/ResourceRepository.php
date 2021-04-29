@@ -597,6 +597,7 @@ class ResourceRepository extends ServiceEntityRepository
             case 'avgmark':
             case 'res12count':
             case 'coef':
+            case 'countMessage':
                 return '';
             case 'url':
                 if ($rootEntity == 'App\Entity\Lexicon') {

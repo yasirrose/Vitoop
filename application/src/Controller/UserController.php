@@ -246,7 +246,14 @@ EOT;
 
                     $mail = str_replace('{LINK}', $link, $mail);
                     $mail = str_replace('{UNTIL}', sprintf('%s um %s Uhr', $until->format('d.m.Y'), $until->format('H:i:s')), $mail);
-                    $invitation->setMail($mail);
+
+                    $mailBody = $this->renderView(
+                        'email/invitation_custom.html.twig',
+                        [
+                            'invitationHtml' => nl2br($mail)
+                        ]
+                    );
+                    $invitation->setMail($mailBody);
                     $invitationRepository->save($invitation);
 
                     $this->emailSender->sendInvite($invitation);

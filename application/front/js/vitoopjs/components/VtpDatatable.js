@@ -364,6 +364,7 @@ export default class VtpDatatable {
                 this.getCheckboxColumn(),
                 this.getNameColumn(),
                 this.getOwnerColumn(),
+                this.getMessageCountColumn(),
                 this.getRes12Column(),
                 this.getRatingColumn(),
                 this.getConversationUrlColumn()
@@ -627,6 +628,9 @@ export default class VtpDatatable {
                 return row.id !== null ? this.getWrapperForTextValue(data,type,row) : null;
             }
         };
+    }
+    getMessageCountColumn() {
+        return {"data": "countMessage"};
     }
     getTnopColumn() {
         return {"data": "tnop"};
