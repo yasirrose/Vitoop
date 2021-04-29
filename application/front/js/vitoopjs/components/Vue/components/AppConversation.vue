@@ -185,6 +185,12 @@
                 sockjs: SockJS
             });
 
+            vitoopState.commit('set', { key: 'lexicon', value: null });
+            vitoopState.commit('set', { key: 'project', value: null });
+            vitoopState.commit('set', {key: 'inProject', value: false});
+            vitoopState.commit('resetConversation');
+            vitoopState.commit('resetResource');
+
             this.getConversation()
                 .then(data => {
                     setTimeout(() => {
