@@ -8,7 +8,7 @@ $.fn.dataTable.ext.search.push(
 $.fn.DataTable.ext.pager.numbers_length = 17;
 
 
-function openAsResourceView(id) {
-    window.open(vitoop.baseUrl + 'views/'+id, '_blank');
+function openAsResourceView(id, target) {
+    window.open(vitoop.baseUrl + 'views/'+id, target);
     return false;
 }

@@ -67,6 +67,11 @@ class UserConfig
      */
     protected $decreaseFontSize = 1;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default" = false})
+     */
+    protected $isOpenInSameTab = false;
+
     public function __construct(User $user)
     {
         $this->setUser($user);
@@ -75,6 +80,7 @@ class UserConfig
         $this->heightOfTodoList = 550;
         $this->numberOfTodoElements = 12;
         $this->decreaseFontSize = 1;
+        $this->isOpenInSameTab = false;
     }
 
     /**
@@ -197,14 +203,24 @@ class UserConfig
     }
 
     /**
+     * @return bool
+     */
+    public function isOpenInSameTab(): bool
+    {
+        return $this->isOpenInSameTab ?? false;
+    }
+
+    /**
      * @param $numberElements
      * @param $heightList
      * @param $decreaseFontSize
+     * @param $isOpenInSameTab
      */
-    public function updateUserSettings($numberElements, $heightList, $decreaseFontSize)
+    public function updateUserSettings($numberElements, $heightList, $decreaseFontSize, $isOpenInSameTab)
     {
         $this->numberOfTodoElements = $numberElements;
         $this->heightOfTodoList = $heightList;
         $this->decreaseFontSize = $decreaseFontSize;
+        $this->isOpenInSameTab = $isOpenInSameTab ?? false;
     }
 }

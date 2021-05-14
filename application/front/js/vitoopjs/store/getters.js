@@ -8,6 +8,9 @@ export default {
         currentFontSize -= state.user ? state.user.decrease_font_size : 0;
         return currentFontSize;
     },
+    isOpenInSameTab(state, getters) {
+        return state.user ? state.user.is_open_in_same_tab : false;
+    },
     getTableRowNumber(state, getters) {
         let originalPageNumber = state.table.rowNumber ? state.table.rowNumber : 12;
         let offset = 0;

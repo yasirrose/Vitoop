@@ -125,7 +125,7 @@ window.resourceDetail = (function () {
                     $('#resource-data input[type=submit]').trigger('submit');
                 });
                 $('.vtp-uiaction-detail-popup').on('click', function () {
-                    openAsResourceView(res_id);
+                    openAsResourceView(res_id, vitoopState.getters.isOpenInSameTab ? '_self': '_blank');
                     resourceNotes.hide();
                     $('#vtp-res-dialog').dialog('close');
                     return false;

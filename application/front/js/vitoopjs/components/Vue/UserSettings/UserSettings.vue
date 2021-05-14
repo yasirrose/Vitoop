@@ -57,6 +57,24 @@
                         </div>
                     </div>
                 </fieldset>
+                <fieldset>
+                    <legend>Pdf&Data</legend>
+                    <div class="vtp-fh-w100">
+                      <div>
+                        <label class="custom-checkbox__wrapper square-checkbox">
+                          <input class="valid-checkbox open-checkbox-link"
+                                 v-model="dto.isOpenInSameTab"
+                                 name="isOpenInSameTab"
+                                 type="checkbox"/>
+                              <span class="custom-checkbox">
+                                  <img class="custom-checkbox__check"
+                                       src="/img/check.png" />
+                              </span>
+                          Pdf&Data im selben Tab öffnen
+                        </label>
+                      </div>
+                    </div>
+                </fieldset>
                 <fieldset class="ui-corner-all margin-top-10">
                     <div class="vtp-fh-w100">
                         <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all" v-show="isSuccess" style="transition: 0s linear all;"><span class="vtp-icon ui-icon ui-icon-info"></span><span>{{ message }}</span></div>
@@ -99,7 +117,8 @@
                     username: null,
                     heightOfTodoList: null,
                     numberOfTodoElements: null,
-                    decreaseFontSize: null
+                    decreaseFontSize: null,
+                    isOpenInSameTab: false,
                 },
                 isDeleting: false,
                 isError: false,
@@ -127,6 +146,7 @@
                     email2: null,
                     username1: null,
                     username2: null,
+                    isOpenInSameTab: false,
                 }
             }
         },
@@ -163,6 +183,8 @@
                     this.user.heightOfTodoList = currentUser.height_of_todo_list;
                     this.user.numberOfTodoElements = currentUser.number_of_todo_elements;
                     this.user.decreaseFontSize = currentUser.decrease_font_size;
+                    this.user.isOpenInSameTab = currentUser.is_open_in_same_tab;
+                    this.dto.isOpenInSameTab = currentUser.is_open_in_same_tab;
                 });
         },
         methods: {
@@ -187,7 +209,8 @@
                     email: this.dto.email2,
                     heightOfTodoList: this.user.heightOfTodoList,
                     numberOfTodoElements: this.user.numberOfTodoElements,
-                    decreaseFontSize: this.user.decreaseFontSize
+                    decreaseFontSize: this.user.decreaseFontSize,
+                    isOpenInSameTab: this.dto.isOpenInSameTab
                 }).then( data => {
                     vitoopState.commit('setUser', data.user);
                     this.isSuccess = true;
@@ -198,6 +221,7 @@
                     this.user.heightOfTodoList = data.user.height_of_todo_list;
                     this.user.numberOfTodoElements = data.user.number_of_todo_elements;
                     this.user.decreaseFontSize = data.user.decrease_font_size;
+                    this.user.isOpenInSameTab = data.user.is_open_in_same_tab;
 
                     setTimeout(() => {
                         this.isSuccess = false;

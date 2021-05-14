@@ -2418,3 +2418,15 @@ table.dataTable thead th:hover {
 #vtp-pdf-meta {
     width: 2.2em;
 }
+
+.vtp-pdf-link-container {
+    text-align: center;
+
+    a {
+        width: 200px;
+        display: inline-block;
+        text-decoration: none;
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+}

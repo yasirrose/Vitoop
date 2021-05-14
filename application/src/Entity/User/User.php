@@ -941,7 +941,8 @@ class User implements EquatableInterface, UserInterface, \Serializable, GetDTOIn
             ->updateUserSettings(
                 $credentials->numberOfTodoElements,
                 $credentials->heightOfTodoList,
-                $credentials->decreaseFontSize
+                $credentials->decreaseFontSize,
+                $credentials->isOpenInSameTab
             );
     }
 
@@ -1026,7 +1027,8 @@ class User implements EquatableInterface, UserInterface, \Serializable, GetDTOIn
         return $dto += [
             'number_of_todo_elements' => $this->user_config->getNumberOfTodoElements(),
             'height_of_todo_list' => $this->user_config->getHeightOfTodoList(),
-            'decrease_font_size' => $this->user_config->getDecreaseFontSize()
+            'decrease_font_size' => $this->user_config->getDecreaseFontSize(),
+            'is_open_in_same_tab' => $this->user_config->isOpenInSameTab(),
         ];
     }
 
