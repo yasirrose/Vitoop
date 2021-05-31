@@ -24,13 +24,12 @@ export default class VitoopApp {
         if (vitoopState.state.user) {
             this.vtpDatatable.changeFontSizeByUserSettings();
             return this.vtpDatatable.init();
-        } else {
-            return this.userService.getCurrentUser().then( currentUser => {
-                vitoopState.commit('setUser', currentUser);
-                this.vtpDatatable.changeFontSizeByUserSettings();
-                return this.vtpDatatable.init();
-            });
         }
+        return this.userService.getCurrentUser().then( currentUser => {
+            vitoopState.commit('setUser', currentUser);
+            this.vtpDatatable.changeFontSizeByUserSettings();
+            return this.vtpDatatable.init();
+        });
     }
 
     destroyTable() {

@@ -33,11 +33,7 @@ export default class VtpDatatable {
             .on('xhr.dt', () => {
                 self.dtAjaxCallback;
             });
-        if (null !== self.resourceId) {
-            datatable.on('draw.dt', function () {
-                $('#'+self.resType+'-'+self.resourceId+' > td:first').trigger('click');
-            });
-        }
+
         if ((self.resType == 'pdf' || self.resType == 'teli')/* && !vitoopApp.isElementExists('search_date_range'*/) {
             $('.range-filter').off()
                 .on('change', function () {
@@ -102,6 +98,7 @@ export default class VtpDatatable {
     }
     getDatatableOptions() {
         let drawCallback = this.isCoef ? this.dtDrawCallbackCoef : this.dtDrawCallback;
+        let self = this;
         const options = {
             autoWidth: false,
             stateSave: false,
@@ -113,8 +110,8 @@ export default class VtpDatatable {
             ajax: {
                 url:  this.url,
                 data: (data) => {
-                    vitoopState.commit('setTablePage', $(this.datatableListId).DataTable().page());
-                    // data.start = $(this.datatableListId).DataTable().page() * this.rowsPerPage.getPageLength();
+                    vitoopState.commit('setTablePage', $(self.datatableListId).DataTable().page());
+                    //data.start = $(self.datatableListId).DataTable().page() * self.rowsPerPage.getPageLength();
                     data.tagcnt = vitoopState.state.tagcnt;
                     if (vitoopState.state.table.flagged) {
                         data.flagged = true;
@@ -147,6 +144,16 @@ export default class VtpDatatable {
             footerCallback: () => {
                 $('.dataTables_length .ui-selectmenu-button').attr('title', $i18n.t('label.perPage'));
             },
+            initComplete: function () {
+                let datatable = $(self.datatableListId).DataTable();
+                let openedResource = vitoopState.getters.getOpenedResource;
+                let currentPage = datatable.page.info().page;
+                if (openedResource.id && openedResource.page !== currentPage) {
+                    setTimeout( function () {
+                        datatable.page(openedResource.page).draw(false);
+                    }, 100);
+                }
+            }
         };
         return options;
     }
@@ -158,9 +165,7 @@ export default class VtpDatatable {
         }
     }
     dtDrawCallback() {
-        if (this.api().page && this.api().page.info()) {
-            VtpDatatable.prototype.setTotalMessage(this.api().page.info().recordsTotal);
-        }
+
     }
     dtDrawCallbackCoef() {
         VtpDatatable.prototype.setTotalMessage(this.api().page.info().recordsTotal);

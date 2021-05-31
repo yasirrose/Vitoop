@@ -37,6 +37,11 @@ export default {
         rowNumber: 12,
         flagged: false,
         rowNumberBlinker: true,
+        openedResource: {
+            id: null,
+            type: null,
+            page: 0
+        },
     },
     coefsToSave: [],
     dividersToSave: [],

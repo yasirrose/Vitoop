@@ -195,7 +195,12 @@
                         }
                     });
                 }
+
                 $('body').removeClass('overflow-hidden');
+
+                if (this.datatable.page &&  this.datatable.page.info()) {
+                    vitoopApp.vtpDatatable.setTotalMessage(this.datatable.page.info().recordsTotal);
+                }
             },
             initTable() {
                 return vitoopApp.initTable(
@@ -214,6 +219,15 @@
                 })
                 .on('draw', () => {
                     this.onTableDraw();
+
+                    let openedResource = vitoopState.getters.getOpenedResource;
+                    let currentPage = this.datatable.page.info().page;
+                    if (openedResource.id) {
+                      if (openedResource.page === currentPage) {
+                        vitoopState.commit('resetTableOpenedResource');
+                        $('#'+openedResource.type+'-'+openedResource.id+' > td:first').trigger('click');
+                      }
+                    }
                 })
                 .on('page.dt', () => {
                     this.onTableDraw();

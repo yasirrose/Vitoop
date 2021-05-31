@@ -34,6 +34,17 @@ export default {
     updateTableBlinker(state, blinkerStatus) {
         state.table.rowNumberBlinker = blinkerStatus;
     },
+    updateTableOpenedResource(state, openedResource) {
+        state.table.openedResource = openedResource;
+    },
+
+    resetTableOpenedResource(state) {
+        state.table.openedResource = {
+            id: null,
+            type: null,
+            page: 0
+        }
+    },
 
     // Coefs
     updateCoef(state, payload) {
