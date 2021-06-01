@@ -58,7 +58,7 @@
                     </div>
                 </fieldset>
                 <fieldset>
-                    <legend>Pdf&Data</legend>
+                    <legend>...&Data</legend>
                     <div class="vtp-fh-w100">
                       <div>
                         <label class="custom-checkbox__wrapper square-checkbox">
@@ -70,7 +70,7 @@
                                   <img class="custom-checkbox__check"
                                        src="/img/check.png" />
                               </span>
-                          Pdf&Data im selben Tab öffnen
+                          ...&Data im selben Tab öffnen
                         </label>
                       </div>
                     </div>
