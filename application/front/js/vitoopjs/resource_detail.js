@@ -97,7 +97,7 @@ window.resourceDetail = (function () {
                     'help': 'ui-icon-help',
                 };
                 $.each(action_icon_map, function (action, icon) {
-                    if (('popup' === action) && ('pdf' !== res_type)) {
+                    if (('popup' === action) && ('pdf' !== res_type) && ('teli' !== res_type )) {
                         return;
                     }
                     if (!['delete', 'blame'].includes(action)) {
@@ -125,7 +125,7 @@ window.resourceDetail = (function () {
                     $('#resource-data input[type=submit]').trigger('submit');
                 });
                 $('.vtp-uiaction-detail-popup').on('click', function () {
-                    openAsResourceView(res_id, vitoopState.getters.isOpenInSameTab ? '_self': '_blank');
+                    openAsResourceView(res_id, res_type, vitoopState.getters.isOpenInSameTab ? '_self': '_blank');
                     resourceNotes.hide();
                     $('#vtp-res-dialog').dialog('close');
                     return false;

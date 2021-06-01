@@ -44,6 +44,7 @@ label:
     pdf: Pdf
     pdf_date: Erschienen
     pdf_meta: Pdf&Daten
+    teli_meta: Teli&Daten
     previous: zurück
     privat_remarks: Privat
     project: Projekt

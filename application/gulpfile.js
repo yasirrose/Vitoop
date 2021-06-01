@@ -183,6 +183,28 @@ gulp.task('pdf-view-js', gulp.series(['pdf-view'], function () {
         .pipe(gulp.dest('public/js'));
 }));
 
+gulp.task('html-view', function () {
+    return gulp.src([
+        'front/js/vitoopjs/app/htmlView.js'
+    ])
+        .pipe(bro({
+            transform: [
+                babelify.configure({ presets: ['env'] }),
+                [ 'uglifyify', { global: true } ]
+            ]
+        }))
+        .pipe(concat('vitoop-html-view.js'))
+        .pipe(gulp.dest('public/js/build'));
+});
+
+gulp.task('html-view-js', gulp.series(['html-view'], function () {
+    return gulp.src([
+        'front/js/jquery/*.js',
+        'public/js/build/vitoop-html-view.js'])
+        .pipe(concat('vitoop-html-view.js'))
+        .pipe(gulp.dest('public/js'));
+}));
+
 gulp.task('tinymce-scss', function () {
     return gulp.src(
         ['front/css/vtp-tinymce.scss'])
@@ -248,7 +270,7 @@ gulp.task('pdf', function () {
         .pipe(gulp.dest('public/build'));
 });
 
-gulp.task('default', gulp.series(['img', 'tinymce-scss', 'scss', 'js', 'pdf', 'pdf-view-js', 'vitoop-store']));
+gulp.task('default', gulp.series(['img', 'tinymce-scss', 'scss', 'js', 'pdf', 'pdf-view-js', 'html-view-js', 'vitoop-store']));
 
 gulp.task('set-prod', function() {
     return env = 'prod';
