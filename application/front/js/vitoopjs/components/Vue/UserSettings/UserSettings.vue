@@ -57,23 +57,34 @@
                         </div>
                     </div>
                 </fieldset>
-                <fieldset>
+                <fieldset class="ui-corner-all margin-top-10">
                     <legend>...&Data</legend>
                     <div class="vtp-fh-w100">
-                      <div>
-                        <label class="custom-checkbox__wrapper square-checkbox">
-                          <input class="valid-checkbox open-checkbox-link"
-                                 v-model="dto.isOpenInSameTab"
-                                 name="isOpenInSameTab"
-                                 type="checkbox"/>
-                              <span class="custom-checkbox">
-                                  <img class="custom-checkbox__check"
-                                       src="/img/check.png" />
-                              </span>
-                          ...&Data im selben Tab öffnen
-                        </label>
-                      </div>
+                      <label class="custom-checkbox__wrapper square-checkbox">
+                        <input class="valid-checkbox open-checkbox-link"
+                               v-model="dto.isOpenInSameTabPdf"
+                               name="isOpenInSameTabPdf"
+                               type="checkbox"/>
+                            <span class="custom-checkbox">
+                                <img class="custom-checkbox__check"
+                                     src="/img/check.png" />
+                            </span>
+                        Pdf&Data im selben Tab öffnen
+                      </label>
                     </div>
+                    <div class="vtp-fh-w100">
+                      <label class="custom-checkbox__wrapper square-checkbox">
+                        <input class="valid-checkbox open-checkbox-link"
+                               v-model="dto.isOpenInSameTabTeli"
+                               name="isOpenInSameTabTeli"
+                               type="checkbox"/>
+                        <span class="custom-checkbox">
+                                <img class="custom-checkbox__check"
+                                     src="/img/check.png" />
+                            </span>
+                        Teli&Data im selben Tab öffnen
+                      </label>
+                  </div>
                 </fieldset>
                 <fieldset class="ui-corner-all margin-top-10">
                     <div class="vtp-fh-w100">
@@ -118,7 +129,8 @@
                     heightOfTodoList: null,
                     numberOfTodoElements: null,
                     decreaseFontSize: null,
-                    isOpenInSameTab: false,
+                    isOpenInSameTabPdf: false,
+                    isOpenInSameTabTeli: false,
                 },
                 isDeleting: false,
                 isError: false,
@@ -146,7 +158,8 @@
                     email2: null,
                     username1: null,
                     username2: null,
-                    isOpenInSameTab: false,
+                    isOpenInSameTabPdf: false,
+                    isOpenInSameTabTeli: false,
                 }
             }
         },
@@ -183,8 +196,10 @@
                     this.user.heightOfTodoList = currentUser.height_of_todo_list;
                     this.user.numberOfTodoElements = currentUser.number_of_todo_elements;
                     this.user.decreaseFontSize = currentUser.decrease_font_size;
-                    this.user.isOpenInSameTab = currentUser.is_open_in_same_tab;
-                    this.dto.isOpenInSameTab = currentUser.is_open_in_same_tab;
+                    this.user.isOpenInSameTabPdf = currentUser.is_open_in_same_tab_pdf;
+                    this.user.isOpenInSameTabTeli = currentUser.is_open_in_same_tab_teli;
+                    this.dto.isOpenInSameTabPdf = currentUser.is_open_in_same_tab_pdf;
+                    this.dto.isOpenInSameTabTeli = currentUser.is_open_in_same_tab_teli;
                 });
         },
         methods: {
@@ -210,7 +225,8 @@
                     heightOfTodoList: this.user.heightOfTodoList,
                     numberOfTodoElements: this.user.numberOfTodoElements,
                     decreaseFontSize: this.user.decreaseFontSize,
-                    isOpenInSameTab: this.dto.isOpenInSameTab
+                    isOpenInSameTabPdf: this.dto.isOpenInSameTabPdf,
+                    isOpenInSameTabTeli: this.dto.isOpenInSameTabTeli
                 }).then( data => {
                     vitoopState.commit('setUser', data.user);
                     this.isSuccess = true;
@@ -221,7 +237,8 @@
                     this.user.heightOfTodoList = data.user.height_of_todo_list;
                     this.user.numberOfTodoElements = data.user.number_of_todo_elements;
                     this.user.decreaseFontSize = data.user.decrease_font_size;
-                    this.user.isOpenInSameTab = data.user.is_open_in_same_tab;
+                    this.user.isOpenInSameTabPdf = data.user.is_open_in_same_tab_pdf;
+                    this.user.isOpenInSameTabTeli = data.user.is_open_in_same_tab_teli;
 
                     setTimeout(() => {
                         this.isSuccess = false;

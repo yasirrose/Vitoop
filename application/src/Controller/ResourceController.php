@@ -753,11 +753,19 @@ class ResourceController extends ApiController
     /**
      * @Route("resource-files/{id}.pdf", methods={"GET"})
      */
-    public function pdfAction(Pdf $resource, UrlGetter $urlGetter)
+    public function pdfAction(Resource $resource, UrlGetter $urlGetter, Request $request)
     {
+        if (!($resource instanceof DownloadableInterface)) {
+            throw $this->createNotFoundException();
+        }
+        $pdfUrl = $resource->getUrl();
+        if ('true' === $request->get('local', false)) {
+            $pdfUrl = $urlGetter->getLocalUrl($resource);
+        }
+
         return new \App\Response\PDFResponse(
             $resource->getId() . '.pdf',
-            $urlGetter->getBinaryContentFromUrl($resource->getUrl())
+            $urlGetter->getBinaryContentFromUrl($pdfUrl)
         );
     }
 

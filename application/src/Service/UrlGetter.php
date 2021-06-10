@@ -1,6 +1,7 @@
 <?php
 namespace App\Service;
 
+use App\Entity\Downloadable\DownloadableInterface;
 use GuzzleHttp\Client;
 
 class UrlGetter
@@ -37,6 +38,11 @@ class UrlGetter
         ]);
 
         return $client->get($url)->getBody();
+    }
+
+    public function getLocalUrl(DownloadableInterface $resource)
+    {
+        return 'vitoop:///'.$resource->getResourceType().'/'.$resource->getId().'.'.$resource->getResourceExtension();
     }
 
     private function getLocalContent($url)

@@ -12,9 +12,9 @@
     <body id="vtp-application">
         <div id="vtp-app"></div>
         <div id="vtp-view-container">
-            <div id="vtp-view-meta">
+            <div id="vtp-view-meta" class="ui-widget">
                 <div class="vtp-fh-middle vtp-pdf-link-container">
-                    <a class="ui-corner-all ui-state-default" href="{{ path('_resource_list', {'res_type': 'pdf'}) }}" >Zurück</a>
+                    <a class="ui-corner-all ui-state-default" href="{{ path('_resource_list', {'res_type': resource.getResourceType()}) }}" >Zurück</a>
                 </div>
                 <div class="vtp-fh-top vtp-mb-15">
                     <div class="vtp-title">
@@ -22,8 +22,12 @@
                         <div style="margin-bottom: 5px"><b>{{resource.name}}</b></div>
                         <div>{{ 'label.author'|trans }}:</div>
                         <div style="margin-bottom: 7px"><b>{{resource.author}}</b></div>
-                        <span class="vtp-view-label">{{ 'label.tnop'|trans }}:</span> <span class="vtp-view-description">{{resource.tnop}}</span>
-                        <span class="vtp-view-label">{{ 'label.pdf_date'|trans }}:</span> <span class="vtp-view-description">{{ resource.pdfDate}}</span>
+                        {% if resource.tnop is defined %}
+                            <span class="vtp-view-label">{{ 'label.tnop'|trans }}:</span> <span class="vtp-view-description">{{resource.tnop}}</span>
+                        {% endif %}
+                        {% if resource.pdfDate is defined %}
+                            <span class="vtp-view-label">{{ 'label.pdf_date'|trans }}:</span> <span class="vtp-view-description">{{ resource.pdfDate}}</span>
+                        {% endif %}
                         <span class="vtp-view-label">{{ 'label.lang'|trans }}: </span> <span class="vtp-view-description">{{resource.lang.name}}</span>
                     </div>
                 </div>
@@ -68,7 +72,7 @@
             var resourceId = {{resource.id}};
             var resourceType = '{{resource.getResourceType()}}';
             var baseUrl = '{{ path('_base_url') }}';
-            var pdfUrl = baseUrl + 'resource-files/' + resourceId + '.pdf';
+            var pdfUrl = baseUrl + 'resource-files/' + resourceId + '.pdf' {% if true == isLocalFile %} + '?local=true' {% endif %};
             var isLoadAnnotation = true;
 
             $(document).ready(function () {

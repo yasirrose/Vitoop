@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Resource;
 use Doctrine\ORM\ORMException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +20,7 @@ class PdfViewerController extends ApiController
     /**
      * @Route("{id}")
      */
-    public function viewerAction(ResourceDataCollector $dataCollector, Pdf $pdf)
+    public function viewerAction(ResourceDataCollector $dataCollector, Resource $pdf, Request $request)
     {
         $dataCollector->init($pdf);
         $pdfParams = [
@@ -30,6 +31,7 @@ class PdfViewerController extends ApiController
             'commentForm' => $dataCollector->getComment(),
             'projectForm' => $dataCollector->getProject(),
             'lexiconForm' => $dataCollector->getLexicon(),
+            'isLocalFile' => 'true' === $request->get('local')
         ];
 
         return $this->render('View/resource.edit.html.twig', $pdfParams);
@@ -41,7 +43,7 @@ class PdfViewerController extends ApiController
     public function annotationsAction(
         PdfAnnotationRepository $annotationRepository,
         VitoopSecurity $vitoopSecurity,
-        Pdf $pdf
+        Resource $pdf
     ) {
         try {
             return $this->getApiResponse(
@@ -58,7 +60,7 @@ class PdfViewerController extends ApiController
     public function saveAnnotationAction(
         PdfAnnotationRepository $annotationRepository,
         VitoopSecurity $vitoopSecurity,
-        Pdf $pdf,
+        Resource $pdf,
         Request $request
     ) {
         $annotationData = $this->getDTOFromRequest($request) ?? [];

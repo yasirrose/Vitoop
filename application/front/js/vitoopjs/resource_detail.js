@@ -125,11 +125,28 @@ window.resourceDetail = (function () {
                     $('#resource-data input[type=submit]').trigger('submit');
                 });
                 $('.vtp-uiaction-detail-popup').on('click', function () {
-                    openAsResourceView(res_id, res_type, vitoopState.getters.isOpenInSameTab ? '_self': '_blank');
+                    console.log('click');
+                    let target =  vitoopState.getters.isOpenInSameTabPdf ? '_self': '_blank';
+                    if ('teli' === res_type) {
+                        target =  vitoopState.getters.isOpenInSameTabTeli ? '_self': '_blank';
+                    }
+                    openAsResourceView(res_id, res_type, target, false);
                     resourceNotes.hide();
                     $('#vtp-res-dialog').dialog('close');
                     return false;
                 });
+                $('.vtp-uiaction-detail-popup').on('contextmenu', function () {
+                    console.log('dblclick');
+                    let target =  vitoopState.getters.isOpenInSameTabPdf ? '_self': '_blank';
+                    if ('teli' === res_type) {
+                        target =  vitoopState.getters.isOpenInSameTabTeli ? '_self': '_blank';
+                    }
+                    openAsResourceView(res_id, res_type, target, true);
+                    resourceNotes.hide();
+                    $('#vtp-res-dialog').dialog('close');
+                    return false;
+                });
+
                 $('.vtp-uiaction-detail-delete').on('click', deleteResource);
                 $('.vtp-uiaction-detail-blame').on('click', blameResource);
 

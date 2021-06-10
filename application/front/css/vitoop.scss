@@ -1823,6 +1823,10 @@ div#vtp-res-dialog-tabs > div {
     #vtp-credentials-decrease-font {
         width: 100px;
     }
+
+    .custom-checkbox__wrapper {
+        padding-left: 27px;
+    }
 }
 
 
@@ -2419,8 +2423,9 @@ table.dataTable thead th:hover {
     width: 2.2em;
 }
 
-.vtp-pdf-link-container {
+.vtp-pdf-link-container, .vtp-teli-link-container {
     text-align: center;
+    display: none;
 
     a {
         width: 200px;

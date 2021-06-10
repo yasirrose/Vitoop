@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Exception\File\UrlNotAvailableException;
 use Symfony\Component\Filesystem\Filesystem;
 use App\Entity\Downloadable\DownloadableInterface;
 
@@ -60,6 +61,16 @@ class FileDownloader
         $this->downloadFromUrl($resource->getUrl(), $this->getPath($resource));
 
         return $info;
+    }
+
+    public function isPdf(DownloadableInterface $resource)
+    {
+        $info = $this->getInfoFromUrl($resource->getUrl());
+        if (200 !== $info['http_code']) {
+            throw new UrlNotAvailableException();
+        }
+
+        return false !== strpos($info["content_type"], 'pdf');
     }
 
     /**

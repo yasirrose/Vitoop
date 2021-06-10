@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Resource;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use App\Entity\Pdf;
@@ -35,7 +36,7 @@ class PdfAnnotationRepository extends ServiceEntityRepository
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function getAnnotationsByPdfAndUser(Pdf $pdf, User $user)
+    public function getAnnotationsByPdfAndUser(Resource $pdf, User $user)
     {
         return json_decode(
             $this->createQueryBuilder('pa')
@@ -52,11 +53,11 @@ class PdfAnnotationRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param Pdf $pdf
+     * @param Resource $pdf
      * @param User $user
      * @return null|object
      */
-    public function findOneByPdfAndUser(Pdf $pdf, User $user)
+    public function findOneByPdfAndUser(Resource $pdf, User $user)
     {
         return $this->findOneBy(['pdf' => $pdf, 'user' => $user]);
     }

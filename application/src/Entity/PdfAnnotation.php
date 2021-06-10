@@ -27,7 +27,7 @@ class PdfAnnotation
     /**
      * @var Pdf
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Pdf")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Resource")
      * @ORM\JoinColumn(name="pdf_id", referencedColumnName="id")
      */
     private $pdf;
@@ -49,7 +49,7 @@ class PdfAnnotation
      * @param User $user
      * @param array $annotations
      */
-    public function __construct(Pdf $pdf, User $user, array $annotations = [])
+    public function __construct(Resource $pdf, User $user, array $annotations = [])
     {
         $this->pdf = $pdf;
         $this->user = $user;
@@ -67,7 +67,7 @@ class PdfAnnotation
     /**
      * @return Pdf
      */
-    public function getPdf(): Pdf
+    public function getPdf(): Resource
     {
         return $this->pdf;
     }

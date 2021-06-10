@@ -12,8 +12,8 @@
     <body id="vtp-application">
         <div id="vtp-app"></div>
         <div id="vtp-view-container">
-            <div id="vtp-view-meta">
-                <div class="vtp-fh-middle vtp-pdf-link-container">
+            <div id="vtp-view-meta" class="ui-widget">
+                <div class="vtp-fh-middle vtp-teli-link-container">
                     <a class="ui-corner-all ui-state-default" href="{{ path('_resource_list', {'res_type': resource.getResourceType()}) }}" >Zurück</a>
                 </div>
                 <div class="vtp-fh-top vtp-mb-15">
@@ -79,11 +79,6 @@
                 width: 16px;
                 transform: translateY(-50%);
             }
-    </style>
-{#        {% block pdfscripts %}#}
-{#            <script src="{{ asset('build/old/pdf.js') }}"></script>#}
-{#            <script src="{{ asset('build/old/pdf_viewer.js') }}"></script>#}
-{#            <script src="{{ asset('build/pdf.editor.js') }}"></script>#}
-{#        {% endblock %}#}
+        </style>
     </body>
 </html>

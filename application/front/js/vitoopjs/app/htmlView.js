@@ -14,6 +14,12 @@ class HtmlView {
     init(resourceId, resourceType, baseUrl) {
         let self = this;
 
+        if (vitoopState.getters.isOpenInSameTabTeli) {
+            $('.vtp-teli-link-container').show();
+        } else {
+            $('.vtp-teli-link-container').hide();
+        }
+
         $('#vtp-pdf-view-toggle-button').on('click', function () {
             if ($('#pdf-view-wrapper').css('left') !== '0px') {
                 $('#pdf-view-wrapper').css('left', 0);

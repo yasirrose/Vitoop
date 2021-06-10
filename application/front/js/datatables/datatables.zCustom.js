@@ -8,11 +8,10 @@ $.fn.dataTable.ext.search.push(
 $.fn.DataTable.ext.pager.numbers_length = 17;
 
 
-function openAsResourceView(id, type, target) {
+function openAsResourceView(id, type, target, fromLocal) {
     let currentPageNum = $(window.vitoopApp.vtpDatatable.datatableListId).DataTable().page.info().page;
     let link = 'views/';
-    console.log(type);
-    if ('teli' === type) {
+    if ('teli' === type && false === fromLocal) {
          link = 'html-views/';
     }
     vitoopState.commit('updateTableOpenedResource', {
@@ -20,7 +19,11 @@ function openAsResourceView(id, type, target) {
         type: type,
         page: currentPageNum
     });
+    let url = vitoop.baseUrl + link + id;
+    if (true === fromLocal) {
+        url += '?local=true';
+    }
 
-    window.open(vitoop.baseUrl + link + id, target);
+    window.open(url, target);
     return false;
 }

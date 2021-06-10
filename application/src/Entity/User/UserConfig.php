@@ -70,7 +70,12 @@ class UserConfig
     /**
      * @ORM\Column(type="boolean", options={"default" = false})
      */
-    protected $isOpenInSameTab = false;
+    protected $isOpenInSameTabPdf = false;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default" = false})
+     */
+    protected $isOpenInSameTabTeli = false;
 
     public function __construct(User $user)
     {
@@ -205,22 +210,25 @@ class UserConfig
     /**
      * @return bool
      */
-    public function isOpenInSameTab(): bool
+    public function isOpenInSameTabPdf(): bool
     {
-        return $this->isOpenInSameTab ?? false;
+        return $this->isOpenInSameTabPdf ?? false;
     }
 
     /**
-     * @param $numberElements
-     * @param $heightList
-     * @param $decreaseFontSize
-     * @param $isOpenInSameTab
+     * @return bool
      */
-    public function updateUserSettings($numberElements, $heightList, $decreaseFontSize, $isOpenInSameTab)
+    public function isOpenInSameTabTeli(): bool
+    {
+        return $this->isOpenInSameTabTeli;
+    }
+
+    public function updateUserSettings($numberElements, $heightList, $decreaseFontSize, $isOpenInSameTabPdf, $isOpenInSameTabTeli)
     {
         $this->numberOfTodoElements = $numberElements;
         $this->heightOfTodoList = $heightList;
         $this->decreaseFontSize = $decreaseFontSize;
-        $this->isOpenInSameTab = $isOpenInSameTab ?? false;
+        $this->isOpenInSameTabPdf = $isOpenInSameTabPdf ?? false;
+        $this->isOpenInSameTabTeli = $isOpenInSameTabTeli ?? false;
     }
 }

@@ -8,8 +8,11 @@ export default {
         currentFontSize -= state.user ? state.user.decrease_font_size : 0;
         return currentFontSize;
     },
-    isOpenInSameTab(state, getters) {
-        return state.user ? state.user.is_open_in_same_tab : false;
+    isOpenInSameTabPdf(state, getters) {
+        return state.user ? state.user.is_open_in_same_tab_pdf : false;
+    },
+    isOpenInSameTabTeli(state, getters) {
+        return state.user ? state.user.is_open_in_same_tab_teli : false;
     },
     getOpenedResource(state) {
        return state.table.openedResource ? state.table.openedResource : {};

@@ -17,7 +17,11 @@ $vitoop-pdf-view-meta-width: 300px;
     margin: 0 auto;
     background-color: #404040;
     overflow: hidden;
+    font-size: 1em;
 
+    #vtp-tagbox {
+        font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;;
+    }
 }
 
 #pdf-view-wrapper{
@@ -67,7 +71,7 @@ $vitoop-pdf-view-meta-width: 300px;
     background-color: #f2f5f7;
 
     .vtp-tagbox-tag {
-        font-size: 13px;
+        font-size: 12px;
     }
 
     :disabled {

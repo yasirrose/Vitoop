@@ -84,7 +84,8 @@ class CredentialsDTO implements CreateFromRequestInterface
      */
     public $decreaseFontSize;
 
-    public $isOpenInSameTab;
+    public $isOpenInSameTabPdf;
+    public $isOpenInSameTabTeli;
 
     public function __construct()
     {
@@ -99,7 +100,7 @@ class CredentialsDTO implements CreateFromRequestInterface
     public static function createFromRequest(Request $request)
     {
         $requestData = json_decode($request->getContent());
-        $fields = ['password', 'email', 'username', 'numberOfTodoElements', 'heightOfTodoList', 'decreaseFontSize', 'isOpenInSameTab'];
+        $fields = ['password', 'email', 'username', 'numberOfTodoElements', 'heightOfTodoList', 'decreaseFontSize', 'isOpenInSameTabPdf', 'isOpenInSameTabTeli'];
         $dto = new static();
         
         foreach ($fields as $field) {

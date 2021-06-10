@@ -13,6 +13,12 @@ class PdfView {
     init(resourceId, resourceType, baseUrl) {
         let self = this;
 
+        if (vitoopState.getters.isOpenInSameTabPdf) {
+            $('.vtp-pdf-link-container').show();
+        } else {
+            $('.vtp-pdf-link-container').hide();
+        }
+
         $('#vtp-pdf-view-toggle-button').on('click', function () {
             if ($('#pdf-view-wrapper').css('left') !== '0px') {
                 $('#pdf-view-wrapper').css('left', 0);
