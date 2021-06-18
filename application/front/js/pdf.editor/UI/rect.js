@@ -170,6 +170,9 @@ function saveRect(type, rects, color) {
     rectangles: [...rects].map((r) => {
       let offset = 0;
 
+      if (type === 'strikeout') {
+        offset = r.height;
+      }
 
       return scaleDown(svg, {
         y: (r.top + offset) - boundingRect.top,

@@ -57,14 +57,6 @@ export function renderPage(pageNumber, renderOptions) {
     pdfDocument.getPage(pageNumber),
     PDFJSAnnotate.getAnnotations(documentId, pageNumber)
   ]).then(([pdfPage, annotations]) => {
-    for(let i = 0; i< annotations.annotations.length ;i++ )
-    {
-      for(let j = 0; annotations.annotations[i].rectangles!=undefined && j< annotations.annotations[i].rectangles.length ;j++ )
-      {
-        annotations.annotations[i].rectangles[j].y += annotations.annotations[i].rectangles[j].height;
-      }
-    }
-     
     let page = document.getElementById(`pageContainer${pageNumber}`);
     let svg = page.querySelector('.annotationLayer');
     let canvas = page.querySelector('.canvasWrapper canvas');

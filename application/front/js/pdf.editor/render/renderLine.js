@@ -20,9 +20,9 @@ export default function renderLine(a) {
 
         setAttributes(line, {
             x1: r.x,
-            y1: r.y + r.height,
+            y1: r.y,
             x2: r.x + r.width,
-            y2: r.y + r.height,
+            y2: r.y,
         });
 
         group.appendChild(line);
