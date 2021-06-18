@@ -95,12 +95,17 @@ class DownloadsService
                 $this->downloadFromCurl($curl, $this->getPath($resource));
                 curl_close($curl);
             } else {
-                $this->pdfGenerator->generate(
-                    $resource->getUrl(),
-                    $this->getPath($resource),
-                    ['disable-javascript' => true],
-                    true
-                );
+                try {
+                    $this->pdfGenerator->generate(
+                        $resource->getUrl(),
+                        $this->getPath($resource),
+                        ['disable-javascript' => true],
+                        true
+                    );
+                } catch (\Exception $exception) {
+                    $resource->markAsWrongUrl();
+                    continue;
+                }
             }
             
             $resource->markAsSuccess();
