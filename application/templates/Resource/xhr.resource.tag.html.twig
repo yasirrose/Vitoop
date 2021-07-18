@@ -24,11 +24,11 @@
                role="button"
                aria-disabled="false">
         {{ form_widget(fvtag.remove, {'value': '-'~tagsRestRemovedCount, 'attr': {'class': 'vtp-uiinfo-anchor vtp-tag-submit' }}) }}
-        <button id="tag_search" title="{{ 'label.tag.search'|trans }}" help-area="tag" class="vtp-help-area-button vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only" type="button">
+        <span style="float: right;">
+            <button id="tag_search" style="display: none" title="{{ 'label.tag.search'|trans }}" help-area="tag" class="ui-button-disabled ui-state-disabled vtp-help-area-button vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only" type="button">
                 <span class="ui-button-icon ui-icon ui-icon-zoomin"></span>
                 <span class="ui-button-text"></span>
-        </button>
-        <span style="float: right;">
+            </button>
             <button id="vtp-tagbox-help"
                     title="{{ 'label.help'|trans }}"
                     help-area="tag"

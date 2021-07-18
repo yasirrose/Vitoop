@@ -62,9 +62,16 @@ export default class TagWidget extends Widget {
             of: '#' + this.containerName + ' .vtp-uiinfo-anchor',
             collision: 'none'
         }).hide("fade", 3000);
-        
-        $('#tag_search').prop('disabled', true);
-        $('#tag_search').addClass('ui-button-disabled ui-state-disabled');
+
+        if (!vitoopState.getters.getProject && !vitoopState.state.conversationInstance && !vitoopState.state.lexicon) {
+            $('#tag_search').show();
+            $('#tag_search').prop('disabled', true);
+            if (!$('#tag_search').hasClass('ui-button-disabled ')) {
+                $('#tag_search').addClass('ui-button-disabled ui-state-disabled');
+            }
+        } else {
+            $('#tag_search').hide();
+        }
 
         $('.vtp-tagbox-tag').click(function() {
             var text = $(this).text().trim();

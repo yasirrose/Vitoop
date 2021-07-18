@@ -270,7 +270,9 @@
             }
 
             VueBus.$on('update:my-projects', () => {
-                $('#user-projects').selectmenu('destroy');
+                if (undefined !== $('#user-projects').selectmenu('instance')) {
+                  $('#user-projects').selectmenu('destroy');
+                }
                 this.GETMyProjects();
             });
         },
