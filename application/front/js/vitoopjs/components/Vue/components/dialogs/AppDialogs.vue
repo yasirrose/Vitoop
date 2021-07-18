@@ -6,6 +6,7 @@
                     <legend>Notizen</legend>
                     <div class="notes-block">
                         <textarea
+                            id="vtp-user-notes-textarea"
                             :value="notes"
                             @input="onNotesNotes"
                             :placeholder="notesPlaceholder">
@@ -18,10 +19,15 @@
                         </button>
                         <button @click="saveNotes"
                                 :class="{ 'ui-state-active': notesDirty }"
-                                class="ui-state-default ui-corner-all save-button">
+                                class="ui-state-default ui-corner-all save-button"
+                                style="float: right">
                             speichern
                         </button>
-
+                        <button @click="activateTinyMCE"
+                                class="ui-state-default ui-corner-all"
+                                style="float: right">
+                          MCE
+                        </button>
                     </div>
                 </fieldset>
             </div>
@@ -94,6 +100,7 @@
 <script>
     import { mapGetters, mapState } from "vuex";
     import NotesDialog from "./NotesDialog.vue";
+    import TinyMCEInitializer from "../../../TinyMCEInitializer";
 
     export default {
         name: "AppDialogs",
@@ -151,6 +158,18 @@
             saveNotes() {
                 this.$store.dispatch('saveNotes', this.notes);
                 this.notesDirty = false;
+            },
+            activateTinyMCE () {
+              let tinyInit = new TinyMCEInitializer();
+              if (tinyInit.isEditorActive('vtp-user-notes-textarea')) {
+                  tinyMCE.remove('#vtp-user-notes-textarea');
+              } else {
+                  let options = tinyInit.getCommonOptions();
+                  options.width = 700;
+                  options.height = 100;
+                  options.selector = 'textarea#vtp-user-notes-textarea';
+                  tinyMCE.init(options);
+              }
             }
         }
     }
@@ -170,7 +189,6 @@
         &.open {
 
             .notes-block__buttons {
-                display: flex;
                 justify-content: space-between;
 
                 button {
@@ -179,6 +197,9 @@
                     animation-duration: .3s;
                     animation-fill-mode: forwards;
                 }
+              .save-button {
+                margin-left: 5px;
+              }
             }
         }
     }

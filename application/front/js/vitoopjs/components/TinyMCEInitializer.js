@@ -24,5 +24,23 @@ export default class TinyMCEInitializer {
             toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink',
         };
     }
+
+    isEditorActive(selector) {
+        if(typeof tinyMCE == 'undefined'){
+            return false;
+        }
+
+        let editor = null;
+        if( typeof selector == 'undefined' ){
+            editor = tinyMCE.activeEditor;
+        }else{
+            editor = tinymce.EditorManager.get(selector);
+        }
+        if(editor == null){
+            return false;
+        }
+
+        return !editor.isHidden();
+    }
 }
 
