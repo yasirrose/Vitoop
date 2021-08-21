@@ -6,11 +6,14 @@
                     <legend>Notizen</legend>
                     <div class="notes-block">
                         <textarea
+                            v-show="isShowTextarea"
                             id="vtp-user-notes-textarea"
                             :value="notes"
                             @input="onNotesNotes"
                             :placeholder="notesPlaceholder">
                         </textarea>
+                    </div>
+                    <div v-show="!isShowEditor" id="vtp-res-user-notes-result" v-html="notes">
                     </div>
                     <div class="notes-block__buttons">
                         <button @click="closeNotes"
@@ -24,9 +27,10 @@
                             speichern
                         </button>
                         <button @click="activateTinyMCE"
+                                :class="{ 'ui-state-active': isShowEditor }"
                                 class="ui-state-default ui-corner-all"
                                 style="float: right">
-                          MCE
+                          Edit
                         </button>
                     </div>
                 </fieldset>
@@ -110,6 +114,8 @@
         data() {
             return {
                 notesDirty: false,
+                isShowEditor: false,
+                isShowTextarea: false,
                 notesPlaceholder: 'Hier kannst Du private Notizen speichern, die von überall aus zugänglich sind.',
             }
         },
@@ -159,18 +165,32 @@
                 this.$store.dispatch('saveNotes', this.notes);
                 this.notesDirty = false;
             },
-            activateTinyMCE () {
-              let tinyInit = new TinyMCEInitializer();
-              if (tinyInit.isEditorActive('vtp-user-notes-textarea')) {
-                  tinyMCE.remove('#vtp-user-notes-textarea');
+          activateTinyMCE () {
+            let tinyInit = new TinyMCEInitializer();
+
+            if (tinyInit.isEditorActive('vtp-user-notes-textarea')) {
+              if (true === this.isShowEditor) {
+                $('.notes-block > .mce-container').hide();
+                let editorContent = tinyInit.getEditor('vtp-user-notes-textarea').getContent();
+                this.$store.commit('set', { key: 'notes',  value: editorContent});
+                this.isShowEditor = false;
+                this.isShowTextarea = false;
               } else {
-                  let options = tinyInit.getCommonOptions();
-                  options.width = 700;
-                  options.height = 100;
-                  options.selector = 'textarea#vtp-user-notes-textarea';
-                  tinyMCE.init(options);
+                $('.notes-block > .mce-container').show();
+                $('#vtp-user-notes-textarea').hide();
+                this.isShowEditor = true;
+                this.isShowTextarea = false;
               }
+            } else if (false === this.isShowEditor) {
+              this.isShowTextarea = true;
+              let options = tinyInit.getCommonOptions();
+              options.width = 700;
+              options.height = 100;
+              options.selector = 'textarea#vtp-user-notes-textarea';
+              tinymce.init(options);
+              this.isShowEditor = true;
             }
+          }
         }
     }
 </script>
@@ -202,6 +222,10 @@
               }
             }
         }
+    }
+
+    #vtp-res-user-notes-result {
+      height: 170px;
     }
 
     .notes-block {

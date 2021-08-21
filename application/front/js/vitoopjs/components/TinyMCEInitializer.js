@@ -30,17 +30,20 @@ export default class TinyMCEInitializer {
             return false;
         }
 
-        let editor = null;
-        if( typeof selector == 'undefined' ){
-            editor = tinyMCE.activeEditor;
-        }else{
-            editor = tinymce.EditorManager.get(selector);
-        }
-        if(editor == null){
+        let editor = this.getEditor(selector);
+        if (editor == null) {
             return false;
         }
 
         return !editor.isHidden();
+    }
+
+    getEditor(selector) {
+        if(typeof selector == 'undefined' ) {
+            return tinyMCE.activeEditor;
+        }
+
+        return tinymce.EditorManager.get(selector);
     }
 }
 
