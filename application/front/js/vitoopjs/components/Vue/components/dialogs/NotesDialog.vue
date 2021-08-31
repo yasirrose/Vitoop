@@ -105,6 +105,7 @@
       padding: 1rem;
       resize: none;
       height: 387px;
+      overflow: scroll;
     }
 
     textarea {

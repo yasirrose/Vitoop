@@ -226,6 +226,7 @@
 
     #vtp-res-user-notes-result {
       height: 170px;
+      overflow: scroll;
     }
 
     .notes-block {
