@@ -43,7 +43,16 @@ export default class TinyMCEInitializer {
             return tinyMCE.activeEditor;
         }
 
-        return tinymce.EditorManager.get(selector);
+        return tinymce.get(selector);
+    }
+
+    getEditorContent(selector) {
+        let editor = this.getEditor(selector);
+        if (null !== editor) {
+            return editor.getContent();
+        }
+
+        return null;
     }
 }
 

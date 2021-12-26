@@ -121,7 +121,7 @@
         },
         computed: {
             ...mapState({
-                notes: ({ notes }) => notes,
+              notes: ({ notes }) => notes,
             }),
             ...mapGetters(['get']),
             isShowHelp() {
@@ -150,6 +150,10 @@
                     }
                 });
             });
+
+          VueBus.$on('reset', () => {
+            this.resetState();
+          });
         },
         methods: {
             onNotesNotes({ target: { value } }) {
@@ -160,51 +164,59 @@
                 $('#open-notes-dialog-button').removeClass('ui-state-active');
                 $('#resource-notes').removeClass('open');
                 $('#resource-notes').hide('blind', 'fast');
+                this.isShowEditorPopup = false;
+                this.isShowTextareaPopup = false;
+                tinymce.remove('#vtp-user-notes-textarea');
             },
             saveNotes() {
-                this.$store.dispatch('saveNotes', this.notes);
+                let tinyInit = new TinyMCEInitializer();
+                let editorContent = tinyInit.getEditorContent('vtp-user-notes-textarea');
+                this.$store.commit('set', { key: 'notes',  value: editorContent});
                 this.notesDirty = false;
             },
-          activateTinyMCE () {
-            let tinyInit = new TinyMCEInitializer();
+            activateTinyMCE () {
+                let tinyInit = new TinyMCEInitializer();
+                let editorContent = tinyInit.getEditorContent('vtp-user-notes-textarea');
 
-            if (tinyInit.isEditorActive('vtp-user-notes-textarea')) {
-              if (true === this.isShowEditorPopup) {
-                let editorContent = tinyInit.getEditor('vtp-user-notes-textarea').getContent();
-                this.$store.commit('set', { key: 'notes',  value: editorContent});
+                if (null === tinyInit.getEditor('vtp-user-notes-textarea')) {
+                    let options = tinyInit.getCommonOptions();
+                    options.width = 700;
+                    options.height = 100;
+                    options.selector = '#vtp-user-notes-textarea';
+                    options.init_instance_callback = function () {
+                        $('.notes-block > .mce-container').show();
+                        $('#vtp-user-notes-textarea').hide();
+                    }
+                    tinymce.init(options);
+                }
+
+                if (true === this.isShowEditorPopup) {
+                    this.$store.commit('set', { key: 'notes',  value: editorContent});
+                    this.isShowEditorPopup = false;
+                    this.isShowTextareaPopup = false;
+
+                    tinymce.remove('#vtp-user-notes-textarea');
+                     $('.notes-block > .mce-container').hide();
+                     $('#vtp-user-notes-textarea').hide();
+
+                } else {
+                    this.isShowEditorPopup = true;
+                    this.isShowTextareaPopup = false;
+
+                    $('.notes-block > .mce-container').show();
+                    $('#vtp-user-notes-textarea').hide();
+                }
+            },
+
+            resetState() {
+                console.log('resetState');
                 this.isShowEditorPopup = false;
                 this.isShowTextareaPopup = false;
 
+                tinymce.remove('#vtp-user-notes-textarea');
                 $('.notes-block > .mce-container').hide();
-                $('#vtp-user-notes-textarea').show();
-              } else {
-                this.isShowEditorPopup = true;
-                this.isShowTextareaPopup = false;
-
-                $('.notes-block > .mce-container').show();
                 $('#vtp-user-notes-textarea').hide();
-              }
-            } else if (false === this.isShowEditorPopup) {
-              tinymce.remove('#vtp-user-notes-textarea');
-              this.isShowTextareaPopup = false;
-              let options = tinyInit.getCommonOptions();
-              options.width = 700;
-              options.height = 100;
-              options.selector = '#vtp-user-notes-textarea';
-              options.init_instance_callback = function () {
-                $('.notes-block > .mce-container').show();
-                $('#vtp-user-notes-textarea').hide();
-              }
-              tinymce.init(options);
-              this.isShowEditorPopup = true;
-            } else {
-              this.isShowEditorPopup = false;
-              this.isShowTextareaPopup = false;
-
-              $('.notes-block > .mce-container').hide();
-              $('#vtp-user-notes-textarea').hide();
             }
-          }
         }
     }
 </script>

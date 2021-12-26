@@ -61,46 +61,39 @@
                 });
             },
             save() {
-                this.$store.dispatch('saveNotes', this.notes);
-                this.dirty = false;
+              let tinyInit = new TinyMCEInitializer();
+              let editorContent = tinyInit.getEditorContent('vtp-user-notes-textarea-common');
+              this.$store.commit('set', { key: 'notes',  value: editorContent});
+              this.dirty = false;
             },
             activateTinyMCE () {
                 let tinyInit = new TinyMCEInitializer();
+                let editorContent = tinyInit.getEditorContent('vtp-user-notes-textarea-common');
 
-                if (tinyInit.isEditorActive('vtp-user-notes-textarea-common')) {
-                  if (true === this.isShowEditor) {
-                    let editorContent = tinyInit.getEditor('vtp-user-notes-textarea-common').getContent();
-                    this.$store.commit('set', { key: 'notes',  value: editorContent});
-                    this.isShowEditor = false;
-                    this.isShowTextarea = false;
-
-                    $('#vtp-notes-dialog > .mce-container').hide();
-                    $('#vtp-user-notes-textarea-common').show();
-                  } else {
-                    this.isShowEditor = true;
-                    this.isShowTextarea = false;
-
-                    $('#vtp-notes-dialog > .mce-container').show();
-                    $('#vtp-user-notes-textarea-common').hide();
-                  }
-                } else if (false === this.isShowEditor) {
-                  tinymce.remove('#vtp-user-notes-textarea-common');
+                if (null === tinyInit.getEditor('vtp-user-notes-textarea-common')) {
                   let options = tinyInit.getCommonOptions();
                   options.height = 345;
                   options.selector = '#vtp-user-notes-textarea-common';
                   options.init_instance_callback = function () {
-                    $('#vtp-notes-dialog > .mce-container').show();
-                    $('#vtp-user-notes-textarea-common').hide();
+                      $('#vtp-notes-dialog > .mce-container').show();
+                      $('#vtp-user-notes-textarea-common').hide();
                   }
                   tinymce.init(options);
-                  this.isShowEditor = true;
-                  this.isShowTextarea = false;
-                } else {
+                }
+
+                if (true === this.isShowEditor) {
+                  this.$store.commit('set', { key: 'notes',  value: editorContent});
                   this.isShowEditor = false;
                   this.isShowTextarea = false;
 
                   $('#vtp-notes-dialog > .mce-container').hide();
                   $('#vtp-user-notes-textarea-common').hide();
+                } else {
+                    this.isShowEditor = true;
+                    this.isShowTextarea = false;
+
+                    $('#vtp-notes-dialog > .mce-container').show();
+                    $('#vtp-user-notes-textarea-common').hide();
                 }
             }
         }

@@ -58,7 +58,7 @@ $(function () {
     Vue.use(VueI18n);
     Vue.use(Vuelidate);
 
-    new Vue({
+    window.VueVtpApp = new Vue({
         el: '#vtp-app',
         store: vitoopState,
         router,
