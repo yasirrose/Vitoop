@@ -21,7 +21,8 @@
                             abbrechen
                         </button>
                         <button @click="saveNotes"
-                                :class="{ 'ui-state-active': notesDirty }"
+                                :class="{ 'ui-state-active': notesDirty, 'ui-state-disabled': !isShowEditorPopup }"
+                                :disabled='!isShowEditorPopup'
                                 class="ui-state-default ui-corner-all save-button"
                                 style="float: right">
                             speichern
@@ -171,7 +172,7 @@
             saveNotes() {
                 let tinyInit = new TinyMCEInitializer();
                 let editorContent = tinyInit.getEditorContent('vtp-user-notes-textarea');
-                this.$store.commit('set', { key: 'notes',  value: editorContent});
+                this.$store.dispatch('saveNotes', editorContent);
                 this.notesDirty = false;
             },
             activateTinyMCE () {
@@ -209,7 +210,6 @@
             },
 
             resetState() {
-                console.log('resetState');
                 this.isShowEditorPopup = false;
                 this.isShowTextareaPopup = false;
 

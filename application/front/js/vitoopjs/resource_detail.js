@@ -75,7 +75,7 @@ window.resourceDetail = (function () {
                 $('#resource-notes').removeClass('open');
                 $('#resource-notes').hide('blind', 'fast');
 
-                console.log(VueBus.$emit('reset'));
+                VueBus.$emit('reset');
             },
             show() {
                 $('#open-notes-dialog-button').addClass('ui-state-active');

@@ -15,7 +15,8 @@
               Edit
             </button>
             <button @click="save"
-                    :class="{ 'ui-state-active': dirty }"
+                    :class="{ 'ui-state-active': dirty, 'ui-state-disabled': !isShowEditor }"
+                    :disabled='!isShowEditor'
                     class="save-button ui-state-default ui-corner-all">
                 Speichern
             </button>
@@ -63,7 +64,7 @@
             save() {
               let tinyInit = new TinyMCEInitializer();
               let editorContent = tinyInit.getEditorContent('vtp-user-notes-textarea-common');
-              this.$store.commit('set', { key: 'notes',  value: editorContent});
+              this.$store.dispatch('saveNotes', editorContent);
               this.dirty = false;
             },
             activateTinyMCE () {
