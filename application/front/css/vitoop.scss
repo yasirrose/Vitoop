@@ -2439,3 +2439,21 @@ table.dataTable thead th:hover {
 .mce-branding {
     display: none;
 }
+
+.clipboard{
+    position: relative;
+    display: inline-block;
+}
+
+.tooltiptext{
+    display:none;
+    z-index:9;
+    position: absolute;
+    right: -40px;
+    top: 30px;
+    width: 100px;
+    background: #ffff99;
+    text-align: center;
+    padding: 5px;
+    border-radius: 4px;
+}

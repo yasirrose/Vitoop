@@ -122,6 +122,15 @@
                 $('#vtp-search-bytags-form span.ui-selectmenu-button').removeAttr('tabIndex');
             }
         });
+
+        function copyId(e) {
+          var copyText = document.getElementById("myInputId");
+          navigator.clipboard.writeText(copyText.value);
+
+          let content = "ID wurde kopiert";
+          e.currentTarget.title = content;
+          $('.tooltiptext').text(content).show().delay(3000).fadeOut();
+        }
     </script>
     {% endblock footerjs %}
 </body>

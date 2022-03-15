@@ -17,19 +17,21 @@ export default class SendLinkWidget extends Widget {
         $('#form-user-links-info').css('font-size', vitoopState.getters.getListFontSize + 'px');
         let currentRowCounter = 0;
         for (let resourceType in resources) {
-            for (let resourceId in resources[resourceType]) {
-                let rowClass = 'odd ui-corner-all';
-                if (currentRowCounter % 2) {
+            if (typeof resources !== 'undefined' && resources.length > 0) {
+                for (let resourceId in resources[resourceType]) {
+                  let rowClass = 'odd ui-corner-all';
+                  if (currentRowCounter % 2) {
                     rowClass = 'even ui-corner-all';
-                }
-                $('#form-user-links-info').append(
+                  }
+                  $('#form-user-links-info').append(
                     '<tr class="'+ rowClass +'">'+
-                        '<td class="vtp-send-type">'+this.getResourceTypeName(resourceType)+':</td>' +
-                        '<td><div class="vtp-teasefader-wrapper">'+resources[resourceType][resourceId].name+'<div class="vtp-teasefader"></div></div></td>' +
+                    '<td class="vtp-send-type">'+this.getResourceTypeName(resourceType)+':</td>' +
+                    '<td><div class="vtp-teasefader-wrapper">'+resources[resourceType][resourceId].name+'<div class="vtp-teasefader"></div></div></td>' +
                     '</tr>'
-                );
-                resourceIds.push(resourceId);
-                currentRowCounter++;
+                  );
+                  resourceIds.push(resourceId);
+                  currentRowCounter++;
+                }
             }
         }
 
