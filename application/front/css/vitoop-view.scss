@@ -462,3 +462,25 @@ $vitoop-pdf-view-meta-width: 300px;
     display: block;
     font-weight: bold;
 }
+
+.back-button .ui-corner-all.ui-state-default {
+	width: 65%;
+	max-width: 100%;
+	padding: 2px 4px;
+	margin-top: 5px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	float: left;
+	padding-left: 48px;
+}
+
+.back-button .ui-corner-all.ui-state-default .ui-button-icon.ui-icon.ui-icon-arrow-1-w {
+	position: absolute;
+	left: 10px;
+}
+
+.w-42 {
+  width: 42px !important;
+}
