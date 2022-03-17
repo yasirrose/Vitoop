@@ -53,6 +53,8 @@ $vitoop-pdf-view-meta-width: 300px;
     margin-top: 15px;
     text-align: center;
     padding: 0;
+    padding-left: 10px;
+    float: left;
 
     button {
         width: 200px;
@@ -464,7 +466,7 @@ $vitoop-pdf-view-meta-width: 300px;
 }
 
 .back-button .ui-corner-all.ui-state-default {
-	width: 65%;
+	width: 62%;
 	max-width: 100%;
 	padding: 2px 4px;
 	margin-top: 5px;
@@ -474,6 +476,7 @@ $vitoop-pdf-view-meta-width: 300px;
 	position: relative;
 	float: left;
 	padding-left: 48px;
+  margin-left: 12px;
 }
 
 .back-button .ui-corner-all.ui-state-default .ui-button-icon.ui-icon.ui-icon-arrow-1-w {
