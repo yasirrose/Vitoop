@@ -17,12 +17,13 @@
                     </div>
                     <div class="notes-block__buttons">
                         <button @click="closeNotes"
+                                v-show="isShowEditorPopup"
                             class="ui-state-default ui-corner-all">
                             abbrechen
                         </button>
                         <button @click="saveNotes"
                                 :class="{ 'ui-state-active': notesDirty, 'ui-state-disabled': !isShowEditorPopup }"
-                                :disabled='!isShowEditorPopup'
+                                v-show="isShowEditorPopup"
                                 class="ui-state-default ui-corner-all save-button"
                                 style="float: right">
                             speichern
@@ -133,6 +134,7 @@
             }
         },
         mounted() {
+            let self = this;
             $('#user_show_help').on('change', function () {
                 $.ajax({
                     method: "PATCH",
@@ -152,9 +154,13 @@
                 });
             });
 
-          VueBus.$on('reset', () => {
-            this.resetState();
-          });
+            $('#vtp-res-dialog').on('dialogclose', function (e) {
+              self.resetState();
+            });
+
+            VueBus.$on('reset', () => {
+              self.resetState();
+            });
         },
         methods: {
             onNotesNotes({ target: { value } }) {
@@ -210,12 +216,9 @@
             },
 
             resetState() {
-                this.isShowEditorPopup = false;
-                this.isShowTextareaPopup = false;
-
-                tinymce.remove('#vtp-user-notes-textarea');
-                $('.notes-block > .mce-container').hide();
-                $('#vtp-user-notes-textarea').hide();
+                if (true === this.isShowEditorPopup) {
+                    this.activateTinyMCE();
+                }
             }
         }
     }

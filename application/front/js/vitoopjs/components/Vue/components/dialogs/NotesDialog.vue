@@ -16,7 +16,7 @@
             </button>
             <button @click="save"
                     :class="{ 'ui-state-active': dirty, 'ui-state-disabled': !isShowEditor }"
-                    :disabled='!isShowEditor'
+                    v-show="isShowEditor"
                     class="save-button ui-state-default ui-corner-all">
                 Speichern
             </button>
@@ -52,6 +52,7 @@
                 this.$store.commit('set', { key: 'notes', value });
             },
             init() {
+                let self = this;
                 $('#vtp-notes-dialog').dialog({
                     autoOpen: false,
                     width: 720,
@@ -60,6 +61,13 @@
                     modal: true,
                     close: this.closeDialog,
                 });
+
+                $('#vtp-notes-dialog').on('dialogclose', function (e) {
+                  self.resetState();
+                });
+            },
+            closeDialog () {
+              this.resetState();
             },
             save() {
               let tinyInit = new TinyMCEInitializer();
@@ -96,6 +104,12 @@
                     $('#vtp-notes-dialog > .mce-container').show();
                     $('#vtp-user-notes-textarea-common').hide();
                 }
+            },
+
+            resetState() {
+              if (true === this.isShowEditor) {
+                this.activateTinyMCE();
+              }
             }
         }
     }
@@ -106,6 +120,7 @@
         display: flex;
         flex-direction: column;
         padding: 2px 2px .3rem;
+        overflow: hidden;
     }
 
     #vtp-user-notes-result {
