@@ -23,9 +23,10 @@ class PdfViewerController extends ApiController
     public function viewerAction(ResourceDataCollector $dataCollector, Resource $pdf, Request $request)
     {
         $dataCollector->init($pdf);
+        $pdfPage = true;
         $pdfParams = [
             'resource' => $pdf,
-            'tagForm' => $dataCollector->getTag(),
+            'tagForm' => $dataCollector->getTag(false, $pdfPage),
             'remarkForm' => $dataCollector->getRemark(),
             'privateRemarkForm' => $dataCollector->getRemarkPrivate(),
             'commentForm' => $dataCollector->getComment(),

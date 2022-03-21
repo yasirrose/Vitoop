@@ -48,7 +48,7 @@ class ResourceDataCollector
     protected $router;
 
     protected $formCreator;
-    
+
     /* @var $res \App\Entity\Resource */
     protected $res;
 
@@ -272,7 +272,7 @@ class ResourceDataCollector
         return ($this->initialized) ? $this->twig->render('Resource\xhr.resource.security.buttons.html.twig', array('res_type' => $this->res_type)) : $this->twig->render('Resource/xhr.resource.security.buttons.new.html.twig');;
     }
 
-    public function getTag($forFullLexiconPage = false)
+    public function getTag($forFullLexiconPage = false, $forPdfPage = false)
     {
         $info_tag = '';
         $tag_text = '';
@@ -337,10 +337,11 @@ class ResourceDataCollector
             'tagtext' => $tag_text,
             'tags' => $resourceTagDTO->tags,
             'tagsRestAddedCount' => $resourceTagDTO->tagsRestAddedCount,
-            'tagsRestRemovedCount' => $resourceTagDTO->tagsRestRemovedCount
+            'tagsRestRemovedCount' => $resourceTagDTO->tagsRestRemovedCount,
+            'forPdfPage' => $forPdfPage
         ));
     }
-    
+
     public function getMetadata()
     {
         return [
@@ -428,7 +429,7 @@ class ResourceDataCollector
         $info_remark = '';
         $fv_remark = null;
         $tpl_vars = array();
-        
+
         $remarkLast = $this->rm->getEntityManager()
             ->getRepository(Remark::class)
             ->getLatestRemark($this->res);
@@ -775,4 +776,3 @@ class ResourceDataCollector
         return '';
     }
 }
-
