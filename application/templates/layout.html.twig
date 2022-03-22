@@ -129,7 +129,7 @@
 
           let content = "ID wurde kopiert";
           e.currentTarget.title = content;
-          $('.tooltiptext').text(content).show().delay(3000).fadeOut();
+          $(".tooltiptext").html("<span class='vtp-icon ui-icon ui-icon-info'></span>"+content).show().delay(3000).fadeOut();
         }
     </script>
     {% endblock footerjs %}

@@ -2443,6 +2443,15 @@ table.dataTable thead th:hover {
 .clipboard{
     position: relative;
     display: inline-block;
+    margin-left: 3px;
+
+    button {
+        border: 1px solid #aed0ea;
+        height: 20px;
+        border-radius: 6px;
+        padding: 0px 6px;
+        background: #d7ebf9;
+    }
 }
 
 .tooltiptext{
@@ -2451,8 +2460,8 @@ table.dataTable thead th:hover {
     position: absolute;
     right: -40px;
     top: 30px;
-    width: 100px;
-    background: #ffff99;
+    width: 120px;
+    background: #ffef8f;
     text-align: center;
     padding: 5px;
     border-radius: 4px;

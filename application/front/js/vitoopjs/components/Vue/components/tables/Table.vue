@@ -168,7 +168,7 @@
                 const teaserFaderWrappers = document.querySelectorAll('.vtp-teasefader-wrapper');
                 teaserFaderWrappers.forEach(item => {
                     const text = item.querySelector('.vtp-teasefader-wrapper__text');
-                    if (text.offsetWidth > item.clientWidth) {
+                    if (text != null && text.offsetWidth > item.clientWidth) {
                         item.setAttribute('title', text.innerText);
                     }
                 });
