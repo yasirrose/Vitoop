@@ -77,4 +77,14 @@ class RelResourceTagRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    public function removeTagRelationByTagId($tagId)
+    {
+        $this->createQueryBuilder('rrt')
+            ->delete()
+            ->where('rrt.tag = :tag')
+            ->setParameter('tag', $tagId)
+            ->getQuery()
+            ->execute();
+    }
 }

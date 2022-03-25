@@ -24,6 +24,10 @@
                role="button"
                aria-disabled="false">
         {{ form_widget(fvtag.remove, {'value': '-'~tagsRestRemovedCount, 'attr': {'class': 'vtp-uiinfo-anchor vtp-tag-submit w-42' }}) }}
+        {% if is_granted('ROLE_ADMIN') %}
+            <input id="tag_admin_save" type="button" title="{{ 'label.save'|trans }}" class="ui-button-disabled ui-state-disabled vtp-button vtp-uiinfo-anchor ui-button ui-widget ui-state-default ui-corner-all" value="{{ 'label.save'|trans }}"/>
+            <input id="tag_admin_remove" type="button" title="{{ 'label.delete'|trans }}" class="ui-button-disabled ui-state-disabled vtp-button vtp-uiinfo-anchor ui-button ui-widget ui-state-default ui-corner-all" value="{{ 'label.delete'|trans }}"/>
+        {% endif %}
         <span style="float: right;">
             {% if forPdfPage is empty %}
               <button id="tag_search" style="display: none" title="{{ 'label.tag.search'|trans }}" help-area="tag" class="ui-button-disabled ui-state-disabled vtp-help-area-button vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only" type="button">
@@ -72,9 +76,9 @@
     </div>
     <div id="vtp-tagbox" class="ui-corner-all">
         {% for everytag in tags %}
-            <span id="spanTag_{{everytag.id}}" class="vtp-tagbox-tag {% if everytag.is_own %}vtp-owntag {% endif %}ui-corner-all" style="    font-size: small" >
+            <span id="spanTag_{{everytag.id}}" data-id="{{everytag.id}}" class="vtp-tagbox-tag {% if everytag.is_own %}vtp-owntag {% endif %}ui-corner-all" style="    font-size: small" >
                 <span class="vtp-icon-tag ui-icon ui-icon-tag"></span>
-                {{ everytag.text }}
+                <span id="vtp-tag-text-{{everytag.id}}" class="vtp-tag-text">{{ everytag.text }}</span>
                 <span class="vtp-tagbox-cnttag">({{ everytag.cnt_tag }})</span>
             </span>
         {% endfor %}

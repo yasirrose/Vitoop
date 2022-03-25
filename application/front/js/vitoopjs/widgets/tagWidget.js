@@ -8,6 +8,7 @@ export default class TagWidget extends Widget {
         this.baseUrl = baseUrl;
         this.containerName = 'resource-tag';
         this.containerId = '#'+ this.containerName;
+        this.lastSelectedTagId = null;
     }
 
     init() {
@@ -65,23 +66,18 @@ export default class TagWidget extends Widget {
 
         if (!vitoopState.getters.getProject && !vitoopState.state.conversationInstance && !vitoopState.state.lexicon) {
             $('#tag_search').show();
-            $('#tag_search').prop('disabled', true);
-            if (!$('#tag_search').hasClass('ui-button-disabled ')) {
-                $('#tag_search').addClass('ui-button-disabled ui-state-disabled');
-            }
+            self.disableButtonById('#tag_search');
         } else {
             $('#tag_search').hide();
         }
 
         $('.vtp-tagbox-tag').click(function() {
-            var text = $(this).text().trim();
-            var pos = text.search(new RegExp('\\(\\d+\\)'));
-            if (pos > -1) {
-                text = text.substring(0, pos).trim();
-            }
-            $('#tag_text').val(text);
-            $('#tag_search').prop('disabled', false);
-            $('#tag_search').removeClass('ui-button-disabled ui-state-disabled');
+            self.lastSelectedTagId = $(this).data('id');
+            $('#tag_text').val($('#vtp-tag-text-'+self.lastSelectedTagId).text());
+
+            self.enableButtonById('#tag_search');
+            self.enableButtonById('#tag_admin_save');
+            self.enableButtonById('#tag_admin_remove');
         });
 
         $('#tag_confirm_save').on('click', function() {
@@ -96,12 +92,9 @@ export default class TagWidget extends Widget {
                 }
             });
             if (!tagExist) {
-                $('div#vtp-tagbox > span').each(function(index) {
-                    var text = $(this).text().trim();
-                    var pos = text.search(new RegExp('\\(\\d+\\)'));
-                    if (pos > -1) {
-                        text = text.substring(0, pos).trim();
-                    }
+                $('.vtp-tag-text').each(function(index) {
+                    let text = $(this).text();
+
                     if (text.toLowerCase() == $('#tag_text').val().toLowerCase()) {
                         tagExist = true;
                         return false;
@@ -124,6 +117,33 @@ export default class TagWidget extends Widget {
             $('#tag_text').val('');
         });
 
+        $('#tag_admin_save').on('click', function () {
+            if (!self.lastSelectedTagId) {
+                return;
+            }
+            let tag = $('#tag_text').val();
+            axios.post('/api/v1/tags/'+self.lastSelectedTagId, {name:  tag})
+                .then((response) => {
+                    $('#vtp-tag-text-'+self.lastSelectedTagId).text(tag);
+                    VueBus.$emit('notification:show', 'Tag has been saved');
+                })
+                .catch(err => console.dir(err));
+        });
+
+        $('#tag_admin_remove').on('click', function () {
+            if (!self.lastSelectedTagId) {
+                return;
+            }
+            axios.delete('/api/v1/tags/'+self.lastSelectedTagId)
+                .then((response) => {
+                    $('#tag_text').val('');
+                    $('#spanTag_'+self.lastSelectedTagId).remove();
+                    self.lastSelectedTagId = null;
+                    VueBus.$emit('notification:show', 'Tag has been removed');
+                })
+                .catch(err => console.dir(err));
+        });
+
         $('.vtp-tag-submit').click(function(event) {
             var input = $('#tag_text');
             var text = input.val();
@@ -136,8 +156,7 @@ export default class TagWidget extends Widget {
 
         if ($('#tag_can_add').val() != "1") {
             $('#tag_save').button('disable');
-            $('#tag_confirm_save').prop('disabled', true);
-            $('#tag_confirm_save').addClass('ui-button-disabled ui-state-disabled');
+            self.disableButtonById('#tag_confirm_save');
         }
         if ($('#tag_can_remove').val() != "1") {
             $('#tag_remove').button('disable');
@@ -165,5 +184,20 @@ export default class TagWidget extends Widget {
         });
 
         // window.vitoopApp.helpButton.tagReinit();
+    }
+
+    enableButtonById(buttonId) {
+        $(buttonId).prop('disabled', false);
+        $(buttonId).removeClass('ui-button-disabled ui-state-disabled');
+    }
+
+    disableButtonById(buttonId) {
+        $(buttonId).prop('disabled', true);
+        if (!$(buttonId).hasClass('ui-button-disabled')) {
+            $(buttonId).addClass('ui-button-disabled');
+        }
+        if (!$(buttonId).hasClass('ui-state-disabled')) {
+            $(buttonId).addClass('ui-state-disabled');
+        }
     }
 }

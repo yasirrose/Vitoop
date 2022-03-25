@@ -1,6 +1,7 @@
 <?php
 namespace App\Entity;
 
+use App\DTO\GetDTOInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation as Serializer;
@@ -9,7 +10,7 @@ use JMS\Serializer\Annotation as Serializer;
  * @ORM\Table(name="tag")
  * @ORM\Entity(repositoryClass="App\Repository\TagRepository")
  */
-class Tag
+class Tag implements GetDTOInterface
 {
     /**
      * @ORM\Column(name="id", type="integer")
@@ -104,5 +105,13 @@ class Tag
     public function getRelResources()
     {
         return $this->rel_resources;
+    }
+
+    public function getDTO()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->text,
+        ];
     }
 }

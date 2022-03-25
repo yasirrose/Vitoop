@@ -64,5 +64,6 @@ security:
         - { path: ^/api/v1/vitoop-blog$, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: GET }
         - { path: ^/api/v1/vitoop-blog, roles: ROLE_ADMIN, methods: PUT }
         - { path: ^/api/v1/invitations$, roles: ROLE_ADMIN, methods: POST }
+        - { path: '^/api/v1/tags/[0-9]*$', roles: ROLE_ADMIN, methods: [POST, DELETE] }
         - { path: ^/api/v1/invitations, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: GET }
         - { path: ^/, roles: ROLE_USER }

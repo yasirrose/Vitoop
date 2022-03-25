@@ -42,6 +42,12 @@ class TagRepository extends ServiceEntityRepository
         $this->_em->flush($tag);
     }
 
+    public function remove(Tag $tag)
+    {
+        $this->_em->remove($tag);
+        $this->_em->flush();
+    }
+
     public function countAllTagsFromResource(Resource $resource)
     {
         return $this->getEntityManager()
