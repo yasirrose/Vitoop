@@ -50,6 +50,7 @@
                     <div id="resource-quickview">
                         <div id="resource-rating"></div>
                         <div id="resource-data"></div>
+                        <element-notification id="vtp-user-hook"></element-notification>
                         <div id="resource-tag"></div>
                     </div>
                     <div id="resource-help" style="display:none">
@@ -107,11 +108,13 @@
     import { mapGetters, mapState } from "vuex";
     import NotesDialog from "./NotesDialog.vue";
     import TinyMCEInitializer from "../../../TinyMCEInitializer";
+    import ElementNotification from "../helpers/ElementNotification.vue";
 
     export default {
         name: "AppDialogs",
         components: {
             NotesDialog,
+            ElementNotification,
         },
         data() {
             return {

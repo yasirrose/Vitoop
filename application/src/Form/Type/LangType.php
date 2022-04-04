@@ -11,6 +11,7 @@ class LangType extends AbstractType
     {
         $builder->add('lang', ChoiceType::class, array(
             'choices' => array(
+                'ml' => 'Multi-Language',
                 'de' => 'deutsch',
                 'en' => 'englisch',
                 'fr' => 'französisch',

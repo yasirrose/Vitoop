@@ -3,7 +3,7 @@
         <div v-show="get('secondSearch').show"
              id="vtp-second-search-box"
              class="dataTables_filter ui-corner-all vtp-blue">
-            <div id="search_blue_box">
+            <div id="search_blue_box" title="Lesezeichen anzeigen">
                 <label class="custom-checkbox__wrapper light-blue">
                     <input class="valid-checkbox open-checkbox-link"
                            id="search_blue"

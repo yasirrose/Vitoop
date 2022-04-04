@@ -86,6 +86,8 @@ window.resourceDetail = (function () {
         },
         uifyContainer = function (container_name) {
             var action_icon_map;
+
+
             if ('resource-buttons' == container_name) {
                 // jQueryUI-ify the received buttons
                 action_icon_map = {
@@ -200,16 +202,23 @@ window.resourceDetail = (function () {
                     collision: 'none'
                 }).hide("fade", 3000);
                 $('#'+res_type+'_isUserHook').change(function () {
+                    let isUserHookValue = this.checked?1:0;
                     $.ajax({
                         method: 'POST',
                         url: vitoop.baseUrl + ([res_type, res_id, 'user-hooks'].join('/')),
                         dataType: 'json',
                         contentType: 'application/json',
                         data: JSON.stringify({
-                            isUserHook: this.checked?1:0
+                            isUserHook: isUserHookValue
                         }),
                         success: function () {
                             refresh_list = true;
+
+                            let message = 'Lesezeigen wurde gesetzt';
+                            if (0 === isUserHookValue) {
+                                message = 'Lesezeichen wurde entfernt';
+                            }
+                            VueBus.$emit('element-notification:show', message, 'vtp-user-hook');
                         }
                     });
                 });

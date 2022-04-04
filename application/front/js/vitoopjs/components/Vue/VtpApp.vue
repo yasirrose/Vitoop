@@ -18,6 +18,7 @@
     import AppLogin from "./components/AppLogin.vue";
     import AppDialogs from "./components/dialogs/AppDialogs.vue";
     import Notification from "./components/helpers/Notification.vue";
+    import ElementNotification from "./components/helpers/ElementNotification.vue";
     import axios from "axios";
 
     export default {
@@ -38,7 +39,7 @@
                 dataP: this.dataP
             }
         },
-        components: { AppFooter, AppHeader, AppContent, AppLogin, AppDialogs, Notification },
+        components: { AppFooter, AppHeader, AppContent, AppLogin, AppDialogs, Notification, ElementNotification },
         computed: {
             ...mapGetters(['get','getResourceId']),
             notLogin() {
