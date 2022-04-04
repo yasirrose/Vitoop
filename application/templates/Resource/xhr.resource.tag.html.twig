@@ -25,10 +25,6 @@
                aria-disabled="false">
         {{ form_widget(fvtag.remove, {'value': '-'~tagsRestRemovedCount, 'attr': {'class': 'vtp-uiinfo-anchor vtp-tag-submit w-42' }}) }}
         <span style="float: right;">
-            {% if is_granted('ROLE_ADMIN') %}
-                <input id="tag_admin_save" type="button" title="{{ 'label.save'|trans }}" class="ui-button-disabled ui-state-disabled vtp-button vtp-uiinfo-anchor ui-button ui-widget ui-state-default ui-corner-all" value="sp"/>
-                <input id="tag_admin_remove" type="button" title="{{ 'label.delete'|trans }}" class="ui-button-disabled ui-state-disabled vtp-button vtp-uiinfo-anchor ui-button ui-widget ui-state-default ui-corner-all" value="lö"/>
-            {% endif %}
             {% if forPdfPage is empty %}
               <button id="tag_search" style="display: none" title="{{ 'label.tag.search'|trans }}" help-area="tag" class="ui-button-disabled ui-state-disabled vtp-help-area-button vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only" type="button">
                 <span class="ui-button-icon ui-icon ui-icon-zoomin"></span>
@@ -45,6 +41,16 @@
             </button>
             {{ form_label(fvtag.showown, null, {'label_attr': {'class': 'vtp-fh-h22' }}) }}
             {{ form_widget(fvtag.showown, {'attr': {'id': 'vtp-tgl-tag-showown', 'class': 'vtp-uiaction-tag-showown' }}) }}
+            {% if is_granted('ROLE_ADMIN') %}
+                <button id="tag_admin_save" type="button" title="{{ 'label.save'|trans }}" class="ui-button-disabled ui-state-disabled vtp-button vtp-uiinfo-anchor ui-button ui-widget ui-state-default ui-button-icon-only ui-corner-all">
+                    <span class="ui-button-icon ui-icon ui-icon-pencil"></span>
+                    <span class="ui-button-text"></span>
+                </button>
+                <button id="tag_admin_remove" type="button" title="{{ 'label.delete'|trans }}" class="ui-button-disabled ui-state-disabled vtp-button vtp-uiinfo-anchor ui-button ui-widget ui-state-default ui-button-icon-only ui-corner-all">
+                    <span class="ui-button-icon ui-icon ui-icon-trash"></span>
+                    <span class="ui-button-text"></span>
+                </button>
+            {% endif %}
         </span>
         <div id="div-confirm-tagging" class="vtp-fh-w100" style="margin-top: 9px; display: none">
             <fieldset class="ui-corner-all vtp-tagbox-info" style="padding-top:10px;">
