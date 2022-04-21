@@ -17,7 +17,7 @@ export default class HelpButton {
             draggable: false,
             autoOpen: false,
             width: 850,
-            height: 555,
+            height: 525,
             position: { my: 'center top', at: 'center top', of: '#vtp-nav' },
             modal: true,
             open: () => {
