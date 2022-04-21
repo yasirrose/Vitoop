@@ -943,7 +943,8 @@ class User implements EquatableInterface, UserInterface, \Serializable, GetDTOIn
                 $credentials->heightOfTodoList,
                 $credentials->decreaseFontSize,
                 $credentials->isOpenInSameTabPdf,
-                $credentials->isOpenInSameTabTeli
+                $credentials->isOpenInSameTabTeli,
+                $credentials->isTeliInHtmlEnable
             );
     }
 
@@ -1031,6 +1032,7 @@ class User implements EquatableInterface, UserInterface, \Serializable, GetDTOIn
             'decrease_font_size' => $this->user_config->getDecreaseFontSize(),
             'is_open_in_same_tab_pdf' => $this->user_config->isOpenInSameTabPdf(),
             'is_open_in_same_tab_teli' => $this->user_config->isOpenInSameTabTeli(),
+            'is_teli_in_html_enable' => $this->user_config->isTeliInHtmlEnable(),
         ];
     }
 

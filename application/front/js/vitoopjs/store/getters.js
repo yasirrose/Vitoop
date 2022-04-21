@@ -14,6 +14,9 @@ export default {
     isOpenInSameTabTeli(state, getters) {
         return state.user ? state.user.is_open_in_same_tab_teli : false;
     },
+    isTeliInHtmlEnable(state, getters) {
+        return state.user ? state.user.is_teli_in_html_enable : false;
+    },
     getOpenedResource(state) {
        return state.table.openedResource ? state.table.openedResource : {};
     },

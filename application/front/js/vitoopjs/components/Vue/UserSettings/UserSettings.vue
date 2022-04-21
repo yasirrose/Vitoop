@@ -85,6 +85,19 @@
                         Teli&Data im selben Tab öffnen
                       </label>
                   </div>
+                  <div v-if="isAdmin" class="vtp-fh-w100">
+                    <label class="custom-checkbox__wrapper square-checkbox">
+                      <input class="valid-checkbox open-checkbox-link"
+                             v-model="dto.isTeliInHtmlEnable"
+                             name="isTeliInHtmlEnable"
+                             type="checkbox"/>
+                      <span class="custom-checkbox">
+                                <img class="custom-checkbox__check"
+                                     src="/img/check.png" />
+                            </span>
+                      Teli in html
+                    </label>
+                  </div>
                 </fieldset>
                 <fieldset class="ui-corner-all margin-top-10">
                     <div class="vtp-fh-w100">
@@ -113,6 +126,7 @@
 <script>
     import UserService from "../../../services/User/UserService";
     import vSelect from 'vue-select/src/components/Select.vue';
+    import {mapGetters} from "vuex";
 
     export default {
         name: 'user-settings',
@@ -131,6 +145,7 @@
                     decreaseFontSize: null,
                     isOpenInSameTabPdf: false,
                     isOpenInSameTabTeli: false,
+                    isTeliInHtmlEnable: false,
                 },
                 isDeleting: false,
                 isError: false,
@@ -160,6 +175,7 @@
                     username2: null,
                     isOpenInSameTabPdf: false,
                     isOpenInSameTabTeli: false,
+                    isTeliInHtmlEnable: false,
                 }
             }
         },
@@ -172,7 +188,8 @@
                     }
                 });
                 return label;
-            }
+            },
+            ...mapGetters(['isAdmin'])
         },
         watch: {
             'user.decreaseFontSize'() {
@@ -200,6 +217,7 @@
                     this.user.isOpenInSameTabTeli = currentUser.is_open_in_same_tab_teli;
                     this.dto.isOpenInSameTabPdf = currentUser.is_open_in_same_tab_pdf;
                     this.dto.isOpenInSameTabTeli = currentUser.is_open_in_same_tab_teli;
+                    this.dto.isTeliInHtmlEnable = currentUser.is_teli_in_html_enable;
                 });
         },
         methods: {
@@ -226,7 +244,8 @@
                     numberOfTodoElements: this.user.numberOfTodoElements,
                     decreaseFontSize: this.user.decreaseFontSize,
                     isOpenInSameTabPdf: this.dto.isOpenInSameTabPdf,
-                    isOpenInSameTabTeli: this.dto.isOpenInSameTabTeli
+                    isOpenInSameTabTeli: this.dto.isOpenInSameTabTeli,
+                    isTeliInHtmlEnable: this.dto.isTeliInHtmlEnable
                 }).then( data => {
                     vitoopState.commit('setUser', data.user);
                     this.isSuccess = true;
@@ -239,6 +258,7 @@
                     this.user.decreaseFontSize = data.user.decrease_font_size;
                     this.user.isOpenInSameTabPdf = data.user.is_open_in_same_tab_pdf;
                     this.user.isOpenInSameTabTeli = data.user.is_open_in_same_tab_teli;
+                    this.user.isTeliInHtmlEnable = data.user.is_teli_in_html_enable;
 
                     setTimeout(() => {
                         this.isSuccess = false;

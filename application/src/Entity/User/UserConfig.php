@@ -77,6 +77,11 @@ class UserConfig
      */
     protected $isOpenInSameTabTeli = false;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default" = false})
+     */
+    protected $isTeliInHtmlEnable = false;
+
     public function __construct(User $user)
     {
         $this->setUser($user);
@@ -86,6 +91,7 @@ class UserConfig
         $this->numberOfTodoElements = 12;
         $this->decreaseFontSize = 1;
         $this->isOpenInSameTab = false;
+        $this->isTeliInHtmlEnable = false;
     }
 
     /**
@@ -223,12 +229,24 @@ class UserConfig
         return $this->isOpenInSameTabTeli;
     }
 
-    public function updateUserSettings($numberElements, $heightList, $decreaseFontSize, $isOpenInSameTabPdf, $isOpenInSameTabTeli)
+    public function isTeliInHtmlEnable(): bool
     {
+        return $this->isTeliInHtmlEnable ?? false;
+    }
+
+    public function updateUserSettings(
+        $numberElements,
+        $heightList,
+        $decreaseFontSize,
+        $isOpenInSameTabPdf,
+        $isOpenInSameTabTeli,
+        $isTeliInHtmlEnable
+    ) {
         $this->numberOfTodoElements = $numberElements;
         $this->heightOfTodoList = $heightList;
         $this->decreaseFontSize = $decreaseFontSize;
         $this->isOpenInSameTabPdf = $isOpenInSameTabPdf ?? false;
         $this->isOpenInSameTabTeli = $isOpenInSameTabTeli ?? false;
+        $this->isTeliInHtmlEnable = $isTeliInHtmlEnable ?? false;
     }
 }
