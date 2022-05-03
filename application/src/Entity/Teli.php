@@ -78,7 +78,7 @@ class Teli extends Resource implements DownloadableInterface, UrlCheckInterface
 
     public function getResourceExtension()
     {
-        return 'pdf';
+        return 'html';
     }
     
     static public function getSearcheableColumns()

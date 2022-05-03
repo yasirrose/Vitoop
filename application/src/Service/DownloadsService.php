@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Knp\Snappy\Pdf;
 use App\Entity\Downloadable\DownloadableInterface;
@@ -77,37 +78,23 @@ class DownloadsService
     /**
      * @TODO Refactoring with FileDownloader
      */
-    public function downloadHtml($count, $missing, OutputInterface $output)
+    public function downloadHtml($count, $missing, LoggerInterface $output)
     {
-        $output->writeln('Getting '.$count.' elements from database');
-        $resources = $this->em->getRepository(Teli::class)
-            ->getHTMLForDownloading($count, $missing);
-        $output->writeln(count($resources).' resources loaded from DB');
+        $output->info('Getting '.$count.' elements from database');
+        $resources = $this->em->getRepository(Teli::class)->getHTMLForDownloading($count, $missing);
+        $output->info(count($resources).' resources loaded from DB');
         foreach ($resources as $resource) {
-            $output->writeln($resource->getUrl());
+            $output->info($resource->getUrl());
             $info = $this->getInfoFromUrl($resource->getUrl());
             if (200 != $info['http_code']) {
                 $resource->markAsWrongUrl();
                 continue;
             }
-            if (false !== strpos($info["content_type"], 'pdf')) {
-                $curl = curl_init($resource->getUrl());
-                $this->downloadFromCurl($curl, $this->getPath($resource));
-                curl_close($curl);
-            } else {
-                try {
-                    $this->pdfGenerator->generate(
-                        $resource->getUrl(),
-                        $this->getPath($resource),
-                        ['disable-javascript' => true],
-                        true
-                    );
-                } catch (\Exception $exception) {
-                    $resource->markAsWrongUrl();
-                    continue;
-                }
-            }
-            
+
+            $curl = curl_init($resource->getUrl());
+            $this->downloadFromCurl($curl, $this->getPath($resource));
+            curl_close($curl);
+
             $resource->markAsSuccess();
             $this->em->flush($resource);
         }
