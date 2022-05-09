@@ -49,6 +49,7 @@ class SendLinksType extends AbstractType
                     'placeholder' => 'label.subject'
                 ]])
             ->add('resourceIds', HiddenType::class)
+            ->add('comments', HiddenType::class)
             ->add('textBody', TextareaType::class, [
                 'label' => false,
                 'attr' => [

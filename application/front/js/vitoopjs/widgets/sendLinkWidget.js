@@ -7,33 +7,78 @@ export default class SendLinkWidget extends Widget {
         this.formId = '#form-user-links';
         this.containerName = 'vtp-res-dialog-links';
         this.linkStorage = new LinkStorage();
+        this.comments = {};
     }
 
     init() {
         let self = this;
         let resources = self.linkStorage.getAllResourcesByTypes();
-        let resourceIds = new Array();
+        let resourceIds = [];
         $('#form-user-links-info').html('');
         $('#form-user-links-info').css('font-size', vitoopState.getters.getListFontSize + 'px');
         let currentRowCounter = 0;
         for (let resourceType in resources) {
-              for (let resourceId in resources[resourceType]) {
+            for (let resourceId in resources[resourceType]) {
                 let rowClass = 'odd ui-corner-all';
                 if (currentRowCounter % 2) {
-                  rowClass = 'even ui-corner-all';
+                    rowClass = 'even ui-corner-all';
                 }
+                this.comments[resourceId] = '';
                 $('#form-user-links-info').append(
-                  '<tr class="'+ rowClass +'">'+
-                  '<td class="vtp-send-type">'+this.getResourceTypeName(resourceType)+':</td>' +
-                  '<td><div class="vtp-teasefader-wrapper">'+resources[resourceType][resourceId].name+'<div class="vtp-teasefader"></div></div></td>' +
-                  '</tr>'
+                    `<tr id="resource_${resourceType}_${resourceId}_row" class="${rowClass}">
+                    <td class="vtp-send-type">${this.getResourceTypeName(resourceType)}:</td>
+                    <td>
+                      <div class="vtp-teasefader-wrapper">
+                        ${resources[resourceType][resourceId].name}
+                        <div class="vtp-teasefader"></div>
+                      </div>
+                    </td>
+                    <td class="resource-buttons">
+                      <button class="ui-button" onclick="$('#resource_${resourceType}_${resourceId}_comment_row').toggle(); return false;"
+                       id="resource_${resourceType}_${resourceId}_comment_button">
+                        <span class="ui-icon ui-icon-circle-triangle-s"></span>
+                       </button>
+                      <button class="ui-button" id="resource_${resourceType}_${resourceId}_remove">
+                        <span class="ui-icon ui-icon-closethick"></span>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr id="resource_${resourceType}_${resourceId}_comment_row" class="resource_comment_row" style="display: none">
+                    <td colspan="3">
+                        <textarea id="resource_${resourceType}_${resourceId}_comment"
+                         style="width: 100%;" rows="10"
+                         onchange=""
+                         ></textarea>
+                    </td>
+                  </tr>`
                 );
+
+                $(`#resource_${resourceType}_${resourceId}_remove`).on('click', (e) => {
+                    e.preventDefault();
+                    resourceIds = resourceIds.filter(i => i !== resourceId);
+                    delete this.comments[resourceId];
+                    this.updateComments();
+                    this.updateCheckedResources(resourceType, resourceId, false, []);
+                    $(`#resource_${resourceType}_${resourceId}_row`).remove();
+                    $(`#resource_${resourceType}_${resourceId}_comment_row`).remove();
+                    $('#send_links_resourceIds').val(resourceIds);
+                });
+
+                $(`#resource_${resourceType}_${resourceId}_comment`).on('change', () => {
+                    setTimeout(() => {
+                        this.comments[resourceId] = $(`#resource_${resourceType}_${resourceId}_comment`).val();
+                        this.updateComments();
+                    }, 200)
+                })
+
                 resourceIds.push(resourceId);
                 currentRowCounter++;
-              }
+            }
         }
 
         $('#send_links_resourceIds').val(resourceIds);
+
+        this.updateComments();
 
         $(self.formId).ajaxForm({
             delegation: true,
@@ -46,6 +91,10 @@ export default class SendLinkWidget extends Widget {
                 $form.empty().append('Vitoooops!: ' + textStatus + ' ' + jqXHR.status + ': ' + jqXHR.statusText);
             }
         });
+    }
+
+    updateComments() {
+        $('#send_links_comments').val(JSON.stringify(this.comments));
     }
 
     getFormFromServer(route) {
@@ -89,23 +138,25 @@ export default class SendLinkWidget extends Widget {
         }
     }
 
-    checkResourseListDOM(resType, resId, isNeedToSave) {
+    checkResourceListDOM(resType, resId, isNeedToSave) {
         const input = document.querySelector(`#${resType}-${resId} .custom-checkbox__wrapper input`);
-        input.checked = isNeedToSave;
+        if (input !== null) {
+            input.checked = isNeedToSave;
+        }
     }
 
     updateCheckedResources(resType, resId, isNeedToSave, data) {
-        let linkStorageKey = resType+'-checked';
+        let linkStorageKey = resType + '-checked';
         let resourceChecked = this.linkStorage.getObject(linkStorageKey);
         data.resType = resType;
         let storageKey = resId + '';
-        if(isNeedToSave) {
+        if (isNeedToSave) {
             resourceChecked[storageKey] = data;
         } else {
             delete resourceChecked[storageKey];
         }
         this.linkStorage.setObject(linkStorageKey, resourceChecked);
-        this.checkResourseListDOM(resType, resId, isNeedToSave);
+        this.checkResourceListDOM(resType, resId, isNeedToSave);
         this.checkOpenButtonState();
     }
 

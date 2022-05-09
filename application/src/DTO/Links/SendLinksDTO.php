@@ -21,6 +21,8 @@ class SendLinksDTO
 
     public $resourceIds;
 
+    public $comments = "[]";
+
     public $dataTransfer = false;
 
     /**
@@ -29,5 +31,10 @@ class SendLinksDTO
     public function getResourceIds()
     {
         return explode(',', $this->resourceIds);
+    }
+
+    public function getComments()
+    {
+        return json_decode($this->comments, true);
     }
 }
