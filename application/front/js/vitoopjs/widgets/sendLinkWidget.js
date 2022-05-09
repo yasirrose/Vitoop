@@ -50,7 +50,7 @@ export default class SendLinkWidget extends Widget {
                   <tr id="resource_${resourceType}_${resourceId}_comment_row" class="resource_comment_row" style="display: none">
                     <td colspan="3">
                         <textarea id="resource_${resourceType}_${resourceId}_comment"
-                         style="width: 100%;" rows="10"
+                         style="width: 100%; padding-top: 6px;" rows="10"
                          onchange=""
                          ></textarea>
                     </td>
