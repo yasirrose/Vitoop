@@ -33,12 +33,16 @@ export default class SendLinkWidget extends Widget {
                         <div class="vtp-teasefader"></div>
                       </div>
                     </td>
-                    <td class="resource-buttons">
-                      <button class="ui-button" onclick="$('#resource_${resourceType}_${resourceId}_comment_row').toggle(); return false;"
-                       id="resource_${resourceType}_${resourceId}_comment_button">
+                    <td class="resource-buttons" style="width: 64px;">
+                      <button class="vtp-button ui-button ui-widget ui-state-default vtp-uiinfo-anchor ui-corner-all"
+                       onclick="$('#resource_${resourceType}_${resourceId}_comment_row').toggle(); return false;"
+                       id="resource_${resourceType}_${resourceId}_comment_button"
+                       style="padding: 0 6px 0 6px;">
                         <span class="ui-icon ui-icon-circle-triangle-s"></span>
                        </button>
-                      <button class="ui-button" id="resource_${resourceType}_${resourceId}_remove">
+                      <button class="vtp-button ui-button ui-widget ui-state-default vtp-uiinfo-anchor ui-corner-all"
+                       id="resource_${resourceType}_${resourceId}_remove"
+                       style="padding: 0 6px 0 6px;">
                         <span class="ui-icon ui-icon-closethick"></span>
                       </button>
                     </td>
