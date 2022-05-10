@@ -46,9 +46,6 @@ class UserLinkController extends AbstractController
                     continue;
                 }
                 $comment = &$comments[$resource->getId()];
-                /*if (empty(trim($comment['text']))) {
-                    continue;
-                }*/
                 $remark = new Remark();
                 $remark->setUser($this->getUser());
                 $remark->setText($comment['text']);
