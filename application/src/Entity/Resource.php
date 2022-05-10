@@ -62,13 +62,13 @@ class Resource
     protected $ratings;
 
     /**
-     * @ORM\OneToMany(targetEntity="Remark", mappedBy="resource")
+     * @ORM\OneToMany(targetEntity="Remark", mappedBy="resource", cascade={"persist"})
      * @ORM\OrderBy({"created_at" = "DESC"})
      */
     protected $remarks;
 
     /**
-     * @ORM\OneToMany(targetEntity="RemarkPrivate", mappedBy="resource")
+     * @ORM\OneToMany(targetEntity="RemarkPrivate", mappedBy="resource", cascade={"persist"})
      */
     protected $remarksPrivate;
 

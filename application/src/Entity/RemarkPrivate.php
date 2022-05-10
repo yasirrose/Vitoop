@@ -39,7 +39,7 @@ class RemarkPrivate
     protected $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Resource", inversedBy="remarksPrivate")
+     * @ORM\ManyToOne(targetEntity="Resource", inversedBy="remarksPrivate", cascade={"persist"})
      * @ORM\JoinColumn(name="id_resource", referencedColumnName="id", onDelete="cascade")
      */
     protected $resource;

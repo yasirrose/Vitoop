@@ -23,7 +23,7 @@ export default class SendLinkWidget extends Widget {
                 if (currentRowCounter % 2) {
                     rowClass = 'even ui-corner-all';
                 }
-                this.comments[resourceId] = '';
+                this.comments[resourceId] = {save: false, text: ''};
                 $('#form-user-links-info').append(
                     `<tr id="resource_${resourceType}_${resourceId}_row" class="${rowClass}">
                     <td class="vtp-send-type">${this.getResourceTypeName(resourceType)}:</td>
@@ -49,10 +49,26 @@ export default class SendLinkWidget extends Widget {
                   </tr>
                   <tr id="resource_${resourceType}_${resourceId}_comment_row" class="resource_comment_row" style="display: none">
                     <td colspan="3">
-                        <textarea id="resource_${resourceType}_${resourceId}_comment"
-                         style="width: 100%; padding-top: 6px;" rows="10"
-                         onchange=""
-                         ></textarea>
+                      <fieldset class="ui-corner-all margin-top-10">
+                        <legend>Komment</legend>
+                        <div class="vtp-fh-w100">
+                          <textarea id="resource_${resourceType}_${resourceId}_comment"
+                           style="width: 100%; padding-top: 6px;" rows="10"
+                           onchange=""
+                          ></textarea>
+                        </div>
+                        <div class="vtp-fh-w100">
+                          <label class="custom-checkbox__wrapper square-checkbox">
+                            <input name="isOpenInSameTabPdf"
+                              type="checkbox" class="valid-checkbox open-checkbox-link"
+                              id="resource_${resourceType}_${resourceId}_comment_save">
+                            <span class="custom-checkbox">
+                              <img src="/img/check.png" class="custom-checkbox__check">
+                            </span>
+                            ${$i18n.t('Comment is adopted in the comments of the data set that are visible to everyone')}
+                          </label>
+                        </div>
+                      </fieldset>
                     </td>
                   </tr>`
                 );
@@ -68,11 +84,16 @@ export default class SendLinkWidget extends Widget {
                     $('#send_links_resourceIds').val(resourceIds);
                 });
 
-                $(`#resource_${resourceType}_${resourceId}_comment`).on('change', () => {
+                $(`#resource_${resourceType}_${resourceId}_comment`).on('keydown', () => {
                     setTimeout(() => {
-                        this.comments[resourceId] = $(`#resource_${resourceType}_${resourceId}_comment`).val();
+                        this.comments[resourceId].text = $(`#resource_${resourceType}_${resourceId}_comment`).val();
                         this.updateComments();
                     }, 200)
+                })
+
+                $(`#resource_${resourceType}_${resourceId}_comment_save`).on('change', () => {
+                    this.comments[resourceId].save = $(`#resource_${resourceType}_${resourceId}_comment_save`).val();
+                    this.updateComments();
                 })
 
                 resourceIds.push(resourceId);

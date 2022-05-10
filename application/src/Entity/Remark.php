@@ -44,7 +44,7 @@ class Remark
     protected $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Resource", inversedBy="remarks")
+     * @ORM\ManyToOne(targetEntity="Resource", inversedBy="remarks", cascade={"persist"})
      * @ORM\JoinColumn(name="id_resource", referencedColumnName="id", onDelete="cascade")
      */
     protected $resource;
@@ -231,4 +231,3 @@ class Remark
         );
     }
 }
-

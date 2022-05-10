@@ -8,6 +8,7 @@ use App\Entity\Resource;
 use App\Repository\ResourceRepository;
 use App\Service\EmailSender;
 use App\Service\Resource\ResourceExporter;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,7 +25,8 @@ class UserLinkController extends AbstractController
         ResourceRepository $resourceRepository,
         EmailSender $emailSender,
         SessionInterface $session,
-        ResourceExporter $exporter
+        ResourceExporter $exporter,
+        EntityManagerInterface $entityManager
     ) {
         $form = $this->createForm(SendLinksType::class);
 
@@ -37,13 +39,22 @@ class UserLinkController extends AbstractController
             /** @var Resource[] $resourceData */
             $resourceData = $resourceRepository->findSendLinkViewsByResourceIds($dto->getResourceIds());
 
+            $comments = $dto->getComments();
+
             foreach ($resourceData as $resource) {
-                if (empty($dto->getComments()[$resource->getId()])) {
+                if (empty($comments[$resource->getId()])) {
                     continue;
                 }
+                $comment = &$comments[$resource->getId()];
+                /*if (empty(trim($comment['text']))) {
+                    continue;
+                }*/
                 $remark = new Remark();
-                $remark->setText($dto->getComments()[$resource->getId()]);
-                $resource->addRemark($remark);
+                $remark->setUser($this->getUser());
+                $remark->setText($comment['text']);
+                $remark->setIp($request->getClientIp());
+                $remark->setResource($resource);
+                $comment['remark'] = $remark;
             }
 
             if ($dto->dataTransfer) {
@@ -52,6 +63,20 @@ class UserLinkController extends AbstractController
             } else {
                 $emailSender->sendLinks($dto, $resourceData, $this->getUser());
             }
+
+            foreach ($resourceData as $resource) {
+                if (empty($comments[$resource->getId()])) {
+                    continue;
+                }
+                $comment = &$comments[$resource->getId()];
+                if (!$comment['save']) {
+                    $resource->getRemarks()->removeElement($comment['remark']);
+                    $this->getUser()->getRemarks()->removeElement($comment['remark']);
+                    $entityManager->remove($comment['remark']);
+                }
+            }
+
+            $entityManager->flush();
 
             $session->getFlashBag()->add(
                 'success',

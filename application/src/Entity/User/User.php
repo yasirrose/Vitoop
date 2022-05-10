@@ -104,12 +104,12 @@ class User implements EquatableInterface, UserInterface, \Serializable, GetDTOIn
     protected $ratings;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Remark", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Remark", mappedBy="user", cascade={"persist"})
      */
     protected $remarks;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\RemarkPrivate", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\RemarkPrivate", mappedBy="user", cascade={"persist"})
      */
     protected $remarksPrivate;
 
