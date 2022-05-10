@@ -52,8 +52,8 @@ export default class SendLinkWidget extends Widget {
                       <fieldset class="ui-corner-all margin-top-10">
                         <legend>Komment</legend>
                         <div class="vtp-fh-w100">
-                          <textarea id="resource_${resourceType}_${resourceId}_comment"
-                           style="width: 100%; padding-top: 6px;" rows="10"
+                          <textarea class="vtp-fh-w100" id="resource_${resourceType}_${resourceId}_comment"
+                           style="padding-top: 6px;" rows="10"
                            onchange=""
                           ></textarea>
                         </div>
