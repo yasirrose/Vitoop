@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\DTO\Links\SendLinksDTO;
+use App\DTO\Resource\RemarkDTO;
 use App\Entity\Remark;
 use App\Entity\Resource;
+use App\Entity\User\User;
 use App\Repository\ResourceRepository;
 use App\Service\EmailSender;
 use App\Service\Resource\ResourceExporter;
@@ -36,6 +38,8 @@ class UserLinkController extends AbstractController
              * @var SendLinksDTO $dto
              */
             $dto = $form->getData();
+            /** @var User $user */
+            $user = $this->getUser();
             /** @var Resource[] $resourceData */
             $resourceData = $resourceRepository->findSendLinkViewsByResourceIds($dto->getResourceIds());
 
@@ -46,19 +50,24 @@ class UserLinkController extends AbstractController
                     continue;
                 }
                 $comment = &$comments[$resource->getId()];
-                $remark = new Remark();
-                $remark->setUser($this->getUser());
-                $remark->setText($comment['text']);
-                $remark->setIp($request->getClientIp());
-                $remark->setResource($resource);
+                $remarkDto = new RemarkDTO(
+                    null,
+                    $comment['text'],
+                    $request->getClientIp(),
+                    false,
+                    $user->getId(),
+                    $user->getUsername(),
+                    new \DateTime()
+                );
+                $remark = Remark::create($resource, $user, $remarkDto);
                 $comment['remark'] = $remark;
             }
 
             if ($dto->dataTransfer) {
                 $file = $exporter->export($resourceData);
-                $emailSender->sendLinksWithDataTransfer($dto, $resourceData, $this->getUser(), $file);
+                $emailSender->sendLinksWithDataTransfer($dto, $resourceData, $user, $file);
             } else {
-                $emailSender->sendLinks($dto, $resourceData, $this->getUser());
+                $emailSender->sendLinks($dto, $resourceData, $user);
             }
 
             foreach ($resourceData as $resource) {
@@ -68,7 +77,7 @@ class UserLinkController extends AbstractController
                 $comment = &$comments[$resource->getId()];
                 if (!$comment['save']) {
                     $resource->getRemarks()->removeElement($comment['remark']);
-                    $this->getUser()->getRemarks()->removeElement($comment['remark']);
+                    $user->getRemarks()->removeElement($comment['remark']);
                     $entityManager->remove($comment['remark']);
                 }
             }

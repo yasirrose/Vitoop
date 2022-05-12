@@ -230,7 +230,7 @@ class User implements EquatableInterface, UserInterface, \Serializable, GetDTOIn
     public function getRoles()
     {
         $roles = array('ROLE_USER');
-        $admins = array(self::DEFAULT_USERNAME, 'alex1rap');
+        $admins = array(self::DEFAULT_USERNAME, 'alex.shalkin');
 
         if (in_array($this->username, $admins)) {
             $roles = array_merge($roles, array('ROLE_ADMIN'));
