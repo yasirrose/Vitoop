@@ -23,7 +23,12 @@ export default class SendLinkWidget extends Widget {
                 if (currentRowCounter % 2) {
                     rowClass = 'even ui-corner-all';
                 }
-                this.comments[resourceId] = {save: false, text: ''};
+                if (!resources[resourceType][resourceId].comment)
+                {
+                    this.comments[resourceId] = {save: false, text: ''};
+                } else {
+                    this.comments[resourceId] = resources[resourceType][resourceId].comment;
+                }
                 $('#form-user-links-info').append(
                     `<tr id="resource_${resourceType}_${resourceId}_row" class="${rowClass}">
                     <td class="vtp-send-type">${this.getResourceTypeName(resourceType)}:</td>
@@ -55,7 +60,7 @@ export default class SendLinkWidget extends Widget {
                           <textarea class="vtp-fh-w100" id="resource_${resourceType}_${resourceId}_comment"
                            style="padding-top: 6px;" rows="10"
                            onchange=""
-                          ></textarea>
+                          >${this.comments[resourceId] ? this.comments[resourceId].text : ''}</textarea>
                         </div>
                         <div class="vtp-fh-w100">
                           <label class="custom-checkbox__wrapper square-checkbox">
@@ -87,12 +92,27 @@ export default class SendLinkWidget extends Widget {
                 $(`#resource_${resourceType}_${resourceId}_comment`).on('keydown', () => {
                     setTimeout(() => {
                         this.comments[resourceId].text = $(`#resource_${resourceType}_${resourceId}_comment`).val();
+                        this.updateCheckedResources(resourceType, resourceId, true,
+                            this.comments[resourceId].save ? {
+                            comment: this.comments[resourceId]
+                        }: {
+                            comment: null
+                            }, true);
                         this.updateComments();
                     }, 200)
                 })
 
                 $(`#resource_${resourceType}_${resourceId}_comment_save`).on('change', () => {
-                    this.comments[resourceId].save = $(`#resource_${resourceType}_${resourceId}_comment_save`).val();
+                    this.comments[resourceId].save = $(`#resource_${resourceType}_${resourceId}_comment_save`).is(':checked');
+                    this.updateCheckedResources(resourceType, resourceId, true, {
+                        comment: this.comments[resourceId]
+                    }, true);
+                    this.updateCheckedResources(resourceType, resourceId, true,
+                        this.comments[resourceId].save ? {
+                            comment: this.comments[resourceId]
+                        }: {
+                        comment: null
+                        }, true);
                     this.updateComments();
                 })
 
@@ -170,12 +190,22 @@ export default class SendLinkWidget extends Widget {
         }
     }
 
-    updateCheckedResources(resType, resId, isNeedToSave, data) {
+    updateCheckedResources(resType, resId, isNeedToSave, data, partially = false) {
         let linkStorageKey = resType + '-checked';
         let resourceChecked = this.linkStorage.getObject(linkStorageKey);
         data.resType = resType;
         let storageKey = resId + '';
         if (isNeedToSave) {
+            if (partially) {
+                let oldData = resourceChecked[storageKey];
+                if (!oldData) {
+                    oldData = {};
+                }
+                Object.keys(data).forEach(key => {
+                    oldData[key] = data[key];
+                });
+                data = oldData;
+            }
             resourceChecked[storageKey] = data;
         } else {
             delete resourceChecked[storageKey];
