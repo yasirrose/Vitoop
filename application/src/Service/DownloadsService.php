@@ -91,9 +91,11 @@ class DownloadsService
                 continue;
             }
 
+            $filePath = $this->getPath($resource);
             $curl = curl_init($resource->getUrl());
-            $this->downloadFromCurl($curl, $this->getPath($resource));
+            $this->downloadFromCurl($curl, $filePath);
             curl_close($curl);
+            $this->cleanHtml($filePath);
 
             $resource->markAsSuccess();
             $this->em->flush($resource);
@@ -165,5 +167,12 @@ class DownloadsService
         curl_close($curl);
 
         return $info;
+    }
+
+    private function cleanHtml(string $path)
+    {
+        $content = file_get_contents($path);
+        $content = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $content);
+        file_put_contents($path, $content);
     }
 }

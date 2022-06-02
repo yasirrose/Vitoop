@@ -5,6 +5,7 @@ import CommentWidget from '../widgets/commentWidget';
 import ProjectWidget from '../widgets/projectWidget';
 import LexiconWidget from '../widgets/lexiconWidget';
 import VitoopApp from '../app/vitoop';
+import axios from "axios";
 
 class HtmlView {
     constructor() {
@@ -37,6 +38,7 @@ class HtmlView {
         });
 
         this.tagWidget = new TagWidget(resourceId, baseUrl);
+        this.tagWidget.hideHelpButton = true;
         this.tagWidget.init();
 
         $('#vtp-remark-dialog').on('click', function () {
@@ -67,6 +69,13 @@ class HtmlView {
 
             let lexiconWidget = new LexiconWidget(resourceId, baseUrl);
             lexiconWidget.init();
+        });
+
+        $('#html-editor-save').on('click', function () {
+            axios.post('/api/v1/resources/'+resourceId+'/htmls', {'html': $('#vtp-html-viewer-editor').val()})
+                .then((response) => {
+                })
+                .catch(err => console.dir(err));
         });
     }
 

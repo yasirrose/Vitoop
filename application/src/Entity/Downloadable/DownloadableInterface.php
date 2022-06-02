@@ -19,4 +19,6 @@ interface DownloadableInterface
     public function markAsWrongUrl();
     public function markAsSuccess();
     public function markAsNotDownloaded();
+
+    public function isSuccessDownloaded(): bool;
 }

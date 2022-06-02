@@ -20,8 +20,6 @@ export default {
   mounted() {
     let self = this;
     VueBus.$on('element-notification:show', function (message, id) {
-      console.log(id);
-      console.log(self.componentId);
       if (id !== self.componentId) {
         return;
       }

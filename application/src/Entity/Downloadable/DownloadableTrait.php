@@ -59,4 +59,9 @@ trait DownloadableTrait
     {
         return $this->downloadedAt;
     }
+
+    public function isSuccessDownloaded(): bool
+    {
+        return self::STATUS_DOWNLOADED === $this->isDownloaded;
+    }
 }

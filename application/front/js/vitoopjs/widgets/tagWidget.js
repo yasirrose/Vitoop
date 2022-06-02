@@ -9,6 +9,7 @@ export default class TagWidget extends Widget {
         this.containerName = 'resource-tag';
         this.containerId = '#'+ this.containerName;
         this.lastSelectedTagId = null;
+        this.hideHelpButton = false;
     }
 
     init() {
@@ -64,7 +65,9 @@ export default class TagWidget extends Widget {
             collision: 'none'
         }).hide("fade", 3000);
 
-        if (!vitoopState.getters.getProject && !vitoopState.state.conversationInstance && !vitoopState.state.lexicon) {
+        if (!vitoopState.getters.getProject && !vitoopState.state.conversationInstance && !vitoopState.state.lexicon &&
+            !this.hideHelpButton
+        ) {
             $('#tag_search').show();
             self.disableButtonById('#tag_search');
         } else {

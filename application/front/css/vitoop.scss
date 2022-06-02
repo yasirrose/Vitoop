@@ -2466,3 +2466,22 @@ table.dataTable thead th:hover {
     padding: 5px;
     border-radius: 4px;
 }
+
+.back-button .ui-corner-all.ui-state-default {
+    width: 62%;
+    max-width: 100%;
+    padding: 2px 4px;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    float: left;
+    padding-left: 48px;
+    margin-left: 12px;
+}
+
+.back-button .ui-corner-all.ui-state-default .ui-button-icon.ui-icon.ui-icon-arrow-1-w {
+    position: absolute;
+    left: 10px;
+}

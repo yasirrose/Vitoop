@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Resource;
 use App\Entity\UrlCheck\UrlCheckInterface;
 use App\Service\ResourceDataCollector;
+use App\Service\UrlGetter;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -13,9 +14,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class HtmlViewerController extends ApiController
 {
     /**
-     * @Route("{id}")
+     * @Route("{id}", methods={"GET"})
      */
-    public function viewerAction(Resource $resource, ResourceDataCollector $dataCollector)
+    public function viewerAction(Resource $resource, ResourceDataCollector $dataCollector, UrlGetter $urlGetter)
     {
         $dataCollector->init($resource);
 
@@ -27,6 +28,7 @@ class HtmlViewerController extends ApiController
             'commentForm' => $dataCollector->getComment(),
             'projectForm' => $dataCollector->getProject(),
             'lexiconForm' => $dataCollector->getLexicon(),
+            'htmlcontent' => $urlGetter->getBinaryContentFromUrl($urlGetter->getLocalUrl($resource)),
         ]);
     }
 }

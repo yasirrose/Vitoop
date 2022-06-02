@@ -2,6 +2,10 @@
 
 namespace App\Controller\V1;
 
+use App\DTO\Resource\Html\TeliHtmlDTO;
+use App\Entity\Teli;
+use App\Service\FileDownloader;
+use App\Service\FileSaver;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -68,6 +72,14 @@ class ResourceController extends ApiController
      * @var ResourceDetailExtractor
      */
     private $resourceDetailExtractor;
+    /**
+     * @var FileSaver
+     */
+    private $fileSaver;
+    /**
+     * @var FileDownloader
+     */
+    private $fileDownloader;
 
     /**
      * ResourceController constructor.
@@ -82,13 +94,17 @@ class ResourceController extends ApiController
         RatingRepository $ratingRepository,
         TagRepository $tagRepository,
         ValidatorInterface $validator,
-        ResourceDetailExtractor $resourceDetailExtractor
+        ResourceDetailExtractor $resourceDetailExtractor,
+        FileSaver $fileSaver,
+        FileDownloader $fileDownloader
     ) {
         $this->resourceRepository = $resourceRepository;
         $this->ratingRepository = $ratingRepository;
         $this->tagRepository = $tagRepository;
         $this->validator = $validator;
         $this->resourceDetailExtractor = $resourceDetailExtractor;
+        $this->fileSaver = $fileSaver;
+        $this->fileDownloader = $fileDownloader;
     }
 
     /**
@@ -408,5 +424,17 @@ class ResourceController extends ApiController
         $this->ratingRepository->save($rating);
 
         return $this->getApiResponse($this->resourceDetailExtractor->getRatingDTO($resource, $user));
+    }
+
+    /**
+     * @Route("/{id}/htmls", methods={"POST"}, requirements={"id": "\d+"})
+     */
+    public function saveHtmlView(Teli $teli, Request $request)
+    {
+        $dto = $this->getDTOFromRequest($request, TeliHtmlDTO::class);
+        $filePath = $this->fileDownloader->getFile($teli);
+        $this->fileSaver->saveFile($filePath, $dto->html);
+
+        return $this->getApiResponse([], 204);
     }
 }
