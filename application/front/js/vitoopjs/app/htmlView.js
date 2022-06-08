@@ -72,7 +72,8 @@ class HtmlView {
         });
 
         $('#html-editor-save').on('click', function () {
-            axios.post('/api/v1/resources/'+resourceId+'/htmls', {'html': $('#vtp-html-viewer-editor').val()})
+            let html = tinymce.get('vtp-html-viewer-editor').getContent();
+            axios.post('/api/v1/resources/'+resourceId+'/htmls', {'html': html})
                 .then((response) => {
                 })
                 .catch(err => console.dir(err));
