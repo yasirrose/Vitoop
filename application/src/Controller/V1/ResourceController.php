@@ -433,8 +433,14 @@ class ResourceController extends ApiController
     {
         $dto = $this->getDTOFromRequest($request, TeliHtmlDTO::class);
         $filePath = $this->fileDownloader->getFile($teli);
-        $this->fileSaver->saveFile($filePath, $dto->html);
 
-        return $this->getApiResponse([], 204);
+        $message = 'OK';
+        try {
+            $this->fileSaver->saveFile($filePath, $dto->html);
+        } catch (\Exception $exception) {
+            $message = $exception->getMessage();
+        }
+
+        return $this->getApiResponse(['message' => $message], 200);
     }
 }

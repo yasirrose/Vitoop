@@ -94,7 +94,7 @@ class DownloadsService
             $filePath = $this->getPath($resource);
             $curl = curl_init($resource->getUrl());
             $this->downloadFromCurl($curl, $filePath);
-            chmod($filePath, 0755);
+            chmod($filePath, 0666);
             curl_close($curl);
             $this->cleanHtml($filePath);
 
