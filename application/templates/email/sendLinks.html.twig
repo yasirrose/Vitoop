@@ -5,11 +5,12 @@
     {% for resource in resources%}
         <p style="font-size: .9em;"><strong>{{ resource.getResourceName() }}:</strong> <strong>{{ resource.name }}</strong><br/>
         {% include "email/resourseLinks/"~resource.getResourceType()~".html.twig" %}
+        {% set remark = resource.getLastRemark() %}
+        {% if remark and remark is not empty %}
         <strong>{{ 'label.remarks'|trans }}:</strong>
-            {% set remark = resource.getLastRemark() %}
-            {% if remark is not empty %}
-                {{ remark.text|raw }}
-            {% endif %}
+                {{ remark.text|trim|raw }}
+        {% endif %}
+        {% if comments is defined and comments is not empty %}<strong>{{ 'label.note'|trans }}:</strong> {{ comments[resource.getId()].text }}{%- endif -%}
         </p>
     {% endfor %}
 </body>

@@ -9,6 +9,7 @@ use App\Entity\Resource;
 use App\Entity\User\User;
 use App\Repository\ResourceRepository;
 use App\Service\EmailSender;
+use App\Service\Factories\CommentFactory;
 use App\Service\Resource\ResourceExporter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -79,6 +80,11 @@ class UserLinkController extends AbstractController
                     $resource->getRemarks()->removeElement($comment['remark']);
                     $user->getRemarks()->removeElement($comment['remark']);
                     $entityManager->remove($comment['remark']);
+                } else {
+                    $newComment = CommentFactory::fromCommentRemark($comment);
+                    $entityManager->persist($newComment);
+                    $entityManager->persist($resource);
+                    $entityManager->persist($user);
                 }
             }
 

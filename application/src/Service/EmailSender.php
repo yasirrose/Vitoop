@@ -87,7 +87,7 @@ class EmailSender
      * @param array $resources
      * @return int
      */
-    public function sendLinks(SendLinksDTO $dto, array $resources, User $user)
+    public function sendLinks(SendLinksDTO $dto, array $resources, User $user, $zipFile = null)
     {
         $message = $this->createMessage(
             $dto->emailSubject,
@@ -96,34 +96,29 @@ class EmailSender
                 'email/sendLinks.html.twig',
                 [
                     'body'  => $dto->textBody,
+                    'comments' => $dto->getComments(),
                     'resources' => $resources
                 ]
             )
         );
+
         $message->setFrom($user->getEmail());
+        if ($zipFile) {
+            $attachment = new \Swift_Attachment($zipFile, 'vitoop_export.json', 'application/json');
+            $message->attach($attachment);
+        }
 
         return $this->mailer->send($message);
     }
 
-    public function sendLinksWithDataTransfer(SendLinksDTO $dto, array $resources, User $user, $zipFile)
+    public function sendLinksWithDataTransfer(SendLinksDTO $dto, array $resources, User $user, bool $zipFile)
     {
-        $message = $this->createMessage(
-            $dto->emailSubject,
-            $dto->email,
-            $this->templater->render(
-                'email/sendLinks.html.twig',
-                [
-                    'body'  => $dto->textBody,
-                    'resources' => $resources
-                ]
-            )
+        return $this->sendLinks(
+            $dto,
+            $resources,
+            $user,
+            $zipFile
         );
-        $message->setFrom($user->getEmail());
-
-        $attachment = new \Swift_Attachment($zipFile, 'vitoop_export.json', 'application/json');
-        $message->attach($attachment);
-
-        return $this->mailer->send($message);
     }
 
     public function sendDownloadFolderStatus(string $email, $folderSize, $message)

@@ -51,6 +51,7 @@ label:
     publisher: Verlag
     remove.tooltip: angehakte Datensätze "enthaken"
     remarks: Anmerkungen
+    note: Notiz
     repeat.password: Passwort wiederholen
     save: speichern
     send: mailen
