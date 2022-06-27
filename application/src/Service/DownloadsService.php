@@ -152,6 +152,8 @@ class DownloadsService
     private function downloadFromCurl(&$curl, $path)
     {
         $file = fopen($path, 'w+');
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($curl, CURLOPT_MAXREDIRS, 5);
         curl_setopt($curl, CURLOPT_NOBODY, false);
         curl_setopt($curl, CURLOPT_FILE, $file);
         curl_exec($curl);
