@@ -81,6 +81,7 @@ class FileDownloader
     {
         $curl = curl_init($url);
         $file = fopen($path, 'w+');
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($curl, CURLOPT_NOBODY, false);
         curl_setopt($curl, CURLOPT_FILE, $file);
         curl_exec($curl);
