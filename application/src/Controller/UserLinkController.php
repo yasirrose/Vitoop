@@ -3,13 +3,14 @@
 namespace App\Controller;
 
 use App\DTO\Links\SendLinksDTO;
+use App\DTO\Resource\CommentDTO;
 use App\DTO\Resource\RemarkDTO;
+use App\Entity\Comment;
 use App\Entity\Remark;
 use App\Entity\Resource;
 use App\Entity\User\User;
 use App\Repository\ResourceRepository;
 use App\Service\EmailSender;
-use App\Service\Factories\CommentFactory;
 use App\Service\Resource\ResourceExporter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -81,10 +82,13 @@ class UserLinkController extends AbstractController
                     $user->getRemarks()->removeElement($comment['remark']);
                     $entityManager->remove($comment['remark']);
                 } else {
-                    $newComment = CommentFactory::fromCommentRemark($comment);
+                    $newCommentDTO = CommentDTO::createFromArray([
+                        'text' => $comment['text'],
+                        'created_at' => $comment['remark']->getCreatedAt(),
+                        'is_visible' => true,
+                    ]);
+                    $newComment = Comment::create($resource, $user, $newCommentDTO);
                     $entityManager->persist($newComment);
-                    $entityManager->persist($resource);
-                    $entityManager->persist($user);
                 }
             }
 

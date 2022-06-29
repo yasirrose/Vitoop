@@ -67,13 +67,18 @@ class CommentDTO implements \JsonSerializable, CreateFromRequestInterface
     {
         $requestData = self::getRequestData($request);
 
+        return self::createFromArray($requestData);
+    }
+
+    public static function createFromArray(array $dataArray)
+    {
         return new CommentDTO(
             null,
-            array_key_exists('text', $requestData) ? $requestData['text'] : null,
+            array_key_exists('text', $dataArray) ? $dataArray['text'] : null,
             null,
             null,
-            new \DateTime(),
-            true
+            array_key_exists('created_at', $dataArray) ? $dataArray['created_at'] : new \DateTime(),
+            array_key_exists('is_visible', $dataArray) ? $dataArray['is_visible'] : true
         );
     }
 
