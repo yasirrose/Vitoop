@@ -73,14 +73,16 @@ window.resourceDetail = (function () {
             hide() {
                 $('#open-notes-dialog-button').removeClass('ui-state-active');
                 $('#resource-notes').removeClass('open');
-                $('#resource-notes').hide('blind', 'fast');
+                $('#resource-notes').css('display', 'none');
 
-                VueBus.$emit('reset');
+                VueBus.$emit('close');
             },
             show() {
                 $('#open-notes-dialog-button').addClass('ui-state-active');
                 $('#resource-notes').addClass('open');
-                $('#resource-notes').show('blind', 'fast');
+                $('#resource-notes').css('display', 'block');
+
+                VueBus.$emit('open');
             },
             isOpen: () => $('#resource-notes').hasClass('open'),
         },

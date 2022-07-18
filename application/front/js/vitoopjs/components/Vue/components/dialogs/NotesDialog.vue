@@ -1,26 +1,10 @@
 <template>
     <div id="vtp-notes-dialog" title="Notizen">
-        <textarea v-show="isShowTextarea"
+        <textarea
             id="vtp-user-notes-textarea-common"
             :value="notes"
-            @input="onChange"
             :placeholder="placeholder">
         </textarea>
-        <div v-show="!isShowEditor" id="vtp-user-notes-result" v-html="notes">
-        </div>
-        <div class="text-right">
-            <button @click="activateTinyMCE"
-                    :class="{ 'ui-state-active': isShowEditor }"
-                    class="mce-button ui-state-default ui-corner-all">
-              Edit
-            </button>
-            <button @click="save"
-                    :class="{ 'ui-state-active': dirty, 'ui-state-disabled': !isShowEditor }"
-                    v-show="isShowEditor"
-                    class="save-button ui-state-default ui-corner-all">
-                Speichern
-            </button>
-        </div>
     </div>
 </template>
 
@@ -32,9 +16,7 @@
         name: "NotesDialog",
         data() {
             return {
-                dirty: false,
-                isShowEditor: false,
-                isShowTextarea: false,
+                dialog_initiated: false,
                 placeholder: 'Hier kannst Du private Notizen speichern, die von überall aus zugänglich sind.',
             };
         },
@@ -47,12 +29,7 @@
             this.init();
         },
         methods: {
-            onChange({ target: { value } }) {
-                this.dirty = true;
-                this.$store.commit('set', { key: 'notes', value });
-            },
             init() {
-                let self = this;
                 $('#vtp-notes-dialog').dialog({
                     autoOpen: false,
                     width: 720,
@@ -60,57 +37,38 @@
                     position: { my: 'center top', at: 'center top', of: '#vtp-nav' },
                     modal: true,
                     close: this.closeDialog,
-                });
-
-                $('#vtp-notes-dialog').on('dialogclose', function (e) {
-                  self.resetState();
+                    open: this.openDialog,
                 });
             },
             closeDialog () {
-              this.resetState();
+              this.save()
+            },
+            openDialog () {
+             if (this.dialog_initiated === false) {
+                this.dialog_initiated = true;
+                this.activateTinyMCE();
+              }
             },
             save() {
               let tinyInit = new TinyMCEInitializer();
               let editorContent = tinyInit.getEditorContent('vtp-user-notes-textarea-common');
-              this.$store.dispatch('saveNotes', editorContent);
-              this.dirty = false;
+              if (editorContent !== this.notes) {
+                this.$store.dispatch('saveNotes', editorContent);
+              }
             },
             activateTinyMCE () {
-                let tinyInit = new TinyMCEInitializer();
-                let editorContent = tinyInit.getEditorContent('vtp-user-notes-textarea-common');
-
-                if (null === tinyInit.getEditor('vtp-user-notes-textarea-common')) {
-                  let options = tinyInit.getCommonOptions();
-                  options.height = 345;
-                  options.selector = '#vtp-user-notes-textarea-common';
-                  options.init_instance_callback = function () {
-                      $('#vtp-notes-dialog > .mce-container').show();
-                      $('#vtp-user-notes-textarea-common').hide();
-                  }
-                  tinymce.init(options);
-                }
-
-                if (true === this.isShowEditor) {
-                  this.$store.commit('set', { key: 'notes',  value: editorContent});
-                  this.isShowEditor = false;
-                  this.isShowTextarea = false;
-
-                  $('#vtp-notes-dialog > .mce-container').hide();
+              let tinyInit = new TinyMCEInitializer();
+              let options = tinyInit.getCommonOptions();
+              options.height = 345;
+              options.selector = '#vtp-user-notes-textarea-common';
+              options.init_instance_callback = function () {
+                  $('#vtp-notes-dialog > .mce-container').show();
                   $('#vtp-user-notes-textarea-common').hide();
-                } else {
-                    this.isShowEditor = true;
-                    this.isShowTextarea = false;
-
-                    $('#vtp-notes-dialog > .mce-container').show();
-                    $('#vtp-user-notes-textarea-common').hide();
-                }
-            },
-
-            resetState() {
-              if (true === this.isShowEditor) {
-                this.activateTinyMCE();
               }
-            }
+              tinymce.init(options);
+              $('#vtp-notes-dialog > .mce-container').hide();
+              $('#vtp-user-notes-textarea-common').hide();
+            },
         }
     }
 </script>
