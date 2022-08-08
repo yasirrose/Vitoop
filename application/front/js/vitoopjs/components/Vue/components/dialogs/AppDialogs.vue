@@ -137,6 +137,10 @@
           VueBus.$on('open', () => {
             if (this.dialog_initiated === false) {
               this.activateTinyMCE();
+            } else {
+              let tinyInit = new TinyMCEInitializer();
+              let editor = tinyInit.getEditor('vtp-user-notes-textarea')
+              editor.setContent(this.notes);
             }
           });
         },
@@ -149,7 +153,7 @@
               let tinyInit = new TinyMCEInitializer();
               let editorContent = tinyInit.getEditorContent('vtp-user-notes-textarea');
               if (editorContent !== this.notes) {
-                  this.$store.dispatch('saveNotes', editorContent);
+                this.$store.dispatch('saveNotes', editorContent);
               }
             },
             activateTinyMCE () {

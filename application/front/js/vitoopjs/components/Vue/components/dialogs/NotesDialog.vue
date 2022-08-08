@@ -44,9 +44,13 @@
               this.save()
             },
             openDialog () {
-             if (this.dialog_initiated === false) {
+              if (this.dialog_initiated === false) {
                 this.dialog_initiated = true;
                 this.activateTinyMCE();
+              } else {
+                let tinyInit = new TinyMCEInitializer();
+                let editor = tinyInit.getEditor('vtp-user-notes-textarea-common')
+                editor.setContent(this.notes);
               }
             },
             save() {
