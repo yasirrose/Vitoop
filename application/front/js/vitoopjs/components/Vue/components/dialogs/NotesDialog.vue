@@ -47,11 +47,11 @@
               if (this.dialog_initiated === false) {
                 this.dialog_initiated = true;
                 this.activateTinyMCE();
-              } else {
-                let tinyInit = new TinyMCEInitializer();
-                let editor = tinyInit.getEditor('vtp-user-notes-textarea-common')
-                editor.setContent(this.notes);
               }
+
+              let tinyInit = new TinyMCEInitializer();
+              let editor = tinyInit.getEditor('vtp-user-notes-textarea-common')
+              editor.setContent(this.notes);
             },
             save() {
               let tinyInit = new TinyMCEInitializer();

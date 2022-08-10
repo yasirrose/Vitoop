@@ -19,7 +19,7 @@ export default {
     },
     saveNotes({ commit }, notes) {
         const key = 'notes';
-        NotesService.save(notes);
         commit('set', { key, value: notes });
+        NotesService.save(notes);
     }
 }
