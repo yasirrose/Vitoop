@@ -84,6 +84,9 @@ export default {
     updateArtFilter: function (state, value) {
         state.secondSearch.artFilter = value;
     },
+    updateSelectedColor: function(state, value) {
+      state.secondSearch.selectedColor = value;
+    },
     updateDateFrom: function (state, value) {
         state.secondSearch.dateFrom = value;
     },

@@ -85,10 +85,12 @@
     import NotesDialog from "./NotesDialog.vue";
     import TinyMCEInitializer from "../../../TinyMCEInitializer";
     import ElementNotification from "../helpers/ElementNotification.vue";
+    import SelectColor from "../SelectColor.vue";
 
     export default {
         name: "AppDialogs",
         components: {
+            SelectColor,
             NotesDialog,
             ElementNotification,
         },

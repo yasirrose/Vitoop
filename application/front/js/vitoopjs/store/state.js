@@ -26,7 +26,8 @@ export default {
         artFilter: '',
         dateFrom: '',
         dateTo: '',
-        isSearching: false
+        isSearching: false,
+        selectedColor: 'vtp-blue',
     },
     searchToggler: {
         isOpened: false,
