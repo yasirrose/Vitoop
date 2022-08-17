@@ -25,7 +25,6 @@ services:
             - '../src/Entity/'
             - '../src/Exception/'
             - '../src/Doctrine/'
-            - '../src/Utils/'
             - '../src/Response/'
             - '../src/Kernel.php'
 
