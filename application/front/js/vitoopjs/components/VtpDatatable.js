@@ -249,7 +249,7 @@ export default class VtpDatatable {
             $(row).find('td:first').addClass('coef-column');
         }
         if (data.isUserHook != 0 && data.id !== null) {
-            $(row).find('td:first').addClass('vtp-blue');
+            $(row).find('td:first').addClass(vitoopState.getters.getSelectedColor);
         }
         if (index === 0 && data.id !== null) {
             row.className += " vtp-list-first";

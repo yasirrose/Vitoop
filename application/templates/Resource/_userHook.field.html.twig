@@ -1,7 +1,7 @@
 <div class="created-info{{ fieldSuffix }}">
     <div class="vtp-fh-w10"></div>
-    <div class="vtp-fh-w90 vtp-right">
-        <div class="vtp-fh-infosave-box vtp-fh-infosave-box-left blau-gradient vtp-right">
+    <div class="vtp-fh-w100 vtp-right">
+        <div class="vtp-fh-infosave-box vtp-fh-infosave-box-left blau-gradient vtp-right" style="width: 90px">
             <label class="custom-checkbox__wrapper light-blue"
                    style="margin-left: 3px;"
                    title="{{ 'label.set_remove_bookmarks'|trans }}"
@@ -12,6 +12,13 @@
                          src="/img/check.png" />
                 </span>
             </label>
+            <select class="custom-dropdown">
+                <option value="red-gradient">red</option>
+                <option value="lime-gradient">lime</option>
+                <option value="cyan-gradient">cyan</option>
+                <option value="yellow-gradient">yellow</option>
+                <option value="blau-gradient">blue</option>
+            </select>
             <span class="blau-text"></span>
         </div>
         <div class="vtp-fh-infosave-box vtp-fh-infosave-box-right vtp-even-background">
@@ -31,3 +38,15 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        setTimeout(function () {
+            let selectedColor = $('.colorDropdown .selected-tag').text().trim() ;
+            $("#ui-id-33-button").css('width', '');
+            $('.custom-dropdown').val(selectedColor + '-gradient');
+            $('#ui-id-33-button .ui-selectmenu-text').text(selectedColor)
+        }, 1000);
+
+    });
+</script>

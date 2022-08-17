@@ -28,6 +28,9 @@ export default {
     getTableData(state) {
         return state.table.data;
     },
+    getSelectedColor(state) {
+        return state.secondSearch.selectedColor;
+    },
     getResource: (state) => (key) => {
         return state.resource[key];
     },
