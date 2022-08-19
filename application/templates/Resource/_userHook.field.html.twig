@@ -1,45 +1,3 @@
-{% block css %}
-    <style>
-        .red-gradient {
-            background: #f39090; /* For browsers that do not support gradients */
-            background: -webkit-linear-gradient(left, #f39090, #deedf7); /* For Safari 5.1 to 6.0 */
-            background: -o-linear-gradient(right, #f39090 , #deedf7); /* For Opera 11.1 to 12.0 */
-            background: -moz-linear-gradient(right, #f39090 , #deedf7); /* For Firefox 3.6 to 15 */
-            background: linear-gradient(to right, #f39090 , #deedf7); /* Standard syntax */
-            background-repeat: no-repeat;
-            background-size: 85px;
-        }
-        .lime-gradient {
-            background: #87ee87; /* For browsers that do not support gradients */
-            background: -webkit-linear-gradient(left, #87ee87 , #deedf7); /* For Safari 5.1 to 6.0 */
-            background: -o-linear-gradient(right, #87ee87 , #deedf7); /* For Opera 11.1 to 12.0 */
-            background: -moz-linear-gradient(right, #87ee87 , #deedf7); /* For Firefox 3.6 to 15 */
-            background: linear-gradient(to right, #87ee87 , #deedf7); /* Standard syntax */
-            background-repeat: no-repeat;
-            background-size: 85px;
-        }
-        .cyan-gradient {
-            background: #8feeee; /* For browsers that do not support gradients */
-            background: -webkit-linear-gradient(left, #8feeee , #deedf7); /* For Safari 5.1 to 6.0 */
-            background: -o-linear-gradient(right, #8feeee , #deedf7); /* For Opera 11.1 to 12.0 */
-            background: -moz-linear-gradient(right, #8feeee , #deedf7); /* For Firefox 3.6 to 15 */
-            background: linear-gradient(to right, #8feeee , #deedf7); /* Standard syntax */
-            background-repeat: no-repeat;
-            background-size: 85px;
-        }
-        .yellow-gradient {
-            background: #f5f568; /* For browsers that do not support gradients */
-            background: -webkit-linear-gradient(left, #f5f568 , #deedf7); /* For Safari 5.1 to 6.0 */
-            background: -o-linear-gradient(right, #f5f568 , #deedf7); /* For Opera 11.1 to 12.0 */
-            background: -moz-linear-gradient(right, #f5f568 , #deedf7); /* For Firefox 3.6 to 15 */
-            background: linear-gradient(to right, #f5f568 , #deedf7); /* Standard syntax */
-            background-repeat: no-repeat;
-            background-size: 85px;
-        }
-
-
-    </style>
-{% endblock %}
 <div class="created-info{{ fieldSuffix }}">
     <div class="vtp-fh-w10"></div>
     <div class="vtp-fh-w100 vtp-right">
@@ -83,19 +41,36 @@
 
 <script>
     $(document).ready(function () {
+
         setTimeout(function () {
             let selectedColor = $('.colorDropdown .selected-tag').text().trim() == 'blue' ? 'blau' : $('.colorDropdown .selected-tag').text().trim();
-            $("#ui-id-33-button").css('width', '');
-            $('.custom-dropdown').val(selectedColor + '-gradient');
-            $('#ui-id-33-button .ui-selectmenu-text').text(selectedColor);
+            var id = $('.custom-dropdown').attr('id');
+            let button = $('#'+ id+'-button');
+            let spanText = $('#'+ id +'-button .ui-selectmenu-text');
+            button.css('width', '');
+            spanText.text(selectedColor);
+            spanText.css('width', '100%');
+            removeClassGradient();
+            $('.vtp-fh-infosave-box-left ').addClass(selectedColor + '-gradient');
 
+            $(document).on('click', '#'+id+'-menu li.ui-menu-item', function () {
+                let newClass = $(this).text() == 'blue' ? 'blau' : $(this).text();
+                removeClassGradient();
+                $('.vtp-fh-infosave-box-left ').addClass(newClass + '-gradient');
+                sessionStorage.setItem("selectedColor", $(this).text());
+            });
+        }, 1500);
+
+
+        function removeClassGradient()
+        {
             let colorsClass = ['red-gradient', 'lime-gradient', 'cyan-gradient', 'yellow-gradient', 'blau-gradient'];
             for (let i = 0; i < colorsClass.length; i++) {
                 if ($('.vtp-fh-infosave-box-left ').hasClass(colorsClass[i])) {
                     $('.vtp-fh-infosave-box-left ').removeClass(colorsClass[i]);
                 }
             }
-            $('.vtp-fh-infosave-box-left ').addClass(selectedColor + '-gradient');
-        }, 1500);
+        }
     });
+
 </script>
