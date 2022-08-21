@@ -85,10 +85,12 @@
     import NotesDialog from "./NotesDialog.vue";
     import TinyMCEInitializer from "../../../TinyMCEInitializer";
     import ElementNotification from "../helpers/ElementNotification.vue";
+    import SelectColor from "../SelectColor.vue";
 
     export default {
         name: "AppDialogs",
         components: {
+            SelectColor,
             NotesDialog,
             ElementNotification,
         },
@@ -156,6 +158,11 @@
                 console.log('saving notes with text ', editorContent)
                 this.$store.dispatch('saveNotes', editorContent);
               }
+              let sessionColor = sessionStorage.getItem("selectedColor");
+              this.$store.commit('updateSelectedColor', 'vtp-' + sessionColor);
+              $(".colorDropdown .selected-tag font font").text(sessionColor);
+              vitoopApp.vtpDatatable && vitoopApp.vtpDatatable.refreshTable();
+
             },
             activateTinyMCE () {
               let tinyInit = new TinyMCEInitializer();

@@ -2,9 +2,9 @@
     <transition name="slide">
         <div v-show="get('secondSearch').show"
              id="vtp-second-search-box"
-             class="dataTables_filter ui-corner-all vtp-blue">
+             class="dataTables_filter ui-corner-all" :class=" $store.state.secondSearch.selectedColor ">
             <div id="search_blue_box" title="Lesezeichen anzeigen">
-                <label class="custom-checkbox__wrapper light-blue">
+                <label class="custom-checkbox__wrapper">
                     <input class="valid-checkbox open-checkbox-link"
                            id="search_blue"
                            v-model="isBlue"
@@ -16,6 +16,7 @@
                              src="/img/check.png" />
                     </span>
                 </label>
+                <select-color />
                 <div v-show="/pdf|teli/.test(get('resource').type)"
                      id="search_date_range">
                     <div class="has-cross-icon">
@@ -67,6 +68,7 @@
                           :class="{ 'ui-state-active': $store.state.secondSearch.isReadFilter }">
                         {{ getReadButtonLabel }}
                     </button>
+
                 <label class="has-cross-icon"
                        style="position: relative">
                     <input type="search"
@@ -91,6 +93,7 @@
     import vSelect from 'vue-select/src/components/Select.vue';
     import SearchClear from './SearchClear.vue';
     import {mapGetters} from 'vuex';
+    import SelectColor from "../components/SelectColor.vue";
 
     export default {
         name: "SecondSearch",
@@ -112,7 +115,8 @@
         },
         components: {
             vSelect,
-            SearchClear
+            SearchClear,
+            SelectColor,
         },
         computed: {
             ...mapGetters(['get']),
@@ -198,7 +202,7 @@
             dateRangeSearch () {
                 vitoopApp.vtpDatatable && vitoopApp.vtpDatatable.refreshTable();
                 this.isDateRangeChanged = false;
-            }
+            },
         }
     }
 </script>
@@ -223,6 +227,46 @@
         background: linear-gradient(to right, #7bc0f6 , $vitoop-body-background-color); /* Standard syntax */
         background-repeat: no-repeat;
         background-size: 85px;
+    }
+
+    .vtp-gray {
+      background: #4e4d4d; /* For browsers that do not support gradients */
+      background: -webkit-linear-gradient(left, #4e4d4d , $vitoop-body-background-color); /* For Safari 5.1 to 6.0 */
+      background: -o-linear-gradient(right, #4e4d4d , $vitoop-body-background-color); /* For Opera 11.1 to 12.0 */
+      background: -moz-linear-gradient(right, #4e4d4d , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
+      background: linear-gradient(to right, #4e4d4d , $vitoop-body-background-color); /* Standard syntax */
+      background-repeat: no-repeat;
+      background-size: 85px;
+    }
+
+    .vtp-cyan {
+      background: #8feeee; /* For browsers that do not support gradients */
+      background: -webkit-linear-gradient(left, #8feeee , $vitoop-body-background-color); /* For Safari 5.1 to 6.0 */
+      background: -o-linear-gradient(right, #8feeee , $vitoop-body-background-color); /* For Opera 11.1 to 12.0 */
+      background: -moz-linear-gradient(right, #8feeee , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
+      background: linear-gradient(to right, #8feeee , $vitoop-body-background-color); /* Standard syntax */
+      background-repeat: no-repeat;
+      background-size: 85px;
+    }
+
+    .vtp-lime {
+      background: #87ee87; /* For browsers that do not support gradients */
+      background: -webkit-linear-gradient(left, #87ee87 , $vitoop-body-background-color); /* For Safari 5.1 to 6.0 */
+      background: -o-linear-gradient(right, #87ee87 , $vitoop-body-background-color); /* For Opera 11.1 to 12.0 */
+      background: -moz-linear-gradient(right, #87ee87 , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
+      background: linear-gradient(to right, #87ee87 , $vitoop-body-background-color); /* Standard syntax */
+      background-repeat: no-repeat;
+      background-size: 85px;
+    }
+
+    .vtp-yellow {
+      background: #f5f568; /* For browsers that do not support gradients */
+      background: -webkit-linear-gradient(left, #f5f568 , $vitoop-body-background-color); /* For Safari 5.1 to 6.0 */
+      background: -o-linear-gradient(right, #f5f568 , $vitoop-body-background-color); /* For Opera 11.1 to 12.0 */
+      background: -moz-linear-gradient(right, #f5f568 , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
+      background: linear-gradient(to right, #f5f568 , $vitoop-body-background-color); /* Standard syntax */
+      background-repeat: no-repeat;
+      background-size: 85px;
     }
 
     #vtp-second-search-is-read{
