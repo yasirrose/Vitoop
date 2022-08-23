@@ -610,11 +610,11 @@ class Resource
         }
     }
 
-    public function hook(User $user)
+    public function hook(User $user, String $color)
     {
         $userHooks = $this->findUserHook($user);
         if (0 === $userHooks->count()) { 
-            $this->userHooks->add(new UserHookResource($user, $this));
+            $this->userHooks->add(new UserHookResource($user, $this, $color));
         }
     }
 
@@ -673,7 +673,7 @@ class Resource
         }
 
         if ($dto->isUserHook) {
-            $this->hook($dto->user);
+            $this->hook($dto->user, $dto->selectedColor);
             return;
         }
         $this->unhook($dto->user);

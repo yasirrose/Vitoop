@@ -65,6 +65,10 @@ class SearchResource
     public $dateTo;
 
     public $art;
+    /**
+     * @var string
+     */
+    public $color;
 
     public function __construct(
         Paging $paging,
@@ -82,7 +86,8 @@ class SearchResource
         $resourceId = null,
         $dateFrom = null,
         $dateTo = null,
-        $art = null
+        $art = null,
+        $color = null
     ) {
         $this->user = $user;
         $this->flagged = $flagged;
@@ -102,6 +107,7 @@ class SearchResource
         $this->dateFrom = $dateFrom;
         $this->dateTo = $dateTo;
         $this->art = $art;
+        $this->color = $color;
     }
 
     /**
@@ -134,7 +140,8 @@ class SearchResource
             $request->query->get('resourceId', null),
             $request->query->get('dateFrom', null),
             $request->query->get('dateTo', null),
-            $request->query->get('art', null)
+            $request->query->get('art', null),
+            $request->query->get('color', null)
         );
     }
 }

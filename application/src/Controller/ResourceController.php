@@ -11,6 +11,7 @@ use App\Entity\Pdf;
 use App\Entity\Flag;
 use App\Entity\User\UserConfig;
 use App\Entity\User\UserData;
+use App\Entity\UserHookResource;
 use App\Entity\VitoopBlog;
 use App\Entity\Resource;
 use App\Repository\ResourceRepository;
@@ -475,7 +476,9 @@ class ResourceController extends ApiController
         /* @var $res \App\Entity\Resource */
         $res = $rdc->getResource();
 
-        $content['resource-data'] = $rdc->getData();
+        $userHook = $this->entityManager->getRepository(UserHookResource::class)->findOneBy(['resource' => $res_id]);
+        $color = !empty($userHook) ? $userHook->getColor() : "blue";
+        $content['resource-data'] = $rdc->getData($color);
         $content['resource-title'] = $rdc->getTitle();
         $content['resource-buttons'] = $rdc->getButtons();
         $content['resource-tag'] = $rdc->getTag();
@@ -707,7 +710,8 @@ class ResourceController extends ApiController
         $resourceDTO = new \App\DTO\Resource\ResourceDTO();
         $resourceDTO->user = $this->getUser();
         $resourceDTO->isUserHook = $dto->isUserHook;
-        
+        $resourceDTO->selectedColor = $dto->sessionColor;
+
         $resource->updateUserHook($resourceDTO);
         $this->entityManager->persist($resource);
         $this->entityManager->flush();
@@ -783,5 +787,33 @@ class ResourceController extends ApiController
         ];
 
         return $this->render('Resource/home.html.twig', $data);
+    }
+
+    /**
+     * @Route("/{resType}/{resId}/update-resource", name="_xhr_update_user_resource")
+     * @param Request $request
+     * @param $resType
+     * @param $resId
+     * @return JsonResponse
+     * @throws \Exception
+     */
+    public function updateResource(Request $request, $resType, $resId): JsonResponse
+    {
+        $resource = $this->entityManager->getRepository(
+            UserHookResource::class
+        )->findOneByResource($resId);
+        if (empty($resource)) {
+            return new JsonResponse(['success' => false]);
+        }
+        try {
+
+            $color = $request->query->get('color');
+            $resource->setColor($color);
+            $this->entityManager->persist($resource);
+            $this->entityManager->flush();
+            return new JsonResponse(['success' => true]);
+        } catch (\Exception $e) {
+            throw new \Exception($e);
+        }
     }
 }

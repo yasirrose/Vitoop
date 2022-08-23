@@ -42,10 +42,16 @@ class UserHookResource
      */
     private $createdAt;
 
-    public function __construct(User $user, Resource $resource)
+    /**
+     * @ORM\Column(name="color", type="string", length=30, nullable=true, options={"default":"blue"})
+     */
+    protected $color;
+
+    public function __construct(User $user, Resource $resource, $color)
     {
         $this->user = $user;
         $this->resource = $resource;
+        $this->color = $color;
         $this->createdAt = new \DateTime();
     }
 
@@ -62,5 +68,27 @@ class UserHookResource
     public function getResource()
     {
         return $this->resource;
+    }
+
+    /**
+     * Set color
+     *
+     * @param string $color
+     */
+    public function setColor(string $color)
+    {
+        $this->color = $color;
+
+        return $this;
+    }
+
+    /**
+     * Get color
+     *
+     * @return string
+     */
+    public function getColor()
+    {
+        return $this->color;
     }
 }

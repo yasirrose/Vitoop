@@ -128,6 +128,8 @@ export default class VtpDatatable {
                     if (vitoopState.state.resource.id !== null) {
                         data.resource = vitoopState.state.resource.id;
                     }
+                    let colorClass = vitoopState.state.secondSearch.selectedColor.split('-');
+                    data.color = colorClass[1];
                     return data;
                 }
             },
@@ -248,8 +250,8 @@ export default class VtpDatatable {
         if (data.hasOwnProperty('coef')) {
             $(row).find('td:first').addClass('coef-column');
         }
-        if (data.isUserHook != 0 && data.id !== null) {
-            $(row).find('td:first').addClass(vitoopState.getters.getSelectedColor);
+        if (data.isUserHook !== 0 && data.id !== null) {
+            $(row).find('td:first').addClass("vtp-"+data.color);
         }
         if (index === 0 && data.id !== null) {
             row.className += " vtp-list-first";

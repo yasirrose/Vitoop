@@ -204,6 +204,7 @@ window.resourceDetail = (function () {
                     collision: 'none'
                 }).hide("fade", 3000);
                 $('#'+res_type+'_isUserHook').change(function () {
+                    let sessionColor = sessionStorage.getItem("selectedColor") || "blue";
                     let isUserHookValue = this.checked?1:0;
                     $.ajax({
                         method: 'POST',
@@ -211,7 +212,8 @@ window.resourceDetail = (function () {
                         dataType: 'json',
                         contentType: 'application/json',
                         data: JSON.stringify({
-                            isUserHook: isUserHookValue
+                            isUserHook: isUserHookValue,
+                            sessionColor: sessionColor
                         }),
                         success: function () {
                             refresh_list = true;

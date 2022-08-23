@@ -334,6 +334,7 @@ class ResourceRepository extends ServiceEntityRepository
             ->addSelect('COUNT(rrr.id) as res12count')
             ->addSelect('COUNT(uh.id) as isUserHook')
             ->addSelect('COUNT(ur.id) as isUserRead')
+            ->addSelect('uh.color')
             ->innerJoin('r.user', 'u')
             ->leftJoin('r.flags', 'f')
             ->leftJoin('r.ratings', 'ra')
@@ -398,6 +399,8 @@ class ResourceRepository extends ServiceEntityRepository
         
         if (1 === $search->isUserHook) {
             $query->andHaving('isUserHook > 0');
+            $query->andWhere('uh.color = :selectedColor')
+                ->setParameter('selectedColor', $search->color);
         }
         if (1 === $search->isUserRead) {
             $query->andHaving('isUserRead > 0');

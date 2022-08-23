@@ -169,7 +169,7 @@ class ResourceDataCollector
         ]);
     }
 
-    public function getData()
+    public function getData($color = null)
     {
         $info_data = '';
         $formData = $this->getFormData();
@@ -196,6 +196,7 @@ class ResourceDataCollector
             'infodata' => $info_data,
             'isShowSave' => ($this->vsec->isOwner() || $this->vsec->isAdmin()),
             'isNew' => false,
+            'color' => $color
         ));
     }
 

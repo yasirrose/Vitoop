@@ -60,7 +60,8 @@ class ResourceApiController extends ApiController
             $request->query->get('resourceId', null),
             $request->query->get('dateFrom', null),
             $request->query->get('dateTo', null),
-            $request->query->get('art', null)
+            $request->query->get('art', null),
+            $request->query->get('color', null)
         );
 
         $resources = $resourceManager->getRepository($resType)->getResources($search);

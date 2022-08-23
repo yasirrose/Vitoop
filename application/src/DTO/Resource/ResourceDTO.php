@@ -266,6 +266,8 @@ class ResourceDTO
 
     public $created_at;
 
+    public $selectedColor;
+
     public function getIsbnLength()
     {
         return mb_strlen($this->isbn);

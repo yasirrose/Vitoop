@@ -41,9 +41,10 @@
 
 <script>
     $(document).ready(function () {
+        var color = "{{ color }}";
 
         setTimeout(function () {
-            let selectedColor = $('.colorDropdown .selected-tag').text().trim() == 'blue' ? 'blau' : $('.colorDropdown .selected-tag').text().trim();
+            let selectedColor = color === 'blue' ? 'blau' : color;
             var id = $('.custom-dropdown').attr('id');
             let button = $('#'+ id+'-button');
             let spanText = $('#'+ id +'-button .ui-selectmenu-text');
@@ -54,10 +55,27 @@
             $('.vtp-fh-infosave-box-left ').addClass(selectedColor + '-gradient');
 
             $(document).on('click', '#'+id+'-menu li.ui-menu-item', function () {
-                let newClass = $(this).text() == 'blue' ? 'blau' : $(this).text();
+                let newClass = $(this).text() === 'blue' ? 'blau' : $(this).text();
                 removeClassGradient();
                 $('.vtp-fh-infosave-box-left ').addClass(newClass + '-gradient');
                 sessionStorage.setItem("selectedColor", $(this).text());
+
+                let resourceType = '{{ res.resourceType() }}';
+                let url = '{{ path("_xhr_update_user_resource", {'resType': '__TYPE__', 'resId': '__ID__'}) }}';
+                url = url.replace('__TYPE__', resourceType);
+                url = url.replace('__ID__', {{ res.id }});
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    data: {
+                        color: $(this).text(),
+                    },
+                    success: function (result) {
+                        if (result.success) {
+                            console.log('color updated...');
+                        }
+                    }
+                })
             });
         }, 1500);
 
