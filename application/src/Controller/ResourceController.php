@@ -15,9 +15,11 @@ use App\Entity\UserHookResource;
 use App\Entity\VitoopBlog;
 use App\Entity\Resource;
 use App\Repository\ResourceRepository;
+use App\Repository\UserHookResourceRepository;
 use App\Repository\VitoopBlogRepository;
 use App\Service\UrlGetter;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -476,9 +478,7 @@ class ResourceController extends ApiController
         /* @var $res \App\Entity\Resource */
         $res = $rdc->getResource();
 
-        $userHook = $this->entityManager->getRepository(UserHookResource::class)->findOneBy(['resource' => $res_id]);
-        $color = !empty($userHook) ? $userHook->getColor() : "blue";
-        $content['resource-data'] = $rdc->getData($color);
+        $content['resource-data'] = $rdc->getData();
         $content['resource-title'] = $rdc->getTitle();
         $content['resource-buttons'] = $rdc->getButtons();
         $content['resource-tag'] = $rdc->getTag();
@@ -792,28 +792,29 @@ class ResourceController extends ApiController
     /**
      * @Route("/{resType}/{resId}/update-resource", name="_xhr_update_user_resource")
      * @param Request $request
-     * @param $resType
      * @param $resId
+     * @param UserHookResourceRepository $userHookResourceRepository
      * @return JsonResponse
-     * @throws \Exception
+     * @throws Exception
      */
-    public function updateResource(Request $request, $resType, $resId): JsonResponse
+    public function updateResource(Request $request, $resId, UserHookResourceRepository $userHookResourceRepository): JsonResponse
     {
-        $resource = $this->entityManager->getRepository(
-            UserHookResource::class
-        )->findOneByResource($resId);
+        $resource = $userHookResourceRepository->findOneByResource($resId);
         if (empty($resource)) {
             return new JsonResponse(['success' => false]);
         }
         try {
-
             $color = $request->query->get('color');
-            $resource->setColor($color);
-            $this->entityManager->persist($resource);
-            $this->entityManager->flush();
+            if($userHookResourceRepository->checkCorrectColor($color)) {
+                $resource->updateColor($color);
+            }
+            else {
+                return new JsonResponse(['success' => false]);
+            }
+            $userHookResourceRepository->save($resource);
             return new JsonResponse(['success' => true]);
-        } catch (\Exception $e) {
-            throw new \Exception($e);
+        } catch (Exception $e) {
+            throw new Exception($e);
         }
     }
 }

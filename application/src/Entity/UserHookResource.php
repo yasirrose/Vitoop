@@ -18,6 +18,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class UserHookResource
 {
+    const BLUE_COLOR = "blue";
+    const LIME_COLOR = "lime";
+    const RED_COLOR = "red";
+    const YELLOW_COLOR = "yellow";
+    const CYAN_COLOR = "cyan";
+
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id()
@@ -47,7 +53,7 @@ class UserHookResource
      */
     protected $color;
 
-    public function __construct(User $user, Resource $resource, $color)
+    public function __construct(User $user, Resource $resource, string $color)
     {
         $this->user = $user;
         $this->resource = $resource;
@@ -75,19 +81,14 @@ class UserHookResource
      *
      * @param string $color
      */
-    public function setColor(string $color)
+    public function updateColor(string $color) : UserHookResource
     {
         $this->color = $color;
 
         return $this;
     }
 
-    /**
-     * Get color
-     *
-     * @return string
-     */
-    public function getColor()
+    public function getColor() : string
     {
         return $this->color;
     }

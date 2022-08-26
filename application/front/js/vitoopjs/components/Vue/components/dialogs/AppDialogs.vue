@@ -158,7 +158,6 @@
                 console.log('saving notes with text ', editorContent)
                 this.$store.dispatch('saveNotes', editorContent);
               }
-              vitoopApp.vtpDatatable && vitoopApp.vtpDatatable.refreshTable();
 
             },
             activateTinyMCE () {

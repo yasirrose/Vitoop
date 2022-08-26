@@ -610,7 +610,7 @@ class Resource
         }
     }
 
-    public function hook(User $user, String $color)
+    public function hook(User $user, string $color)
     {
         $userHooks = $this->findUserHook($user);
         if (0 === $userHooks->count()) { 
@@ -727,6 +727,7 @@ class Resource
             $dto->user = $user;
             $dto->isUserHook = $this->isBlueByUser($user);
             $dto->isUserRead = $this->isReadByUser($user);
+            $dto->selectedColor = !empty($this->findUserHook($user)[0]) ? $this->findUserHook($user)[0]->getColor() : null;
         }
         $dto->created_at = $this->created_at->format(\DateTime::ISO8601);
 

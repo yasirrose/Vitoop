@@ -41,10 +41,16 @@
 
 <script>
     $(document).ready(function () {
-        var color = "{{ color }}";
+        var color = "{{ dto.selectedColor }}";
 
         setTimeout(function () {
-            let selectedColor = color === 'blue' ? 'blau' : color;
+            let selectedColor;
+            if(color !== '') {
+                selectedColor = color === 'blue' ? 'blau' : color;
+            }
+            else {
+                selectedColor = sessionStorage.getItem('selectedColor') == 'blue' ? 'blau' : sessionStorage.getItem('selectedColor');
+            }
             var id = $('.custom-dropdown').attr('id');
             let button = $('#'+ id+'-button');
             let spanText = $('#'+ id +'-button .ui-selectmenu-text');
@@ -55,11 +61,12 @@
             $('.vtp-fh-infosave-box-left ').addClass(selectedColor + '-gradient');
 
             $(document).on('click', '#'+id+'-menu li.ui-menu-item', function () {
+                let resId = "{{ res.id }}";
+                let color = $(this).text();
                 let newClass = $(this).text() === 'blue' ? 'blau' : $(this).text();
                 removeClassGradient();
                 $('.vtp-fh-infosave-box-left ').addClass(newClass + '-gradient');
                 sessionStorage.setItem("selectedColor", $(this).text());
-
                 let resourceType = '{{ res.resourceType() }}';
                 let url = '{{ path("_xhr_update_user_resource", {'resType': '__TYPE__', 'resId': '__ID__'}) }}';
                 url = url.replace('__TYPE__', resourceType);
@@ -73,6 +80,14 @@
                     success: function (result) {
                         if (result.success) {
                             console.log('color updated...');
+                            let colorsClass = ['vtp-blue', 'vtp-lime', 'vtp-cyan', 'vtp-yellow', 'vtp-red'];
+                            for (let i = 0; i < colorsClass.length; i++) {
+                                if ($('#link-'+ resId +" td:first").hasClass(colorsClass[i])) {
+                                    $('#link-'+ resId +" td:first").removeClass(colorsClass[i]);
+                                }
+                            }
+                            console.log('updating color to...'+ color);
+                            $("#link-"+ resId + " td:first").addClass("vtp-"+color);
                         }
                     }
                 })
