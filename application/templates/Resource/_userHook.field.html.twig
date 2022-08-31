@@ -1,7 +1,7 @@
 <div class="created-info{{ fieldSuffix }}">
     <div class="vtp-fh-w10"></div>
     <div class="vtp-fh-w100 vtp-right">
-        <div class="vtp-fh-infosave-box vtp-fh-infosave-box-left blau-gradient vtp-right" style="width: 90px">
+        <div class="vtp-fh-infosave-box vtp-fh-infosave-box-left vtp-right" style="width: 90px">
             <label class="custom-checkbox__wrapper light-blue"
                    style="margin-left: 3px;"
                    title="{{ 'label.set_remove_bookmarks'|trans }}"
@@ -13,15 +13,15 @@
                 </span>
             </label>
             <select class="custom-dropdown">
+                <option value="blau-gradient">blue</option>
                 <option value="red-gradient">red</option>
                 <option value="lime-gradient">lime</option>
                 <option value="cyan-gradient">cyan</option>
                 <option value="yellow-gradient">yellow</option>
-                <option value="blau-gradient">blue</option>
             </select>
             <span class="blau-text"></span>
         </div>
-        <div class="vtp-fh-infosave-box vtp-fh-infosave-box-right vtp-even-background">
+        <div class="vtp-fh-infosave-box vtp-fh-infosave-box-right">
              <span class="blau-text">&nbsp;&nbsp;Eingetragen am: {{ res.createdat|date('d.m.Y') }}{% if res.getUser is not null %}&nbsp;&nbsp;|&nbsp;&nbsp;von: {{ res.getUser.getUsername }}{% endif %}&nbsp;&nbsp;|&nbsp;&nbsp;ID: {{ res.getId }}</span>
              <div class="clipboard">
                  <input type="hidden" value={{ res.getId }} id="dataId">
@@ -42,35 +42,51 @@
 <script>
     $(document).ready(function () {
         var color = "{{ dto.selectedColor }}";
-
         setTimeout(function () {
             let selectedColor;
             if(color !== '') {
                 selectedColor = color === 'blue' ? 'blau' : color;
             }
-            else {
-                selectedColor = sessionStorage.getItem('selectedColor') == 'blue' ? 'blau' : sessionStorage.getItem('selectedColor');
-            }
+
             var id = $('.custom-dropdown').attr('id');
             let button = $('#'+ id+'-button');
-            let spanText = $('#'+ id +'-button .ui-selectmenu-text');
-            button.css('width', '');
-            spanText.text(selectedColor);
-            spanText.css('width', '100%');
-            removeClassGradient();
-            $('.vtp-fh-infosave-box-left ').addClass(selectedColor + '-gradient');
 
+            $(button).on('click', function () {
+                $("#"+ id +"-menu li.ui-menu-item").each(function () {
+                        var colorText = $(this).text();
+                        $(this).addClass('dropdown-' + colorText + '-color');
+                });
+                $("#"+ id +"-menu li").hover(function(){
+                    if ($(this).hasClass('ui-state-focus')) {
+                        $(this).removeClass('ui-state-focus');
+                    }
+                });
+            });
+
+            if (selectedColor != null) {
+                let spanText = $('#'+ id +'-button .ui-selectmenu-text');
+                spanText.text(selectedColor);
+                spanText.css('width', '100%');
+                removeClassGradient();
+                $('.vtp-fh-infosave-box-left ').addClass('vtp-' + selectedColor + '-color');
+                $('.vtp-fh-infosave-box-right ').addClass(selectedColor + '-gradient');
+            }
+
+            button.css('width', '');
             $(document).on('click', '#'+id+'-menu li.ui-menu-item', function () {
                 let resId = "{{ res.id }}";
                 let color = $(this).text();
                 let newClass = $(this).text() === 'blue' ? 'blau' : $(this).text();
                 removeClassGradient();
-                $('.vtp-fh-infosave-box-left ').addClass(newClass + '-gradient');
+                $('.vtp-fh-infosave-box-left ').addClass('vtp-' + newClass + '-color');
+                $('.vtp-fh-infosave-box-right ').addClass(newClass + '-gradient');
+
                 sessionStorage.setItem("selectedColor", $(this).text());
                 let resourceType = '{{ res.resourceType() }}';
                 let url = '{{ path("_xhr_update_user_resource", {'resType': '__TYPE__', 'resId': '__ID__'}) }}';
                 url = url.replace('__TYPE__', resourceType);
                 url = url.replace('__ID__', {{ res.id }});
+
                 $.ajax({
                     url: url,
                     type: 'GET',
@@ -97,7 +113,13 @@
 
         function removeClassGradient()
         {
-            let colorsClass = ['red-gradient', 'lime-gradient', 'cyan-gradient', 'yellow-gradient', 'blau-gradient'];
+            let colorsClassGradient = ['red-gradient', 'lime-gradient', 'cyan-gradient', 'yellow-gradient', 'blau-gradient'];
+            for (let i = 0; i < colorsClassGradient.length; i++) {
+                if ($('.vtp-fh-infosave-box-right ').hasClass(colorsClassGradient[i])) {
+                    $('.vtp-fh-infosave-box-right ').removeClass(colorsClassGradient[i]);
+                }
+            }
+            let colorsClass = ['vtp-red-color', 'vtp-lime-color', 'vtp-cyan-color', 'vtp-yellow-color', 'vtp-blau-color'];
             for (let i = 0; i < colorsClass.length; i++) {
                 if ($('.vtp-fh-infosave-box-left ').hasClass(colorsClass[i])) {
                     $('.vtp-fh-infosave-box-left ').removeClass(colorsClass[i]);

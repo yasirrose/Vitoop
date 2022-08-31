@@ -17,12 +17,16 @@ export default {
     return {
       colorOptions: [
         {
+          label: 'blue',
+          value: 'vtp-blue'
+        },
+        {
           label: 'red',
           value: 'vtp-red'
         },
         {
           label: 'lime',
-          value: 'vtp-lime',
+          value: 'vtp-lime'
         },
         {
           label: 'cyan',
@@ -31,10 +35,6 @@ export default {
         {
           label: 'yellow',
           value: 'vtp-yellow'
-        },
-        {
-          label: 'blue',
-          value: 'vtp-blue'
         }
       ]
     }
@@ -93,7 +93,7 @@ $vitoop-body-background-color: #cfe7f7;
   background: -moz-linear-gradient(right, #f39090 , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
   background: linear-gradient(to right, #f39090 , $vitoop-body-background-color); /* Standard syntax */
   background-repeat: no-repeat;
-  background-size: 85px;
+  background-size: 285px;
 }
 
 .vtp-cyan {
@@ -103,7 +103,7 @@ $vitoop-body-background-color: #cfe7f7;
   background: -moz-linear-gradient(right, #8feeee , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
   background: linear-gradient(to right, #8feeee , $vitoop-body-background-color); /* Standard syntax */
   background-repeat: no-repeat;
-  background-size: 85px;
+  background-size: 285px;
 }
 
 .vtp-lime {
@@ -113,7 +113,7 @@ $vitoop-body-background-color: #cfe7f7;
   background: -moz-linear-gradient(right, #87ee87 , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
   background: linear-gradient(to right, #87ee87 , $vitoop-body-background-color); /* Standard syntax */
   background-repeat: no-repeat;
-  background-size: 85px;
+  background-size: 285px;
 }
 
 .vtp-yellow {
@@ -123,6 +123,6 @@ $vitoop-body-background-color: #cfe7f7;
   background: -moz-linear-gradient(right, #f5f568 , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
   background: linear-gradient(to right, #f5f568 , $vitoop-body-background-color); /* Standard syntax */
   background-repeat: no-repeat;
-  background-size: 85px;
+  background-size: 285px;
 }
 </style>

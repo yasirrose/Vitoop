@@ -226,7 +226,7 @@
         background: -moz-linear-gradient(right, #7bc0f6 , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
         background: linear-gradient(to right, #7bc0f6 , $vitoop-body-background-color); /* Standard syntax */
         background-repeat: no-repeat;
-        background-size: 85px;
+        background-size: 285px;
     }
 
     .vtp-gray {
@@ -236,7 +236,7 @@
       background: -moz-linear-gradient(right, #4e4d4d , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
       background: linear-gradient(to right, #4e4d4d , $vitoop-body-background-color); /* Standard syntax */
       background-repeat: no-repeat;
-      background-size: 85px;
+      background-size: 285px;
     }
 
     .vtp-cyan {
@@ -246,7 +246,7 @@
       background: -moz-linear-gradient(right, #8feeee , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
       background: linear-gradient(to right, #8feeee , $vitoop-body-background-color); /* Standard syntax */
       background-repeat: no-repeat;
-      background-size: 85px;
+      background-size: 285px;
     }
 
     .vtp-lime {
@@ -256,7 +256,7 @@
       background: -moz-linear-gradient(right, #87ee87 , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
       background: linear-gradient(to right, #87ee87 , $vitoop-body-background-color); /* Standard syntax */
       background-repeat: no-repeat;
-      background-size: 85px;
+      background-size: 285px;
     }
 
     .vtp-yellow {
@@ -266,7 +266,17 @@
       background: -moz-linear-gradient(right, #f5f568 , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
       background: linear-gradient(to right, #f5f568 , $vitoop-body-background-color); /* Standard syntax */
       background-repeat: no-repeat;
-      background-size: 85px;
+      background-size: 285px;
+    }
+
+    .vtp-red {
+      background: #f39090; /* For browsers that do not support gradients */
+      background: -webkit-linear-gradient(left, #f39090, $vitoop-body-background-color); /* For Safari 5.1 to 6.0 */
+      background: -o-linear-gradient(right, #f39090 , $vitoop-body-background-color); /* For Opera 11.1 to 12.0 */
+      background: -moz-linear-gradient(right, #f39090 , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
+      background: linear-gradient(to right, #f39090 , $vitoop-body-background-color); /* Standard syntax */
+      background-repeat: no-repeat;
+      background-size: 285px;
     }
 
     #vtp-second-search-is-read{
@@ -303,6 +313,32 @@
                 color: #2779aa;
             }
         }
+    }
+
+    #vtp-second-search-box::v-deep .colorDropdown {
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: .3s;
+
+      .dropdown {
+        &.v-select {
+          width: 200px;
+          margin-left: 125px
+        }
+      }
+
+      .dropdown-toggle {
+        height: 18px;
+        font-size: 13px;
+        padding: 0px !important;
+
+        .selected-tag {
+          color: #2779aa;
+          margin-top: -4px;
+        }
+      }
     }
 
     #vtp-second-search-panel {
@@ -359,5 +395,6 @@
         /*-webkit-appearance: none;*/
         appearance: none;
     }
+
 
 </style>

@@ -204,7 +204,8 @@ window.resourceDetail = (function () {
                     collision: 'none'
                 }).hide("fade", 3000);
                 $('#'+res_type+'_isUserHook').change(function () {
-                    let sessionColor = sessionStorage.getItem("selectedColor") || "blue";
+                    var id = $('.custom-dropdown').attr('id');
+                    let spanText = $('#'+ id +'-button .ui-selectmenu-text').text();
                     let isUserHookValue = this.checked?1:0;
                     $.ajax({
                         method: 'POST',
@@ -213,14 +214,21 @@ window.resourceDetail = (function () {
                         contentType: 'application/json',
                         data: JSON.stringify({
                             isUserHook: isUserHookValue,
-                            sessionColor: sessionColor
+                            sessionColor: spanText
                         }),
                         success: function () {
                             refresh_list = true;
 
+                            if (spanText == 'blue') {
+                                spanText = 'blau';
+                            }
+                            $('.vtp-fh-infosave-box-left ').addClass('vtp-' + spanText + '-color');
+                            $('.vtp-fh-infosave-box-right ').addClass(spanText + '-gradient');
                             let message = 'Lesezeigen wurde gesetzt';
                             if (0 === isUserHookValue) {
                                 message = 'Lesezeichen wurde entfernt';
+                                $('.vtp-fh-infosave-box-left ').removeClass('vtp-' + spanText + '-color');
+                                $('.vtp-fh-infosave-box-right ').removeClass(spanText + '-gradient');
                             }
                             VueBus.$emit('element-notification:show', message, 'vtp-user-hook');
                         }

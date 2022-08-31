@@ -19,7 +19,7 @@
         <div class="vtp-uiinfo-form-error">{{ form_errors(fvdata.description) }}</div>
     </div>
     {% include 'Resource/_userHook.field.html.twig'
-        with {'fvdata': fvdata, 'res': res, 'fieldSuffix': '-project', 'restype': 'prj'}
+        with {'fvdata': fvdata, 'res': res, 'fieldSuffix': '', 'restype': 'prj'}
     %}
     {% if isShowSave %}
     <div class="vtp-fh-bottom">
