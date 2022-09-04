@@ -799,7 +799,7 @@ class ResourceController extends ApiController
      */
     public function updateResource(Request $request, $resId, UserHookResourceRepository $userHookResourceRepository): JsonResponse
     {
-        $resource = $userHookResourceRepository->findOneByResource($resId);
+        $resource = $userHookResourceRepository->findOneBy(['resource' => $resId, 'user' => $this->getUser()]);
         if (empty($resource)) {
             return new JsonResponse(['success' => false]);
         }
