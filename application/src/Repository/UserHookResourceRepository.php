@@ -21,7 +21,7 @@ class UserHookResourceRepository extends ServiceEntityRepository
 
     public function checkCorrectColor($color): bool
     {
-        if(in_array($color, [UserHookResource::BLUE_COLOR,UserHookResource::CYAN_COLOR, UserHookResource::LIME_COLOR, UserHookResource::RED_COLOR, UserHookResource::YELLOW_COLOR])) {
+        if(in_array($color, [UserHookResource::BLUE_COLOR,UserHookResource::CYAN_COLOR, UserHookResource::LIME_COLOR, UserHookResource::RED_COLOR, UserHookResource::YELLOW_COLOR, UserHookResource::ORANGE_COLOR])) {
             return true;
         }
         else {

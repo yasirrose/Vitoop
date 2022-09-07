@@ -1,7 +1,7 @@
 <div class="created-info{{ fieldSuffix }}">
     <div class="vtp-fh-w10"></div>
     <div class="vtp-fh-w100 vtp-right">
-        <div class="vtp-fh-infosave-box vtp-fh-infosave-box-left vtp-right" style="width: 90px">
+        <div class="vtp-fh-infosave-box vtp-fh-infosave-box-left vtp-right" style="width: 110px;">
             <label class="custom-checkbox__wrapper light-blue"
                    style="margin-left: 3px;"
                    title="{{ 'label.set_remove_bookmarks'|trans }}"
@@ -13,11 +13,12 @@
                 </span>
             </label>
             <select class="custom-dropdown">
-                <option value="blau-gradient">blue</option>
-                <option value="red-gradient">red</option>
-                <option value="lime-gradient">lime</option>
+                <option value="blau-gradient">blau</option>
+                <option value="red-gradient">rot</option>
+                <option value="lime-gradient">grün</option>
                 <option value="cyan-gradient">cyan</option>
-                <option value="yellow-gradient">yellow</option>
+                <option value="yellow-gradient">gelb</option>
+                <option value="orange-gradient">orange</option>
             </select>
             <span class="blau-text"></span>
         </div>
@@ -50,7 +51,9 @@
 
             var id = $('.custom-dropdown').attr('id');
             let button = $('#'+ id+'-button');
-
+            button.css("background", "transparent");
+            button.css("marginLeft", "3px");
+            $(".clipboard button:first").css('background', "transparent");
             $(button).on('click', function () {
                 $("#"+ id +"-menu li.ui-menu-item").each(function () {
                         var colorText = $(this).text();
@@ -77,9 +80,16 @@
                 let resId = "{{ res.id }}";
                 let color = $(this).text();
                 let newClass = $(this).text() === 'blue' ? 'blau' : $(this).text();
+                if (color == 'rot') {
+                    color = 'red';
+                } else if(color == 'grün') {
+                    color = 'lime';
+                } else if(color == 'gelb') {
+                    color = 'yellow';
+                }
                 removeClassGradient();
-                $('.vtp-fh-infosave-box-left ').addClass('vtp-' + newClass + '-color');
-                $('.vtp-fh-infosave-box-right ').addClass(newClass + '-gradient');
+                $('.vtp-fh-infosave-box-left ').addClass('vtp-' + color + '-color');
+                $('.vtp-fh-infosave-box-right ').addClass(color + '-gradient');
 
                 sessionStorage.setItem("selectedColor", $(this).text());
                 let resourceType = '{{ res.resourceType() }}';
@@ -91,7 +101,7 @@
                     url: url,
                     type: 'GET',
                     data: {
-                        color: $(this).text(),
+                        color: color == 'blau' ? 'blue' : color,
                     },
                     success: function (result) {
                         if (result.success) {
@@ -113,13 +123,13 @@
 
         function removeClassGradient()
         {
-            let colorsClassGradient = ['red-gradient', 'lime-gradient', 'cyan-gradient', 'yellow-gradient', 'blau-gradient'];
+            let colorsClassGradient = ['red-gradient', 'lime-gradient', 'cyan-gradient', 'yellow-gradient', 'blau-gradient', 'orange-gradient'];
             for (let i = 0; i < colorsClassGradient.length; i++) {
                 if ($('.vtp-fh-infosave-box-right ').hasClass(colorsClassGradient[i])) {
                     $('.vtp-fh-infosave-box-right ').removeClass(colorsClassGradient[i]);
                 }
             }
-            let colorsClass = ['vtp-red-color', 'vtp-lime-color', 'vtp-cyan-color', 'vtp-yellow-color', 'vtp-blau-color'];
+            let colorsClass = ['vtp-red-color', 'vtp-lime-color', 'vtp-cyan-color', 'vtp-yellow-color', 'vtp-blau-color','vtp-orange-color'];
             for (let i = 0; i < colorsClass.length; i++) {
                 if ($('.vtp-fh-infosave-box-left ').hasClass(colorsClass[i])) {
                     $('.vtp-fh-infosave-box-left ').removeClass(colorsClass[i]);

@@ -301,42 +301,51 @@ div#vtp-res-tags table tr:first-of-type th {
 
 .blau-gradient{
     background: #7bc0f6; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left, #7bc0f6 , #deedf7); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #7bc0f6 , #deedf7); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, #7bc0f6 , #deedf7); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, #7bc0f6 , #deedf7); /* Standard syntax */
+    background: -webkit-linear-gradient(left, #66afe9 , #deedf7); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #66afe9 , #deedf7); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #66afe9 , #deedf7); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #66afe9 , #deedf7); /* Standard syntax */
+    background-repeat: no-repeat;;
 }
 
 .red-gradient{
     background: #f39090; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left, #f39090 , #deedf7); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #f39090 , #deedf7); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, #f39090 , #deedf7); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, #f39090 , #deedf7); /* Standard syntax */
+    background: -webkit-linear-gradient(left, #ff5d5d , #deedf7); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #ff5d5d , #deedf7); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #ff5d5d , #deedf7); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #ff5d5d , #deedf7); /* Standard syntax */
 }
 
 .lime-gradient{
     background: #87ee87; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left, #87ee87 , #deedf7); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #87ee87 , #deedf7); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, #87ee87 , #deedf7); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, #87ee87 , #deedf7); /* Standard syntax */
+    background: -webkit-linear-gradient(left, #5afa5a , #deedf7); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #5afa5a , #deedf7); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #5afa5a , #deedf7); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #5afa5a , #deedf7); /* Standard syntax */
 }
 
 .cyan-gradient{
     background: #8feeee; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left, #8feeee , #deedf7); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #8feeee , #deedf7); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, #8feeee , #deedf7); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, #8feeee , #deedf7); /* Standard syntax */
+    background: -webkit-linear-gradient(left, #5fffff , #deedf7); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #5fffff , #deedf7); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #5fffff , #deedf7); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #5fffff , #deedf7); /* Standard syntax */
 }
 
 .yellow-gradient{
     background: #f5f568; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left, #f5f568 , #deedf7); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #f5f568 , #deedf7); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, #f5f568 , #deedf7); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, #f5f568 , #deedf7); /* Standard syntax */
+    background: -webkit-linear-gradient(left, #ffff2c , #deedf7); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #ffff2c , #deedf7); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #ffff2c , #deedf7); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #ffff2c , #deedf7); /* Standard syntax */
+}
+
+.orange-gradient{
+    background: #edbc62; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left, #ff9400 , #ffe8c9); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #ff9400 , #ffe8c9); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #ff9400 , #ffe8c9); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #ff9400, #ffe8c9); /* Standard syntax */
 }
 
 div#vtp-res-tags {
@@ -2020,6 +2029,22 @@ $yellow-gradient-start: #f5f568;
     background: -moz-linear-gradient(right, $yellow-gradient-start , #deedf7); /* For Firefox 3.6 to 15 */
     background: linear-gradient(to right, $yellow-gradient-start , #deedf7); /* Standard syntax */
 }
+$orange-gradient-start: #edbc62;
+.even > td.vtp-orange {
+    background: $orange-gradient-start; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left, $orange-gradient-start , $vitoop-body-background-color); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, $orange-gradient-start , $vitoop-body-background-color); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, $orange-gradient-start , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, $orange-gradient-start , $vitoop-body-background-color); /* Standard syntax */
+}
+
+.odd > td.vtp-orange {
+    background: $orange-gradient-start; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left, $orange-gradient-start , #deedf7); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, $orange-gradient-start , #deedf7); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, $orange-gradient-start , #deedf7); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, $orange-gradient-start , #deedf7); /* Standard syntax */
+}
 
 td.vtp-blue.ui-state-active {
     background: #3baae3 url("../img/ui-bg_glass_50_3baae3_1x400.png") 50% 50% repeat-x;
@@ -2591,38 +2616,100 @@ table.dataTable thead th:hover {
 }
 
 .vtp-red-color {
-    background-color: #f39090;
+    background: #f39090; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left, #f39090, #f6bbbb); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #f39090 , #f6bbbb); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #f39090 , #f6bbbb); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #f39090 , #f6bbbb); /* Standard syntax */
 }
 .vtp-lime-color {
     background-color: #87ee87;
+    background: -webkit-linear-gradient(left, #87ee87, #aff6af); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #87ee87 , #aff6af); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #87ee87 , #aff6af); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #87ee87 , #aff6af); /* Standard syntax */
+
 }
 .vtp-cyan-color {
     background-color: #8feeee;
+    background: -webkit-linear-gradient(left, #8feeee, #b5f5f5); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #8feeee , #b5f5f5); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #8feeee , #b5f5f5); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #8feeee , #b5f5f5); /* Standard syntax */
+
 }
 .vtp-yellow-color {
     background-color: #f5f568;
+    background: -webkit-linear-gradient(left, #f5f568, #f6f6a3); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #f5f568 , #f6f6a3); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #f5f568 , #f6f6a3); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #f5f568 , #f6f6a3); /* Standard syntax */
+
 }
 .vtp-blau-color {
     background-color: #8fc9f6;
-}
+    background: -webkit-linear-gradient(left, #8fc9f6, #acd9fa); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #8fc9f6 , #acd9fa); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #8fc9f6 , #acd9fa); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #8fc9f6 , #acd9fa); /* Standard syntax */
 
-.dropdown-red-color {
-    background-color: #f39090;
-    color: #f39090;
 }
-.dropdown-lime-color {
-    background-color: #87ee87;
-    color: #87ee87;
+.vtp-orange-color {
+    background-color: #edbc62;
+    background: -webkit-linear-gradient(left, #ffa500, #f1ca7e); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #ffa500 , #f1ca7e); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #ffa500 , #f1ca7e); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #ffa500, #f1ca7e); /* Standard syntax */
+}
+.dropdown-rot-color {
+    background-color: #f39090 !important;
+    color: #f39090 !important;
+}
+.dropdown-grün-color {
+    background-color: #87ee87 !important;
+    color: #87ee87 !important;
 }
 .dropdown-cyan-color {
-    background-color: #8feeee;
-    color: #8feeee;
+    background-color: #8feeee !important;
+    color: #8feeee !important;
 }
-.dropdown-yellow-color {
-    background-color: #f5f568;
-    color: #f5f568;
+.dropdown-gelb-color {
+    background-color: #f5f568 !important;
+    color: #f5f568 !important;
 }
-.dropdown-blue-color {
-    background-color: #8fc9f6;
-    color: #8fc9f6;
+.dropdown-blau-color {
+    background-color: #8fc9f6 !important;
+    color: #8fc9f6 !important;
 }
+.dropdown-orange-color {
+    background-color: #ffa500 !important;
+    color: #ffa500 !important;
+}
+.colorDropdown .dropdown-toggle {
+    background: transparent !important;
+}
+
+.blau-gradient.vtp-fh-infosave-box.vtp-fh-infosave-box-right {
+    background-size: 180px;
+}
+.red-gradient.vtp-fh-infosave-box.vtp-fh-infosave-box-right {
+    background-size: 180px;
+    background-repeat: no-repeat;
+}
+.yellow-gradient.vtp-fh-infosave-box.vtp-fh-infosave-box-right {
+    background-size: 180px;
+    background-repeat: no-repeat;
+}
+.lime-gradient.vtp-fh-infosave-box.vtp-fh-infosave-box-right {
+    background-size: 180px;
+    background-repeat: no-repeat;
+}
+.cyan-gradient.vtp-fh-infosave-box.vtp-fh-infosave-box-right {
+    background-size: 180px;
+    background-repeat: no-repeat;
+}
+.orange-gradient.vtp-fh-infosave-box.vtp-fh-infosave-box-right {
+    background-size: 180px;
+    background-repeat: no-repeat;
+}
+

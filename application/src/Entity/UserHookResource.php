@@ -23,6 +23,7 @@ class UserHookResource
     const RED_COLOR = "red";
     const YELLOW_COLOR = "yellow";
     const CYAN_COLOR = "cyan";
+    const ORANGE_COLOR = "orange";
 
     /**
      * @ORM\Column(name="id", type="integer")
