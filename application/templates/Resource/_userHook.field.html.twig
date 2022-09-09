@@ -48,7 +48,6 @@
             if(color !== '') {
                 selectedColor = color === 'blue' ? 'blau' : color;
             }
-
             var id = $('.custom-dropdown').attr('id');
             let button = $('#'+ id+'-button');
             button.css("background", "transparent");
@@ -79,17 +78,18 @@
             $(document).on('click', '#'+id+'-menu li.ui-menu-item', function () {
                 let resId = "{{ res.id }}";
                 let color = $(this).text();
-                let newClass = $(this).text() === 'blue' ? 'blau' : $(this).text();
-                if (color == 'rot') {
-                    color = 'red';
-                } else if(color == 'grün') {
-                    color = 'lime';
-                } else if(color == 'gelb') {
-                    color = 'yellow';
-                }
+
+                let gradientColorsArray = [];
+                $(`.custom-dropdown option`).toArray().map( o => gradientColorsArray[o.text] = o.value );
+                let gradientClass = gradientColorsArray[color];
+
+                let colorArray = [];
+                $(`.custom-dropdown option`).toArray().map( o => colorArray[o.text] = o.value.split('-')[0]);
+                color = colorArray[color];
+
                 removeClassGradient();
                 $('.vtp-fh-infosave-box-left ').addClass('vtp-' + color + '-color');
-                $('.vtp-fh-infosave-box-right ').addClass(color + '-gradient');
+                $('.vtp-fh-infosave-box-right ').addClass(gradientClass);
 
                 sessionStorage.setItem("selectedColor", $(this).text());
                 let resourceType = '{{ res.resourceType() }}';
@@ -101,7 +101,7 @@
                     url: url,
                     type: 'GET',
                     data: {
-                        color: color == 'blau' ? 'blue' : color,
+                        color: color === 'blau' ? 'blue' : color,
                     },
                     success: function (result) {
                         if (result.success) {
