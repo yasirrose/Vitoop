@@ -1,4 +1,5 @@
-<div class="created-info{{ fieldSuffix }}">
+
+<div class="created-info{{ fieldSuffix }}" style="{% if isNew %} display: none; {% endif %}">
     <div class="vtp-fh-w10"></div>
     <div class="vtp-fh-w100 vtp-right">
         <div class="vtp-fh-infosave-box vtp-fh-infosave-box-left vtp-right" style="width: 110px;">
@@ -39,6 +40,7 @@
         </div>
     </div>
 </div>
+
 
 <script>
     $(document).ready(function () {
@@ -108,12 +110,12 @@
                             console.log('color updated...');
                             let colorsClass = ['vtp-blue', 'vtp-lime', 'vtp-cyan', 'vtp-yellow', 'vtp-red'];
                             for (let i = 0; i < colorsClass.length; i++) {
-                                if ($('#link-'+ resId +" td:first").hasClass(colorsClass[i])) {
-                                    $('#link-'+ resId +" td:first").removeClass(colorsClass[i]);
+                                if ($('#'+resourceType+'-'+ resId +" td:first").hasClass(colorsClass[i])) {
+                                    $('#'+resourceType+'-'+ resId +" td:first").removeClass(colorsClass[i]);
                                 }
                             }
                             console.log('updating color to...'+ color);
-                            $("#link-"+ resId + " td:first").addClass("vtp-"+color);
+                            $('#'+resourceType+'-'+ resId +" td:first").addClass("vtp-"+color);
                         }
                     }
                 })

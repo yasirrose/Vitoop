@@ -108,6 +108,12 @@ class ResourceDTO
 
     public $name2;
 
+    /**
+     * @Assert\NotBlank(
+     *      message = "Bitte trage eine Sprache ein.",
+     *      groups={"pdf", "link", "teli", "book", "conversation", "lex", "prj"}
+     * )
+     */
     public $lang;
 
     public $country;

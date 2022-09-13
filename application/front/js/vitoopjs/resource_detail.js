@@ -777,9 +777,12 @@ window.resourceDetail = (function () {
         },
         tgl = function () {
             $('td.ui-state-active').removeClass('ui-state-active');
+            $('td.td-ui-state-active-border').removeClass('td-ui-state-active-border');
             document.querySelectorAll('tr').forEach(tr => {
                 if (tr.getAttribute('id') === `${res_type}-${res_id}`) {
-                    tr.querySelectorAll('td').forEach(td => td.classList.add('ui-state-active'))
+                    tr.querySelectorAll('td').forEach(td => td.classList.add('ui-state-active'));
+                    tr.querySelectorAll('td:first-child').forEach(td => td.classList.remove('ui-state-active'));
+                    tr.querySelectorAll('td:first-child').forEach(td => td.classList.add('td-ui-state-active-border'));
                 }
             })
         },

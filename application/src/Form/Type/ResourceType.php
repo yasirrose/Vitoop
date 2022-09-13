@@ -30,6 +30,7 @@ class ResourceType extends AbstractType
             )
             ->add('lang', EntityType::class, array(
                 'label' => 'Sprache:',
+                'placeholder' => '',
                 'class' => Language::class,
                 'choice_label' => 'name',
                 'query_builder' => function (EntityRepository $er) {
