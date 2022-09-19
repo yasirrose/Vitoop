@@ -137,8 +137,12 @@ class DownloadsService
             $resource->markAsSuccess();
             $output->writeln('PDF found. Start downloading...');
             $path = $this->getPath($resource);
-            $this->downloadFromCurl($curl, $path);
-            $output->writeln('PDF saved on server');
+            if (!file_exists($path)) {
+                $this->downloadFromCurl($curl, $path);
+                $output->writeln('PDF saved on server');
+            } else {
+                $output->writeln('File Already exists');
+            }
         }
         curl_close($curl);
         return true;
