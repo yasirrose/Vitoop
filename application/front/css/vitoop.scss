@@ -2712,8 +2712,11 @@ table.dataTable thead th:hover {
     background-size: 180px;
     background-repeat: no-repeat;
 }
-#pdf_save, #teli_save, #book_save, #adr_save, #link_save, #lex_save {
+#pdf_save, #teli_save, #book_save, #adr_save, #link_save, #lex_save, #conversation_save {
     margin-top: 10px;
+}
+#prj_save {
+    margin-top: -5px;
 }
 .vtp-uiinfo-form-error {
     color: red;
