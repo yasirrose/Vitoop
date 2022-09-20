@@ -99,7 +99,7 @@ class DownloadsService
             $this->cleanHtml($filePath);
 
             if (file_get_contents($filePath) == null) {
-                $resource->markAsWrongUrl();
+                $resource->markAsBlankHtml();
             } else {
                 $resource->markAsSuccess();
             }
