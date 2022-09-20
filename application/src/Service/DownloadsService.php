@@ -98,7 +98,11 @@ class DownloadsService
             curl_close($curl);
             $this->cleanHtml($filePath);
 
-            $resource->markAsSuccess();
+            if (file_get_contents($filePath) == null) {
+                $resource->markAsBlankHtml();
+            } else {
+                $resource->markAsSuccess();
+            }
             $this->em->flush($resource);
         }
         $this->em->flush();
@@ -133,8 +137,12 @@ class DownloadsService
             $resource->markAsSuccess();
             $output->writeln('PDF found. Start downloading...');
             $path = $this->getPath($resource);
-            $this->downloadFromCurl($curl, $path);
-            $output->writeln('PDF saved on server');
+            if (!file_exists($path)) {
+                $this->downloadFromCurl($curl, $path);
+                $output->writeln('PDF saved on server');
+            } else {
+                $output->writeln('File Already exists');
+            }
         }
         curl_close($curl);
         return true;
@@ -176,6 +184,10 @@ class DownloadsService
     {
         $content = file_get_contents($path);
         $content = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $content);
-        file_put_contents($path, $content);
+        if ($content == "stop scan") {
+            file_put_contents($path, null);
+        } else {
+            file_put_contents($path, $content);
+        }
     }
 }

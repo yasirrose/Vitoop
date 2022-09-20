@@ -12,6 +12,7 @@ trait DownloadableTrait
      * 0 = Not downloaded still
      * 1 = Downloaded on server
      * 5 = Wrong url
+     * 2 = Blank html
      * code = Download error (404 or something else)
      */
     protected $isDownloaded;
@@ -24,6 +25,11 @@ trait DownloadableTrait
     public function markAsWrongUrl()
     {
         $this->isDownloaded = DownloadableInterface::STATUS_WRONG;
+    }
+
+    public function markAsBlankHtml()
+    {
+        $this->isDownloaded = DownloadableInterface::STATUS_BLANK_HTML;
     }
 
     public function markAsSuccess()
@@ -63,5 +69,10 @@ trait DownloadableTrait
     public function isSuccessDownloaded(): bool
     {
         return self::STATUS_DOWNLOADED === $this->isDownloaded;
+    }
+
+    public function isBlankHtml(): bool
+    {
+        return self::STATUS_BLANK_HTML === $this->isDownloaded;
     }
 }
