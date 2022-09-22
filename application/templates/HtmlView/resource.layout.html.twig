@@ -67,6 +67,17 @@
             var resourceType = '{{resource.getResourceType()}}';
             var baseUrl = '{{ path('_base_url') }}';
 
+            tinymce.init({
+                selector: '#vtp-html-viewer-editor',
+                setup: function (editor) {
+                    editor.on('keyup', function () {
+                        $('#vtp-html-viewer-editor_ifr').mouseleave(function () {
+                           $('#html-editor-save').addClass('ui-state-active');
+                        });
+                    });
+                }
+            });
+
             $(document).ready(function () {
                 window.vitoopHtmlView.init(resourceId, resourceType, baseUrl);
 

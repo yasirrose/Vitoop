@@ -33,6 +33,7 @@ $vitoop-pdf-view-meta-width: 300px;
     height: 100%;
     float:right;
     overflow: auto;
+    overflow-x: hidden;
 }
 
 #vtp-pdf-view-toggle {
@@ -486,4 +487,7 @@ $vitoop-pdf-view-meta-width: 300px;
 
 .w-42 {
   width: 42px !important;
+}
+#mceu_25 {
+    display: none;
 }
