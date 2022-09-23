@@ -67,22 +67,28 @@
             var resourceType = '{{resource.getResourceType()}}';
             var baseUrl = '{{ path('_base_url') }}';
 
-            tinymce.init({
-                selector: '#vtp-html-viewer-editor',
-                setup: function (editor) {
-                    editor.on('keyup', function () {
-                        $('#vtp-html-viewer-editor_ifr').mouseleave(function () {
-                           $('#html-editor-save').addClass('ui-state-active');
-                        });
-                    });
-                }
-            });
-
             $(document).ready(function () {
                 window.vitoopHtmlView.init(resourceId, resourceType, baseUrl);
 
                 const tinyMceOptions = window.vitoopApp.getTinyMceOptions();
                 tinyMceOptions.selector = '#vtp-html-viewer-editor';
+                tinyMceOptions.setup = function (editor) {
+                    var keyup = 0;
+                    editor.on('keyup', function () {
+                        keyup = 1;
+                        editor.on('mouseleave',function () {
+                            if (keyup == 1) {
+                                $('#html-editor-save').addClass('ui-state-active');
+                                $('#html-editor-save').click(function () {
+                                    $('#html-editor-save').removeClass('ui-state-active');
+                                    keyup = 0;
+                                });
+                            } else {
+                                $('#html-editor-save').removeClass('ui-state-active');
+                            }
+                        });
+                    });
+                }
                 tinymce.init(tinyMceOptions);
             });
         </script>
