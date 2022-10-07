@@ -26,6 +26,7 @@ export default function renderPath(a) {
     strokeWidth: a.width || 1,
     fill: 'none'
   });
+  document.getElementById('pdf-editor-save').classList.add('ui-state-active');
 
   return path;
 }

@@ -48,6 +48,7 @@ export default function renderPoint(a) {
   innerSVG.appendChild(path);
   outerSVG.appendChild(rect);
   outerSVG.appendChild(innerSVG);
+  document.getElementById('pdf-editor-save').classList.add('ui-state-active');
 
   return outerSVG;
 }

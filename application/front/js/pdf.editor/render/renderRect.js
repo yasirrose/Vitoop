@@ -19,6 +19,7 @@ export default function renderRect(a) {
     a.rectangles.forEach((r) => {
       group.appendChild(createRect(r));
     });
+    document.getElementById('pdf-editor-save').classList.add('ui-state-active');
 
     return group;
   } else {
@@ -27,6 +28,7 @@ export default function renderRect(a) {
       stroke: normalizeColor(a.color || '#f00'),
       fill: 'none'
     });
+    document.getElementById('pdf-editor-save').classList.add('ui-state-active');
 
     return rect;
   }
@@ -41,5 +43,7 @@ function createRect(r) {
     width: r.width,
     height: r.height
   });
+  document.getElementById('pdf-editor-save').classList.add('ui-state-active');
+
   return rect;
 }

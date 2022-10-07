@@ -27,6 +27,6 @@ export default function renderLine(a) {
 
         group.appendChild(line);
     });
-
+    document.getElementById('pdf-editor-save').classList.add('ui-state-active');
     return group;
 }

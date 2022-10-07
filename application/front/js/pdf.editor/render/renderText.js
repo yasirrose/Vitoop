@@ -18,6 +18,7 @@ export default function renderText(a) {
     fontSize: a.size
   });
   text.innerHTML = a.content;
+  document.getElementById('pdf-editor-save').classList.add('ui-state-active');
 
   return text;
 }

@@ -348,10 +348,11 @@ if (true === isLoadAnnotation) {
                         document.querySelector('div#pageContainer'+(i + 1)+' svg.annotationLayer').innerHTML = '';
                     }
 
+                    document.getElementById('pdf-editor-save').classList.remove('ui-state-active');
                     localStorage.removeItem(RENDER_OPTIONS.documentId+'/annotations');
                 }
-            }
 
+            }
             document.querySelector('a.clear').addEventListener('click', handleClearClick);
         })();
     }
