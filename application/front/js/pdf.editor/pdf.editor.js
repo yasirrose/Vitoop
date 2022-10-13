@@ -41,6 +41,11 @@ if (document.getElementById('pdf-editor-save')) {
         xhr.open('POST', baseUrl + 'views/' + documentId + '/annotations', true);
         xhr.setRequestHeader('Content-type', 'application/json');
         xhr.send(localStorage.getItem(RENDER_OPTIONS.documentId+'/annotations'));
+        if (xhr.DONE) {
+            if (xhr.status === 0) {
+                document.getElementById('pdf-editor-save').classList.remove('ui-state-active');
+            }
+        }
     });
 }
 
