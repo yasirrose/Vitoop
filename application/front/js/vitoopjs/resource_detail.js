@@ -271,32 +271,15 @@ window.resourceDetail = (function () {
                     $(`#${res_type}_description`).on('change keyup', changeClassOfButton);
                 }
 
-                if (res_type == "pdf" || res_type === 'teli' || res_type === 'book' || res_type === 'adr' || res_type === 'link') {
-
+                const res_type_array = ['pdf', 'teli', 'book', 'adr', 'link'];
+                if (res_type_array.includes(res_type)) {
                     const buttonSave = $(`#${res_type}_save`);
 
                     const displaySaveButton = function() {
                         buttonSave.css("display","block");
                     };
 
-                    $(`#${res_type}_name`).on('change keyup', displaySaveButton);
-                    $(`#${res_type}_author`).on('change keyup', displaySaveButton);
-                    $(`#${res_type}_publisher`).on('change keyup', displaySaveButton);
-                    $(`#${res_type}_url`).on('change keyup', displaySaveButton);
-                    $(`#${res_type}_tnop`).on('change keyup', displaySaveButton);
-                    $(`#pdf_pdfDate`).on('change keyup', displaySaveButton);
-                    $(`#${res_type}_releaseDate`).on('change keyup', displaySaveButton);
-                    $(`#${res_type}_issuer`).on('change keyup', displaySaveButton);
-                    $(`#${res_type}_isbn`).on('change keyup', displaySaveButton);
-                    $(`#${res_type}_year`).on('change keyup', displaySaveButton);
-                    $(`#${res_type}_name2`).on('change keyup', displaySaveButton);
-                    $(`#${res_type}_street`).on('change keyup', displaySaveButton);
-                    $(`#${res_type}_zip`).on('change keyup', displaySaveButton);
-                    $(`#${res_type}_city`).on('change keyup', displaySaveButton);
-                    $(`#${res_type}_contact1`).on('change keyup', displaySaveButton);
-                    $(`#${res_type}_contact3`).on('change keyup', displaySaveButton);
-                    $(`#${res_type}_contact4`).on('change keyup', displaySaveButton);
-                    $(`#${res_type}_contact5`).on('change keyup', displaySaveButton);
+                    $(`#${res_type}_name, #${res_type}_author, #${res_type}_publisher, #${res_type}_url, #${res_type}_tnop, #pdf_pdfDate, #${res_type}_releaseDate, #${res_type}_issuer, #${res_type}_isbn, #${res_type}_year, #${res_type}_name2, #${res_type}_street, #${res_type}_zip, #${res_type}_city, #${res_type}_contact1, #${res_type}_contact3, #${res_type}_contact4, #${res_type}_contact5`).on('change keyup', displaySaveButton);
                 }
 
                 if (res_type == 'conversation') {

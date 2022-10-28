@@ -2712,20 +2712,13 @@ table.dataTable thead th:hover {
     background-size: 180px;
     background-repeat: no-repeat;
 }
-#pdf_save, #teli_save, #book_save, #adr_save, #link_save {
+#pdf_save, #teli_save, #book_save, #adr_save, #link_save, #prj_save, #conversation_save, #prj_save{
     margin-top: 10px;
-    margin-left: 92px;
-    display: none;
-}
-#conversation_save {
-    margin-top: 10px;
-    margin-left: 100px;
+    float: right;
     display: none;
 }
 #prj_save {
     margin-top: -5px;
-    margin-left: 92px;
-    display: none;
 }
 .vtp-uiinfo-form-error {
     color: red;
