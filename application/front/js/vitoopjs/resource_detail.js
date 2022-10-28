@@ -259,14 +259,44 @@ window.resourceDetail = (function () {
                         if (!isChanged()) {
                             buttonSave.addClass('ui-state-disabled');
                             buttonSave.attr('disabled', true);
+                            buttonSave.css("display","none");
                         } else {
                             buttonSave.removeClass('ui-state-disabled');
                             buttonSave.attr('disabled', false);
+                            buttonSave.css("display","block");
                         }
                     };
 
                     $(`#${res_type}_name`).on('change keyup', changeClassOfButton);
                     $(`#${res_type}_description`).on('change keyup', changeClassOfButton);
+                }
+
+                if (res_type == "pdf" || res_type === 'teli' || res_type === 'book' || res_type === 'adr' || res_type === 'link') {
+
+                    const buttonSave = $(`#${res_type}_save`);
+
+                    const displaySaveButton = function() {
+                        buttonSave.css("display","block");
+                    };
+
+                    $(`#${res_type}_name`).on('change keyup', displaySaveButton);
+                    $(`#${res_type}_author`).on('change keyup', displaySaveButton);
+                    $(`#${res_type}_publisher`).on('change keyup', displaySaveButton);
+                    $(`#${res_type}_url`).on('change keyup', displaySaveButton);
+                    $(`#${res_type}_tnop`).on('change keyup', displaySaveButton);
+                    $(`#pdf_pdfDate`).on('change keyup', displaySaveButton);
+                    $(`#${res_type}_releaseDate`).on('change keyup', displaySaveButton);
+                    $(`#${res_type}_issuer`).on('change keyup', displaySaveButton);
+                    $(`#${res_type}_isbn`).on('change keyup', displaySaveButton);
+                    $(`#${res_type}_year`).on('change keyup', displaySaveButton);
+                    $(`#${res_type}_name2`).on('change keyup', displaySaveButton);
+                    $(`#${res_type}_street`).on('change keyup', displaySaveButton);
+                    $(`#${res_type}_zip`).on('change keyup', displaySaveButton);
+                    $(`#${res_type}_city`).on('change keyup', displaySaveButton);
+                    $(`#${res_type}_contact1`).on('change keyup', displaySaveButton);
+                    $(`#${res_type}_contact3`).on('change keyup', displaySaveButton);
+                    $(`#${res_type}_contact4`).on('change keyup', displaySaveButton);
+                    $(`#${res_type}_contact5`).on('change keyup', displaySaveButton);
                 }
 
                 if (res_type == 'conversation') {
