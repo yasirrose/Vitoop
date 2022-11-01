@@ -259,14 +259,27 @@ window.resourceDetail = (function () {
                         if (!isChanged()) {
                             buttonSave.addClass('ui-state-disabled');
                             buttonSave.attr('disabled', true);
+                            buttonSave.css("display","none");
                         } else {
                             buttonSave.removeClass('ui-state-disabled');
                             buttonSave.attr('disabled', false);
+                            buttonSave.css("display","block");
                         }
                     };
 
                     $(`#${res_type}_name`).on('change keyup', changeClassOfButton);
                     $(`#${res_type}_description`).on('change keyup', changeClassOfButton);
+                }
+
+                const res_type_array = ['pdf', 'teli', 'book', 'adr', 'link'];
+                if (res_type_array.includes(res_type)) {
+                    const buttonSave = $(`#${res_type}_save`);
+
+                    const displaySaveButton = function() {
+                        buttonSave.css("display","block");
+                    };
+
+                    $(`#${res_type}_name, #${res_type}_author, #${res_type}_publisher, #${res_type}_url, #${res_type}_tnop, #pdf_pdfDate, #${res_type}_releaseDate, #${res_type}_issuer, #${res_type}_isbn, #${res_type}_year, #${res_type}_name2, #${res_type}_street, #${res_type}_zip, #${res_type}_city, #${res_type}_contact1, #${res_type}_contact3, #${res_type}_contact4, #${res_type}_contact5`).on('change keyup', displaySaveButton);
                 }
 
                 if (res_type == 'conversation') {
