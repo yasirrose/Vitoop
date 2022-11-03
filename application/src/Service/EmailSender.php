@@ -111,7 +111,7 @@ class EmailSender
         return $this->mailer->send($message);
     }
 
-    public function sendLinksWithDataTransfer(SendLinksDTO $dto, array $resources, User $user, bool $zipFile)
+    public function sendLinksWithDataTransfer(SendLinksDTO $dto, array $resources, User $user, $zipFile)
     {
         return $this->sendLinks(
             $dto,

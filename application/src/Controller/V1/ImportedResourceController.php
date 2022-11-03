@@ -84,9 +84,6 @@ class ImportedResourceController extends ApiController
         $resourceIds = [];
         $existentResourceIds = [];
         foreach ($importedJson as $resourceArray) {
-            if (!key_exists('resourceType', $resourceArray)) {
-                $resourceArray['resourceType'] = 'link';
-            }
             $resourceDTO = ResourceDTO::createFromArrayAndType($resourceArray, $resourceArray['resourceType']);
             $resourceDTO->user = $this->vitoopSecurity->getUser();
             //check if resource exists
