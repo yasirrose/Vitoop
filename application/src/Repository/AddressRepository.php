@@ -32,7 +32,7 @@ class AddressRepository extends ResourceRepository
               FROM (
                %s
                UNION ALL
-               SELECT null as zip, null as city, null as street, null as code, null as id, null as name, null as created_at, null as username, null as avgmark, null as res12count, null as isUserHook, null as isUserRead, prd.coefficient as coef, prd.id as coefId, prd.text as text, prd.id_project_data
+               SELECT null as zip, null as city, null as street, null as code, null as id, null as name, null as created_at, null as username, null as avgmark, null as res12count, null as isUserHook, null as isUserRead, prd.id, prd.coefficient as coef, prd.id as coefId, prd.text as text
                 FROM project_rel_divider prd
                INNER join project p on p.project_data_id = prd.id_project_data
               where p.id = %s
