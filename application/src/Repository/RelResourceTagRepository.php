@@ -27,6 +27,7 @@ class RelResourceTagRepository extends ServiceEntityRepository
     public function add(RelResourceTag $relation)
     {
         $this->_em->persist($relation);
+        $this->_em->flush();
     }
 
     public function getOneFirstRel(Tag $tag, Resource $resource)
