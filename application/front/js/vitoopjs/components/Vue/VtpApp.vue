@@ -56,6 +56,10 @@
                   this.$store.commit('updateTableRowNumber', newRowsAmount);
                 }
 
+                if (val && oldVal) {
+                  this.$store.commit('updateTableRowNumber', this.get('table').rowNumber + diff - 1)
+                }
+
               if (val === null) {
                 this.$store.commit('updateTableRowNumber', this.get('table').rowNumber - diff + 1)
               }
