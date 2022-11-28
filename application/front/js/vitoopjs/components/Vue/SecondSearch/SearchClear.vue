@@ -20,6 +20,7 @@
         methods: {
             clear() {
                 this.$store.commit('resetSecondSearch');
+                this.$store.commit('resetSearchContent');
                 this.$store.commit('updateTableRowNumber', this.get('table').rowNumber + 1);
                 vitoopApp.vtpDatatable.rowsPerPage.reloadSelect();
                 vitoopApp.vtpDatatable && vitoopApp.vtpDatatable.refreshTable();
