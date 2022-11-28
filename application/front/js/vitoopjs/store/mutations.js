@@ -191,5 +191,12 @@ export default {
     resetConversation(state) {
         state.conversationInstance = null;
         state.conversationEditMode = false;
+    },
+    resetSearchContent() {
+        $('#vtp-nav > ul > li > button').each(function () {
+            if($(this).hasClass('ui-state-no-content')) {
+                $(this).removeClass('ui-state-no-content');
+            }
+        });
     }
 }
