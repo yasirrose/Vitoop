@@ -756,7 +756,7 @@ class ResourceRepository extends ServiceEntityRepository
     private function getAllResourcesDividerQuery()
     {
         return <<<'EOT'
-            SELECT SQL_CALC_FOUND_ROWS base.coef, base.coefId, base.text, base.url, base.zip, base.city, base.street, base.code, base.id, base.name, base.created_at, base.username, base.avgmark, base.res12count, base.isUserHook, base.isUserRead, base.type
+            SELECT SQL_CALC_FOUND_ROWS base.coef, base.coefId, base.text, base.url, base.zip, base.city, base.street, base.code, base.id, base.name, base.created_at, base.username, base.avgmark, base.res12count, base.isUserHook, base.isUserRead, base.type, base.color
               FROM (
                %s
                UNION ALL
