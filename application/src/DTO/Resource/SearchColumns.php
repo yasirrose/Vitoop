@@ -8,7 +8,7 @@ class SearchColumns
     public $sortableOrder = null;
 
     public $searchable = array();
-    private $skippedColumns = ['coef'];
+    private $skippedColumns = ['coef', 'countMessage'];
 
     public function __construct($columns = array(), $order = array())
     {
