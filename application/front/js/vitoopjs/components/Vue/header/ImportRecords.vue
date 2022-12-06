@@ -1,6 +1,7 @@
 <template>
     <div>
-        <label class="ui-state-default ui-corner-all">
+        <label class="ui-state-default ui-corner-all"
+               v-if="$store.state.admin">
             Import Records
             <input type="file" @change="uploadFile" />
         </label>
