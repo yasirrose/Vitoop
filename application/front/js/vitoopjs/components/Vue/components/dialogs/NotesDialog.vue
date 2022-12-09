@@ -33,7 +33,7 @@
                 $('#vtp-notes-dialog').dialog({
                     autoOpen: false,
                     width: 720,
-                    height: 500,
+                    height: 465,
                     position: { my: 'center top', at: 'center top', of: '#vtp-nav' },
                     modal: true,
                     close: this.closeDialog,

@@ -127,6 +127,11 @@ window.resourceDetail = (function () {
                 } else {
                     $('.vtp-uiaction-detail-next').on('click', nextResource);
                 }
+                if ($('#resource-notes').hasClass('open')) {
+                    if (!($('#open-notes-dialog-button').hasClass('ui-state-active'))) {
+                        $('#open-notes-dialog-button').addClass('ui-state-active');
+                    }
+                }
                 $('.vtp-uiaction-detail-save').on('click', function () {
                     $('#resource-data input[type=submit]').trigger('submit');
                 });
@@ -931,7 +936,9 @@ window.resourceDetail = (function () {
             $('#resource-project').empty();
             $('#resource-buttons').empty();
             $('#resource-flags').empty();
-            resourceNotes.hide();
+            if ($('#resource-notes').hasClass('open')) {
+                VueBus.$emit('close');
+            }
             $('.vtp-extlink-lexicon').remove();
             // pay attention. this triggers tab to load, if the array
             // tab_loaded is [0,.,.,.,.]
@@ -1010,7 +1017,9 @@ window.resourceDetail = (function () {
             hideGross = false;
             hardResetTabs();
             hideHelpWindow();
-            resourceNotes.hide();
+            $('#open-notes-dialog-button').removeClass('ui-state-active');
+            $('#resource-notes').removeClass('open');
+            $('#resource-notes').css('display', 'none');
             if (refresh_list) {
                 //$('#vtp-res-list table').DataTable().off('draw.dt');
                 // "last seen" is maintained through arr_res_tr_attr_id[]
