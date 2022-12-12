@@ -248,7 +248,7 @@
                 // console.log(/^<a href=/.test(e.value));
                 // console.log(/resources\/(\d+)/.test(e.value));
                 // console.log(e.value.match(/^(\d+)$/));
-                const href = e.value ? e.value.match(/href="([^\'\"]+)/)[1] : null;
+                const href = e.value ? e.value.href : null;
                 if (href && (/resources\/(\d+)/.test(href) || /\/(\d+)/.test(href) || /^(\d+)$/.test(href))) {
                     this.selectedResourceId = href.match(/(\d+)/)[1];
                     this.resourceIds.push(this.selectedResourceId);
