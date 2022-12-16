@@ -23,7 +23,7 @@
                             <p>Passwort ändern</p>
                             <form id="user_password" name="user_password">
                                 <div class="vtp-fh-w100">
-                                    <input type="password" name="pass1" id="pass1" v-model="dto.pass1"/>
+                                    <input type="password" name="pass1" id="pass1" v-model="dto.pass1" autocomplete="new-password"/>
                                 </div>
                                 <div class="vtp-fh-w100">
                                     <input v-bind:class="dto.pass1 != dto.pass2 ? 'red-border': ''" type="password" name="pass2" id="pass2" v-model="dto.pass2"/>
