@@ -42,7 +42,7 @@ class UserNotes implements GetDTOInterface
 
     public function updateNotes($notes)
     {
-        $this->notes = $notes;
+        $this->notes = $notes ?? '';
     }
 
     public function setNotes($notes)

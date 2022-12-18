@@ -1,6 +1,6 @@
 {# VitoopInfomgmtBundle:Resource:xhr.resource.data.book.html.twig #}
 {{ form_start(fvdata, {'attr': {'id': 'vtp-form-data', 'novalidate': 'novalidate' }}) }}
-{% spaceless %}
+{% apply spaceless %}
 <fieldset class="ui-corner-all">
     <legend>{{ res.resourcename }}</legend>
     {% if infodata is not empty %}
@@ -82,5 +82,5 @@
         {% do fvdata.save.setRendered %}
     {%endif%}
 </fieldset>
-{% endspaceless %}
+{% endapply %}
 {{ form_end(fvdata) }}

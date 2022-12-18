@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use App\DTO\Resource\RelResourceDTO;
 use App\Entity\Project;
 use App\Entity\RelResourceResource;

@@ -1,11 +1,11 @@
 {% block lock_widget_widget %}
     <div class="lockwidget_widget">
-        {% spaceless %}
+        {% apply spaceless %}
             {% for child in form %}
                 {% if not child.rendered %}
                     {{ form_row(child) }}
                 {% endif %}
             {% endfor %}
-        {% endspaceless %}
+        {% endapply %}
     </div>
 {% endblock %}

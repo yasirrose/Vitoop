@@ -3,7 +3,7 @@ namespace App\Repository;
 
 use App\Entity\RelResourceTag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Conversation;
 use App\Entity\Flag;
 use App\Entity\RelResourceResource;
@@ -529,7 +529,7 @@ class ResourceRepository extends ServiceEntityRepository
 
     public function getResourcesTotal(SearchResource $search)
     { 
-        return $this->_em->getConnection()->query('SELECT FOUND_ROWS()')->fetchColumn(0);
+        return $this->_em->getConnection()->executeQuery('SELECT FOUND_ROWS()')->fetchFirstColumn();
     }
 
     public function findResourcesForCheckUrl($limit = 10)
@@ -624,9 +624,8 @@ class ResourceRepository extends ServiceEntityRepository
         );
 
         $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
-        $stmt->execute($innerResourceQuery['params']);
 
-        return $stmt->fetchAll();
+        return $stmt->executeQuery($innerResourceQuery['params'])->fetchAllAssociative();
     }
 
     protected function getDividerQuery()
@@ -656,9 +655,8 @@ class ResourceRepository extends ServiceEntityRepository
         );
 
         $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
-        $stmt->execute($innerResourceQuery['params']);
 
-        return $stmt->fetchAll();
+        return $stmt->executeQuery($innerResourceQuery['params'])->fetchAllAssociative();
     }
 
     /**
@@ -668,8 +666,8 @@ class ResourceRepository extends ServiceEntityRepository
     public static function getRunnableQueryAndParametersForQuery(Query $query)
     {
         $sql = $query->getSQL();
-        $c = new \ReflectionClass('Doctrine\ORM\Query');
-        $parser = $c->getProperty('_parserResult');
+        $c = new \ReflectionClass(Query::class);
+        $parser = $c->getProperty('parserResult');
         $parser->setAccessible(true);
         /** @var \Doctrine\ORM\Query\ParserResult $parser */
         $parser = $parser->getValue($query);
@@ -686,7 +684,7 @@ class ResourceRepository extends ServiceEntityRepository
         },$sql);
         $m = $c->getMethod('processParameterMappings');
         $m->setAccessible(true);
-        list($params,$types)= $m->invoke($query,$parser->getParameterMappings());
+        list($params,$types)= $m->invoke($query, $parser->getParameterMappings());
 
         return ['sql' => $sql, 'params' => $params,'paramTypes' => $types];
     }
