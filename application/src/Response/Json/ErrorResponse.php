@@ -38,7 +38,7 @@ class ErrorResponse implements \JsonSerializable
         return new static($messages);
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'messages' => $this->messages,

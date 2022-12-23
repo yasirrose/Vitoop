@@ -33,7 +33,7 @@ class PdfAnnotation
     private $pdf;
 
     /**
-     * @ORM\Column(name="annotations", type="json_array")
+     * @ORM\Column(name="annotations", type="json")
      */
     private $annotations;
 

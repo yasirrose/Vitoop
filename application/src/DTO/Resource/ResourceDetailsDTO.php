@@ -66,7 +66,7 @@ class ResourceDetailsDTO implements \JsonSerializable
         $this->flags = $flagDTO;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         $detailsArray = [
             'resource_type' => $this->resourceType,

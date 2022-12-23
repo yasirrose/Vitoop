@@ -20,7 +20,7 @@ class HideResourceDTO implements CreateFromRequestInterface, \JsonSerializable
      */
     public $isSkip = false;
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             "isSkip" => $this->isSkip

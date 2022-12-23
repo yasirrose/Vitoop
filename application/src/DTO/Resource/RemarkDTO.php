@@ -85,7 +85,7 @@ class RemarkDTO implements \JsonSerializable, CreateFromRequestInterface
         );
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'id' => $this->id,

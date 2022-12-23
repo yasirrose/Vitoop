@@ -28,7 +28,7 @@ use JMS\Serializer\Annotation as Serializer;
  * @ORM\Table(name="vitoop_user")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User implements EquatableInterface, UserInterface, \Serializable, GetDTOInterface
+class User implements EquatableInterface, UserInterface, GetDTOInterface
 {
     const USER_DISABLED_USERNAME = "gel-";
     const DEFAULT_USERNAME = 'david';
@@ -978,9 +978,9 @@ class User implements EquatableInterface, UserInterface, \Serializable, GetDTOIn
         return $this->active;
     }
 
-    public function serialize()
+    public function __serialize(): array
     {
-        return serialize(array(
+        return [
             $this->id,
             $this->username,
             $this->password,
@@ -988,10 +988,10 @@ class User implements EquatableInterface, UserInterface, \Serializable, GetDTOIn
             $this->active,
             $this->isShowHelp,
             $this->isAgreedWithTerms
-        ));
+        ];
     }
 
-    public function unserialize($serialized)
+    public function __unserialize($serialized): void
     {
         list (
             $this->id,
@@ -1001,7 +1001,7 @@ class User implements EquatableInterface, UserInterface, \Serializable, GetDTOIn
             $this->active,
             $this->isShowHelp,
             $this->isAgreedWithTerms
-        ) = unserialize($serialized);
+        ) = $serialized;
     }
 
     public function getDTO()

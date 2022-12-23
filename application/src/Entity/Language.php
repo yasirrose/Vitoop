@@ -49,7 +49,7 @@ class Language implements \JsonSerializable
         return $this->sortOrder;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): string
     {
         return $this->code;
     }

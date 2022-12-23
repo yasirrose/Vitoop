@@ -30,7 +30,7 @@ class DateTime implements \JsonSerializable
         return $this->date;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): string
     {
         return $this->date->format(\DateTime::ISO8601);
     }
