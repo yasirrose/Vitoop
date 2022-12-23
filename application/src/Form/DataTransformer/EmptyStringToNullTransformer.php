@@ -11,7 +11,7 @@ class EmptyStringToNullTransformer implements DataTransformerInterface
      * @param string $string
      * @return string null
      */
-    public function transform($string)
+    public function transform($string): ?string
     {
         if ('' === $string) {
 
@@ -21,7 +21,7 @@ class EmptyStringToNullTransformer implements DataTransformerInterface
         return $string;
     }
 
-    public function reverseTransform($string)
+    public function reverseTransform($string): string
     {
         /**
          * Transforms NULL (null) to an empty string ('').

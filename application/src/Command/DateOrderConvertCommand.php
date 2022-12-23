@@ -40,7 +40,7 @@ class DateOrderConvertCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $batchSize = 100;
         $query = $this->entityManager->createQuery('SELECT p FROM '.Pdf::class.' p');

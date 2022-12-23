@@ -20,7 +20,7 @@ class TestType extends AbstractType
         // $builder->addEventSubscriber(new TestSubscriber());
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
 
         return 'test';

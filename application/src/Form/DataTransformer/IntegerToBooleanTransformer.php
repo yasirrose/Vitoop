@@ -11,7 +11,7 @@ class IntegerToBooleanTransformer implements DataTransformerInterface
      * @param integer $int
      * @return $boolean
      */
-    public function transform($int)
+    public function transform($int): bool
     {
         if (false == $int) {
 
@@ -21,16 +21,12 @@ class IntegerToBooleanTransformer implements DataTransformerInterface
         return true;
     }
 
-    public function reverseTransform($bool)
+    /**
+     * Transforms boolean to integer
+     */
+    public function reverseTransform($bool): int
     {
-        /**
-         * Transforms boolean to integer
-         *
-         * @param booklean $bool
-         * @return integer
-         */
         if ($bool) {
-
             return 1;
         }
 

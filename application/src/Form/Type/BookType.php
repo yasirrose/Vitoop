@@ -35,12 +35,12 @@ class BookType extends AbstractType
                 ->add('year', TextType::class, ['label' => 'Jahr:']);
     }
 
-    public function getParent()
+    public function getParent(): string
     {
         return ResourceType::class;
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'book';
     }

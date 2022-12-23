@@ -21,7 +21,7 @@ class TagType extends AbstractType
             ->add('remove', InputTypeSubmitType::class, ['label' => '-', 'attr' => ['title' => 'label.tag.remove']]);
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'tag';
     }

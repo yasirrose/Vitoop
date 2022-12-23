@@ -2,19 +2,20 @@
 
 namespace App\Service\User;
 
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use App\Entity\User\User;
 use App\Entity\User\PasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
+use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 
 class UserPasswordEncoder implements PasswordEncoderInterface
 {
-    private $encoderFactory;
-    private $userEncoder;
+    private PasswordHasherFactoryInterface $encoderFactory;
+    private PasswordHasherInterface $userEncoder;
 
-    public function __construct(EncoderFactoryInterface $encoderFactory)
+    public function __construct(PasswordHasherFactoryInterface $encoderFactory)
     {
         $this->encoderFactory = $encoderFactory;
-        $this->userEncoder = $this->encoderFactory->getEncoder(User::class);
+        $this->userEncoder = $this->encoderFactory->getPasswordHasher(User::class);
     }
 
     /**
@@ -22,7 +23,7 @@ class UserPasswordEncoder implements PasswordEncoderInterface
      */
     public function encode($password, $salt = null)
     {
-        return $this->userEncoder->encodePassword($password, $salt);
+        return $this->userEncoder->hash($password);
     }
 
     /**
@@ -30,6 +31,6 @@ class UserPasswordEncoder implements PasswordEncoderInterface
      */
     public function isPasswordValid($encodedPassword, $password, $salt)
     {
-        return $this->userEncoder->isPasswordValid($encodedPassword, $password, $salt);
+        return $this->userEncoder->verify($encodedPassword, $password);
     }
 }

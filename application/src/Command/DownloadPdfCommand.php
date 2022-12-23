@@ -46,7 +46,7 @@ class DownloadPdfCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $count = 10;
         $missing = false;

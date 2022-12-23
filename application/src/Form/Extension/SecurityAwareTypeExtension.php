@@ -63,7 +63,7 @@ class SecurityAwareTypeExtension extends AbstractTypeExtension
     /**
      * @inheritDoc
      */
-    public static function getExtendedTypes()
+    public static function getExtendedTypes(): iterable
     {
         return [
             FormType::class

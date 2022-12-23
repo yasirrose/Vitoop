@@ -48,7 +48,7 @@ class DownloadCheckSizeCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln($this->downloadService->getDownloadsSizeInMb());
         if ($input->getOption('mail') && ($this->downloadService->isFolderWarning() || $this->downloadService->isFolderError())) {

@@ -20,7 +20,7 @@ class VitoopBlogType extends AbstractType
                 ->add('save', InputTypeSubmitType::class, array('label' => 'speichern'));
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'vitoop_blog';
     }

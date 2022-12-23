@@ -31,7 +31,7 @@ class RatingType extends AbstractType
                 ->add('save_dropdown', InputTypeSubmitType::class, array('label' => 'bewerten', 'attr' => array('name' => 'dropdown')));
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'rating';
     }

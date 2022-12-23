@@ -12,7 +12,7 @@ class UserUnique extends Constraint
     public $messageEmail = 'Die eMail %string% wird schon verwendet. Bist Du schon angemeldet?';
     public $messageUsername = 'Der Username %string% existiert schon. Bitte wähle einen anderen';
 
-    public function getTargets()
+    public function getTargets(): string
     {
         return self::CLASS_CONSTRAINT;
     }

@@ -18,11 +18,11 @@ class ResourceNameUniqueValidator extends ConstraintValidator
         $this->resourceRepository = $resourceRepository;
     }
 
-    public function validate($name, Constraint $constraint)
+    public function validate($name, Constraint $constraint): void
     {
         $resources = $this->resourceRepository->getResourceByName($name);
         if (empty($resources)) {
-            return null;
+            return;
         }
         if (count($resources) > 1) {
             $this->context->buildViolation($constraint->message)

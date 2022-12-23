@@ -18,7 +18,7 @@ class UsernameValidator extends ConstraintValidator
         $this->security = $security;
     }
 
-    public function validate($username, Constraint $constraint)
+    public function validate($username, Constraint $constraint): void
     {
         $existentUser = $this->userRepository->findOneByUsername($username);
         if (!$existentUser) {

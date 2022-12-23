@@ -13,7 +13,7 @@ class CommentType extends AbstractType
                 ->add('save', InputTypeSubmitType::class, array('label' => 'Kommentar absenden'));
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'comment';
     }

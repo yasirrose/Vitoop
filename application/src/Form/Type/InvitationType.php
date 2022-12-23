@@ -40,7 +40,7 @@ class InvitationType extends AbstractType
             ->add('save', InputTypeSubmitType::class, array('label' => 'Einladung versenden'));
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'invitation';
     }

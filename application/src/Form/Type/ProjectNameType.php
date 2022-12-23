@@ -27,7 +27,7 @@ class ProjectNameType extends AbstractType
             ->add('save', InputTypeSubmitType::class, array('label' => 'mit meinem Projekt verknüpfen'));
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'project_name';
     }

@@ -54,7 +54,7 @@ class AutoImportCommand extends Command
         $this->setDescription('Check emails for import and apply new record to db.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('Check emails for import');
         try {

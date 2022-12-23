@@ -30,7 +30,7 @@ class DataInitCommand extends Command
             ->setDescription('Init data for new project');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->settings->set(SettingsService::NAME_HELP, false);
         $this->settings->set(SettingsService::NAME_TERMS, '<p></p>');
@@ -39,5 +39,6 @@ class DataInitCommand extends Command
         $this->settings->set(SettingsService::NAME_CURRENT_SIZE, 0);
         $this->settings->set(SettingsService::NAME_DATAP, 0);
 
+        return 0;
     }
 }

@@ -54,7 +54,7 @@ class UrlCheckCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $linkClasses = [Pdf::class, Teli::class, Link::class];
 

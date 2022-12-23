@@ -50,7 +50,7 @@ class PublishedToDateStringTransformer implements DataTransformerInterface
         if ('' === $published || null === $published) {
             return null;
         }
-        if (0 === $date_string) {
+        if (0 === $published) {
             return 0;
         }
         

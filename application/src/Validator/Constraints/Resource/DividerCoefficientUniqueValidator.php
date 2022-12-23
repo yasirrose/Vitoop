@@ -27,7 +27,7 @@ class DividerCoefficientUniqueValidator extends ConstraintValidator
         $this->dividerRepository = $dividerRepository;
     }
 
-    public function validate($dividerDTO, Constraint $constraint)
+    public function validate($dividerDTO, Constraint $constraint): void
     {
         /**
          * @var DividerDTO $dividerDTO

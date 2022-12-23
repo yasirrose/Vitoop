@@ -10,7 +10,7 @@ namespace App\EventListener;
 
 use App\Service\ResourceDataCollector;
 use App\Service\ResourceManager;
-use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
@@ -26,7 +26,7 @@ class ResourceDataCollectorInitializerListener
         $this->rm = $rm;
     }
 
-    public function onKernelController(FilterControllerEvent $event)
+    public function onKernelController(ControllerEvent $event)
     {
         /* @var $bag Parameterbag */
         $bag = $event->getRequest()->attributes;

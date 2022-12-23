@@ -31,7 +31,7 @@ class FlagInfoType extends AbstractType
             ->add('delete_flag', SubmitType::class, ['label' => 'flag entfernen']);
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'flaginfo';
     }

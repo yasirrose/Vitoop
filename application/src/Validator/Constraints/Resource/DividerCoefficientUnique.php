@@ -11,7 +11,7 @@ class DividerCoefficientUnique extends Constraint
 {
     public $message = 'Diese Nummer ist schon besetzt.';
 
-    public function getTargets()
+    public function getTargets(): string
     {
         return self::CLASS_CONSTRAINT;
     }

@@ -48,7 +48,7 @@ class DownloadSinglePdfCommand extends Command
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $resourceId = $input->getArgument('id');
         $resource = $this->resourceRepository->find($resourceId);

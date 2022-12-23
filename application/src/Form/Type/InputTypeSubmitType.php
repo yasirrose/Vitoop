@@ -35,7 +35,7 @@ class InputTypeSubmitType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'input_type_submit';
     }

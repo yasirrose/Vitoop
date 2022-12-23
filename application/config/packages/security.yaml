@@ -22,7 +22,6 @@ security:
 
         secured_infomgmt:
             pattern: ^/
-            logout_on_user_change: true
             form_login:
                 check_path: /login
                 login_path: /login

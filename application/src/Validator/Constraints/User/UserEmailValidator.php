@@ -18,7 +18,7 @@ class UserEmailValidator extends ConstraintValidator
         $this->security = $security;
     }
 
-    public function validate($email, Constraint $constraint)
+    public function validate($email, Constraint $constraint): void
     {
         $existentUser = $this->userRepository->findOneByEmail($email);
         if (!$existentUser) {

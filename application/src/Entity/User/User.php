@@ -227,7 +227,7 @@ class User implements EquatableInterface, UserInterface, GetDTOInterface
         return $this->username;
     }
 
-    public function getRoles()
+    public function getRoles(): array
     {
         $roles = array('ROLE_USER');
         $admins = array(self::DEFAULT_USERNAME, 'alex.shalkin');
@@ -244,7 +244,7 @@ class User implements EquatableInterface, UserInterface, GetDTOInterface
         return in_array('ROLE_ADMIN', $this->getRoles());
     }
 
-    public function isEqualTo(UserInterface $user)
+    public function isEqualTo(UserInterface $user): bool
     {
         return ($user->getUsername() === $this->username && $user->isActive() === $this->isActive());
     }
@@ -258,7 +258,12 @@ class User implements EquatableInterface, UserInterface, GetDTOInterface
         return $this->id;
     }
 
-    public function getUsername()
+    public function getUsername(): string
+    {
+        return $this->username;
+    }
+
+    public function getUserIdentifier(): string
     {
         return $this->username;
     }
@@ -278,12 +283,12 @@ class User implements EquatableInterface, UserInterface, GetDTOInterface
         $this->email = $email;
     }
 
-    public function getSalt()
+    public function getSalt(): ?string
     {
         return $this->salt;
     }
 
-    public function getPassword()
+    public function getPassword(): ?string
     {
         return $this->password;
     }

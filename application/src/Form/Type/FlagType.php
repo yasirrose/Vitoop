@@ -15,7 +15,7 @@ class FlagType extends AbstractType
             ->add('save', InputTypeSubmitType::class, array('label' => 'absenden'));
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'flag';
     }

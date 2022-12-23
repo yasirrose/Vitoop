@@ -17,7 +17,7 @@ class LexiconNameType extends AbstractType
             ->add('remove', InputTypeSubmitType::class, array('label' => '-'));
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'lexicon_name';
     }

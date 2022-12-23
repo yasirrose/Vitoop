@@ -25,7 +25,7 @@ class UserType extends AbstractType
                 ->add('save', InputTypeSubmitType::class, ['label' => 'Registrieren']);
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'user';
     }

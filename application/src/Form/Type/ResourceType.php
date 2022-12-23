@@ -44,7 +44,7 @@ class ResourceType extends AbstractType
             ->add('save', InputTypeSubmitType::class, ['label' => 'speichern']);
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'res';
     }

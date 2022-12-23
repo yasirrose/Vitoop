@@ -14,7 +14,7 @@ class RemarkPrivateType extends AbstractType
                 ->add('save', InputTypeSubmitType::class, array('label' => 'speichern'));
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'remark_private';
     }
