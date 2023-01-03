@@ -73,7 +73,6 @@
                 spanText.css('width', '100%');
                 removeClassGradient();
                 $('.vtp-fh-infosave-box-left ').addClass('vtp-' + selectedColor + '-color');
-                $('.vtp-fh-infosave-box-right ').addClass(selectedColor + '-gradient');
             }
 
             button.css('width', '');
@@ -83,7 +82,6 @@
 
                 let gradientColorsArray = [];
                 $(`.custom-dropdown option`).toArray().map( o => gradientColorsArray[o.text] = o.value );
-                let gradientClass = gradientColorsArray[color];
 
                 let colorArray = [];
                 $(`.custom-dropdown option`).toArray().map( o => colorArray[o.text] = o.value.split('-')[0]);
@@ -91,7 +89,6 @@
 
                 removeClassGradient();
                 $('.vtp-fh-infosave-box-left ').addClass('vtp-' + color + '-color');
-                $('.vtp-fh-infosave-box-right ').addClass(gradientClass);
 
                 sessionStorage.setItem("selectedColor", $(this).text());
                 let resourceType = '{{ res.resourceType() }}';
@@ -120,17 +117,11 @@
                     }
                 })
             });
-        }, 1500);
+        }, 0);
 
 
         function removeClassGradient()
         {
-            let colorsClassGradient = ['red-gradient', 'lime-gradient', 'cyan-gradient', 'yellow-gradient', 'blau-gradient', 'orange-gradient'];
-            for (let i = 0; i < colorsClassGradient.length; i++) {
-                if ($('.vtp-fh-infosave-box-right ').hasClass(colorsClassGradient[i])) {
-                    $('.vtp-fh-infosave-box-right ').removeClass(colorsClassGradient[i]);
-                }
-            }
             let colorsClass = ['vtp-red-color', 'vtp-lime-color', 'vtp-cyan-color', 'vtp-yellow-color', 'vtp-blau-color','vtp-orange-color'];
             for (let i = 0; i < colorsClass.length; i++) {
                 if ($('.vtp-fh-infosave-box-left ').hasClass(colorsClass[i])) {

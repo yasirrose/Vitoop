@@ -297,6 +297,7 @@ div#vtp-res-tags table tr:first-of-type th {
 .blau-text {
     line-height: 22px;
     vertical-align: bottom;
+    font-size: 13px;
 }
 
 .blau-gradient, blue-gradient{
@@ -1752,12 +1753,15 @@ form#form-tag {
         float:left;
         display: flex;
         align-items: center;
+        padding-top: 3px;
+        padding-bottom: 2.5px;
     }
     .vtp-fh-infosave-box-right {
         @include blue-border-radius-right();
-        padding-top: 1px;
+        padding-top: 3px;
+        padding-bottom: 2.5px;
         margin-left: 6px;
-        height: 23px;
+        height: 24px;
     }
 }
 

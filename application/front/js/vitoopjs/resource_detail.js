@@ -228,12 +228,10 @@ window.resourceDetail = (function () {
                                 spanText = 'blau';
                             }
                             $('.vtp-fh-infosave-box-left ').addClass('vtp-' + spanText + '-color');
-                            $('.vtp-fh-infosave-box-right ').addClass(spanText + '-gradient');
                             let message = 'Lesezeigen wurde gesetzt';
                             if (0 === isUserHookValue) {
                                 message = 'Lesezeichen wurde entfernt';
                                 $('.vtp-fh-infosave-box-left ').removeClass('vtp-' + spanText + '-color');
-                                $('.vtp-fh-infosave-box-right ').removeClass(spanText + '-gradient');
                             }
                             VueBus.$emit('element-notification:show', message, 'vtp-user-hook');
                         }
