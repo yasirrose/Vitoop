@@ -248,6 +248,8 @@ table {
 
     span.ui-selectmenu-button {
         margin-bottom: 0px;
+        background: transparent;
+        margin-left: 3px;
     }
 }
 
@@ -302,51 +304,52 @@ div#vtp-res-tags table tr:first-of-type th {
 
 .blau-gradient, blue-gradient{
     background: #7bc0f6; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left, #66afe9 , #deedf7); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #66afe9 , #deedf7); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, #66afe9 , #deedf7); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, #66afe9 , #deedf7); /* Standard syntax */
+    background: -webkit-linear-gradient(left, #66afe9 , #f2f5f7); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #66afe9 , #f2f5f7); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #66afe9 , #f2f5f7); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #66afe9 , #f2f5f7); /* Standard syntax */
     background-repeat: no-repeat;;
 }
 
 .red-gradient, .rot-gradient{
     background: #f39090; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left, #ff5d5d , #deedf7); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #ff5d5d , #deedf7); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, #ff5d5d , #deedf7); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, #ff5d5d , #deedf7); /* Standard syntax */
+    background: -webkit-linear-gradient(left, #f39090 , #f2f5f7); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #f39090 , #f2f5f7); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #f39090 , #f2f5f7); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #f39090 , #f2f5f7); /* Standard syntax */
+    background-size: 188px !important;
 }
 
 .lime-gradient, .grün-gradient{
     background: #87ee87; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left, #5afa5a , #deedf7); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #5afa5a , #deedf7); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, #5afa5a , #deedf7); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, #5afa5a , #deedf7); /* Standard syntax */
+    background: -webkit-linear-gradient(left, #87EE64 , #f2f5f7); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #87EE64 , #f2f5f7); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #87EE64 , #f2f5f7); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #87EE64 , #f2f5f7); /* Standard syntax */
 }
 
 .cyan-gradient{
     background: #8feeee; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left, #5fffff , #deedf7); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #5fffff , #deedf7); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, #5fffff , #deedf7); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, #5fffff , #deedf7); /* Standard syntax */
+    background: -webkit-linear-gradient(left, #5fffff , #f2f5f7); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #5fffff , #f2f5f7); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #5fffff , #f2f5f7); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #5fffff , #f2f5f7); /* Standard syntax */
 }
 
 .yellow-gradient, .gelb-gradient{
     background: #f5f568; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left, #ffff2c , #deedf7); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #ffff2c , #deedf7); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, #ffff2c , #deedf7); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, #ffff2c , #deedf7); /* Standard syntax */
+    background: -webkit-linear-gradient(left, #ffff2c , #f2f5f7); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #ffff2c , #f2f5f7); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #ffff2c , #f2f5f7); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #ffff2c , #f2f5f7); /* Standard syntax */
 }
 
 .orange-gradient{
     background: #edbc62; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left, #ff9400 , #ffe8c9); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #ff9400 , #ffe8c9); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, #ff9400 , #ffe8c9); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, #ff9400, #ffe8c9); /* Standard syntax */
+    background: -webkit-linear-gradient(left, #ff9400 , #f2f5f7); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #ff9400 , #f2f5f7); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #ff9400 , #f2f5f7); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #ff9400, #f2f5f7); /* Standard syntax */
 }
 
 div#vtp-res-tags {
@@ -2621,17 +2624,21 @@ table.dataTable thead th:hover {
 
 .vtp-red-color, .vtp-rot-color {
     background: #f39090; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left, #f39090, #f6bbbb); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #f39090 , #f6bbbb); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, #f39090 , #f6bbbb); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, #f39090 , #f6bbbb); /* Standard syntax */
+    background: -webkit-linear-gradient(left, #f39090, #F2F5F2); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #f39090 , #F2F5F2); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #f39090 , #F2F5F2); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #f39090 , #F2F5F2); /* Standard syntax */
+    background-repeat: no-repeat;
+    background-size: 210px;
 }
 .vtp-lime-color, .vtp-grün-color {
     background-color: #87ee87;
-    background: -webkit-linear-gradient(left, #87ee87, #aff6af); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #87ee87 , #aff6af); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, #87ee87 , #aff6af); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, #87ee87 , #aff6af); /* Standard syntax */
+    background: -webkit-linear-gradient(left, #87ee87, #F2F5F2); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #87ee87 , #F2F5F2); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #87ee87 , #F2F5F2); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #87ee87 , #F2F5F2); /* Standard syntax */
+    background-repeat: no-repeat;
+    background-size: 210px;
 
 }
 .vtp-cyan-color {
