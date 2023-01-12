@@ -1,4 +1,11 @@
 security:
+    enable_authenticator_manager: true
+    password_hashers:
+        App\Entity\User\User:
+            algorithm: sha1
+            iterations: 1
+            encode_as_base64: false
+
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER
         ROLE_SUPER_ADMIN: [ ROLE_USER, ROLE_ADMIN ]
@@ -7,13 +14,6 @@ security:
     providers:
         user_db:
             entity: { class: App\Entity\User\User, property: username }
-
-    encoders:
-        Symfony\Component\Security\Core\User\User: plaintext
-        App\Entity\User\User:
-            algorithm: sha1
-            iterations: 1
-            encode_as_base64: false
 
     firewalls:
         dev:
@@ -31,9 +31,6 @@ security:
                 require_previous_session: false
                 provider: user_db
                 #target_path_parameter: the parameter in the hidden form field value="...
-            guard:
-                authenticators:
-                    - App\Security\Guard\VitoopMainFormAuthenticator
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 31536000
@@ -41,7 +38,9 @@ security:
             logout:
                 path: app_logout
                 target: /login
-            anonymous: ~
+            entry_point: form_login
+            custom_authenticators:
+                - App\Security\Guard\VitoopMainFormAuthenticator
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used

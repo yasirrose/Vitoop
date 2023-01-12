@@ -18,6 +18,7 @@ use App\DTO\User\NewUserDTO;
 use App\DTO\User\CredentialsDTO;
 use App\Entity\Watchlist;
 use App\Utils\Token\TokenGeneratorInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Doctrine\ORM\Mapping as ORM;
@@ -28,7 +29,7 @@ use JMS\Serializer\Annotation as Serializer;
  * @ORM\Table(name="vitoop_user")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User implements EquatableInterface, UserInterface, GetDTOInterface
+class User implements EquatableInterface, UserInterface, GetDTOInterface, PasswordAuthenticatedUserInterface
 {
     const USER_DISABLED_USERNAME = "gel-";
     const DEFAULT_USERNAME = 'david';

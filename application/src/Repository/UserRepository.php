@@ -8,12 +8,14 @@ use App\Entity\User\User;
 use App\Entity\UserAgreement;
 use App\DTO\Resource\SearchResource;
 use Doctrine\ORM\QueryBuilder;
+use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class UserRepository
  * @package App\Repository
  */
-class UserRepository extends ServiceEntityRepository
+class UserRepository extends ServiceEntityRepository implements UserLoaderInterface
 {
     /**
      * UserRepository constructor.
@@ -88,6 +90,11 @@ class UserRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    public function loadUserByUsername(string $username): ?User
+    {
+        return $this->findOneByUsernameOrEmail($username);
+    }
+
     public function getResourcesQuery(SearchResource $search)
     {
         $qb = $this->createQueryBuilder('u')->select('u.id, u.username');
@@ -154,7 +161,7 @@ class UserRepository extends ServiceEntityRepository
     }
 
     public function getResourcesTotal(SearchResource $search)
-    { 
+    {
         return $this->_em->getConnection()->query('SELECT FOUND_ROWS()')->fetchColumn(0);
     }
 }
