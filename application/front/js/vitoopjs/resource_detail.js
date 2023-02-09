@@ -285,6 +285,21 @@ window.resourceDetail = (function () {
                     };
 
                     $(`#${res_type}_name, #${res_type}_author, #${res_type}_publisher, #${res_type}_url, #${res_type}_tnop, #pdf_pdfDate, #${res_type}_releaseDate, #${res_type}_issuer, #${res_type}_isbn, #${res_type}_year, #${res_type}_name2, #${res_type}_street, #${res_type}_zip, #${res_type}_city, #${res_type}_contact1, #${res_type}_contact3, #${res_type}_contact4, #${res_type}_contact5`).on('change keyup', displaySaveButton);
+
+                    $(document).on('click', `#${res_type}_lang-menu > li`, function () {
+                        $.ajax({
+                            method: 'POST',
+                            url: vitoop.baseUrl + ([res_type, res_id, 'language'].join('/')),
+                            success: function (result) {
+                                if (result.success) {
+                                    var selector = $(`#${res_type}_lang-button > span.ui-selectmenu-text`);
+                                    if (selector.text() !== result.langName) {
+                                        displaySaveButton();
+                                    }
+                                }
+                            }
+                        });
+                    });
                 }
 
                 if (res_type == 'conversation') {
