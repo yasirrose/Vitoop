@@ -827,18 +827,16 @@ class ResourceController extends ApiController
     public function languageAction($resId): JsonResponse
     {
         try {
+            $language = null;
             if ($resId !== "new") {
                 $resource = $this->resourceRepository->find($resId);
                 if (empty($resource)) {
                     return new JsonResponse(['success' => false]);
                 }
-                $lang = $resource->getlang();
-            } else {
-                $lang = null;
+                $language = $resource->getLang()->getName();
             }
-            $langName = null !== $lang ? $lang->getName() : null;
             return new JsonResponse([
-                'langName' => $langName,
+                'langName' => $language,
                 'success' => true
             ]);
         } catch (Exception $e) {
