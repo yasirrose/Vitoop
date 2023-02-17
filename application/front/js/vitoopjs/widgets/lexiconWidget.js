@@ -15,6 +15,35 @@ export default class LexiconWidget extends Widget {
         let self = this;
         $(self.buttonSaveId).on('click', function() {
             $('#tab-title-rels').removeClass('ui-state-no-content');
+            var return_data = false;
+            $(".lexicon_exrta_textarea").css("display", "none");
+            var lex_name = $('#lexicon_name_name').val();
+            $("#lexicon_name_description").html('');
+            $("#lexicon_name_description_footer").html('');
+            if (lex_name !== "") {
+                $.ajax({
+                    method: 'POST',
+                    url: vitoop.baseUrl + ([self.resourceId, 'lexicon-exist'].join('/')),
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        lexicon_name: lex_name,
+                    }),
+                    success: function (data) {
+                        if (data.success == false) {
+                            $(".lexicon_exrta_textarea").css("display", "block");
+                            if (data.description != "") {
+                                $("#lexicon_name_description").html(data.description);
+                                $("#lexicon_name_description_footer").html(data.lexicon_footer);
+                            }
+                            return_data = true;
+                        } else {
+                            $('#form-assign-lexicon').submit();
+                        }
+                    }
+                });
+            }
+            return return_data;
         });
         $('#lexicon_name_name').autocomplete({
             source: function (request, response) {
@@ -82,6 +111,19 @@ export default class LexiconWidget extends Widget {
                 $form.empty().append('Vitoooops!: ' + textStatus + ' ' + jqXHR.status + ': ' + jqXHR.statusText);
             }
         });
+
+        $('#lexicon_detail_save_btn').click(function (event) {
+            var lexicon_detail_box = $('.lexicon_detail_box').val();
+            if (lexicon_detail_box != "") {
+                self.lexiconFormId.submit();
+            }
+        });
+
+        $('#lexicon_detail_cancel_btn').click(function (event) {
+            $(".lexicon_exrta_textarea").css("display", "none");
+            return false;
+        });
+
     }
 }
 

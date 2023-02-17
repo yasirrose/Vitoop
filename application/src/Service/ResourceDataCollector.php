@@ -678,6 +678,12 @@ class ResourceDataCollector
         );
     }
 
+    public function getLexiconDescription($term = "")
+    {
+        $lexicon = $this->lqm->getLexiconDescriptionFromTerm($term);
+        return $lexicon;
+    }
+
     public function getProject()
     {
         $info_prj = '';

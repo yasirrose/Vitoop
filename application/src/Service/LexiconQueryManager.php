@@ -157,4 +157,16 @@ class LexiconQueryManager
 
         return $lexicon_entry;
     }
+
+    public function getLexiconDescriptionFromTerm($term)
+    {
+        $data = array();
+        $arr_wiki = $this->getArrWikiFromWikiApi($term);
+        $wiki_data = $this->getWikiDatafromArrWiki($arr_wiki);
+        $description = $this->getDescriptionFromWikiApi($term);
+        $data['description'] = $description[$wiki_data['wiki_page_id']]['extract'];
+        $data['wiki_fullurl'] = $wiki_data['wiki_fullurl'];
+        $data['wiki_title'] = $wiki_data['wiki_title'];
+        return $data;
+    }
 }

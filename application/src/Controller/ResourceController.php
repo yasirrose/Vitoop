@@ -817,4 +817,64 @@ class ResourceController extends ApiController
             throw new Exception($e);
         }
     }
+
+    /**
+     * @Route("/{resType}/{resId}/language", name="_xhr_resource_language")
+     * @param $resId
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function languageAction($resId): JsonResponse
+    {
+        try {
+            $language = null;
+            if ($resId !== "new") {
+                $resource = $this->resourceRepository->find($resId);
+                if (empty($resource)) {
+                    return new JsonResponse(['success' => false]);
+                }
+                $language = $resource->getLang()->getName();
+            }
+            return new JsonResponse([
+                'langName' => $language,
+                'success' => true
+            ]);
+        } catch (Exception $e) {
+            throw new Exception($e);
+        }
+    }
+
+    /**
+     * @Route("/{resId}/lexicon-exist", name="_xhr_resource_lexicon")
+     * @param Request $request
+     * @param $resId
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function checkLexiconExistAction($resId, Request $request, ResourceDataCollector $rdc): JsonResponse
+    {
+        $dto = $this->getDTOFromRequest($request);
+        if (empty($dto->lexicon_name)) {
+            return new JsonResponse(['success' => false]);
+        }
+        try {
+            $resource = $this->resourceRepository->findOneBy(array('name' => $dto->lexicon_name));
+            if ($resource) {
+                if (!empty($resource->getName())) {
+                    return new JsonResponse(['success' => true]);
+                }
+            } else {
+                $lax_details = $rdc->getLexiconDescription($dto->lexicon_name);
+                $lexicon_footer = 'Dieser Artikel basiert auf dem Artikel <a rel="nofollow" href="' . $lax_details['wiki_fullurl'] . '" target="_blank">' . $lax_details['wiki_title'] . '</a> aus der freien Enzyklopädie
+                <a rel="nofollow" href="http://de.wikipedia.org/wiki/Wikipedia:Hauptseite" target="_blank">Wikipedia</a> und steht unter der Doppellizenz
+                <a rel="nofollow" href="http://www.hier-ihre-webseite-eintragen.de/lokale-fdl.txt" target="_blank">GNU-Lizenz für freie Dokumentation</a> und
+                <a rel="nofollow" href="http://creativecommons.org/licenses/by-sa/3.0/de/" target="_blank">Creative Commons CC-BY-SA 3.0 Unported</a> (<a rel="nofollow" href="http://creativecommons.org/licenses/by-sa/3.0/de/legalcode" target="_blank">Kurzfassung (de)</a>). In der Wikipedia ist eine
+                <a rel="nofollow" href="' . $lax_details['wiki_fullurl'] . '?action=history" target="_blank">Liste der Autoren</a> verfügbar.';
+                return new JsonResponse(['success' => false, 'description' => $lax_details['description'], 'lexicon_footer' => $lexicon_footer]);
+            }
+        } catch (Exception $e) {
+            throw new Exception($e);
+        }
+    }
+
 }

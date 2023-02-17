@@ -28,4 +28,17 @@
         {% endfor %}
     </div>
 </fieldset>
+<fieldset class="ui-corner-all mt-10 lexicon_exrta_textarea" style="display:none;">
+    <div><span class="text-primary">Willst du den untenstehenden Lexikon-Eintrag anlegen?</span>
+        <span class="f-right">
+            <button class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only" id="lexicon_detail_save_btn">Ja</button>
+            <button class="vtp-button ui-state-default ui-button ui-widget ui-corner-all ui-button-icon-only" id="lexicon_detail_cancel_btn">Nein</button>
+        </span>
+    </div>
+    <div class="vtp-fh-top mt-10">
+        <div class="vtp-fh-w100 lexicon_detail_box h-100" id="lexicon_name_description"></div>
+        <hr/>
+        <div id="lexicon_name_description_footer"></div>
+    </div>
+</fieldset>
 {{ form_end(fvassignlexicon) }}
