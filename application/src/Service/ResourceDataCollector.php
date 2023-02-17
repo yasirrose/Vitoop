@@ -680,8 +680,11 @@ class ResourceDataCollector
 
     public function getLexiconDescription($term = "")
     {
+        $data = array();
         $lexicon = $this->lqm->getLexiconDescriptionFromTerm($term);
-        return $lexicon;
+        $data['description'] = $lexicon['description'];
+        $data['footer'] = $this->twig->render('Resource/xhr.resource.lexicon.footer.html.twig', array('lexicon' => $lexicon));
+        return $data;
     }
 
     public function getProject()

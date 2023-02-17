@@ -71,6 +71,9 @@ label:
     url: URL
     username: Benutzername
     yes: ja
+    lexicon_yes: Ja
+    lexicon_no: Nein
+    lexicon_create_encyclopedia: Willst du den untenstehenden Lexikon-Eintrag anlegen?
     remain_signed_in: 'Angemeldet bleiben'
     second_search: 'zweite Suche'
     help: 'Hilfe'

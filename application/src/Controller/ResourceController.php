@@ -865,12 +865,7 @@ class ResourceController extends ApiController
                 }
             } else {
                 $lax_details = $rdc->getLexiconDescription($dto->lexicon_name);
-                $lexicon_footer = 'Dieser Artikel basiert auf dem Artikel <a rel="nofollow" href="' . $lax_details['wiki_fullurl'] . '" target="_blank">' . $lax_details['wiki_title'] . '</a> aus der freien Enzyklopädie
-                <a rel="nofollow" href="http://de.wikipedia.org/wiki/Wikipedia:Hauptseite" target="_blank">Wikipedia</a> und steht unter der Doppellizenz
-                <a rel="nofollow" href="http://www.hier-ihre-webseite-eintragen.de/lokale-fdl.txt" target="_blank">GNU-Lizenz für freie Dokumentation</a> und
-                <a rel="nofollow" href="http://creativecommons.org/licenses/by-sa/3.0/de/" target="_blank">Creative Commons CC-BY-SA 3.0 Unported</a> (<a rel="nofollow" href="http://creativecommons.org/licenses/by-sa/3.0/de/legalcode" target="_blank">Kurzfassung (de)</a>). In der Wikipedia ist eine
-                <a rel="nofollow" href="' . $lax_details['wiki_fullurl'] . '?action=history" target="_blank">Liste der Autoren</a> verfügbar.';
-                return new JsonResponse(['success' => false, 'description' => $lax_details['description'], 'lexicon_footer' => $lexicon_footer]);
+                return new JsonResponse(['success' => false, 'description' => $lax_details['description'], 'lexicon_footer' => $lax_details['footer']]);
             }
         } catch (Exception $e) {
             throw new Exception($e);
