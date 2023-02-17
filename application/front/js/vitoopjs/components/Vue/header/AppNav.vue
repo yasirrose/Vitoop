@@ -99,6 +99,17 @@
                 <div class="d-flex align-center">
                     <ButtonOpenNotes style="margin-right: 4px" />
                     <help-button help-area="conversation" />
+                    <div style="margin-left: 4px">
+                        <span v-if="canEdit">
+                            <button id="vtp-projectdata-project-edit"
+                                    :title="$t('label.edit')"
+                                    class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
+                                    :class="{'ui-state-focus ui-state-active': isConversationEdit}"
+                                    @click="conversationEditMode">
+                                <span class="ui-button-icon-primary ui-icon ui-icon-wrench"></span>
+                            </button>
+                        </span>
+                    </div>
                     <div v-if="get('conversationInstance').canEdit &&
                                get('conversationInstance').conversation &&
                                get('conversationInstance').conversation.conversation_data.is_for_related_users"
@@ -106,16 +117,9 @@
                         <button id="vtp-projectdata-project-live"
                                 :title="$t('label.view')"
                                 class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
-                                :class="{'ui-state-focus ui-state-active': !get('conversationEditMode')}"
-                                @click="conversationEditMode">
+                                :class="{'ui-state-focus ui-state-active': !get('conversationLiveMode')}"
+                                @click="conversationLiveMode">
                             <span class="ui-button-icon-primary ui-icon ui-icon-clipboard"></span>
-                        </button>
-                        <button id="vtp-projectdata-project-edit"
-                                :title="$t('label.edit')"
-                                class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
-                                :class="{'ui-state-focus ui-state-active': get('conversationEditMode')}"
-                                @click="conversationEditMode">
-                            <span class="ui-button-icon-primary ui-icon ui-icon-wrench"></span>
                         </button>
                     </div>
                 </div>
@@ -176,6 +180,9 @@
             isProjectEdit() {
                 return this.$route.name === 'project-edit' || (this.$route.name !== 'project-edit' && this.edit);
             },
+            isConversationEdit() {
+                return this.$route.name === 'conversation-edit' || (this.$route.name !== 'conversation-edit' && this.edit);
+            },
             canEdit() { // getResource('owner')
                 let userRelated = false;
                 if (this.get('project')) {
@@ -224,11 +231,11 @@
                 }
             },
             conversationEditMode() {
-                if (this.get('conversationInstance').canEdit) {
-                    this.$store.commit('set', {
-                        key: 'conversationEditMode',
-                        value: !this.get('conversationEditMode')
-                    })
+                if (this.$route.name === 'conversation') {
+                    this.$store.commit('set', {key: 'edit', value: true});
+                    this.$router.push(`/conversation/${this.getResource('id')}/edit`);
+                } else {
+                    this.$store.commit('set', {key: 'edit', value: true});
                 }
             },
             save() {

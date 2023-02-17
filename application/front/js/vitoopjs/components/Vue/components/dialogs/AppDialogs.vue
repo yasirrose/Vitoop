@@ -109,7 +109,7 @@
                 return this.get('user') ? this.get('user').is_show_help : false;
             },
             getAssigmentTitle() {
-                return 'conversation' === this.get('resource').type ? 'Nachricht' : 'Verknüpfungen';
+                return 'Verknüpfungen';
             }
         },
         mounted() {

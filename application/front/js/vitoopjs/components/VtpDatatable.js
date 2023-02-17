@@ -519,15 +519,13 @@ export default class VtpDatatable {
         }
     }
     getConversationUrlColumn() {
-        return {
-            render: (data,type,row,meta) => {
-                const url = `/conversation/${row.id}`;
-                return row.canRead ? this.getInternalUrlValue(url) : `<span class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink ui-state-disabled disabled"
-                    style="background-color: #DDDDDD">
-                    <span class="ui-icon ui-icon-extlink">-></span>
-                </span>`;
-            }
+        return (vitoopState.state.edit) ? this.getUrlColumn() : { "data": "id", render: (data, type, row, meta) => row.id !== null ? this.getConversationUrlValue(data, type, row, meta) : null }
+    }
+    getConversationUrlValue(data, type, row, meta) {
+        if (row.canRead || vitoopState.state.admin) {
+            return VtpDatatable.prototype.getInternalUrlValue(vitoop.baseUrl + 'conversation/' + row.id, type, row, meta);
         }
+        return '<span class="vtp-extlink vtp-extlink-list vtp-uiaction-open-extlink ui-state-disabled disabled" style="background-color: #DDDDDD"><span class="ui-icon ui-icon-extlink">-></span></span>';
     }
     getCheckboxColumn() {
         let self = this;
