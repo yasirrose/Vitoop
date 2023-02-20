@@ -819,32 +819,6 @@ class ResourceController extends ApiController
     }
 
     /**
-     * @Route("/{resType}/{resId}/language", name="_xhr_resource_language")
-     * @param $resId
-     * @return JsonResponse
-     * @throws Exception
-     */
-    public function languageAction($resId): JsonResponse
-    {
-        try {
-            $language = null;
-            if ($resId !== "new") {
-                $resource = $this->resourceRepository->find($resId);
-                if (empty($resource)) {
-                    return new JsonResponse(['success' => false]);
-                }
-                $language = $resource->getLang()->getName();
-            }
-            return new JsonResponse([
-                'langName' => $language,
-                'success' => true
-            ]);
-        } catch (Exception $e) {
-            throw new Exception($e);
-        }
-    }
-
-    /**
      * @Route("/{resId}/lexicon-exist", name="_xhr_resource_lexicon")
      * @param Request $request
      * @param $resId
