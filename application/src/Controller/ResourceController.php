@@ -821,7 +821,6 @@ class ResourceController extends ApiController
     /**
      * @Route("/{resId}/lexicon-exist", name="_xhr_resource_lexicon")
      * @param Request $request
-     * @param $resId
      * @return JsonResponse
      * @throws Exception
      */
@@ -841,9 +840,34 @@ class ResourceController extends ApiController
                 $lax_details = $rdc->getLexiconDescription($dto->lexicon_name);
                 return new JsonResponse(['success' => false, 'description' => $lax_details['description'], 'lexicon_footer' => $lax_details['footer']]);
             }
-        } catch (Exception $e) {
+        }  catch (Exception $e) {
             throw new Exception($e);
         }
     }
 
+    /**
+     * @Route("/{resType}/{resId}/language", name="_xhr_resource_language")
+     * @param $resId
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function languageAction($resId): JsonResponse
+    {
+        try {
+            $language = null;
+            if ($resId !== "new") {
+                $resource = $this->resourceRepository->find($resId);
+                if (empty($resource)) {
+                    return new JsonResponse(['success' => false]);
+                }
+                $language = $resource->getLang()->getName();
+            }
+            return new JsonResponse([
+                'langName' => $language,
+                'success' => true
+            ]);
+        } catch (Exception $e) {
+            throw new Exception($e);
+        }
+    }
 }
