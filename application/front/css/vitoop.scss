@@ -2754,3 +2754,20 @@ table.dataTable thead th:hover {
 .lexicon_detail_box{
     overflow-y: scroll;
 }
+
+.w_40 {
+    width: 40px !important;
+}
+
+.lexicon_header {
+    border: 1px solid #aed0ea;
+    padding: 4px;
+    display: table;
+    width: -webkit-fill-available;
+    border-radius: 6px;
+}
+
+.lexicon_header .lexicon_span_details {
+    vertical-align: middle;
+    display: table-cell;
+}
