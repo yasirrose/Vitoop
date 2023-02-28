@@ -4,7 +4,7 @@
              id="vtp-second-search-box"
              class="dataTables_filter ui-corner-all" :class=" $store.state.secondSearch.selectedColor ">
             <div id="search_blue_box" title="Lesezeichen anzeigen">
-                <label class="custom-checkbox__wrapper">
+                <!-- <label class="custom-checkbox__wrapper">
                     <input class="valid-checkbox open-checkbox-link"
                            id="search_blue"
                            v-model="isBlue"
@@ -15,7 +15,7 @@
                         <img class="custom-checkbox__check"
                              src="/img/check.png" />
                     </span>
-                </label>
+                </label> -->
                 <select-color />
                 <div v-show="/pdf|teli/.test(get('resource').type)"
                      id="search_date_range">

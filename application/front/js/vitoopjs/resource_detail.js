@@ -240,6 +240,26 @@ window.resourceDetail = (function () {
                     });
                 });
 
+                $('#' + res_type + '_send_mail').on('change', function () {
+                    let sendEmailValue = this.checked ? 1 : 0;
+                    $.ajax({
+                        method: 'POST',
+                        url: vitoop.baseUrl + ([res_type, res_id, 'update-remark-email'].join('/')),
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            send_mail: sendEmailValue
+                        }),
+                        success: function (result) {
+                            if (result.value == 1) {
+                                VueBus.$emit('element-notification:show', 'Erfolgreich eingestellt.', 'vtp-user-hook');
+                            } else if (result.value == 0) {
+                                VueBus.$emit('element-notification:show', 'Unset erfolgreich.', 'vtp-user-hook');
+                            }
+                        }
+                    });
+                });
+
                 let readButton = new ReadableButton(res_type, res_id);
                 readButton.init($('#'+res_type+'_isUserRead').val());
 

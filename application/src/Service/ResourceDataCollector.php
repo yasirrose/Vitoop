@@ -32,6 +32,9 @@ use App\Service\RelResource\RelResourceLinker;
 use App\Service\Tag\ResourceTagLinker;
 use App\Utils\Title\PopupTitle;
 use Twig\Environment;
+use App\Service\EmailSender;
+use App\Entity\UserEmailDetailResource;
+use App\Entity\User\User;
 
 class ResourceDataCollector
 {
@@ -72,6 +75,10 @@ class ResourceDataCollector
      * @var RelResourceLinker
      */
     private $relResourceLinker;
+    /**
+     * @var EmailSender
+     */
+    private $emailSender;
 
     public function __construct(
         ResourceManager $rm,
@@ -83,7 +90,8 @@ class ResourceDataCollector
         FormCreator $formCreator,
         ConversationMessageRepository $conversationMessageRepository,
         ResourceTagLinker $tagLinker,
-        RelResourceLinker $relResourceLinker
+        RelResourceLinker $relResourceLinker,
+        EmailSender $emailSender
     ) {
         $this->rm = $rm;
         $this->vsec = $vsec;
@@ -98,6 +106,7 @@ class ResourceDataCollector
         $this->conversationMessageRepository = $conversationMessageRepository;
         $this->tagLinker = $tagLinker;
         $this->relResourceLinker = $relResourceLinker;
+        $this->emailSender = $emailSender;
     }
 
     public function prepare($res_type, Request $request)
@@ -459,7 +468,7 @@ class ResourceDataCollector
             if ($this->handleData) {
                 $form_remark->handleRequest($this->request);
                 if ($form_remark->isValid()) {
-
+                    $this->sendLatestChangesEmail($remark->getText());
                     $remark->setResource($this->res);
                     $remark->setUser($this->vsec->getUser());
                     $remark->setIp($this->request->getClientIp());
@@ -565,6 +574,7 @@ class ResourceDataCollector
             $form_comment->handleRequest($this->request);
             if ($form_comment->isValid()) {
                 $this->rm->saveComment($comment, $this->res);
+                $this->sendLatestChangesEmail($comment->getText());
                 $info_comment = 'Kommentar erfolgreich gespeichert';
 
                 $comment = new Comment();
@@ -784,4 +794,20 @@ class ResourceDataCollector
 
         return '';
     }
+
+    function sendLatestChangesEmail($message){
+        $email_detail = $this->rm->getEntityManager()->getRepository(UserEmailDetailResource::class)->findOneBy(array('resource' => $this->res->getId(), 'user' => $this->vsec->getUser()));
+        $email_sent = 0;
+        if (!empty($email_detail)) {
+            $email_sent = $email_detail->getSendEmail();
+            $user_email = $this->rm->getEntityManager()->getRepository(User::class)->find($this->vsec->getUser())->getEmail();
+            if (isset($email_sent) && ($email_sent == 1)) {
+                $to_email = $user_email;
+                $subject = 'Details are updated.';
+                $title = ucfirst($this->res->getResourceType()) . ': ' . $this->res->getName();
+                $this->emailSender->sendAnmerkungenDetails($to_email, $subject, $title, $message);
+            }
+        }
+    }
+
 }

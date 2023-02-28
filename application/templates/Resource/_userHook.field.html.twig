@@ -2,7 +2,57 @@
 <div class="created-info{{ fieldSuffix }}" style="{% if isNew %} display: none; {% endif %}">
     <div class="vtp-fh-w10"></div>
     <div class="vtp-fh-w100 vtp-right">
-        <div class="vtp-fh-infosave-box vtp-fh-infosave-box-left vtp-right" style="width: 110px;">
+        <div class="toggle_section">
+            <div class="toggle_detail">
+                <div class="">
+                    <select class="custom-dropdown color_dropdown">
+                        <option value="blau-gradient">blau</option>
+                        <option value="red-gradient">rot</option>
+                        <option value="lime-gradient">grün</option>
+                        <option value="cyan-gradient">cyan</option>
+                        <option value="yellow-gradient">gelb</option>
+                        <option value="orange-gradient">orange</option>
+                        <option value="removebookmark">{{ 'label.remove_bookmarks'|trans }}</option>
+                    </select>
+                </div>
+                <div class="">
+                    <input type="button" title="{{ 'label.mark_as_read'|trans }}" class="btn-primary has_read_btn" value="gelesen">&nbsp;
+                    <a class="btn-primary show_more_btn f-right" id="show_more_button" title="More"></a>
+                </div>
+            </div>
+            <div class="detail_toggle_box" id="show_more_detail_box" style="display:none">
+                <span class="blau-text">Eingetragen am: {{ res.createdat|date('d.m.Y') }}{% if res.getUser is not null %}&nbsp;&nbsp;|&nbsp;&nbsp;von: {{ res.getUser.getUsername }}{% endif %}&nbsp;&nbsp;|&nbsp;&nbsp;ID: {{ res.getId }}</span>
+                <div class="clipboard">
+                    <input type="hidden" value={{ res.getId }} id="dataId">
+                    <button type="button" title="Kopieren" onclick="copyId(event)">
+                        <span class="ui-button-icon-primary ui-icon ui-icon-copy"></span>
+                    </button>
+                    <div class="tooltiptext"></div>
+                </div>
+                {{ form_widget(fvdata.isUserRead) }}
+                {% if restype != 'conversation' %}
+                    <div class="right_checkbox">
+                        <label class="custom-checkbox__wrapper light-blue" title="{{ 'label.changes_text_email'|trans }}" for="{{ restype }}_send_mail">{{ 'label.changes_text_email'|trans }}
+                        {{ form_widget(fvdata.send_mail) }}
+                            <span class="custom-checkbox">
+                                <img class="custom-checkbox__check" src="/img/check.png" />
+                            </span>
+                        </label>
+                    </div>
+                {% else %}
+                        {% do fvdata.send_mail.setRendered %}
+                {% endif %}
+                {% if true == dto.isResourceUser %}
+                    <div class="d-flex align-center">
+                        {{ form_label(fvdata.isNotify, null, {'label_attr': {'class': '' }}) }}
+                        {{ form_widget(fvdata.isNotify, {'attr': {'class': 'valid-checkbox' }}) }}
+                    </div>
+                {% else %}
+                    {% do fvdata.send_mail.setRendered %}
+                {% endif %}
+            </div>
+        </div>
+        {# <div class="vtp-fh-infosave-box vtp-fh-infosave-box-left vtp-right" style="width: 110px;">
             <label class="custom-checkbox__wrapper light-blue"
                    style="margin-left: 3px;"
                    title="{{ 'label.set_remove_bookmarks'|trans }}"
@@ -37,11 +87,9 @@
                    title="{{ 'label.mark_as_read'|trans }}"
                    class="vtp-button vtp-button-read ui-state-default"
                    value="gelesen">
-        </div>
+        </div> #}
     </div>
 </div>
-
-
 <script>
     $(document).ready(function () {
         var color = "{{ dto.selectedColor }}";
@@ -70,10 +118,10 @@
                 spanText.text(selectedColor);
                 spanText.css('width', '100%');
                 removeClassGradient();
+                $('.toggle_detail').addClass(selectedColor + '-gradient');
                 $('.vtp-fh-infosave-box-left ').addClass('vtp-' + selectedColor + '-color');
                 $('.vtp-fh-infosave-box-right ').addClass(selectedColor + '-gradient');
             }
-
             button.css('width', '');
             $(document).on('click', '#'+id+'-menu li.ui-menu-item', function () {
                 let resId = "{{ res.id }}";
@@ -88,43 +136,50 @@
                 color = colorArray[color];
 
                 removeClassGradient();
+                $('.toggle_detail').addClass(gradientClass);
                 $('.vtp-fh-infosave-box-left ').addClass('vtp-' + color + '-color');
                 $('.vtp-fh-infosave-box-right ').addClass(gradientClass);
-
                 sessionStorage.setItem("selectedColor", $(this).text());
+
                 let resourceType = '{{ res.resourceType() }}';
                 let url = '{{ path("_xhr_update_user_resource", {'resType': '__TYPE__', 'resId': '__ID__'}) }}';
                 url = url.replace('__TYPE__', resourceType);
                 url = url.replace('__ID__', {{ res.id }});
-
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    data: {
-                        color: color === 'blau' ? 'blue' : color,
-                    },
-                    success: function (result) {
-                        if (result.success) {
-                            console.log('color updated...');
-                            let colorsClass = ['vtp-blue', 'vtp-lime', 'vtp-cyan', 'vtp-yellow', 'vtp-red'];
-                            for (let i = 0; i < colorsClass.length; i++) {
-                                if ($('#'+resourceType+'-'+ resId +" td:first").hasClass(colorsClass[i])) {
-                                    $('#'+resourceType+'-'+ resId +" td:first").removeClass(colorsClass[i]);
+                var hook_value = "";
+                if(color === 'removebookmark'){
+                    hook_value = 0;
+                    setBookmark(resId, resourceType, id, hook_value);
+                } else {
+                    hook_value = 1;
+                    $.ajax({
+                        url: url,
+                        type: 'GET',
+                        data: {
+                            color: color === 'blau' ? 'blue' : color,
+                        },
+                        success: function (result) {
+                            setBookmark(resId, resourceType, id, hook_value);
+                            if (result.success) {
+                                let colorsClass = ['vtp-blue', 'vtp-lime', 'vtp-cyan', 'vtp-yellow', 'vtp-red'];
+                                for (let i = 0; i < colorsClass.length; i++) {
+                                    if ($('#'+resourceType+'-'+ resId +" td:first").hasClass(colorsClass[i])) {
+                                        $('#'+resourceType+'-'+ resId +" td:first").removeClass(colorsClass[i]);
+                                    }
                                 }
+                                $('#'+resourceType+'-'+ resId +" td:first").addClass("vtp-"+color);
                             }
-                            console.log('updating color to...'+ color);
-                            $('#'+resourceType+'-'+ resId +" td:first").addClass("vtp-"+color);
                         }
-                    }
-                })
+                    })
+                }
             });
         }, 0);
 
-
-        function removeClassGradient()
-        {
+        function removeClassGradient(){
             let colorsClassGradient = ['red-gradient', 'lime-gradient', 'cyan-gradient', 'yellow-gradient', 'blau-gradient', 'orange-gradient'];
             for (let i = 0; i < colorsClassGradient.length; i++) {
+                if ($('.toggle_detail').hasClass(colorsClassGradient[i])) {
+                    $('.toggle_detail').removeClass(colorsClassGradient[i]);
+                }
                 if ($('.vtp-fh-infosave-box-right ').hasClass(colorsClassGradient[i])) {
                     $('.vtp-fh-infosave-box-right ').removeClass(colorsClassGradient[i]);
                 }
@@ -136,6 +191,45 @@
                 }
             }
         }
-    });
 
+        $('#show_more_button').on('click', function (e) {
+            e.preventDefault();
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+            } else {
+                $(this).addClass('active');
+            }
+            $('#show_more_detail_box').toggle();
+        });
+
+        function setBookmark(resId, resourceType, id, hook_value){
+            let spanText = $('#'+ id +'-button .ui-selectmenu-text').text();
+            let isUserHookValue = hook_value;
+            $.ajax({
+                method: 'POST',
+                url: vitoop.baseUrl + ([resourceType, resId, 'user-hooks'].join('/')),
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    isUserHook: isUserHookValue,
+                    sessionColor: spanText
+                }),
+                success: function () {
+                    refresh_list = true;
+                    if (spanText == 'blue') {
+                        spanText = 'blau';
+                    }
+                    $('.vtp-fh-infosave-box-left ').addClass('vtp-' + spanText + '-color');
+                    $('.vtp-fh-infosave-box-right ').addClass(spanText + '-gradient');
+                    let message = 'Lesezeigen wurde gesetzt';
+                    if (0 === isUserHookValue) {
+                        message = 'Lesezeichen wurde entfernt';
+                        $('.vtp-fh-infosave-box-left ').removeClass('vtp-' + spanText + '-color');
+                        $('.vtp-fh-infosave-box-right ').removeClass(spanText + '-gradient');
+                    }
+                    VueBus.$emit('element-notification:show', message, 'vtp-user-hook');
+                }
+            });
+        }
+    });
 </script>

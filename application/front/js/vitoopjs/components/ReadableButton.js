@@ -5,7 +5,8 @@ export default class ReadableButton {
         this.resourceType = resourceType;
         this.resourceId = resourceId;
         this.buttonBehavior = new ReadableButtonBehavior();
-        this.buttonClass = '.vtp-button-read';
+        // this.buttonClass = '.vtp-button-read';
+        this.buttonClass = '.has_read_btn';
     }
 
     init(isUserRead) {

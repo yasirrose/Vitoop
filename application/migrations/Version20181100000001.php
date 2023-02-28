@@ -35,6 +35,7 @@ class Version20181100000001 extends AbstractMigration
         $this->addSql('CREATE TABLE IF NOT EXISTS countries (code VARCHAR(2) NOT NULL, name VARCHAR(255) NOT NULL, sort_order INT DEFAULT NULL, PRIMARY KEY(code)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE IF NOT EXISTS address (id INT NOT NULL, name2 VARCHAR(64) NOT NULL, street VARCHAR(64) NOT NULL, zip VARCHAR(5) NOT NULL, city VARCHAR(64) NOT NULL, contact1 VARCHAR(32) NOT NULL, contact2 VARCHAR(32) NOT NULL, contact3 VARCHAR(32) NOT NULL, contact4 VARCHAR(128) NOT NULL, contact5 VARCHAR(128) NOT NULL, contact_key VARCHAR(5) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE IF NOT EXISTS users_resources (id INT AUTO_INCREMENT NOT NULL, user_id INT DEFAULT NULL, resource_id INT DEFAULT NULL, created_at DATETIME DEFAULT NULL, INDEX IDX_891B914FA76ED395 (user_id), INDEX IDX_891B914F89329D25 (resource_id), UNIQUE INDEX uniqueusersres_idx (resource_id, user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE IF NOT EXISTS user_mail_detail (id INT AUTO_INCREMENT NOT NULL, user_id INT DEFAULT NULL, resource_id INT DEFAULT NULL, created_at DATETIME DEFAULT NULL, INDEX IDX_891B914FA76ED395 (user_id), INDEX IDX_891B914F89329D25 (resource_id), UNIQUE INDEX uniqueusersres_idx (resource_id, user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE IF NOT EXISTS user_config (id INT AUTO_INCREMENT NOT NULL, max_per_page INT NOT NULL, number_of_todo_elements INT DEFAULT 12 NOT NULL, height_of_todo_list INT DEFAULT 550 NOT NULL, is_check_max_link TINYINT(1) DEFAULT \'1\' NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE IF NOT EXISTS vitoop_blog (id INT AUTO_INCREMENT NOT NULL, sheet MEDIUMTEXT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE IF NOT EXISTS wiki_redirect (wiki_page_id INT NOT NULL, id_lexicon INT DEFAULT NULL, wiki_title VARCHAR(128) NOT NULL, wiki_fullurl VARCHAR(255) NOT NULL, UNIQUE INDEX UNIQ_28CA9BE484BC41E7 (wiki_title), UNIQUE INDEX UNIQ_28CA9BE4C0D3845D (wiki_fullurl), INDEX IDX_28CA9BE4DAAC93BF (id_lexicon), PRIMARY KEY(wiki_page_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
@@ -77,6 +78,8 @@ class Version20181100000001 extends AbstractMigration
         $this->addSql('ALTER TABLE address ADD CONSTRAINT FK_D4E6F81BF396750 FOREIGN KEY (id) REFERENCES resource (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE users_resources ADD CONSTRAINT FK_891B914FA76ED395 FOREIGN KEY (user_id) REFERENCES vitoop_user (id)');
         $this->addSql('ALTER TABLE users_resources ADD CONSTRAINT FK_891B914F89329D25 FOREIGN KEY (resource_id) REFERENCES resource (id)');
+        $this->addSql('ALTER TABLE user_mail_detail ADD CONSTRAINT FK_891B914FA76ED395 FOREIGN KEY (user_id) REFERENCES vitoop_user (id)');
+        $this->addSql('ALTER TABLE user_mail_detail ADD CONSTRAINT FK_891B914F89329D25 FOREIGN KEY (resource_id) REFERENCES resource (id)');
         $this->addSql('ALTER TABLE wiki_redirect ADD CONSTRAINT FK_28CA9BE4DAAC93BF FOREIGN KEY (id_lexicon) REFERENCES lexicon (id)');
         $this->addSql('ALTER TABLE flag ADD CONSTRAINT FK_D1F4EB9A6B3CA4B FOREIGN KEY (id_user) REFERENCES vitoop_user (id)');
         $this->addSql('ALTER TABLE flag ADD CONSTRAINT FK_D1F4EB9AEC4A1883 FOREIGN KEY (id_resource) REFERENCES resource (id)');
@@ -121,6 +124,7 @@ class Version20181100000001 extends AbstractMigration
         $this->addSql('ALTER TABLE remark_private DROP FOREIGN KEY FK_127F665EC4A1883');
         $this->addSql('ALTER TABLE address DROP FOREIGN KEY FK_D4E6F81BF396750');
         $this->addSql('ALTER TABLE users_resources DROP FOREIGN KEY FK_891B914F89329D25');
+        $this->addSql('ALTER TABLE user_mail_detail DROP FOREIGN KEY FK_891B914F89329D25');
         $this->addSql('ALTER TABLE flag DROP FOREIGN KEY FK_D1F4EB9AEC4A1883');
         $this->addSql('ALTER TABLE users_readable DROP FOREIGN KEY FK_BADB323A89329D25');
         $this->addSql('ALTER TABLE watchlist DROP FOREIGN KEY FK_340388D3EC4A1883');
@@ -140,6 +144,7 @@ class Version20181100000001 extends AbstractMigration
         $this->addSql('ALTER TABLE remark_private DROP FOREIGN KEY FK_127F6656B3CA4B');
         $this->addSql('ALTER TABLE pdf_annotation DROP FOREIGN KEY FK_1479CCC4A76ED395');
         $this->addSql('ALTER TABLE users_resources DROP FOREIGN KEY FK_891B914FA76ED395');
+        $this->addSql('ALTER TABLE user_mail_detail DROP FOREIGN KEY FK_891B914FA76ED395');
         $this->addSql('ALTER TABLE flag DROP FOREIGN KEY FK_D1F4EB9A6B3CA4B');
         $this->addSql('ALTER TABLE users_readable DROP FOREIGN KEY FK_BADB323AA76ED395');
         $this->addSql('ALTER TABLE vitoop_user_agreement DROP FOREIGN KEY FK_877039E7A76ED395');
@@ -174,6 +179,7 @@ class Version20181100000001 extends AbstractMigration
         $this->addSql('DROP TABLE countries');
         $this->addSql('DROP TABLE address');
         $this->addSql('DROP TABLE users_resources');
+        $this->addSql('DROP TABLE user_mail_detail');
         $this->addSql('DROP TABLE user_config');
         $this->addSql('DROP TABLE vitoop_blog');
         $this->addSql('DROP TABLE wiki_redirect');
