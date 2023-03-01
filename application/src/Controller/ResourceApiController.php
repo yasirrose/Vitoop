@@ -19,6 +19,7 @@ use App\DTO\Resource\SearchResource;
 use App\DTO\Resource\SearchColumns;
 use App\DTO\Paging;
 use App\Service\ResourceManager;
+use App\Entity\UserEmailDetailResource;
 
 /**
  * @Route("api/")
@@ -81,11 +82,22 @@ class ResourceApiController extends ApiController
             }
         }
 
+        if ($request->query->get('color') == 'nobookmark') {
+            foreach ($resources as $key => $resource) {
+                $email_detail = $resourceManager->getEntityManager()->getRepository(UserEmailDetailResource::class)->findOneBy(array('resource' => $resource['id'], 'user' => $this->getUser()));
+                if (!empty($email_detail)) {
+                    if ($email_detail->getSendEmail() == 1) {
+                        unset($resources[$key]);
+                    }
+                }
+            }
+        }
+
         return $this->getApiResponse(array(
             'draw' => $request->query->get('draw'),
             'recordsTotal' => $total,
             'recordsFiltered' => $total,
-            'data'=> $resources,
+            'data'=> array_values($resources),
             'resourceInfo' => $resourceRepository->getCountByTags($search)
         ));
     }

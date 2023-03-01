@@ -39,6 +39,10 @@ export default {
         {
           label: 'orange',
           value: 'vtp-orange'
+        },
+        {
+          label: 'Kein Lesezeichen',
+          value: 'vtp-nobookmark'
         }
       ]
     }
@@ -85,7 +89,7 @@ export default {
 $vitoop-body-background-color: #cfe7f7;
 
 .colorDropdown .v-select {
-  max-width: 80px !important;
+  max-width: 140px !important;
   margin: 0 !important;
   cursor: pointer;
 }
