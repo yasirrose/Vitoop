@@ -40,4 +40,9 @@ class UserAgreement
         $this->ip = $ip;
         $this->createdAt = new \DateTime();
     }
+
+    public function getcreatedAt()
+    {
+        return $this->createdAt;
+    }
 }

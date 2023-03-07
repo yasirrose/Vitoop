@@ -13,6 +13,9 @@ import LexiconWidget from './widgets/lexiconWidget';
 import SendLinkWidget from './widgets/sendLinkWidget';
 
 window.resourceDetail = (function () {
+    let NewcustomCheckboxWrapper = document.createElement('label');
+    NewcustomCheckboxWrapper.className = 'custom-checkbox__wrapper light square-checkbox';
+    NewcustomCheckboxWrapper.innerHTML = ``;
     let customCheckboxWrapper = document.createElement('label');
     customCheckboxWrapper.className = 'custom-checkbox__wrapper light square-checkbox';
     customCheckboxWrapper.innerHTML = `
@@ -532,7 +535,8 @@ window.resourceDetail = (function () {
             }
 
             var urlResourceType = (res_type && 0 !==tab_nr) ? res_type : 'resources';
-            url = vitoop.baseUrl + ([urlResourceType, res_id, tab_name[tab_nr]].join('/'));
+            url = (res_type == 'userlist') ? (vitoop.baseUrl + ([urlResourceType, res_id, 'userdetail'].join('/'))) : (vitoop.baseUrl + ([urlResourceType, res_id, tab_name[tab_nr]].join('/')));
+            // url = vitoop.baseUrl + ([urlResourceType, res_id, tab_name[tab_nr]].join('/'));
             // if the tab is already loaded then return without any action
             /*if (1 == tab_loaded[tab_nr]) {
                 return;
@@ -569,6 +573,8 @@ window.resourceDetail = (function () {
                     return "Adr: ";
                 case 'link':
                     return "Link: ";
+                case 'userlist':
+                    return "User: ";
             }
         },
         loadTabSuccess = function (responseJSON,tabName) {
@@ -746,7 +752,11 @@ window.resourceDetail = (function () {
             }
         },
         addCheckboxWrapperWithResourceTitle = () => {
-            $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').append(customCheckboxWrapper);
+            if ((res_type != 'userlist')) {
+                $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').append(customCheckboxWrapper);
+            } else {
+                $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title').append(NewcustomCheckboxWrapper);
+            }
             $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title .custom-checkbox__wrapper').append('<span id="resource-title"></span>');
         },
         openDialog = function (canReadProp) {
@@ -941,6 +951,7 @@ window.resourceDetail = (function () {
             // vitoopState.commit('set', {key: 'conversationInstance', value: null});
             $('#resource-title').remove();
             customCheckboxWrapper.remove();
+            NewcustomCheckboxWrapper.remove();
             $('#resource-data').empty();
             $('#resource-rating').empty();
             $('#resource-tag').empty();

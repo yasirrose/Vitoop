@@ -1,0 +1,14 @@
+{# VitoopInfomgmtBundle:User:user.detail.html.twig #}
+<fieldset class="ui-corner-all">
+    <legend>User</legend>
+    {% if createdDate %}
+        <div class="vtp-fh-top">
+            <label class="vitoop_label">Eingetragen : {{ createdDate|date("d.m.Y") }} </label>
+        </div>
+    {% endif %}
+    {% if lastlogin %}
+        <div class="vtp-fh-top">
+            <label class="vitoop_label">Last login : {{ lastlogin|date("d.m.Y") }} </label>
+        </div>
+    {% endif %}
+</fieldset>

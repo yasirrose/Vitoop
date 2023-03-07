@@ -42,6 +42,8 @@ use App\Service\LexiconQueryManager;
 use App\Service\ResourceDataCollector;
 use App\Service\ResourceManager;
 use App\Service\VitoopSecurity;
+use App\Entity\User\User;
+use App\Entity\UserAgreement;
 
 class ResourceController extends ApiController
 {
@@ -503,6 +505,33 @@ class ResourceController extends ApiController
             ResourceController::class.'::quickviewAction',
             ['res_type' => $resource->getResourceType(), 'res_id' => $resource->getId()]
         );
+    }
+
+    /**
+     * @Route("/resources/{id}/userdetail", name="_xhr_resource_proxy_userdetail", requirements={"id": "\d+"})
+     */
+    public function userdetailQuickView(Resource $resource, User $user)
+    {
+        return $this->forward(
+            ResourceController::class.'::userdetailAction',
+            ['user_id' => $user->getId()]
+        );
+    }
+
+    /**
+     * @Route("/{res_type}/{user_id}/userdetail", name="_xhr_resource_userdetail", requirements={"user_id": "\d+", "res_type": "user"})
+     */
+    public function userdetailAction(ResourceDataCollector $rdc, $user_id){
+        $user = $this->entityManager->getRepository(User::class)->find($user_id);
+        $useragreement = $this->entityManager->getRepository(UserAgreement::class)->findBy(['user' => $user_id], ['id' => 'ASC'], 1);
+        $LastloginDate = $user->getlastLoginedAt();
+        $createdDate = "";
+        if (!empty($useragreement)) {
+            $createdDate = $useragreement[0]->getcreatedAt();
+        }
+        $content['resource-title'] = $user->getUsername();
+        $content['resource-data'] = $rdc->getUserDetail($LastloginDate, $createdDate);
+        return new JsonResponse($content);
     }
 
     /**

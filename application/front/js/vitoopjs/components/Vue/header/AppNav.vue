@@ -63,6 +63,16 @@
                   Nachricht
               </button>
             </li>
+            <li v-if="isAdmin">
+              <button v-if="isAdmin" class="vtp-resmenu-reslink ui-state-default ui-corner-all"
+                      @click="changeRoute('userlist')"
+                      :class="{
+                    'ui-state-no-content': noContent('userlist'),
+                    'vtp-nav-active ui-state-active': /userlist/.test($route.name)
+                   }">
+                  User
+              </button>
+            </li>
         </ul>
         <div class="d-flex align-center">
             <div v-if="get('project')">
@@ -172,7 +182,7 @@
                 dividerCoefs: ({ dividersToSave }) => dividersToSave.filter(divider => divider.hasOwnProperty('id')),
             }),
             ...mapGetters([
-                'getResource', 'getResourceId', 'getInProject', 'get', 'getProjectData', 'getIsAllRecords'
+                'getResource', 'getResourceId', 'getInProject', 'get', 'getProjectData', 'getIsAllRecords', 'isAdmin'
             ]),
             isProjectLive() {
                 return this.$route.name === 'project' || (!/project/.test(this.$route.name) && !this.edit);

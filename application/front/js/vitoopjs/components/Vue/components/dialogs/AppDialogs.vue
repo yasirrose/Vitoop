@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="`${get('resource').type}` != 'userlist'">
         <div id="vtp-res-dialog" style="display:none" :class="`${get('resource').type}`">
             <div id="resource-notes">
                 <fieldset class="ui-corner-all">
@@ -77,6 +77,20 @@
         <div id="vtp-res-dialog-links" style="display:none"></div>
         <div id="vtp-res-dialog-prompt-links" style="display: none"></div>
         <NotesDialog style="display: none" />
+    </div>
+    <div v-else>
+        <div id="vtp-res-dialog" style="display:none" :class="`${get('resource').type}`">
+            <div>
+                <div class="user_detail_box">
+                    <div id="resource-quickview">
+                        <div id="resource-rating"></div>
+                        <div id="resource-data"></div>
+                        <element-notification id="vtp-user-hook"></element-notification>
+                        <div id="resource-tag"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 

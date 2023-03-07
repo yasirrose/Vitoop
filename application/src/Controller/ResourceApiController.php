@@ -19,6 +19,7 @@ use App\DTO\Resource\SearchResource;
 use App\DTO\Resource\SearchColumns;
 use App\DTO\Paging;
 use App\Service\ResourceManager;
+use App\Entity\Userlist;
 
 /**
  * @Route("api/")
@@ -26,7 +27,7 @@ use App\Service\ResourceManager;
 class ResourceApiController extends ApiController
 {
     /**
-     * @Route("resource/{resType}", methods={"GET"}, name="api_resource_list", requirements={"resType": "pdf|adr|link|teli|lex|prj|book|conversation"})
+     * @Route("resource/{resType}", methods={"GET"}, name="api_resource_list", requirements={"resType": "pdf|adr|link|teli|lex|prj|book|conversation|userlist"})
      *
      * @return array
      */

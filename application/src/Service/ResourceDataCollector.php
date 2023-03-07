@@ -32,6 +32,7 @@ use App\Service\RelResource\RelResourceLinker;
 use App\Service\Tag\ResourceTagLinker;
 use App\Utils\Title\PopupTitle;
 use Twig\Environment;
+use App\Utils\Date\DateTimeFormatter;
 
 class ResourceDataCollector
 {
@@ -196,6 +197,13 @@ class ResourceDataCollector
             'infodata' => $info_data,
             'isShowSave' => ($this->vsec->isOwner() || $this->vsec->isAdmin()),
             'isNew' => false
+        ));
+    }
+
+    public function getUserDetail($LastloginDate, $createdDate){
+        return $this->twig->render('Resource/xhr.user.detail.html.twig', array(
+            'lastlogin' => $LastloginDate,
+            'createdDate' => $createdDate,
         ));
     }
 
