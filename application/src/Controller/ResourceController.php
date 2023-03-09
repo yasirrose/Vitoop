@@ -514,14 +514,14 @@ class ResourceController extends ApiController
     {
         return $this->forward(
             ResourceController::class.'::userdetailAction',
-            ['user_id' => $user->getId()]
+            ['res_type' => 'userdetail', 'user_id' => $user->getId()]
         );
     }
 
     /**
-     * @Route("/{res_type}/{user_id}/userdetail", name="_xhr_resource_userdetail", requirements={"user_id": "\d+", "res_type": "user"})
+     * @Route("/{res_type}/{user_id}/userdetail", name="_xhr_user_detail", requirements={"user_id": "\d+", "res_type": "userdetail"})
      */
-    public function userdetailAction(ResourceDataCollector $rdc, $user_id){
+    public function userdetailAction(ResourceDataCollector $rdc, $res_type, $user_id){
         $user = $this->entityManager->getRepository(User::class)->find($user_id);
         $useragreement = $this->entityManager->getRepository(UserAgreement::class)->findBy(['user' => $user_id], ['id' => 'ASC'], 1);
         $LastloginDate = $user->getlastLoginedAt();
@@ -530,7 +530,7 @@ class ResourceController extends ApiController
             $createdDate = $useragreement[0]->getcreatedAt();
         }
         $content['resource-title'] = $user->getUsername();
-        $content['resource-data'] = $rdc->getUserDetail($LastloginDate, $createdDate);
+        $content['resource-data'] = $rdc->getUserDetail($LastloginDate, $createdDate, $user_id);
         return new JsonResponse($content);
     }
 

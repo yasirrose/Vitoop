@@ -83,11 +83,11 @@
             <div>
                 <div class="user_detail_box">
                     <div id="resource-quickview">
-                        <div id="resource-rating"></div>
                         <div id="resource-data"></div>
-                        <element-notification id="vtp-user-hook"></element-notification>
-                        <div id="resource-tag"></div>
                     </div>
+                </div>
+                <div id="tabs-user_detail">
+                    <div id="resource-user_detail"></div>
                 </div>
             </div>
         </div>

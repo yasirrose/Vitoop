@@ -11,6 +11,7 @@ import CommentWidget from './widgets/commentWidget';
 import ProjectWidget from './widgets/projectWidget';
 import LexiconWidget from './widgets/lexiconWidget';
 import SendLinkWidget from './widgets/sendLinkWidget';
+import UserDetailWidget from './widgets/userDetailWidget';
 
 window.resourceDetail = (function () {
     let NewcustomCheckboxWrapper = document.createElement('label');
@@ -500,6 +501,16 @@ window.resourceDetail = (function () {
             }
 
             /*************************************************************************
+             * UIfy: userDetail
+             ************************************************************************/
+            if(res_type == 'userlist' || res_type == 'userdetail'){
+                if ('resource-data' == container_name) {
+                    var userDetailWidget = new UserDetailWidget(res_id, vitoop.baseUrl);
+                    userDetailWidget.init();
+                }
+            }
+
+            /*************************************************************************
              * UIfy: END
              ************************************************************************/
 
@@ -521,6 +532,7 @@ window.resourceDetail = (function () {
 
             $('#vtp-remark-box').hide();
             $('#vtp-remark-private-box').hide();
+            // $('#vtp-user-notes-box').hide();
         },
         loadTab = function (event, ui) {
             var tab_nr;

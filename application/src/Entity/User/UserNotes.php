@@ -45,6 +45,21 @@ class UserNotes implements GetDTOInterface
         $this->notes = $notes;
     }
 
+    public function setNotes($notes)
+    {
+        $this->notes = $notes;
+    }
+
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+    public function getNotes()
+    {
+        return $this->notes;
+    }
+
     public function getDTO()
     {
         return [
