@@ -19,7 +19,7 @@ use App\DTO\Resource\SearchResource;
 use App\DTO\Resource\SearchColumns;
 use App\DTO\Paging;
 use App\Service\ResourceManager;
-use App\Entity\UserEmailDetailResource;
+use App\Repository\UserEmailDetailResourceRepository;
 
 /**
  * @Route("api/")
@@ -37,7 +37,8 @@ class ResourceApiController extends ApiController
         Request $request,
         ConversationRepository $conversationRepository,
         ProjectRepository $projectRepository,
-        ResourceRepository $resourceRepository
+        ResourceRepository $resourceRepository,
+        UserEmailDetailResourceRepository $userEmailDetailResourceRepository
     ) {
        $search = new SearchResource(
             new Paging(
@@ -84,7 +85,7 @@ class ResourceApiController extends ApiController
 
         if ($request->query->get('color') == 'nobookmark') {
             foreach ($resources as $key => $resource) {
-                $email_detail = $resourceManager->getEntityManager()->getRepository(UserEmailDetailResource::class)->findOneBy(array('resource' => $resource['id'], 'user' => $this->getUser()));
+                $email_detail = $userEmailDetailResourceRepository->findOneBy(array('resource' => $resource['id'], 'user' => $this->getUser()));
                 if (!empty($email_detail)) {
                     if ($email_detail->getSendEmail() == 1) {
                         unset($resources[$key]);

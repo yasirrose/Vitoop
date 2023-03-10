@@ -188,11 +188,11 @@ class EmailSender
             ->setBody($body, 'text/html');
     }
 
-    public function sendAnmerkungenDetails($to_email, $subject, $title, $new_message){
+    public function sendRemarksDetails($toEmail, $subject, $title, $newMessage){
         $message = $this->createMessage(
             $subject,
-            $to_email,
-            $this->templater->render('email/anmerkungenDetail.html.twig',array('title' => $title,'message' => $new_message)),
+            $toEmail,
+            $this->templater->render('email/anmerkungenDetail.html.twig', array('title' => $title, 'message' => $newMessage)),
         );
         return $this->mailer->send($message);
     }

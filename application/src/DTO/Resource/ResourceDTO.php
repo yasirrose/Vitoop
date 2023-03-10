@@ -128,7 +128,7 @@ class ResourceDTO
 
     public $isUserHook;
 
-    public $send_mail;
+    public $sendMail;
 
     public $isUserRead;
 

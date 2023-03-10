@@ -33,8 +33,8 @@ use App\Service\Tag\ResourceTagLinker;
 use App\Utils\Title\PopupTitle;
 use Twig\Environment;
 use App\Service\EmailSender;
-use App\Entity\UserEmailDetailResource;
 use App\Entity\User\User;
+use App\Repository\UserEmailDetailResourceRepository;
 
 class ResourceDataCollector
 {
@@ -75,10 +75,8 @@ class ResourceDataCollector
      * @var RelResourceLinker
      */
     private $relResourceLinker;
-    /**
-     * @var EmailSender
-     */
-    private $emailSender;
+    private EmailSender $emailSender;
+    private $userEmailDetailResourceRepository;
 
     public function __construct(
         ResourceManager $rm,
@@ -91,7 +89,8 @@ class ResourceDataCollector
         ConversationMessageRepository $conversationMessageRepository,
         ResourceTagLinker $tagLinker,
         RelResourceLinker $relResourceLinker,
-        EmailSender $emailSender
+        EmailSender $emailSender,
+        UserEmailDetailResourceRepository $userEmailDetailResourceRepository
     ) {
         $this->rm = $rm;
         $this->vsec = $vsec;
@@ -107,6 +106,7 @@ class ResourceDataCollector
         $this->tagLinker = $tagLinker;
         $this->relResourceLinker = $relResourceLinker;
         $this->emailSender = $emailSender;
+        $this->userEmailDetailResourceRepository = $userEmailDetailResourceRepository;
     }
 
     public function prepare($res_type, Request $request)
@@ -795,17 +795,17 @@ class ResourceDataCollector
         return '';
     }
 
-    function sendLatestChangesEmail($message){
-        $email_detail = $this->rm->getEntityManager()->getRepository(UserEmailDetailResource::class)->findOneBy(array('resource' => $this->res->getId(), 'user' => $this->vsec->getUser()));
-        $email_sent = 0;
-        if (!empty($email_detail)) {
-            $email_sent = $email_detail->getSendEmail();
-            $user_email = $this->rm->getEntityManager()->getRepository(User::class)->find($this->vsec->getUser())->getEmail();
-            if (isset($email_sent) && ($email_sent == 1)) {
-                $to_email = $user_email;
+    private function sendLatestChangesEmail($message){
+        $emailDetail = $this->userEmailDetailResourceRepository->findOneBy(array('resource' => $this->res->getId(), 'user' => $this->vsec->getUser()));
+        $emailSent = 0;
+        if (!empty($emailDetail)) {
+            $emailSent = $emailDetail->getSendEmail();
+            $userEmail = $this->rm->getEntityManager()->getRepository(User::class)->find($this->vsec->getUser())->getEmail();
+            if (isset($emailSent) && ($emailSent == 1)) {
+                $toEmail = $userEmail;
                 $subject = 'Details are updated.';
                 $title = ucfirst($this->res->getResourceType()) . ': ' . $this->res->getName();
-                $this->emailSender->sendAnmerkungenDetails($to_email, $subject, $title, $message);
+                $this->emailSender->sendRemarksDetails($toEmail, $subject, $title, $message);
             }
         }
     }

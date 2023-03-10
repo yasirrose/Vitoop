@@ -741,26 +741,26 @@ class Resource
         if (!$dto->user) {
             return;
         }
-        if ($dto->send_mail) {
-            $this->set_email($dto->user, $dto->send_mail);
+        if ($dto->sendMail) {
+            $this->setEmail($dto->user, $dto->sendMail);
             return;
         }
-        $this->unset_email($dto->user);
+        $this->unsetEmail($dto->user);
     }
 
-    public function set_email(User $user, $send_mail)
+    public function setEmail(User $user, $sendMail)
     {
-        $user_set_email = $this->findUserSetEmail($user);
-        if (0 === $user_set_email->count()) {
-            $this->userSetEmail->add(new UserEmailDetailResource($user, $this, $send_mail));
+        $userSetEmail = $this->findUserSetEmail($user);
+        if (0 === $userSetEmail->count()) {
+            $this->userSetEmail->add(new UserEmailDetailResource($user, $this, $sendMail));
         }
     }
 
-    public function unset_email(User $user)
+    public function unsetEmail(User $user)
     {
-        $user_set_email = $this->findUserSetEmail($user);
-        if (0 < $user_set_email->count()) {
-            $this->userSetEmail->removeElement($user_set_email->first());
+        $userSetEmail = $this->findUserSetEmail($user);
+        if (0 < $userSetEmail->count()) {
+            $this->userSetEmail->removeElement($userSetEmail->first());
         }
     }
 
@@ -774,7 +774,7 @@ class Resource
             $dto->user = $user;
             $dto->isUserHook = $this->isBlueByUser($user);
             $dto->isUserRead = $this->isReadByUser($user);
-            $dto->send_mail = $this->isEmailByUser($user);
+            $dto->sendMail = $this->isEmailByUser($user);
             $dto->selectedColor = !empty($this->findUserHook($user)[0]) ? $this->findUserHook($user)[0]->getColor() : null;
         }
         $dto->created_at = $this->created_at->format(\DateTime::ISO8601);

@@ -240,7 +240,7 @@ window.resourceDetail = (function () {
                     });
                 });
 
-                $('#' + res_type + '_send_mail').on('change', function () {
+                $('#' + res_type + '_sendMail').on('change', function () {
                     let sendEmailValue = this.checked ? 1 : 0;
                     $.ajax({
                         method: 'POST',
@@ -248,7 +248,7 @@ window.resourceDetail = (function () {
                         dataType: 'json',
                         contentType: 'application/json',
                         data: JSON.stringify({
-                            send_mail: sendEmailValue
+                            sendMail: sendEmailValue
                         }),
                         success: function (result) {
                             if (result.value == 1) {

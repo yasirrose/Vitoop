@@ -27,14 +27,6 @@
                     <div class="conversation__status">{{ label }}</div>
                 {% endif %}
                 {{ form_widget(fvdata.status, {'attr': {'class': 'w-78' }}) }}
-                {# {% if true == dto.isResourceUser %}
-                    <div class="d-flex align-center">
-                        {{ form_label(fvdata.isNotify, null, {'label_attr': {'class': '' }}) }}
-                        {{ form_widget(fvdata.isNotify, {'attr': {'class': 'valid-checkbox' }}) }}
-                    </div>
-                {% else %}
-                    {% do fvdata.isNotify.setRendered %}
-                {% endif %} #}
             {% if false == isNew %}
                 </div>
             {% endif %}

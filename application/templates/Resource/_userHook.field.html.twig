@@ -32,15 +32,15 @@
                 {{ form_widget(fvdata.isUserRead) }}
                 {% if restype != 'conversation' %}
                     <div class="right_checkbox">
-                        <label class="custom-checkbox__wrapper light-blue" title="{{ 'label.changes_text_email'|trans }}" for="{{ restype }}_send_mail">{{ 'label.changes_text_email'|trans }}
-                        {{ form_widget(fvdata.send_mail) }}
+                        <label class="custom-checkbox__wrapper light-blue" title="{{ 'label.changes_text_email'|trans }}" for="{{ restype }}_sendMail">{{ 'label.changes_text_email'|trans }}
+                        {{ form_widget(fvdata.sendMail) }}
                             <span class="custom-checkbox">
                                 <img class="custom-checkbox__check" src="/img/check.png" />
                             </span>
                         </label>
                     </div>
                 {% else %}
-                        {% do fvdata.send_mail.setRendered %}
+                        {% do fvdata.sendMail.setRendered %}
                 {% endif %}
                 {% if true == dto.isResourceUser %}
                     <div class="d-flex align-center">
@@ -48,46 +48,10 @@
                         {{ form_widget(fvdata.isNotify, {'attr': {'class': 'valid-checkbox' }}) }}
                     </div>
                 {% else %}
-                    {% do fvdata.send_mail.setRendered %}
+                    {% do fvdata.sendMail.setRendered %}
                 {% endif %}
             </div>
         </div>
-        {# <div class="vtp-fh-infosave-box vtp-fh-infosave-box-left vtp-right" style="width: 110px;">
-            <label class="custom-checkbox__wrapper light-blue"
-                   style="margin-left: 3px;"
-                   title="{{ 'label.set_remove_bookmarks'|trans }}"
-                   for="{{ restype }}_isUserHook">
-                {{ form_widget(fvdata.isUserHook) }}
-                <span class="custom-checkbox">
-                    <img class="custom-checkbox__check"
-                         src="/img/check.png" />
-                </span>
-            </label>
-            <select class="custom-dropdown">
-                <option value="blau-gradient">blau</option>
-                <option value="red-gradient">rot</option>
-                <option value="lime-gradient">grün</option>
-                <option value="cyan-gradient">cyan</option>
-                <option value="yellow-gradient">gelb</option>
-                <option value="orange-gradient">orange</option>
-            </select>
-            <span class="blau-text"></span>
-        </div>
-        <div class="vtp-fh-infosave-box vtp-fh-infosave-box-right">
-             <span class="blau-text">&nbsp;&nbsp;Eingetragen am: {{ res.createdat|date('d.m.Y') }}{% if res.getUser is not null %}&nbsp;&nbsp;|&nbsp;&nbsp;von: {{ res.getUser.getUsername }}{% endif %}&nbsp;&nbsp;|&nbsp;&nbsp;ID: {{ res.getId }}</span>
-             <div class="clipboard">
-                 <input type="hidden" value={{ res.getId }} id="dataId">
-                 <button type="button" title="Kopieren" onclick="copyId(event)">
-                    <span class="ui-button-icon-primary ui-icon ui-icon-copy"></span>
-                 </button>
-                 <div class="tooltiptext"></div>
-             </div>
-            {{ form_widget(fvdata.isUserRead) }}
-            <input type="button"
-                   title="{{ 'label.mark_as_read'|trans }}"
-                   class="vtp-button vtp-button-read ui-state-default"
-                   value="gelesen">
-        </div> #}
     </div>
 </div>
 <script>

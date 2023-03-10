@@ -46,13 +46,13 @@ class UserEmailDetailResource
     /**
      * @ORM\Column(name="send_mail", type="string", length=255, nullable=true, options={"default":"0"})
      */
-    protected $send_mail;
+    protected $sendMail;
 
-    public function __construct(User $user, Resource $resource, string $send_mail)
+    public function __construct(User $user, Resource $resource, string $sendMail)
     {
         $this->user = $user;
         $this->resource = $resource;
-        $this->send_mail = $send_mail;
+        $this->sendMail = $sendMail;
         $this->createdAt = new \DateTime();
     }
 
@@ -72,19 +72,18 @@ class UserEmailDetailResource
     }
 
     /**
-     * Set send_mail
+     * Set sendMail
      *
-     * @param string $send_mail
+     * @param string $sendMail
      */
-    public function updateSendEmail(string $send_mail) : UserEmailDetailResource
+    public function updateSendEmail(string $sendMail) : UserEmailDetailResource
     {
-        $this->send_mail = $send_mail;
-
+        $this->sendMail = $sendMail;
         return $this;
     }
 
     public function getSendEmail() : string
     {
-        return $this->send_mail;
+        return $this->sendMail;
     }
 }

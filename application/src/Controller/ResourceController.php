@@ -59,6 +59,7 @@ class ResourceController extends ApiController
      * @var EntityManagerInterface
      */
     private $entityManager;
+    private $rm;
 
     /**
      * ResourceController constructor.
@@ -69,11 +70,13 @@ class ResourceController extends ApiController
     public function __construct(
         EmailSender $emailSender,
         ResourceRepository $resourceRepository,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        ResourceManager $rm
     ) {
         $this->emailSender = $emailSender;
         $this->resourceRepository = $resourceRepository;
         $this->entityManager = $entityManager;
+        $this->rm = $rm;
     }
 
     /**
@@ -877,18 +880,17 @@ class ResourceController extends ApiController
      */
     public function updateRemarkEmailAction(Request $request, $resType, $resId)
     {
-        $resource = $this->entityManager->getRepository(Resource\ResourceType::getClassByResourceType($resType))->find($resId);
+        $resource = $this->rm->getRepository($resType)->find($resId);
         if (!$resource) {
             $this->createNotFoundException();
         }
         $dto = $this->getDTOFromRequest($request);
         $resourceDTO = new \App\DTO\Resource\ResourceDTO();
         $resourceDTO->user = $this->getUser();
-        $resourceDTO->send_mail = $dto->send_mail;
+        $resourceDTO->sendMail = $dto->sendMail;
         $resource->updateUserSentEmail($resourceDTO);
-        $this->entityManager->persist($resource);
-        $this->entityManager->flush();
-        return $this->getApiResponse(['value' => $dto->send_mail]);
+        $this->resourceRepository->save($resource);
+        return $this->getApiResponse(['value' => $dto->sendMail]);
     }
 
 }
