@@ -203,8 +203,8 @@ class ResourceDataCollector
         ));
     }
 
-    public function getUserDetail($LastloginDate, $createdDate, $user_id){
-        $user = $this->rm->getEntityManager()->getRepository(User::class)->findOneBy(['id' => $user_id]);
+    public function getUserDetail($LastloginDate, $createdDate, $userId){
+        $user = $this->rm->getEntityManager()->getRepository(User::class)->findOneBy(['id' => $userId]);
         $UserNotes = $this->rm->getEntityManager()->getRepository(UserNotes::class)->findOneBy(['user' => $user]);
         if (null === $UserNotes) {
             $UserNotes = new UserNotes($user, "");
@@ -212,7 +212,7 @@ class ResourceDataCollector
         $show_form = true;
         $info_user_notes = "";
         $form_user_notes = $this->ff->create(UserNotesType::class, $UserNotes, array(
-            'action' => $this->router->generate('_xhr_user_detail', array('res_type' => 'userdetail', 'user_id' => $user_id)),
+            'action' => $this->router->generate('_xhr_user_detail', array('res_type' => 'userdetail', 'userId' => $userId)),
             'method' => 'POST'
         ));
         if ($show_form) {

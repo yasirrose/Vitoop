@@ -44,6 +44,8 @@ use App\Service\ResourceManager;
 use App\Service\VitoopSecurity;
 use App\Entity\User\User;
 use App\Entity\UserAgreement;
+use App\Repository\UserRepository;
+use App\Repository\UserAgreementRepository;
 
 class ResourceController extends ApiController
 {
@@ -62,19 +64,34 @@ class ResourceController extends ApiController
     private $entityManager;
 
     /**
+     * @var UserRepository
+     */
+    private $userRepository;
+    /**
+     * @var UserAgreementRepository
+     */
+    private $userAgreementRepository;
+
+    /**
      * ResourceController constructor.
      * @param EmailSender $emailSender
      * @param ResourceRepository $resourceRepository
      * @param EntityManagerInterface $entityManager
+     * @param UserRepository $userRepository
+     * @param UserAgreementRepository $userAgreementRepository
      */
     public function __construct(
         EmailSender $emailSender,
         ResourceRepository $resourceRepository,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        UserRepository $userRepository,
+        UserAgreementRepository $userAgreementRepository
     ) {
         $this->emailSender = $emailSender;
         $this->resourceRepository = $resourceRepository;
         $this->entityManager = $entityManager;
+        $this->userRepository = $userRepository;
+        $this->userAgreementRepository = $userAgreementRepository;
     }
 
     /**
@@ -514,23 +531,23 @@ class ResourceController extends ApiController
     {
         return $this->forward(
             ResourceController::class.'::userdetailAction',
-            ['res_type' => 'userdetail', 'user_id' => $user->getId()]
+            ['res_type' => 'userdetail', 'userId' => $user->getId()]
         );
     }
 
     /**
-     * @Route("/{res_type}/{user_id}/userdetail", name="_xhr_user_detail", requirements={"user_id": "\d+", "res_type": "userdetail"})
+     * @Route("/{res_type}/{userId}/userdetail", name="_xhr_user_detail", requirements={"userId": "\d+", "res_type": "userdetail"})
      */
-    public function userdetailAction(ResourceDataCollector $rdc, $res_type, $user_id){
-        $user = $this->entityManager->getRepository(User::class)->find($user_id);
-        $useragreement = $this->entityManager->getRepository(UserAgreement::class)->findBy(['user' => $user_id], ['id' => 'ASC'], 1);
+    public function userdetailAction(ResourceDataCollector $rdc, $userId){
+        $user = $this->userRepository->find($userId);
+        $useragreement = $this->userAgreementRepository->findBy(['user' => $userId], ['id' => 'ASC'], 1);
         $LastloginDate = $user->getlastLoginedAt();
         $createdDate = "";
         if (!empty($useragreement)) {
             $createdDate = $useragreement[0]->getcreatedAt();
         }
         $content['resource-title'] = $user->getUsername();
-        $content['resource-data'] = $rdc->getUserDetail($LastloginDate, $createdDate, $user_id);
+        $content['resource-data'] = $rdc->getUserDetail($LastloginDate, $createdDate, $userId);
         return new JsonResponse($content);
     }
 
