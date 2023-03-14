@@ -39,6 +39,7 @@
     import ProjectTableHead from "./heads/ProjectTableHead.vue";
     import ConversationTableHead from "./heads/ConversationTableHead.vue";
     import AllTableHead from "./heads/AllTableHead.vue";
+    import UserlistTableHead from "./heads/UserlistTableHead.vue";
 
     import {mapGetters} from "vuex";
 
@@ -53,7 +54,8 @@
             LexiconTableHead,
             ProjectTableHead,
             ConversationTableHead,
-            AllTableHead
+            AllTableHead,
+            UserlistTableHead
         },
         data() {
             return {
@@ -92,6 +94,9 @@
                         break
                     case 'all':
                         return 'AllTableHead';
+                        break
+                    case 'userlist':
+                        return 'UserlistTableHead';
                         break
                 }
             },

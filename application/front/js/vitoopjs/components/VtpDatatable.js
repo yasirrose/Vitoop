@@ -476,6 +476,14 @@ export default class VtpDatatable {
                 this.getMapsLinkColumn()
             ];
         }
+        if (this.resType == 'userlist') {
+            columns = [
+                this.getUserlistFirstColumn(),
+                this.getUserNameColumn(),
+                this.getLastLoginColumn()
+            ];
+            return columns;
+        }
     }
     getUrlAll() {
         if (vitoopState.state.edit) {
@@ -786,5 +794,27 @@ export default class VtpDatatable {
         return {
             "data": "zip"
         };
+    }
+    getUserlistFirstColumn() {
+        return { data: "createdAt", render: (data, type, row) => this.getcreatedAtDateValue(data, type, row) };
+    }
+    getcreatedAtDateValue(data, type, row) {
+        var createdAtDate = null;
+        createdAtDate = (row.createdAt !== null) ? row.createdAt.date : null;
+        return createdAtDate != null ? moment(createdAtDate).format('DD.MM.YYYY') : null;
+    }
+    getUserNameColumn() {
+        return {
+            data: "username",
+            render: (data, type, row) => this.getWrapperForTextValue(data, type, row)
+        }
+    }
+    getLastLoginDateValue(data, type, row) {
+        var lastLoginDate = null;
+        lastLoginDate = (row.lastLoginedAt !== null) ? row.lastLoginedAt.date : null;
+        return lastLoginDate != null ? moment(lastLoginDate).format('DD.MM.YYYY') : null;
+    }
+    getLastLoginColumn() {
+        return { data: "lastLoginedAt", render: (data, type, row) => this.getLastLoginDateValue(data, type, row) };
     }
 }

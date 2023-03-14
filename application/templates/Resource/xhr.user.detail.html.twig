@@ -1,0 +1,21 @@
+{# VitoopInfomgmtBundle:User:user.detail.html.twig #}
+<fieldset class="ui-corner-all">
+    <legend>User</legend>
+        <div class="vtp-fh-top">
+            <label class="vitoop_label">Eingetragen : {% if createdDate %} {{ createdDate|date("d.m.Y") }} {% endif %} </label>
+        </div>
+        <div class="vtp-fh-top">
+            <label class="vitoop_label">Last login : {% if lastlogin %} {{ lastlogin|date("d.m.Y") }} {% endif %}</label>
+        </div>
+</fieldset>
+{{ form_start(fvusernotes, {'attr': {'class': 'user_detail_note_form','id': 'form-user-notes', 'novalidate': 'novalidate' }}) }}
+    <div id="vtp-user-notes-box">
+            <div id="vtp-user-notes-sheet-edit">
+                {{ form_errors(fvusernotes.notes) }}
+                {{ form_widget(fvusernotes.notes, {'attr': {'placeholder': '', 'class': 'textarea_user_notes'} }) }}
+            </div>
+        <div id="vtp-user-notes-buttons" class="user_notes_save_btn f-right">
+            {{ form_widget(fvusernotes.save, {'attr': {'class': 'vtp-uiinfo-anchor ui-corner-all ui-state-default' }}) }}
+        </div>
+    </div>
+{{ form_end(fvusernotes) }}

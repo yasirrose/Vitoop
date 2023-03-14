@@ -160,5 +160,10 @@ export default [
         component: UserDataP,
         name: 'user-datap'
     },
+    {
+        path: '/userlist',
+        component: Table,
+        name: 'userlist'
+    },
 ]
 

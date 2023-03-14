@@ -43,6 +43,10 @@ use App\Service\LexiconQueryManager;
 use App\Service\ResourceDataCollector;
 use App\Service\ResourceManager;
 use App\Service\VitoopSecurity;
+use App\Entity\User\User;
+use App\Entity\UserAgreement;
+use App\Repository\UserRepository;
+use App\Repository\UserAgreementRepository;
 
 class ResourceController extends ApiController
 {
@@ -62,21 +66,36 @@ class ResourceController extends ApiController
     private $rm;
 
     /**
+     * @var UserRepository
+     */
+    private $userRepository;
+    /**
+     * @var UserAgreementRepository
+     */
+    private $userAgreementRepository;
+
+    /**
      * ResourceController constructor.
      * @param EmailSender $emailSender
      * @param ResourceRepository $resourceRepository
      * @param EntityManagerInterface $entityManager
+     * @param UserRepository $userRepository
+     * @param UserAgreementRepository $userAgreementRepository
      */
     public function __construct(
         EmailSender $emailSender,
         ResourceRepository $resourceRepository,
         EntityManagerInterface $entityManager,
-        ResourceManager $rm
+        ResourceManager $rm,
+        UserRepository $userRepository,
+        UserAgreementRepository $userAgreementRepository
     ) {
         $this->emailSender = $emailSender;
         $this->resourceRepository = $resourceRepository;
         $this->entityManager = $entityManager;
         $this->rm = $rm;
+        $this->userRepository = $userRepository;
+        $this->userAgreementRepository = $userAgreementRepository;
     }
 
     /**
@@ -507,6 +526,33 @@ class ResourceController extends ApiController
             ResourceController::class.'::quickviewAction',
             ['res_type' => $resource->getResourceType(), 'res_id' => $resource->getId()]
         );
+    }
+
+    /**
+     * @Route("/resources/{id}/userdetail", name="_xhr_resource_proxy_userdetail", requirements={"id": "\d+"})
+     */
+    public function userdetailQuickView(Resource $resource, User $user)
+    {
+        return $this->forward(
+            ResourceController::class.'::userdetailAction',
+            ['res_type' => 'userdetail', 'userId' => $user->getId()]
+        );
+    }
+
+    /**
+     * @Route("/{res_type}/{userId}/userdetail", name="_xhr_user_detail", requirements={"userId": "\d+", "res_type": "userdetail"})
+     */
+    public function userdetailAction(ResourceDataCollector $rdc, $userId){
+        $user = $this->userRepository->find($userId);
+        $useragreement = $this->userAgreementRepository->findBy(['user' => $userId], ['id' => 'ASC'], 1);
+        $LastloginDate = $user->getlastLoginedAt();
+        $createdDate = "";
+        if (!empty($useragreement)) {
+            $createdDate = $useragreement[0]->getcreatedAt();
+        }
+        $content['resource-title'] = $user->getUsername();
+        $content['resource-data'] = $rdc->getUserDetail($LastloginDate, $createdDate, $userId);
+        return new JsonResponse($content);
     }
 
     /**

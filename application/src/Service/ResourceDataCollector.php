@@ -17,6 +17,7 @@ use App\Entity\Comment;
 use App\Entity\Lexicon;
 use App\Entity\Project;
 use App\Entity\Flag;
+use App\Entity\User\User;
 use App\Form\Adapter\ResourceFormAdapter;
 use App\Form\Type\CommentType;
 use App\Form\Type\FlagInfoType;
@@ -32,9 +33,6 @@ use App\Service\RelResource\RelResourceLinker;
 use App\Service\Tag\ResourceTagLinker;
 use App\Utils\Title\PopupTitle;
 use Twig\Environment;
-use App\Service\EmailSender;
-use App\Entity\User\User;
-use App\Repository\UserEmailDetailResourceRepository;
 
 class ResourceDataCollector
 {
@@ -206,6 +204,42 @@ class ResourceDataCollector
             'isShowSave' => ($this->vsec->isOwner() || $this->vsec->isAdmin()),
             'isNew' => false
         ));
+    }
+
+    public function getUserDetail($LastloginDate, $createdDate, $userId){
+        $user = $this->rm->getEntityManager()->getRepository(User::class)->findOneBy(['id' => $userId]);
+        $UserNotes = $this->rm->getEntityManager()->getRepository(UserNotes::class)->findOneBy(['user' => $user]);
+        if (null === $UserNotes) {
+            $UserNotes = new UserNotes($user, "");
+        }
+        $show_form = true;
+        $info_user_notes = "";
+        $form_user_notes = $this->ff->create(UserNotesType::class, $UserNotes, array(
+            'action' => $this->router->generate('_xhr_user_detail', array('res_type' => 'userdetail', 'userId' => $userId)),
+            'method' => 'POST'
+        ));
+        if ($show_form) {
+            if ($this->handleData) {
+                $form_user_notes->handleRequest($this->request);
+                if ($form_user_notes->isValid()) {
+                    $UserNotes->updateNotes($form_user_notes->get('notes')->getData());
+                    $this->rm->getEntityManager()->persist($UserNotes);
+                    $this->rm->getEntityManager()->flush();
+                    $info_user_notes = 'Bemerkung wurde erfolgreich gespeichert.';
+                }
+            }
+        }
+        $fv_user_notes = $form_user_notes->createView();
+        $tpl_vars = array(
+            'fvusernotes' => $fv_user_notes,
+            'infousernotes' => $info_user_notes
+        );
+        return $this->twig->render('Resource/xhr.user.detail.html.twig', array_merge($tpl_vars, array(
+            'lastlogin' => $LastloginDate,
+            'createdDate' => $createdDate,
+            'usernotes' => $UserNotes,
+            'showform' => $show_form,
+        )));
     }
 
     public function newData()

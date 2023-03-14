@@ -11,6 +11,7 @@ use App\Entity\Lexicon;
 use App\Entity\Project;
 use App\Entity\Book;
 use App\Entity\Conversation;
+use App\Entity\User\User;
 
 class ResourceType
 {
@@ -23,7 +24,8 @@ class ResourceType
         'lex' => Lexicon::class,
         'prj' => Project::class,
         'book' => Book::class,
-        'conversation' => Conversation::class
+        'conversation' => Conversation::class,
+        'userlist' => User::class
     ];
 
     const RESOURCE_INDEXES = [
@@ -35,7 +37,8 @@ class ResourceType
         5 => 'lex',
         6 => 'prj',
         7 => 'book',
-        8 => 'conversation'
+        8 => 'conversation',
+        9 => 'userlist'
     ];
 
     const RESOURCE_NAMES = [
@@ -47,7 +50,8 @@ class ResourceType
         "5" => "Lexikon",
         "6" => "Projekt",
         "7" => "Buch",
-        "8" => "Conversation"
+        "8" => "Conversation",
+        "9" => "Userlist"
     ];
 
     /**

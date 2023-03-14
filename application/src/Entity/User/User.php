@@ -1040,4 +1040,9 @@ class User implements EquatableInterface, UserInterface, \Serializable, GetDTOIn
     {
         $this->lastLoginedAt = new \DateTime();
     }
+
+    public function getlastLoginedAt()
+    {
+        return $this->lastLoginedAt;
+    }
 }
