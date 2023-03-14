@@ -33,6 +33,11 @@ use App\Service\RelResource\RelResourceLinker;
 use App\Service\Tag\ResourceTagLinker;
 use App\Utils\Title\PopupTitle;
 use Twig\Environment;
+use App\Utils\Date\DateTimeFormatter;
+use App\Entity\User\UserNotes;
+use App\Form\Type\UserNotesType;
+use App\Service\EmailSender;
+use App\Repository\UserEmailDetailResourceRepository;
 
 class ResourceDataCollector
 {
