@@ -248,7 +248,7 @@ window.resourceDetail = (function () {
                     let sendEmailValue = this.checked ? 1 : 0;
                     $.ajax({
                         method: 'POST',
-                        url: vitoop.baseUrl + ([res_type, res_id, 'update-remark-email'].join('/')),
+                        url: vitoop.baseUrl + (['resources', res_id, 'update-remark-email'].join('/')),
                         dataType: 'json',
                         contentType: 'application/json',
                         data: JSON.stringify({

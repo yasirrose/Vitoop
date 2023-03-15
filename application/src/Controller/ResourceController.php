@@ -922,11 +922,10 @@ class ResourceController extends ApiController
     }
 
     /**
-     * @Route("/{resType}/{resId}/update-remark-email", name="_xhr_update_remark_email")
+     * @Route("/resources/{id}/update-remark-email", name="_xhr_update_remark_email", requirements={"id": "\d+"})
      */
-    public function updateRemarkEmailAction(Request $request, $resId)
+    public function updateRemarkEmailAction(Request $request, Resource $resource)
     {
-        $resource = $this->resourceRepository->find($resId);
         if (!$resource) {
             $this->createNotFoundException();
         }
