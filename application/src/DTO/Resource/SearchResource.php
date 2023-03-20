@@ -5,7 +5,8 @@ use Symfony\Component\HttpFoundation\Request;
 use App\DTO\Paging;
 use App\Entity\User\User;
 
-class SearchResource {
+class SearchResource
+{
     /**
      * @var boolean 
      */
@@ -64,7 +65,26 @@ class SearchResource {
      */
     public $color;
 
-    public function __construct(Paging $paging, SearchColumns $columns, User $user, $flagged = false, $resource = null, $tags = array(), $ignoredTags = array(), $highlightTags = array(), $countTags = array(), $search = null, $isUserHook = null, $isUserRead = null, $sendMail = null, $resourceId = null, $dateFrom = null, $dateTo = null, $art = null, $color = null) {
+    public function __construct(
+        Paging $paging,
+        SearchColumns $columns,
+        User $user,
+        $flagged = false,
+        $resource = null,
+        $tags = array(),
+        $ignoredTags = array(),
+        $highlightTags = array(),
+        $countTags = array(),
+        $search = null,
+        $isUserHook = null,
+        $isUserRead = null,
+        $sendMail = null,
+        $resourceId = null,
+        $dateFrom = null,
+        $dateTo = null,
+        $art = null,
+        $color = null
+    ) {
         $this->user = $user;
         $this->flagged = $flagged;
         $this->resource = $resource;
@@ -93,7 +113,8 @@ class SearchResource {
      * @param int|null $projectId
      * @return SearchResource
      */
-    public static function createFromRequest(Request $request, ?User $user = null, $projectId = null): SearchResource {
+    public static function createFromRequest(Request $request, ?User $user = null, $projectId = null): SearchResource
+    {
         return new SearchResource(
             new Paging(
                 $request->query->get('start', 0),

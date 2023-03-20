@@ -25,13 +25,22 @@ use App\Entity\Userlist;
 /**
  * @Route("api/")
  */
-class ResourceApiController extends ApiController {
+class ResourceApiController extends ApiController
+{
     /**
      * @Route("resource/{resType}", methods={"GET"}, name="api_resource_list", requirements={"resType": "pdf|adr|link|teli|lex|prj|book|conversation|userlist"})
      *
      * @return array
      */
-    public function listAction(ResourceManager $resourceManager, $resType, Request $request, ConversationRepository $conversationRepository, ProjectRepository $projectRepository, ResourceRepository $resourceRepository, UserEmailDetailResourceRepository $userEmailDetailResourceRepository) {
+    public function listAction(
+        ResourceManager $resourceManager,
+        $resType,
+        Request $request,
+        ConversationRepository $conversationRepository,
+        ProjectRepository $projectRepository,
+        ResourceRepository $resourceRepository,
+        UserEmailDetailResourceRepository $userEmailDetailResourceRepository
+    ) {
         $search = new SearchResource(
             new Paging(
                 $request->query->get('start', 0),

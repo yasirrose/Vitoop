@@ -15,7 +15,9 @@ use Doctrine\ORM\Mapping as ORM;
  * )
  * @ORM\Entity()
  */
-class UserEmailDetailResource {
+class UserEmailDetailResource
+{
+
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id()
@@ -45,22 +47,26 @@ class UserEmailDetailResource {
      */
     protected $sendMail;
 
-    public function __construct(User $user, Resource $resource, string $sendMail) {
+    public function __construct(User $user, Resource $resource, string $sendMail)
+    {
         $this->user = $user;
         $this->resource = $resource;
         $this->sendMail = $sendMail;
         $this->createdAt = new \DateTime();
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function getUser() {
+    public function getUser()
+    {
         return $this->user;
     }
 
-    public function getResource() {
+    public function getResource()
+    {
         return $this->resource;
     }
 
@@ -69,12 +75,14 @@ class UserEmailDetailResource {
      *
      * @param string $sendMail
      */
-    public function updateSendEmail(string $sendMail) : UserEmailDetailResource {
+    public function updateSendEmail(string $sendMail) : UserEmailDetailResource
+    {
         $this->sendMail = $sendMail;
         return $this;
     }
 
-    public function getSendEmail() : string {
+    public function getSendEmail() : string
+    {
         return $this->sendMail;
     }
 }
