@@ -39,7 +39,7 @@ class ResourceType extends AbstractType
                     },
                 )
             )
-            ->add('isUserHook', CheckboxType::class, ['label' => 'blau', 'attr' => ['class' => 'valid-checkbox', 'title' => 'label.tab']])
+            ->add('sendMail', CheckboxType::class, ['label' => 'Bei Änderungen in Anmerkung oder Kommentare - mich per Mail informieren', 'attr' => ['class' => 'valid-checkbox', 'title' => 'label.tab', 'value' => '0']])
             ->add('isUserRead', HiddenType::class, ['attr' => ['class' => 'userRead']])
             ->add('save', InputTypeSubmitType::class, ['label' => 'speichern']);
     }

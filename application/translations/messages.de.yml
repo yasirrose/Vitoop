@@ -80,10 +80,12 @@ label:
     notes: 'Notizen'
     perPage: 'Datensätze pro Seite'
     set_remove_bookmarks: 'Lesezeichen setzen/entfernen'
+    remove_bookmarks: 'Lesezeichen entfernen'
     mark_as_read: 'als gelesen markieren'
     details: 'Detaildaten'
     edit: 'bearbeiten'
     view: 'Ansicht'
+    changes_text_email: 'Bei Änderungen in Anmerkung oder Kommentare - mich per Mail informieren'
 logout:
     label: logout
     message: abmelden

@@ -19,6 +19,7 @@ class ResourceDTO
             'pdfDate',
             'isUserHook',
             'isUserRead',
+            'send_mail',
             'created_at',
         ],
         'adr' => [
@@ -34,6 +35,7 @@ class ResourceDTO
             'contact5',
             'isUserHook',
             'isUserRead',
+            'send_mail',
             'created_at',
         ],
         'link' => [
@@ -43,6 +45,7 @@ class ResourceDTO
             'is_hp',
             'isUserHook',
             'isUserRead',
+            'send_mail',
             'created_at',
         ],
         'teli' => [
@@ -53,6 +56,7 @@ class ResourceDTO
             'releaseDate',
             'isUserHook',
             'isUserRead',
+            'send_mail',
             'created_at',
         ],
         'lex' => [
@@ -61,6 +65,7 @@ class ResourceDTO
             'wikifullurl',
             'isUserHook',
             'isUserRead',
+            'send_mail',
             'created_at',
         ],
         'prj' => [
@@ -69,6 +74,7 @@ class ResourceDTO
             'description',
             'isUserHook',
             'isUserRead',
+            'send_mail',
             'created_at',
         ],
         'book' => [
@@ -83,6 +89,7 @@ class ResourceDTO
             'year',
             'isUserHook',
             'isUserRead',
+            'send_mail',
             'created_at',
         ],
         'conversation' => [
@@ -91,6 +98,7 @@ class ResourceDTO
             'description',
             'isUserHook',
             'isUserRead',
+            'send_mail',
             'created_at',
         ],
     ];
@@ -119,6 +127,8 @@ class ResourceDTO
     public $country;
 
     public $isUserHook;
+
+    public $sendMail;
 
     public $isUserRead;
 

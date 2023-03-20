@@ -36,6 +36,8 @@ use Twig\Environment;
 use App\Utils\Date\DateTimeFormatter;
 use App\Entity\User\UserNotes;
 use App\Form\Type\UserNotesType;
+use App\Service\EmailSender;
+use App\Repository\UserEmailDetailResourceRepository;
 
 class ResourceDataCollector
 {
@@ -76,6 +78,8 @@ class ResourceDataCollector
      * @var RelResourceLinker
      */
     private $relResourceLinker;
+    private EmailSender $emailSender;
+    private $userEmailDetailResourceRepository;
 
     public function __construct(
         ResourceManager $rm,
@@ -87,7 +91,9 @@ class ResourceDataCollector
         FormCreator $formCreator,
         ConversationMessageRepository $conversationMessageRepository,
         ResourceTagLinker $tagLinker,
-        RelResourceLinker $relResourceLinker
+        RelResourceLinker $relResourceLinker,
+        EmailSender $emailSender,
+        UserEmailDetailResourceRepository $userEmailDetailResourceRepository
     ) {
         $this->rm = $rm;
         $this->vsec = $vsec;
@@ -102,6 +108,8 @@ class ResourceDataCollector
         $this->conversationMessageRepository = $conversationMessageRepository;
         $this->tagLinker = $tagLinker;
         $this->relResourceLinker = $relResourceLinker;
+        $this->emailSender = $emailSender;
+        $this->userEmailDetailResourceRepository = $userEmailDetailResourceRepository;
     }
 
     public function prepare($res_type, Request $request)
@@ -499,7 +507,7 @@ class ResourceDataCollector
             if ($this->handleData) {
                 $form_remark->handleRequest($this->request);
                 if ($form_remark->isValid()) {
-
+                    $this->sendLatestChangesEmail($remark->getText());
                     $remark->setResource($this->res);
                     $remark->setUser($this->vsec->getUser());
                     $remark->setIp($this->request->getClientIp());
@@ -605,6 +613,7 @@ class ResourceDataCollector
             $form_comment->handleRequest($this->request);
             if ($form_comment->isValid()) {
                 $this->rm->saveComment($comment, $this->res);
+                $this->sendLatestChangesEmail($comment->getText());
                 $info_comment = 'Kommentar erfolgreich gespeichert';
 
                 $comment = new Comment();
@@ -824,4 +833,20 @@ class ResourceDataCollector
 
         return '';
     }
+
+    private function sendLatestChangesEmail($message){
+        $emailDetail = $this->userEmailDetailResourceRepository->findOneBy(array('resource' => $this->res->getId(), 'user' => $this->vsec->getUser()));
+        $emailSent = 0;
+        if (!empty($emailDetail)) {
+            $emailSent = $emailDetail->getSendEmail();
+            $userEmail = $this->rm->getEntityManager()->getRepository(User::class)->find($this->vsec->getUser())->getEmail();
+            if (isset($emailSent) && ($emailSent == 1)) {
+                $toEmail = $userEmail;
+                $subject = 'Details are updated.';
+                $title = ucfirst($this->res->getResourceType()) . ': ' . $this->res->getName();
+                $this->emailSender->sendRemarksDetails($toEmail, $subject, $title, $message);
+            }
+        }
+    }
+
 }

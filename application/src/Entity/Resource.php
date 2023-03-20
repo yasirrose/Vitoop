@@ -129,6 +129,14 @@ class Resource
      */
     protected $userReads;
 
+    /**
+     * @ORM\OneToMany(
+     *      targetEntity="UserEmailDetailResource", mappedBy="resource", 
+     *      cascade={"persist", "remove"}, orphanRemoval=true
+     * )
+     */
+    protected $userSetEmail;
+
     public function __construct()
     {
         $this->created_at = new \DateTime();
@@ -147,6 +155,7 @@ class Resource
         $this->watchlist_entries = new ArrayCollection();
         $this->userHooks = new ArrayCollection();
         $this->userReads = new ArrayCollection();
+        $this->userSetEmail = new ArrayCollection();
 
         $this->avgmark = 'not rated';
         $this->res12count = '-';
@@ -644,6 +653,15 @@ class Resource
         return 0 < $this->findUserRead($user)->count();
     }
 
+    /**
+     * @param User $user
+     * @return bool
+     */
+    public function isEmailByUser(User $user) : bool
+    {
+        return 0 < $this->findUserSetEmail($user)->count();
+    }
+
     public function updateFromResourceDTO(ResourceDTO $dto)
     {
         if (!$this->user) {
@@ -660,6 +678,7 @@ class Resource
         $this->country = $dto->country;
 
         $this->updateUserRead($dto);
+        $this->updateUserSentEmail($dto);
         $this->updated_at = new \DateTime();
     }
 
@@ -717,6 +736,34 @@ class Resource
         }
     }
 
+    public function updateUserSentEmail(ResourceDTO $dto)
+    {
+        if (!$dto->user) {
+            return;
+        }
+        if ($dto->sendMail) {
+            $this->setEmail($dto->user, $dto->sendMail);
+            return;
+        }
+        $this->unsetEmail($dto->user);
+    }
+
+    public function setEmail(User $user, $sendMail)
+    {
+        $userSetEmail = $this->findUserSetEmail($user);
+        if (0 === $userSetEmail->count()) {
+            $this->userSetEmail->add(new UserEmailDetailResource($user, $this, $sendMail));
+        }
+    }
+
+    public function unsetEmail(User $user)
+    {
+        $userSetEmail = $this->findUserSetEmail($user);
+        if (0 < $userSetEmail->count()) {
+            $this->userSetEmail->removeElement($userSetEmail->first());
+        }
+    }
+
     public function toResourceDTO(?User $user) : ResourceDTO
     {
         $dto = new ResourceDTO();
@@ -727,6 +774,7 @@ class Resource
             $dto->user = $user;
             $dto->isUserHook = $this->isBlueByUser($user);
             $dto->isUserRead = $this->isReadByUser($user);
+            $dto->sendMail = $this->isEmailByUser($user);
             $dto->selectedColor = !empty($this->findUserHook($user)[0]) ? $this->findUserHook($user)[0]->getColor() : null;
         }
         $dto->created_at = $this->created_at->format(\DateTime::ISO8601);
@@ -779,6 +827,10 @@ class Resource
         return $this->userReads->matching($this->getUserCriteria($user));
     }
 
+    protected function findUserSetEmail(User $user): ArrayCollection
+    {
+        return $this->userSetEmail->matching($this->getUserCriteria($user));
+    }
 
     protected function getFlagBlamedCriteria(): Criteria
     {

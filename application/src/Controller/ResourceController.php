@@ -16,6 +16,7 @@ use App\Entity\VitoopBlog;
 use App\Entity\Resource;
 use App\Repository\ResourceRepository;
 use App\Repository\UserHookResourceRepository;
+use App\Repository\UserEmailDetailResourceRepository;
 use App\Repository\VitoopBlogRepository;
 use App\Service\UrlGetter;
 use Doctrine\ORM\EntityManagerInterface;
@@ -62,6 +63,7 @@ class ResourceController extends ApiController
      * @var EntityManagerInterface
      */
     private $entityManager;
+    private $rm;
 
     /**
      * @var UserRepository
@@ -84,12 +86,14 @@ class ResourceController extends ApiController
         EmailSender $emailSender,
         ResourceRepository $resourceRepository,
         EntityManagerInterface $entityManager,
+        ResourceManager $rm,
         UserRepository $userRepository,
         UserAgreementRepository $userAgreementRepository
     ) {
         $this->emailSender = $emailSender;
         $this->resourceRepository = $resourceRepository;
         $this->entityManager = $entityManager;
+        $this->rm = $rm;
         $this->userRepository = $userRepository;
         $this->userAgreementRepository = $userAgreementRepository;
     }
@@ -916,4 +920,22 @@ class ResourceController extends ApiController
             throw new Exception($e);
         }
     }
+
+    /**
+     * @Route("/resources/{id}/update-remark-email", name="_xhr_update_remark_email", requirements={"id": "\d+"})
+     */
+    public function updateRemarkEmailAction(Request $request, Resource $resource)
+    {
+        if (!$resource) {
+            $this->createNotFoundException();
+        }
+        $dto = $this->getDTOFromRequest($request);
+        $resourceDTO = new \App\DTO\Resource\ResourceDTO();
+        $resourceDTO->user = $this->getUser();
+        $resourceDTO->sendMail = $dto->sendMail;
+        $resource->updateUserSentEmail($resourceDTO);
+        $this->resourceRepository->save($resource);
+        return $this->getApiResponse(['value' => $dto->sendMail]);
+    }
+
 }
