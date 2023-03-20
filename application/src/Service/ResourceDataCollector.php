@@ -78,7 +78,7 @@ class ResourceDataCollector
      * @var RelResourceLinker
      */
     private $relResourceLinker;
-    private EmailSender $emailSender;
+    private $emailSender;
     private $userEmailDetailResourceRepository;
 
     public function __construct(
