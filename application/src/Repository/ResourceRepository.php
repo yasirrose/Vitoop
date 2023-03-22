@@ -334,12 +334,14 @@ class ResourceRepository extends ServiceEntityRepository
             ->addSelect('COUNT(rrr.id) as res12count')
             ->addSelect('COUNT(uh.id) as isUserHook')
             ->addSelect('COUNT(ur.id) as isUserRead')
+            ->addSelect('COUNT(sm.id) as userSetEmail')
             ->addSelect('uh.color')
             ->innerJoin('r.user', 'u')
             ->leftJoin('r.flags', 'f')
             ->leftJoin('r.ratings', 'ra')
             ->leftJoin('r.userHooks', 'uh', 'WITH', 'uh.user = :currentUser')
             ->leftJoin('r.userReads', 'ur', 'WITH', 'ur.user = :currentUser')
+            ->leftJoin('r.userSetEmail', 'sm', 'WITH', 'sm.user = :currentUser')
             ->groupBy('r.id')
             ->setParameter('currentUser', $search->user);
         $rootEntity = $query->getRootEntities();
@@ -352,70 +354,56 @@ class ResourceRepository extends ServiceEntityRepository
         } else {
             $query->leftJoin('r.rel_resources2', 'rrr');
         }
-
         if ($search->flagged) {
             $query->andWhere('f.id IS NOT NULL')
-                ->andWhere('f.type != 128');
+            ->andWhere('f.type != 128');
         } else {
-            $query
-                ->andWhere('f.id IS NULL OR f.type = :blamed')
-                ->setParameter('blamed', Flag::FLAG_BLAME);
+            $query->andWhere('f.id IS NULL OR f.type = :blamed')
+            ->setParameter('blamed', Flag::FLAG_BLAME);
         }
-
         if ($search->searchString) {
             $searchString = implode('OR ', array_map(function ($field) use ($rootEntity) {
-                $alias =  $this->getResourceFieldAlias($field, $rootEntity);
-
-                return $alias.$field . ' LIKE :searchString ';
+                $alias = $this->getResourceFieldAlias($field, $rootEntity);
+                return $alias . $field . ' LIKE :searchString ';
             }, $search->columns->searchable));
-
-            $query
-                ->andWhere($searchString)
-                ->setParameter('searchString', '%'.$search->searchString.'%');
+            $query->andWhere($searchString)
+                ->setParameter('searchString', '%' . $search->searchString . '%');
         }
-
         if ($search->columns->sortableColumn) {
             $sortAlias = $this->getResourceFieldAlias($search->columns->sortableColumn, $rootEntity);
             $sortableColumn = $search->columns->sortableColumn;
-
             if ((empty($search->dateTo) && empty($search->dateFrom)) && \in_array($search->columns->sortableColumn, ['pdfDate.order', 'releaseDate.order'])) {
                 $sortAlias = '';
                 $sortableColumn = 'orderDate';
             }
-
-            $query
-                ->addOrderBy(
-                    $sortAlias.$sortableColumn,
-                    $search->columns->sortableOrder
-                );
+            $query->addOrderBy(
+                $sortAlias . $sortableColumn,
+                $search->columns->sortableOrder
+            );
         }
-        
         if (null !== $search->resource) {
             $this->prepareListByResourceQueryBuilder($query, $search->resource);
         } elseif (!empty($search->tags)) {
             $this->prepareListByTagsQueryBuilder($query, $search);
         }
-
-        
         if (1 === $search->isUserHook) {
             $query->andHaving('isUserHook > 0');
             $query->andWhere('uh.color = :selectedColor')
-                ->setParameter('selectedColor', $search->color);
+            ->setParameter('selectedColor', $search->color);
         }
         if (1 === $search->isUserRead) {
             $query->andHaving('isUserRead > 0');
         }
-
+        if (1 === $search->sendMail) {
+            $query->andHaving('userSetEmail > 0');
+        }
         if ($search->resourceId) {
             $query->andWhere('r.id = :resourceId')
-                  ->setParameter('resourceId', $search->resourceId);
+            ->setParameter('resourceId', $search->resourceId);
         }
-
-        $query
-            ->addOrderBy('r.created_at', 'DESC')
+        $query->addOrderBy('r.created_at', 'DESC')
             ->setFirstResult($search->paging->offset)
             ->setMaxResults($search->paging->limit);
-
         return $query;
     }
 
@@ -756,11 +744,11 @@ class ResourceRepository extends ServiceEntityRepository
     private function getAllResourcesDividerQuery()
     {
         return <<<'EOT'
-            SELECT SQL_CALC_FOUND_ROWS base.coef, base.coefId, base.text, base.url, base.zip, base.city, base.street, base.code, base.id, base.name, base.created_at, base.username, base.avgmark, base.res12count, base.isUserHook, base.isUserRead, base.type, base.color
+            SELECT SQL_CALC_FOUND_ROWS base.coef, base.coefId, base.text, base.url, base.zip, base.city, base.street, base.code, base.id, base.name, base.created_at, base.username, base.avgmark, base.res12count, base.isUserHook, base.isUserRead, base.sendMail base.type, base.color
               FROM (
                %s
                UNION ALL
-               SELECT null as type, prd.text as text, '' as url, null as zip, null as city, null as street, null as code, null as id, null as name, null as created_at, null as username, null as avgmark, null as res12count, null as isUserHook, null as isUserRead, null as color, prd.coefficient as coef, prd.id as coefId
+               SELECT null as type, prd.text as text, '' as url, null as zip, null as city, null as street, null as code, null as id, null as name, null as created_at, null as username, null as avgmark, null as res12count, null as isUserHook, null as isUserRead, null as sendMail, null as color, prd.coefficient as coef, prd.id as coefId
                 FROM project_rel_divider prd
                INNER join project p on p.project_data_id = prd.id_project_data
               where p.id = %s

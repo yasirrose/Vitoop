@@ -1,5 +1,4 @@
 <?php
-
 namespace App\DTO\Resource;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +11,6 @@ class SearchResource
      * @var boolean 
      */
     public $flagged = false;
-
     public $resource = null;
 
     /**
@@ -55,15 +53,12 @@ class SearchResource
      * @var User
      */
     public $user;
-
     public $isUserHook;
     public $isUserRead;
-
+    public $sendMail;
     public $resourceId;
-
     public $dateFrom;
     public $dateTo;
-
     public $art;
     /**
      * @var string
@@ -83,6 +78,7 @@ class SearchResource
         $search = null,
         $isUserHook = null,
         $isUserRead = null,
+        $sendMail = null,
         $resourceId = null,
         $dateFrom = null,
         $dateTo = null,
@@ -103,6 +99,7 @@ class SearchResource
         $this->columns = $columns;
         $this->isUserHook = (int)$isUserHook;
         $this->isUserRead = (int)$isUserRead;
+        $this->sendMail = (int)$sendMail;
         $this->resourceId = $resourceId;
         $this->dateFrom = $dateFrom;
         $this->dateTo = $dateTo;
@@ -137,6 +134,7 @@ class SearchResource
             $request->query->get('search', null),
             $request->query->get('isUserHook', null),
             $request->query->get('isUserRead', null),
+            $request->query->get('sendMail', null),
             $request->query->get('resourceId', null),
             $request->query->get('dateFrom', null),
             $request->query->get('dateTo', null),

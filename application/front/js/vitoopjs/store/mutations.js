@@ -20,7 +20,6 @@ export default {
     hideArtSelect: function (state) {
         state.secondSearch.showArtSelect = false;
     },
-
     // Table
     setTablePage(state, page) {
         state.table.page = page;
@@ -37,7 +36,6 @@ export default {
     updateTableOpenedResource(state, openedResource) {
         state.table.openedResource = openedResource;
     },
-
     resetTableOpenedResource(state) {
         state.table.openedResource = {
             id: null,
@@ -45,7 +43,6 @@ export default {
             page: 0
         }
     },
-
     // Coefs
     updateCoef(state, payload) {
         state.table.data.forEach(res => {
@@ -64,14 +61,13 @@ export default {
         index > -1 ?
             dividersToSave.splice(index, 1, divider) : dividersToSave.push(divider);
     },
-
     updateTagListShowing(state, value) {
         state.tagList.show = value
     },
     updateSecondSearch: function (state, value) {
         state.secondSearch.searchString = value;
     },
-    updateSearchToggler(state,status) {
+    updateSearchToggler(state, status) {
         state.searchToggler.isOpened = status;
         state.secondSearch.show = status;
     },
@@ -81,11 +77,14 @@ export default {
     updateReadFilter: function (state, value) {
         state.secondSearch.isReadFilter = value;
     },
+    updateEmailDetailFilter: function (state, value) {
+        state.secondSearch.emailDetailFilter = value;
+    },
     updateArtFilter: function (state, value) {
         state.secondSearch.artFilter = value;
     },
-    updateSelectedColor: function(state, value) {
-      state.secondSearch.selectedColor = value;
+    updateSelectedColor: function (state, value) {
+        state.secondSearch.selectedColor = value;
     },
     updateDateFrom: function (state, value) {
         state.secondSearch.dateFrom = value;
@@ -103,13 +102,12 @@ export default {
             '' !== state.secondSearch.dateTo;
         this.commit('updateSearchToggler', state.searchToggler.isNotEmpty);
     },
-    setUser: function(state, value) {
+    setUser: function (state, value) {
         state.user = value;
         if (null === value) {
             this.commit('reset');
         }
     },
-
     // state.resource
     setResource: function (state, value) {
         state.resource = value;
@@ -133,7 +131,7 @@ export default {
             state.resource[item] = null;
         });
     },
-    resetSecondSearch: function(state) {
+    resetSecondSearch: function (state) {
         const secondSearch = initialState.secondSearch;
         Object.keys(secondSearch).forEach(key => {
             state.secondSearch[key] = secondSearch[key]
@@ -148,7 +146,7 @@ export default {
             }
         });
     },
-    secondSearchIsSearching(state,isSearching) {
+    secondSearchIsSearching(state, isSearching) {
         state.secondSearch.isSearching = isSearching;
     },
     reset(state) {
@@ -173,19 +171,18 @@ export default {
     set(state, { key, value }) {
         state[key] = value;
     },
-    setProjectData(state, {key,value}) {
+    setProjectData(state, { key, value }) {
         state.project.project_data[key] = value;
     },
-    addProjectRelUser({project: {project_data: {rel_users}}}, rel) {
+    addProjectRelUser({ project: { project_data: { rel_users } } }, rel) {
         rel_users.push(rel);
     },
-    removeProjectRelUser({project: {project_data: {rel_users}}}, relId) {
-        const index = _.findIndex(rel_users, {id: relId});
+    removeProjectRelUser({ project: { project_data: { rel_users } } }, relId) {
+        const index = _.findIndex(rel_users, { id: relId });
         rel_users.splice(index, 1);
     },
-
     // Conversation
-    isForRelatedUser(state,payload) {
+    isForRelatedUser(state, payload) {
         state.conversationInstance.conversation.conversation_data.is_for_related_users = payload;
     },
     resetConversation(state) {
@@ -194,7 +191,7 @@ export default {
     },
     resetSearchContent() {
         $('#vtp-nav > ul > li > button').each(function () {
-            if($(this).hasClass('ui-state-no-content')) {
+            if ($(this).hasClass('ui-state-no-content')) {
                 $(this).removeClass('ui-state-no-content');
             }
         });

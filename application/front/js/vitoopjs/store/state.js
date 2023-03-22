@@ -23,6 +23,7 @@ export default {
         searchString: '',
         isBlueFilter: 0,
         isReadFilter: 0,
+        emailDetailFilter: 0,
         artFilter: '',
         dateFrom: '',
         dateTo: '',

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 
 use App\Entity\User\User;
@@ -33,7 +32,7 @@ class UserEmailDetailResource
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Resource", inversedBy="userHooks")
+     * @ORM\ManyToOne(targetEntity="Resource", inversedBy="userSetEmail")
      * @ORM\JoinColumn(name="resource_id", referencedColumnName="id")
      */
     private $resource;

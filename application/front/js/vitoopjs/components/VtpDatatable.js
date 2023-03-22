@@ -118,6 +118,7 @@ export default class VtpDatatable {
                     }
                     data.isUserHook = vitoopState.state.secondSearch.isBlueFilter;
                     data.isUserRead = vitoopState.state.secondSearch.isReadFilter;
+                    data.sendMail = vitoopState.state.secondSearch.emailDetailFilter;
                     if (this.resType == 'pdf' || this.resType == 'teli') {
                         data.dateFrom = vitoopState.state.secondSearch.dateFrom;
                         data.dateTo = vitoopState.state.secondSearch.dateTo;

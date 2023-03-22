@@ -41,7 +41,7 @@ class ResourceApiController extends ApiController
         ResourceRepository $resourceRepository,
         UserEmailDetailResourceRepository $userEmailDetailResourceRepository
     ) {
-       $search = new SearchResource(
+        $search = new SearchResource(
             new Paging(
                 $request->query->get('start', 0),
                 $request->query->get('length', 10)
@@ -52,7 +52,7 @@ class ResourceApiController extends ApiController
             ),
             $this->getUser(),
             $request->query->has('flagged'),
-            $request->query->has('resource')?$request->query->getDigits('resource'):null,
+            $request->query->has('resource') ? $request->query->getDigits('resource') : null,
             $request->query->get('taglist', array()),
             $request->query->get('taglist_i', array()),
             $request->query->get('taglist_h', array()),
@@ -60,30 +60,27 @@ class ResourceApiController extends ApiController
             $request->query->get('search', null),
             $request->query->get('isUserHook', null),
             $request->query->get('isUserRead', null),
+            $request->query->get('sendMail', null),
             $request->query->get('resourceId', null),
             $request->query->get('dateFrom', null),
             $request->query->get('dateTo', null),
             $request->query->get('art', null),
             $request->query->get('color', null)
         );
-
         $resources = $resourceManager->getRepository($resType)->getResources($search);
         $total = $resourceManager->getRepository($resType)->getResourcesTotal($search);
-        
         if ($resType == 'prj') {
             foreach ($resources as &$resource) {
                 $project = $projectRepository->find($resource['id']);
                 $resource['canRead'] = $project->getProjectData()->availableForReading($this->getUser());
             }
         }
-
         if ($resType == 'conversation') {
             foreach ($resources as &$resource) {
                 $conversation = $conversationRepository->find($resource['id']);
                 $resource['canRead'] = $conversation->getConversationData()->availableForReading($this->getUser());
             }
         }
-
         if ($request->query->get('color') == 'nobookmark') {
             foreach ($resources as $key => $resource) {
                 $email_detail = $userEmailDetailResourceRepository->findOneBy(array('resource' => $resource['id'], 'user' => $this->getUser()));
@@ -94,12 +91,11 @@ class ResourceApiController extends ApiController
                 }
             }
         }
-
         return $this->getApiResponse(array(
             'draw' => $request->query->get('draw'),
             'recordsTotal' => $total,
             'recordsFiltered' => $total,
-            'data'=> array_values($resources),
+            'data' => array_values($resources),
             'resourceInfo' => $resourceRepository->getCountByTags($search)
         ));
     }
