@@ -39,9 +39,7 @@ export default class SendLinkWidget extends Widget {
                       </div>
                     </td>
                     <td class="resource-buttons" style="width: 64px;">
-                      <button class="vtp-button ui-button ui-widget ui-state-default vtp-uiinfo-anchor ui-corner-all"
-                       onclick="$('#resource_${resourceType}_${resourceId}_comment_row').toggle(); return false;"
-                       id="resource_${resourceType}_${resourceId}_comment_button"
+                      <button class="vtp-button ui-button ui-widget ui-state-default vtp-uiinfo-anchor ui-corner-all" id="resource_${resourceType}_${resourceId}_comment_button"
                        style="padding: 0 6px 0 6px;">
                         <span class="ui-icon ui-icon-circle-triangle-s"></span>
                        </button>
@@ -52,7 +50,7 @@ export default class SendLinkWidget extends Widget {
                       </button>
                     </td>
                   </tr>
-                  <tr id="resource_${resourceType}_${resourceId}_comment_row" class="resource_comment_row" style="display: none">
+                  <tr id="resource_${resourceType}_${resourceId}_comment_row" class="resource_comment_row ${rowClass}" style="display: none">
                     <td colspan="3">
                       <fieldset class="ui-corner-all margin-top-10">
                         <legend>Kommentar</legend>
@@ -77,6 +75,20 @@ export default class SendLinkWidget extends Widget {
                     </td>
                   </tr>`
                 );
+
+                $(`#resource_${resourceType}_${resourceId}_comment_button`).on('click', function (e) {
+                    e.preventDefault();
+                    if ($(this).hasClass('active')) {
+                        $(this).removeClass('active');
+                        $(`#resource_${resourceType}_${resourceId}_comment_button span`).remove();
+                        $(`#resource_${resourceType}_${resourceId}_comment_button`).append('<span class="ui-icon ui-icon-circle-triangle-s"></span>');
+                    } else {
+                        $(this).addClass('active');
+                        $(`#resource_${resourceType}_${resourceId}_comment_button span`).remove();
+                        $(`#resource_${resourceType}_${resourceId}_comment_button`).append('<span class="ui-icon ui-icon-circle-triangle-n"></span>');
+                    }
+                    $(`#resource_${resourceType}_${resourceId}_comment_row`).toggle();
+                });
 
                 $(`#resource_${resourceType}_${resourceId}_remove`).on('click', (e) => {
                     e.preventDefault();
