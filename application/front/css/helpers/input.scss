@@ -18,9 +18,10 @@ input[type="text"], input[type="search"] {
 }
 
 .custom-checkbox {
-  border: 1px solid $vitoop-blue-color;
+  background-color: #f2f2f2;
+  border: 1px solid #9dcff7;
   position: absolute;
-  border-radius: 50%;
+  border-radius: 2px !important;
   background: #deedf7;
   cursor: pointer;
   width: 15px;
@@ -169,4 +170,12 @@ mark {
             transform: translateY(-50%) translateX(0);
         }
     }
+}
+.div_notify {
+  padding: 7px 0px;
+}
+
+.div_notify label {
+  color: #362b36 !important;
+  font-size: 13px !important;
 }

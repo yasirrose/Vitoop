@@ -91,6 +91,13 @@ class ResourceApiController extends ApiController
                 }
             }
         }
+        if (!empty($request->query->get('color')) && ($request->query->get('color') != "nobookmark")) {
+            foreach ($resources as $key => $resource) {
+                if ($request->query->get('color') !== $resource['color']) {
+                    unset($resources[$key]);
+                }
+            }
+        }
         return $this->getApiResponse(array(
             'draw' => $request->query->get('draw'),
             'recordsTotal' => $total,
