@@ -61,6 +61,7 @@
     </div>
 </div>
 <script>
+const colorMap = {'blue': 'blau', 'lime': 'grün', 'cyan': 'cyan', 'yellow': 'gelb', 'red': 'rot', 'orange': 'orange'}
     $(document).ready(function () {
         var color = "{{ dto.selectedColor }}";
         setTimeout(function () {
@@ -91,19 +92,12 @@
             if (selectedColor != null) {
                 let spanText = $('#'+ id +'-button .ui-selectmenu-text');
                 var newColor = "";
-                var colorArray = {};
-                colorArray['blue'] = 'blau';
-                colorArray['lime'] = 'grün';
-                colorArray['cyan'] = 'cyan';
-                colorArray['yellow'] = 'gelb';
-                colorArray['red'] = 'rot';
-                colorArray['orange'] = 'orange';
                 if(selectedColor == 'blau'){
                     selectedColor = 'blue';
                 }
-                for (var key in colorArray) {
+                for (var key in colorMap) {
                     if(selectedColor == key){
-                        newColor = colorArray[key];
+                        newColor = colorMap[key];
                     }
                 }
                 spanText.text(newColor);
@@ -199,16 +193,9 @@
 
         function setBookmark(resId, resourceType, id, hook_value){
             let spanText = $('#'+ id +'-button .ui-selectmenu-text').text();
-            var colorArray = {};
-            colorArray['blue'] = 'blau';
-            colorArray['lime'] = 'grün';
-            colorArray['cyan'] = 'cyan';
-            colorArray['yellow'] = 'gelb';
-            colorArray['red'] = 'rot';
-            colorArray['orange'] = 'orange';
             var color = "";
-            for (var key in colorArray) {
-                if(spanText == colorArray[key]){
+            for (var key in colorMap) {
+                if(spanText == colorMap[key]){
                     color = key;
                 }
             }
