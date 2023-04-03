@@ -72,18 +72,34 @@
                 'getProject',
             ]),
         },
-        methods: {
-            resetResource(redirectTo) {
-                if (this.get('projectNeedToSave') && redirectTo === '/prj') {
-                    VueBus.$emit('confirm-dialog:open');
-                } else {
-                    this.$store.commit('set', { key: 'lexicon', value: null });
-                    this.$store.commit('set', { key: 'project', value: null });
-                    this.$store.commit('resetConversation');
-                    this.$store.commit('resetResource');
-                    if (redirectTo === '/prj') this.$store.commit('setInProject', false);
-                    redirectTo !== this.$route.path ? this.$router.push(redirectTo) : VueBus.$emit('datatable:reload');
+        watch: {
+            $route(to) {
+                if (to.name == "project" || to.name == "conversation-item" || to.name == "lexicon") {
+                    this.showSlide();
                 }
+            }
+        },
+        methods: {
+            showSlide() {
+                $("#vtp-cmstitle").hide("slide", { direction: "left", opacity: '0' }, 0);
+                setTimeout(() => {
+                    $("#vtp-cmstitle").show("slide", { direction: "left", opacity: '1' }, 2000);
+                }, 1000);
+            },
+            resetResource(redirectTo) {
+                $("#vtp-cmstitle").hide("slide", { direction: "left", opacity: '0' }, 1000);
+                setTimeout(() => {
+                    if (this.get('projectNeedToSave') && redirectTo === '/prj') {
+                        VueBus.$emit('confirm-dialog:open');
+                    } else {
+                        this.$store.commit('set', { key: 'lexicon', value: null });
+                        this.$store.commit('set', { key: 'project', value: null });
+                        this.$store.commit('resetConversation');
+                        this.$store.commit('resetResource');
+                        if (redirectTo === '/prj') this.$store.commit('setInProject', false);
+                        redirectTo !== this.$route.path ? this.$router.push(redirectTo) : VueBus.$emit('datatable:reload');
+                    }
+                }, 1000);
             },
         }
     }
