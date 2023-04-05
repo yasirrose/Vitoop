@@ -1,11 +1,13 @@
 
 <div class="created-info{{ fieldSuffix }}" style="{% if isNew %} display: none; {% endif %}">
     <div class="vtp-fh-w10"></div>
-    <div class="vtp-fh-w100 vtp-right">
+    <div class="vtp-fh-w100 vtp-right custom_color_select">
         <div class="toggle_section">
             <div class="toggle_detail">
                 <div class="">
+                <input type="hidden" id="user_selected_color" value="">
                     <select class="custom-dropdown color_dropdown">
+                        <option value=""></option>
                         <option value="blau-gradient">blau</option>
                         <option value="red-gradient">rot</option>
                         <option value="lime-gradient">grün</option>
@@ -32,7 +34,7 @@
                 {{ form_widget(fvdata.isUserRead) }}
                 {% if restype != 'conversation' %}
                     <div class="right_checkbox">
-                        <label class="custom-checkbox__wrapper light-blue" title="{{ 'label.changes_text_email'|trans }}" for="{{ restype }}_sendMail">{{ 'label.changes_text_email'|trans }}
+                        <label class="custom-checkbox__wrapper light-blue send_mail_checkbox" title="{{ 'label.changes_text_email'|trans }}" for="{{ restype }}_sendMail">{{ 'label.changes_text_email'|trans }}
                         {{ form_widget(fvdata.sendMail) }}
                             <span class="custom-checkbox">
                                 <img class="custom-checkbox__check" src="/img/check.png" />
@@ -43,9 +45,13 @@
                         {% do fvdata.sendMail.setRendered %}
                 {% endif %}
                 {% if true == dto.isResourceUser %}
-                    <div class="d-flex align-center">
+                    <div class="d-flex align-center div_notify">
+                        <label class="custom-checkbox__wrapper light-blue notify_class">{{ form_widget(fvdata.isNotify, {'attr': {'class': 'valid-checkbox' }}) }}
+                            <span class="custom-checkbox">
+                                <img class="custom-checkbox__check" src="/img/check.png" />
+                            </span>
+                        </label>
                         {{ form_label(fvdata.isNotify, null, {'label_attr': {'class': '' }}) }}
-                        {{ form_widget(fvdata.isNotify, {'attr': {'class': 'valid-checkbox' }}) }}
                     </div>
                 {% else %}
                     {% do fvdata.sendMail.setRendered %}
@@ -55,6 +61,7 @@
     </div>
 </div>
 <script>
+const colorMap = {'blue': 'blau', 'lime': 'grün', 'cyan': 'cyan', 'yellow': 'gelb', 'red': 'rot', 'orange': 'orange'}
     $(document).ready(function () {
         var color = "{{ dto.selectedColor }}";
         setTimeout(function () {
@@ -63,10 +70,15 @@
                 selectedColor = color === 'blue' ? 'blau' : color;
             }
             var id = $('.custom-dropdown').attr('id');
+            $('#user_selected_color').val(selectedColor);
             let button = $('#'+ id+'-button');
             $(".clipboard button:first").css('background', "transparent");
             $(button).on('click', function () {
-                $("#"+ id +"-menu li.ui-menu-item").each(function () {
+                $("#"+ id +"-menu li.ui-menu-item").each(function (index, element) {
+                        if(index == 0){
+                            this.disabled = true;
+                            $(this).attr("style", "display: none !important");
+                        }
                         var colorText = $(this).text();
                         $(this).addClass('dropdown-' + colorText + '-color');
                 });
@@ -79,7 +91,16 @@
 
             if (selectedColor != null) {
                 let spanText = $('#'+ id +'-button .ui-selectmenu-text');
-                spanText.text(selectedColor);
+                var newColor = "";
+                if(selectedColor == 'blau'){
+                    selectedColor = 'blue';
+                }
+                for (var key in colorMap) {
+                    if(selectedColor == key){
+                        newColor = colorMap[key];
+                    }
+                }
+                spanText.text(newColor);
                 spanText.css('width', '100%');
                 removeClassGradient();
                 $('.toggle_detail').addClass(selectedColor + '-gradient');
@@ -90,7 +111,10 @@
             $(document).on('click', '#'+id+'-menu li.ui-menu-item', function () {
                 let resId = "{{ res.id }}";
                 let color = $(this).text();
-
+                if(color == 'Lesezeichen entfernen'){
+                    $("#"+id+"-button span.ui-selectmenu-text").html("&nbsp;");
+                    color = $('#user_selected_color').val();
+                }
                 let gradientColorsArray = [];
                 $(`.custom-dropdown option`).toArray().map( o => gradientColorsArray[o.text] = o.value );
                 let gradientClass = gradientColorsArray[color];
@@ -124,14 +148,15 @@
                         success: function (result) {
                             setBookmark(resId, resourceType, id, hook_value);
                             if (result.success) {
-                                let colorsClass = ['vtp-blue', 'vtp-lime', 'vtp-cyan', 'vtp-yellow', 'vtp-red'];
+                                $('#user_selected_color').val(color);
+                                let colorsClass = ['vtp-blue', 'vtp-lime', 'vtp-cyan', 'vtp-yellow', 'vtp-red', 'vtp-orange'];
                                 for (let i = 0; i < colorsClass.length; i++) {
                                     if ($('#'+resourceType+'-'+ resId +" td:first").hasClass(colorsClass[i])) {
                                         $('#'+resourceType+'-'+ resId +" td:first").removeClass(colorsClass[i]);
                                     }
                                 }
-                                $('#'+resourceType+'-'+ resId +" td:first").addClass("vtp-"+color);
                             }
+                            $('#'+resourceType+'-'+ resId +" td:first").addClass("vtp-"+color);
                         }
                     })
                 }
@@ -168,6 +193,12 @@
 
         function setBookmark(resId, resourceType, id, hook_value){
             let spanText = $('#'+ id +'-button .ui-selectmenu-text').text();
+            var color = "";
+            for (var key in colorMap) {
+                if(spanText == colorMap[key]){
+                    color = key;
+                }
+            }
             let isUserHookValue = hook_value;
             $.ajax({
                 method: 'POST',
@@ -176,7 +207,7 @@
                 contentType: 'application/json',
                 data: JSON.stringify({
                     isUserHook: isUserHookValue,
-                    sessionColor: spanText
+                    sessionColor: color
                 }),
                 success: function () {
                     refresh_list = true;

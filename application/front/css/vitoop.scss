@@ -2787,6 +2787,7 @@ table.dataTable thead th:hover {
 .toggle_section .toggle_detail {
     display: flex;
     justify-content: space-between;
+    border-radius: 6px;
 }
 
 .show_more_btn:after {
@@ -2929,11 +2930,6 @@ table.dataTable thead th:hover {
     padding-left: 0;
 }
 
-.right_checkbox label span.custom-checkbox {
-    left: auto;
-    right: -20px;
-}
-
 label[for="conversation_isNotify"]{
     padding: 0 !important;
 }
@@ -2959,31 +2955,32 @@ label[for="conversation_isNotify"]{
     margin-right: 5px !important;
     font-size: 11px !important;
 }
-.custom_row {
-    display: flex;
-    align-items: center;
-    padding: 1px 6px 1px 15px !important;
+.vtp-right .toggle_detail span.ui-selectmenu-button,
+#vtp-application .ui-selectmenu-menu ul.ui-widget {
+    width: 100px !important;
 }
-.custom_row>* {
-    flex-shrink: 0;
-    width: 100%;
-    max-width: 100%;
+
+.custom_color_select span.ui-selectmenu-button {
+    margin-left: 0px;
 }
-.custom-col-md-2 {
-    flex: 0 0 auto;
-    width: 15.20%;
+
+.send_mail_checkbox {
+    font-size: 13px;
+    color: #000;
+    line-height: 15px !important;
 }
-.col-md-9 {
-    flex: 0 0 auto;
-    width: 85%;
-    padding: 0;
+
+.send_mail_checkbox span.custom-checkbox {
+    background-color: #f2f2f2;
+    border-color: #9dcff7;
+    border-radius: 2px !important;
 }
-.close_btn_section {
-    text-align: right;
-    opacity: 0;
+
+.right_checkbox {
+    padding: 7px 0px !important;
 }
-.close_btn_section .new_close_btn {
-    width: 34px !important;
-    height: 17px !important;
-    vertical-align: inherit;
+
+.right_checkbox label {
+    color: #362b36 !important;
+    font-size: 13px !important;
 }

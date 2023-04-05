@@ -17,6 +17,10 @@ export default {
     return {
       colorOptions: [
         {
+          label: '',
+          value: ''
+        },
+        {
           label: 'blau',
           value: 'vtp-blue'
         },
@@ -59,7 +63,6 @@ export default {
       set (colorOption) {
         this.$store.commit('updateSelectedColor', colorOption.value);
         vitoopApp.vtpDatatable && vitoopApp.vtpDatatable.refreshTable();
-
       }
     }
   },
@@ -67,7 +70,7 @@ export default {
     getLabelForSelectedColorOption(value) {
       for (let i = 0; i < this.colorOptions.length; i++) {
         if (this.colorOptions[i].value == value) {
-          return this.colorOptions[i].label;
+          return (value == 'vtp-nobookmark') ? ' ' : this.colorOptions[i].label;
         }
       }
       return '';

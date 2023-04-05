@@ -28,7 +28,7 @@ export default {
         dateFrom: '',
         dateTo: '',
         isSearching: false,
-        selectedColor: 'vtp-blue',
+        selectedColor: '',
     },
     searchToggler: {
         isOpened: false,
