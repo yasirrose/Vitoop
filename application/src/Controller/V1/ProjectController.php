@@ -108,7 +108,7 @@ class ProjectController extends ApiController
         $search = SearchResource::createFromRequest($request, $this->getUser(), $project->getId());
 
         $resourceRepository = $resourceManager->getRepository($resType);
-        $resources = $resourceRepository->getResourcesWithDividers($search);
+        $resources = $resourceRepository->getResources($search);
         $total = $resourceRepository->getResourcesTotal($search);
 
         if ('prj' === $resType) {
