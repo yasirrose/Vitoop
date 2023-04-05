@@ -2984,3 +2984,31 @@ label[for="conversation_isNotify"]{
     color: #362b36 !important;
     font-size: 13px !important;
 }
+.custom_row {
+    display: flex;
+    align-items: center;
+    padding: 1px 6px 1px 15px !important;
+}
+.custom_row>* {
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 100%;
+}
+.custom-col-md-2 {
+    flex: 0 0 auto;
+    width: 15.20%;
+}
+.col-md-9 {
+    flex: 0 0 auto;
+    width: 85%;
+    padding: 0;
+}
+.close_btn_section {
+    text-align: right;
+    opacity: 0;
+}
+.close_btn_section .new_close_btn {
+    width: 34px !important;
+    height: 17px !important;
+    vertical-align: inherit;
+}
