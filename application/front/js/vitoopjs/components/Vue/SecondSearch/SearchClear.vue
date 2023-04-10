@@ -33,7 +33,7 @@
     #vtp-search-clear {
         width: 34px;
         margin: 0px 2px 0 4px;
-        height: 22px;
+        height: 24px;
         background: linear-gradient(to top, #7cc0f6 , #e8f3fa) no-repeat;
         &:hover {
             background: linear-gradient(to top, lighten(#7cc0f6, 10%) , lighten(#e8f3fa, 10%)) no-repeat;

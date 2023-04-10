@@ -80,7 +80,7 @@ label:
     notes: 'Notizen'
     perPage: 'Datensätze pro Seite'
     set_remove_bookmarks: 'Lesezeichen setzen/entfernen'
-    remove_bookmarks: 'Lesezeichen entfernen'
+    remove_bookmarks: 'entfernen'
     mark_as_read: 'als gelesen markieren'
     details: 'Detaildaten'
     edit: 'bearbeiten'

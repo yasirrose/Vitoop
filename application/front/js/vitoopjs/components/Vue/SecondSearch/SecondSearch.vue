@@ -291,7 +291,7 @@ export default {
         background-size: 285px;
     }
     #vtp-second-search-is-read {
-        height: 22px;
+        height: 24px;
         padding: 0px 15px;
         font-size: 90%;
         margin-right: 4px;
@@ -300,7 +300,7 @@ export default {
         line-height: 1.3;
     }
     #vtp-second-search-box::v-deep {
-        height: 24px;
+        height: 26px;
         margin-top: 2px;
         display: flex;
         align-items: center;
@@ -322,7 +322,7 @@ export default {
         }
     }
     #vtp-second-search-box::v-deep .colorDropdown {
-        height: 24px;
+        height: 26px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -370,7 +370,7 @@ export default {
         }
 
         #vtp_search_date {
-            height: 22px;
+            height: 24px;
         }
     }
     #search_blue_box {

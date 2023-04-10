@@ -3,6 +3,11 @@
     <v-select :options="colorOptions"
               v-model="selectedColor"
               :clearable="false">
+        <template #option="{ label, classname }">
+          <div :class="classname" class="color_option">
+            {{ label }}
+          </div>
+        </template>
     </v-select>
   </div>
 </template>
@@ -18,35 +23,43 @@ export default {
       colorOptions: [
         {
           label: '',
-          value: ''
+          value: '',
+          classname: ''
         },
         {
           label: 'blau',
-          value: 'vtp-blue'
+          value: 'vtp-blue',
+          classname: 'vtp_option_blue vtp_option'
         },
         {
           label: 'rot',
-          value: 'vtp-red'
+          value: 'vtp-red',
+          classname: 'vtp_option_red vtp_option'
         },
         {
           label: 'grün',
-          value: 'vtp-lime'
+          value: 'vtp-lime',
+          classname: 'vtp_option_lime vtp_option'
         },
         {
           label: 'cyan',
-          value: 'vtp-cyan'
+          value: 'vtp-cyan',
+          classname: 'vtp_option_cyan vtp_option'
         },
         {
           label: 'gelb',
-          value: 'vtp-yellow'
+          value: 'vtp-yellow',
+          classname: 'vtp_option_yellow vtp_option'
         },
         {
           label: 'orange',
-          value: 'vtp-orange'
+          value: 'vtp-orange',
+          classname: 'vtp_option_orange vtp_option'
         },
         {
           label: 'Kein Lesezeichen',
-          value: 'vtp-nobookmark'
+          value: 'vtp-nobookmark vtp_option',
+          classname: ''
         }
       ]
     }
@@ -70,7 +83,7 @@ export default {
     getLabelForSelectedColorOption(value) {
       for (let i = 0; i < this.colorOptions.length; i++) {
         if (this.colorOptions[i].value == value) {
-          return (value == 'vtp-nobookmark') ? ' ' : this.colorOptions[i].label;
+          return (value == 'vtp-nobookmark vtp_option') ? ' ' : this.colorOptions[i].label;
         }
       }
       return '';
@@ -91,7 +104,49 @@ export default {
 <style lang="scss">
 $vitoop-body-background-color: #cfe7f7;
 
-.colorDropdown .v-select {
+.vtp_option{
+  border-radius: 6px;
+  padding-left: 10px;
+  height: 24px !important;
+}
+.vtp_option_blue{
+  background: #8fc9f6;
+  color: #8fc9f6 !important;
+}
+.vtp_option_red{
+  background: #f39090;
+  color: #f39090 !important;
+}
+.vtp_option_lime{
+  background: #87ee87;
+  color: #87ee87 !important;
+}
+.vtp_option_cyan{
+  background: #8feeee;
+  color: #8feeee !important;
+}
+.vtp_option_yellow{
+  background: #f5f568;
+  color: #f5f568 !important;
+}
+.vtp_option_orange{
+  background: #ffa500;
+  color: #ffa500 !important;
+}
+.colorDropdown .dropdown-menu li{
+  padding: 0px 3px;
+  border-radius: 6px !important;
+}
+.colorDropdown .dropdown-menu li a{
+  padding: 0px !important;
+  border-radius: 6px !important;
+}
+.colorDropdown .dropdown-menu li .vtp_option:hover{
+    background: #e4f1fb !important;
+    color: #0070a3;
+}
+
+.colorDropdown .v-select{
   max-width: 140px !important;
   margin: 0 !important;
   cursor: pointer;

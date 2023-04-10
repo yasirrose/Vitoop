@@ -2371,7 +2371,7 @@ a.vtp-uiaction-open-url:visited {
 
 .dataTables_filter input,
 #search_date_range input {
-    height: 18px;
+    height: 20px;
     display: block;
     float: left;
 }
@@ -2780,7 +2780,7 @@ table.dataTable thead th:hover {
     border: 1px solid #aed0ea;
     border-radius: 6px;
     width: -webkit-fill-available;
-    padding: 4px;
+    padding: 3px;
     line-height: 10px;
 }
 
@@ -2829,50 +2829,50 @@ table.dataTable thead th:hover {
 
 .toggle_detail.blau-gradient, .toggle_detail.blue-gradient{
     background: #7bc0f6 !important; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left, #66afe9 10%, #f2f5f7 50%) !important; /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #66afe9 10%, #f2f5f7 50%) !important; /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, #66afe9 10%, #f2f5f7 50%) !important; /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, #66afe9 10%, #f2f5f7 50%) !important; /* Standard syntax */
+    background: -webkit-linear-gradient(left, #66afe9 10%, #e4f1fa 50%) !important; /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #66afe9 10%, #e4f1fa 50%) !important; /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #66afe9 10%, #e4f1fa 50%) !important; /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #66afe9 10%, #e4f1fa 50%) !important; /* Standard syntax */
 }
 
 .toggle_detail.red-gradient, .toggle_detail.rot-gradient{
     background: #f39090 !important; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left, #f39090 10%, #f2f5f7 50%) !important; /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #f39090 10%, #f2f5f7 50%) !important; /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, #f39090 10%, #f2f5f7 50%) !important; /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, #f39090 10%, #f2f5f7 50%) !important; /* Standard syntax */
+    background: -webkit-linear-gradient(left, #f39090 10%, #e4f1fa 50%) !important; /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #f39090 10%, #e4f1fa 50%) !important; /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #f39090 10%, #e4f1fa 50%) !important; /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #f39090 10%, #e4f1fa 50%) !important; /* Standard syntax */
 }
 
 .toggle_detail.lime-gradient, .toggle_detail.grün-gradient{
     background: #87ee87 !important; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left, #87EE64 10%, #f2f5f7 50%) !important; /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #87EE64 10%, #f2f5f7 50%) !important; /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, #87EE64 10%, #f2f5f7 50%) !important; /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, #87EE64 10%, #f2f5f7 50%) !important; /* Standard syntax */
+    background: -webkit-linear-gradient(left, #87EE64 10%, #e4f1fa 50%) !important; /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #87EE64 10%, #e4f1fa 50%) !important; /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #87EE64 10%, #e4f1fa 50%) !important; /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #87EE64 10%, #e4f1fa 50%) !important; /* Standard syntax */
 }
 
 .toggle_detail.cyan-gradient{
     background: #8feeee !important; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left, #5fffff 10%, #f2f5f7 50%) !important; /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #5fffff 10%, #f2f5f7 50%) !important; /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, #5fffff 10%, #f2f5f7 50%) !important; /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, #5fffff 10%, #f2f5f7 50%) !important; /* Standard syntax */
+    background: -webkit-linear-gradient(left, #5fffff 10%, #e4f1fa 50%) !important; /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #5fffff 10%, #e4f1fa 50%) !important; /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #5fffff 10%, #e4f1fa 50%) !important; /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #5fffff 10%, #e4f1fa 50%) !important; /* Standard syntax */
 }
 
 .toggle_detail.yellow-gradient, .toggle_detail.gelb-gradient{
     background: #f5f568 !important; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left, #ffff2c 10%, #f2f5f7 50%) !important; /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #ffff2c 10%, #f2f5f7 50%) !important; /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, #ffff2c 10%, #f2f5f7 50%) !important; /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, #ffff2c 10%, #f2f5f7 50%) !important; /* Standard syntax */
+    background: -webkit-linear-gradient(left, #ffff2c 10%, #e4f1fa 50%) !important; /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #ffff2c 10%, #e4f1fa 50%) !important; /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #ffff2c 10%, #e4f1fa 50%) !important; /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #ffff2c 10%, #e4f1fa 50%) !important; /* Standard syntax */
 }
 
 .toggle_detail.orange-gradient{
     background: #edbc62 !important; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left, #ff9400 10%, #f2f5f7 50%) !important; /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #ff9400 10%, #f2f5f7 50%) !important; /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, #ff9400 10%, #f2f5f7 50%) !important; /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, #ff9400 10%, #f2f5f7 50%) !important; /* Standard syntax */
+    background: -webkit-linear-gradient(left, #ff9400 10%, #e4f1fa 50%) !important; /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #ff9400 10%, #e4f1fa 50%) !important; /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #ff9400 10%, #e4f1fa 50%) !important; /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #ff9400 10%, #e4f1fa 50%) !important; /* Standard syntax */
 }
 
 .detail_toggle_box {
@@ -2926,10 +2926,6 @@ table.dataTable thead th:hover {
     opacity: 1;
 }
 
-.right_checkbox label {
-    padding-left: 0;
-}
-
 label[for="conversation_isNotify"]{
     padding: 0 !important;
 }
@@ -2951,7 +2947,7 @@ label[for="conversation_isNotify"]{
 }
 .second_search_email_details_btn {
     width: 38px !important;
-    height: 21px !important;
+    height: 24px !important;
     margin-right: 5px !important;
     font-size: 11px !important;
 }
@@ -2968,6 +2964,7 @@ label[for="conversation_isNotify"]{
     font-size: 13px;
     color: #000;
     line-height: 15px !important;
+    padding-left: 20px;
 }
 
 .send_mail_checkbox span.custom-checkbox {
@@ -2983,4 +2980,25 @@ label[for="conversation_isNotify"]{
 .right_checkbox label {
     color: #362b36 !important;
     font-size: 13px !important;
+}
+.colorDropdown, .colorDropdown .dropdown-toggle, .h-22{
+    height: 24px !important;
+}
+.h-24{
+    height: 24px !important;
+}
+.custom_bg{
+    background: linear-gradient(to bottom, #f2f8fc 0%, #cfe7f7 100%) !important;
+    border-radius: 5px;
+}
+.custom_color_select{
+    padding-top: 10px !important;
+}
+.ui-selectmenu-open ul.ui-menu li.ui-menu-item{
+    height: 24px !important;
+}
+.colorDropdown .dropdown-menu li a:hover{
+    border: 1px solid #74b2e2 !important;
+    background: #e4f1fb url("../img/ui-bg_glass_100_e4f1fb_1x400.png") 50% 50% repeat-x !important;
+    color: #0070a3;
 }
