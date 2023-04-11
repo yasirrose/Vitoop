@@ -1,58 +1,55 @@
 <template>
     <div id="vtp-cmstitle">
-        <div v-if="getProject"
-             id="vtp-projectdata-title"
-             class="ui-corner-all vtp-cmstitle">
-            <span class="vtp-title__text">
-                {{ $t('label.project') }}: {{ getProject.name }}
-            </span>
-            <div class="vtp-title__buttons">
-                <button id="vtp-projectdata-project-close"
-                        :title="$t('label.close')"
-                        class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary"
-                        role="button"
-                        @click="resetResource('/prj')">
-                    <span class="ui-button-icon-primary ui-icon ui-icon-close"></span>
-                    <span class="ui-button-text"></span>
-                </button>
+        <div v-if="getProject" class="custom_row ui-corner-all" id="vtp-projectdata-title">
+            <div class="col-md-9">
+                <span class="vtp-title__text">
+                    {{ $t('label.project') }}: {{ getProject.name }}
+                </span>
             </div>
-        </div>
-        <div v-else-if="getResource('id') && !get('inProject') && !get('conversationInstance')"
-             id="vtp-lexicondata-title"
-             class="ui-corner-all vtp-cmstitle">
-            <span class="vtp-title__text" v-if="get('lexicon')">
-                {{ $t('label.lexicon') }}: {{ get('lexicon').name }}
-            </span>
-            <div class="vtp-title__buttons">
-                <span style="display: flex">
-                    <button id="vtp-projectdata-project-close"
-                            :title="$t('label.close')"
-                            class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary"
-                            role="button"
-                            @click="resetResource('/lex')">
+            <div class="custom-col-md-2">
+                <div class="close_btn_section">
+                    <button id="" :title="$t('label.close')"
+                        class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary new_close_btn"
+                        role="button" @click="resetResource('/prj')">
                         <span class="ui-button-icon-primary ui-icon ui-icon-close"></span>
                         <span class="ui-button-text"></span>
                     </button>
-                </span>
+                </div>
             </div>
         </div>
-        <div v-else-if="get('conversationInstance')"
-             id="vtp-conversation-title"
-             class="ui-corner-all vtp-cmstitle">
-            <span class="vtp-title__text">
-                {{ $t('label.conversation') }}: {{ get('conversationInstance').conversation.name }}
-            </span>
-            <div class="vtp-title__buttons">
-                <span style="display: flex">
-                    <button id="vtp-projectdata-project-close"
-                            :title="$t('label.close')"
-                            class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary"
-                            role="button"
-                            @click="resetResource('/conversation')">
+        <div v-else-if="getResource('id') && !get('inProject') && !get('conversationInstance')" id="vtp-lexicondata-title"
+            class="custom_row ui-corner-all">
+            <div class="col-md-9">
+                <span class="vtp-title__text" v-if="get('lexicon')">
+                    {{ $t('label.lexicon') }}: {{ get('lexicon').name }}
+                </span>
+            </div>
+            <div class="custom-col-md-2">
+                <div class="close_btn_section">
+                    <button id="" :title="$t('label.close')"
+                        class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary new_close_btn"
+                        role="button" @click="resetResource('/lex')">
                         <span class="ui-button-icon-primary ui-icon ui-icon-close"></span>
                         <span class="ui-button-text"></span>
                     </button>
+                </div>
+            </div>
+        </div>
+        <div v-else-if="get('conversationInstance')" id="vtp-conversation-title" class="custom_row ui-corner-all">
+            <div class="col-md-9">
+                <span class="vtp-title__text">
+                    {{ $t('label.conversation') }}: {{ get('conversationInstance').conversation.name }}
                 </span>
+            </div>
+            <div class="custom-col-md-2">
+                <div class="close_btn_section">
+                    <button id="" :title="$t('label.close')"
+                        class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary new_close_btn"
+                        role="button" @click="resetResource('/conversation')">
+                        <span class="ui-button-icon-primary ui-icon ui-icon-close"></span>
+                        <span class="ui-button-text"></span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -72,22 +69,29 @@
                 'getProject',
             ]),
         },
+        mounted() {
+            this.showCloseButton();
+        },
         watch: {
             $route(to) {
                 if (to.name == "project" || to.name == "conversation-item" || to.name == "lexicon") {
-                    this.showSlide();
+                    this.showCloseButton();
                 }
             }
         },
         methods: {
-            showSlide() {
-                $("#vtp-cmstitle").hide("slide", { direction: "left", opacity: '0' }, 0);
+            showCloseButton() {
+                $('.close_btn_section').css({ 'opacity': '0' });
                 setTimeout(() => {
-                    $("#vtp-cmstitle").show("slide", { direction: "left", opacity: '1' }, 2000);
+                    $('.close_btn_section').hide("slide", { direction: "left", opacity: '0' }, 0);
+                    setTimeout(() => {
+                        $('.close_btn_section').css({ 'opacity': '1' });
+                        $(".close_btn_section").show("slide", { direction: "left", opacity: '1' }, 2000);
+                    }, 1000);
                 }, 1000);
             },
             resetResource(redirectTo) {
-                $("#vtp-cmstitle").hide("slide", { direction: "left", opacity: '0' }, 1000);
+                $(".close_btn_section").hide("slide", { direction: "left", opacity: '0' }, 1000);
                 setTimeout(() => {
                     if (this.get('projectNeedToSave') && redirectTo === '/prj') {
                         VueBus.$emit('confirm-dialog:open');
