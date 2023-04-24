@@ -58,8 +58,8 @@ export default {
         },
         {
           label: 'Kein Lesezeichen',
-          value: 'vtp-nobookmark vtp_option',
-          classname: ''
+          value: 'vtp-nobookmark',
+          classname: 'vtp_option'
         }
       ]
     }
@@ -83,7 +83,7 @@ export default {
     getLabelForSelectedColorOption(value) {
       for (let i = 0; i < this.colorOptions.length; i++) {
         if (this.colorOptions[i].value == value) {
-          return (value == 'vtp-nobookmark vtp_option') ? ' ' : this.colorOptions[i].label;
+          return (value == 'vtp-nobookmark') ? ' ' : this.colorOptions[i].label;
         }
       }
       return '';
