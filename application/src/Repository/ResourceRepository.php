@@ -389,7 +389,7 @@ class ResourceRepository extends ServiceEntityRepository
         if (1 === $search->isUserHook) {
             $query->andHaving('isUserHook > 0');
         }
-        if (($search->color != 'nobookmark') && ($search->color === 'blue' || $search->color === 'red' || $search->color === 'lime' || $search->color === 'cyan' || $search->color === 'yellow' || $search->color === 'orange')) {
+        if (($search->color != 'nobookmark') && (in_array($search->color, ['blue', 'red', 'lime', 'cyan', 'yellow', 'orange']))) {
             $query->andWhere('uh.color = :selectedColor')
             ->setParameter('selectedColor', $search->color);
         }
