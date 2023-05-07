@@ -223,6 +223,7 @@ const colorMap = {'blue': 'blau', 'lime': 'grün', 'cyan': 'cyan', 'yellow': 'ge
                         message = 'Lesezeichen wurde entfernt';
                         $('.vtp-fh-infosave-box-left ').removeClass('vtp-' + spanText + '-color');
                         $('.vtp-fh-infosave-box-right ').removeClass(spanText + '-gradient');
+                        $('#'+resourceType+'-'+ resId +" td:first").removeClass();
                     }
                     VueBus.$emit('element-notification:show', message, 'vtp-user-hook');
                 }
