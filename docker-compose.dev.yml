@@ -9,7 +9,7 @@ networks:
 
 services:
   vitoopdb:
-    image: mariadb:10.3.18
+    image: mariadb:10.11
     volumes:
       - type: bind
         source: ./devops/docker/states/db/vitoop
