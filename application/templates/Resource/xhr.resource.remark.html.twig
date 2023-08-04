@@ -36,12 +36,12 @@
         </div>
     {% endif %}
     <div id="vtp-remark-buttons">
-        {% if (remarks is not empty) %}
+        {% if (remarkUserNameValue is not empty) %}
             <div id="vtp-remark-owner">
                 <span style="margin-right: 3px">Bearbeiter:</span>
-                {% for rem in remarks %}
+                {% for rem in remarkUserNameValue %}
                     <span class="remarks-button" {% if is_granted('ROLE_ADMIN') %} title="{{ rem.getCreatedAt|date("m-d-Y") }}, {{ rem.getIp }}" data-text="{{ rem.text }}" {% endif %}>
-                        {{ rem.user.username }}{% if (not loop.last) %}, {% endif %}
+                        {{ rem.user_name }}{% if (not loop.last) %}, {% endif %}
                     </span>
                 {% endfor %}
             </div>

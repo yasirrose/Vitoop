@@ -543,11 +543,31 @@ class ResourceDataCollector
             ->getRepository(Remark::class)
             ->getAllRemarks($this->res);
 
+        $remarkUserNameValue = [];
+        foreach ($remarks as $key => $remark) {
+            $userName = $remark->getUser()->getUserName();
+            $createdAt = $remark->getCreatedAt();
+            $ip = $remark->getIp();
+            $text = $remark->getText();
+            // For admins, store all the details in the array directly
+            if ($this->vsec->isAdmin()) {
+                $remarkUserNameValue[$key]['user_name'] = $userName;
+                $remarkUserNameValue[$key]['getCreatedAt'] = $createdAt;
+                $remarkUserNameValue[$key]['getIp'] = $ip;
+                $remarkUserNameValue[$key]['text'] = $text;
+            } else {
+                // For non-admins, check if the username already exists in the array
+                if (!isset($remarkUserNameValue[$userName])) {
+                    $remarkUserNameValue[$userName]['user_name'] = $userName;
+                }
+            }
+        }
         return $this->twig->render('Resource/xhr.resource.remark.html.twig', array_merge($tpl_vars, array(
             'res' => $this->res,
             'remark' => $remark,
             'remarks' => $remarks,
-            'showform' => $show_form
+            'showform' => $show_form,
+            'remarkUserNameValue' => $remarkUserNameValue
         )));
     }
 
