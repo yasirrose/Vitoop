@@ -1,53 +1,78 @@
-FROM php:8.1-fpm
+FROM surnet/alpine-wkhtmltopdf:3.16.2-0.12.6-full as wkhtmltopdf
+FROM php:8.1-fpm-alpine
 
-# Fix permissions on Mac
-RUN usermod -u 1000 www-data \
- && usermod -G staff www-data
+ENV NODE_PACKAGE_URL  https://unofficial-builds.nodejs.org/download/release/v16.9.1/node-v16.9.1-linux-x64-musl.tar.gz
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+RUN apk add --no-cache \
     unzip \
     git \
-    libc-client-dev \
-    libkrb5-dev \
+    imap-dev \
+    krb5-dev \
     libzip-dev \
-    zlib1g-dev \
-    libicu-dev \
+    zlib-dev \
+    icu-dev \
     libxml2-dev \
-    apt-transport-https\
     curl \
     gnupg \
-    fontconfig \
-    fontconfig-config \
-    libx11-dev \
-    libxext6 \
-    libxrender1 \
-    build-essential \
-    xorg \
+    build-base \
+    xorg-server \
     xvfb \
-    libjpeg62-turbo \
-    && curl -sL https://deb.nodesource.com/setup_14.x | bash -  \
-    && apt-get install -y nodejs \
-    && curl -o wkhtmltox.deb -SL https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.stretch_amd64.deb \
-    && echo '7e35a63f9db14f93ec7feeb0fce76b30c08f2057 wkhtmltox.deb' | sha1sum -c - \
-    && dpkg --force-depends -i wkhtmltox.deb \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* wkhtmltox.deb
+    libjpeg-turbo \
+   # wkhtmltopdf dependencies
+    libstdc++ \
+    libx11 \
+    libxrender \
+    libxext \
+    openssl1.1-compat-dev \
+    ca-certificates \
+    fontconfig \
+    freetype-dev \
+    ttf-dejavu \
+    ttf-droid \
+    ttf-freefont \
+    ttf-liberation \
+    bash \
+   # more fonts
+     && apk add --no-cache --virtual .build-deps \
+       msttcorefonts-installer \
+     # Install microsoft fonts
+     && update-ms-fonts \
+     && fc-cache -f \
+   # NPM
+   # && apk add --update --no-cache nodejs npm \
+   # Clean up when done
+   && rm -rf /tmp/* \
+   && apk del .build-deps
+
+# Build node specific version
+WORKDIR /opt
+RUN wget $NODE_PACKAGE_URL
+RUN mkdir -p /opt/nodejs
+RUN tar -zxvf *.tar.gz --directory /opt/nodejs --strip-components=1
+RUN rm *.tar.gz
+RUN ln -s /opt/nodejs/bin/node /usr/local/bin/node
+RUN ln -s /opt/nodejs/bin/npm /usr/local/bin/npm
+
+# Copy wkhtmltopdf from exitent image
+COPY --from=wkhtmltopdf /bin/wkhtmltopdf /bin/wkhtmltopdf
+COPY --from=wkhtmltopdf /bin/wkhtmltoimage /bin/wkhtmltoimage
 
 
 # Type docker-php-ext-install to see available extensions
 RUN docker-php-ext-install pdo pdo_mysql mysqli intl zip xml fileinfo exif
 
-RUN apt-get update && apt-get install -y \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
+RUN apk add --no-cache \
+        libjpeg-turbo-dev \
         libpng-dev \
-    && docker-php-ext-install -j$(nproc) iconv \
     && docker-php-ext-configure gd \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-install -j$(nproc) imap
 
-RUN pecl install xdebug && docker-php-ext-enable xdebug
+RUN apk add --no-cache $PHPIZE_DEPS \
+    && apk add --update linux-headers \
+    && pecl install xdebug  \
+    && docker-php-ext-enable xdebug
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
