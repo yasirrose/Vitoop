@@ -26,7 +26,7 @@ stop:
 	docker-compose -f docker-compose.yml down
 
 install:
-	docker-compose exec php sh -c 'composer install --optimize-autoloader && php bin/console doc:migr:migr --no-interaction && php bin/console assets:install --env=prod && php bin/console cache:clear --env=prod && chmod -R 0777 var/cache var/log && npm install && npm install -g gulp-cli && gulp && chmod -R 0777 var/cache var/log'
+	docker-compose exec php sh -c 'composer install --optimize-autoloader && php bin/console doc:migr:migr --no-interaction && php bin/console assets:install --env=prod && php bin/console cache:clear --env=prod && chmod -R 0777 var/cache var/log && npm install && npm run build && chmod -R 0777 var/cache var/log'
 
 load_db:
 	docker exec -i $$(docker-compose ps -q vitoopdb) mysql --user=root --password=root --execute="DROP DATABASE IF EXISTS vitoop; CREATE DATABASE IF NOT EXISTS vitoop;"
