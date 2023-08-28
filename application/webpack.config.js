@@ -40,4 +40,38 @@ Encore
 ;
 
 // export the final configuration
-module.exports = Encore.getWebpackConfig();
+
+const config = Encore.getWebpackConfig();
+
+config.resolve = {
+    'alias': {
+        vue: '@vue/compat'
+    }
+}
+
+config.module = {
+    rules: [
+        {
+          test: /\.vue$/,
+          loader: 'vue-loader',
+          options: {
+            compilerOptions: {
+              compatConfig: {
+                // Default everything to Vue 2 behavior
+                MODE: 2
+              }
+            }
+          }
+        },
+        {
+            test: /\.less$/,
+            use: ['style-loader', 'css-loader', 'less-loader']
+          },
+          {
+            test: /\.css$/,
+            use: ['style-loader', 'css-loader']
+          },
+      ]
+}
+
+module.exports = config;
