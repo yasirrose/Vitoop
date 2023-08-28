@@ -76,7 +76,7 @@
                 <p>Deine eMail-Adresse ist für andere User nicht sichtbar.</p>
                 <p>Dein Passwort sollte mindestens 8, höchstens jedoch 32 Zeichen haben. Erlaubt sind alle Zeichen wie beim Usernamen, jedoch ohne das Leerzeichen.</p>
                 <p>Ferner sollte das Passwort nicht nur aus Kleinbuchstaben, nur aus Großbuchstaben oder nur aus Zahlen bestehen. Bitte mische mindestens zwei davon und wenn Du willst gerne ein oder auch mehrere Sonderzeichen dazu.</p>
-                <p>Erlaubte Sonderzeichen: !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~</p>
+                <p>Erlaubte Sonderzeichen: !"#$%&'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~</p>
                 <p>Es besteht keine Klarnamen-Pflicht</p>
             </div>
         </div>

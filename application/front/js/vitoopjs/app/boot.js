@@ -1,4 +1,5 @@
-import Vue from 'vue/dist/vue.js';
+// import Vue from 'vue/dist/vue.js';
+import {createApp} from 'vue';
 import vitoopState from '../store/vitoopState';
 import VtpApp from "../components/Vue/VtpApp.vue";
 import UserSettings from '../components/Vue/UserSettings/UserSettings.vue';

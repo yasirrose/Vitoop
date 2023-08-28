@@ -12,7 +12,7 @@ var webpack = require('webpack-stream');
 var ProvidePlugin = require('webpack-stream').webpack.ProvidePlugin;
 var path = require('path');
 var env = process.env.GULP_ENV;
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const {VueLoaderPlugin} = require('vue-loader');
 
 gulp.task('lexicon-js', function () {
     return gulp.src(['front/js/lexicon/lexicon-home.js'])
@@ -120,7 +120,7 @@ gulp.task('vitoop-app', function () {
                     {
                         test: /\.scss$/,
                         use: [
-                            'vue-style-loader',
+                            'style-loader',
                             'css-loader',
                             'sass-loader'
                         ]
@@ -128,7 +128,7 @@ gulp.task('vitoop-app', function () {
                     {
                         test: /\.css$/,
                         use: [
-                            'vue-style-loader',
+                            'style-loader',
                             'css-loader',
                             'sass-loader'
                         ]

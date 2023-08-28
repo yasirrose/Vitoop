@@ -125,7 +125,7 @@
 
 <script>
     import UserService from "../../../services/User/UserService";
-    import vSelect from 'vue-select/src/components/Select.vue';
+    import { VueSelect } from 'vue-select';
     import {mapGetters} from "vuex";
 
     export default {

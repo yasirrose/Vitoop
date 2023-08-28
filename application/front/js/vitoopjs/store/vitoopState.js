@@ -1,6 +1,8 @@
-import Vue from 'vue/dist/vue.js';
-import Vuex from 'vuex/dist/vuex.js'
-import { mapState } from 'vuex/dist/vuex.js';
+//import * as Vue from 'vue';
+
+import * as Vuex from 'vuex';
+
+import { mapState } from 'vuex';
 import VuexPersistence from 'vuex-persist';
 
 import state from "./state";
@@ -17,7 +19,7 @@ function initialState () {
     return state;
 }
 
-Vue.use(Vuex);
+// Vue.use(Vuex);
 const vitoopState = window.vitoopState = new Vuex.Store({
     state: initialState(),
     mutations,
