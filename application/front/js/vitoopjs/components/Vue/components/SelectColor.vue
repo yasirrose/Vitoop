@@ -1,14 +1,14 @@
 <template>
   <div class="colorDropdown">
-    <v-select :options="colorOptions"
+    <vue-select :options="colorOptions"
               v-model="selectedColor"
               :clearable="false">
-        <template #option="{ label, classname }">
-          <div :class="classname" class="color_option">
-            {{ label }}
-          </div>
-        </template>
-    </v-select>
+      <template #option="{ label, classname }">
+        <div :class="classname" class="color_option">
+          {{ label }}
+        </div>
+      </template>
+    </vue-select>
   </div>
 </template>
 
@@ -65,13 +65,13 @@ export default {
     }
   },
   components: {
-    vSelect
+    VueSelect
   },
   computed: {
     ...mapGetters(['get']),
     selectedColor: {
       get () {
-          return this.changeColor(this.$store.state.secondSearch.selectedColor);
+        return this.changeColor(this.$store.state.secondSearch.selectedColor);
       },
       set (colorOption) {
         this.$store.commit('updateSelectedColor', colorOption.value);
@@ -142,11 +142,11 @@ $vitoop-body-background-color: #cfe7f7;
   border-radius: 6px !important;
 }
 .colorDropdown .dropdown-menu li .vtp_option:hover{
-    background: #e4f1fb !important;
-    color: #0070a3;
+  background: #e4f1fb !important;
+  color: #0070a3;
 }
 
-.colorDropdown .v-select{
+.colorDropdown .v-select {
   max-width: 140px !important;
   margin: 0 !important;
   cursor: pointer;
@@ -162,7 +162,7 @@ $vitoop-body-background-color: #cfe7f7;
   background: -moz-linear-gradient(right, #f39090 , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
   background: linear-gradient(to right, #f39090 , $vitoop-body-background-color); /* Standard syntax */
   background-repeat: no-repeat;
-  background-size: 210px;
+  background-size: 285px;
 }
 
 .vtp-cyan {
@@ -172,7 +172,7 @@ $vitoop-body-background-color: #cfe7f7;
   background: -moz-linear-gradient(right, #8feeee , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
   background: linear-gradient(to right, #8feeee , $vitoop-body-background-color); /* Standard syntax */
   background-repeat: no-repeat;
-  background-size: 210px;
+  background-size: 285px;
 }
 
 .vtp-lime {
@@ -182,7 +182,7 @@ $vitoop-body-background-color: #cfe7f7;
   background: -moz-linear-gradient(right, #87ee87 , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
   background: linear-gradient(to right, #87ee87 , $vitoop-body-background-color); /* Standard syntax */
   background-repeat: no-repeat;
-  background-size: 210px;
+  background-size: 285px;
 }
 
 .vtp-yellow {
@@ -192,7 +192,7 @@ $vitoop-body-background-color: #cfe7f7;
   background: -moz-linear-gradient(right, #f5f568 , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
   background: linear-gradient(to right, #f5f568 , $vitoop-body-background-color); /* Standard syntax */
   background-repeat: no-repeat;
-  background-size: 210px;
+  background-size: 285px;
 }
 .vtp-orange {
   background: #edbc62; /* For browsers that do not support gradients */

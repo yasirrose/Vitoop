@@ -9,11 +9,11 @@
                     <legend>Einstellungen</legend>
                     <div class="vtp-fh-w25">
                         <p>Textgrösse in den Listen: </p>
-                        <v-select :options="fontSizeOptions"
+                        <vue-select :options="fontSizeOptions"
                                   :value="userFontSize"
                                   :clearable="false"
                                   @input="selectFontSize">
-                        </v-select>
+                        </vue-select>
                     </div>
                 </fieldset>
                 <fieldset class="ui-corner-all margin-top-10">
@@ -131,7 +131,7 @@
     export default {
         name: 'user-settings',
         components: {
-            vSelect
+            VueSelect
         },
         data() {
             return {

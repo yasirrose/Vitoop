@@ -111,7 +111,7 @@
                         <div style="vertical-align: top; margin-bottom: 5px">
                             <label><strong>Neuer Benutzer:</strong></label>
                         </div>
-                        <v-select :options="options"
+                        <vue-select :options="options"
                                   ref="v_select"
                                   label="username"
                                   @input="selectUser"
@@ -138,7 +138,7 @@
 
 <script>
     import {mapGetters} from 'vuex';
-    import vSelect from "vue-select";
+    import VueSelect from "vue-select";
     import Centrifuge from 'centrifuge';
     import SockJS from 'sockjs-client';
     import tinyMCEInitializer from '../../TinyMCEInitializer';
@@ -147,7 +147,7 @@
 
     export default {
         name: "AppConversation",
-        components: {ResizableBlock, vSelect},
+        components: {ResizableBlock, VueSelect},
         mixins: [openResourcePopupMixin],
         data() {
             return {

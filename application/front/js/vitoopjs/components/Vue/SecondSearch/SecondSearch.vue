@@ -40,11 +40,11 @@
                     </button>
                 </div>
                 <div id="art-select">
-                    <v-select v-show="get('secondSearch').showArtSelect"
+                    <vue-select v-show="get('secondSearch').showArtSelect"
                               :options="artOptions"
                               v-model="artFilter"
                               :clearable="false">
-                    </v-select>
+                    </vue-select>
                 </div>
             </div>
             <div id="vtp-second-search-panel">
@@ -101,7 +101,7 @@
             };
         },
         components: {
-            vSelect,
+            VueSelect,
             SearchClear,
             SelectColor,
         },

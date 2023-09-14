@@ -115,7 +115,7 @@
                                 <label for="newUser"><strong>Neuer Benutzer:</strong></label>
                             </div>
                             <div class="vtp-fh-w100 vtp-new-user-search">
-                                <v-select :options="options"
+                                <vue-select :options="options"
                                           ref="v_select"
                                           label="username"
                                           @input="selectUser"
@@ -176,13 +176,13 @@
 </template>
 
 <script>
-    import vSelect from "vue-select";
+    import VueSelect from "vue-select";
     import { mapGetters, mapState } from "vuex";
 
     export default {
         name: "AppProjectEdit",
         inject: ['infoProjectData'],
-        components: {vSelect},
+        components: {VueSelect},
         data() {
             return {
                 message: null,
