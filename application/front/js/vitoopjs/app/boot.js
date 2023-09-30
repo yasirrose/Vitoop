@@ -1,10 +1,18 @@
 // import Vue from 'vue/dist/vue.js';
 import {createApp} from 'vue';
-import VtpApp from "../components/Vue/VtpApp.vue";
+//import VtpApp from "../components/Vue/VtpApp.vue";
+
+/** @TODO: Remove me */
+import Test from "../components/Vue/Test.vue";
 
 //import App from './App.vue'
 
-createApp(VtpApp).mount('#vtp-app')
+const app = createApp(Test);
+
+document.addEventListener('DOMContentLoaded', () =>
+{
+    app.mount('#vtp-app');
+});
 
 
 // import vitoopState from '../store/vitoopState';

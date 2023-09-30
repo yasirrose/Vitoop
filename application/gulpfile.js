@@ -8,6 +8,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var bro = require('gulp-bro');
 var babelify = require('babelify');
 
+//const webpackRef = require('webpack');
 var webpack = require('webpack-stream');
 var ProvidePlugin = require('webpack-stream').webpack.ProvidePlugin;
 var path = require('path');
@@ -110,13 +111,17 @@ gulp.task('vitoop-app', function () {
         'front/js/vitoopjs/app/boot.js'
         ])
         .pipe(webpack({
-            mode: 'production',
+            mode: 'development', // change me to "production"
             output: {
                 publicPath: "/js/",
                 filename: 'vitoop-app.js'
             },
             module: {
                 rules: [
+                    {
+                        test: /\.vue$/,
+                        loader: 'vue-loader'
+                    },
                     {
                         test: /\.scss$/,
                         use: [
@@ -129,19 +134,18 @@ gulp.task('vitoop-app', function () {
                         test: /\.css$/,
                         use: [
                             'style-loader',
-                            'css-loader',
-                            'sass-loader'
+                            'css-loader'
                         ]
                     },
-                    {
-                        test: /\.vue$/,
-                        loader: 'vue-loader',
-                    },
-                ],
 
+                ]
             },
             plugins: [
                 new VueLoaderPlugin(),
+                new webpack.webpack.DefinePlugin({
+                    __VUE_OPTIONS_API__: true,
+                    __VUE_PROD_DEVTOOLS__: true
+                })
             ],
             performance: {
                 hints: false
