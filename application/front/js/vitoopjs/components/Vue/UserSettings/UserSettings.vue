@@ -125,13 +125,13 @@
 
 <script>
     import UserService from "../../../services/User/UserService";
-    import { VueSelect } from 'vue-select';
+    
     import {mapGetters} from "vuex";
 
     export default {
         name: 'user-settings',
         components: {
-            VueSelect
+            
         },
         data() {
             return {

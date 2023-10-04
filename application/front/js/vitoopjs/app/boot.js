@@ -1,21 +1,66 @@
 // import Vue from 'vue/dist/vue.js';
 import {createApp} from 'vue';
-//import VtpApp from "../components/Vue/VtpApp.vue";
+
+import VtpApp from "../components/Vue/VtpApp.vue";
 
 /** @TODO: Remove me */
-import Test from "../components/Vue/Test.vue";
+
+import VueSelect from 'vue-select';
+import vitoopState from '../store/vitoopState';
+
+import UserSettings from '../components/Vue/UserSettings/UserSettings.vue';
+import SecondSearch from "../components/Vue/SecondSearch/SecondSearch.vue";
+import SearchToggler from "../components/Vue/SecondSearch/SearchToggler.vue";
+import axios from "axios"
+import lodash from "lodash"
+//import Vuelidate from 'vuelidate';
+import moment from "moment";
+
+import VueI18n from "vue-i18n"
+import messagesDE from "../../translates/de/messages";
+import validationsDE from "../../translates/de/validations";
+const de = Object.assign(messagesDE,validationsDE);
+const messages = {
+    de
+};
+
+
+import VueRouter from "vue-router";
+import routes from "../router/routes";
+
 
 //import App from './App.vue'
 
-const app = createApp(Test);
+const app = createApp(VtpApp);
 
 document.addEventListener('DOMContentLoaded', () =>
 {
+    app.use(vitoopState);
+
+    app.use(axios);
+    app.use(lodash);
+    app.use(process);
+    //app.use(Vuelidate);
+    app.use(moment);
+    app.use(VueI18n);
+    app.use(messagesDE);
+    // app.use(validationsDE);
+    app.use(VueRouter);
+
+    app.component('VueSelect', VueSelect);
+    app.component('UserSettings', UserSettings);
+    app.component('SecondSearch', SecondSearch);
+    app.component('SearchToggler', SearchToggler);
+    //app.component('Vuelidate', Vuelidate);
+    
+
+
     app.mount('#vtp-app');
 });
 
 
-// import vitoopState from '../store/vitoopState';
+
+// 
 // import VtpApp from "../components/Vue/VtpApp.vue";
 // import UserSettings from '../components/Vue/UserSettings/UserSettings.vue';
 // import SecondSearch from "../components/Vue/SecondSearch/SecondSearch.vue";

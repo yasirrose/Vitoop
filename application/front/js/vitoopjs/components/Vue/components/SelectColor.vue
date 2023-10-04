@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import { VueSelect } from 'vue-select';
 import {mapGetters} from 'vuex';
 
 export default {
@@ -65,7 +64,7 @@ export default {
     }
   },
   components: {
-    VueSelect
+    
   },
   computed: {
     ...mapGetters(['get']),

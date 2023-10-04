@@ -76,8 +76,6 @@
 </template>
 
 <script>
-
-    import { VueSelect } from 'vue-select';
     import SearchClear from './SearchClear.vue';
     import {mapGetters} from 'vuex';
     import SelectColor from "../components/SelectColor.vue";
@@ -101,7 +99,6 @@
             };
         },
         components: {
-            VueSelect,
             SearchClear,
             SelectColor,
         },
