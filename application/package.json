@@ -45,6 +45,7 @@
     "sass": "^1.66.1",
     "sass-loader": "^10.0.0",
     "sockjs-client": "^1.6.1",
+    "tiny-emitter": "^2.1.0",
     "twitter-text": "^2.0.1",
     "uglify-js": "^3.17.4",
     "uuid": "^3.4.0",

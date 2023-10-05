@@ -10,6 +10,7 @@
     import DataStorage from "../../../datastorage"
     import RowPerPageSelect from "../../RowPerPageSelect";
     import ButtonOpenNotes from "../components/dialogs/ButtonOpenNotes.vue";
+    import EventBus from "../../../app/eventBus";
 
     export default {
         name: "SearchByTags",
@@ -47,10 +48,10 @@
             getTagListShow(show) {
                 if (show) {
                     this.$store.commit('updateTableRowNumber', this.get('table').rowNumber - 1);
-                    VueBus.$emit('datatable:reload');
+                    EventBus.$emit('datatable:reload');
                 } else {
                     this.$store.commit('updateTableRowNumber', this.get('table').rowNumber + 1);
-                    VueBus.$emit('datatable:reload');
+                    EventBus.$emit('datatable:reload');
                 }
             }
         },
@@ -91,8 +92,8 @@
 
                 this.updateAutocomplete($('#vtp-search-bytags-taglist'));
                 this.maintainCntTags();
-                if (this.tags.length > 0) 
-                    VueBus.$emit('datatable:reload');
+                if (this.tags.length > 0)
+                    EventBus.$emit('datatable:reload');
             },
             extendTag(tag,event) {
                 let parent = $(event.target).parent();
@@ -152,7 +153,7 @@
                             this.updateAutocomplete(searchByTag);
                             if (this.tags.length > 1) {
                                 // $(this.tagSearchFormId).submit();
-                                VueBus.$emit('datatable:reload');
+                                EventBus.$emit('datatable:reload');
                             }
                         },
                         response: (e, ui) => {
@@ -190,7 +191,7 @@
                     this.active = true;
                     this.$store.commit('set', {key: 'tagcnt', value: this.tagcnt});
                     this.saveTagsToStorage();
-                    VueBus.$emit('datatable:reload');
+                    EventBus.$emit('datatable:reload');
                 });
 
                 $(document).on('click', '#tag_search', () => {
@@ -207,7 +208,7 @@
 
                         if($('#tag_text').val().toLowerCase() == '' || $('#tag_text').val().toLowerCase() == undefined)
                             return false;
-                        
+
                         if ((text.toLowerCase() == $('#tag_text').val().toLowerCase()) && text !=undefined ) {
                             item.text = text;
                             item.cnt = cnt;
@@ -217,13 +218,13 @@
                             item.extended = false;
                         }
                     });
-                    
+
                     if(item.text != undefined){
                         this.pushTag(item)
                         this.searchByTags = null;
                         this.updateAutocomplete(searchByTag);
                         if (this.tags.length > 1) {
-                            VueBus.$emit('datatable:reload');
+                            EventBus.$emit('datatable:reload');
                         }
                         $('#tag_search').prop('disabled', true);
                         $('#tag_search').addClass('ui-button-disabled ui-state-disabled');
@@ -288,7 +289,7 @@
                 });
                 this.$store.commit('setTags', {key: 'tags_i', tags: this.ignoredTags});
                 this.changeColor();
-                VueBus.$emit('datatable:reload');
+                EventBus.$emit('datatable:reload');
             },
             highlightTag(tag) {
                 tag.isHighlighted = !tag.isHighlighted;
@@ -297,7 +298,7 @@
                 this.saveTagsToStorage();
                 this.$store.commit('setTags', {key: 'tags_h', tags: this.highlightedTags});
                 this.changeColor();
-                VueBus.$emit('datatable:reload');
+                EventBus.$emit('datatable:reload');
             },
             pushTag(tag) {
                 if (tag == '') {

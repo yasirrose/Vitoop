@@ -100,6 +100,7 @@
     import TinyMCEInitializer from "../../../TinyMCEInitializer";
     import ElementNotification from "../helpers/ElementNotification.vue";
     import SelectColor from "../SelectColor.vue";
+    import EventBus from "../../../../app/eventBus";
 
     export default {
         name: "AppDialogs",
@@ -146,11 +147,11 @@
                 });
             });
 
-          VueBus.$on('close', () => {
+          EventBus.$on('close', () => {
             this.saveNotes();
           });
 
-          VueBus.$on('open', () => {
+          EventBus.$on('open', () => {
             if (this.dialog_initiated === false) {
               this.activateTinyMCE();
             }

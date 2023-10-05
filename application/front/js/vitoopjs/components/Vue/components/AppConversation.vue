@@ -144,6 +144,7 @@
     import tinyMCEInitializer from '../../TinyMCEInitializer';
     import ResizableBlock from "./helpers/ResizableBlock.vue";
     import openResourcePopupMixin from "../mixins/openResourcePopupMixin";
+    import EventBus from "../../../app/eventBus";
 
     export default {
         name: "AppConversation",
@@ -401,7 +402,7 @@
                         if (scrollTop - block.scrollTop >= scrollDiff) {
                             clearInterval(animation);
                             this.toggleNewMessageAreaDisabled = false;
-                            VueBus.$emit('perfect-scroll:resize');
+                            EventBus.$emit('perfect-scroll:resize');
                             return
                         }
                         block.scrollTop -= 30;

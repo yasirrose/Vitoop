@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import EventBus from "../../../../app/eventBus";
     export default {
         name: "ForgotPassword",
         data() {
@@ -28,7 +29,7 @@
                 axios.post('/api/v1/users/passwords', {email: this.email})
                     .then(response => {
                         this.email = null;
-                        VueBus.$emit('notification:show', 'New password has been sent on your email.');
+                        EventBus.$emit('notification:show', 'New password has been sent on your email.');
                     })
                     .catch(err => console.dir(err));
             }

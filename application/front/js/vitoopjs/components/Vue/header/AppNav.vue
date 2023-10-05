@@ -156,6 +156,7 @@
     import ShowPopupButton from "./ShowPopupButton.vue";
     import ButtonOpenNotes from "../components/dialogs/ButtonOpenNotes.vue";
     import ImportRecords from "./ImportRecords.vue";
+    import EventBus from "../../../app/eventBus";
 
     export default {
         name: "AppNav",
@@ -259,7 +260,7 @@
                                     .then(() => {
                                         this.$store.commit('set', {key: 'coefsToSave', value: []});
                                         this.$store.commit('set', {key: 'dividersToSave', value: []});
-                                        VueBus.$emit('datatable:reload');
+                                        EventBus.$emit('datatable:reload');
                                     });
                             });
                     });
@@ -368,7 +369,7 @@
                     })
                     .catch(({ response: { data } }) => {
                         this.$store.commit('set', { key: 'dividersToSave', value: [] });
-                        VueBus.$emit('notification:show', data.messages[0]);
+                        EventBus.$emit('notification:show', data.messages[0]);
                     });
             }
         }

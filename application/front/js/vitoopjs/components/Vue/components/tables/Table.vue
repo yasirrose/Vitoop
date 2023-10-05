@@ -40,6 +40,7 @@
     import ConversationTableHead from "./heads/ConversationTableHead.vue";
     import AllTableHead from "./heads/AllTableHead.vue";
     import UserlistTableHead from "./heads/UserlistTableHead.vue";
+    import EventBus from "../../../../app/eventBus";
 
     import {mapGetters} from "vuex";
 
@@ -158,7 +159,7 @@
             resourceDetail.init();
             this.datatable = this.initTable();
             $('.DataTables_sort_icon').addClass('css_right ui-icon ui-icon-carat-2-n-s');
-            VueBus.$on('datatable:reload', () => {
+            EventBus.$on('datatable:reload', () => {
                 $('.DataTables_sort_icon').remove();
                 this.reinitTable();
             });
@@ -180,7 +181,7 @@
             },
             onTableDraw() {
                 this.setNeededTitles();
-                if (this.getResourceType === 'prj') VueBus.$emit('update:my-projects');
+                if (this.getResourceType === 'prj') EventBus.$emit('update:my-projects');
                 if (this.get('table').data.length >= this.get('table').rowNumber && this.get('resource').id === null) {
                     setTimeout(() => {
                         const content = document.querySelector('#vtp-content');
@@ -259,7 +260,7 @@
     //     }
     //     100% {background: #d7ebf9 url(/../img/ui-bg_glass_80_d7ebf9_1x400.png) 50% 50% repeat-x;}
     // }
-    
+
 
     .blinking {
         animation-name: blinking;

@@ -7,6 +7,8 @@
 </template>
 
 <script>
+    import EventBus from "../../../../app/eventBus";
+
     export default {
         name: "Notification",
         data() {
@@ -16,7 +18,7 @@
             }
         },
         mounted() {
-            VueBus.$on('notification:show', message => {
+            EventBus.$on('notification:show', message => {
                 this.show = true;
                 this.message = message;
                 setTimeout(() => {

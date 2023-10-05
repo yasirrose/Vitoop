@@ -12,6 +12,7 @@
 
 <script>
     import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+    import EventBus from "../../../../app/eventBus";
     export default {
         name: "ResizableBlock",
         components: {VuePerfectScrollbar},
@@ -27,7 +28,7 @@
             block.addEventListener('scroll', (e) => {
                 trigger.style.bottom = `calc(${bottom} - ${e.target.scrollTop}px)`;
             });
-            VueBus.$on('perfect-scroll:resize', () => {
+            EventBus.$on('perfect-scroll:resize', () => {
                 setTimeout(() => {
                     this.$refs.perfect_scrollbar.update();
                 }, 500);

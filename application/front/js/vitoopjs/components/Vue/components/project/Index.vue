@@ -9,6 +9,7 @@
     import AppProjectEdit from "./AppProjectEdit.vue";
     import {mapGetters} from "vuex";
     import openResourcePopupMixin from "../../mixins/openResourcePopupMixin";
+    import EventBus from "../../../../app/eventBus";
 
     export default {
         name: "Index",
@@ -32,7 +33,7 @@
             this.$store.commit('setInProject', true);
             resourceProject.init();
             this.projectHeight = this.get('contentHeight')-32-28;
-            VueBus.$on('refresh', () => {
+            EventBus.$on('refresh', () => {
                this.loadProject();
             });
         },
@@ -46,7 +47,7 @@
                             // this.$store.commit('setResourceType', 'prj');
                             this.$store.commit('set', {key: 'project', value: data.project});
                             this.$store.commit('setResourceId', this.$route.params.projectId);
-                            VueBus.$emit('project:loaded', data.project);
+                            EventBus.$emit('project:loaded', data.project);
                         } else {
                             this.$store.commit('set', {key: 'inProject', value: false});
                             this.$store.commit('resetResource');

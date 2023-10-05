@@ -12,6 +12,7 @@ import ProjectWidget from './widgets/projectWidget';
 import LexiconWidget from './widgets/lexiconWidget';
 import SendLinkWidget from './widgets/sendLinkWidget';
 import UserDetailWidget from './widgets/userDetailWidget';
+import EventBus from "./app/eventBus";
 
 window.resourceDetail = (function () {
     let NewcustomCheckboxWrapper = document.createElement('label');
@@ -79,14 +80,14 @@ window.resourceDetail = (function () {
                 $('#resource-notes').removeClass('open');
                 $('#resource-notes').css('display', 'none');
 
-                VueBus.$emit('close');
+                EventBus.$emit('close');
             },
             show() {
                 $('#open-notes-dialog-button').addClass('ui-state-active');
                 $('#resource-notes').addClass('open');
                 $('#resource-notes').css('display', 'block');
 
-                VueBus.$emit('open');
+                EventBus.$emit('open');
             },
             isOpen: () => $('#resource-notes').hasClass('open'),
         },
@@ -238,8 +239,9 @@ window.resourceDetail = (function () {
                                 message = 'Lesezeichen wurde entfernt';
                                 $('.vtp-fh-infosave-box-left ').removeClass('vtp-' + spanText + '-color');
                                 $('.vtp-fh-infosave-box-right ').removeClass(spanText + '-gradient');
+                                $('#'+res_type+'-'+ res_id +" td:first").removeClass();
                             }
-                            VueBus.$emit('element-notification:show', message, 'vtp-user-hook');
+                            EventBus.$emit('element-notification:show', message, 'vtp-user-hook');
                         }
                     });
                 });
@@ -256,9 +258,9 @@ window.resourceDetail = (function () {
                         }),
                         success: function (result) {
                             if (result.value == 1) {
-                                VueBus.$emit('element-notification:show', 'Erfolgreich eingestellt.', 'vtp-user-hook');
+                                EventBus.$emit('element-notification:show', 'Erfolgreich eingestellt.', 'vtp-user-hook');
                             } else if (result.value == 0) {
-                                VueBus.$emit('element-notification:show', 'Unset erfolgreich.', 'vtp-user-hook');
+                                EventBus.$emit('element-notification:show', 'Unset erfolgreich.', 'vtp-user-hook');
                             }
                         }
                     });
@@ -995,7 +997,7 @@ window.resourceDetail = (function () {
             $('#resource-buttons').empty();
             $('#resource-flags').empty();
             if ($('#resource-notes').hasClass('open')) {
-                VueBus.$emit('close');
+                EventBus.$emit('close');
             }
             $('.vtp-extlink-lexicon').remove();
             // pay attention. this triggers tab to load, if the array

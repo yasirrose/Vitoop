@@ -161,6 +161,7 @@
 <script>
     import {mapGetters} from 'vuex'
     import SendLinkWidget from '../../../widgets/sendLinkWidget'
+    import EventBus from "../../../app/eventBus";
 
     export default {
         name: "AppHeaderStatus",
@@ -269,7 +270,7 @@
                 this.GETMyProjects();
             }
 
-            VueBus.$on('update:my-projects', () => {
+          EventBus.$on('update:my-projects', () => {
                 if (undefined !== $('#user-projects').selectmenu('instance')) {
                   $('#user-projects').selectmenu('destroy');
                 }
@@ -294,7 +295,7 @@
                                             this.infoMsgShow = false;
                                         }, 4000);
                                         this.sendLinkWidget.linkStorage.clearAllResources();
-                                        VueBus.$emit('datatable:reload');
+                                      EventBus.$emit('datatable:reload');
                                     })
                                     .catch(err => console.dir(err));
                             }

@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import EventBus from "../../../app/eventBus";
 export default {
     name: "ImportRecords",
     data() {
@@ -24,7 +25,7 @@ export default {
                 formData.append('file', this.file);
                 axios.post('/api/v1/imported-resources', formData)
                     .then(response => {
-                        VueBus.$emit('notification:show', 'Record has been imported.');
+                        EventBus.$emit('notification:show', 'Record has been imported.');
                         this.file = null;
                     });
             }

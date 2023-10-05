@@ -128,7 +128,7 @@ export default class TagWidget extends Widget {
             axios.post('/api/v1/tags/'+self.lastSelectedTagId, {name:  tag})
                 .then((response) => {
                     $('#vtp-tag-text-'+self.lastSelectedTagId).text(tag);
-                    VueBus.$emit('notification:show', 'Tag has been saved');
+                    EventBus.$emit('notification:show', 'Tag has been saved');
                 })
                 .catch(err => console.dir(err));
         });
@@ -142,7 +142,7 @@ export default class TagWidget extends Widget {
                     $('#tag_text').val('');
                     $('#spanTag_'+self.lastSelectedTagId).remove();
                     self.lastSelectedTagId = null;
-                    VueBus.$emit('notification:show', 'Tag has been removed');
+                    EventBus.$emit('notification:show', 'Tag has been removed');
                 })
                 .catch(err => console.dir(err));
         });

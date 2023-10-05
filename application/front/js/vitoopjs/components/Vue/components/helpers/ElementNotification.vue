@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import EventBus from "../../../../app/eventBus";
 export default {
   name: "ElementNotification",
   props: ['id'],
@@ -19,7 +20,7 @@ export default {
   },
   mounted() {
     let self = this;
-    VueBus.$on('element-notification:show', function (message, id) {
+    EventBus.$on('element-notification:show', function (message, id) {
       if (id !== self.componentId) {
         return;
       }

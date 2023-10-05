@@ -178,6 +178,7 @@
 <script>
     import VueSelect from "vue-select";
     import { mapGetters, mapState } from "vuex";
+    import EventBus from "../../../../app/eventBus";
 
     export default {
         name: "AppProjectEdit",
@@ -231,7 +232,7 @@
                 modal: true,
             });
 
-            VueBus.$on('confirm-dialog:open', () => {
+            EventBus.$on('confirm-dialog:open', () => {
                 $('#confirm-dialog').dialog('open');
             });
         },
@@ -305,7 +306,7 @@
                 });
                 this.$router.push(`/project/${this.getResource('id')}`)
                     .then(() => {
-                        VueBus.$emit('refresh');
+                        EventBus.$emit('refresh');
                     });
             },
             save() {
@@ -324,7 +325,7 @@
                     .then(response => {
                         this.$store.commit('setInProject', false);
                         this.$store.commit('resetResource');
-                        VueBus.$emit('project:loaded', null);
+                        EventBus.$emit('project:loaded', null);
                         this.$router.push('/prj');
                     })
                     .catch(err => console.dir(err));

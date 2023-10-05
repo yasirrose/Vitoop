@@ -48,6 +48,7 @@
 
 <script>
     import {mapGetters} from 'vuex';
+    import EventBus from "../../../app/eventBus";
 
     export default {
         name: "AppCmsTitle",
@@ -63,14 +64,14 @@
         methods: {
             resetResource(redirectTo) {
                 if (this.get('projectNeedToSave') && redirectTo === '/prj') {
-                    VueBus.$emit('confirm-dialog:open');
+                    EventBus.$emit('confirm-dialog:open');
                 } else {
                     this.$store.commit('set', { key: 'lexicon', value: null });
                     this.$store.commit('set', { key: 'project', value: null });
                     this.$store.commit('resetConversation');
                     this.$store.commit('resetResource');
                     if (redirectTo === '/prj') this.$store.commit('setInProject', false);
-                    redirectTo !== this.$route.path ? this.$router.push(redirectTo) : VueBus.$emit('datatable:reload');
+                    redirectTo !== this.$route.path ? this.$router.push(redirectTo) : EventBus.$emit('datatable:reload');
                 }
             },
         }
