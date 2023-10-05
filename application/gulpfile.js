@@ -8,7 +8,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var bro = require('gulp-bro');
 var babelify = require('babelify');
 
-//const webpackRef = require('webpack');
+const webpackRef = require('webpack');
 var webpack = require('webpack-stream');
 var ProvidePlugin = require('webpack-stream').webpack.ProvidePlugin;
 var path = require('path');
@@ -144,7 +144,8 @@ gulp.task('vitoop-app', function () {
                 new VueLoaderPlugin(),
                 new webpack.webpack.DefinePlugin({
                     __VUE_OPTIONS_API__: true,
-                    __VUE_PROD_DEVTOOLS__: true
+                    __VUE_PROD_DEVTOOLS__: true,
+                    'process.env.BUILD': JSON.stringify('web')
                 })
             ],
             performance: {

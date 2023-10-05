@@ -13,10 +13,10 @@ import SecondSearch from "../components/Vue/SecondSearch/SecondSearch.vue";
 import SearchToggler from "../components/Vue/SecondSearch/SearchToggler.vue";
 import axios from "axios"
 import lodash from "lodash"
-//import Vuelidate from 'vuelidate';
+import Vuelidate from 'vuelidate';
 import moment from "moment";
 
-import VueI18n from "vue-i18n"
+import {createI18n} from "vue-i18n"
 import messagesDE from "../../translates/de/messages";
 import validationsDE from "../../translates/de/validations";
 const de = Object.assign(messagesDE,validationsDE);
@@ -25,8 +25,14 @@ const messages = {
 };
 
 
-import VueRouter from "vue-router";
+import {createRouter, createWebHistory} from "vue-router";
 import routes from "../router/routes";
+
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+
 
 
 //import App from './App.vue'
@@ -35,24 +41,48 @@ const app = createApp(VtpApp);
 
 document.addEventListener('DOMContentLoaded', () =>
 {
+    window.axios = axios;
+
+    const i18n = createI18n({
+        locale: 'de', // set locale
+        fallbackLocale: 'de', // set fallback locale
+        messages, // set locale messages
+    })
+
+
+    window.$i18n = i18n;
+
     app.use(vitoopState);
 
     app.use(axios);
     app.use(lodash);
-    app.use(process);
-    //app.use(Vuelidate);
+
+    app.use(Vuelidate);
     app.use(moment);
-    app.use(VueI18n);
+    app.use(i18n);
+
     app.use(messagesDE);
-    // app.use(validationsDE);
-    app.use(VueRouter);
+    app.use(validationsDE);
+
+    const router = createRouter({
+        history: createWebHistory(),
+        routes, // short for `routes: routes`
+    })
+
+
+    app.use(router);
 
     app.component('VueSelect', VueSelect);
     app.component('UserSettings', UserSettings);
     app.component('SecondSearch', SecondSearch);
     app.component('SearchToggler', SearchToggler);
-    //app.component('Vuelidate', Vuelidate);
-    
+
+
+
+    library.add(faCheck);
+
+    app.component('font-awesome-icon', FontAwesomeIcon);
+
 
 
     app.mount('#vtp-app');
@@ -60,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () =>
 
 
 
-// 
+//
 // import VtpApp from "../components/Vue/VtpApp.vue";
 // import UserSettings from '../components/Vue/UserSettings/UserSettings.vue';
 // import SecondSearch from "../components/Vue/SecondSearch/SecondSearch.vue";
