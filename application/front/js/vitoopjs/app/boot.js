@@ -25,6 +25,7 @@ const messages = {
 };
 
 
+
 import {createRouter, createWebHistory} from "vue-router";
 import routes from "../router/routes";
 
@@ -32,6 +33,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
+import ResizeContentHeightMixin from '../components/Vue/mixins/ResizeContentHeightMixin'
 
 
 
@@ -57,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () =>
 
     app.use(vitoopState);
 
-    app.use(axios);
+    //app.use(axios);
     app.use(lodash);
 
     app.use(Vuelidate);
@@ -74,6 +76,9 @@ document.addEventListener('DOMContentLoaded', () =>
 
 
     app.use(router);
+
+
+    app.mixin(ResizeContentHeightMixin);
 
     app.component('VueSelect', VueSelect);
     app.component('UserSettings', UserSettings);

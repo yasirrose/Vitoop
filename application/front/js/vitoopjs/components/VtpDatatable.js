@@ -145,7 +145,7 @@ export default class VtpDatatable {
             ordering: !this.isCoef,
             drawCallback: drawCallback,
             footerCallback: () => {
-                $('.dataTables_length .ui-selectmenu-button').attr('title', $i18n.t('label.perPage'));
+                $('.dataTables_length .ui-selectmenu-button').attr('title', window.$i18n.global.t('label.perPage'));
             },
             initComplete: function () {
                 let datatable = $(self.datatableListId).DataTable();

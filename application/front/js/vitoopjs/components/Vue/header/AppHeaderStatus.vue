@@ -1,5 +1,5 @@
 <template>
-    <div id="vtp-header-status">
+    <div id="vtp-header-status" style="display: flex; justify-content: flex-end; padding-top: 3px;">
         <transition name="fade">
             <div class="vtp-uiinfo-info ui-state-highlight ui-corner-all" v-if="infoMsgShow">
                 <span class="vtp-icon ui-icon ui-icon-info"></span><span>{{ infoMsg }}</span>
