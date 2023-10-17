@@ -251,15 +251,15 @@
 </script>
 
 <style lang="scss">
-    // @keyframes blinking {
-    //     0% {background: #d7ebf9 url(/../img/ui-bg_glass_80_d7ebf9_1x400.png) 50% 50% repeat-x;}
-    //     50% {
-    //         background: #3baae3 url(/../img/ui-bg_glass_50_3baae3_1x400.png) 50% 50% repeat-x;
-    //         color: white;
-    //         transform: scale(1.1);
-    //     }
-    //     100% {background: #d7ebf9 url(/../img/ui-bg_glass_80_d7ebf9_1x400.png) 50% 50% repeat-x;}
-    // }
+     @keyframes blinking {
+         0% {background: #d7ebf9 url(/front/img/ui-bg_glass_80_d7ebf9_1x400.png) 50% 50% repeat-x;}
+         50% {
+             background: #3baae3 url(/front/img/ui-bg_glass_50_3baae3_1x400.png) 50% 50% repeat-x;
+             color: white;
+             transform: scale(1.1);
+         }
+         100% {background: #d7ebf9 url(/front/img/ui-bg_glass_80_d7ebf9_1x400.png) 50% 50% repeat-x;}
+     }
 
 
     .blinking {
