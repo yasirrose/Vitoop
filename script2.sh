@@ -37,8 +37,8 @@ After=docker.service
 Environment=DISPLAY=:0
 Type=oneshot
 RemainAfterExit=true
-WorkingDirectory=$work_dir
-User=$USER
+WorkingDirectory='$work_dir'
+User='$USER'
 ExecStart=/usr/local/bin/docker-compose -f docker-compose.yml up -d
 ExecStop=/usr/local/bin/docker-compose -f docker-compose.yml down
 
