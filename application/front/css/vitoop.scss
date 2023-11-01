@@ -3111,3 +3111,23 @@ label[for="conversation_isNotify"]{
         transform: translate(-50%, -50%);
     }
 }
+
+#lexicon-tags {
+    .autocomplete-wrapper .ui-button {
+        padding: 4px 12px 2px;
+        width: auto;
+    }
+
+    .autocomplete-wrapper .ui-autocomplete-input + button {
+        margin-right: 4px;
+    }
+
+    #lexicon_name_name {
+        color: #2779aa;
+    }
+
+    .autocomplete-wrapper .ui-autocomplete-input {
+        margin-right: 4px;
+    }
+}
+
