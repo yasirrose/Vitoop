@@ -3098,3 +3098,16 @@ label[for="conversation_isNotify"]{
     align-items: center;
     justify-content: space-between;
 }
+
+.preloader {
+    height: 100px;
+    display: table-row;
+
+    img {
+        width: 40px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
