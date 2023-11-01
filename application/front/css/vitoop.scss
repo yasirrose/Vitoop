@@ -3010,3 +3010,85 @@ label[for="conversation_isNotify"]{
 #vtp-search-bytags-form-buttons span button {
     margin-left: 4px;
 }
+
+
+
+
+#vtp-footer {
+    #vtp-imprint {
+        display: flex;
+
+        a, button {
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+
+        span {
+            display: flex;
+
+            * {
+                margin-right: 4px;
+            }
+        }
+
+        .ui-state-default {
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+    }
+}
+
+
+#vtp-search-help {
+    width: initial;
+    margin-right: 0px;
+
+    &.text-button {
+        height: initial;
+        font-family: inherit;
+    }
+
+    .ui-icon-help {
+        position: static;
+        width: 16px;
+        left: 0;
+        margin: 0 8px;
+    }
+
+    .ui-button-text {
+        padding: 0;
+        text-indent: initial;
+    }
+}
+
+#vtp-search-bytags-form-buttons span button {
+    margin-left: 4px;
+}
+
+#vtp-filterbox {
+    margin-top: 2px;
+    margin-left: -700px;
+}
+
+.dataTables_length {
+    position: relative;
+
+    .ui-selectmenu-open {
+        top: 0 !important;
+        transform: translateY(-100%);
+    }
+
+    .ui-selectmenu-button {
+        border-radius: 6px !important;
+    }
+}
+
+
+.dataTables_wrapper .dataTables_length .ui-menu li.ui-menu-item.ui-state-focus {
+    width: 86% !important;
+}
+
+
+#vtp-application .ui-selectmenu-menu ul.ui-widget {
+    width: 70px !important;
+}
