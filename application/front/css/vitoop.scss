@@ -3092,3 +3092,9 @@ label[for="conversation_isNotify"]{
 #vtp-application .ui-selectmenu-menu ul.ui-widget {
     width: 70px !important;
 }
+
+#vtp-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
