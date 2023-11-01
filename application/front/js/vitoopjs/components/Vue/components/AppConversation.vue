@@ -465,18 +465,15 @@
 
     .vtp-new-user-search {
 
-        &::v-deep {
+      :deep(.dropdown-toggle) {
+        background: white;
+        height: 28px;
+        padding: 1px 0 4px;
+      }
 
-            .dropdown-toggle {
-                background: white;
-                height: 28px;
-                padding: 1px 0 4px;
-            }
-
-            .form-control {
-                margin-top: 0 !important;
-            }
-        }
+      :deep(.form-control) {
+        margin-top: 0 !important;
+      }
     }
 
     .bordered-box {
@@ -486,18 +483,16 @@
     .conversation {
         color: #2779aa;
 
-        &::v-deep {
+        :deep(.mce-tinymce) {
+          margin-bottom: 10px;
+        }
 
-            .mce-tinymce {
-                margin-bottom: 10px;
-            }
+        :deep(.conversation__message) {
 
-            .conversation__message {
+          p {
+            margin: 0;
+          }
 
-                p {
-                    margin: 0;
-                }
-            }
         }
 
         &__new-message {

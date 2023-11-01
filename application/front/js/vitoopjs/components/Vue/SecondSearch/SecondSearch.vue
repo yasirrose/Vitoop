@@ -273,7 +273,9 @@
         line-height: 1.3;
     }
 
-    #vtp-second-search-box::v-deep {
+
+
+    :deep(#vtp-second-search-box) {
         height: 24px;
         margin-top: 2px;
         display: flex;
@@ -299,7 +301,7 @@
         }
     }
 
-    #vtp-second-search-box::v-deep .colorDropdown {
+    :deep(#vtp-second-search-box) .colorDropdown {
       height: 24px;
       display: flex;
       align-items: center;

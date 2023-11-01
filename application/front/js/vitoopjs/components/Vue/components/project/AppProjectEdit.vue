@@ -384,17 +384,14 @@
 
     .vtp-new-user-search {
 
-        &::v-deep {
+        :deep(.dropdown-toggle) {
+          background: white;
+          height: 28px;
+          padding: 1px 0 4px;
+        }
 
-            .dropdown-toggle {
-                background: white;
-                height: 28px;
-                padding: 1px 0 4px;
-            }
-
-            .form-control {
-                margin-top: 0 !important;
-            }
+        :deep(.form-control) {
+          margin-top: 0 !important;
         }
     }
 

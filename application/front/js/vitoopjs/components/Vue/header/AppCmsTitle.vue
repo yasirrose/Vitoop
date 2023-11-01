@@ -86,33 +86,33 @@
 
     .vtp-title__buttons {
 
-        &::v-deep {
 
-            .ui-icon-clipboard {
-                background-position: -160px -129px;
-            }
 
-            .ui-icon-wrench {
-                background-position: -176px -113px;
-            }
+      :deep(.ui-icon-clipboard) {
+          background-position: -160px -129px;
+      }
 
-            .ui-icon-help {
-                background-position: -48px -145px;
-            }
+      :deep(.ui-icon-wrench) {
+          background-position: -176px -113px;
+      }
 
-            .ui-button {
-                width: 34px !important;
-                height: 17px !important;
-                margin: 0 0 0 4px !important;
-            }
+      :deep(.ui-icon-help) {
+          background-position: -48px -145px;
+      }
 
-            .ui-icon-help {
-                margin: 0 !important;
-            }
+      :deep(.ui-button) {
+          width: 34px !important;
+          height: 17px !important;
+          margin: 0 0 0 4px !important;
+      }
 
-            .vtp-help-area-button {
-                height: 19px;
-            }
-        }
+      :deep(.ui-icon-help) {
+          margin: 0 !important;
+      }
+
+      :deep(.vtp-help-area-button) {
+          height: 19px;
+      }
+
     }
 </style>
