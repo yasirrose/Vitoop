@@ -1,7 +1,7 @@
 <template>
     <div v-if="`${get('resource').type}` != 'userlist'">
         <div id="vtp-res-dialog" style="display:none" :class="`${get('resource').type}`">
-            <div id="resource-notes">
+            <div id="resource-notes" style="display: none;">
                 <fieldset class="ui-corner-all">
                     <legend>Notizen</legend>
                     <div class="notes-block">
