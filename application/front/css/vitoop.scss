@@ -2882,7 +2882,7 @@ table.dataTable thead th:hover {
 .round {
     position: relative;
 }
-  
+
 .round label {
     background-color: #fff;
     border: 1px solid #2779aa;
@@ -3001,4 +3001,12 @@ label[for="conversation_isNotify"]{
     border: 1px solid #74b2e2 !important;
     background: #e4f1fb url("../img/ui-bg_glass_100_e4f1fb_1x400.png") 50% 50% repeat-x !important;
     color: #0070a3;
+}
+
+/*
+    New Fixes
+*/
+
+#vtp-search-bytags-form-buttons span button {
+    margin-left: 4px;
 }
