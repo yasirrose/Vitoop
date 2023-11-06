@@ -68,7 +68,7 @@ export default class SendLinkWidget extends Widget {
                             <span class="custom-checkbox">
                               <img src="/img/check.png" class="custom-checkbox__check">
                             </span>
-                            ${$i18n.t('Comment is adopted in the comments of the data set that are visible to everyone')}
+                            ${window.$i18n.global.t('Comment is adopted in the comments of the data set that are visible to everyone')}
                           </label>
                         </div>
                       </fieldset>
