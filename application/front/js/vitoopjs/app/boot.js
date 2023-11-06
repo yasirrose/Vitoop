@@ -33,6 +33,7 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import ResizeContentHeightMixin from '../components/Vue/mixins/ResizeContentHeightMixin'
+import EventBus from "./eventBus";
 
 
 
@@ -45,6 +46,7 @@ const app = createApp(VtpApp);
 document.addEventListener('DOMContentLoaded', () =>
 {
     window.axios = axios;
+    window.EventBus = EventBus;
 
     const i18n = createI18n({
         locale: 'de', // set locale

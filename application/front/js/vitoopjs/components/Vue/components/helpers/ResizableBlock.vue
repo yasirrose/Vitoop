@@ -1,5 +1,5 @@
 <template>
-    <vue-perfect-scrollbar class="app-block-resizer"
+    <div class="app-block-resizer"
                            ref="perfect_scrollbar"
                            :style="{height: `${height}px`}">
         <slot></slot>
@@ -7,15 +7,17 @@
              @mousedown="resizeStart">
             <i class="fas fa-sort"></i>
         </div>
-    </vue-perfect-scrollbar>
+    </div>
 </template>
 
 <script>
-    import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+    //import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+    // import PerfectScrollbar from 'vue3-perfect-scrollbar'
+    import 'vue3-perfect-scrollbar/dist/vue3-perfect-scrollbar.css'
     import EventBus from "../../../../app/eventBus";
     export default {
         name: "ResizableBlock",
-        components: {VuePerfectScrollbar},
+        components: {},
         props: {
             height: {
                 type: Number
@@ -24,10 +26,10 @@
         mounted() {
             const block = document.querySelector('.app-block-resizer');
             const trigger = document.querySelector('.app-block-resizer__trigger');
-            const bottom = getComputedStyle(trigger).bottom;
-            block.addEventListener('scroll', (e) => {
-                trigger.style.bottom = `calc(${bottom} - ${e.target.scrollTop}px)`;
-            });
+            //const bottom = getComputedStyle(trigger).bottom;
+            // block.addEventListener('scroll', (e) => {
+            //     trigger.style.bottom = `calc(${bottom} - ${e.target.scrollTop}px)`;
+            // });
             EventBus.$on('perfect-scroll:resize', () => {
                 setTimeout(() => {
                     this.$refs.perfect_scrollbar.update();

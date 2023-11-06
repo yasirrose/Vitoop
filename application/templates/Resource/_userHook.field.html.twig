@@ -225,7 +225,7 @@ const colorMap = {'blue': 'blau', 'lime': 'grün', 'cyan': 'cyan', 'yellow': 'ge
                         $('.vtp-fh-infosave-box-right ').removeClass(spanText + '-gradient');
                         $('#'+resourceType+'-'+ resId +" td:first").removeClass();
                     }
-                    VueBus.$emit('element-notification:show', message, 'vtp-user-hook');
+                    EventBus.$emit('element-notification:show', message, 'vtp-user-hook');
                 }
             });
         }
