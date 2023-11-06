@@ -275,7 +275,7 @@ $table-row-height: 25px;
 
 
 #vtp-second-search-box{
-  height: 26px;
+  height: 34px;
   margin-top: 2px;
   display: flex;
   align-items: center;
@@ -389,6 +389,7 @@ $table-row-height: 25px;
   /*-webkit-appearance: none;*/
   appearance: none;
 }
+
 
 
 </style>

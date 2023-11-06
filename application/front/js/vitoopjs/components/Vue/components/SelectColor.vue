@@ -64,7 +64,7 @@ export default {
     }
   },
   components: {
-    
+
   },
   computed: {
     ...mapGetters(['get']),
@@ -146,6 +146,7 @@ $vitoop-body-background-color: #cfe7f7;
 }
 
 .colorDropdown .v-select {
+  width: 120px !important;
   max-width: 140px !important;
   margin: 0 !important;
   cursor: pointer;
@@ -202,4 +203,14 @@ $vitoop-body-background-color: #cfe7f7;
   background-repeat: no-repeat;
   background-size: 210px;
 }
+
+
+.vs__selected {
+  margin-top: 0px !important;
+}
+
+.vs__dropdown-toggle {
+  padding-bottom: 0px !important;
+}
+
 </style>
