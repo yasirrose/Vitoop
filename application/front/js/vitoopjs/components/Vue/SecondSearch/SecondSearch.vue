@@ -192,195 +192,203 @@
 </script>
 
 <style lang="scss" scoped>
-    $vitoop-body-background-color: #cfe7f7;
-    $table-row-height: 25px;
+$vitoop-body-background-color: #cfe7f7;
+$table-row-height: 25px;
 
-    .preloader {
-        position: absolute;
-        top: 50%;
-        right: 10px;
-        width: 16px;
-        transform: translateY(-50%);
+.preloader {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  width: 16px;
+  transform: translateY(-50%);
+}
+
+.vtp-blue {
+  background: #7bc0f6; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left, #7bc0f6 , $vitoop-body-background-color); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(right, #7bc0f6 , $vitoop-body-background-color); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(right, #7bc0f6 , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to right, #7bc0f6 , $vitoop-body-background-color); /* Standard syntax */
+  background-repeat: no-repeat;
+  background-size: 285px;
+}
+
+.vtp-gray {
+  background: #4e4d4d; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left, #4e4d4d , $vitoop-body-background-color); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(right, #4e4d4d , $vitoop-body-background-color); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(right, #4e4d4d , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to right, #4e4d4d , $vitoop-body-background-color); /* Standard syntax */
+  background-repeat: no-repeat;
+  background-size: 285px;
+}
+
+.vtp-cyan {
+  background: #8feeee; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left, #8feeee , $vitoop-body-background-color); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(right, #8feeee , $vitoop-body-background-color); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(right, #8feeee , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to right, #8feeee , $vitoop-body-background-color); /* Standard syntax */
+  background-repeat: no-repeat;
+  background-size: 285px;
+}
+
+.vtp-lime {
+  background: #87ee87; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left, #87ee87 , $vitoop-body-background-color); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(right, #87ee87 , $vitoop-body-background-color); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(right, #87ee87 , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to right, #87ee87 , $vitoop-body-background-color); /* Standard syntax */
+  background-repeat: no-repeat;
+  background-size: 285px;
+}
+
+.vtp-yellow {
+  background: #f5f568; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left, #f5f568 , $vitoop-body-background-color); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(right, #f5f568 , $vitoop-body-background-color); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(right, #f5f568 , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to right, #f5f568 , $vitoop-body-background-color); /* Standard syntax */
+  background-repeat: no-repeat;
+  background-size: 285px;
+}
+
+.vtp-red {
+  background: #f39090; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left, #f39090, $vitoop-body-background-color); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(right, #f39090 , $vitoop-body-background-color); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(right, #f39090 , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to right, #f39090 , $vitoop-body-background-color); /* Standard syntax */
+  background-repeat: no-repeat;
+  background-size: 285px;
+}
+
+#vtp-second-search-is-read{
+  height: 22px;
+  padding: 0px 15px;
+  font-size: 90%;
+  margin-right: 4px;
+  display: flex;
+  align-items: center;
+  line-height: 1.3;
+}
+
+
+#vtp-second-search-box{
+  height: 26px;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: .3s;
+}
+
+:deep(#vtp-second-search-box) {
+  height: 24px;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: .3s;
+
+  .dropdown {
+    &.v-select {
+      width: 200px;
+      margin-left: 125px
     }
+  }
 
-    .vtp-blue {
-        background: #7bc0f6; /* For browsers that do not support gradients */
-        background: -webkit-linear-gradient(left, #7bc0f6 , $vitoop-body-background-color); /* For Safari 5.1 to 6.0 */
-        background: -o-linear-gradient(right, #7bc0f6 , $vitoop-body-background-color); /* For Opera 11.1 to 12.0 */
-        background: -moz-linear-gradient(right, #7bc0f6 , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
-        background: linear-gradient(to right, #7bc0f6 , $vitoop-body-background-color); /* Standard syntax */
-        background-repeat: no-repeat;
-        background-size: 285px;
+  .dropdown-toggle {
+    height: 22px;
+    font-size: 13px;
+    padding: 0px !important;
+
+    .selected-tag {
+      color: #2779aa;
     }
+  }
+}
 
-    .vtp-gray {
-      background: #4e4d4d; /* For browsers that do not support gradients */
-      background: -webkit-linear-gradient(left, #4e4d4d , $vitoop-body-background-color); /* For Safari 5.1 to 6.0 */
-      background: -o-linear-gradient(right, #4e4d4d , $vitoop-body-background-color); /* For Opera 11.1 to 12.0 */
-      background: -moz-linear-gradient(right, #4e4d4d , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
-      background: linear-gradient(to right, #4e4d4d , $vitoop-body-background-color); /* Standard syntax */
-      background-repeat: no-repeat;
-      background-size: 285px;
+:deep(#vtp-second-search-box) .colorDropdown {
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: .3s;
+
+  .dropdown {
+    &.v-select {
+      width: 200px;
+      margin-left: 125px
     }
+  }
 
-    .vtp-cyan {
-      background: #8feeee; /* For browsers that do not support gradients */
-      background: -webkit-linear-gradient(left, #8feeee , $vitoop-body-background-color); /* For Safari 5.1 to 6.0 */
-      background: -o-linear-gradient(right, #8feeee , $vitoop-body-background-color); /* For Opera 11.1 to 12.0 */
-      background: -moz-linear-gradient(right, #8feeee , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
-      background: linear-gradient(to right, #8feeee , $vitoop-body-background-color); /* Standard syntax */
-      background-repeat: no-repeat;
-      background-size: 285px;
+  .dropdown-toggle {
+    height: 18px;
+    font-size: 13px;
+    padding: 0px !important;
+
+    .selected-tag {
+      color: #2779aa;
+      margin-top: -4px;
     }
+  }
+}
 
-    .vtp-lime {
-      background: #87ee87; /* For browsers that do not support gradients */
-      background: -webkit-linear-gradient(left, #87ee87 , $vitoop-body-background-color); /* For Safari 5.1 to 6.0 */
-      background: -o-linear-gradient(right, #87ee87 , $vitoop-body-background-color); /* For Opera 11.1 to 12.0 */
-      background: -moz-linear-gradient(right, #87ee87 , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
-      background: linear-gradient(to right, #87ee87 , $vitoop-body-background-color); /* Standard syntax */
-      background-repeat: no-repeat;
-      background-size: 285px;
-    }
+#vtp-second-search-panel {
+  padding: 1px;
+  display: flex;
+  align-items: center;
+}
 
-    .vtp-yellow {
-      background: #f5f568; /* For browsers that do not support gradients */
-      background: -webkit-linear-gradient(left, #f5f568 , $vitoop-body-background-color); /* For Safari 5.1 to 6.0 */
-      background: -o-linear-gradient(right, #f5f568 , $vitoop-body-background-color); /* For Opera 11.1 to 12.0 */
-      background: -moz-linear-gradient(right, #f5f568 , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
-      background: linear-gradient(to right, #f5f568 , $vitoop-body-background-color); /* Standard syntax */
-      background-repeat: no-repeat;
-      background-size: 285px;
-    }
+.vtp-second-search-input {
+  width: 220px;
+  font-size: 13px;
+  padding-left: 15px;
+}
 
-    .vtp-red {
-      background: #f39090; /* For browsers that do not support gradients */
-      background: -webkit-linear-gradient(left, #f39090, $vitoop-body-background-color); /* For Safari 5.1 to 6.0 */
-      background: -o-linear-gradient(right, #f39090 , $vitoop-body-background-color); /* For Opera 11.1 to 12.0 */
-      background: -moz-linear-gradient(right, #f39090 , $vitoop-body-background-color); /* For Firefox 3.6 to 15 */
-      background: linear-gradient(to right, #f39090 , $vitoop-body-background-color); /* Standard syntax */
-      background-repeat: no-repeat;
-      background-size: 285px;
-    }
+#search_date_range {
+  margin-left: 120px;
+  display: flex;
+  align-items: center;
 
-    #vtp-second-search-is-read{
-        height: 22px;
-        padding: 0px 15px;
-        font-size: 90%;
-        margin-right: 4px;
-        display: flex;
-        align-items: center;
-        line-height: 1.3;
-    }
+  input {
+    margin-top: 0px;
+    margin: 0;
+    margin-right: 4px;
+    width: 130px;
+    vertical-align: baseline;
+    font-size: 13px;
+  }
+  label {
+    vertical-align: baseline;
+  }
 
+  #vtp_search_date {
+    height: 22px;
+  }
+}
 
+#search_blue_box {
+  height: $table-row-height;
+  padding-right: 20px;
+  padding-left: 10px;
+  display: flex;
+  align-items: center;
+}
 
-    :deep(#vtp-second-search-box) {
-        height: 24px;
-        margin-top: 2px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        transition: .3s;
-
-        .dropdown {
-            &.v-select {
-                 width: 200px;
-                 margin-left: 125px
-            }
-        }
-
-        .dropdown-toggle {
-            height: 22px;
-            font-size: 13px;
-            padding: 0px !important;
-
-            .selected-tag {
-                color: #2779aa;
-            }
-        }
-    }
-
-    :deep(#vtp-second-search-box) .colorDropdown {
-      height: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      transition: .3s;
-
-      .dropdown {
-        &.v-select {
-          width: 200px;
-          margin-left: 125px
-        }
-      }
-
-      .dropdown-toggle {
-        height: 18px;
-        font-size: 13px;
-        padding: 0px !important;
-
-        .selected-tag {
-          color: #2779aa;
-          margin-top: -4px;
-        }
-      }
-    }
-
-    #vtp-second-search-panel {
-        padding: 1px;
-        display: flex;
-        align-items: center;
-    }
-
-    .vtp-second-search-input {
-        width: 220px;
-        font-size: 13px;
-        padding-left: 15px;
-    }
-
-    #search_date_range {
-        margin-left: 120px;
-        display: flex;
-        align-items: center;
-
-        input {
-            margin-top: 0px;
-            margin: 0;
-            margin-right: 4px;
-            width: 130px;
-            vertical-align: baseline;
-            font-size: 13px;
-        }
-        label {
-            vertical-align: baseline;
-        }
-
-        #vtp_search_date {
-            height: 22px;
-        }
-    }
-
-    #search_blue_box {
-        height: $table-row-height;
-        padding-right: 20px;
-        padding-left: 10px;
-        display: flex;
-        align-items: center;
-    }
-
-    #search_blue {
-        margin: 4px 2px 4px;
-        position: relative;
-        width: 14px;
-        height: 16px;
-        border: 1px solid #111;
-        background: #fff;
-        -moz-appearance: checkbox;
-        -webkit-appearance: checkbox;
-        /*-webkit-appearance: none;*/
-        appearance: none;
-    }
+#search_blue {
+  margin: 4px 2px 4px;
+  position: relative;
+  width: 14px;
+  height: 16px;
+  border: 1px solid #111;
+  background: #fff;
+  -moz-appearance: checkbox;
+  -webkit-appearance: checkbox;
+  /*-webkit-appearance: none;*/
+  appearance: none;
+}
 
 
 </style>

@@ -5,6 +5,7 @@ import VtpApp from "../components/Vue/VtpApp.vue";
 
 
 import VueSelect from 'vue-select';
+import 'vue-select/dist/vue-select.css';
 import vitoopState from '../store/vitoopState';
 
 import UserSettings from '../components/Vue/UserSettings/UserSettings.vue';
