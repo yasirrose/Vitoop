@@ -2,7 +2,7 @@
 
 import * as Vuex from 'vuex';
 
-import { mapState } from 'vuex';
+import { mapState, createStore } from 'vuex';
 import VuexPersistence from 'vuex-persist';
 
 import state from "./state";
@@ -20,7 +20,7 @@ function initialState () {
 }
 
 // Vue.use(Vuex);
-const vitoopState = window.vitoopState = new Vuex.Store({
+const vitoopState = window.vitoopState = createStore({
     state: initialState(),
     mutations,
     getters,
