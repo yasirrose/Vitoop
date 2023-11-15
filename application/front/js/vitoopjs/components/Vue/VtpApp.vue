@@ -98,8 +98,9 @@
                     console.dir(err);
                 });
             this.$store.dispatch('getNotes');
+
             window.vitoopApp = new VitoopApp();
-            vitoopApp.init();
+            window.vitoopApp.init();
         },
         updated() {
             if (this.$store.state.user !== null) {

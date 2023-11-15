@@ -24,6 +24,7 @@ const messages = {
     de
 };
 
+import VitoopApp from "./vitoop";
 
 
 import {createRouter, createWebHistory} from "vue-router";
@@ -57,6 +58,9 @@ document.addEventListener('DOMContentLoaded', () =>
 
 
     window.$i18n = i18n;
+
+    window.vitoopApp = new VitoopApp();
+    window.vitoopApp.init();
 
     app.use(vitoopState);
 

@@ -179,6 +179,7 @@
     import VueSelect from "vue-select";
     import { mapGetters, mapState } from "vuex";
     import EventBus from "../../../../app/eventBus";
+    import VitoopApp from "../../../../app/vitoop";
 
     export default {
         name: "AppProjectEdit",
@@ -245,6 +246,9 @@
                 setTimeout(() => {
                     this.$refs.v_select.clearSelection();
                     tinymce.remove('#edit-project-textarea');
+
+                    let vitoopApp = new VitoopApp();
+                    vitoopApp.init();
                     let options = vitoopApp.getTinyMceOptions();
                     options.mode = 'exact';
                     options.selector = '#edit-project-textarea';
