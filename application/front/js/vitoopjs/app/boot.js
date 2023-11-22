@@ -78,6 +78,18 @@ document.addEventListener('DOMContentLoaded', () =>
         routes, // short for `routes: routes`
     })
 
+    axios('/api/all-settings')
+        .then(({data}) => {
+
+            app.provide('downloadSize', data.current_downloads_size);
+            app.provide('invitationValue', data.invitation);
+            app.provide('infoProjectData', {});
+            app.provide('terms', data.terms);
+            app.provide('dataP', data.datap);
+
+        })
+        .catch(err => console.dir(err));
+
 
     app.use(router);
 

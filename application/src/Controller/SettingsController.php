@@ -15,6 +15,24 @@ use App\Service\VitoopSecurity;
 
 class SettingsController extends ApiController
 {
+
+    /**
+     * @Route("/api/all-settings", name="get_settings", methods={"GET"})
+     *
+     * @return array
+     */
+    public function getAllSettingsAction(VitoopSecurity $vitoopSecurity, SettingsService $settings)
+    {
+        return $this->getApiResponse(array(
+                                         'help' => $settings->getHelp()->getValue(),
+                                         'terms' => $settings->getTerms()->getValue(),
+                                         'invitation' => $settings->get('invitation')->getValue(),
+                                         'terms_accepted' => $settings->get('terms_accepted')->getValue(),
+                                         'current_downloads_size' => $settings->get('current_downloads_size')->getValue(),
+                                         'datap' => $settings->get('datap')->getValue()
+                                     ));
+    }
+
     /**
      * @Route("/api/terms", name="get_terms", methods={"GET"})
      *

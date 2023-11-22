@@ -216,7 +216,7 @@
             })
         },
         beforeRouteLeave(to, from, next) {
-            if (this.get('projectNeedToSave')) {
+            if (this !== null && this.get('projectNeedToSave')) {
                 $('#confirm-dialog').dialog('open');
             } else {
                 next();

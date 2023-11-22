@@ -35,10 +35,17 @@
 
 <script>
     import {mapGetters} from 'vuex'
-
+    import { inject } from 'vue'
     export default {
         name: "UserAgreement",
-        inject: ['terms'],
+        setup() {
+          const terms = inject('terms')
+
+          return {
+            terms
+          }
+        },
+       // inject: ['terms'],
         data() {
             return {
                 agreed: this.agreedProp

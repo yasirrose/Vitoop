@@ -20,6 +20,7 @@
     import Notification from "./components/helpers/Notification.vue";
     import ElementNotification from "./components/helpers/ElementNotification.vue";
     import axios from "axios";
+    import { provide, inject } from 'vue';
 
     export default {
         name: "VtpApp",
@@ -30,15 +31,28 @@
             'infoProjectData',
             'dataP'
         ],
-        provide() {
-            return {
-                downloadSize: this.downloadSize,
-                invitationValue: this.invitationValue,
-                infoProjectData: this.infoProjectData,
-                terms: this.terms,
-                dataP: this.dataP
-            }
-        },
+      setup(props) {
+
+        const message = inject('terms');
+
+        return { message }
+
+
+        // provide('downloadSize', this.downloadSize);
+        // provide('invitationValue', this.invitationValue);
+        // provide('infoProjectData', this.infoProjectData);
+       // provide('terms', 'Hello Terms');
+        // provide('dataP', this.dataP);
+      },
+        // provide() {
+        //     return {
+        //         downloadSize: this.downloadSize,
+        //         invitationValue: this.invitationValue,
+        //         infoProjectData: this.infoProjectData,
+        //         terms: this.terms,
+        //         dataP: this.dataP
+        //     }
+        // },
         components: { AppFooter, AppHeader, AppContent, AppLogin, AppDialogs, Notification, ElementNotification },
         computed: {
             ...mapGetters(['get','getResourceId']),
@@ -111,6 +125,7 @@
             }
         },
         mounted() {
+
             axios.interceptors.response.use(response => {
                 return response;
             }, error => {
@@ -132,6 +147,7 @@
             });
 
             $('#vtp-header-toggle-flag button').hide();
+
 
             $(document).ajaxError((e,xhr) => {
                 this.$store.commit('set', { key: 'lexicon', value: null });
