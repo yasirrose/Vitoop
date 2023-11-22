@@ -275,7 +275,7 @@ $table-row-height: 25px;
 
 
 #vtp-second-search-box{
-  height: 34px;
+  height: 29px;
   margin-top: 2px;
   display: flex;
   align-items: center;
