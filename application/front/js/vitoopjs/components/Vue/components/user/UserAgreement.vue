@@ -45,7 +45,6 @@
             terms
           }
         },
-       // inject: ['terms'],
         data() {
             return {
                 agreed: this.agreedProp
