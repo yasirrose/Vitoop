@@ -226,7 +226,6 @@ import {mapGetters} from "vuex";
               });
         },
         selectFontSize(data) {
-          console.log('sdsdsd')
           this.n = 1;
           this.user.decreaseFontSize = data.value;
         },

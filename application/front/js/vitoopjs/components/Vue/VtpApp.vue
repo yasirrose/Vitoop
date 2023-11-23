@@ -32,27 +32,10 @@
             'dataP'
         ],
       setup(props) {
-
         const message = inject('terms');
-
         return { message }
-
-
-        // provide('downloadSize', this.downloadSize);
-        // provide('invitationValue', this.invitationValue);
-        // provide('infoProjectData', this.infoProjectData);
-       // provide('terms', 'Hello Terms');
-        // provide('dataP', this.dataP);
       },
-        // provide() {
-        //     return {
-        //         downloadSize: this.downloadSize,
-        //         invitationValue: this.invitationValue,
-        //         infoProjectData: this.infoProjectData,
-        //         terms: this.terms,
-        //         dataP: this.dataP
-        //     }
-        // },
+
         components: { AppFooter, AppHeader, AppContent, AppLogin, AppDialogs, Notification, ElementNotification },
         computed: {
             ...mapGetters(['get','getResourceId']),
