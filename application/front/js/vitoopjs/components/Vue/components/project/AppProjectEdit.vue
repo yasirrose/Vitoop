@@ -118,6 +118,7 @@
                                 <vue-select :options="options"
                                           ref="v_select"
                                           label="username"
+                                          v-model="selectedUser"
                                           @input="selectUser"
                                           @search="searchUser"/>
                                 <button @click="addUser()"
@@ -194,6 +195,7 @@
                 isLoaded: false,
                 options: [],
                 user: null,
+                selectedUser: null
             }
         },
         watch: {
@@ -335,14 +337,14 @@
                     .catch(err => console.dir(err));
             },
             addUser() {
-                axios.post(`/api/project/${this.getResource('id')}/user`, this.user)
+                axios.post(`/api/project/${this.getResource('id')}/user`, this.selectedUser)
                     .then(({data: {rel}}) => {
                         this.$store.commit('addProjectRelUser', rel);
                     })
                     .catch(err => console.dir(err));
             },
             removeUser() {
-                axios.delete(`/api/project/${this.getResource('id')}/user/${this.user.id}`)
+                axios.delete(`/api/project/${this.getResource('id')}/user/${this.selectedUser.id}`)
                     .then(({data: {rel}}) => {
                         this.$store.commit('removeProjectRelUser', rel.id);
                     })
