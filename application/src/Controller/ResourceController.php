@@ -847,25 +847,29 @@ class ResourceController extends ApiController
      * @return JsonResponse
      * @throws Exception
      */
-    public function updateResource(Request $request, $resId, UserHookResourceRepository $userHookResourceRepository): JsonResponse
+    public function updateResource(Request $request, $resType, $resId): JsonResponse
     {
-        $resource = $userHookResourceRepository->findOneBy(['resource' => $resId, 'user' => $this->getUser()]);
-        if (empty($resource)) {
-            return new JsonResponse(['success' => false]);
+        /** @var ResourceRepository $resourceRepository */
+        $resourceRepository = $this->entityManager->getRepository(
+            Resource\ResourceType::getClassByResourceType($resType)
+        );
+
+        $resource = $resourceRepository->find($resId);
+        if (!$resource) {
+            $this->createNotFoundException();
         }
-        try {
-            $color = $request->query->get('color');
-            if($userHookResourceRepository->checkCorrectColor($color)) {
-                $resource->updateColor($color);
-            }
-            else {
-                return new JsonResponse(['success' => false]);
-            }
-            $userHookResourceRepository->save($resource);
-            return new JsonResponse(['success' => true]);
-        } catch (Exception $e) {
-            throw new Exception($e);
-        }
+
+        $resourceDTO = new \App\DTO\Resource\ResourceDTO();
+        $resourceDTO->user = $this->getUser();
+
+        $color = $request->query->get('color');
+        $resourceDTO->isUserHook = UserHookResource::checkCorrectColor($color);
+        $resourceDTO->selectedColor = $color;
+
+        $resource->updateUserHook($resourceDTO);
+        $resourceRepository->save($resource);
+
+        return new JsonResponse(['success' => true]);
     }
 
     /**

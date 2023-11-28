@@ -1,26 +1,13 @@
 OS := $(shell uname)
 
 start_dev:
-ifeq ($(OS),Darwin)
-	docker volume create --name=app-vitoop
-
 	docker-compose -f docker-compose.dev.yml up -d
-	docker-sync start
-else
-	docker-compose -f docker-compose.dev.yml up -d
-endif
 
 start:
 	docker-compose -f docker-compose.yml up -d
 
 stop_dev:
-ifeq ($(OS),Darwin)
 	docker-compose -f docker-compose.dev.yml down
-	docker-sync stop
-	docker-sync clean
-else
-	docker-compose -f docker-compose.dev.yml down
-endif
 
 stop:
 	docker-compose -f docker-compose.yml down
