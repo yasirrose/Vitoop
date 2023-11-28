@@ -125,6 +125,7 @@
         },
         methods: {
             openLexicon() {
+
                 this.$router.push(`/lexicon/${this.currentTag.id}`);
                 this.loadLexicon();
                 this.getLexicons();
@@ -132,7 +133,15 @@
                 this.reset();
             },
             loadLexicon() {
-                return axios(`/api/v1/lexicons/${this.$route.params.lexiconId}`)
+
+                let id = null;
+                if(this.currentTag !== null) {
+                  id = this.currentTag.id;
+                } else {
+                  id = this.$route.params.lexiconId;
+                }
+
+                return axios(`/api/v1/lexicons/${id}`)
                     .then(({data}) => {
                         this.lexicon = data.lexicon;
                         this.resourceInfo = data.resourceInfo;
@@ -168,12 +177,22 @@
                     .catch(err => console.dir(err));
             },
             selectLexicon(lexicon) {
+                console.log(lexicon);
+
                 this.autocomplete = lexicon.name;
                 this.currentTag = lexicon;
                 // this.$refs.add.focus();
             },
             getLexicons() {
-                axios(`/api/v1/lexicons/${this.$route.params.lexiconId}/assignments`)
+
+                let id = null;
+                if(this.currentTag !== null) {
+                  id = this.currentTag.id;
+                } else {
+                  id = this.$route.params.lexiconId;
+                }
+
+                axios(`/api/v1/lexicons/${id}/assignments`)
                     .then(({data}) => {
                         this.lexiconTags = data;
                         setTimeout(() => {
