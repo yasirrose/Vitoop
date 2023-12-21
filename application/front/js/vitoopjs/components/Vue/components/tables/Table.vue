@@ -240,6 +240,9 @@
                 });
             },
             reinitTable() {
+                if (('all' === this.$route.name) && !this.$store.state.inProject) {
+                  return null;
+                }
                 this.datatable.off('draw');
                 this.datatable.off('page.dt');
                 this.datatable.destroy();
