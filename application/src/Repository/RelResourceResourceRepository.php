@@ -8,7 +8,6 @@ use App\DTO\Resource\RelResourceDTO;
 use App\Entity\Project;
 use App\Entity\RelResourceResource;
 use App\Entity\Resource;
-use App\Entity\User\User;
 
 /**
  * RelResourceResourceRepository

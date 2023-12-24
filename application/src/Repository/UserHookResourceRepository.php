@@ -18,4 +18,14 @@ class UserHookResourceRepository extends ServiceEntityRepository
         $this->getEntityManager()->persist($userHookResource);
         $this->getEntityManager()->flush();
     }
+
+    public function checkCorrectColor($color): bool
+    {
+        if(in_array($color, [UserHookResource::BLUE_COLOR,UserHookResource::CYAN_COLOR, UserHookResource::LIME_COLOR, UserHookResource::RED_COLOR, UserHookResource::YELLOW_COLOR,UserHookResource::ORANGE_COLOR])) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }

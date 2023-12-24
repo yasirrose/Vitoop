@@ -4,11 +4,7 @@ namespace App\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Security\Core\User\UserInterface;
 use App\Entity\Resource;
-use App\Entity\RelResourceTag;
-use App\Repository\Helper;
 use App\Entity\Tag;
 
 /**

@@ -11,10 +11,6 @@ use App\Entity\Invitation;
  */
 class InvitationRepository extends ServiceEntityRepository
 {
-    /**
-     * InvitationRepository constructor.
-     * @param ManagerRegistry $registry
-     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Invitation::class);

@@ -16,10 +16,6 @@ use App\Entity\Project;
  */
 class RelProjectUserRepository extends ServiceEntityRepository
 {
-    /**
-     * RelProjectUserRepository constructor.
-     * @param ManagerRegistry $registry
-     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, RelProjectUser::class);

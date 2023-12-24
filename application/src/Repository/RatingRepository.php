@@ -13,10 +13,6 @@ use App\Entity\Resource;
  */
 class RatingRepository extends ServiceEntityRepository
 {
-    /**
-     * RatingRepository constructor.
-     * @param ManagerRegistry $registry
-     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Rating::class);

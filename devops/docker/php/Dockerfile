@@ -1,7 +1,7 @@
 FROM surnet/alpine-wkhtmltopdf:3.16.2-0.12.6-full as wkhtmltopdf
 FROM php:8.1-fpm-alpine
 
-ENV NODE_PACKAGE_URL  https://unofficial-builds.nodejs.org/download/release/v16.9.1/node-v16.9.1-linux-x64-musl.tar.gz
+ENV NODE_PACKAGE_URL  https://unofficial-builds.nodejs.org/download/release/v20.9.0/node-v20.9.0-linux-x64-musl.tar.gz
 
 RUN apk add --no-cache \
     unzip \
@@ -23,7 +23,8 @@ RUN apk add --no-cache \
     libx11 \
     libxrender \
     libxext \
-    openssl1.1-compat-dev \
+    openssl-dev  \
+    openssl3 \
     ca-certificates \
     fontconfig \
     freetype-dev \

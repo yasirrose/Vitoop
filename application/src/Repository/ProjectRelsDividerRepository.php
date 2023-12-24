@@ -5,7 +5,6 @@ namespace App\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\DTO\Resource\DividerDTO;
-use App\Entity\ProjectData;
 use App\Entity\ProjectRelsDivider;
 
 /**

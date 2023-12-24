@@ -13,10 +13,6 @@ use App\Entity\Resource;
  */
 class FlagRepository extends ServiceEntityRepository
 {
-    /**
-     * FlagRepository constructor.
-     * @param ManagerRegistry $registry
-     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Flag::class);
