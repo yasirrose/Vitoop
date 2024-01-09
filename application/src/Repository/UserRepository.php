@@ -162,6 +162,6 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
 
     public function getResourcesTotal(SearchResource $search)
     {
-        return $this->_em->getConnection()->query('SELECT FOUND_ROWS()')->fetchColumn(0);
+        return $this->_em->getConnection()->query('SELECT FOUND_ROWS()')->fetchFirstColumn();
     }
 }
