@@ -105,7 +105,6 @@ $vitoop-body-background-color: #cfe7f7;
 
 .vtp_option{
   border-radius: 6px;
-  padding-left: 10px;
   height: 24px !important;
 }
 .vtp_option_blue{
@@ -211,6 +210,24 @@ $vitoop-body-background-color: #cfe7f7;
 
 .vs__dropdown-toggle {
   padding-bottom: 0px !important;
+}
+.vs--searchable .vs__dropdown-toggle{
+  height: 24px;
+  border-radius: 6px;
+}
+.vs__dropdown-menu{
+  min-width: auto !important;
+  font-size: 13px;
+  text-align: center !important;
+}
+.color_option{
+  text-align: center !important;
+}
+input[type=search]:hover {
+    border-color: transparent;
+}
+.vs__dropdown-menu li{
+  padding: 2px 3px!important;
 }
 
 </style>

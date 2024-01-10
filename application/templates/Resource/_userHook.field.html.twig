@@ -15,7 +15,7 @@
                         <option value="cyan-gradient">cyan</option>
                         <option value="yellow-gradient">gelb</option>
                         <option value="orange-gradient">orange</option>
-                        <option value="removebookmark">{{ 'label.remove_bookmarks'|trans }}</option>
+                        <option value="removebookmark" class="removeBookMark">{{ 'label.remove_bookmarks'|trans }}</option>
                     </select>
                 </div>
                 <div class="">
@@ -62,6 +62,18 @@
         </div>
     </div>
 </div>
+<style>
+#vtp-application .ui-selectmenu-menu ul.ui-widget {
+    width: 96px !important;
+    border-radius: 0;
+}
+.ui-selectmenu-open ul.ui-menu li.ui-menu-item{
+    margin:2px 0;
+}
+.ui-menu-item.dropdown-entfernen-color{
+    border:none;
+}
+</style>
 <script>
 const colorMap = {'blue': 'blau', 'lime': 'grün', 'cyan': 'cyan', 'yellow': 'gelb', 'red': 'rot', 'orange': 'orange'}
     $(document).ready(function () {
