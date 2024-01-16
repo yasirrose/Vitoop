@@ -993,7 +993,7 @@ body .ui-tooltip {
 .ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus {
     border: 1px solid #74b2e2;
-    background: #e4f1fb url("../img/ui-bg_glass_100_e4f1fb_1x400.png") 50% 50% repeat-x;
+    // background: #e4f1fb url("../img/ui-bg_glass_100_e4f1fb_1x400.png") 50% 50% repeat-x;
     font-weight: bold;
     color: #0070a3;
 }
@@ -1117,7 +1117,7 @@ body .ui-tooltip {
 
 .ui-state-hover .ui-icon,
 .ui-state-focus .ui-icon {
-    //background-image: url("../img/ui-icons_2694e8_256x240.png");
+    background-image: url("../img/ui-icons_2694e8_256x240.png");
 }
 
 #vtp-search-bytags-form-submit.act.ui-state-default .ui-icon,
