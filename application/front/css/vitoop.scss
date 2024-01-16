@@ -3134,8 +3134,8 @@ label[for="conversation_isNotify"]{
 
 #vtp-second-search {
     #vtp-second-search-box {
-        height: 26px;
-        margin-top: 2px;
+        height: 26px !important;
+        margin-top: 2px !important;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -3222,4 +3222,8 @@ label[for="conversation_isNotify"]{
     .vtp-button {
         margin-left: 4px;
     }
+}
+
+div#art-select {
+    margin-left: 120px;
 }

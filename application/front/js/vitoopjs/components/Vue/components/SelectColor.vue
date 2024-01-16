@@ -2,7 +2,8 @@
   <div class="colorDropdown">
     <vue-select :options="colorOptions"
               v-model="selectedColor"
-              :clearable="false">
+              :clearable="false"
+              :searchable="false">
       <template #option="{ label, classname }">
         <div :class="classname" class="color_option">
           {{ label }}
@@ -26,32 +27,32 @@ export default {
           classname: ''
         },
         {
-          label: 'blau',
+          label: '',
           value: 'vtp-blue',
           classname: 'vtp_option_blue vtp_option'
         },
         {
-          label: 'rot',
+          label: '',
           value: 'vtp-red',
           classname: 'vtp_option_red vtp_option'
         },
         {
-          label: 'grün',
+          label: '',
           value: 'vtp-lime',
           classname: 'vtp_option_lime vtp_option'
         },
         {
-          label: 'cyan',
+          label: '',
           value: 'vtp-cyan',
           classname: 'vtp_option_cyan vtp_option'
         },
         {
-          label: 'gelb',
+          label: '',
           value: 'vtp-yellow',
           classname: 'vtp_option_yellow vtp_option'
         },
         {
-          label: 'orange',
+          label: '',
           value: 'vtp-orange',
           classname: 'vtp_option_orange vtp_option'
         },

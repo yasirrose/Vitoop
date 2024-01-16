@@ -389,6 +389,7 @@ $table-row-height: 25px;
   /*-webkit-appearance: none;*/
   appearance: none;
 }
+#art-select .v-select {width: 170px;}
 
 
 
