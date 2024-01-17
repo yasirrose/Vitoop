@@ -211,7 +211,7 @@ $vitoop-body-background-color: #cfe7f7;
 
 .vs__dropdown-toggle {
   padding-bottom: 0px !important;
-  height: 24px !important;
+  height: 22px !important;
   border-radius: 6px !important;
 }
 .vs--searchable .vs__dropdown-toggle{
