@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () =>
 
     app.use(lodash);
 
-    app.use(Vuelidate);
+    // app.use(Vuelidate);
     app.use(moment);
     app.use(i18n);
 

@@ -1,57 +1,70 @@
 <template>
     <fieldset class="ui-corner-all">
+        <form @submit.prevent="submitForm">
         <legend>Registrierung</legend>
-        <div id="vtp-register" v-if="!secret_expired">
+        <div id="vtp-register" v-if="!secretExpired">
             <div class="vtp-fh-top">
                 <label class="vtp-fh-w20 required" for="user_username">Username</label>
                 <input type="text"
-                       v-model="$v.name.$model"
-                       id="user_username"
-                       class="vtp-fh-w30">
-                <div class="vtp-uiinfo-form-error" v-if="$v.name.$error">
-                    <div v-if="!$v.name.required">{{ $t('required', {field: 'name' })}}</div>
-                    <div v-if="!$v.name.minLength">{{ $t('min_length', {field: 'name', count: 5})}}</div>
-                    <div v-if="!$v.name.maxLength">{{ $t('max_length', {field: 'name', count: 14})}}</div>
+                    v-model="formData.name"
+                    id="user_username"
+                    class="vtp-fh-w30"
+                >
+                <div class="vtp-uiinfo-form-error" v-if="v$.$error">
+                    <div v-for="error in v$.$errors" :key="error.$uid">                        
+                        <span v-if="error.$property == 'name' && error.$validator == 'required'">{{ $t('required', {field: 'name' })}}</span>
+                        <span v-if="error.$property == 'name' && error.$validator == 'minLength'">{{ $t('min_length', {field: 'name', count: 5})}}</span>
+                        <span v-if="error.$property == 'name' && error.$validator == 'maxLength'">{{ $t('max_length', {field: 'name', count: 14})}}</span>
+                    </div>
                 </div>
             </div>
             <div class="vtp-fh-middle">
                 <label class="vtp-fh-w20 required" for="user_email">eMail</label>
                 <input type="text"
-                       v-model="$v.email.$model"
-                       id="user_email"
-                       class="vtp-fh-w30">
-                <div class="vtp-uiinfo-form-error" v-if="$v.email.$error">
-                    <div v-if="!$v.email.required">{{ $t('required', {field: 'email' })}}</div>
-                    <div v-if="!$v.email.email">{{ $t('invalid', {field: 'email'}) }}</div>
+                    v-model="formData.email"
+                    id="user_email"
+                    class="vtp-fh-w30"
+                >
+                <div class="vtp-uiinfo-form-error" v-if="v$.$error">
+                    <div v-for="error in v$.$errors" :key="error.$uid">    
+                        <span v-if="error.$property == 'email' && error.$validator == 'required'">{{ $t('required', {field: 'email' })}}</span>
+                        <span v-if="error.$property == 'email' && error.$validator == 'minLength'">{{ $t('invalid', {field: 'email'}) }}</span>
+                    </div>
                 </div>
             </div>
             <div class="vtp-fh-middle">
                 <label class="vtp-fh-w20 required" for="user_password_first">Passwort</label>
                 <input type="password"
-                       v-model="$v.password.$model"
-                       id="user_password_first"
-                       class="vtp-fh-w30">
-                <div class="vtp-uiinfo-form-error" v-if="$v.password.$error">
-                    <div v-if="!$v.password.required">{{ $t('required', {field: 'password' })}}</div>
-                    <div v-if="!$v.password.minLength">{{ $t('min_length', {field: 'password', count: 8})}}</div>
-                    <div v-if="!$v.password.maxLength">{{ $t('max_length', {field: 'password', count: 32})}}</div>
+                    v-model="formData.password"
+                    id="user_password_first"
+                    class="vtp-fh-w30"
+                >
+                <div class="vtp-uiinfo-form-error" v-if="v$.$error">
+                    <div v-for="error in v$.$errors" :key="error.$uid">                        
+                        <span v-if="error.$property == 'password' && error.$validator == 'required'">{{ $t('required', {field: 'password' })}}</span>
+                        <span v-if="error.$property == 'password' && error.$validator == 'minLength'">{{ $t('min_length', {field: 'password', count: 8})}}</span>
+                        <span v-if="error.$property == 'password' && error.$validator == 'maxLength'">{{ $t('max_length', {field: 'password', count: 32})}}</span>
+                    </div>
                 </div>
             </div>
             <div class="vtp-fh-bottom" style="margin-top: 0">
                 <label class="vtp-fh-w20 required" for="user_password_second">Passwort wiederholen</label>
                 <input type="password"
-                       v-model="$v.repeat_password.$model"
-                       id="user_password_second"
-                       class="vtp-fh-w30">
-                <div class="vtp-uiinfo-form-error" v-if="$v.repeat_password.$error">
-                    <div v-if="!$v.repeat_password.required">{{ $t('required', {field: 'repeat_password' })}}</div>
-                    <div v-else-if="!$v.repeat_password.sameAs">{{ $t('same_as', {field1: 'repeat password', field2: 'password'}) }}</div>
+                    v-model="formData.confirmPassword"
+                    id="user_password_second"
+                    class="vtp-fh-w30"
+                >
+                <div class="vtp-uiinfo-form-error" v-if="v$.$error">
+                    <div v-for="error in v$.$errors" :key="error.$uid">                        
+                        <span v-if="error.$property == 'confirmPassword' && error.$validator == 'required'">{{ $t('required', {field: 'confirmPassword' })}}</span>
+                        <span v-if="error.$property == 'confirmPassword' && error.$validator == 'sameAs'">{{ $t('same_as', {field1: 'repeat password', field2: 'password'}) }}</span>
+                    </div>
                 </div>
             </div>
             <div class="vtp-fh-middle registration-approve">
                 <div>
                     <input type="checkbox"
-                           v-model="registration_approve"
+                           v-model="formData.registrationApprove"
                            id="user_registration_approve"
                            tabindex="20" style="-webkit-appearance: checkbox; margin-left: 0px">
                     <label for="user_registration_approve">
@@ -63,9 +76,9 @@
                     </label>
                 </div>
                 <button class="ui-button ui-widget ui-state-default ui-corner-all"
-                        :class="{'ui-button-disabled ui-state-disabled': !registration_approve}"
-                        :disabled="!registration_approve"
-                        @click="registrate">
+                        :class="{'ui-button-disabled ui-state-disabled': !formData.registrationApprove}"
+                        :disabled="!formData.registrationApprove"
+                        type="submit">
                     Registrieren
                 </button>
             </div>
@@ -81,84 +94,109 @@
             </div>
         </div>
         <div v-else>Deine Einladung ist leider abgelaufen. Sende ein Antwort auf Deine Einladungsmail um eine neue zu erhalten.</div>
+        </form>
     </fieldset>
 </template>
 
-<script>
-    import { required, email, maxLength, minLength, sameAs } from 'vuelidate/lib/validators'
+<script setup>
+import { onMounted, reactive, ref, computed } from "vue";
+import { useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+import { useVuelidate } from '@vuelidate/core';
+import { required, email, maxLength, minLength, sameAs } from '@vuelidate/validators';
 
-    export default {
-        name: "UserRegistrate",
-        data() {
-            return {
-                name: null,
-                email: null,
-                password: null,
-                repeat_password: null,
-                registration_approve: false,
+const formData = reactive({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    registrationApprove: false
+});
 
-                secret_expired: false
-            }
+const secretExpired = ref(false);
+
+const rules = computed(() => {
+    return {
+        name: {
+            required, 
+            minLength: minLength(5), 
+            maxLength: maxLength(14)
         },
-        validations: {
-            name: {
-                required,
-                minLength: minLength(5),
-                maxLength: maxLength(14)
-            },
-            email: {
-                required,
-                email,
-            },
-            password: {
-                required,
-                minLength: minLength(8),
-                maxLength: maxLength(32)
-            },
-            repeat_password: {
-                required,
-                sameAs: sameAs('password')
-            }
+        email: {
+            required, 
+            email
         },
-        mounted() {
-            axios(`/register/${this.$route.params.secret}`)
-                .then((response) => {
-
-                })
-                .catch(err => {
-                    this.secret_expired = true;
-                })
+        password: {
+            required,
+            minLength: minLength(8),
+            maxLength: maxLength(32)
         },
-        methods: {
-            registrate() {
-                const formData = new FormData();
-                formData.append("user[username]", this.name);
-                formData.append("user[email]", this.email);
-                formData.append("user[password][first]", this.password);
-                formData.append("user[password][second]", this.repeat_password);
-                formData.append("user_registration_approve", this.registration_approve);
-
-                axios.post(`/register/${this.$route.params.secret}`, formData)
-                    .then(response => {
-                        const formData = new FormData();
-                        formData.append("_username", this.name);
-                        formData.append("_password",  this.password);
-                        formData.append("_target_path", '/account');
-                        axios.post('/login', formData)
-                            .then(response => {
-                                axios('/api/user/me')
-                                    .then(({data}) => {
-                                        this.$store.commit('setUser', data);
-                                        this.$router.push('/link');
-                                    })
-                                    .catch(err => console.dir(err));
-                            })
-                            .catch(err => console.dir(err));
-                    })
-                    .catch(err => console.dir(err));
-            }
+        confirmPassword: {
+            required,
+            sameAs: sameAs(formData.password)
         }
+    };
+});
+
+const route = useRoute();
+
+const router = useRouter();
+
+const store = useStore();
+
+const v$ = useVuelidate(rules, formData);
+
+const submitForm = async () => {
+    const result = await v$.value.$validate();
+
+    if (result) {
+        register();
     }
+};
+
+const checkSecretExpiration = () => {
+    axios(`/register/${route.params.secret}`)
+        .then((response) => {
+        })
+        .catch(err => {
+            secretExpired.value = true;
+        })
+    ;
+};
+
+const register = () => {
+    const form = new FormData();
+
+    form.append("user[username]"            , formData.name);
+    form.append("user[email]"               , formData.email);
+    form.append("user[password][first]"     , formData.password);
+    form.append("user[password][second]"    , formData.confirmPassword);
+    form.append("user_registration_approve" , formData.registrationApprove);
+
+    axios.post(`/register/${route.params.secret}`, form)
+        .then(response => {
+            const form = new FormData();
+            form.append("_username"     , formData.name);
+            form.append("_password"     , formData.password);
+            form.append("_target_path"  , '/account');
+
+            axios.post('/login', form)
+                .then(response => {
+                    axios('/api/user/me')
+                        .then(({data}) => {
+                            store.commit('setUser', data);
+                            router.push('/link');
+                        })
+                        .catch(err => console.dir(err));
+                })
+                .catch(err => console.dir(err))
+            ;
+        })
+        .catch(err => console.dir(err))
+    ;
+};
+
+onMounted(async () => await checkSecretExpiration());
 </script>
 
 <style scoped lang="scss">
