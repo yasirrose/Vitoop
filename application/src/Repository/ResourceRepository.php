@@ -330,7 +330,7 @@ class ResourceRepository extends ServiceEntityRepository
     protected function prepareListQueryBuilder(QueryBuilder $query, SearchResource $search)
     {
         $query
-            ->addSelect('r.id, r.name, CONCAT(r.created_at,\'\') AS created_at, u.username, AVG(ra.mark) as avgmark')
+            ->addSelect('r.id, ANY_VALUE(r.name) AS name, CONCAT(r.created_at,\'\') AS created_at, ANY_VALUE(u.username) AS username, AVG(ra.mark) as avgmark')
             ->addSelect('COUNT(rrr.id) as res12count')
             ->addSelect('COUNT(uh.id) as isUserHook')
             ->addSelect('COUNT(ur.id) as isUserRead')
@@ -416,10 +416,10 @@ class ResourceRepository extends ServiceEntityRepository
     protected function prepareListByResourceQueryBuilder(QueryBuilder $query, $resource)
     {
         return $query
-            ->addSelect('rrr.coefficient as coef')
-            ->addSelect('rrr.id as coefId')
+            ->addSelect('ANY_VALUE(rrr.coefficient) as coef')
+            ->addSelect('ANY_VALUE(rrr.id) as coefId')
             ->andWhere('rrr.resource1 = :resource')
-            ->addOrderBy('rrr.coefficient', 'ASC')
+            ->addOrderBy('ANY_VALUE(rrr.coefficient)', 'ASC')
             ->addOrderBy('r.created_at', 'DESC')
             ->setParameter('resource', $resource);
     }
