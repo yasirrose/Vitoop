@@ -175,7 +175,7 @@ const colorMap = {'blue': 'blau', 'lime': 'grün', 'cyan': 'cyan', 'yellow': 'ge
         }, 0);
 
         function removeClassGradient(){
-            let colorsClassGradient = ['red-gradient', 'lime-gradient', 'cyan-gradient', 'yellow-gradient', 'blau-gradient', 'orange-gradient'];
+            let colorsClassGradient = ['red-gradient', 'lime-gradient', 'cyan-gradient', 'yellow-gradient', 'blue-gradient', 'blau-gradient', 'orange-gradient'];
             for (let i = 0; i < colorsClassGradient.length; i++) {
                 if ($('.toggle_detail').hasClass(colorsClassGradient[i])) {
                     $('.toggle_detail').removeClass(colorsClassGradient[i]);
@@ -184,7 +184,7 @@ const colorMap = {'blue': 'blau', 'lime': 'grün', 'cyan': 'cyan', 'yellow': 'ge
                     $('.vtp-fh-infosave-box-right ').removeClass(colorsClassGradient[i]);
                 }
             }
-            let colorsClass = ['vtp-red-color', 'vtp-lime-color', 'vtp-cyan-color', 'vtp-yellow-color', 'vtp-blau-color','vtp-orange-color'];
+            let colorsClass = ['vtp-red-color', 'vtp-lime-color', 'vtp-cyan-color', 'vtp-yellow-color', 'vtp-blue-color', 'vtp-blau-color','vtp-orange-color'];
             for (let i = 0; i < colorsClass.length; i++) {
                 if ($('.vtp-fh-infosave-box-left ').hasClass(colorsClass[i])) {
                     $('.vtp-fh-infosave-box-left ').removeClass(colorsClass[i]);
