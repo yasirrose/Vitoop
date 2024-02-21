@@ -24,4 +24,3 @@ doctrine:
         dql:
             string_functions:
                 field: DoctrineExtensions\Query\Mysql\Field
-                ANY_VALUE: DoctrineExtensions\Query\Mysql\AnyValue
