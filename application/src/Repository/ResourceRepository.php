@@ -652,7 +652,7 @@ class ResourceRepository extends ServiceEntityRepository
             $searchResource->resource,
             $searchResource->paging->limit,
             $searchResource->paging->offset
-        )
+        );
 
         $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
 
