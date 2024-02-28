@@ -652,7 +652,7 @@ class ResourceRepository extends ServiceEntityRepository
             $searchResource->resource,
             $searchResource->paging->limit,
             $searchResource->paging->offset
-        );
+        )
 
         $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
 
@@ -717,7 +717,7 @@ class ResourceRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('r');
 
         foreach (Resource\ResourceType::RESOURCE_TYPES as $type => $class) {
-            if (Resource::class === $class) {
+            if (in_array($class, [Resource::class, User::class])) {
                 continue;
             }
             $qb->leftJoin($class, $type, Query\Expr\Join::WITH, $type.'.id = r.id');
@@ -744,11 +744,11 @@ class ResourceRepository extends ServiceEntityRepository
     private function getAllResourcesDividerQuery()
     {
         return <<<'EOT'
-            SELECT SQL_CALC_FOUND_ROWS base.coef, base.coefId, base.text, base.url, base.zip, base.city, base.street, base.code, base.id, base.name, base.created_at, base.username, base.avgmark, base.res12count, base.isUserHook, base.isUserRead, base.sendMail base.type, base.color
+            SELECT SQL_CALC_FOUND_ROWS base.coef, base.coefId, base.text, base.url, base.zip, base.city, base.street, base.code, base.id, base.name, base.created_at, base.username, base.avgmark, base.res12count, base.isUserHook, base.isUserRead, base.userSetEmail, base.type, base.color
               FROM (
                %s
                UNION ALL
-               SELECT null as type, prd.text as text, '' as url, null as zip, null as city, null as street, null as code, null as id, null as name, null as created_at, null as username, null as avgmark, null as res12count, null as isUserHook, null as isUserRead, null as sendMail, null as color, prd.coefficient as coef, prd.id as coefId
+               SELECT null as type, prd.text as text, '' as url, null as zip, null as city, null as street, null as code, null as id, null as name, null as created_at, null as username, null as avgmark, null as res12count, null as isUserHook, null as isUserRead, null as userSetEmail, null as color, prd.coefficient as coef, prd.id as coefId
                 FROM project_rel_divider prd
                INNER join project p on p.project_data_id = prd.id_project_data
               where p.id = %s
