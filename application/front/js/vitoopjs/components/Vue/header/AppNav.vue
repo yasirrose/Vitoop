@@ -206,8 +206,7 @@
             noContent() {
                 return (name) => {
                     return this.getResource('info') ?
-                    this.getResource('info')[`${name}c`] ? this.getResource('info')[`${name}c`][0] === 0 : false
-                         : false
+                    this.getResource('info')[`${name}c`] == '0' : false
                 }
             },
             showConversation() {
