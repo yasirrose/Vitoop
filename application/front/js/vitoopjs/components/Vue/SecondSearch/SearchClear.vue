@@ -18,7 +18,7 @@
             ...mapGetters(['get'])
         },
         methods: {
-            clear() {
+            clear(e) {
                 this.$store.commit('resetSecondSearch');
                 this.$store.commit('secondSearchIsSearching', false);
                 EventBus.$emit('datatable:reload');
