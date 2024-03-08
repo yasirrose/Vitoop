@@ -1012,7 +1012,7 @@ span.vtp-icon {
 }
 
 .vtp-paddingbox {
-    padding: 5px 0px 2px 0px;
+    padding: 5px 5px 2px 5px;
 }
 
 /************************************************************
@@ -3101,7 +3101,6 @@ label[for="conversation_isNotify"]{
 }
 
 .preloader {
-    height: 100px;
     display: table-row;
 
     img {
@@ -3226,4 +3225,11 @@ label[for="conversation_isNotify"]{
 
 div#art-select {
     margin-left: 120px;
+}
+
+/*
+    Project select dropdown
+*/
+span#project_name_name-button {
+    width: calc(100% - 240px) !important;
 }
