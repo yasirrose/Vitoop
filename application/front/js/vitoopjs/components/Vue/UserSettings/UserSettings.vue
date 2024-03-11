@@ -24,36 +24,36 @@
               <p>Passwort ändern</p>
               <form id="user_password" name="user_password">
                 <div class="vtp-fh-w100">
-                  <input type="password" name="pass1" id="pass1" v-model="dto.pass1" autocomplete="new-password"/>
+                  <input type="password" name="pass1" id="pass1" v-model="dto.pass1" autocomplete="new-password" @input="isPassModified = true"/>
                 </div>
                 <div class="vtp-fh-w100">
                   <input v-bind:class="dto.pass1 != dto.pass2 ? 'red-border': ''" type="password" name="pass2" id="pass2" v-model="dto.pass2"/>
                 </div>
-                <div class="vtp-fh-w100" v-show="dto.pass1 != dto.pass2">Die Eingaben müssen übereinstimmen.</div>
+                <div class="vtp-fh-w100 vtp-uiinfo-form-error" v-if="passwordError">{{ passwordError }}</div>
               </form>
             </div>
             <div class="vtp-fh-w25">
               <p>Email-Adresse ändern</p>
               <form id="user_email" name="user_email">
                 <div class="vtp-fh-w100">
-                  <input type="email" name="email1" id="email1" v-model="dto.email1"/>
+                  <input type="email" name="email1" id="email1" v-model="dto.email1" @input="isEmailModified = true"/>
                 </div>
                 <div class="vtp-fh-w100">
                   <input v-bind:class="dto.email1 != dto.email2 ? 'red-border': ''" type="email" name="email2" id="email2" v-model="dto.email2"/>
                 </div>
-                <div class="vtp-fh-w100" v-show="dto.email1 != dto.email2">Die Eingaben müssen übereinstimmen.</div>
+                <div class="vtp-fh-w100 vtp-uiinfo-form-error" v-if="emailError">{{ emailError }}</div>
               </form>
             </div>
             <div class="vtp-fh-w25">
               <p>Nutzername ändern</p>
               <form id="user_name" name="user_name">
                 <div class="vtp-fh-w100">
-                  <input type="text" name="username1" id="username1" v-model="dto.username1" />
+                  <input type="text" name="username1" id="username1" v-model="dto.username1" @input="isUsernameModified = true"/>
                 </div>
                 <div class="vtp-fh-w100">
                   <input v-bind:class="dto.username1 != dto.username2 ? 'red-border': ''" type="text" name="username2" id="username2" v-model="dto.username2" />
                 </div>
-                <div class="vtp-fh-w100" v-show="dto.username1 != dto.username2">Die Eingaben müssen übereinstimmen.</div>
+                <div class="vtp-fh-w100 vtp-uiinfo-form-error" v-if="usernameError">{{ usernameError }}</div>
               </form>
             </div>
           </div>
@@ -112,7 +112,7 @@
             <div class="vtp-fh-w30" style="float: right; text-align: right">
               <button @click="save()"
                       v-show="!isDeleting"
-                      :class="isNeedToSave ? 'ui-state-active': ''"
+                      :class="{'ui-button-disabled ui-state-disabled': !isNeedToSave}"
                       class="ui-state-default ui-corner-all vtp-fh-w30 vtp-button-light"
                       style="margin-right: 15px">speichern</button> <!-- ui-state-need-to-save -->
               <span v-show="isError" id="error-span" class="form-error"><span>{{ errorMessage }}</span></span>
@@ -177,7 +177,13 @@ import {mapGetters} from "vuex";
             isOpenInSameTabPdf: false,
             isOpenInSameTabTeli: false,
             isTeliInHtmlEnable: false,
-          }
+          },
+          isPassModified: false,
+          isEmailModified: false,
+          isUsernameModified: false,
+          passwordError: '',
+          emailError: '',
+          usernameError: ''
         }
       },
       computed: {
@@ -193,14 +199,16 @@ import {mapGetters} from "vuex";
         ...mapGetters(['isAdmin'])
       },
       watch: {
-        'user.decreaseFontSize'() {
-          if (this.n>0) {
+        'user.decreaseFontSize'(newVal, oldVal) {
+          // if (this.n>0) {
+          if(oldVal !== null && newVal !== oldVal) {
             this.isNeedToSave = true;
           }
         },
         dto: {
           handler(val,oldVal) {
-            this.isNeedToSave = !Object.values(val).every(item => item === null);
+            // this.isNeedToSave = !Object.values(val).every(item => item === null);
+            this.isNeedToSave = !Object.values(val).every((item, index) => item === oldVal[index]);
           },
           deep: true
         }
@@ -239,6 +247,41 @@ import {mapGetters} from "vuex";
           });
         },
         save() {
+          if(!this.isNeedToSave) {
+            return false;
+          }
+          if (this.isPassModified) {
+              if (this.dto.pass1 !== this.dto.pass2) {
+                this.passwordError = "Die Eingaben müssen übereinstimmen";
+                return false;
+              }
+              if (!this.isPasswordValid(this.dto.pass1)) {
+                this.passwordError = "Das Passwort muss zwischen 8 und 14 Zeichen lang sein.";
+                return false;
+              }else {
+                this.passwordError = "";
+              }
+          }
+          if (this.isEmailModified) {
+              if (this.dto.email1 !== this.dto.email2) {
+                this.emailError = "Die Eingaben müssen übereinstimmen";
+                return false;
+              }else{
+                this.emailError = "";
+              }
+          }
+          if (this.isUsernameModified) {
+              if (this.dto.username1 !== this.dto.username2) {
+                this.usernameError = "Die Eingaben müssen übereinstimmen";
+                return false;
+              }
+              if (!this.isUsernameValid(this.dto.username1)) {
+                this.usernameError = "Das name muss zwischen 5 und 14 Zeichen lang sein.";
+                return false;
+              }else{
+                this.usernameError = "";
+              }
+          }
           let userService = new UserService();
           userService.updateCredentials(this.user.id, {
             password: this.dto.pass2,
@@ -276,6 +319,18 @@ import {mapGetters} from "vuex";
           this.dto.pass2 = null;
           this.n = 0;
           this.isNeedToSave = false;
+          this.isPassModified = false;
+          this.isEmailModified = false;
+          this.isUsernameModified = false;
+          this.passwordError = '';
+          this.emailError = '';
+          this.usernameError = '';
+        },
+        isPasswordValid(pass) {
+          return pass.length >= 8 && pass.length <= 32;
+        },
+        isUsernameValid(username) {
+          return username.length >= 5 && username.length <= 14;
         }
       }
     };

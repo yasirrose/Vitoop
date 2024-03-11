@@ -23,7 +23,7 @@ class UserPasswordEncoder implements PasswordEncoderInterface
      */
     public function encode($password, $salt = null)
     {
-        return $this->userEncoder->hash($password);
+        return $this->userEncoder->hash($password, $salt);
     }
 
     /**
