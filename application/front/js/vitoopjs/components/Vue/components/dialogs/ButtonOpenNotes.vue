@@ -1,7 +1,7 @@
 <template>
     <button @click="openNotes"
             :title="$t('label.notes')"
-            class="ui-state-default ui-corner-all vtp-button"
+            class="ui-state-default ui-corner-all vtp-button vtp-custom-padding"
             style="width: 34px">
         <span class="ui-icon ui-icon-document-b"></span>
     </button>
