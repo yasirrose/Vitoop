@@ -3233,3 +3233,21 @@ div#art-select {
 span#project_name_name-button {
     width: calc(100% - 240px) !important;
 }
+
+//TinyMCE changes
+.mce-toolbar-grp.mce-panel {
+    background-image: none !important;
+    background-color: #ffffff !important;
+}
+
+.mce-top-part .mce-btn-group .mce-widget{
+    border: none !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+}
+
+.mce-top-part .mce-btn-group .mce-widget .mce-ico {
+    font-size: 14px !important;
+    font-weight: lighter !important;
+}
