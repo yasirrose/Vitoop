@@ -202,7 +202,7 @@
                     .catch(err => console.dir(err));
             },
             init() {
-                $('#lexicon_name_save').on('click', function() {
+                $('#lexicon_name_save, #lexicon_name_new_lexicon_save').on('click', function() {
                     $('#tab-title-rels').removeClass('ui-state-no-content');
                 });
                 $('#lexicon_name_name').autocomplete({

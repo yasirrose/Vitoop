@@ -14,7 +14,8 @@ class LexiconNameType extends AbstractType
             ->add('can_add', HiddenType::class, array('mapped' => false))
             ->add('can_remove', HiddenType::class, array('mapped' => false))
             ->add('save', InputTypeSubmitType::class, array('label' => '+'))
-            ->add('remove', InputTypeSubmitType::class, array('label' => '-'));
+            ->add('remove', InputTypeSubmitType::class, array('label' => '-'))
+            ->add('new_lexicon_save', InputTypeSubmitType::class, array('label' => 'Neunen Lexikon-Artikel erstellen?'));
     }
 
     public function getBlockPrefix(): string
