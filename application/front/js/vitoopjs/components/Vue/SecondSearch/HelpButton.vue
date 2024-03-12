@@ -1,7 +1,7 @@
 <template>
     <button id="vtp-search-help"
             :help-area="helpArea"
-            class="vtp-button vtp-help-area-button ui-state-default ui-button ui-widget ui-corner-all"
+            class="vtp-button vtp-help-area-button ui-state-default ui-button ui-widget ui-corner-all vtp-custom-padding"
             :class="{ 'text-button': text !== null }"
             :title="$t('label.help')"
             @click="openDialog">

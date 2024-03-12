@@ -3233,3 +3233,19 @@ div#art-select {
 span#project_name_name-button {
     width: calc(100% - 240px) !important;
 }
+
+//Vitoop Header second search
+#art-select .v-select {
+    font-size: 90%;
+    align-items: center;
+    padding: 0px 15px;
+}
+#vtp-header #art-select .vs--single .vs__selected {
+    color: #2779aa !important;
+    font-family: 'Lucida Grande, Lucida Sans, Arial, sans-serif' !important;
+}
+
+//Vitoop header right side filters
+.vtp-custom-padding {
+    margin: 0 4px 0 4px !important;
+}

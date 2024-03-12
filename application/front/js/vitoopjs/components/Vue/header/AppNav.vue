@@ -41,6 +41,18 @@
                     verknüpfte Datensätze
                 </button>
             </li>
+            <li>
+                <button
+                class="vtp-resmenu-reslink ui-state-default ui-corner-all"
+                @click="changeRoute('prj')"
+                :class="{
+                'ui-state-no-content': noContent('prj'),
+                'vtp-nav-active ui-state-active': $route.name === 'prj',
+                }"
+                >
+                Projekt
+                </button>
+            </li>
             <li v-for="(value,name) in resources"
                 v-if="!isAllInOneList"
                 :key="name">
@@ -87,14 +99,14 @@
                 <span v-if="canEdit">
                     <button id="vtp-projectdata-project-live"
                             :title="$t('label.view')"
-                            class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
+                            class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary vtp-custom-padding"
                             :class="{'ui-state-focus ui-state-active': isProjectLive}"
                             @click="projectLiveMode">
                         <span class="ui-button-icon-primary ui-icon ui-icon-clipboard"></span>
                     </button>
                     <button id="vtp-projectdata-project-edit"
                             :title="$t('label.edit')"
-                            class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
+                            class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary vtp-custom-padding"
                             :class="{'ui-state-focus ui-state-active': isProjectEdit}"
                             @click="projectEditMode">
                         <span class="ui-button-icon-primary ui-icon ui-icon-wrench"></span>
@@ -165,8 +177,8 @@
         data() {
             return {
                 resources: {
-                    prj: 'Projekt',
-                    lex: 'Lexikon',
+                    // prj: 'Projekt',
+                    // lex: 'Lexikon',
                     pdf: 'Pdf',
                     teli: 'Textlink',
                     book: 'Buch',
@@ -174,6 +186,11 @@
                     link: 'Link'
                 }
             }
+        },
+        watch: {
+            $route(to, from) {
+                this.onActiveRouteChange();
+            },
         },
         computed: {
             ...mapState({
@@ -219,6 +236,7 @@
         mounted() {
             const resourceList = new ResourceList();
             resourceList.init();
+            this.onActiveRouteChange();
         },
         methods: {
             changeRoute(name) {
@@ -371,7 +389,12 @@
                         this.$store.commit('set', { key: 'dividersToSave', value: [] });
                         EventBus.$emit('notification:show', data.messages[0]);
                     });
-            }
+            },
+            onActiveRouteChange() {
+            if (this.$route.name !== "lexicon")
+                this.resources = { lex: "Lexikon", ...this.resources };
+            else delete this.resources["lex"];
+            },
         }
     }
 </script>
