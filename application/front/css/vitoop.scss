@@ -3276,3 +3276,13 @@ input#lexicon_name_new_lexicon_save {
 .vtp-custom-padding {
     margin: 0 4px 0 4px !important;
 }
+
+//New lexicon add button
+input#lexicon_name_new_lexicon_save {
+    width: calc(100% - 351px);
+}
+
+//Global Hide CSS
+.vtp-hide {
+    display: none !important;
+}
