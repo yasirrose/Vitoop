@@ -3251,3 +3251,8 @@ span#project_name_name-button {
     font-size: 14px !important;
     font-weight: lighter !important;
 }
+
+//New lexicon add button
+input#lexicon_name_new_lexicon_save {
+    width: calc(100% - 351px);
+}
