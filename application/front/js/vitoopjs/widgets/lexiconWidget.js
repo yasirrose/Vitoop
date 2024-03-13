@@ -8,12 +8,13 @@ export default class LexiconWidget extends Widget {
         this.containerName = 'resource-lexicon';
         this.containerId = '#'+this.containerName;
         this.buttonSaveId = '#lexicon_name_save';
+        this.buttonSaveIdTwo = '#lexicon_name_new_lexicon_save';
         this.lexiconFormId = '#form-assign-lexicon';
     }
 
     init() {
         let self = this;
-        $(self.buttonSaveId).on('click', function() {
+        $(self.buttonSaveId + ',' + self.buttonSaveIdTwo).on('click', function() {
             $('#tab-title-rels').removeClass('ui-state-no-content');
             var return_data = false;
             $(".lexicon_exrta_textarea").css("display", "none");

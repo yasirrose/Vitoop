@@ -1,6 +1,6 @@
 var init = function() {
     $('#open_lexicon_link').button();
-    $('#lexicon_name_save').on('click', function() {
+    $('#lexicon_name_save, #lexicon_name_new_lexicon_save').on('click', function() {
         $('#tab-title-rels').removeClass('ui-state-no-content');
     });
     $('#lexicon_name_name').autocomplete({
@@ -72,6 +72,7 @@ var init = function() {
     });
     if ($('#lexicon_name_can_add').val() != "1") {
         $('#lexicon_name_save').button('disable');
+        $('#lexicon_name_new_lexicon_save').button('disable');
     }
     if ($('#lexicon_name_can_remove').val() != "1") {
         $('#lexicon_name_remove').button('disable');
