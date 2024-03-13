@@ -177,8 +177,6 @@
         data() {
             return {
                 resources: {
-                    // prj: 'Projekt',
-                    // lex: 'Lexikon',
                     pdf: 'Pdf',
                     teli: 'Textlink',
                     book: 'Buch',
