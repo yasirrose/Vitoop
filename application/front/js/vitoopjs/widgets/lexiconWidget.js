@@ -67,7 +67,29 @@ export default class LexiconWidget extends Widget {
                 });
             },
             minLength: 1,
-            appendTo: 'body'
+            appendTo: 'body',
+            select: function (event, ui) {
+                var selectedValue = ui.item ? ui.item.value : null;
+                if (selectedValue) {
+                    $.ajax({
+                        method: 'POST',
+                        url: vitoop.baseUrl + ([self.resourceId, 'lexicon-exist'].join('/')),
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            lexicon_name: selectedValue,
+                        }),
+                        success: function (data) {
+                            if (data.success == false) {
+                                console.log(data.success);
+                                $('.vtp-new-lexicon-save').removeClass('vtp-hide');
+                            } else {
+                                $('.vtp-new-lexicon-save').addClass('vtp-hide');
+                            }
+                        }
+                    });
+                }
+            }
         });
         $(self.containerId + ' input[type=submit]').button({
             icons: {
