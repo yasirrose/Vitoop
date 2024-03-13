@@ -3231,10 +3231,14 @@ div#art-select {
     Project select dropdown
 */
 span#project_name_name-button {
-    width: calc(100% - 240px) !important;
+    width: calc(100% - 235px) !important;
 }
 
 //New lexicon add button
 input#lexicon_name_new_lexicon_save {
     width: calc(100% - 351px);
+}
+
+#resource-project .ui-selectmenu-button span.ui-selectmenu-text {
+    padding: 3px 2.1em 4px 1em !important;   
 }
