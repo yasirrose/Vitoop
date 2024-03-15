@@ -1458,7 +1458,7 @@ input.divider {
     #vtp-search-bytags-taglist {
         height: 20px;
         margin-right: 0px;
-        width: 265px;
+        width: 261px;
         padding-left: 15px;
         margin-left: -50px;
     }
@@ -1479,6 +1479,7 @@ input.divider {
 
     #vtp-search-bytags-tagcnt-button {
         margin-right: 0px;
+        margin-left: 4px;
     }
 
 
@@ -3231,7 +3232,25 @@ div#art-select {
     Project select dropdown
 */
 span#project_name_name-button {
-    width: calc(100% - 240px) !important;
+    width: calc(100% - 235px) !important;
+}
+
+//TinyMCE changes
+.mce-toolbar-grp.mce-panel {
+    background-image: none !important;
+    background-color: #ffffff !important;
+}
+
+.mce-top-part .mce-btn-group .mce-widget{
+    border: none !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+}
+
+.mce-top-part .mce-btn-group .mce-widget .mce-ico {
+    font-size: 14px !important;
+    font-weight: lighter !important;
 }
 
 //Vitoop Header second search
@@ -3242,7 +3261,7 @@ span#project_name_name-button {
 }
 #vtp-header #art-select .vs--single .vs__selected {
     color: #2779aa !important;
-    font-family: 'Lucida Grande, Lucida Sans, Arial, sans-serif' !important;
+    font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
 }
 
 //Vitoop header right side filters
@@ -3253,4 +3272,18 @@ span#project_name_name-button {
 //New lexicon add button
 input#lexicon_name_new_lexicon_save {
     width: calc(100% - 351px);
+}
+
+//Global Hide CSS
+.vtp-hide {
+    display: none !important;
+}
+
+#resource-project .ui-selectmenu-button span.ui-selectmenu-text {
+    padding: 3px 2.1em 4px 1em !important;
+}
+
+//select dropdown in second search
+#art-select .vs__selected {
+    margin: 4px 2px 3px;
 }

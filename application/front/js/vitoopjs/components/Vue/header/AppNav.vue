@@ -61,7 +61,8 @@
                    :class="{
                     'ui-state-no-content': noContent(name),
                     'vtp-nav-active ui-state-active': $route.name === name
-                   }">
+                   }"
+                   :style="{display:displayStyle(name)}">
                     {{ value }}
                 </button>
             </li>
@@ -237,6 +238,10 @@
             this.onActiveRouteChange();
         },
         methods: {
+            displayStyle(name)
+            {
+                return (!this.getInProject && this.getResource('id') && !this.get('conversationInstance')&& name == "lex") ? 'none': 'block'
+            },
             changeRoute(name) {
                 vitoopState.commit('setResourceType', name);
                 this.$router.push(`/${name}`);
