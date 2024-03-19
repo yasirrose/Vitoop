@@ -2765,6 +2765,7 @@ table.dataTable thead th:hover {
     padding: 4px;
     display: table;
     width: -webkit-fill-available;
+    width: -moz-available;
     border-radius: 6px;
 }
 
