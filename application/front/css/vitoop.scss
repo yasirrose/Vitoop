@@ -3267,9 +3267,14 @@ span#project_name_name-button {
 
 //Vitoop header right side filters
 .vtp-custom-padding {
-    margin: 0 4px 0 4px !important;
+    margin: 0 0 0 4px !important;
 }
-
+#vtp-search-bytags-form .vtp-custom-padding {
+    margin: 0 0 0 4px !important;
+}
+div#vtp-cmstitle {
+    padding-right: 7px;
+}   
 //New lexicon add button
 input#lexicon_name_new_lexicon_save {
     width: calc(100% - 366px);

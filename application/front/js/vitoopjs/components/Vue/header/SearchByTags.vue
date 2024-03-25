@@ -1,5 +1,5 @@
 <template>
-  <div style="margin: -24px 0 0 700px">
+  <div style="margin: -24px 0 0 695px">
     <form id="vtp-search-bytags-form"
           style="padding: 0 8px 0 0.5em"
           action=""
