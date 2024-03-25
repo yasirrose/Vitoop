@@ -3272,7 +3272,7 @@ span#project_name_name-button {
 
 //New lexicon add button
 input#lexicon_name_new_lexicon_save {
-    width: calc(100% - 351px);
+    width: calc(100% - 366px);
 }
 
 //Global Hide CSS
@@ -3287,4 +3287,12 @@ input#lexicon_name_new_lexicon_save {
 //select dropdown in second search
 #art-select .vs__selected {
     margin: 4px 2px 3px;
+}
+.Textgrösse-select{
+    .v-select {
+    max-width: 165px;
+    .vs__dropdown-toggle {
+        height: 31px !important;
+    }
+    }
 }
