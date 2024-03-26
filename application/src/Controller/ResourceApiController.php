@@ -21,6 +21,7 @@ use App\DTO\Paging;
 use App\Service\ResourceManager;
 use App\Repository\UserEmailDetailResourceRepository;
 use App\Entity\Userlist;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * @Route("api/")
@@ -39,7 +40,8 @@ class ResourceApiController extends ApiController
         ConversationRepository $conversationRepository,
         ProjectRepository $projectRepository,
         ResourceRepository $resourceRepository,
-        UserEmailDetailResourceRepository $userEmailDetailResourceRepository
+        UserEmailDetailResourceRepository $userEmailDetailResourceRepository,
+        SessionInterface $session
     ) {
         $search = new SearchResource(
             new Paging(
@@ -98,12 +100,25 @@ class ResourceApiController extends ApiController
                 }
             }
         }
+        
+        $data_quesry = $resourceRepository->getCountByTags($search);
+        if($request->query->get('draw') == 1 || $request->query->get('draw') == "1")
+        {
+            $session->set('data', $resources);
+            $session->set('recordsTotal', $total);
+            $session->set('resourceInfo', $data_quesry);
+
+        } else {
+            $resources = $session->get('data');
+            $total = $session->get('recordsTotal');
+            $data_quesry = $session->get('resourceInfo');
+        }
         return $this->getApiResponse(array(
             'draw' => $request->query->get('draw'),
             'recordsTotal' => $total,
             'recordsFiltered' => $total,
             'data' => array_values($resources),
-            'resourceInfo' => $resourceRepository->getCountByTags($search)
+            'resourceInfo' => $data_quesry
         ));
     }
 
