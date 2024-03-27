@@ -762,9 +762,9 @@ span.vtp-icon {
 /************************************************************
  * vtp-project-data & vtp-lexicon-data  vtp-user-data vtp-vitoop-blog                                  *
  ************************************************************/
- #vtp-cmstitle {
+#vtp-cmstitle {
     padding: 0px 0.5em 0px 0.5em;
-    }  
+}  
 
 #vtp-projectdata-title, #vtp-lexicondata-title {
     position: relative;
