@@ -7,7 +7,7 @@
         </div>
         <fieldset class="ui-corner-all margin-top-10">
           <legend>Einstellungen</legend>
-          <div class="vtp-fh-w25 Textgrösse-select">
+          <div class="vtp-fh-w25 text_size_dropdown">
             <p>Textgrösse in den Listen: </p>
             <vue-select
                 :options="fontSizeOptions"
