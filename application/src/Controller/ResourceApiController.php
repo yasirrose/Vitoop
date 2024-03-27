@@ -21,13 +21,18 @@ use App\DTO\Paging;
 use App\Service\ResourceManager;
 use App\Repository\UserEmailDetailResourceRepository;
 use App\Entity\Userlist;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * @Route("api/")
  */
 class ResourceApiController extends ApiController
 {
+    private $requestStack;
+    public function __construct(RequestStack $requestStack)
+    {
+        $this->requestStack = $requestStack;
+    }
     /**
      * @Route("resource/{resType}", methods={"GET"}, name="api_resource_list", requirements={"resType": "pdf|adr|link|teli|lex|prj|book|conversation|userlist"})
      *
@@ -41,7 +46,6 @@ class ResourceApiController extends ApiController
         ProjectRepository $projectRepository,
         ResourceRepository $resourceRepository,
         UserEmailDetailResourceRepository $userEmailDetailResourceRepository,
-        SessionInterface $session
     ) {
         $search = new SearchResource(
             new Paging(
@@ -100,25 +104,26 @@ class ResourceApiController extends ApiController
                 }
             }
         }
-        
-        $data_quesry = $resourceRepository->getCountByTags($search);
-        if($request->query->get('draw') == 1 || $request->query->get('draw') == "1")
+
+        $session = $this->requestStack->getSession();
+        $resourceInfo = $resourceRepository->getCountByTags($search);
+        if($request->query->get('draw') == 1)
         {
             $session->set('data', $resources);
             $session->set('recordsTotal', $total);
-            $session->set('resourceInfo', $data_quesry);
+            $session->set('resourceInfo', $resourceInfo);
 
         } else {
             $resources = $session->get('data');
             $total = $session->get('recordsTotal');
-            $data_quesry = $session->get('resourceInfo');
+            $resourceInfo = $session->get('resourceInfo');
         }
         return $this->getApiResponse(array(
             'draw' => $request->query->get('draw'),
             'recordsTotal' => $total,
             'recordsFiltered' => $total,
             'data' => array_values($resources),
-            'resourceInfo' => $data_quesry
+            'resourceInfo' => $resourceInfo
         ));
     }
 
