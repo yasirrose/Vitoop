@@ -2453,13 +2453,18 @@ table.dataTable thead th:hover {
     height: 20px;
 }
 
-#book_kind-button,
-#pdf_lang-button {
+#pdf_lang-button,
+#teli_lang-button,
+#link_lang-button,
+#book_lang-button {
   margin-left: 3px;
+  width: 150px !important;
 }
 
 #adr_country-button{
     float: right;
+    width: 134px !important;
+
 }
 
 #vtp-userhome-help {
@@ -2997,7 +3002,7 @@ label[for="conversation_isNotify"]{
     padding-top: 10px !important;
 }
 .ui-selectmenu-open ul.ui-menu li.ui-menu-item{
-    height: 24px !important;
+    height: max-content !important;
 }
 .colorDropdown .dropdown-menu li a:hover{
     border: 1px solid #74b2e2 !important;
