@@ -3303,3 +3303,14 @@ input#lexicon_name_new_lexicon_save {
     }
     }
 }
+
+//width size of tinymce editor
+.mce-toolbar .mce-listbox button {
+    width: 81px !important;
+}
+
+// powered by tinymce 
+.mce-branding {
+    margin-top: 11px !important;
+    padding-left: 15px;
+}

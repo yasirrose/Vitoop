@@ -5,7 +5,10 @@ export default class TinyMCEInitializer {
     getCommonOptions() {
         return {
             height: 300,
-            plugins: ['textcolor', 'link', 'placeholder'],
+            plugins: [
+                'advlist', 'autolink', 'link', 'image', 'lists', 'anchor', 'pagebreak',
+                , 'code', 'fullscreen', 'media', 'table', 'emoticons', 'help', 'print', 'textcolor'
+            ],
             menubar: false,
             skin : "vitoop",
             content_css: "/css/vtp-tinymce.css",
@@ -21,7 +24,7 @@ export default class TinyMCEInitializer {
             },
             default_link_target: "_blank",
             target_list: false,
-            toolbar: 'styleselect | bold italic underline | indent outdent | bullist numlist | forecolor backcolor | link unlink',
+            toolbar: 'styleselect | fontsizeselect | bold italic underline | indent outdent  | forecolor backcolor | textcolor | link unlink | emoticons | print | fullscreen  ',
         };
     }
 
