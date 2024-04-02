@@ -139,7 +139,7 @@
 <script>
     import {mapGetters} from 'vuex';
     import VueSelect from "vue-select";
-    import Centrifuge from 'centrifuge';
+    import { Centrifuge } from 'centrifuge';
     import SockJS from 'sockjs-client';
     import tinyMCEInitializer from '../../TinyMCEInitializer';
     import ResizableBlock from "./helpers/ResizableBlock.vue";
@@ -182,9 +182,22 @@
             }
         },
         mounted() {
-            this.centrifuge = new Centrifuge('https://vitoop.org/connection/sockjs', {
-                sockjs: SockJS
-            });
+            const transports = [
+              {
+                transport: 'websocket',
+                endpoint: 'wss://vitoop.org/connection/websocket'
+              },
+              {
+                transport: 'http_stream',
+                endpoint: 'https://vitoop.org/connection/http_stream'
+              },
+              {
+                transport: 'sse',
+                endpoint: 'https://vitoop.org/connection/sse'
+              }
+            ];
+
+            this.centrifuge = new Centrifuge(transports);
 
             vitoopState.commit('set', { key: 'lexicon', value: null });
             vitoopState.commit('set', { key: 'project', value: null });
@@ -198,16 +211,17 @@
                         this.openResourcePopup('.conversation__message__text');
                     });
                     this.centrifuge.setToken(data.token);
-                    this.centrifuge.subscribe(`con_${this.conversationInstance.conversation.id}`, ({data}) => {
-                        const pushNewMessage = new Promise((resolve,reject) => {
-                            this.conversationInstance.conversation.conversation_data.messages.push(data);
-                            resolve();
-                        });
-                        pushNewMessage.then(() => this.scrollToBottom(400));
+
+                    let subscription = this.centrifuge.newSubscription(`con_${this.conversationInstance.conversation.id}`);
+                    subscription.on('publication', data => {
+                        this.conversationInstance.conversation.conversation_data.messages.push(data.data);
+                        this.scrollToBottom(400);
                     });
+                    subscription.subscribe();
+
                     this.centrifuge.connect();
                     resourceDetail.init();
-                    return
+                    return;
                 })
                 .then(() => {
                     tinyMCE.remove('#new-message-textarea');

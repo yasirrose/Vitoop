@@ -14,7 +14,7 @@
     "axios": "^0.21.4",
     "babel-core": "^6.26.3",
     "babel-polyfill": "^6.26.0",
-    "centrifuge": "^2.8.5",
+    "centrifuge": "^5.0.2",
     "create-stylesheet": "^0.3.0",
     "deparam": "^1.0.5",
     "dom-resize": "^1.0.3",
