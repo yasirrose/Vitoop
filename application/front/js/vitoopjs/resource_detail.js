@@ -525,7 +525,7 @@ window.resourceDetail = (function () {
             /*************************************************************************
              * UIfy: userDetail
              ************************************************************************/
-            if(res_type == 'userlist' || res_type == 'userdetail'){
+            if(res_type == 'userlist'){
                 if ('resource-data' == container_name) {
                     var userDetailWidget = new UserDetailWidget(res_id, vitoop.baseUrl);
                     userDetailWidget.init();
@@ -569,7 +569,7 @@ window.resourceDetail = (function () {
             }
 
             var urlResourceType = (res_type && 0 !==tab_nr) ? res_type : 'resources';
-            url = (res_type == 'userlist') ? (vitoop.baseUrl + ([urlResourceType, res_id, 'userdetail'].join('/'))) : (vitoop.baseUrl + ([urlResourceType, res_id, tab_name[tab_nr]].join('/')));
+            url = (res_type == 'userlist') ? (vitoop.baseUrl + ([urlResourceType, res_id, 'userlist'].join('/'))) : (vitoop.baseUrl + ([urlResourceType, res_id, tab_name[tab_nr]].join('/')));
             // url = vitoop.baseUrl + ([urlResourceType, res_id, tab_name[tab_nr]].join('/'));
             // if the tab is already loaded then return without any action
             /*if (1 == tab_loaded[tab_nr]) {
@@ -794,6 +794,14 @@ window.resourceDetail = (function () {
             $('div[aria-describedby="vtp-res-dialog"] .ui-dialog-title .custom-checkbox__wrapper').append('<span id="resource-title"></span>');
         },
         openDialog = function (canReadProp) {
+            if ((res_type == 'userlist'))  
+            {
+                const first = $('#vtp-res-dialog:nth-child(1)');
+                if (first.length) {
+                    first.remove();
+                    hardResetTabs();
+                }
+            }
             // check for init: call a widget-method before initialization throws an
             // error
             canRead = canReadProp !== undefined ? canReadProp : canRead;

@@ -220,7 +220,7 @@ class ResourceDataCollector
         $show_form = true;
         $info_user_notes = "";
         $form_user_notes = $this->ff->create(UserNotesType::class, $UserNotes, array(
-            'action' => $this->router->generate('_xhr_user_detail', array('res_type' => 'userdetail', 'userId' => $userId)),
+            'action' => $this->router->generate('_xhr_user_detail', array('res_type' => 'userlist', 'userId' => $userId)),
             'method' => 'POST'
         ));
         if ($show_form) {

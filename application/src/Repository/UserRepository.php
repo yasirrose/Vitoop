@@ -164,4 +164,24 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     {
         return $this->_em->getConnection()->query('SELECT FOUND_ROWS()')->fetchFirstColumn();
     }
+
+    public function getUserDetail($userId)
+    {
+        $user = $this->findOneBy(['id' => $userId]);
+        if (!$user) {
+            return null;
+        }
+
+        $notes = $user->getNotes();
+        if (!$notes) {
+            $notes = new UserNotes();
+            $notes->setUser($user);
+            $this->getEntityManager()->persist($notes);
+        }
+
+        return [
+            'user' => $user,
+            'notes' => $notes,
+        ];
+    }
 }
