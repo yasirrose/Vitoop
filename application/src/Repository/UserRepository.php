@@ -171,14 +171,12 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         if (!$user) {
             return null;
         }
-
         $notes = $user->getNotes();
         if (!$notes) {
             $notes = new UserNotes();
             $notes->setUser($user);
             $this->getEntityManager()->persist($notes);
         }
-
         return [
             'user' => $user,
             'notes' => $notes,
