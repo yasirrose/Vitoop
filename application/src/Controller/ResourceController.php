@@ -529,29 +529,29 @@ class ResourceController extends ApiController
     }
 
     /**
-     * @Route("/resources/{id}/userdetail", name="_xhr_resource_proxy_userdetail", requirements={"id": "\d+"})
+     * @Route("/resources/{id}/userlist", name="_xhr_resource_proxy_userlist", requirements={"id": "\d+"})
      */
-    public function userdetailQuickView(Resource $resource, User $user)
+    public function userlistQuickView(Resource $resource, User $user)
     {
         return $this->forward(
-            ResourceController::class.'::userdetailAction',
-            ['res_type' => 'userdetail', 'userId' => $user->getId()]
+            ResourceController::class.'::userlistAction',
+            ['res_type' => 'userlist', 'userId' => $user->getId()]
         );
     }
 
     /**
-     * @Route("/{res_type}/{userId}/userdetail", name="_xhr_user_detail", requirements={"userId": "\d+", "res_type": "userdetail"})
+     * @Route("/{res_type}/{userId}/userlist", name="_xhr_user_detail", requirements={"userId": "\d+", "res_type": "userlist"})
      */
-    public function userdetailAction(ResourceDataCollector $rdc, $userId){
+    public function userlistAction(ResourceDataCollector $rdc, $userId) {
         $user = $this->userRepository->find($userId);
-        $useragreement = $this->userAgreementRepository->findBy(['user' => $userId], ['id' => 'ASC'], 1);
-        $LastloginDate = $user->getlastLoginedAt();
-        $createdDate = "";
-        if (!empty($useragreement)) {
-            $createdDate = $useragreement[0]->getcreatedAt();
+        $useragreement = $this->userAgreementRepository->findBy(['user' => $userId], ['id' => 'ASC'], 1) ?? null;
+        $lastLoginDate = $user->getLastLoginedAt();
+        $createdDate = null;
+        if ($useragreement) {
+            $createdDate = $useragreement[0] ? $useragreement[0]->getCreatedAt() : null;
         }
         $content['resource-title'] = $user->getUsername();
-        $content['resource-data'] = $rdc->getUserDetail($LastloginDate, $createdDate, $userId);
+        $content['resource-data'] = $rdc->getUserDetail($lastLoginDate, $createdDate, $userId);
         return new JsonResponse($content);
     }
 
