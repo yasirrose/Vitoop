@@ -120,7 +120,8 @@
                                           label="username"
                                           v-model="selectedUser"
                                           @input="selectUser"
-                                          @search="searchUser"/>
+                                          @search="searchUser"
+                                          style="margin-bottom: 10px"/>
                                 <button @click="addUser()"
                                         class="ui-corner-all vtp-fh-w60 ui-state-default vtp-button">
                                     verknüpfen

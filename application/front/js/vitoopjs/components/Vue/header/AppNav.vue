@@ -122,8 +122,8 @@
                 <div class="d-flex align-center">
                     <ButtonOpenNotes style="margin-right: 4px" />
                     <help-button help-area="conversation" />
-                    <div style="margin-left: 4px">
-                        <span v-if="canEdit">
+                    <div>
+                        <span v-if="canEdit" style="margin-left: 4px">
                             <button id="vtp-projectdata-project-edit"
                                     :title="$t('label.edit')"
                                     class="ui-button ui-state-default ui-widget ui-corner-all ui-button-text-icon-primary"
