@@ -108,7 +108,7 @@ class ProjectController extends ApiController
         $search = SearchResource::createFromRequest($request, $this->getUser(), $project->getId());
 
         $resourceRepository = $resourceManager->getRepository($resType);
-        $resources = $resourceRepository->getResources($search);
+        $resources = $this->resourceRepository->getAllTypeResourcesWithDividers($search);
         $total = $resourceRepository->getResourcesTotal($search);
 
         if ('prj' === $resType) {
@@ -130,11 +130,25 @@ class ProjectController extends ApiController
                 $resource['canRead'] = $conversation->getConversationData()->availableForReading($this->getUser());
             }
         }
-
+        $filteredData = [];
+        foreach ($resources as $key => $resource) {
+            if ($resource['type'] === $resType) {
+                $filteredData[] = $resource;
+            } elseif ($resource['type'] === null) {
+                $headerCoef= intval($resource['coef']);
+                // Check if there is a subsequent entry with the specified type
+                for ($i = $key + 1; $i < count($resources); $i++) {
+                    if ($resources[$i]['type'] === $resType && $headerCoef == intval($resources[$i]['coef'])) {
+                        $filteredData[] = $resource;
+                        break; // Exit the loop once a subsequent entry is found
+                    }
+                }
+            }
+        }
         return $this->getApiResponse([
             'recordsTotal' => $total,
             'recordsFiltered' => $total,
-            'data' => $resources,
+            'data' => $filteredData,
             'resourceInfo' => $this->resourceRepository->getCountByTags($search)
         ]);
     }
