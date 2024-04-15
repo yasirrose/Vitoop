@@ -78,7 +78,7 @@ class PdfRepository extends ResourceRepository
               FROM (
                %s
                UNION ALL
-               SELECT null as author, null as url, null as tnop, null as isDownloaded, null as pdfDate, null as orderDate, null as id, null as name, null as created_at, null as username, null as avgmark, null as res12count, null as isUserHook, null as isUserRead, null as color, prd.coefficient as coef, prd.id as coefId, prd.text as text
+               SELECT null as author, null as url, null as tnop, null as isDownloaded, null as pdfDate, null as orderDate, null as id, null as name, null as created_at, null as username, null as avgmark, null as res12count, null as isUserHook, null as isUserRead, null as color, null as city1, prd.coefficient as coef, prd.id as coefId, prd.text as text
                 FROM project_rel_divider prd
                INNER join project p on p.project_data_id = prd.id_project_data
               where p.id = %s
