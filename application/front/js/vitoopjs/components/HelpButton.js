@@ -30,6 +30,7 @@ export default class HelpButton {
                 $('#vtp-res-dialog-help').empty();
                 if (this.inDialog) {
                     $('#vtp-res-list tr td.ui-state-active:first').click();
+                    this.inDialog = false;
                 }
             }
         });

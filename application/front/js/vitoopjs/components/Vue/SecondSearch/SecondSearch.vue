@@ -47,7 +47,7 @@
                     </vue-select>
                 </div>
             </div>
-            <div id="vtp-second-search-panel">
+            <div id="vtp-second-search-panel" class="search-ui-button">
                     <button class="ui-button ui-state-default ui-widget ui-corner-all vtp-button"
                           id="vtp-second-search-is-read"
                           @click="isReadToggle"

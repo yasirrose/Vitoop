@@ -3277,8 +3277,8 @@ span#project_name_name-button {
 #vtp-search-bytags-form .vtp-custom-padding {
     margin: 0 0 0 4px !important;
 }
-div#vtp-cmstitle {
-    padding-right: 7px;
+div#vtp-cmstitle #vtp-projectdata-title {
+    padding-right: 7px !important;
 }   
 //New lexicon add button
 input#lexicon_name_new_lexicon_save {
@@ -3318,4 +3318,20 @@ input#lexicon_name_new_lexicon_save {
 .mce-branding {
     margin-top: 11px !important;
     padding-left: 15px;
+}
+
+// ISBN size in buch
+.vtp-right .w-input {
+    max-width: 152px;
+    min-width: 152px;
+}
+// ISBN size in buch
+.sparch-div span#book_lang-button {
+    margin-left: 0;
+}
+
+// gelesen button in second search
+.search-ui-button .ui-button.ui-state-active {
+    white-space: nowrap;
+    padding: 0 10px;
 }

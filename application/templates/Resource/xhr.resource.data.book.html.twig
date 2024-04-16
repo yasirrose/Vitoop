@@ -38,7 +38,7 @@
     <div class="vtp-fh-middle">
         {{ form_label(fvdata.isbn, null, {'label_attr': {'class': 'vtp-fh-w10'}}) }}
         <div class="vtp-fh-w90 vtp-right">
-            {{ form_widget(fvdata.isbn, {'attr': {'class': 'vtp-fh-w25', 'onblur': 'vitoopApp.checkUniqueBook(\'isbn\', event);', 'old': fvdata.vars.value.isbn }}) }}
+            {{ form_widget(fvdata.isbn, {'attr': {'class': 'vtp-fh-w25 w-input', 'onblur': 'vitoopApp.checkUniqueBook(\'isbn\', event);', 'old': fvdata.vars.value.isbn }}) }}
             <div class="vtp-fh-w35 vtp-right">
                 {{ form_widget(fvdata.tnop, {'attr': {'class': 'vtp-fh-w60 vtp-right' }}) }}
                 {{ form_label(fvdata.tnop, null, {'label_attr': {'class': 'vtp-fh-w35 vtp-right vtp-label-right' }}) }}
@@ -52,7 +52,7 @@
     </div>
     <div class="vtp-fh-middle">
         {{ form_label(fvdata.lang, null, {'label_attr': {'class': 'vtp-fh-w10', 'style': 'margin-bottom: -5px;' }}) }}
-        <div class="vtp-fh-w90 vtp-right">
+        <div class="vtp-fh-w90 vtp-right sparch-div">
             {{ form_widget(fvdata.lang, {'attr': {'class': 'vtp-fh-30'}}) }}
             <div class="vtp-fh-w70 vtp-right">
                 {{ form_label(fvdata.kind, null, {'label_attr': {'class': 'vtp-fh-w20 vtp-label-right', 'style': 'width: 18%; margin-bottom: 5px' }}) }}
