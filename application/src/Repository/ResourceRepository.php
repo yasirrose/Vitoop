@@ -33,11 +33,9 @@ class ResourceRepository extends ServiceEntityRepository
      * ResourceRepository constructor.
      * @param ManagerRegistry $registry
      */
-    private $registry;
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, $this->getEntityClass());
-        $this->registry = $registry;
     }
 
     /**
@@ -603,38 +601,13 @@ class ResourceRepository extends ServiceEntityRepository
         }
     }
 
-    private  function getResourceRepositoryData(string $resType): object
-    {
-        switch ($resType) {
-            case 'adr':
-                return $this->registry->getRepository(Address::class);
-            case 'pdf':
-                return $this->registry->getRepository(Pdf::class);
-            case 'teli':
-                return $this->registry->getRepository(Teli::class);
-            case 'link':
-                return $this->registry->getRepository(Link::class);
-            case 'book':
-                return $this->registry->getRepository(Book::class);
-            case 'lex':
-                return $this->registry->getRepository(Lexicon::class);
-            case 'prj':
-                return $this->registry->getRepository(Project::class);
-            case 'conversation':
-                return $this->registry->getRepository(Conversation::class);
-            default:
-                throw new \InvalidArgumentException("Invalid resType provided: $resType");
-        }
-    }
-
-    public function getResourcesWithDividers(SearchResource $searchResource , $resType)
+    public function getResourcesWithDividers(SearchResource $searchResource , $resourceRepository)
     {
         /**
          * @var QueryBuilder $queryBuilder
          */
-        $repository = $this->getResourceRepositoryData($resType);
-        $queryBuilder = $repository->getResourcesQuery($searchResource);
-        $getDividerQuery = $repository->getDividerQuery();
+        $queryBuilder = $resourceRepository->getResourcesQuery($searchResource);
+        $getDividerQuery = $resourceRepository->getDividerQuery();
         $queryBuilder->addSelect("'' as text");
         $queryBuilder->resetDQLPart('orderBy');
         $queryBuilder
