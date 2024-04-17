@@ -4,6 +4,7 @@
         <th style="width:20px"></th>
         <th><span class="table-head">Projektname</span></th>
         <th style="width:14%;"><span class="table-head">Projektmeister</span></th>
+        <th style="width: 42px" data-b-sortable="false" data-b-searchable="false"><span class="table-head"></span></th>
         <th style="width:96px;" data-b-searchable="false"><span class="table-head">Bewertung</span></th>
         <th style="width:42px;" data-b-searchable="false"><span class="table-head">RR</span></th>
         <th style="width: 44px;" data-b-searchable="false" data-b-sortable="false">

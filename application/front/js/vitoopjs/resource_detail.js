@@ -1088,6 +1088,9 @@ window.resourceDetail = (function () {
             $('#open-notes-dialog-button').removeClass('ui-state-active');
             $('#resource-notes').removeClass('open');
             $('#resource-notes').css('display', 'none');
+            EventBus.$on('refreshListChanged', function (newValue) {
+                refresh_list = newValue;
+            });
             if (refresh_list) {
                 //$('#vtp-res-list table').DataTable().off('draw.dt');
                 // "last seen" is maintained through arr_res_tr_attr_id[]

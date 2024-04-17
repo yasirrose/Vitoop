@@ -374,6 +374,7 @@ export default class VtpDatatable {
                 this.getOwnerColumn(),
                 this.getMessageCountColumn(),
                 this.getRes12Column(),
+                this.getUserRead(),
                 this.getRatingColumn(),
                 this.getConversationUrlColumn()
             ]
@@ -384,6 +385,7 @@ export default class VtpDatatable {
                 this.getCheckboxColumn(),
                 this.getNameColumn(),
                 this.getOwnerColumn(),
+                this.getUserRead(),
                 this.getRatingColumn(),
                 this.getRes12Column(),
                 this.getProjectUrlColumn()
@@ -396,6 +398,7 @@ export default class VtpDatatable {
                 this.getNameColumn(),
                 this.getUrlTextColumn(),
                 this.getRes12Column(),
+                this.getUserRead(),
                 this.getOwnerColumn(),
                 this.getLexiconUrlColumn()
             ];
@@ -407,6 +410,7 @@ export default class VtpDatatable {
                 this.getNameColumn(),
                 this.getAuthorColumn(),
                 this.getTnopColumn(),
+                this.getUserRead(),
                 this.getRatingColumn(),
                 this.getRes12Column(),
                 this.getOwnerColumn()
@@ -423,6 +427,7 @@ export default class VtpDatatable {
                 this.getCheckboxColumn(),
                 this.getNameColumn(),
                 this.getAuthorColumn(),
+                this.getUserRead(),
                 this.getRatingColumn(),
                 this.getRes12Column(),
                 this.getOwnerColumn()
@@ -442,6 +447,7 @@ export default class VtpDatatable {
                 this.getNameColumn(),
                 this.getUrlTextColumn(),
                 this.getIsHpColumn(),
+                this.getUserRead(),
                 this.getRatingColumn(),
                 this.getRes12Column(),
                 this.getOwnerColumn(),
@@ -455,6 +461,7 @@ export default class VtpDatatable {
                 this.getNameColumn(),
                 this.getAuthorColumn(),
                 this.getTnopColumn(),
+                this.getUserRead(),
                 this.getRatingColumn(),
                 this.getRes12Column(),
                 this.getOwnerColumn()
@@ -471,6 +478,7 @@ export default class VtpDatatable {
                 this.getNameColumn(),
                 this.getZipColumn(),
                 this.getCityColumn(),
+                this.getUserRead(),
                 this.getRatingColumn(),
                 this.getRes12Column(),
                 this.getOwnerColumn(),
@@ -651,6 +659,19 @@ export default class VtpDatatable {
     }
     getRes12Column() {
         return {"data": "res12count", orderSequence: [ "desc", "asc"]};
+    }
+    getUserRead() {
+        return {
+            "data": "isUserRead",
+            "orderSequence": ["desc", "asc"],
+            "render": (data, type, row) => {
+                if (data !== 0) {
+                    return ":-)";
+                } else {
+                    return '';
+                }
+            }
+        };
     }
     getRatingValue(data, type) {
         let hint, image;

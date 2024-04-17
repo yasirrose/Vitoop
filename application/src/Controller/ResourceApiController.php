@@ -107,13 +107,13 @@ class ResourceApiController extends ApiController
 
         $session = $this->requestStack->getSession();
         $resourceInfo = $resourceRepository->getCountByTags($search);
-        if($request->query->get('draw') != 2)
+        if($request->query->get('draw') != 2 )
         {
             $session->set('data', $resources);
             $session->set('recordsTotal', $total);
             $session->set('resourceInfo', $resourceInfo);
 
-        } else {
+        } else if (array_values($resources) == ''){
             $resources = $session->get('data');
             $total = $session->get('recordsTotal');
             $resourceInfo = $session->get('resourceInfo');

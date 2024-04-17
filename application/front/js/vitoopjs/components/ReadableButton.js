@@ -28,7 +28,8 @@ export default class ReadableButton {
                     isUserRead: checkedState
                 }),
                 success: function () {
-                    //refresh_list = true;
+                    let refresh_list = true;
+                    EventBus.$emit('refreshListChanged', refresh_list);
                 }
             });
         });

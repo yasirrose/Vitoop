@@ -4,7 +4,8 @@
         <th style="width:20px"></th>
         <th><span class="table-head">Institution</span></th>
         <th style="width:5%;"><span class="table-head">PLZ</span></th>
-        <th style="width:15%;"><span class="table-head">Ort</span></th>
+        <th style="width:11%;"><span class="table-head">Ort</span></th>
+        <th style="width:42px" data-b-sortable="false" data-b-searchable="false"><span class="table-head"></span></th>
         <th style="width:96px;" data-b-searchable="false"><span class="table-head">Bewertung</span></th>
         <th style="width:42px;" data-b-searchable="false"><span class="table-head">RR</span></th>
         <th style="width:14%;"><span class="table-head">von</span></th>
