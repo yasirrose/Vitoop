@@ -601,13 +601,12 @@ class ResourceRepository extends ServiceEntityRepository
         }
     }
 
-    public function getResourcesWithDividers(SearchResource $searchResource , $resourceRepository)
+    public function getResourcesWithDividers(SearchResource $searchResource)
     {
         /**
          * @var QueryBuilder $queryBuilder
          */
-        $queryBuilder = $resourceRepository->getResourcesQuery($searchResource);
-        $getDividerQuery = $resourceRepository->getDividerQuery();
+        $queryBuilder = $this->getResourcesQuery($searchResource);
         $queryBuilder->addSelect("'' as text");
         $queryBuilder->resetDQLPart('orderBy');
         $queryBuilder
@@ -617,7 +616,7 @@ class ResourceRepository extends ServiceEntityRepository
         $innerResourceQuery = $this->getRunnableQueryAndParametersForQuery($queryBuilder->getQuery());
 
         $sql = sprintf(
-            $getDividerQuery,
+            $this->getDividerQuery(),
             $innerResourceQuery['sql'],
             $searchResource->resource,
             $searchResource->paging->limit,
@@ -629,8 +628,9 @@ class ResourceRepository extends ServiceEntityRepository
         return $stmt->executeQuery($innerResourceQuery['params'])->fetchAllAssociative();
     }
 
-    protected function getDividerQuery()
+    protected function getDividerQuery(): string
     {
+        return '';
     }
 
     /**

@@ -33,7 +33,7 @@ class BookRepository extends ResourceRepository
         return $qb;
     }
 
-    protected function getDividerQuery()
+    protected function getDividerQuery(): string
     {
         return <<<'EOT'
             SELECT SQL_CALC_FOUND_ROWS base.coef, base.coefId, base.text, base.author, base.tnop, base.id, base.name, base.created_at, base.username, base.avgmark, base.res12count, base.isUserHook, base.isUserRead, base.color
