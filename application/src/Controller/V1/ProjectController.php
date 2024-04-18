@@ -108,7 +108,7 @@ class ProjectController extends ApiController
         $search = SearchResource::createFromRequest($request, $this->getUser(), $project->getId());
 
         $resourceRepository = $resourceManager->getRepository($resType);
-        $resources = $resourceRepository->getResources($search);
+        $resources = $resourceRepository->getResourcesWithDividers($search);
         $total = $resourceRepository->getResourcesTotal($search);
 
         if ('prj' === $resType) {
@@ -130,7 +130,6 @@ class ProjectController extends ApiController
                 $resource['canRead'] = $conversation->getConversationData()->availableForReading($this->getUser());
             }
         }
-
         return $this->getApiResponse([
             'recordsTotal' => $total,
             'recordsFiltered' => $total,

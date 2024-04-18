@@ -628,8 +628,9 @@ class ResourceRepository extends ServiceEntityRepository
         return $stmt->executeQuery($innerResourceQuery['params'])->fetchAllAssociative();
     }
 
-    protected function getDividerQuery()
+    protected function getDividerQuery(): string
     {
+        return '';
     }
 
     /**
