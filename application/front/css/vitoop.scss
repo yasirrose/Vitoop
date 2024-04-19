@@ -677,7 +677,7 @@ span.vtp-owntag-hilight {
 #vtp-tagbox,
 #vtp-tagbox-lexicon,
 .vtp-collectionbox {
-    border: 0.2em solid #aed0ea;
+    border: 1px solid #aed0ea;
     margin: 0.5em 0 0.5em 0;
     padding: 0.5em;
     min-height: 1.5em;
@@ -2797,16 +2797,18 @@ table.dataTable thead th:hover {
     border-radius: 6px;
 }
 
-.show_more_btn:after {
-    content: "\25BC";
-    font-size: 12px;
+a#show_more_button.show_more_btn .ui-icon-triangle-1-n {
+    display: none;
 }
-
-.show_more_btn.active:after {
-    content: "\25B2";
-    font-size: 12px;
+a#show_more_button.show_more_btn.active .ui-icon-triangle-1-n{
+    display: block;
 }
-
+a#show_more_button.show_more_btn.active .ui-icon-triangle-1-s{
+    display: none;
+}
+div#show_more_detail_box{
+    padding-top: 6px;
+}
 .btn-primary {
     text-align: center;
     border: 1px solid #aed0ea;
@@ -2981,7 +2983,7 @@ label[for="conversation_isNotify"]{
 }
 
 .right_checkbox {
-    padding: 7px 0px !important;
+    padding: 9px 0px 7px !important;
 }
 
 .right_checkbox label {
@@ -3176,7 +3178,7 @@ label[for="conversation_isNotify"]{
     #search_blue_box {
         height: 25px;
         padding-right: 20px;
-        padding-left: 10px;
+        padding-left: 0;
         display: flex;
         align-items: center;
     }
@@ -3334,4 +3336,15 @@ input#lexicon_name_new_lexicon_save {
 .search-ui-button .ui-button.ui-state-active {
     white-space: nowrap;
     padding: 0 10px;
+}
+
+// blue button height and width
+a#show_more_button.show_more_btn {
+    width: 28px;
+    padding: 0 !important;
+    height: 22.7px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 1px;
 }
