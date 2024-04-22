@@ -810,22 +810,23 @@ class ResourceDataCollector
         if ($this->handleData) {
             $form_flag_info->handleRequest($this->request);
             $info_delete = 'Vitoooops! Irgendwas ist schief gelaufen!';
-            if (method_exists($this->res, 'skip')) {
-                if ($form_flag_info->get('isSkip')->getData()) {
-                    $this->res->skip();
-                } else {
-                    $this->res->unskip();
+            if ($form_flag_info->isSubmitted() && $form_flag_info->isValid()) {
+                if (method_exists($this->res, 'skip')) {
+                    if ($form_flag_info->get('isSkip')->getData()) {
+                        $this->res->skip();
+                    } else {
+                        $this->res->unskip();
+                    }
+                }
+                if ($form_flag_info->get('delete_resource')->isClicked()) {
+                    $flag->approve();
+                    $this->rm->saveFlag($flag);
+                    $info_delete = 'Die Resource wurde erfolgreich gelöscht!';
+                } elseif ($form_flag_info->get('delete_flag')->isClicked()) {
+                    $this->rm->deleteFlag($flag);
+                    $info_delete = 'Die Flag wurde entfernt. Die Resource ist jetzt wieder allgemein sichtbar!';
                 }
             }
-            if ($form_flag_info->get('delete_resource')->isClicked()) {
-                $flag->approve();
-                $this->rm->saveFlag($flag);
-                $info_delete = 'Die Resource wurde erfolgreich gelöscht!';
-            } elseif ($form_flag_info->get('delete_flag')->isClicked()) {
-                $this->rm->deleteFlag($flag);
-                $info_delete = 'Die Flag wurde entfernt. Die Resource ist jetzt wieder allgemein sichtbar!';
-            }
-
             return $this->twig->render('Resource/xhr.resource.flags.infobox.html.twig', array('infodelete' => $info_delete));
         }
         $fv_flag_info = $form_flag_info->createView();

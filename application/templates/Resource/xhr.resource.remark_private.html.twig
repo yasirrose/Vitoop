@@ -10,7 +10,7 @@
             {{ form_errors(fvremarkpr.text) }}
             {{ form_widget(fvremarkpr.text, {'attr': {'placeholder': 'In dem Bereich kannst Du private Notizen machen, die andere Nutzer nicht einsehen können.'}}) }}
     </div>
-    <div id="vtp-private-remark-buttons">
+    <div id="vtp-private-remark-buttons" style="display:none">
         {{ form_widget(fvremarkpr.save, {'attr': {'class': 'vtp-uiinfo-anchor' }}) }}
     </div>
 </div>
