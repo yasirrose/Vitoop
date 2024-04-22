@@ -5,13 +5,17 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class FlagType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('info', TextareaType::class, array('label' => 'Bemerkung:'))
+            ->add('info', TextareaType::class, array(
+                'label' => 'Bemerkung:',
+                'constraints' => new NotBlank(),
+            ))
             ->add('save', InputTypeSubmitType::class, array('label' => 'absenden'));
     }
 

@@ -61,6 +61,9 @@ export default class PrivateRemarkWidget extends Widget{
             editor.on('init', function (e) {
                 $(self.remarkBoxId).show();
             });
+            editor.on('blur', function (e) {
+                $(self.buttonSaveId).trigger('click');
+            });
         };
         tinyMCE.init(options);
     }

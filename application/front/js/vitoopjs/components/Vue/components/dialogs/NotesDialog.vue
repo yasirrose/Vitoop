@@ -81,7 +81,8 @@
     #vtp-notes-dialog {
         display: flex;
         flex-direction: column;
-        padding: 2px 2px .3rem;
+        padding: 0.2em 0.1em 0 0;
+        height: auto !important;
         overflow: hidden;
     }
 
