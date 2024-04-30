@@ -275,7 +275,7 @@
             this.$store.commit('setUrl', {key: 'urls', urls: []});
         },
         computed: {
-            ...mapGetters(['getResource','get']),
+            ...mapGetters(['getResource','get', 'getResourceType']),
             isBlue: {
                 get() {
                     return this.$store.state.secondSearch.isBlueFilter;
@@ -473,11 +473,12 @@
               let searchByHrsg = $(this.hrsgSearchListId);
               if (searchByHrsg.length > 0) {
                 let resType = 'pdf';
+                // let resType = this.getResourceType;
                 searchByHrsg.autocomplete({
                     
                       source:                      
                            vitoop.baseUrl + resType  + '/' + (['hrsg', 'suggest'].join('/')) +
-                          '?extended=1'+'&ignore=' +
+                          '?extended=1&type='+this.getResourceType+'&ignore=' +
                           this.ignoredHrsg.map(hrsg => hrsg.publisher).join() +
                           this.hrsgs.map(hrsg => hrsg.publisher).join(),
                       minLength: 1,

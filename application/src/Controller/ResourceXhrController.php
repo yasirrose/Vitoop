@@ -101,7 +101,7 @@ class ResourceXhrController extends ApiController
     /**
      * @Route("/pdf/hrsg/suggest", name="_hrsg_suggest" )
      */
-    public function publisherSuggestAction(Request $request, ResourceManager $resourceManager, $resType)
+    public function publisherSuggestAction(Request $request, ResourceManager $resourceManager)
     {
         $letter = $request->query->get('term');
         $id = $request->query->get('id');
@@ -133,7 +133,7 @@ class ResourceXhrController extends ApiController
     /**
      * @Route("/pdf/url/suggest", name="_url_suggest")
      */
-    public function urlSuggestAction(Request $request, ResourceManager $resourceManager, $resType)
+    public function urlSuggestAction(Request $request, ResourceManager $resourceManager)
     {
         $letter = $request->query->get('term');
         $id = $request->query->get('id');
