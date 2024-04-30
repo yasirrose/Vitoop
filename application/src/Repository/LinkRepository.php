@@ -20,7 +20,11 @@ class LinkRepository extends ResourceRepository
         $qb = $this->createQueryBuilder('r')
             ->select('r.is_hp, r.url');
         $this->prepareListQueryBuilder($qb, $search);
-
+        if ($search->urlslist) {
+            $qb
+            ->andWhere('r.url IN (:urlslist)')
+            ->setParameter('urlslist', $search->urlslist);
+        }
         return $qb;
     }
 

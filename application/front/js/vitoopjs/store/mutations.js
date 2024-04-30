@@ -167,6 +167,12 @@ export default {
     },
     setTags(state, payload) {
         state[payload.key] = payload.tags;
+    }, 
+    setHrsg(state, payload) {
+        state[payload.key] = payload.hrsgs;
+    },
+    setUrl(state, payload) {
+        state[payload.key] = payload.urls;
     },
     set(state, { key, value }) {
         state[key] = value;

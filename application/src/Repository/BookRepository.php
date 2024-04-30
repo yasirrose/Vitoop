@@ -29,6 +29,11 @@ class BookRepository extends ResourceRepository
                 ->setParameter('art', $search->art);
         }
 
+        if ($search->hrsglist) {
+            $qb
+            ->andWhere('r.publisher IN (:hrsglist)')
+            ->setParameter('hrsglist', $search->hrsglist);
+        }
 
         return $qb;
     }

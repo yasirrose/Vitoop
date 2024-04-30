@@ -131,6 +131,28 @@
                         params.push(`taglist_h[]=${tag}`);
                     });
                     return params.join('&');
+                } else if (this.get('hrsgs').length > 0) {
+                    this.get('hrsgs').forEach(hrsg => {
+                        params.push(`hrsgslist[]=${hrsg}`);
+                    });
+                    this.get('hrsgs_i').forEach(hrsg => {
+                        params.push(`hrsgslist_i[]=${hrsg}`);
+                    });
+                    this.get('hrsgs_h').forEach(hrsg => {
+                        params.push(`hrsgslist_h[]=${hrsg}`);
+                    });
+                    return params.join('&');
+                } else if (this.get('urls').length > 0) {
+                    this.get('urls').forEach(url => {
+                        params.push(`urlslist[]=${url}`);
+                    });
+                    this.get('urls_i').forEach(url => {
+                        params.push(`urlslist_i[]=${url}`);
+                    });
+                    this.get('urls_h').forEach(url => {
+                        params.push(`urlslist_h[]=${url}`);
+                    });
+                    return params.join('&');
                 }
                 return null
             },

@@ -47,6 +47,7 @@ class ResourceApiController extends ApiController
         ResourceRepository $resourceRepository,
         UserEmailDetailResourceRepository $userEmailDetailResourceRepository,
     ) {
+        // dd($request->query->get('hrsgslist', array()));
         $search = new SearchResource(
             new Paging(
                 $request->query->get('start', 0),
@@ -71,8 +72,12 @@ class ResourceApiController extends ApiController
             $request->query->get('dateFrom', null),
             $request->query->get('dateTo', null),
             $request->query->get('art', null),
-            $request->query->get('color', null)
+            $request->query->get('color', null),
+            $request->query->get('hrsgslist', array()),
+            $request->query->get('urlslist', array()),
+
         );
+
         $resources = $resourceManager->getRepository($resType)->getResources($search);
         $total = $resourceManager->getRepository($resType)->getResourcesTotal($search);
         if ($resType == 'prj') {

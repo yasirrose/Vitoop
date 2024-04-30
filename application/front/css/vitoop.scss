@@ -619,7 +619,9 @@ span.vtp-search-bytags-tag {
     }
 }
 
-.vtp-search-bytags-content {
+.vtp-search-bytags-content,
+.vtp-search-byhrsg-content,
+.vtp-search-byurl-content {
     cursor: pointer;
     font-size: 13px;
 }
@@ -631,6 +633,8 @@ span.vtp-lexiconbox-cntres {
 }
 
 span.vtp-icon-tag,
+span.vtp-icon-hrsg,
+span.vtp-icon-url,
 span.vtp-icon-lex,
 span.vtp-icon-prj,
 span.vtp-icon-close {
@@ -641,6 +645,8 @@ span.vtp-icon-close {
 }
 
 span.vtp-icon-tag,
+span.vtp-icon-hrsg,
+span.vtp-icon-url,
 span.vtp-icon-lex,
 span.vtp-icon-prj {
     left: 0.1em;
@@ -689,6 +695,87 @@ span.vtp-owntag-hilight {
     padding-top:10px;
     border: 0.2em solid #aed0ea;
 }
+
+
+span.vtp-search-byhrsg-hrsg,
+span.vtp-search-byurl-url,
+span.vtp-tagbox-hrsg,
+span.vtp-tagbox-url,
+span.vtp-hrsgbox-lexicon-hrsg-lexicon,
+span.vtp-urlbox-lexicon-url-lexicon,
+span.vtp-lexiconbox-item,
+span.vtp-projectbox-project {
+    display: inline-block;
+    position: relative;
+    background-color: $vitoop-even-background-color;
+    color: #222222;
+    padding: 1px 0.2em 1px 1.3em;
+    margin: 1px 0.2em 1px 1px;
+    border: $blue-frame-border;
+}
+
+.vtp-tagbox-tag:hover, span.vtp-search-byhrsg-hrsg:hover {
+    border: $blue-active-frame-border;
+}
+.vtp-tagbox-tag:hover, span.vtp-search-byurl-url:hover {
+    border: $blue-active-frame-border;
+}
+
+span.vtp-search-byhrsg-hrsg {
+    background-color: $vitoop-body-background-color;
+    color: $vitoop-body-color;
+    padding: 0px 2em 0px 1.3em;
+    transition: padding 0.4s ease 0s;
+    border: $blue-frame-border;
+    height: 20px;
+
+    &.vtp-search-byhrsg-hrsg-bulb {
+        color: #ffffff;
+        border: $white-frame-border;
+        background: #3baae3 url(../img/ui-bg_glass_50_3baae3_1x400.png) 50% 50% repeat-x;
+
+        > span.ui-icon {
+            background-image: url("../img/ui-icons_ffffff_256x240.png");
+        }
+    }
+
+    &.vtp-search-byhrsg-hrsg-ignore {
+        text-decoration: line-through;
+    }
+
+    &.vtp-search-byhrsg-hrsg-active {
+        padding: 0px 4em 0px 1.3em !important;
+        border: $blue-active-frame-border;
+    }
+}
+span.vtp-search-byurl-url {
+    background-color: $vitoop-body-background-color;
+    color: $vitoop-body-color;
+    padding: 0px 2em 0px 1.3em;
+    transition: padding 0.4s ease 0s;
+    border: $blue-frame-border;
+    height: 20px;
+
+    &.vtp-search-byurl-url-bulb {
+        color: #ffffff;
+        border: $white-frame-border;
+        background: #3baae3 url(../img/ui-bg_glass_50_3baae3_1x400.png) 50% 50% repeat-x;
+
+        > span.ui-icon {
+            background-image: url("../img/ui-icons_ffffff_256x240.png");
+        }
+    }
+
+    &.vtp-search-byurl-url-ignore {
+        text-decoration: line-through;
+    }
+
+    &.vtp-search-byurl-url-active {
+        padding: 0px 4em 0px 1.3em !important;
+        border: $blue-active-frame-border;
+    }
+}
+
 
 #lexicon-main {
     border: $blue-frame-border;

@@ -48,10 +48,11 @@ class PdfRepository extends ResourceRepository
      */
     public function getResourcesQuery(SearchResource $search)
     {
+        // dd($search);
         $qb = $this->createQueryBuilder('r')
-            ->select('r.author, r.url, r.tnop, r.isDownloaded, r.pdfDate.date as pdfDate, r.pdfDate.order as HIDDEN orderDate')
+            ->select('r.author, PARSE_URL(r.url), r.tnop, r.isDownloaded, r.pdfDate.date as pdfDate, r.pdfDate.order as HIDDEN orderDate')
             ->addGroupBy('r.author')
-            ->addGroupBy('r.url')
+            ->addGroupBy('PARSE_URL(r.url)')
             ->addGroupBy('r.tnop')
             ->addGroupBy('r.isDownloaded')
             ->addGroupBy('r.pdfDate.date');
@@ -66,6 +67,16 @@ class PdfRepository extends ResourceRepository
             $qb
                 ->andWhere('r.pdfDate.order <= :dateTo')
                 ->setParameter('dateTo', PublishedDate::generateOrderValue(PublishedDate::createFromString($search->dateTo)));
+        }
+        if ($search->hrsglist) {
+            $qb
+            ->andWhere('r.publisher IN (:hrsglist)')
+            ->setParameter('hrsglist', $search->hrsglist);
+        }
+        if ($search->urlslist) {
+            $qb
+            ->andWhere('PARSE_URL(r.url) IN (:urlslist)')
+            ->setParameter('urlslist', $search->urlslist);
         }
 
         return $qb;
@@ -95,5 +106,37 @@ class PdfRepository extends ResourceRepository
             ORDER BY base.coef asc, base.coefId asc
             LIMIT %s OFFSET %s;
 EOT;
+    }
+
+    public function getAllPublishersWithCountByFirstLetter($letter, $ignorePublishers)
+    {
+        return $this->getEntityManager()->createQueryBuilder()
+        ->select('p.publisher, COUNT (p.id) as cnt')
+        ->from(Pdf::class, 'p')
+        ->where("p.publisher LIKE :publisher")
+        ->setParameter('publisher', $letter . "%")
+        ->andWhere("p.publisher NOT IN (:ignorePublishers)")
+        ->setParameter('ignorePublishers', $ignorePublishers)
+        ->setMaxResults(10)
+        ->orderBy('p.publisher')
+        ->groupBy('p.publisher')
+        ->getQuery()
+        ->getArrayResult();
+    }
+
+    public function getAllUrlWithCountByFirstLetter($letter, $ignoreUrls)
+    {
+        return $this->getEntityManager()->createQueryBuilder()
+            ->select('PARSE_URL(p.url) as url, COUNT (p.id) as cnt')
+            ->from(Pdf::class, 'p')
+            ->where("PARSE_URL(p.url) LIKE :url")
+            ->setParameter('url', $letter . "%")
+            ->andWhere("PARSE_URL(p.url) NOT IN (:ignoreUrls)")
+            ->setParameter('ignoreUrls', $ignoreUrls)
+            ->setMaxResults(10)
+            ->orderBy('url')
+            ->groupBy('url')
+            ->getQuery()
+            ->getArrayResult();
     }
 }

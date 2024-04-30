@@ -20,7 +20,7 @@ class TeliRepository extends ResourceRepository
     public function getResourcesQuery(SearchResource $search)
     {
         $qb = $this->createQueryBuilder('r')
-            ->select('r.author, r.url, r.isDownloaded, r.releaseDate.date as releaseDate, r.releaseDate.order as HIDDEN orderDate');
+            ->select('r.author, PARSE_URL(r.url), r.isDownloaded, r.releaseDate.date as releaseDate, r.releaseDate.order as HIDDEN orderDate');
         $this->prepareListQueryBuilder($qb, $search);
 
         if ($search->dateFrom) {
@@ -32,6 +32,11 @@ class TeliRepository extends ResourceRepository
             $qb
                 ->andWhere('r.releaseDate.order <= :dateTo')
                 ->setParameter('dateTo', PublishedDate::generateOrderValue(PublishedDate::createFromString($search->dateTo)));
+        }
+        if ($search->urlslist) {
+            $qb
+            ->andWhere('PARSE_URL(r.url) IN (:urlslist)')
+            ->setParameter('urlslist', $search->urlslist);
         }
 
         return $qb;
@@ -79,5 +84,21 @@ class TeliRepository extends ResourceRepository
             ORDER BY base.coef asc, base.coefId asc
             LIMIT %s OFFSET %s;
 EOT;
+    }
+
+    public function getAllUrlWithCountByFirstLetter($letter, $ignoreUrls)
+    {
+        return $this->getEntityManager()->createQueryBuilder()
+            ->select('PARSE_URL(p.url) as url, COUNT (p.id) as cnt')
+            ->from(Teli::class, 'p')
+            ->where("PARSE_URL(p.url) LIKE :url")
+            ->setParameter('url', $letter . "%")
+            ->andWhere("PARSE_URL(p.url) NOT IN (:ignoreUrls)")
+            ->setParameter('ignoreUrls', $ignoreUrls)
+            ->setMaxResults(10)
+            ->orderBy('url')
+            ->groupBy('url')
+            ->getQuery()
+            ->getArrayResult();
     }
 }

@@ -516,7 +516,8 @@ class ResourceRepository extends ServiceEntityRepository
     }
 
     public function getResources(SearchResource $search)
-    {
+    { 
+        // dd($search);
         return $this->getResourcesQuery($search)
             ->getQuery()
             ->setHint(

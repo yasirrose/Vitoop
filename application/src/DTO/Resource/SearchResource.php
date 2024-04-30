@@ -64,6 +64,16 @@ class SearchResource
      * @var string
      */
     public $color;
+    
+    /**
+     * @var array 
+     */
+    public $hrsglist = array();
+    
+    /**
+     * @var array 
+     */
+    public $urlslist = array();
 
     public function __construct(
         Paging $paging,
@@ -83,7 +93,9 @@ class SearchResource
         $dateFrom = null,
         $dateTo = null,
         $art = null,
-        $color = null
+        $color = null,
+        $hrsglist= array(),
+        $urlslist= array()
     ) {
         $this->user = $user;
         $this->flagged = $flagged;
@@ -105,6 +117,8 @@ class SearchResource
         $this->dateTo = $dateTo;
         $this->art = $art;
         $this->color = $color;
+        $this->hrsglist = $hrsglist;
+        $this->urlslist = $urlslist;
     }
 
     /**
@@ -139,7 +153,9 @@ class SearchResource
             $request->query->get('dateFrom', null),
             $request->query->get('dateTo', null),
             $request->query->get('art', null),
-            $request->query->get('color', null)
+            $request->query->get('color', null),
+            $request->query->get('hrsgtags', null),
+            $request->query->get('urlslist', null)
         );
     }
 }
